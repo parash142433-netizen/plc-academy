@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80">
+  <!-- PROFINET (PI — PROFIBUS & PROFINET International) official green #007A3D -->
+  <!-- Industrial Ethernet symbol: RJ45/switch connector graphic -->
+  <rect x="6" y="22" width="32" height="26" rx="4" fill="#007A3D"/>
+  <!-- Switch ports representation -->
+  <rect x="10" y="27" width="6" height="7" rx="1" fill="#ffffff" opacity="0.9"/>
+  <rect x="19" y="27" width="6" height="7" rx="1" fill="#ffffff" opacity="0.9"/>
+  <rect x="28" y="27" width="6" height="7" rx="1" fill="#ffffff" opacity="0.9"/>
+  <!-- Cable legs -->
+  <line x1="13" y1="34" x2="13" y2="44" stroke="#00B058" stroke-width="2"/>
+  <line x1="22" y1="34" x2="22" y2="44" stroke="#00B058" stroke-width="2"/>
+  <line x1="31" y1="34" x2="31" y2="44" stroke="#00B058" stroke-width="2"/>
+  <!-- PROFINET text -->
+  <text x="48" y="34" font-family="Arial Black, Arial, sans-serif" font-size="20" font-weight="900" fill="#007A3D" letter-spacing="1">PROFINET</text>
+  <!-- PI badge -->
+  <rect x="48" y="41" width="120" height="14" rx="3" fill="#007A3D"/>
+  <text x="108" y="52" font-family="Arial, Helvetica, sans-serif" font-size="8.5" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">Industrial Ethernet Protocol</text>
+</svg>

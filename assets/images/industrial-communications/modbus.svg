@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80">
+  <!-- Modbus Organization brand — primary blue #003366 with orange accent #E55B13 -->
+  <!-- "M" connector symbol representing RTU/TCP link -->
+  <rect x="8" y="20" width="14" height="40" rx="3" fill="#003366"/>
+  <rect x="8" y="20" width="38" height="8" rx="3" fill="#003366"/>
+  <rect x="16" y="28" width="6" height="32" rx="2" fill="#E55B13" opacity="0.9"/>
+  <!-- Modbus wordmark -->
+  <text x="56" y="38" font-family="Arial Black, Arial, sans-serif" font-size="24" font-weight="900" fill="#003366" letter-spacing="1.5">MODBUS</text>
+  <!-- org badge -->
+  <rect x="56" y="44" width="62" height="14" rx="3" fill="#E55B13"/>
+  <text x="87" y="55" font-family="Arial, Helvetica, sans-serif" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="1">ORGANIZATION</text>
+</svg>

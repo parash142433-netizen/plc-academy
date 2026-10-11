@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 80">
+  <!-- SNMP — IETF standard, teal #006B54 / network mgmt visual -->
+  <!-- Network hub icon: center node + 4 spokes -->
+  <circle cx="28" cy="36" r="9" fill="#006B54"/>
+  <circle cx="9"  cy="18" r="6" fill="#00A878" opacity="0.9"/>
+  <circle cx="47" cy="18" r="6" fill="#00A878" opacity="0.9"/>
+  <circle cx="9"  cy="54" r="6" fill="#00A878" opacity="0.9"/>
+  <circle cx="47" cy="54" r="6" fill="#00A878" opacity="0.9"/>
+  <line x1="20" y1="27" x2="14" y2="23" stroke="#006B54" stroke-width="2.5"/>
+  <line x1="36" y1="27" x2="42" y2="23" stroke="#006B54" stroke-width="2.5"/>
+  <line x1="20" y1="45" x2="14" y2="49" stroke="#006B54" stroke-width="2.5"/>
+  <line x1="36" y1="45" x2="42" y2="49" stroke="#006B54" stroke-width="2.5"/>
+  <!-- SNMP text -->
+  <text x="64" y="34" font-family="Arial Black, Arial, sans-serif" font-size="26" font-weight="900" fill="#006B54" letter-spacing="1">SNMP</text>
+  <text x="64" y="52" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#006B54" opacity="0.75" letter-spacing="0.3">Simple Network Mgmt Protocol</text>
+</svg>

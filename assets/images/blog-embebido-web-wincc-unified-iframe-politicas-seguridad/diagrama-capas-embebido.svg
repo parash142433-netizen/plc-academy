@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Tres capas del embebido web</title>
+  <desc id="desc">Diagrama de decision con las tres capas: politicas anti-frame, same origin y TLS.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fbf7"/>
+      <stop offset="100%" stop-color="#eef7f1"/>
+    </linearGradient>
+    <style>
+      .h{font:700 36px Segoe UI,Arial,sans-serif;fill:#17371e}
+      .n{font:700 28px Segoe UI,Arial,sans-serif;fill:#17371e}
+      .t{font:500 20px Segoe UI,Arial,sans-serif;fill:#2a3f30}
+      .small{font:500 17px Segoe UI,Arial,sans-serif;fill:#526656}
+    </style>
+    <marker id="a" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 1, 12 7, 0 13" fill="#5f9d6a"/>
+    </marker>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <text x="700" y="70" text-anchor="middle" class="h">Modelo de decision para saber si una web se puede embeber</text>
+
+  <rect x="180" y="140" width="1040" height="170" rx="16" fill="#ffffff" stroke="#9bc9a7" stroke-width="3"/>
+  <text x="220" y="190" class="n">Capa 1: Politicas anti-frame</text>
+  <text x="220" y="230" class="t">Revisar headers: X-Frame-Options y Content-Security-Policy frame-ancestors</text>
+  <text x="220" y="270" class="t">Si aparece DENY o frame-ancestors 'none' -> Bloqueo definitivo del embebido</text>
+
+  <rect x="180" y="360" width="1040" height="170" rx="16" fill="#ffffff" stroke="#9bc9a7" stroke-width="3"/>
+  <text x="220" y="410" class="n">Capa 2: Same Origin Policy (SOP)</text>
+  <text x="220" y="450" class="t">Comparar protocolo + host + puerto exactos</text>
+  <text x="220" y="490" class="t">Validar cookies (SameSite), CORS y comportamiento cross-origin del flujo de login</text>
+
+  <rect x="180" y="580" width="1040" height="170" rx="16" fill="#ffffff" stroke="#9bc9a7" stroke-width="3"/>
+  <text x="220" y="630" class="n">Capa 3: TLS e identidad de URL</text>
+  <text x="220" y="670" class="t">El certificado debe cubrir exactamente el host usado (DNS/IP/localhost)</text>
+  <text x="220" y="710" class="t">Si TLS falla, el iframe puede abortar antes de completar la carga</text>
+
+  <path d="M700 322 L700 348" stroke="#5f9d6a" stroke-width="5" stroke-linecap="round" marker-end="url(#a)"/>
+  <path d="M700 542 L700 568" stroke="#5f9d6a" stroke-width="5" stroke-linecap="round" marker-end="url(#a)"/>
+
+  <text x="700" y="835" text-anchor="middle" class="small">Orden recomendado: primero politicas anti-frame, despues origen, por ultimo TLS y flujo de sesion.</text>
+</svg>

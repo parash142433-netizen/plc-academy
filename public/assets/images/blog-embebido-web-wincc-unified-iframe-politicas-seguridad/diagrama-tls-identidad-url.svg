@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">TLS y la identidad exacta de la URL</title>
+  <desc id="desc">Diagrama explicando como el navegador valida el certificado con CN/SAN de la URL usada.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4f7ff"/>
+      <stop offset="100%" stop-color="#e8efff"/>
+    </linearGradient>
+    <style>
+      .h{font:700 36px Segoe UI,Arial,sans-serif;fill:#1e2f57}
+      .n{font:700 26px Segoe UI,Arial,sans-serif;fill:#1e2f57}
+      .t{font:500 21px Segoe UI,Arial,sans-serif;fill:#30456f}
+      .ok{font:700 21px Segoe UI,Arial,sans-serif;fill:#0f8b5f}
+      .no{font:700 21px Segoe UI,Arial,sans-serif;fill:#c0392b}
+      .small{font:500 18px Segoe UI,Arial,sans-serif;fill:#5b6d93}
+    </style>
+  </defs>
+  <rect width="1400" height="860" fill="url(#bg)"/>
+  <text x="700" y="70" text-anchor="middle" class="h">TLS valida la identidad exacta escrita en la URL</text>
+
+  <rect x="90" y="130" width="560" height="620" rx="16" fill="#fff" stroke="#b6c8f2" stroke-width="3"/>
+  <text x="370" y="180" text-anchor="middle" class="n">URL usada por el Web Control</text>
+  <rect x="130" y="220" width="480" height="70" rx="10" fill="#eef4ff"/>
+  <text x="150" y="265" class="t">https://192.168.1.54:8900/login</text>
+  <text x="130" y="340" class="t">Host a validar: 192.168.1.54</text>
+  <text x="130" y="390" class="t">El navegador compara ese host con CN/SAN</text>
+
+  <rect x="750" y="130" width="560" height="620" rx="16" fill="#fff" stroke="#b6c8f2" stroke-width="3"/>
+  <text x="1030" y="180" text-anchor="middle" class="n">Certificado del servidor</text>
+  <rect x="790" y="220" width="480" height="180" rx="10" fill="#eef4ff"/>
+  <text x="810" y="265" class="t">CN: wserver-umc01.phs.training</text>
+  <text x="810" y="315" class="t">SAN: wserver-umc01.phs.training</text>
+  <text x="810" y="365" class="t">SAN: srvbrn-umc02</text>
+
+  <text x="790" y="460" class="no">192.168.1.54 NO aparece en SAN</text>
+  <text x="790" y="510" class="no">Resultado: Not secure / handshake no confiable</text>
+
+  <path d="M650 440 L750 440" stroke="#4f71c8" stroke-width="6" marker-end="url(#m)"/>
+  <defs>
+    <marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#4f71c8"/>
+    </marker>
+  </defs>
+
+  <text x="700" y="790" text-anchor="middle" class="small">Practica recomendada: usar una URL canonica DNS y certificado emitido para ese mismo nombre.</text>
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Same Origin Policy</title>
+  <desc id="desc">Tabla visual para entender cuando dos URLs comparten o no el mismo origen.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff9f2"/>
+      <stop offset="100%" stop-color="#fff1e2"/>
+    </linearGradient>
+    <style>
+      .h{font:700 36px Segoe UI,Arial,sans-serif;fill:#4b2e13}
+      .th{font:700 24px Segoe UI,Arial,sans-serif;fill:#4b2e13}
+      .td{font:500 22px Segoe UI,Arial,sans-serif;fill:#5a3f28}
+      .ok{font:700 22px Segoe UI,Arial,sans-serif;fill:#0f8b5f}
+      .no{font:700 22px Segoe UI,Arial,sans-serif;fill:#c0392b}
+      .small{font:500 18px Segoe UI,Arial,sans-serif;fill:#775f49}
+    </style>
+  </defs>
+  <rect width="1400" height="900" fill="url(#bg)"/>
+  <text x="700" y="70" text-anchor="middle" class="h">Same Origin Policy: protocolo + host + puerto</text>
+
+  <rect x="100" y="130" width="1200" height="650" rx="14" fill="#fff" stroke="#f1c89a" stroke-width="3"/>
+  <line x1="100" y1="230" x2="1300" y2="230" stroke="#f1c89a" stroke-width="2"/>
+  <line x1="540" y1="130" x2="540" y2="780" stroke="#f1c89a" stroke-width="2"/>
+  <line x1="900" y1="130" x2="900" y2="780" stroke="#f1c89a" stroke-width="2"/>
+
+  <line x1="100" y1="320" x2="1300" y2="320" stroke="#f6dcc0" stroke-width="1"/>
+  <line x1="100" y1="410" x2="1300" y2="410" stroke="#f6dcc0" stroke-width="1"/>
+  <line x1="100" y1="500" x2="1300" y2="500" stroke="#f6dcc0" stroke-width="1"/>
+  <line x1="100" y1="590" x2="1300" y2="590" stroke="#f6dcc0" stroke-width="1"/>
+  <line x1="100" y1="680" x2="1300" y2="680" stroke="#f6dcc0" stroke-width="1"/>
+
+  <text x="130" y="190" class="th">URL A vs URL B</text>
+  <text x="570" y="190" class="th">Diferencia</text>
+  <text x="930" y="190" class="th">Mismo origen?</text>
+
+  <text x="130" y="285" class="td">https://srv-a:443  y  https://srv-a:443</text>
+  <text x="570" y="285" class="td">Ninguna</text>
+  <text x="930" y="285" class="ok">SI</text>
+
+  <text x="130" y="375" class="td">http://srv-a:443  y  https://srv-a:443</text>
+  <text x="570" y="375" class="td">Protocolo</text>
+  <text x="930" y="375" class="no">NO</text>
+
+  <text x="130" y="460" class="td">https://localhost:8900</text>
+  <text x="130" y="488" class="td">y https://127.0.0.1:8900</text>
+  <text x="570" y="475" class="td">Host</text>
+  <text x="930" y="475" class="no">NO</text>
+
+  <text x="130" y="555" class="td">https://srv-a:8900  y  https://srv-a:5112</text>
+  <text x="570" y="555" class="td">Puerto</text>
+  <text x="930" y="555" class="no">NO</text>
+
+  <text x="130" y="640" class="td">https://srv-a:443</text>
+  <text x="130" y="668" class="td">y https://192.168.1.54:443</text>
+  <text x="570" y="655" class="td">Host (DNS vs IP)</text>
+  <text x="930" y="655" class="no">NO</text>
+
+  <text x="700" y="845" text-anchor="middle" class="small">Si cambia uno solo de los tres elementos, el navegador lo considera cross-origin.</text>
+</svg>

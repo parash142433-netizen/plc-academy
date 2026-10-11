@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Visual Studio Code official logo — blue #007ACC -->
+  <defs>
+    <linearGradient id="vsc1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2C9EF4"/>
+      <stop offset="100%" stop-color="#0065A9"/>
+    </linearGradient>
+    <linearGradient id="vsc2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0098FF"/>
+      <stop offset="100%" stop-color="#007ACC"/>
+    </linearGradient>
+  </defs>
+  <!-- Main body - right sidebar -->
+  <path d="M 74,8 L 93,16 V 84 L 74,92 Z" fill="url(#vsc2)"/>
+  <!-- Folded left -->
+  <path d="M 74,8 L 30,38 L 14,26 L 7,30 V 70 L 14,74 L 30,62 L 74,92 V 8 Z" fill="url(#vsc1)" opacity="0.9"/>
+  <!-- Inner V shape (lighter) -->
+  <path d="M 74,8 L 30,38 V 62 L 74,92 V 8 Z" fill="#007ACC" opacity="0.3"/>
+  <!-- White V shape for the editor symbol -->
+  <path d="M 30,38 L 14,26 L 7,30 V 70 L 14,74 L 30,62 Z" fill="#fff" opacity="0.15"/>
+</svg>

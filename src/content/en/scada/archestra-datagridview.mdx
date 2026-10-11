@@ -1,0 +1,50 @@
+---
+title: "ArchestrA Control DataGridView .Net"
+slug: "archestra-datagridview"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/ArchestrA_DataGridView.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["DataGridView in ArchestrA Graphics"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# ArchestrA Control DataGridView .Net
+
+Jose Manuel Luque
+
+DataGridView in ArchestrA Graphics
+
+**DataGridView .Net in ArchestrA Graphics  
+**
+
+In today's practice, we will see the use of the DataGridView Control in creating our custom Graphic to display data from a Database query. We have already seen an example of the [SQLDataGrid](#/a/en%2Farchestra-datagrid), but in that case, we cannot add any new functionality.
+
+The first thing we do is create a new Symbol, and then we insert the DataGridView Control, along with the controls we have already imported from .net. If you have any questions on how to do this, [click here](#/a/en%2F064).
+
+![](./assets/images/archestra-datagridview/ArchestrA-DataGridView-0.png)
+
+We have now inserted our Control and we will configure some properties. We will not allow permissions to add or delete rows, nor will multiple selection be permitted. The displayed data will be read-only, and finally, when the user makes a selection, the entire row will be selected. In the next practice, we will see the reason for this.
+
+If necessary, adapt the properties according to our interests.
+
+![](./assets/images/archestra-datagridview/ArchestrA-DataGridView-1.png)
+
+Within the Scripts, this time we will only define the predefined type On Show, so that when our symbol appears on our screen, it directly shows the data we are interested in.
+
+The Script would be as follows:
+
+![](./assets/images/archestra-datagridview/ArchestrA-DataGridView-3.png)
+
+We can now insert our Symbol into our Intouch screen and test its functionality:
+
+![](./assets/images/archestra-datagridview/ArchestrA-DataGridView-4.png)
+
+August 26, 2013
+
+---
+*Source: [ArchestrA Control DataGridView .Net](https://www.plc-hmi-scadas.com/en/ArchestrA_DataGridView.php) — Jose Manuel Luque*

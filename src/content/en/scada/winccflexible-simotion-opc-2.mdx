@@ -1,0 +1,77 @@
+---
+title: "WinCC - OPC SimaticNet (Simotion)"
+slug: "winccflexible-simotion-opc-2"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC_2.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","VBScript","Simotion","OPC DA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC - OPC SimaticNet (Simotion)
+
+Jose Manuel Luque
+
+WinCC VBScript Simotion OPC DA
+
+**WinCC - OPC SimaticNet (Simotion)**
+
+If you are reading this, please check this [part](#/a/en%2Fwinccflexible-simotion-opc) to make more sense of it...
+
+As we have already seen, when we started the export process, we specified the version of Simatic Net. Here you can see the version.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_01.png)
+
+We run the Simatic Net - Configuration Console
+
+We expand within OPC Settings --> Symbols and click the edit list button.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_02.png)
+
+By default, the following image appears and we select the New button
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_04.png)
+
+When creating a new one, the default prefix is SYM1, but we adapt it to the name we are interested in and with the browse button, we look for the file we exported earlier.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_06.png)
+
+We select the file with the \*.sti extension, the extension may vary depending on the version.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_07.png)
+
+We click the OK button, and with this, we finish this part.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_08.png)
+
+Here we can see the configuration of the Symbols.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_09.png)
+
+We have the option of Advanced Symbols, which if we consult the help, this is the documentation. If we need it because the requirements are met, we specify the network card we are using.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_13.png)
+
+With the steps already completed, we can now check with the OPC Scout (OPC Client) that the configuration is correct. We start the OPC Scout, make a connection to the OPC Simatic.Net, create a new group, and we can add the items we are interested in to check it.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_35.png) ![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_36.png) ![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_37.png) ![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_38.png) ![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_11.png)
+
+Once the operation has been verified as correct, we can configure the OPC Driver in WinCC and select OPC.SimaticNet as the server, then we add the Tags and that's it, ready to go. If you have questions about the OPC Driver configuration, you can check [this guide](#/a/en%2Fwincc-driver-opc), except for the server name, the procedure is the same.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_14.png)
+
+If we start WinCC, we will see that the connection with Simatic Net is correct, and here errors will be observed because there is no connection with Simotion.
+
+![](./assets/images/winccflexible-simotion-opc-2/Simotion_OPC_15.png)
+
+June 10, 2018
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [WinCC - OPC SimaticNet (Simotion)](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC_2.php) — Jose Manuel Luque*

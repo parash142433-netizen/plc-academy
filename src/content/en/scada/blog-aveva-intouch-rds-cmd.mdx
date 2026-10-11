@@ -1,0 +1,59 @@
+---
+title: "AVEVA Intouch RDS - CMD"
+slug: "blog-aveva-intouch-rds-cmd"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-cmd/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch RDS - CMD
+
+Jose Manuel Luque Jan 22, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch RDS - CMD](./assets/images/blog-aveva-intouch-rds-cmd/WW_RDP_CMD_06.png)
+
+Within the RDS environment, I believe it is necessary to have knowledge of some commands, or at least know where to find them and their description [Microsoft remote desktop services command reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/remote-desktop-services-terminal-services-command-reference).  
+I will give an example of the ones I use the most.  
+Just like with the **quser** function, with **query session** we also obtain all the sessions; to close a session we use the **logoff** command followed by the session ID.
+
+![](./assets/images/blog-aveva-intouch-rds-cmd/WW_RDP_CMD_02.png)
+
+Example of query session / logoff
+
+We can do the same with the following commands.
+
+![](./assets/images/blog-aveva-intouch-rds-cmd/WW_RDP_CMD_03.png)
+
+Example qwinsta / rwinsta
+
+Now, if we need to know which processes are running in each session, we can use the command **qprocess ID:x**.
+
+![](./assets/images/blog-aveva-intouch-rds-cmd/WW_RDP_CMD_04.png)
+
+Example qprocess /ID:_Number_
+
+We can also check where a process is running by its name across all sessions.
+
+![](./assets/images/blog-aveva-intouch-rds-cmd/WW_RDP_CMD_05.png)
+
+Example qprocess _name.exe_
+
+![](./assets/images/blog-aveva-intouch-rds-cmd/WW_RDP_CMD_06.png)
+
+Example query session / logoff id / qprocess name.exe
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch RDS - CMD](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-cmd/) — Jose Manuel Luque*

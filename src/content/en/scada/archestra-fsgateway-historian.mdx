@@ -1,0 +1,72 @@
+---
+title: "Wonderware Historian I/O Server II"
+slug: "archestra-fsgateway-historian"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/ArchestrA_FSGateway_Historian.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Historian I/O Server","aahIOSvrSvc"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Wonderware Historian I/O Server II
+
+Jose Manuel Luque
+
+Historian I/O Server aahIOSvrSvc
+
+**Wonderware Historian I/O Server  
+**
+
+In today's practice, following the information from Wonderware, we are going to configure a link with the Historian through the I/O Server aahIOSvrSvc.exe. This means that we have the Historian running, which may be acquiring values from X processes, and we will visualize that data in our System.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian.png)
+
+Following the recommendations read earlier, we are going to configure the FSGateway with the SuiteLink interface. Let's look at the steps.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-00.png)
+
+Within the Configuration -> Right-click and add the SuiteLink Object, as it does not support DDE.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-01.png)
+
+The I/O Server is named as we have seen earlier and as shown in the following image. The machine where it runs is the same one where we are doing the configuration: Localhost.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-02.png)
+
+The next thing to configure is an Object of type Topic. For this, right-click on the SuiteLink object we created and add a new one of type Topic.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-03.png)
+
+Following the initial recommendations, the name of the Topic should be Tagname and it is read-only, so we check the checkbox.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-04.png)
+
+Once we have the Server|Topic, we need to configure the items. Here we add the names of the Tags we have configured in the Historian.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-10.png)
+
+Once this part is configured, we proceed to configure a new template derived from the OPCClient Object. In this case, the Server is ArchestrA.FSgateway.2.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-11.png)
+
+The next thing we need to add is the Group. Here I have named it PLC and set the interval to the default. Once the group is added, we can add the items.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-13.png) ![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-15.png) ![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-16.png)
+
+With this, we have finished configuring. Now we can instantiate our Object and check its operation with the Object Viewer.
+
+If there are any doubts about creating the templates or instances, I recommend the practices [1](#/a/en%2F051),[2](#/a/en%2F052) and [3](#/a/en%2F054).
+
+Here we can already observe the value of the configured tags, and we can also access all the tags that exist, such as the default System tags. In this next practice, we see another way we can configure, avoiding the use of the FSGateway.
+
+![](./assets/images/archestra-fsgateway-historian/FSGateway-Historian-20.png)
+
+August 18, 2013
+
+---
+*Source: [Wonderware Historian I/O Server II](https://www.plc-hmi-scadas.com/en/ArchestrA_FSGateway_Historian.php) — Jose Manuel Luque*

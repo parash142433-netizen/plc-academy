@@ -1,0 +1,70 @@
+---
+title: "Vijeo Designer Configuration with SoftLogix"
+slug: "122"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/122.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SCHNEIDER"]
+tags: ["Vijeo Designer Configuration with SoftLogix"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SCHNEIDER](#/a/en%2Fhmi-schneider) › Article
+
+# Vijeo Designer Configuration with SoftLogix
+
+Jose Manuel Luque
+
+Vijeo Designer Configuration with SoftLogix
+
+**Vijeo Designer Configuration with SoftLogix  
+**
+
+In the following practice, we will configure the connection between Vijeo Designer and SoftLogix. Before we start, it is worth noting that according to the documentation of Vijeo Designer, there is no specific driver for the SoftLogix controller, but the tests conducted have been satisfactory.
+
+We create a new project, giving it a name of our choice and, if necessary, project type, password, etc...
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-02.png)
+
+Once our project is created, we are already familiar with its graphical interface, and the first thing we will do is add a new controller.
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-04.png)
+
+Within the Rockwell Drivers, we have several related to Ethernet/IP, which is the one I am interested in. As I mentioned earlier, there is none specific for SoftLogix, so to test if it worked, I selected as if my device were a ControlLogix, then specified its IP address and the CPU Slot.
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-05.png) ![](./assets/images/122/122-VijeoDesigner-SoftLogix-06.png)
+
+When adding the tags, the easiest way is to link them. To do this, I had previously saved the project created with RSLogix5000 with the \*.L5k extension, which will make our task much easier.
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-07.png)
+
+A new window opens, and we select the type we are interested in, for this case \*.L5k, we find our file and proceed to open it.
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-08.png)
+
+It will automatically read all the tags we have created in our project, regardless of their scope, whether they are Controller, program, etc...
+
+We select the ones we are interested in and add them to our project.
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-09.png)
+
+We have now added the tags to our project.
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-10.png)
+
+Finally, to check the operation, we add to our Panel some numeric display objects, which we link to the tags for hours, minutes, and seconds.
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-11.png)
+
+We can now compile our project, and if there are no errors, run our simulator. It can be observed that it works perfectly and there is communication between Vijeo Designer and SoftLogix.
+
+![](./assets/images/122/122-VijeoDesigner-SoftLogix-12.png)
+
+June 6, 2013
+
+If you liked it or found the information useful, share it...
+
+---
+*Source: [Vijeo Designer Configuration with SoftLogix](https://www.plc-hmi-scadas.com/en/122.php) — Jose Manuel Luque*

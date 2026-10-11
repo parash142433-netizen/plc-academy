@@ -1,0 +1,65 @@
+---
+title: "AVEVA Intouch Widgets"
+slug: "blog-aveva-intouch-widgets"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-widgets/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch Widgets
+
+Jose Manuel Luque Apr 07, 2024
+
+Aveva AVEVA Intouch Intouch SCADA
+
+![AVEVA Intouch Widgets](./assets/images/blog-aveva-intouch-widgets/WWWidgets-4.png)
+
+A few years ago ... I wrote the following article related to [Intouch and the incorporation of Widgets](https://plc-hmi-scadas.com/Intouch_2020_Widget.php). In the following article, I will explain some concepts that you may not know ;-)  
+  
+Since widgets are based on HTML, CSS, and JavaScript, they do not depend on the version of Intouch. This means that you can use the widgets from the latest version of Intouch in an earlier one, except for example the Map\_App, since in Intouch 2023R2 the Canvas of the Intouch editor itself has changed to incorporate the Mapps option. But let's choose, for example, the DataGrid.
+
+![](./assets/images/blog-aveva-intouch-widgets/WWWidgets-4-1024x598.png)
+
+How widgets work in Intouch, by default, all \*.cwp files that exist in the installation directory of Wonderware Intouch will be added to your symbol tree every time you create a new project. I took the ones from 2023R2 and those from Aveva Edge and copied them, as seen in the following image.  
+
+![](./assets/images/blog-aveva-intouch-widgets/WWWidgets-1.png)
+
+Then I created a new project and automatically, all the components were created in my Widgets tree.
+
+![](./assets/images/blog-aveva-intouch-widgets/WWWidgets-2-1024x561.png)
+
+And I am testing it with an earlier version 2020.
+
+![](./assets/images/blog-aveva-intouch-widgets/WWWidgets-3.png)
+
+All the widgets have been unpacked within our project in the Widget directory, as my project is named the same, redundancy intended. You can now explore and see the code ;-)
+
+![](./assets/images/blog-aveva-intouch-widgets/WWWidgets-6.png)
+
+And now I am going to test the DataGrid, downloaded in .json, and it works perfectly ...
+
+![](./assets/images/blog-aveva-intouch-widgets/image-1024x561.png)
+
+**NOTE**: If you are creating your own widgets for AVEVA Intouch, you will encounter the following problem, how to create the Custom Widgets Package (\*.cwp), because simply compressing the content and changing the extension does not work, it would have been too easy ;-)
+
+Contact your local AVEVA Intouch representative and request the package to generate the **Custom Widgets Package** (cwp). Thank you very much **Lluis & Bet**  
+  
+However, if you are a bit of a geek like me, I will give you some tips ... in the **.Net Framework** there is a class that exists by default to compress / decompress ... There you have the key, don't forget to use the .cwp extension instead of .zip ;-)  
+
+![](./assets/images/blog-aveva-intouch-widgets/WWWidgets-8.png)
+
+And if you have made it this far, you might be interested in the [next article](#/a/en%2Fblog-aveva-intouch-widgets-custom-widgets-package).
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch Widgets](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-widgets/) — Jose Manuel Luque*

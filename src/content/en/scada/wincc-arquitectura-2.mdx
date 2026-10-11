@@ -1,0 +1,60 @@
+---
+title: "WinCC Independent Screen Design and Current Screen Name"
+slug: "wincc-arquitectura-2"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Arquitectura_2.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","HMIRuntime.BaseScreenName"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Independent Screen Design and Current Screen Name
+
+Jose Manuel Luque
+
+WinCC HMIRuntime.BaseScreenName
+
+**WinCC Image Window Design and Current Screen Name  
+**
+
+Previously, I mentioned the following: when we start designing how our SCADA will be, we could say that we have two main options, either work with each screen individually, changing each one of them, which will be the example we will see today, or the option I prefer, which is to work with image windows based on a base screen, which will be the introduction we will see today.
+
+The idea is to obtain the name of the current screen we are on, for subsequent actions when we are on a specific screen, and also how to change screens...
+
+As we can see in the following image, we have a main screen, which will be the one we will see all the other screens on, and we will change in the image window, just as we could do with the menu, a different menu for each zone or area.
+
+![](./assets/images/wincc-arquitectura-2/WinCC_VentanaImagen_100.png) ![](./assets/images/wincc-arquitectura-2/WinCC_VentanaImagen_101.png)
+
+For example, let's assume that the following screens would belong to our process; to check the difference, I have put a color that catches the attention well on the background of the screen.
+
+The name, as can be seen, is 000\_start\_1 - 2 - 3.
+
+In each screen, I have inserted an input and output field, linked with the variable that will store the name of the current screen.
+
+Now let's move on to the part of the code that we will use, and to change screens, the idea is to change the screen we are going to show in the image window; for that, we use the following statement, referencing the main screen with **HMIRuntime.Screen("**MainScreenName**")**, where the image window is located, we reference this object with its name **.ScreenItems("**ObjectName**")** and change the **PictureName** property with the screen that interests us.
+
+![](./assets/images/wincc-arquitectura-2/WinCC_VentanaImagen_103.png)
+
+With the above code, we have already solved how we are going to change the screen; now we just need to save the screen name in the variable we have declared for this purpose. For this, we will take advantage of the Picture Name change event of our image window, and we will use the following code.
+
+If we directly save the Value argument in the variable, the screen will be saved with the .pdl extension, hence the reason for using the Replace function to remove the extension, although the best thing is to try it out to experiment for oneself.
+
+![](./assets/images/wincc-arquitectura-2/WinCC_VentanaImagen_18.png)
+
+Finally, we put it into operation and check how it behaves and how it works; from here, the best thing is to try it...
+
+![](./assets/images/wincc-arquitectura-2/WinCC_VentanaImagen_16.png) ![](./assets/images/wincc-arquitectura-2/WinCC_VentanaImagen_17.png)
+
+December 13, 2014
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Independent Screen Design and Current Screen Name](https://www.plc-hmi-scadas.com/en/WinCC_Arquitectura_2.php) — Jose Manuel Luque*

@@ -1,0 +1,62 @@
+---
+title: "Communication CPU S5 with WinCC via the IBH Link S5++ Gateway"
+slug: "wincc-ibh-link"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_IBH_Link.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["Communication CPU S5 with WinCC via the IBH Link S5++"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# Communication CPU S5 with WinCC via the IBH Link S5++ Gateway
+
+Jose Manuel Luque
+
+Communication CPU S5 with WinCC via the IBH Link S5++
+
+**Communication CPU S5 with WinCC via the IBH Link S5++ Gateway  
+**
+
+In the previous practice, we prepared the IBH Link S5++ Gateway, now in WinCC, we add a new Driver and execute the same steps as if it were an S7-300/400, we will communicate with the S7 Protocol Suite
+
+![](./assets/images/wincc-ibh-link/IBHS5_01.png)
+
+By default, these are the parameters that are present when we add this type of Driver, for now, we leave them as is and the only thing we change is in Unit, and we select our network card
+
+![](./assets/images/wincc-ibh-link/IBHS5_02%20\(2\).png) ![](./assets/images/wincc-ibh-link/IBHS5_03%20\(2\).png)
+
+We add a new connection, giving it a name that interests us, and here we put the IP address of the Gateway and by default rack number 0 and Slot number 2
+
+![](./assets/images/wincc-ibh-link/IBHS5_04%20\(2\).png) ![](./assets/images/wincc-ibh-link/IBHS5_06%20\(2\).png)
+
+We could now add our variables, we go to Runtime, and apparently everything is OK!, we see that the connection has been established correctly, however, if we make the Qualitycode visible, we observe that we do not receive a response from the PLC
+
+With the WinCC Channel Diagnostic, we can see that the communication is intermittently interrupted and we are capturing errors.
+
+![](./assets/images/wincc-ibh-link/IBHS5_10.png)
+
+To solve this issue, we go to the Driver parameters and we will make the following changes, we will select the checkbox Send/receive raw data block and at the same time we will deselect the checkBox Cycle formation by PLC
+
+![](./assets/images/wincc-ibh-link/IBH_21b.png) ![](./assets/images/wincc-ibh-link/IBH_23b.png)
+
+With these changes, everything is correct, we can now observe the value of our variables and how the Qualitycode is good.
+
+We are now communicating with our CPU S5 as if it were an S7
+
+![](./assets/images/wincc-ibh-link/IBH_24.png) ![](./assets/images/wincc-ibh-link/IBH_25.png)
+
+Also tested with WinCC Flexible, and perform the same procedure, add it as if it were in S7 over Ethernet, in this case, no further changes are necessary.
+
+If we are using WinCC Flexible Runtime, configure in PC/PG Adapter that we are using the Ethernet protocol.
+
+If you liked it or found it useful, share it ...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Communication CPU S5 with WinCC via the IBH Link S5++ Gateway](https://www.plc-hmi-scadas.com/en/WinCC_IBH_Link.php) — Jose Manuel Luque*

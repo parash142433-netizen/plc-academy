@@ -1,0 +1,95 @@
+---
+title: "AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)"
+slug: "blog-aveva-historian-client-factory-talk-view-se"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-historian-client-factory-talk-view-se/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)
+
+Jose Manuel Luque 09 May, 2024
+
+AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-8.png)
+
+Today we will see one of the advantages of working with **AVEVA Historian Server** & **AVEVA Historian Client**.  
+By default, with the installation of the Historian Client, the ActiveX controls and .Net controls are installed.  
+This means that practically all SCADAs support ActiveX controls and more and more are incorporating .Net controls. As a SCADA, we have selected Factory Talk View SE.  
+In fact, Factory Talk View SE incorporated .Net controls just a few years ago.
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-3-1024x697.png)
+
+  
+As mentioned, once the AVEVA Historian Client is installed, we can insert our controls, since by default the installation registers them in the operating system. If not, you know [regsvr32](https://support.microsoft.com/es-es/topic/c%C3%B3mo-utilizar-la-herramienta-regsvr32-y-solucionar-problemas-de-mensajes-de-error-de-regsvr32-a98d960a-7392-e6fe-d90a-3f4e0cb543e5) is your friend with ActiveX controls.
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-4.png)
+
+  
+By simply inserting the control and testing it on the display, we can already check its functionality without having to program anything.
+
+We are going to connect to our training server to check the operation.
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-9-1024x675.png)
+
+  
+And we can already start making queries and testing.
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-10-1024x680.png)
+
+  
+The same behavior for the Historian Trend.
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-8-1024x508.png)
+
+  
+**And what about the .Net controls?**  
+Well, let's test it to draw conclusions. The selected controls are the ones we are interested in, which are in the following directory.
+
+Code
+
+```
+C:\Program Files (x86)\Common Files\ArchestrA
+```
+
+When adding them, they must automatically be copied to a specific directory to be available and selectable for use. If this process does not happen automatically, because you do not see them for selection, you have to copy them directly to the following directory.
+
+Code
+
+```
+C:\Users\Public\Documents\RSView Enterprise\DotNetControl Setup
+```
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-11-1024x584.png)
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-15.png)
+
+Once added, they are now in the list of all .Net controls ready to be used.
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-12-1024x599.png)
+
+We insert it into the display and a pop-up of DotNetControl Properties configuration appears, to configure, access its properties, methods, and events, and the code we must use in VBA to access those properties.
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-13-1024x599.png)
+
+Its operation is the same as the ActiveX control, perfect. Note that we have not delved into programming its properties, just connecting to the server from the object itself.
+
+![](./assets/images/blog-aveva-historian-client-factory-talk-view-se/FactoryTalkView_WWHistorianClient-14-1024x558.png)
+
+**Conclusion**: If you work with **AVEVA Historian Server** & **AVEVA Historian Client**, you will be able to work with practically all SCADAs regardless of the brand:  
+Siemens (**WinCC** Classic & **WinCC Runtime Professional**), Rockwell (**Factory Talk View SE**), **IFix**, **ZenOn**, EcoStruxure Machine _SCADA_ Expert, etc...
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)](https://www.plc-hmi-scadas.com/en/blog/aveva-historian-client-factory-talk-view-se/) — Jose Manuel Luque*

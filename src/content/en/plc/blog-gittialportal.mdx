@@ -1,0 +1,132 @@
+---
+title: "Optimizing Industry: Version Control and TIA Portal (Part 1)"
+slug: "blog-gittialportal"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/gittialportal/"
+author: "Jhon Chuquimarca Castillo"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["PLC","SIEMENS PLC","SIEMENS PLC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Optimizing Industry: Version Control and TIA Portal (Part 1)
+
+Jhon Chuquimarca Castillo May 14, 2024
+
+PLC SIEMENS PLC SIEMENS PLC
+
+![Optimizing Industry: Version Control and TIA Portal (Part 1)](./assets/images/blog-gittialportal/DALL%C2%B7E-2024-06-01-10.45.25-A-person-working-in-an-automation-system-with-machines-and-computers.-The-scene-shows-the-person-operating-complex-machinery-and-using-a-computer-inte.png)
+
+Today we will look at a tool that is widely used in software development, but is very difficult to apply in industry as we usually work with binary files.
+
+The definition of Git is as follows:
+
+> Git is a distributed version control system that records changes made to  
+> files over time. It allows multiple people to collaborate on software projects  
+> efficiently by tracking changes, merging the work of different people, and reverting to previous  
+> versions if necessary.
+
+It will help us with:
+
+*   Software version control.
+*   Comparison of blocks with previous versions.
+*   Restoration of blocks with previous versions.
+
+Although this can currently be achieved in more rudimentary ways, you will soon see the  
+potential of recording our changes in Workstation and GIT.
+
+Required software:
+
+*   [TIA Portal](https://support.industry.siemens.com/cs/document/109821307/sales-and-delivery-release-of-tia-portal-v19?dti=0&lc=en-GB) (version 16 or higher)
+*   [Git](https://git-scm.com/downloads) (latest version recommended)
+*   [TIA Portal Add-in](https://support.industry.siemens.com/cs/document/109773999/tia-add-ins?dti=0&lc=en-ES) **_\*An add-in is a computer program that adds functions or additional features to an existing program_**
+
+To carry out version control, we will use a tool integrated into TIA Portal called WorkStation, which essentially exports all our blocks (FCs, FBs, DBs, data structures, and variable tables) in XML format or some other type of plain text file. \*_**This can be configured from the TIA Portal settings.**_
+
+## Setting Up Our Workstation in TIA Portal
+
+1.  First of all, we need to create a folder where we will store our programming and the necessary GIT files.
+2.  We open a project in TIA Portal.
+3.  At the bottom, we expand a section called VCI “Version Control Interface”.
+4.  We add a new Workstation and open it (When opened, we will see the PLCs we have and their offline programming).
+
+![](./assets/images/blog-gittialportal/image-28.png)
+
+5.  Here we configure our Workstation as shown in the following image. We need to add the path of the folder we created in step "1".
+
+![](./assets/images/blog-gittialportal/image-29-1024x411.png)
+
+6.  We will have our Workstation ready to use; now we just need to start adding the blocks we want to save.
+7.  This is done by dragging and dropping from the right side to the left. (I usually drag the entire PLC). Keep in mind:
+    *   Blocks containing special characters will not be exported.
+    *   We must be offline with all devices.
+    *   We must have unlocked the PLC to work with safety blocks.
+
+*   When we finish saving, we will have all our blocks exported to our folder.
+
+## Configuring GIT to Track Changes
+
+1.  We need to open PowerShell on the computer where we have git installed.
+2.  First of all, we will need to configure our git, for that we will need a username and an email.
+    *   We configure our email with the command:  
+        `git config --global user.email “you@example.com”`.
+    *   We configure our name with the command:  
+        `git config --global user.name "Your Name"`.
+
+*   To initialize our git, we will enter the following command:  
+    `git init “path to our folder”`.  
+    After executing the command, check that no errors occurred and/or verify that a folder named .git has been generated in our path.
+
+![](./assets/images/blog-gittialportal/image-30.png)
+
+4.  If we had no errors, the next step will be to access our directory via console commands, for that we enter the following command -> cd “path to our folder”.
+5.  After that, we will execute the command to add our exported files from TIA Portal to tracking:  
+    `git add -A` .
+
+![](./assets/images/blog-gittialportal/image-31.png)
+
+6.  Finally, we make a commit; this is what we will normally do to save  
+    our changes in git, this saves a point in the history of  
+    changes of our files, which we will use later to compare and/or  
+    recover our old programming.
+7.  To execute the commit, we use the following command:  
+    `git commit -m “Descriptive message of the changes made”`.
+
+![](./assets/images/blog-gittialportal/image-32.png)
+
+8.  Now we will have our tracking declared and the first commit made; we could perform step “g” from the console every time we export our changes, but we will go further.
+
+## Integrating Git into TIA Portal
+
+1.  We need to download the software from the official Siemens page.
+
+![](./assets/images/blog-gittialportal/image-33.png)
+
+2.  We [download VCI Git Connector](https://support.industry.siemens.com/cs/document/109773999/tia-add-ins?dti=0&lc=en-ES).
+
+![](./assets/images/blog-gittialportal/image-34.png)
+
+3.  We extract the zip file we downloaded and copy the file that ends in .addin to the following path -> “C:\\Program Files\\Siemens\\Automation\\Portal V16\\AddIns\\”.
+4.  To have it available in TIA Portal, we go to the right side in add-ons and we will need to activate the Add-in.
+5.  Finally, we go to our WorkSpace and in the WorkSpace configuration, we add the add-in.
+
+![](./assets/images/blog-gittialportal/image-35.png)
+
+6.  Now every time we export changes in our project, it will automatically make a commit from TIA Portal without having to do it via PowerShell.
+
+![](./assets/images/blog-gittialportal/image-36.png)
+
+With this, we have finished configuring our environment to have version control over a project.  
+In another post, we will see how to make commits, how to restore commits, and how to make use of  
+tools to get the most out of git in TIA Portal.
+
+#### Jhon Chuquimarca Castillo
+
+Industrial Automation Technician.
+
+---
+*Source: [Optimizing Industry: Version Control and TIA Portal (Part 1)](https://www.plc-hmi-scadas.com/en/blog/gittialportal/) — Jhon Chuquimarca Castillo*

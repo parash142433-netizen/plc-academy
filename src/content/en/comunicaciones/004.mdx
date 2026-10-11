@@ -1,0 +1,91 @@
+---
+title: "Register PLC Data in Database with OPC Server and VB.NET"
+slug: "004"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/004.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["OPC Server","VB.net","Databases"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# Register PLC Data in Database with OPC Server and VB.NET
+
+Jose Manuel Luque
+
+OPC Server VB.net Databases
+
+In this practice, we will register the data of interest from our PLC to a Database through an OPC Server; to do this, we will develop a simple application in Visual Basic.Net.
+
+The requirements for this practice are to have an OPC Server; in our case, we will use Siemens' Simatic Net, Visual Studio, which can be downloaded for free, and a Database Management System; in this example, we will use Access, although others can be used.
+
+We will assume that we have created our PLC program and the OPC configuration.
+
+1.- The first step will be to create a new application in Visual
+
+![](./assets/images/004/001-OPC%20VB.jpg)
+
+2.- Once we have created our application, we will add the OPC Automation 2.0 reference; for this, we go to:
+
+Project -> Properties of (application name), a pop-up window will open, and we select the COM tab and add that reference
+
+![](./assets/images/004/OPC%20VB-004.jpg)
+
+3.- In our Form1, we add two Button controls; one will be for connecting and registering data, and the other for disconnecting. We go to the properties of each of them and give them a name; it is generally used as btn... and we change the name to show, we also insert the Timer control
+
+![](./assets/images/004/OPC%20VB-005.jpg)
+
+4.- Now we will move on to the programming code; we will work with the namespace related to OPC, with plain text files and Databases, so our first lines of code will be:
+
+![](./assets/images/004/OPC%20VB-17.jpg)
+
+5.- And the declaration of the variables that we will use in our form.
+
+![](./assets/images/004/OPC%20VB-017b.jpg)
+
+6.- We double-click on our connect button, and this is the code to connect to our Simatic Net OPC Server; if everything goes smoothly, we will activate the Timer1 control, which will help us register the data at the time interval set in its properties
+
+![](./assets/images/004/OPC%20VB-019.jpg)
+
+Upon analyzing the code, the reader may wonder why to use the ItemStep7.txt file; the explanation is that I have taken all the symbols created in our PLC program and copied them to a plain text file; these will be the items we are going to register. Obviously, this can be omitted, but it is a way to do it dynamically, as the item array is resized according to the number of items in our file. To clarify, I will attach some images
+
+![](./assets/images/004/OPC%20VB-013.jpg)
+
+![](./assets/images/004/OPC%20VB-014.jpg)
+
+![](./assets/images/004/OPC%20VB-022.jpg)
+
+Another clarification to make is where "PLC.315 2DP" comes from; this is the reference to access the items through the OPC, which is the name assigned to the PLC and the model of the PLC. It can also be observed when configuring the Hardware of the station:
+
+PC Simatic Equipment -> Configuration -> OPC Server Properties -> S7 Tab (Use symbols) -> Selected
+
+![](./assets/images/004/OPC%20VB-015.jpg)
+
+7.- Once connected to the OPC Server, we activate the Timer, and it will execute the code at the established time interval; the code is as follows, and it creates a loop to go through all the items, read their value, and insert them into the database
+
+![](./assets/images/004/OPC%20VB-023.jpg)
+
+8.- RegisterData is a procedure that creates the connection to the database and executes the passed command and disconnects from the Database
+
+![](./assets/images/004/OPC%20VB-018.jpg)
+
+Our Database is created in Access 2007 and has a single table with the following fields
+
+![](./assets/images/004/OPC%20VB-024.jpg)
+
+10.- Finally, we are missing the code for our disconnect Button
+
+![](./assets/images/004/OPC%20VB-025.jpg)
+
+11.- This has been a basic, very simple example; from here, it can be improved and adapted to needs
+
+It is worth mentioning that one of the first examples I saw and served as a reference was in the fantastic blog [Automation Notes](http://notasdeautomatizacion.blogspot.com.es/)
+
+July 2012
+
+---
+*Source: [Register PLC Data in Database with OPC Server and VB.NET](https://www.plc-hmi-scadas.com/en/004.php) — Jose Manuel Luque*

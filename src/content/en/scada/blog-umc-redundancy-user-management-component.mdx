@@ -1,0 +1,171 @@
+---
+title: "UMC Redundancy (User Management Component)"
+slug: "blog-umc-redundancy-user-management-component"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/umc-redundancy-user-management-component"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["PLC SIEMENS","WinCC Unified","WinCC Unified"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# UMC Redundancy (User Management Component)
+
+Jose Manuel Luque 02 Mar, 2025
+
+PLC SIEMENS WinCC Unified WinCC Unified
+
+![UMC Redundancy (User Management Component)](./assets/images/blog-umc-redundancy-user-management-component/image-7.png)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-8.png)
+
+Once we have configured our [**UMC**](#/a/en%2Fblog-umc-user-management-control) Server, our **[engineering station](#/a/en%2Fblog-tia-portal-central-user-management)**, and our redundant [**WinCC Unified**](#/a/en%2Fblog-wincc-unified-user-management-component), the next step is the bonus :-).  
+  
+We are going to configure a second **UMC** server, for this, we need to prepare the servers. These steps involve reconfiguring our UMC server and we must install the **[Network Load Balancing](https://learn.microsoft.com/en-us/windows-server/networking/technologies/network-load-balancing).** This must be installed on all the servers we are going to configure  
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-1.png)
+
+  
+Once we have followed the wizard, we will have the application available for configuration:  
+**Server Manager** -> **Tools** -> **Network Load Balancing Manager.**
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-3.png)
+
+  
+We have installed **Network Load Balancing** on our two servers, we have configured the servers to be on the same network, and both machines are powered on to proceed with the next steps:  
+  
+We run the application and we are going to create a new cluster:  
+**Cluster** -> **New Cluster**
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-4.png)
+
+  
+We enter the name of our primary server and follow the wizard
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-5-1.png)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-6.png)
+
+  
+When defining the cluster IP address, it must be an unused IP that will be common to our entire cluster. Within the options for the cluster operation mode, select "**multicast**".
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-7.png)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-8.png)
+
+  
+Here is where we must define the rules for which ports. By default, the included rule is to allow all traffic on all ports from 0 to 65535.
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-9.png)
+
+  
+We now have our primary server and we are going to add our backup server. Within the cluster, we select "**Add Host to Cluster**".
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-10.png)
+
+  
+We enter the name of our second server; however, the machine must be previously configured to be on the same network. 🙂
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-11.png)
+
+  
+Just like we did with our primary server, we follow the wizard.
+
+![The image has an empty ALT attribute; its filename is UMC2RingServer-12.png](./assets/images/blog-umc-redundancy-user-management-component/image-1.png)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-13.png)
+
+  
+We have completed the configuration
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-14.png)
+
+  
+What we have just configured is that each machine that is part of the **cluster** has its own IP and, in turn, shares a Virtual IP that we have defined. This functionality will balance the traffic, redirecting to the server that has a higher priority and, if it is not available, the next one will assume the role.  
+  
+To verify that everything is working correctly, you should check that both servers have the configuration completed and, additionally, from a third machine, ping each one while disconnecting one and the other from the network to see if you can access correctly.
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-2.png)
+
+  
+On this second server, we are going to repeat all the installation and operating system preparation steps as we described on the primary server, and what will change is the configuration, but all requirements must still be met, so follow the previous steps until the configuration moment
+
+We run the command .\\**UMConf.exe -j -f**
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-15.png)
+
+  
+This command is to join an existing ring server  
+So the next response is obvious :-)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-16.png)
+
+  
+Now we need to specify our existing and online server ;-)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-17.png)
+
+  
+It will ask for the UMC Server username and password, not the operating system's; if everything is correct, we will get a warning that if we have configured Active Directory users, we have to do it here, which is not my case
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-18.png)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-19.png)
+
+  
+After a few seconds, we will confirm the certificate between servers.
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-20.png)
+
+  
+The certificates are hosted on their respective servers:
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-11.png)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-10.png)
+
+  
+We have now configured our second server
+
+![](./assets/images/blog-umc-redundancy-user-management-component/UMC2RingServer-21.png)
+
+  
+Now we need to deploy on **IIS** and run the script that creates the entire architecture.
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-5.png)
+
+  
+**BACKUP SERVER**
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-3.png)
+
+  
+**PRIMARY SERVER**
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-4.png)
+
+**TIPS**
+
+*   Install all certificates on the **WinCC RT Unified** Servers.
+*   Check from the **WinCC RT Unified** servers that you can access via **HTTPS** and it is a secure connection. (Image below **https://10.10.1.254/umc-idp/idpauthsite/index.html** )
+*   Use the **Virtual IP**, which redirects you to the operational server.
+*   **100% Recommended** Use the **hosts** file to define names / IPs in a Windows workgroup
+*   If you want to remove the configuration, run the command **UMConf.exe -D -f**
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-9.png)
+
+  
+And with all these steps, everything should work perfectly :-)
+
+![](./assets/images/blog-umc-redundancy-user-management-component/image-7.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [UMC Redundancy (User Management Component)](https://www.plc-hmi-scadas.com/en/blog/umc-redundancy-user-management-component) — Jose Manuel Luque*

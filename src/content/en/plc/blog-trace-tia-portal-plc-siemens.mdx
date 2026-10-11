@@ -1,0 +1,177 @@
+---
+title: "Trace in TIA Portal: how to find a phantom fault"
+slug: "blog-trace-tia-portal-plc-siemens"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/trace-tia-portal-plc-siemens/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","Siemens"]
+tags: ["Siemens","TIA Portal","Trace","PLC Diagnostics","HMI Alarms"]
+downloads: [{"title":"Trace Editor function manual","url":"https://support.industry.siemens.com/dl/files/128/64897128/att_896018/v4/trace_editor_function_manual_es-ES_es-ES.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [Siemens](#/a/en%2Fplc-siemens) › Trace in TIA Portal: how to find a phantom fault
+
+# Trace in TIA Portal: how to find a phantom fault
+
+Practical case to capture a stop without alarms, reconstruct the sequence and locate the signal that causes the fault.
+
+June 7, 2026
+
+Siemens TIA Portal Trace PLC Diagnostics HMI Alarms
+
+![Trace in TIA Portal: how to find a phantom fault](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-01.png)
+
+**Objective**
+
+The objective is to learn how to use the **Trace** tool in **TIA Portal** to investigate abnormal behavior in an industrial system.
+
+The example starts from a very common plant situation: a machine stops, it does not leave a clear alarm and, when we arrive to check it, everything seems to be fine again. It is a typical case of **intermittent stop diagnostics** and an **intermittent fault in a Siemens PLC**.
+
+**Real pain**
+
+This type of fault usually comes with phrases we have all heard at some point:
+
+*   “The machine fails, but when I arrive everything is fine again”.
+*   “I do not know whether the problem is in the sequence or in the physical signal”.
+*   “The state machine changes too fast and I cannot see anything online”.
+
+This is where **Trace** is especially useful: it lets the PLC watch the important signals and then reconstruct what really happened.
+
+**What Trace is in TIA Portal**
+
+**Trace** is a diagnostic function that records PLC variables during execution and displays them on a time chart.
+
+It can work with analog signals, binary signals, DB variables, memory bits, inputs, outputs and peripheral data, depending on the device. Basically, it is a tool for recording PLC signals with time context and analyzing them afterwards as curves.
+
+Siemens provides an official document with the complete information for the Trace editor: [Trace Editor function manual](https://support.industry.siemens.com/dl/files/128/64897128/att_896018/v4/trace_editor_function_manual_es-ES_es-ES.pdf).
+
+**Use case**
+
+**Initial situation**
+
+We have a machine running normally.
+
+![Machine running normally before the fault](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-01-maquina-funcionando.png)
+
+Suddenly, we get a call because it has stopped and has not left any alarms. In this example we simulate it with a random fault in the PLC.
+
+They tell us that they have reset it several times, that the machine starts running again, but after some time the fault comes back.
+
+![Machine stopped without visible alarms on the HMI](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-02-maquina-parada-sin-alarmas.png)
+
+**When the cause does not appear**
+
+At this point we can start looking at the PLC, check which conditions stop the machine, follow cross-references, open watch tables and use the usual tools.
+
+However, time goes by and we still cannot find the fault. So we decide to use **Trace**, watching all the signals that affect the machine's **General Permission**, normally built from a chain of OK conditions. If just one of them drops, the permission disappears and the machine stops.
+
+The alarms for those permissives seem to be correctly configured and should give us the clue.
+
+![General machine permissives used to condition the run permission](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-03-permisos-generales.png)
+
+So, what is happening? How do we continue?
+
+**Trace configuration**
+
+We use the **Siemens S7-1500 Trace** tool in TIA Portal to see what is causing the stop that we cannot identify in the program.
+
+**Signals to record**
+
+We add all the signals that we know can cause stops. The idea is not to watch one variable, but to prepare a **PLC signal recording** that captures the full context around the general permission.
+
+![Signal configuration to record in TIA Portal Trace](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-04-senales-a-graficar.png)
+
+**Sampling**
+
+We define how many samples we want to record and whether the sampling will be based on time or on scan cycles.
+
+![Trace sampling configuration by time or scan cycles](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-05-muestreo.png)
+
+**Trigger and pretrigger**
+
+The trigger is a key part. We define when the recording should start and which signal will start it. We also configure a **pretrigger in TIA Portal**, meaning some time before the trigger signal, so we have more context.
+
+![Trigger and pretrigger configuration for TIA Portal Trace](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-06-disparador-pretrigger.png)
+
+**Load configuration into the PLC**
+
+Once the Trace is ready, we load the configuration into the PLC so it can run inside the controller.
+
+![Loading the Trace configuration into the Siemens PLC](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-07-cargar-configuracion-plc.png)
+
+**Curves and recording activation**
+
+We can also adjust the curve configuration: colors, groups and other visual details that make the capture easier to interpret.
+
+![Curve and color configuration in Trace](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-08-configuracion-curvas.png)
+
+We activate the **Recording** process. From that moment, the Trace is armed inside the PLC, waiting for the trigger condition. If we configured a pretrigger, it will also keep the context before the event so we can analyze what happened just before.
+
+At this moment the PLC has everything prepared. We can leave TIA Portal and come back when the fault happens again, as long as the CPU is not restarted or powered off before recovering the measurement.
+
+![Trace in recording mode waiting for the fault trigger](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-09-recording-esperando-disparador.png)
+
+**Recording analysis**
+
+**Locating the phantom signal**
+
+After some time, we know the fault has occurred. We open the Trace again, without overwriting it, and in the time diagram we see two important things:
+
+1.  The condition that starts the recording has occurred: **DB\_Demo\_Maquina.Trace\_Trigger\_Parada**.
+2.  The recording has already finished at this point.
+
+The Trace shows that the “phantom” signal removing the general permission is **DB\_Demo\_IO.Puerta\_Cerrada**.
+
+![Trace showing the drop of DB\_Demo\_IO.Puerta\_Cerrada that removes the general permission](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-01.png)
+
+**Save the measurement**
+
+Once the recording is complete, we can add it to **Measurements**. This keeps it saved for later analysis.
+
+![Adding the Trace capture to Measurements to keep the recording](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-11-anadir-measurements.png)
+
+![Trace measurement saved for later analysis](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-12-medida-guardada.png)
+
+**Why the alarm did not appear**
+
+Now we know that the signal causing the stop is **DB\_Demo\_IO.Puerta\_Cerrada**. The logical question is: if there was an alarm, why did it not appear?
+
+Thanks to the Trace information, we know that the drop lasts only a few milliseconds and we know the exact signal. With the forensic analysis already focused, we review that alarm in detail.
+
+The surprise is that the time configured for the permissives is the default FB value. In this case it is **5 seconds**.
+
+![Permissive alarm time configured to 5 seconds](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-13-tiempo-alarma-permisos.png)
+
+Logically, with such a short signal drop, there is not enough time for the alarm to appear. The condition that stops the machine is not the alarm, but the physical signal directly.
+
+**Solution and result**
+
+The actions are clear:
+
+1.  Align the permission logic with the diagnostic logic, so every condition capable of stopping the machine also generates a visible alarm or event.
+2.  Adjust the alarm detection time so it matches the real dynamics of the signal. In this didactic example, it is lowered to **0 milliseconds** to detect the drop instantly.
+
+![Alarm configuration with time set to 0 milliseconds](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-14-alarma-cero-ms.png)
+
+When it happens again, we will now have a visible alarm on the HMI. Once the problem is clear, we can ask maintenance to check the sensor, the wiring or the physical cause involved.
+
+![Visible HMI alarm after adjusting the diagnosis](./assets/images/blog-trace-tia-portal-plc-siemens/trace-tia-portal-plc-siemens-15-alarma-hmi.png)
+
+**Practical points**
+
+1.  **Trace captures what we cannot see online:** especially when the signal changes very quickly.
+2.  **The pretrigger gives context:** we do not only see the trigger, we also see what happened just before.
+3.  **Saving the measurement avoids losing the proof:** once the fault is captured, it is worth keeping it for calm analysis.
+4.  **An alarm does not always explain the stop:** if the alarm time is too high, the condition can remove the permission without becoming visible.
+5.  **The final goal is not just to find the signal:** it is to leave a diagnosis that lets maintenance act on the sensor, wiring or physical element.
+
+**Related articles**
+
+*   [Siemens PLC and TIA Portal articles](#/a/en%2Fplc-siemens)
+*   [Secure Siemens PLC Communication with HMI and PC/PG](#/a/en%2Fblog-comunicacion-plc-hmi-pc-pg-segura)
+*   [PROFINET Fundamentals](#/a/en%2Fblog-conceptos-basicos-profinet)
+
+---
+*Source: [Trace in TIA Portal: how to find a phantom fault](https://www.plc-hmi-scadas.com/en/blog/trace-tia-portal-plc-siemens/) — Jose Manuel Luque*

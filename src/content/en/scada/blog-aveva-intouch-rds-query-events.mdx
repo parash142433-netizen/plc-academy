@@ -1,0 +1,69 @@
+---
+title: "AVEVA Intouch RDS - Query Events and 21 CFR Part 11"
+slug: "blog-aveva-intouch-rds-query-events"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-query-events/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch RDS - Query Events and 21 CFR Part 11
+
+Jose Manuel Luque Feb 09, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch RDS - Query Events and 21 CFR Part 11](./assets/images/blog-aveva-intouch-rds-query-events/cfr21-parte-11-420x315-1.jpg)
+
+In a [previous post](#/a/en%2Fblog-intouch-rdp-a), we saw how to configure the RDS environment and now we need to filter the actions that have been executed from all the **recorded events**. This is mandatory when we are working with the standard [**21 CFR Part 11, _issued by the FDA (Food and Drug Administration) in 1997_**](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/part-11-electronic-records-electronic-signatures-scope-and-application)
+
+![](./assets/images/blog-aveva-intouch-rds-query-events/cfr21-parte-11-420x315-1.jpg)
+
+Here is a brief description of the types of events available in Intouch
+
+![](./assets/images/blog-aveva-intouch-rds-query-events/RPDEvents_06.png)
+
+Manual Alarms and Events
+
+Starting from the following records as an example, we have 99 events, but since we are working in an RDP environment, we will have duplicated or triplicated values depending on all the sessions.
+
+![](./assets/images/blog-aveva-intouch-rds-query-events/RPDEvents_07-1024x742.png)
+
+The first thing we need to know from all the records we have is how many of them have actually been executed by the different operators.
+
+To get an idea with the following query, where we have a different timestamp and tagname, we will know the number of changes made; the rest are duplicate records from the different sessions that do not provide anything for tracking 'x' actions.
+
+Code
+
+```
+ SELECT Distinct EventStamp, TagName FROM [v_EventHistory]where   [EventStamp]  BETWEEN '2023-02-06 08:38:57.700' and '2023-02-06 08:55:05.390'
+```
+
+![](./assets/images/blog-aveva-intouch-rds-query-events/RPDEvents_08-1024x745.png)
+
+Number of records
+
+And now we need to discriminate by the priority of the type of event. That is, what we are interested in knowing from a duplicate event is who the operator was that changed a parameter or executed an action. With the following query or by making some changes according to needs, we can obtain what we are looking for.
+
+![](./assets/images/blog-aveva-intouch-rds-query-events/RPDEvents_09-1024x739.png)
+
+Query
+
+```
+WITH summary AS(SELECT ev.EventStamp,ev.TagName,ev.Description,ev.Area,ev.Type,ev.Value,ev.CheckValue,ev.Priority,ev.Category,ev.Provider,ev.Operator,ROW_NUMBER() OVER(PARTITION BY ev.EventStamp , ev.TagName ORDER BY ev.Type DESC) AS MypriorityFROM [v_EventHistory] ev where [EventStamp] BETWEEN '2023-02-06 08:38:57.700' and '2023-02-06 08:55:05.390'and type <> 'USER' and type <> 'PROT')SELECT * FROM summary WHERE Mypriority = 1 order by EventStamp , TagName , type , Provider
+```
+
+Therefore, in this post, we have seen how to apply the CFR 21 Part 11 standard, using the tools provided by AVEVA Intouch and utilizing SQL Server.
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch RDS - Query Events and 21 CFR Part 11](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-query-events/) — Jose Manuel Luque*

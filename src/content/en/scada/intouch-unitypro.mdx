@@ -1,0 +1,50 @@
+---
+title: "Intouch Simulation with Unity Pro"
+slug: "intouch-unitypro"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_UnityPro.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch Simulation with Unity Pro"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Intouch Simulation with Unity Pro
+
+Jose Manuel Luque
+
+Intouch Simulation with Unity Pro
+
+**Intouch Simulation with UnityPro  
+**
+
+This practice is dedicated to Francisco Amador, and in the following, we will finish configuring Intouch to simulate our PLC program with Intouch. In the previous practice, we have [configured the DAServer MBTCP](#/a/en%2Fintouch-dasmbtcp) and in this one, we will finalize its configuration. We assume that we have an Intouch application created and we will proceed to configure the AccessName.
+
+The parameters we will pass are those shown in the image and another from the DASMBTCP application.
+
+![](./assets/images/intouch-unitypro/Intouch-UnityPro05.png) ![](./assets/images/intouch-unitypro/Intouch-UnityPro00.png)
+
+Having declared the AccessName, which is named the same as we configured in the DAServer "PLC", we can now proceed to configure the variables.
+
+![](./assets/images/intouch-unitypro/Intouch-UnityPro01.png)
+
+We start the Tagname Dictionary and create new variables according to the items, tags, that we have already configured in the DAServer. We can simply assign the same name as the Item if we select the checkbox Use Tagname as Item Name or we can assign a different name in Intouch as shown in the following example.
+
+![](./assets/images/intouch-unitypro/Intouch-UnityPro02.png)
+
+And it is more practical if we have assigned a name according to its address and what it really is, select its checkbox. In this case, Item\_6 should have been Motor Speed, etc...
+
+![](./assets/images/intouch-unitypro/Intouch-UnityPro03.png)
+
+And to not extend this practice too much, since the same has been seen in other Intouch practices but with a different configuration of the Access Name, we insert some texts that we associate with the visualization of the variables and run the Runtime to check its operation.
+
+![](./assets/images/intouch-unitypro/Intouch-UnityPro04.png)
+
+November 24, 2013
+
+---
+*Source: [Intouch Simulation with Unity Pro](https://www.plc-hmi-scadas.com/en/Intouch_UnityPro.php) — Jose Manuel Luque*

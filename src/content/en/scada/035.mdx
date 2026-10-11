@@ -1,0 +1,67 @@
+---
+title: "CitectScada Link with OPC OFS Server"
+slug: "035"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/035.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SCHNEIDER"]
+tags: ["OPC","Schneider","CitectScada","OFS"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SCHNEIDER](#/a/en%2Fscada-schneider) › Article
+
+# CitectScada Link with OPC OFS Server
+
+Jose Manuel Luque
+
+OPC Schneider CitectScada OFS
+
+In this practice, we will link CitectScada with Schneider's OPC OFS, we will use the wizard for a quick configuration of I/O devices and follow the steps of the wizard.
+
+![](./assets/images/035/Citect%20OPC-1.jpg)
+
+1.- We will assign a symbolic name to the new link we are going to create, select next, and choose that it will be an external I/O device.
+
+![](./assets/images/035/Citect%20OPC-2.jpg)
+
+![](./assets/images/035/Citect%20OPC-3.jpg)
+
+We navigate through the available drivers, and there are several options to select the OPC driver, we look for it within Schneider-Electric.
+
+The address we will assign is **Schneider-Aut.OFS**
+
+![](./assets/images/035/Citect%20OPC-4.jpg)
+
+![](./assets/images/035/Citect%20OPC-5.jpg)
+
+We select the option to link devices and click Browse to search for the OPC servers. If when selecting Browse the next image appears blank, where you can see the address Schneider-Aut.OFS.2, we can do start -> run -> OPCENUM and repeat the browse action.
+
+![](./assets/images/035/Citect%20OPC-7.jpg)
+
+We select the topic that was created in the OPC OFS, its configuration can be observed [here](#/a/en%2F018 "OPC OFS Configuration from Schneider"), and with these steps, it shows us a summary of the configuration made and we click finish.
+
+![](./assets/images/035/Citect%20OPC-8.jpg)
+
+![](./assets/images/035/Citect%20OPC-9.jpg)
+
+In the configuration, we will import the variables that we have created in the OPC to our project in Citect, we confirm and observe the file that has been generated with the configuration.
+
+![](./assets/images/035/Citect%20OPC-10.jpg)
+
+![](./assets/images/035/Citect%20OPC-11.jpg)
+
+If we select the option of I/O Servers in the project explorer within the Communications directory, we can observe the link that we have created.
+
+![](./assets/images/035/Citect%20OPC-12.jpg)
+
+And we can observe the variables within the tags directory, we can now create our screens and assign the corresponding variables.
+
+![](./assets/images/035/Citect%20OPC-13.jpg)
+
+September 9, 2012
+
+---
+*Source: [CitectScada Link with OPC OFS Server](https://www.plc-hmi-scadas.com/en/035.php) — Jose Manuel Luque*

@@ -1,0 +1,4378 @@
+[
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "hmi",
+        "title":  "HMI â€” Human Machine Interface",
+        "words":  604,
+        "url":  "https://www.plc-hmi-scadas.com/en/HMI/"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "scada",
+        "title":  "SCADA â€” Supervisory Control and Data Acquisition",
+        "words":  608,
+        "url":  "https://www.plc-hmi-scadas.com/en/SCADA/"
+    },
+    {
+        "locale":  "en",
+        "category":  "library",
+        "slug":  "library",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/Library/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "tools",
+        "title":  "Tools for automation technicians",
+        "words":  42,
+        "url":  "https://www.plc-hmi-scadas.com/en/Tools/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "plc-siemens",
+        "title":  "Siemens Simatic â€” PLC",
+        "words":  1918,
+        "url":  "https://www.plc-hmi-scadas.com/en/PLC-SIEMENS/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "plc-allen-bradley",
+        "title":  "Allen Bradley / Rockwell â€” PLC",
+        "words":  1145,
+        "url":  "https://www.plc-hmi-scadas.com/en/PLC-ALLEN-BRADLEY/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "plc-schneider",
+        "title":  "Schneider Electric â€” PLC",
+        "words":  364,
+        "url":  "https://www.plc-hmi-scadas.com/en/PLC-SCHNEIDER/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "plc-omron",
+        "title":  "Omron â€” PLC",
+        "words":  198,
+        "url":  "https://www.plc-hmi-scadas.com/en/PLC-OMRON/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "plc-beckhoff",
+        "title":  "Beckhoff TwinCAT â€” PLC",
+        "words":  309,
+        "url":  "https://www.plc-hmi-scadas.com/en/PLC-BECKHOFF/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "other-plcs",
+        "title":  "Other PLCs",
+        "words":  269,
+        "url":  "https://www.plc-hmi-scadas.com/en/Other-PLCs/"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "hmi-siemens",
+        "title":  "Siemens Simatic â€” HMI",
+        "words":  842,
+        "url":  "https://www.plc-hmi-scadas.com/en/HMI-SIEMENS/"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "hmi-allen-bradley",
+        "title":  "Allen Bradley / Rockwell â€” HMI",
+        "words":  449,
+        "url":  "https://www.plc-hmi-scadas.com/en/HMI-ALLEN-BRADLEY/"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "hmi-schneider",
+        "title":  "Schneider Electric â€” HMI",
+        "words":  186,
+        "url":  "https://www.plc-hmi-scadas.com/en/HMI-SCHNEIDER/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "home",
+        "title":  "Industrial automation resources",
+        "words":  110,
+        "url":  "https://www.plc-hmi-scadas.com/en/Home/"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "hmi-omron",
+        "title":  "Omron â€” HMI",
+        "words":  145,
+        "url":  "https://www.plc-hmi-scadas.com/en/HMI-OMRON/"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "other-hmis",
+        "title":  "Other HMIs",
+        "words":  155,
+        "url":  "https://www.plc-hmi-scadas.com/en/Other-HMIs/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "plc",
+        "title":  "PLC â€” Programmable Logic Controllers",
+        "words":  917,
+        "url":  "https://www.plc-hmi-scadas.com/en/PLC/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "scada-schneider",
+        "title":  "Schneider Electric â€” SCADA",
+        "words":  255,
+        "url":  "https://www.plc-hmi-scadas.com/en/SCADA-SCHNEIDER/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "other-scadas",
+        "title":  "Other SCADAs",
+        "words":  307,
+        "url":  "https://www.plc-hmi-scadas.com/en/Other-SCADAs/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "scada-allen-bradley",
+        "title":  "Rockwell Automation â€” SCADA",
+        "words":  1061,
+        "url":  "https://www.plc-hmi-scadas.com/en/SCADA-ALLEN-BRADLEY/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "articles",
+        "title":  "Article library",
+        "words":  538,
+        "url":  "https://www.plc-hmi-scadas.com/en/Articles/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "ai",
+        "title":  "Artificial Intelligence",
+        "words":  326,
+        "url":  "https://www.plc-hmi-scadas.com/en/AI/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "industrial-communications",
+        "title":  "Industrial Communications",
+        "words":  499,
+        "url":  "https://www.plc-hmi-scadas.com/en/Industrial-Communications/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "software",
+        "title":  "Software \u0026 Development",
+        "words":  349,
+        "url":  "https://www.plc-hmi-scadas.com/en/Software/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "scada-intouch",
+        "title":  "Wonderware / AVEVA â€” SCADA",
+        "words":  1930,
+        "url":  "https://www.plc-hmi-scadas.com/en/SCADA-INTOUCH/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "contact",
+        "title":  "Let\u0027s Talk",
+        "words":  157,
+        "url":  "https://www.plc-hmi-scadas.com/en/Contact/"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "blog-flujo-trabajo-ingeniero-automatizacion",
+        "title":  "Industrial Automation Guide",
+        "words":  5105,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/flujo-trabajo-ingeniero-automatizacion/"
+    },
+    {
+        "locale":  "en",
+        "category":  "legal-notice",
+        "slug":  "legal-notice",
+        "title":  "Legal notice",
+        "words":  117,
+        "url":  "https://www.plc-hmi-scadas.com/en/legal-notice.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "privacy-policy",
+        "slug":  "privacy-policy",
+        "title":  "Privacy policy",
+        "words":  318,
+        "url":  "https://www.plc-hmi-scadas.com/en/privacy-policy.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "cookie-policy",
+        "slug":  "cookie-policy",
+        "title":  "Cookie policy",
+        "words":  470,
+        "url":  "https://www.plc-hmi-scadas.com/en/cookie-policy.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "zenon-introduccion",
+        "title":  "Introduction to SCADA ZENON Supervisor (COPA-DATA)",
+        "words":  357,
+        "url":  "https://www.plc-hmi-scadas.com/en/Zenon_Introduccion.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "opc",
+        "title":  "OPC Servers",
+        "words":  815,
+        "url":  "https://www.plc-hmi-scadas.com/en/OPC/"
+    },
+    {
+        "locale":  "en",
+        "category":  "tools",
+        "slug":  "blog-grafsim",
+        "title":  "GrafSim Â· GRAFCET editor and simulator",
+        "words":  1228,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/grafsim/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "series",
+        "title":  "Article Series",
+        "words":  76,
+        "url":  "https://www.plc-hmi-scadas.com/en/Series/"
+    },
+    {
+        "locale":  "en",
+        "category":  "tools",
+        "slug":  "blog-phs-thermal-process-simulator-opc-ua",
+        "title":  "PHS Thermal Process Simulator: simulate processes and control them through OPC UA",
+        "words":  1425,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/phs-thermal-process-simulator-opc-ua/"
+    },
+    {
+        "locale":  "en",
+        "category":  "tools",
+        "slug":  "blog-phs-color-batch-simulator-opc-ua",
+        "title":  "PHS Color Batch Simulator: pigment dosing with PLC and OPC UA",
+        "words":  1397,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/phs-color-batch-simulator-opc-ua/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "002",
+        "title":  "Communication between PC/PG and S5-100 CPU",
+        "words":  353,
+        "url":  "https://www.plc-hmi-scadas.com/en/002.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "ibh-s5",
+        "title":  "IBH Link S5++",
+        "words":  363,
+        "url":  "https://www.plc-hmi-scadas.com/en/IBH_S5.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "006",
+        "title":  "PC/PG Communication with S5 PLC using USB-RS232 Adapter",
+        "words":  548,
+        "url":  "https://www.plc-hmi-scadas.com/en/006.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "001",
+        "title":  "PC/PG Communication and S7-2xx CPU",
+        "words":  456,
+        "url":  "https://www.plc-hmi-scadas.com/en/001.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "s7-200-upload",
+        "title":  "Upload S7-200 Microwin",
+        "words":  234,
+        "url":  "https://www.plc-hmi-scadas.com/en/S7-200_Upload.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "053",
+        "title":  "Reading and Writing Date and Time from PLC and WinCC RT Advanced",
+        "words":  565,
+        "url":  "https://www.plc-hmi-scadas.com/en/053.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "041",
+        "title":  "Profibus Configuration between S7-300 and S7-200 EM277",
+        "words":  716,
+        "url":  "https://www.plc-hmi-scadas.com/en/041.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "059",
+        "title":  "S7-200 Modbus Slave",
+        "words":  561,
+        "url":  "https://www.plc-hmi-scadas.com/en/059.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "060",
+        "title":  "S7-200 Modbus Master",
+        "words":  387,
+        "url":  "https://www.plc-hmi-scadas.com/en/060.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "simatic-cargar-en-pg",
+        "title":  "Download program from an S7-300 Step7",
+        "words":  320,
+        "url":  "https://www.plc-hmi-scadas.com/en/Simatic_Cargar_en_PG.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "scada-siemens",
+        "title":  "Siemens WinCC â€” SCADA",
+        "words":  4129,
+        "url":  "https://www.plc-hmi-scadas.com/en/SCADA-SIEMENS/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "082",
+        "title":  "S7 OpenModbus/TCP Simulation",
+        "words":  769,
+        "url":  "https://www.plc-hmi-scadas.com/en/082.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "086",
+        "title":  "Example FB14-15 SFB14-15 GET-PUT",
+        "words":  473,
+        "url":  "https://www.plc-hmi-scadas.com/en/086.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "050",
+        "title":  "WinAC / WinLC",
+        "words":  640,
+        "url":  "https://www.plc-hmi-scadas.com/en/050.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "stept7-big-litle-indian",
+        "title":  "Step 7 Conversion Big Little Indian",
+        "words":  271,
+        "url":  "https://www.plc-hmi-scadas.com/en/Stept7_Big_Litle_Indian.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "128",
+        "title":  "CP 340 RS232 Configuration",
+        "words":  593,
+        "url":  "https://www.plc-hmi-scadas.com/en/128.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "056",
+        "title":  "Simulation with PLCSIM and FLUIDSIM",
+        "words":  68,
+        "url":  "https://www.plc-hmi-scadas.com/en/056.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "065",
+        "title":  "Creation of a Multi-instance FB",
+        "words":  492,
+        "url":  "https://www.plc-hmi-scadas.com/en/065.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "tia-plcsimadvanced",
+        "title":  "TIA Portal - PLCSIM Advanced Simulation",
+        "words":  627,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_PLCSimAdvanced.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "105",
+        "title":  "PLCSIM V.12",
+        "words":  537,
+        "url":  "https://www.plc-hmi-scadas.com/en/105.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-ciclo-scan-plc",
+        "title":  "PLC scan cycle: when milliseconds become distance",
+        "words":  1100,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/ciclo-scan-plc/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "winccflexible-simotion-opc",
+        "title":  "Simotion Project - OPC Symbols Export",
+        "words":  522,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-trace-tia-portal-plc-siemens",
+        "title":  "Trace in TIA Portal: how to find a phantom fault",
+        "words":  1269,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/trace-tia-portal-plc-siemens/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-servidor-opc-ua-plc-siemens",
+        "title":  "Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM",
+        "words":  955,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/servidor-opc-ua-plc-siemens/"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "blog-cliente-opc-ua-plc-s7-1500",
+        "title":  "Siemens S7-1500 OPC UA Client: Read and Write in TIA Portal",
+        "words":  1025,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/cliente-opc-ua-plc-s7-1500/"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "blog-codesys-softplc-servidor-opc-ua-siemens-cliente",
+        "title":  "CODESYS SoftPLC as an OPC UA Server and Siemens S7-1500 as Client",
+        "words":  1260,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/codesys-softplc-servidor-opc-ua-siemens-cliente/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-syslog-plc-siemens-linux",
+        "title":  "Syslog in Siemens PLCs: traceability and cybersecurity from the controller",
+        "words":  1508,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/syslog-plc-siemens-linux/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-servidor-hora-plc-siemens",
+        "title":  "Time server for Siemens S7-1500 PLC with NTP",
+        "words":  916,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/servidor-hora-plc-siemens/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-certificados-opc-ua-plc-siemens-uaexpert",
+        "title":  "OPC UA Security: Siemens S7-1500 and UA Expert Client",
+        "words":  2256,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/certificados-opc-ua-plc-siemens-uaexpert/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "091",
+        "title":  "S7-1200 Web Server",
+        "words":  297,
+        "url":  "https://www.plc-hmi-scadas.com/en/091.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-comunicacion-plc-hmi-pc-pg-segura",
+        "title":  "Secure Siemens PLC Communication with HMI and PC/PG",
+        "words":  1104,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/comunicacion-plc-hmi-pc-pg-segura/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "083",
+        "title":  "Simatic 1200 ModbusTCP Server",
+        "words":  481,
+        "url":  "https://www.plc-hmi-scadas.com/en/083.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "084",
+        "title":  "Simatic 1200 ModbusTCP Client",
+        "words":  598,
+        "url":  "https://www.plc-hmi-scadas.com/en/084.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-web-server-siemens-s7-1500-https-view-of-things",
+        "title":  "Siemens S7-1500 Web Server",
+        "words":  1607,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/web-server-siemens-s7-1500-https-view-of-things/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "093",
+        "title":  "System Diagnosis and Diagnostic Viewer",
+        "words":  451,
+        "url":  "https://www.plc-hmi-scadas.com/en/093.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "100",
+        "title":  "TIA Portal Global Libraries",
+        "words":  377,
+        "url":  "https://www.plc-hmi-scadas.com/en/100.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "tia-portal-1200-sms",
+        "title":  "Send SMS with CP 1242-7",
+        "words":  499,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_1200_SMS.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "tia-portal-upload",
+        "title":  "TIA Portal - Upload project",
+        "words":  463,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_Upload.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "tia-portal-gsd-cognex",
+        "title":  "TIA Portal - GSD Installation for Cognex Cameras",
+        "words":  385,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_GSD_Cognex.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "104",
+        "title":  "Function Block TIA Portal",
+        "words":  418,
+        "url":  "https://www.plc-hmi-scadas.com/en/104.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "siemens-modbus-schneider",
+        "title":  "Data Exchange between Siemens and Schneider via Modbus TCP",
+        "words":  371,
+        "url":  "https://www.plc-hmi-scadas.com/en/Siemens_Modbus_Schneider.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "tia-portal-contador-horas",
+        "title":  "TIA Portal - Hour Counter",
+        "words":  460,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_Contador_Horas.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "tia-portal-at",
+        "title":  "TIA Portal \"AT\"",
+        "words":  309,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_AT.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "096",
+        "title":  "Indexed Text to Display Messages on HMI",
+        "words":  270,
+        "url":  "https://www.plc-hmi-scadas.com/en/096.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "098",
+        "title":  "Indexed Text to Display Alerts on HMI II",
+        "words":  405,
+        "url":  "https://www.plc-hmi-scadas.com/en/098.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "099",
+        "title":  "Read Time Simatic 1200",
+        "words":  450,
+        "url":  "https://www.plc-hmi-scadas.com/en/099.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "tia-portal-modbus-rtu",
+        "title":  "CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration",
+        "words":  745,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_Modbus_RTU.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "tia-portal-camaras-cognex",
+        "title":  "TIA Portal - Cognex Camera (Profinet)",
+        "words":  640,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_Camaras_Cognex.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-tia-portal-19-get-put",
+        "title":  "TIA Portal 19 - Get / Put",
+        "words":  234,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/tia-portal-19-get-put/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-tia-portal-central-user-management",
+        "title":  "TIA Portal (Central User Management)",
+        "words":  389,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/tia-portal-central-user-management/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark",
+        "title":  "SQL Records with Siemens S7-1500 PLC, Intercepted with Wireshark",
+        "words":  751,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/registros-en-sql-con-plc-1500-interceptados-con-wireshark/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-simulador-de-temperatura",
+        "title":  "Temperature Control System (I)",
+        "words":  718,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/simulador-de-temperatura/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-sistema-de-control-de-temperatura-ii",
+        "title":  "Temperature Control System (II)",
+        "words":  716,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-ii/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "cognex-insight-explorer",
+        "title":  "Cognex Insight Explorer",
+        "words":  362,
+        "url":  "https://www.plc-hmi-scadas.com/en/Cognex_Insight_Explorer.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-gittialportal",
+        "title":  "Optimizing Industry: Version Control and TIA Portal (Part 1)",
+        "words":  867,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/gittialportal/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2",
+        "title":  "Optimizing Industry: Version Control and TIA Portal (Part 2)",
+        "words":  1061,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3",
+        "title":  "Optimizing Industry: Version Control and TIA Portal (Part 3)",
+        "words":  1020,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "094",
+        "title":  "RSLinx DF1",
+        "words":  265,
+        "url":  "https://www.plc-hmi-scadas.com/en/094.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-tia-portal-configuration-time-mpr",
+        "title":  "TIA Portal â€” Configuration Time in MRP Ring with Cisco Switch",
+        "words":  410,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/tia-portal-configuration-time-mpr/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-conceptos-basicos-profinet",
+        "title":  "PROFINET Basics",
+        "words":  796,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/conceptos-basicos-profinet/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "075",
+        "title":  "Remote Device Linx Gateway",
+        "words":  350,
+        "url":  "https://www.plc-hmi-scadas.com/en/075.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "rslinx-softlogix5",
+        "title":  "RSLinx SoftLogix5 Driver Configuration",
+        "words":  208,
+        "url":  "https://www.plc-hmi-scadas.com/en/RSLinx_SoftLogix5.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "softlogix5",
+        "title":  "SoftLogix 5",
+        "words":  571,
+        "url":  "https://www.plc-hmi-scadas.com/en/SoftLogix5.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "089",
+        "title":  "BOOTP/DHCP Server",
+        "words":  383,
+        "url":  "https://www.plc-hmi-scadas.com/en/089.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "rslogix5-backup",
+        "title":  "Backup PLC5 with RSLogix5",
+        "words":  277,
+        "url":  "https://www.plc-hmi-scadas.com/en/RSLogix5_Backup.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "panelbuilder32-pv550-rslogix5-plc5",
+        "title":  "PV550 Communication with PLC5-30 on DH+ Network",
+        "words":  285,
+        "url":  "https://www.plc-hmi-scadas.com/en/PanelBuilder32_PV550_RSLogix5_PLC5.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "ab-upload",
+        "title":  "RSLogix 500 - Upload Project",
+        "words":  175,
+        "url":  "https://www.plc-hmi-scadas.com/en/AB_Upload.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "027",
+        "title":  "Configuration of the Ethernet Devices Driver",
+        "words":  214,
+        "url":  "https://www.plc-hmi-scadas.com/en/027.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "024",
+        "title":  "Configuration of the 1747 PIC-AIC+ Driver",
+        "words":  318,
+        "url":  "https://www.plc-hmi-scadas.com/en/024.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "rslogix500-micrologix-master-modbus",
+        "title":  "Micrologix Modbus Master RTU",
+        "words":  421,
+        "url":  "https://www.plc-hmi-scadas.com/en/RsLogix500_Micrologix_Master_Modbus.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "rslogix5-configuracion-hardware",
+        "title":  "Hardware Configuration in RSLogix5",
+        "words":  434,
+        "url":  "https://www.plc-hmi-scadas.com/en/RSLogix5_Configuracion_Hardware.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "023",
+        "title":  "RSLogix Emulate 500 Configuration",
+        "words":  448,
+        "url":  "https://www.plc-hmi-scadas.com/en/023.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "ab-powerflex525",
+        "title":  "Parameterizing PowerFlex525 with Component Workbench",
+        "words":  343,
+        "url":  "https://www.plc-hmi-scadas.com/en/AB_PowerFlex525.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "ab-micrologix-modbus-powerflex",
+        "title":  "Micrologix Master Modbus PowerFlex 4 Slave Modbus",
+        "words":  243,
+        "url":  "https://www.plc-hmi-scadas.com/en/AB_Micrologix_Modbus_PowerFlex.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "ab-gateway-dhrio",
+        "title":  "Prosoft AN-X2-AB-DHRIO Gateway Configuration",
+        "words":  830,
+        "url":  "https://www.plc-hmi-scadas.com/en/AB_Gateway_DHRIO.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "ab-micro830",
+        "title":  "First Test with Micro830 and Component Workbench",
+        "words":  480,
+        "url":  "https://www.plc-hmi-scadas.com/en/AB_Micro830.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-logix-designer-sdk-automatizacion-proyectos",
+        "title":  "Logix Designer SDK: Automating Rockwell Projects",
+        "words":  718,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/logix-designer-sdk-automatizacion-proyectos/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "ab-source-protection",
+        "title":  "Enable Source Protection",
+        "words":  133,
+        "url":  "https://www.plc-hmi-scadas.com/en/AB_Source_Protection.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "124",
+        "title":  "Introduction to RSLogix 5000",
+        "words":  1282,
+        "url":  "https://www.plc-hmi-scadas.com/en/124.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "092",
+        "title":  "Update Firmware on a ControlLogix",
+        "words":  217,
+        "url":  "https://www.plc-hmi-scadas.com/en/092.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "111",
+        "title":  "SoftLogix",
+        "words":  647,
+        "url":  "https://www.plc-hmi-scadas.com/en/111.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "120",
+        "title":  "GSV/SSV Instructions",
+        "words":  527,
+        "url":  "https://www.plc-hmi-scadas.com/en/120.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "125",
+        "title":  "Logix5000 â€“ Read Barcode Codes",
+        "words":  420,
+        "url":  "https://www.plc-hmi-scadas.com/en/125.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "logix5000-almd",
+        "title":  "Logix5000 â€“ Digital Alarms ALMD",
+        "words":  536,
+        "url":  "https://www.plc-hmi-scadas.com/en/Logix5000_ALMD.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "logix5000-powerflex-ethernet",
+        "title":  "Logix5000 Red Ethernet with PowerFlex 525",
+        "words":  707,
+        "url":  "https://www.plc-hmi-scadas.com/en/Logix5000_PowerFlex_Ethernet.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "011",
+        "title":  "RSLogix Emulate 5000",
+        "words":  523,
+        "url":  "https://www.plc-hmi-scadas.com/en/011.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "118",
+        "title":  "Configuration of a Logix5000 Message",
+        "words":  705,
+        "url":  "https://www.plc-hmi-scadas.com/en/118.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "117",
+        "title":  "Logix5000 â€“ Consumed and Produced Tags",
+        "words":  586,
+        "url":  "https://www.plc-hmi-scadas.com/en/117.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-factorytalk-echo-update-firmware-v-37",
+        "title":  "FactoryTalk Echo - Update firmware v.37",
+        "words":  130,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factorytalk-echo-update-firmware-v-37/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "135",
+        "title":  "Factory Talk Transaction Manager",
+        "words":  1056,
+        "url":  "https://www.plc-hmi-scadas.com/en/135.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-ethernet-ip-cip-common-industrial-protocol",
+        "title":  "Common Industrial Protocol (CIP) Ethernet/IP",
+        "words":  348,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/ethernet-ip-cip-common-industrial-protocol/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "010",
+        "title":  "Scale Analog Input in Twido",
+        "words":  382,
+        "url":  "https://www.plc-hmi-scadas.com/en/010.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-prosoft-plx31-eip-sie",
+        "title":  "Prosoft PLX31-EIP-SIE",
+        "words":  788,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/prosoft-plx31-eip-sie/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-rslogix-5000-studio-5000-electronic-data-sheet-eds",
+        "title":  "RSLogix 5000 - Studio 5000 - Electronic Data Sheet (EDS)",
+        "words":  250,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/rslogix-5000-studio-5000-electronic-data-sheet-eds/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "controlexpertplcsim",
+        "title":  "ControlExpert PLC Simulator",
+        "words":  430,
+        "url":  "https://www.plc-hmi-scadas.com/en/ControlExpertPLCSim.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-factorytalk-echo-simular-dos-plc-rockwell",
+        "title":  "FactoryTalk Echo: Simulate Two Rockwell PLCs",
+        "words":  556,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factorytalk-echo-simular-dos-plc-rockwell/"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "012",
+        "title":  "Simulation with Unity",
+        "words":  538,
+        "url":  "https://www.plc-hmi-scadas.com/en/012.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "103",
+        "title":  "Create Backup with Unity Pro",
+        "words":  268,
+        "url":  "https://www.plc-hmi-scadas.com/en/103.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "unity-varread",
+        "title":  "Example of the READ_VAR Function",
+        "words":  538,
+        "url":  "https://www.plc-hmi-scadas.com/en/Unity_VarRead.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "omron-syswin",
+        "title":  "Syswin 3.4 Upload Backup of the Project",
+        "words":  171,
+        "url":  "https://www.plc-hmi-scadas.com/en/Omron_Syswin.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "controlexpert-canopen",
+        "title":  "UnityPro-ControlExpert CANOpen",
+        "words":  329,
+        "url":  "https://www.plc-hmi-scadas.com/en/ControlExpert_CanOpen.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "somachine-simulacion-comunicaciones",
+        "title":  "SoMachine Communications Simulation",
+        "words":  236,
+        "url":  "https://www.plc-hmi-scadas.com/en/SoMachine_Simulacion_Comunicaciones.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "072",
+        "title":  "First Project in Beckhoff TwinCat",
+        "words":  542,
+        "url":  "https://www.plc-hmi-scadas.com/en/072.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "beckhoff-upload-config",
+        "title":  "Upload TwinCAT System Manager Configuration",
+        "words":  370,
+        "url":  "https://www.plc-hmi-scadas.com/en/Beckhoff_Upload_Config.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "beckhoff-upload-plc",
+        "title":  "Upload PLC TwinCAT Project",
+        "words":  175,
+        "url":  "https://www.plc-hmi-scadas.com/en/Beckhoff_Upload_PLC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "036",
+        "title":  "CX-Simulator",
+        "words":  278,
+        "url":  "https://www.plc-hmi-scadas.com/en/036.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "beckhoff-download-plc",
+        "title":  "Download TwinCAT PLC Project",
+        "words":  178,
+        "url":  "https://www.plc-hmi-scadas.com/en/Beckhoff_Download_PLC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "045",
+        "title":  "Communication between PC and Omron CQM1 PLC",
+        "words":  380,
+        "url":  "https://www.plc-hmi-scadas.com/en/045.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "037",
+        "title":  "FIFO Function in CX-Programmer",
+        "words":  143,
+        "url":  "https://www.plc-hmi-scadas.com/en/037.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "beckhoff-create-config",
+        "title":  "Online Hardware Configuration - Twincat System Manager",
+        "words":  559,
+        "url":  "https://www.plc-hmi-scadas.com/en/Beckhoff_Create_Config.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "beckhoff-server-opc-ua",
+        "title":  "Beckhoff OPC UA Server - CE",
+        "words":  326,
+        "url":  "https://www.plc-hmi-scadas.com/en/Beckhoff_Server_OPC_UA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "beckhoff-cerhost",
+        "title":  "Beckhoff CERHOST",
+        "words":  126,
+        "url":  "https://www.plc-hmi-scadas.com/en/Beckhoff_CERHOST.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "066",
+        "title":  "First Project with ABB Control Builder",
+        "words":  637,
+        "url":  "https://www.plc-hmi-scadas.com/en/066.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "067",
+        "title":  "Create FB in Control Builder Plus",
+        "words":  441,
+        "url":  "https://www.plc-hmi-scadas.com/en/067.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "070",
+        "title":  "CodeSys",
+        "words":  585,
+        "url":  "https://www.plc-hmi-scadas.com/en/070.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "033",
+        "title":  "ProTool PC Runtime Link with MicroLogix",
+        "words":  323,
+        "url":  "https://www.plc-hmi-scadas.com/en/033.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "068",
+        "title":  "Create Backup of a GE 90-30 PLC with VersaPro",
+        "words":  410,
+        "url":  "https://www.plc-hmi-scadas.com/en/068.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "106",
+        "title":  "ProTool OP3",
+        "words":  910,
+        "url":  "https://www.plc-hmi-scadas.com/en/106.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "107",
+        "title":  "ProTool PC Runtime with S7-200 (PPI)",
+        "words":  433,
+        "url":  "https://www.plc-hmi-scadas.com/en/107.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "016",
+        "title":  "S7-2xx (PPI) Link with WinCC Flexible PC Runtime",
+        "words":  188,
+        "url":  "https://www.plc-hmi-scadas.com/en/016.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "winccflexible-simotion",
+        "title":  "WinCC Flexible Simotion",
+        "words":  420,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "019",
+        "title":  "Backup with Prosafe",
+        "words":  340,
+        "url":  "https://www.plc-hmi-scadas.com/en/019.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "015",
+        "title":  "Transfer Project to a Runtime PC",
+        "words":  418,
+        "url":  "https://www.plc-hmi-scadas.com/en/015.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "029",
+        "title":  "Update Operating System on OP/TP/MP",
+        "words":  215,
+        "url":  "https://www.plc-hmi-scadas.com/en/029.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "simatic-restaurar-ktp",
+        "title":  "Restore to Factory Settings",
+        "words":  302,
+        "url":  "https://www.plc-hmi-scadas.com/en/Simatic_Restaurar_KTP.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "130",
+        "title":  "PLC Simulation with Automation Studio",
+        "words":  563,
+        "url":  "https://www.plc-hmi-scadas.com/en/130.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "005",
+        "title":  "Registering Variables in WinCC Flexible PC Runtime",
+        "words":  255,
+        "url":  "https://www.plc-hmi-scadas.com/en/005.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "003",
+        "title":  "Print Files from WinCC Flexible PC Runtime",
+        "words":  383,
+        "url":  "https://www.plc-hmi-scadas.com/en/003.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "046",
+        "title":  "Link between Omron CQM1 PLC and WinCC Advanced RT V.11",
+        "words":  394,
+        "url":  "https://www.plc-hmi-scadas.com/en/046.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "049",
+        "title":  "S7-2xx (PPI) Link with WinCC RT Advanced PC (TIA)",
+        "words":  331,
+        "url":  "https://www.plc-hmi-scadas.com/en/049.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "winccflexible-currentuser",
+        "title":  "WinCC Flexible Logged User Name",
+        "words":  387,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCCFlexible_CurrentUser.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "134",
+        "title":  "Time Conversion Script in HMI",
+        "words":  528,
+        "url":  "https://www.plc-hmi-scadas.com/en/134.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "tia-portal-conversion-tiempos",
+        "title":  "Script Conversion from S5Time format (BCD_I) to H_M_S",
+        "words":  358,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_Conversion_Tiempos.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "tia-portal-vbscript-propiedades",
+        "title":  "VBScript Change Object Properties",
+        "words":  275,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_VBScript_Propiedades.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "040",
+        "title":  "Recipes in TIA WinCC Runtime Professional",
+        "words":  434,
+        "url":  "https://www.plc-hmi-scadas.com/en/040.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "tia-portal-conversion-tiempos-2",
+        "title":  "Script Conversion S5Time format (Milliseconds) to H_M_S",
+        "words":  215,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_Conversion_Tiempos_2.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "095",
+        "title":  "Comfort Panels control Media Player",
+        "words":  119,
+        "url":  "https://www.plc-hmi-scadas.com/en/095.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "114",
+        "title":  "WinCC RT Advanced (Profibus)",
+        "words":  441,
+        "url":  "https://www.plc-hmi-scadas.com/en/114.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "101",
+        "title":  "Sm@rt Client Viewer Control",
+        "words":  286,
+        "url":  "https://www.plc-hmi-scadas.com/en/101.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "102",
+        "title":  "OPC Server Comfort Panels",
+        "words":  355,
+        "url":  "https://www.plc-hmi-scadas.com/en/102.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "097",
+        "title":  "Sm@rt Server",
+        "words":  343,
+        "url":  "https://www.plc-hmi-scadas.com/en/097.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "026",
+        "title":  "Backup Panel View with PanelBuilder32",
+        "words":  216,
+        "url":  "https://www.plc-hmi-scadas.com/en/026.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "115",
+        "title":  "HMI HTTP Server",
+        "words":  892,
+        "url":  "https://www.plc-hmi-scadas.com/en/115.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "panelbuilder-communications",
+        "title":  "PanelBuilder32 Configuration Communications Setup",
+        "words":  660,
+        "url":  "https://www.plc-hmi-scadas.com/en/PanelBuilder_communications.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "076",
+        "title":  "FactoryTalk View ME communicating with RSLogix Emulate 5000",
+        "words":  483,
+        "url":  "https://www.plc-hmi-scadas.com/en/076.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "085",
+        "title":  "RSLinx Enterprise Configuration",
+        "words":  425,
+        "url":  "https://www.plc-hmi-scadas.com/en/085.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "087",
+        "title":  "KepServer Enterprise",
+        "words":  461,
+        "url":  "https://www.plc-hmi-scadas.com/en/087.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "panelbuilder32-tageditor",
+        "title":  "PanelBuilder32 Tag Editor",
+        "words":  321,
+        "url":  "https://www.plc-hmi-scadas.com/en/PanelBuilder32_TagEditor.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "factorytalkviewme-globalconnection-dt",
+        "title":  "Global Connection Date and Time",
+        "words":  437,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_GlobalConnection_DT.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "047",
+        "title":  "Automatic Screen Change",
+        "words":  434,
+        "url":  "https://www.plc-hmi-scadas.com/en/047.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "025",
+        "title":  "WinCC Flexible as Web Server",
+        "words":  783,
+        "url":  "https://www.plc-hmi-scadas.com/en/025.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "080",
+        "title":  "Configuration of PlaceHolders and Parameters",
+        "words":  257,
+        "url":  "https://www.plc-hmi-scadas.com/en/080.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "079",
+        "title":  "Data Log Configuration in Factory Talk View ME",
+        "words":  275,
+        "url":  "https://www.plc-hmi-scadas.com/en/079.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "factorytalkviewme-alarmas",
+        "title":  "Factory Talk View ME Alarm Configuration",
+        "words":  513,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_Alarmas.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "077",
+        "title":  "User and Security Configuration in Factory Talk View ME",
+        "words":  415,
+        "url":  "https://www.plc-hmi-scadas.com/en/077.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "078",
+        "title":  "Macro Configuration in Factory Talk View ME",
+        "words":  312,
+        "url":  "https://www.plc-hmi-scadas.com/en/078.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "factorytalkviewme-lenguages",
+        "title":  "Changing Languages in Factory Talk View ME",
+        "words":  418,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_Lenguages.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "123",
+        "title":  "Update Firmware Panel View Plus 600",
+        "words":  434,
+        "url":  "https://www.plc-hmi-scadas.com/en/123.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "081",
+        "title":  "Configuration of Information Messages in Factory Talk View ME",
+        "words":  385,
+        "url":  "https://www.plc-hmi-scadas.com/en/081.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "factorytalkviewme-activex-wmp",
+        "title":  "ActiveX Control Windows Media Player",
+        "words":  246,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_ActiveX_WMP.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "122",
+        "title":  "Vijeo Designer Configuration with SoftLogix",
+        "words":  355,
+        "url":  "https://www.plc-hmi-scadas.com/en/122.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "blog-grafcet-guia-completa-diseno-automatizacion",
+        "title":  "GRAFCET: Complete Guide to Industrial Automation Design",
+        "words":  4386,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/grafcet-guia-completa-diseno-automatizacion/"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "090",
+        "title":  "Vijeo Designer Configuration with S7-1200",
+        "words":  520,
+        "url":  "https://www.plc-hmi-scadas.com/en/090.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "044",
+        "title":  "Starting Vijeo Runtime on PC",
+        "words":  560,
+        "url":  "https://www.plc-hmi-scadas.com/en/044.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "omron-s7-200",
+        "title":  "Communication between Omron N3BQ-TW01B and S7-200",
+        "words":  543,
+        "url":  "https://www.plc-hmi-scadas.com/en/Omron_S7-200.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "omron-transfer-hmi",
+        "title":  "Transfer of the project to NB3Q",
+        "words":  306,
+        "url":  "https://www.plc-hmi-scadas.com/en/Omron_Transfer_HMI.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "software",
+        "slug":  "blog-control-versiones-git-tia-portal-v21",
+        "title":  "Version Control with Git, GitHub and TIA Portal V21",
+        "words":  1162,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/control-versiones-git-tia-portal-v21/"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "013",
+        "title":  "Vijeo Designer Simulation",
+        "words":  430,
+        "url":  "https://www.plc-hmi-scadas.com/en/013.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "blog-sniffer-opc-ua-plc-siemens-uaexpert",
+        "title":  "OPC UA Sniffer with Siemens PLC, UA Expert and Capture Application",
+        "words":  635,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/sniffer-opc-ua-plc-siemens-uaexpert/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "blog-author-jose-manuel",
+        "title":  "Jose Manuel Luque",
+        "words":  374,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/author/jose-manuel/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "blog-author-pedro",
+        "title":  "Pedro PagÃ¡n PallarÃ©s",
+        "words":  454,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/author/pedro/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-unified-configuration",
+        "title":  "WinCC Unified Configuration",
+        "words":  184,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Configuration.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factorytalk-view-se-error-datalogpro",
+        "title":  "Factory Talk View SE - DataLogPro Error",
+        "words":  553,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factorytalk-view-se-error-datalogpro/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factory-talk-view-se-influxdb",
+        "title":  "FactoryTalk View SE - InfluxDB",
+        "words":  458,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-influxdb/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-unified-transferir-proyecto",
+        "title":  "WinCC Unified Transfer Project",
+        "words":  323,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Transferir_Proyecto.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-unified-connection-opcua",
+        "title":  "WinCC Unified Connection OPC UA",
+        "words":  231,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Connection_OPCUA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-unified-servidor-opc-ua",
+        "title":  "WinCC Unified OPC Server UA",
+        "words":  408,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Servidor_OPC_UA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "blog-registro-datos-plc-influxdb",
+        "title":  "Logging PLC Data with InfluxDB",
+        "words":  887,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/registro-datos-plc-influxdb/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-unified-js",
+        "title":  "WinCC Unified JavaScript Synchronous/ Asynchronous",
+        "words":  417,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Unified_JS.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-unified-custom-web-controls",
+        "title":  "WinCC Unified Custom Web Controls",
+        "words":  461,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Custom_Web_Controls.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-unified-trace-javascript",
+        "title":  "WinCC Unified Trace JavaScript",
+        "words":  212,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Trace_JavaScript.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "blog-flujo-de-conexion-opc-ua-segura",
+        "title":  "Secure OPC UA Connection Flow",
+        "words":  604,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/flujo-de-conexion-opc-ua-segura/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-unified-administracion-usuarios",
+        "title":  "WinCC Unified User Management",
+        "words":  442,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Administracion_Usuarios.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-collaboration",
+        "title":  "WinCC Unified Collaboration: sharing Screens between Runtimes",
+        "words":  874,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-segmentacion-de-redes-s71500-wincc-unified",
+        "title":  "Network Segmentation - S7 1500 \u0026 WinCC Unified",
+        "words":  498,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/segmentacion-de-redes-s71500-wincc-unified/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-umc-admin-studio",
+        "title":  "UMC Admin Studio: guided console for Siemens Central User Management",
+        "words":  1259,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/umc-admin-studio/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "simatic-logon",
+        "title":  "Simatic Logon",
+        "words":  546,
+        "url":  "https://www.plc-hmi-scadas.com/en/Simatic_Logon.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-umc-user-management-control",
+        "title":  "UMC (User Management Control)",
+        "words":  576,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/umc-user-management-control/"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "tia-portal-s71500-client-opc-ua",
+        "title":  "S7-1500 OPC UA Client(\u0026quot;The security checks failed using the selected certificates\u0026quot;)",
+        "words":  144,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_S71500_Client_OPC_UA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-simatic-logon",
+        "title":  "Simatic Logon Configuration with Active Directory",
+        "words":  691,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Simatic_Logon.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "tia-opcua-plcsimadvanced",
+        "title":  "TIA Portal - PLCSIM Advanced OPC UA",
+        "words":  634,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_OPCUA_PLCSimAdvanced.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-user-management-component",
+        "title":  "WinCC Unified (User Management Component)",
+        "words":  363,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-user-management-component/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-umc-redundancy-user-management-component",
+        "title":  "UMC Redundancy (User Management Component)",
+        "words":  705,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/umc-redundancy-user-management-component/"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "063",
+        "title":  "DELTA DOP-B Screen Editor Alarm Configuration",
+        "words":  582,
+        "url":  "https://www.plc-hmi-scadas.com/en/063.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "hmi",
+        "slug":  "132",
+        "title":  "HMI Simulation of Automation Studio",
+        "words":  800,
+        "url":  "https://www.plc-hmi-scadas.com/en/132.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-docker-servidor-opc-ua",
+        "title":  "Docker: OPC UA Server and Web Client",
+        "words":  868,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/docker-servidor-opc-ua/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-servidor-opc-flask-co-pilot",
+        "title":  "OPC UA Server and Client + Copilot Edits",
+        "words":  1032,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/servidor-opc-flask-co-pilot/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-sistema-de-control-de-temperatura-iii",
+        "title":  "Temperature Control System (III)",
+        "words":  1156,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-iii/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "rsview-dde",
+        "title":  "DDE Server Configuration with Microsoft Excel",
+        "words":  294,
+        "url":  "https://www.plc-hmi-scadas.com/en/RSView_DDE.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "rsview32-dde-excel",
+        "title":  "RSView32 DDE Server",
+        "words":  214,
+        "url":  "https://www.plc-hmi-scadas.com/en/RSView32_DDE_Excel.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "rsview-scanclass",
+        "title":  "RSView32, Scan Class Configuration",
+        "words":  160,
+        "url":  "https://www.plc-hmi-scadas.com/en/RSView_ScanClass.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "032",
+        "title":  "Channel Configuration in RSView32",
+        "words":  270,
+        "url":  "https://www.plc-hmi-scadas.com/en/032.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "rsview-tagdatabase",
+        "title":  "RSView32 Tag DataBase",
+        "words":  489,
+        "url":  "https://www.plc-hmi-scadas.com/en/RSView_TagDataBase.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "factorytalkviewse-importar",
+        "title":  "Import Factory Talk View SE Project",
+        "words":  228,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalkViewSE_Importar.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "rsview-monitortag",
+        "title":  "Tag Monitor Configuration",
+        "words":  116,
+        "url":  "https://www.plc-hmi-scadas.com/en/RSView_MonitorTag.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "108",
+        "title":  "Factory Talk View SE",
+        "words":  1105,
+        "url":  "https://www.plc-hmi-scadas.com/en/108.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "074",
+        "title":  "FactoryTalk View SE communicating with RSLogix Emulate 5000",
+        "words":  493,
+        "url":  "https://www.plc-hmi-scadas.com/en/074.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "137",
+        "title":  "Factory Talk Alarm and Events Database",
+        "words":  479,
+        "url":  "https://www.plc-hmi-scadas.com/en/137.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "031",
+        "title":  "RSView32 Connection with OPC Server",
+        "words":  544,
+        "url":  "https://www.plc-hmi-scadas.com/en/031.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "factorytalk-alarmevents",
+        "title":  "Factory Talk Alarm and Events",
+        "words":  712,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalk_AlarmEvents.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "tagalarmeventserver",
+        "title":  "Tag Alarm and Event Server ...",
+        "words":  317,
+        "url":  "https://www.plc-hmi-scadas.com/en/TagAlarmEventServer.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "030",
+        "title":  "User Management and Security in RSView32",
+        "words":  512,
+        "url":  "https://www.plc-hmi-scadas.com/en/030.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "factorytalk-activex-adodc",
+        "title":  "Factory Talk View ActiveX Controls Microsoft ADO - Microsoft DataGrid",
+        "words":  425,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalk_ActiveX_ADODC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "factorytalkview-animaciones",
+        "title":  "Factory Talk View Flash, GIF Animations",
+        "words":  396,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalkView_Animaciones.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "ftvse-introduccion-vba",
+        "title":  "Introduction to the VBA Object Model in Factory Talk View SE",
+        "words":  389,
+        "url":  "https://www.plc-hmi-scadas.com/en/FTVSE_Introduccion_VBA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "ftvse-datalog",
+        "title":  "Factory Talk View SE - DataLog Configuration",
+        "words":  831,
+        "url":  "https://www.plc-hmi-scadas.com/en/FTVSE_DataLog.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "factorytalkview-sendemail",
+        "title":  "Factory Talk View Send Email",
+        "words":  383,
+        "url":  "https://www.plc-hmi-scadas.com/en/FactoryTalkView_SendEmail.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "ftvse-mail",
+        "title":  "Factory Talk View send e-mail",
+        "words":  229,
+        "url":  "https://www.plc-hmi-scadas.com/en/FTVSE_Mail.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "ftvse-recepis",
+        "title":  "FTVSE - Load Recipes and Sort Them",
+        "words":  287,
+        "url":  "https://www.plc-hmi-scadas.com/en/FTVSE_Recepis.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "ftvse-vba-referencia-objetos",
+        "title":  "Object Reference with VBA in Factory Talk View SE",
+        "words":  294,
+        "url":  "https://www.plc-hmi-scadas.com/en/FTVSE_VBA_Referencia_Objetos.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "ftvse-excel",
+        "title":  "VBA Code to Save Data in Excel",
+        "words":  316,
+        "url":  "https://www.plc-hmi-scadas.com/en/FTVSE_Excel.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "109",
+        "title":  "Factory Talk View Client",
+        "words":  271,
+        "url":  "https://www.plc-hmi-scadas.com/en/109.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factory-talk-view-se-sqlite",
+        "title":  "Factory Talk View SE - SQLite",
+        "words":  656,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-sqlite/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factory-talk-view-se-global-object-runtime-optimization",
+        "title":  "Factory Talk View SE - Global Object Runtime Optimization",
+        "words":  150,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-global-object-runtime-optimization/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-scadas-con-ms-controls-activex-vb6",
+        "title":  "SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)",
+        "words":  778,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/scadas-con-ms-controls-activex-vb6/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factory-talk-view-se-factory-talk-historian-status-ftld",
+        "title":  "Factory Talk View SE - Factory Talk Historian Status (FTLD)",
+        "words":  598,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-factory-talk-historian-status-ftld/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factory-talk-historian-ftld-interface",
+        "title":  "Factory Talk Historian - FTLD",
+        "words":  350,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-ftld-interface/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factory-talk-historian-license",
+        "title":  "Factory Talk Historian - License",
+        "words":  278,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-license/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factory-talk-historian-piperfmon-performance-counters",
+        "title":  "Factory Talk Historian - PIPerfMon (Performance Counters)",
+        "words":  330,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-piperfmon-performance-counters/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "035",
+        "title":  "CitectScada Link with OPC OFS Server",
+        "words":  286,
+        "url":  "https://www.plc-hmi-scadas.com/en/035.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-factory-talk-historin-piperfmon",
+        "title":  "Factory Talk Historian - PIPerfMon (Interface Performance Monitor)",
+        "words":  368,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historin-piperfmon/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "citectscada-database",
+        "title":  "CitectSCADA DataBase",
+        "words":  445,
+        "url":  "https://www.plc-hmi-scadas.com/en/CitectScada_DataBase.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "126",
+        "title":  "Vijeo Citect Simulation with Unity",
+        "words":  744,
+        "url":  "https://www.plc-hmi-scadas.com/en/126.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "127",
+        "title":  "Configuration of the I/O Driver ABCLX in Vijeo Citect",
+        "words":  535,
+        "url":  "https://www.plc-hmi-scadas.com/en/127.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "022",
+        "title":  "InTouch with RSLogix Emulate 5000 through FSGateway",
+        "words":  365,
+        "url":  "https://www.plc-hmi-scadas.com/en/022.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "034",
+        "title":  "Send Emails from Vijeo Citect",
+        "words":  354,
+        "url":  "https://www.plc-hmi-scadas.com/en/034.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-unitypro",
+        "title":  "Intouch Simulation with Unity Pro",
+        "words":  273,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_UnityPro.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "042",
+        "title":  "Recording Data in CitectScada",
+        "words":  454,
+        "url":  "https://www.plc-hmi-scadas.com/en/042.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-daserver-items",
+        "title":  "DAServer Manager BackUp - Restore",
+        "words":  261,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_DAServer_Items.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "061",
+        "title":  "Intouch Simulation with PLCSIM via NETTOPLCSIM",
+        "words":  777,
+        "url":  "https://www.plc-hmi-scadas.com/en/061.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "008",
+        "title":  "Intouch Communication and S7-2xx",
+        "words":  428,
+        "url":  "https://www.plc-hmi-scadas.com/en/008.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "020",
+        "title":  "Security and User Management in Intouch",
+        "words":  501,
+        "url":  "https://www.plc-hmi-scadas.com/en/020.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "014",
+        "title":  "Logging Data in Access Database with Intouch",
+        "words":  454,
+        "url":  "https://www.plc-hmi-scadas.com/en/014.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "028",
+        "title":  "Language Configuration in Intouch",
+        "words":  385,
+        "url":  "https://www.plc-hmi-scadas.com/en/028.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "116",
+        "title":  "Intouch, WWPoke() - WWRequest() Functions",
+        "words":  661,
+        "url":  "https://www.plc-hmi-scadas.com/en/116.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-bit-integer",
+        "title":  "Intouch",
+        "words":  190,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_Bit_Integer.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-tagsindirectos",
+        "title":  "Indirect Tags in Intouch",
+        "words":  713,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_TagsIndirectos.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-mysql",
+        "title":  "Intouch  - MySQL DataBase",
+        "words":  284,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_MySQL.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-db-oracle",
+        "title":  "Intouch - Oracle DataBase",
+        "words":  328,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_DB_Oracle.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-alarms",
+        "title":  "Alarm DB Logger Manager Configuration",
+        "words":  566,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_Alarms.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-2020-industrialgraphics",
+        "title":  "AVEVA Intouch 2020 Import Industrial Graphics",
+        "words":  96,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_2020_IndustrialGraphics.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-odbc",
+        "title":  "Intouch  - Open DataBase Connectivity (ODBC)",
+        "words":  299,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_ODBC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-controls-net",
+        "title":  "AVEVA Intouch 2020 (Import Client Controls)",
+        "words":  288,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_Controls_Net.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-2020-unlock",
+        "title":  "AVEVA Intouch 2020 Unlock application",
+        "words":  149,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_2020_Unlock.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-novedades-scada-aveva-intouch-2023",
+        "title":  "AVEVA Intouch 2023 - News",
+        "words":  375,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/novedades-scada-aveva-intouch-2023"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "129",
+        "title":  "ActiveX Controls in Intouch",
+        "words":  601,
+        "url":  "https://www.plc-hmi-scadas.com/en/129.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-2020-widget",
+        "title":  "AVEVA Intouch 2020 Widget (Wonderware)",
+        "words":  423,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_2020_Widget.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-rds-cmd",
+        "title":  "AVEVA Intouch RDS - CMD",
+        "words":  184,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-cmd"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-intouch-rds-nad",
+        "title":  "AVEVA Intouch RDS - NAD",
+        "words":  377,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/intouch-rds-nad"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-intouch-rdp-a",
+        "title":  "AVEVA Intouch RDP - Alarms \u0026 Events",
+        "words":  671,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/intouch-rdp-a"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-historical-data",
+        "title":  "AVEVA Intouch Historical Data (Part 1)",
+        "words":  608,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "blog-aveva-intouch-historial-data-access-system-histdata",
+        "title":  "AVEVA Intouch Historical Data Access System (HistData Part 1)",
+        "words":  353,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historial-data-access-system-histdata/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-rds-query-events",
+        "title":  "AVEVA Intouch RDS - Query Events and 21 CFR Part 11",
+        "words":  381,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-query-events"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-historical-data-parte-2",
+        "title":  "AVEVA Intouch Historical Data (Part 2)",
+        "words":  348,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-parte-2"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-historical-data-access-system-histdata-parte-2",
+        "title":  "AVEVA Intouch Historical Data Access System (HistData Part 2)",
+        "words":  342,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-access-system-histdata-parte-2"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-leer-alarmas",
+        "title":  "AVEVA Intouch Read Alarms",
+        "words":  347,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-leer-alarmas/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-control-net",
+        "title":  "AVEVA Intouch Control .Net",
+        "words":  488,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-control-net/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-sqlite",
+        "title":  "AVEVA Intouch - SQLite",
+        "words":  628,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-sqlite/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-2023r2-novedades",
+        "title":  "AVEVA Intouch 2023R2 - News",
+        "words":  159,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-2023r2-novedades/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-widgets-custom-widgets-package",
+        "title":  "AVEVA Intouch Widgets (Custom Widgets Package)",
+        "words":  153,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-widgets-custom-widgets-package/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-client-controls-net",
+        "title":  "AVEVA Intouch Client Controls",
+        "words":  210,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-client-controls-net/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-codebarlib",
+        "title":  "AVEVA Intouch BarcodeLib",
+        "words":  375,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-codebarlib/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wwintouchmachineedition",
+        "title":  "InduSoft Web Studio - Intouch Machine Edition - Intouch Edge HMI",
+        "words":  167,
+        "url":  "https://www.plc-hmi-scadas.com/en/WWIntouchMachineEdition.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-driver-redundancy",
+        "title":  "AVEVA Driver Redundancy",
+        "words":  450,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-driver-redundancy/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-widgets",
+        "title":  "AVEVA Intouch Widgets",
+        "words":  401,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-widgets/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-driver-snmp",
+        "title":  "AVEVA SNMP Driver",
+        "words":  305,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-driver-snmp/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "051",
+        "title":  "Getting Started with ArchestrA Application Server",
+        "words":  750,
+        "url":  "https://www.plc-hmi-scadas.com/en/051.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-system-platform",
+        "title":  "Intouch System Platform",
+        "words":  352,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_System_Platform.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-instancias",
+        "title":  "Instances in ArchestrA Application Server",
+        "words":  715,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_Instancias.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "052",
+        "title":  "ArchestrA Application Server",
+        "words":  789,
+        "url":  "https://www.plc-hmi-scadas.com/en/052.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-aplicacion-distribuida",
+        "title":  "Application Server - Distributed Application",
+        "words":  525,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_Aplicacion_Distribuida.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-functions",
+        "title":  "Intouch GetNodeName",
+        "words":  341,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_Functions.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-datagrid",
+        "title":  "DataGrid Control",
+        "words":  421,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_DataGrid.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouchedgehmi",
+        "title":  "Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500",
+        "words":  432,
+        "url":  "https://www.plc-hmi-scadas.com/en/IntouchEdgeHMI.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-datagridview",
+        "title":  "ArchestrA Control DataGridView .Net",
+        "words":  234,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_DataGridView.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-webbrowser",
+        "title":  "WebBrowser Configuration within Application Server (ArchestrA)",
+        "words":  469,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_WebBrowser.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-aahistclienttrendcontrol",
+        "title":  "Historian Client Trend Symbol Configuration",
+        "words":  342,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_aaHistClientTrendControl.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-trendclient",
+        "title":  "ArchestrA TrendClient",
+        "words":  442,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_TrendClient.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-webbrowser-sql",
+        "title":  "ArchestrA - SQL Queries",
+        "words":  378,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_WebBrowser_SQL.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-fsgateway-historian",
+        "title":  "Wonderware Historian I/O Server II",
+        "words":  371,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_FSGateway_Historian.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "archestra-ioserver-historian",
+        "title":  "Wonderware Historian I/O Server",
+        "words":  257,
+        "url":  "https://www.plc-hmi-scadas.com/en/ArchestrA_IOServer_Historian.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "131",
+        "title":  "Introduction to Wonderware Information Server",
+        "words":  213,
+        "url":  "https://www.plc-hmi-scadas.com/en/131.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "064",
+        "title":  "ArchestrA, Importing .Net Controls",
+        "words":  179,
+        "url":  "https://www.plc-hmi-scadas.com/en/064.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-archestra-logger-csharp",
+        "title":  "AVEVA ArchestrA â€“ Write to the Logger from C#",
+        "words":  881,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-archestra-logger-csharp/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wonderware-activefactory",
+        "title":  "Active Factory/Historian Client Trends",
+        "words":  474,
+        "url":  "https://www.plc-hmi-scadas.com/en/Wonderware_ActiveFactory.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wwhistorian-autostart",
+        "title":  "Historian AutoStart",
+        "words":  214,
+        "url":  "https://www.plc-hmi-scadas.com/en/WWHistorian_AutoStart.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wwhistorian-configurator",
+        "title":  "Configurator WWHistorian",
+        "words":  236,
+        "url":  "https://www.plc-hmi-scadas.com/en/WWHistorian_Configurator.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "intouch-historian",
+        "title":  "Wonderware Historian",
+        "words":  636,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_Historian.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-historian-client-factory-talk-view-se",
+        "title":  "AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)",
+        "words":  433,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-historian-client-factory-talk-view-se/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "fix32-driver-si7",
+        "title":  "Driver SI7",
+        "words":  416,
+        "url":  "https://www.plc-hmi-scadas.com/en/Fix32_Driver_SI7.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "ifix-database",
+        "title":  "iFix 6.0 - Open DataBase Connectivity (ODBC)",
+        "words":  206,
+        "url":  "https://www.plc-hmi-scadas.com/en/IFix_DataBase.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "133",
+        "title":  "Information Server Win-XML",
+        "words":  475,
+        "url":  "https://www.plc-hmi-scadas.com/en/133.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "scada-topkapi",
+        "title":  "Introduction to TopKapi",
+        "words":  76,
+        "url":  "https://www.plc-hmi-scadas.com/en/Scada_TopKapi.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "zenon-driver-tia",
+        "title":  "SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500",
+        "words":  362,
+        "url":  "https://www.plc-hmi-scadas.com/en/Zenon_Driver_TIA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-iis-reverse-proxy-reporting-services-wincc-unified",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/iis-reverse-proxy-reporting-services-wincc-unified/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "057",
+        "title":  "Infilink Configuration with OPC KepServer",
+        "words":  387,
+        "url":  "https://www.plc-hmi-scadas.com/en/057.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-embebido-web-wincc-unified-iframe-politicas-seguridad",
+        "title":  "Web Embedding in WinCC Unified: Browser, iFrames and Security Policies",
+        "words":  1972,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/embebido-web-wincc-unified-iframe-politicas-seguridad/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "054",
+        "title":  "Getting Started with ArchestrA Application Server Part 3",
+        "words":  643,
+        "url":  "https://www.plc-hmi-scadas.com/en/054.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-ssrs-wincc-unified-sqlite",
+        "title":  "How to Create WinCC Unified SQLite Reports in SSRS",
+        "words":  772,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/ssrs-wincc-unified-sqlite/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-open-pipe",
+        "title":  "WinCC Unified Open Pipe",
+        "words":  515,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-open-pipe"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-rt-graphql",
+        "title":  "WinCC Unified RT GraphQL",
+        "words":  525,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-rt-graphql"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-umc-user-management-control",
+        "title":  "UMC (User Management Control)",
+        "words":  576,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/umc-user-management-control"
+    },
+    {
+        "locale":  "en",
+        "category":  "plc",
+        "slug":  "blog-tia-portal-central-user-management",
+        "title":  "TIA Portal (Central User Management)",
+        "words":  389,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/tia-portal-central-user-management"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-user-management-component",
+        "title":  "WinCC Unified (User Management Component)",
+        "words":  363,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-user-management-component"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-umc-redundancy-user-management-component",
+        "title":  "UMC Redundancy (User Management Component)",
+        "words":  705,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/umc-redundancy-user-management-component"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023",
+        "title":  "SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)",
+        "words":  346,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-cwc-open-pipe",
+        "title":  "WinCC Unified â€” CWC and Open Pipe",
+        "words":  692,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-cwc-open-pipe"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-redundancy-v20",
+        "title":  "WinCC Unified Redundancy V20",
+        "words":  910,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-redundancy-v20"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-pm-quality-1",
+        "title":  "WinCC - PM Quality (Introduction).",
+        "words":  1227,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_1.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-pm-quality-2",
+        "title":  "WinCC - PM Quality (PM-Server \u0026 Stations)",
+        "words":  538,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_2.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-pm-quality-4",
+        "title":  "WinCC - PM Quality (Reports)",
+        "words":  351,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_4.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-pm-quality-3",
+        "title":  "WinCC - PM Quality (Topology - Phase - Trends)",
+        "words":  970,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_3.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-collaboration-wincc-8-1",
+        "title":  "WinCC Unified Collaboration in WinCC 8.1",
+        "words":  450,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration-wincc-8-1/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-libreria",
+        "title":  "VBScript Library WinCC",
+        "words":  1156,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Libreria.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-backup-winccruntime",
+        "title":  "Backup \u0026 Restore WinCC Project Online",
+        "words":  249,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Backup_WinCCRuntime.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-pm-analyze-parte-2",
+        "title":  "PM-Analyze (Part - 2)",
+        "words":  336,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/pm-analyze-parte-2"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-pm-analyze",
+        "title":  "PM-Analyze (Part - 1)",
+        "words":  640,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/pm-analyze"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-conocimientosbasicos",
+        "title":  "WinCC Basic Knowledge",
+        "words":  201,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-conocimientosbasicos-ii",
+        "title":  "WinCC Basic Knowledge",
+        "words":  164,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos_II.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-new-7-4",
+        "title":  "WinCC V7.4 News",
+        "words":  721,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_New_7_4.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-conocimientosbasicos-iii",
+        "title":  "WinCC Basic Knowledge",
+        "words":  143,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos_III.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-8-1-backup-en-runtime",
+        "title":  "WinCC 8.1 Backup in Runtime",
+        "words":  171,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-8-1-backup-en-runtime/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-8-1-novedades",
+        "title":  "WinCC 8.1 News",
+        "words":  300,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-8-1-novedades/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-sqlite",
+        "title":  "WinCC - SQLite",
+        "words":  536,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-sqlite/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-license",
+        "title":  "WinCC Licenses",
+        "words":  358,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_License.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-instalacion",
+        "title":  "WinCC V7.3 Installation on Windows 10 Pro",
+        "words":  492,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Instalacion.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-v8-0-novedades",
+        "title":  "WinCC V8.0 News",
+        "words":  297,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-v8-0-novedades/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc",
+        "title":  "WinCC",
+        "words":  561,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-monopuesto",
+        "title":  "WinCC Stand-Alone Project",
+        "words":  137,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Monopuesto.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-new-7-5",
+        "title":  "New Features of WinCC 7.5",
+        "words":  728,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_New_7_5.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8",
+        "title":  "SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)",
+        "words":  425,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-multipuesto",
+        "title":  "WinCC Multi-User Project",
+        "words":  748,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Multipuesto.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-multipuesto-error",
+        "title":  "This computer is not in the client list of the server project",
+        "words":  385,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Multipuesto_Error.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-server-not-available",
+        "title":  "WinCC Server not available",
+        "words":  191,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Server_Not_available.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-rw-tag",
+        "title":  "WinCC Read / Write Tags (Ansi C - VBScript)",
+        "words":  221,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_RW_Tag.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-cliente",
+        "title":  "WinCC Client",
+        "words":  899,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Cliente.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-equipo",
+        "title":  "WinCC Equipment Properties",
+        "words":  640,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Equipo.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-dde",
+        "title":  "WinCC DDE Communication with Intouch",
+        "words":  329,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_DDE.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-ibh-link",
+        "title":  "Communication CPU S5 with WinCC via the IBH Link S5++ Gateway",
+        "words":  365,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_IBH_Link.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-system-info",
+        "title":  "WinCC Driver System Info Configuration",
+        "words":  439,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_System_Info.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-driver-s71500",
+        "title":  "S7-1500 Driver Configuration",
+        "words":  244,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Driver_S71500.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-softlogix",
+        "title":  "WinCC Driver Allen Bradley-Ethernet IP",
+        "words":  367,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Softlogix.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-as-symbols",
+        "title":  "WinCC (AS Symbols)",
+        "words":  174,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_AS_Symbols.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-modbustcp",
+        "title":  "WinCC Modbus TCP Driver",
+        "words":  369,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_ModbusTCP.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-tagmanagement",
+        "title":  "WinCC - No access points found",
+        "words":  120,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_TagManagement.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-error-driver-s71500",
+        "title":  "Error Code Ox8000152100000084 -Driver 1200-1500",
+        "words":  216,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Error_Driver_S71500.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-cliente-opcua-beckhoff",
+        "title":  "OPC UA WinCC Channel Driver",
+        "words":  496,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCUA_Beckhoff.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-plcsimadvanced",
+        "title":  "WinCC - PLCSIM Advanced Simulation",
+        "words":  244,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_PLCSimAdvanced.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-administrador-variables-timer",
+        "title":  "WinCC Simatic Time",
+        "words":  264,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Administrador_Variables_Timer.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-computer-local",
+        "title":  "WinCC Tags Option Computer-Local",
+        "words":  382,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Computer_Local.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-bit-de-vida",
+        "title":  "WinCC - Life Bit",
+        "words":  453,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Bit_de_Vida.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-servidor-opc",
+        "title":  "WinCC OPC Server",
+        "words":  576,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Servidor_OPC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-driver-opc",
+        "title":  "OPC Driver Configuration WinCC",
+        "words":  365,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Driver_OPC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "winccflexible-simotion-opc-2",
+        "title":  "WinCC - OPC SimaticNet (Simotion)",
+        "words":  364,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC_2.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-cliente-opcxml",
+        "title":  "WinCC OPC XML Client Server",
+        "words":  397,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCXML.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-cliente-opcua",
+        "title":  "WinCC OPC UA Client",
+        "words":  557,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCUA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-graphic-designer-vi",
+        "title":  "Graphic Designer Image Window",
+        "words":  409,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Graphic_Designer_VI.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-arquitectura",
+        "title":  "WinCC Design with Independent Screens and Current Screen Name",
+        "words":  340,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Arquitectura.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-arquitectura-2",
+        "title":  "WinCC Independent Screen Design and Current Screen Name",
+        "words":  474,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Arquitectura_2.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-confirm-tagvalue",
+        "title":  "WinCC Confirm the entry of a process value",
+        "words":  552,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Confirm_TagValue.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "062",
+        "title":  "WinCC Simulation with PLCSIM",
+        "words":  369,
+        "url":  "https://www.plc-hmi-scadas.com/en/062.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-libreria-us",
+        "title":  "VBScript Library WinCC",
+        "words":  1118,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Libreria_US.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-eventos-pdl",
+        "title":  "WinCC Events Screen (Graphics Designer)",
+        "words":  336,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Eventos_PDL.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-confirm-tagvalue-us",
+        "title":  "WinCC Confirm the input value of process tag with a button",
+        "words":  551,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Confirm_TagValue_US.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-instalacion-activex",
+        "title":  "WinCC ActiveX Controls Microsoft",
+        "words":  244,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Instalacion_ActiveX.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-keyboard-vba",
+        "title":  "WinCC Automate Tasks with VBA",
+        "words":  282,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_KeyBoard_VBA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-net",
+        "title":  "WinCC Create .Net Controls",
+        "words":  634,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Net.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-backup-taglogging",
+        "title":  "Control.Net Connect BackUp TagLogging in Clients",
+        "words":  477,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_BackUp_TagLogging.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-activex",
+        "title":  "WinCC Create ActiveX Controls",
+        "words":  370,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_ActiveX.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-vba",
+        "title":  "Visual Basic Application Macro AddIn in Graphic Designer WinCC",
+        "words":  412,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_VBA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-activex-excel",
+        "title":  "WinCC ActiveX Spreadsheet",
+        "words":  297,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_Excel.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-msexcel-owc",
+        "title":  "WinCC - MS Excel - Office Web Component",
+        "words":  240,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_MSExcel_OWC.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-activex-webbrowser",
+        "title":  "WinCC ActiveX WebBrowser - .Net WebBrowser",
+        "words":  189,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_WebBrowser.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-wpf",
+        "title":  "WinCC Create WPF Controls",
+        "words":  513,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_WPF.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-menu-vbs",
+        "title":  "WinCC Menu Configuration with VBScript (Login, Logout, Restart, ShutDown)",
+        "words":  397,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Menu_VBS.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-numero-alarmas",
+        "title":  "WinCC Active Alarms Number / Unacknowledged Alarms Number",
+        "words":  206,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Numero_Alarmas.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-activex-pdf",
+        "title":  "View PDF files in WinCC",
+        "words":  282,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_pdf.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-v8-1-leer-alarmas",
+        "title":  "WinCC v8.1 Read Alarms",
+        "words":  490,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-v8-1-leer-alarmas/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "043",
+        "title":  "Popup window for controlling elements in WinCC V7.0",
+        "words":  902,
+        "url":  "https://www.plc-hmi-scadas.com/en/043.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-keyboard",
+        "title":  "WinCC KeyBoard",
+        "words":  345,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_KeyBoard.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-librerias-plus-plus",
+        "title":  "C++ Libraries in WinCC",
+        "words":  416,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Librerias_Plus_Plus.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-dynamic-wizard",
+        "title":  "WinCC Dynamic Wizard",
+        "words":  337,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Dynamic_Wizard.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-control-keyboard",
+        "title":  "WinCC Control .Net KeyBoard",
+        "words":  330,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Control_KeyBoard.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-funcion-gettagraw",
+        "title":  "WinCC Function GetTagRaw",
+        "words":  254,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Funcion_GetTagRaw.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-librerias-dll",
+        "title":  "Using External Libraries in VBScript",
+        "words":  336,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Librerias_Dll.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-funcion-activar-desactivar-bits",
+        "title":  "VBScript Function to Activate/Deactivate Bit",
+        "words":  318,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Funcion_Activar_Desactivar_Bits.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-debugger-vbscript",
+        "title":  "WinCC Debugger VBScript",
+        "words":  444,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Debugger_VBScript.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-vbs-invertir-bits",
+        "title":  "WinCC VBScript InvertBitInVariable",
+        "words":  194,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_VBS_Invertir_Bits.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-alarmas-wincc-por-whatsapp",
+        "title":  "Sending WinCC Alarms via Whatsapp",
+        "words":  1537,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/alarmas-wincc-por-whatsapp/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-vbs-ping",
+        "title":  "WinCC VBS Ping",
+        "words":  338,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_VBS_Ping.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-vbs-webnavigator",
+        "title":  "VBScript Execute in WinCC Server / WebNavigator Client",
+        "words":  194,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_VBS_WebNavigator.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-vbs-imprimir",
+        "title":  "WinCC VBScript Print Files",
+        "words":  200,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_VBS_Imprimir.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "113",
+        "title":  "VBScript with Excel in WinCC",
+        "words":  488,
+        "url":  "https://www.plc-hmi-scadas.com/en/113.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-vbs-gettagraw",
+        "title":  "WinCC - GetTagRaw / SetTagRaw in VBScript",
+        "words":  605,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_VBS_GetTagRaw.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "oracle-drivers",
+        "title":  "Oracle Data Access Components (ODAC)",
+        "words":  178,
+        "url":  "https://www.plc-hmi-scadas.com/en/Oracle_Drivers.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-sendmail",
+        "title":  "WinCC Send Mail VBScript",
+        "words":  190,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_SendMail.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-db-oracle",
+        "title":  "WinCC - Oracle DataBase",
+        "words":  297,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_DB_Oracle.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-mysql",
+        "title":  "WinCC - MySQL DataBase",
+        "words":  390,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_MySQL.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "odbc-remote-oracle",
+        "title":  "ODBC Configuration for Oracle Database",
+        "words":  310,
+        "url":  "https://www.plc-hmi-scadas.com/en/ODBC_Remote_Oracle.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-libreria-useradministrator",
+        "title":  "WinCC Login/Logout with VBScript",
+        "words":  139,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Libreria_UserAdministrator.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-chipcard",
+        "title":  "WinCC ChipCard Option",
+        "words":  279,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Chipcard.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "112",
+        "title":  "VBScript in WinCC V.7",
+        "words":  1328,
+        "url":  "https://www.plc-hmi-scadas.com/en/112.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-loginusuario",
+        "title":  "WinCC LogOn - LogOut",
+        "words":  311,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_LoginUsuario.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-webnavigator-https",
+        "title":  "WebNavigator HTTPS Configuration",
+        "words":  438,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_WebNavigator_https.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-ifdef-run-on-webnavigator",
+        "title":  "WinCC #ifdef RUN_ON_WEBNAVIGATOR",
+        "words":  273,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-ifdef-run_on_webnavigator/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-webnavigaror-failed-to-load-https-sever4430-main-pd",
+        "title":  "WinCC - WebNavigator \"Failed to load https://Sever:4430/Main.PD_\"",
+        "words":  86,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigaror-failed-to-load-https-sever4430-main-pd_/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "055",
+        "title":  "WinCC WebNavigator Configuration",
+        "words":  1227,
+        "url":  "https://www.plc-hmi-scadas.com/en/055.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-redundancy",
+        "title":  "WinCC Redundancy",
+        "words":  775,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Redundancy.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-datamonitor",
+        "title":  "WinCC DataMonitor",
+        "words":  462,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_DataMonitor.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-webux-ii",
+        "title":  "WinCC WebUX",
+        "words":  168,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_WebUX_II.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-webnavigaror-no-connection-to-server",
+        "title":  "WinCC - WebNavigator \"No Connection to server\"",
+        "words":  184,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigaror-no-connection-to-server/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-broker-codesys",
+        "title":  "WinCC MQTT Publish - Broker - Codesys Subscriber",
+        "words":  199,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_Broker_Codesys.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "009",
+        "title":  "OPC Server Communication with WinCC RT Professional 11",
+        "words":  272,
+        "url":  "https://www.plc-hmi-scadas.com/en/009.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-webnavigator-webux-certificados-https",
+        "title":  "WinCC WebNavigator/WebUx HTTPS Certificates",
+        "words":  615,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigator-webux-certificados-https/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "110",
+        "title":  "WinCC RT Professional V.12 with S7-1200",
+        "words":  638,
+        "url":  "https://www.plc-hmi-scadas.com/en/110.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-webux",
+        "title":  "WinCC New WebUX Server V7.3",
+        "words":  541,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_WebUX.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-mqtt",
+        "title":  "WinCC MQTT Publisher",
+        "words":  554,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_MQTT.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "wincc-rt-cargar-proyecto",
+        "title":  "WinCC RT Professional Load Project Runtime Station",
+        "words":  1047,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_RT_Cargar_Proyecto.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "tia-portal-wincc-rt-transfer",
+        "title":  "WinCC RT Professional Manually Transfer Project",
+        "words":  608,
+        "url":  "https://www.plc-hmi-scadas.com/en/TIA_Portal_WinCC_RT_Transfer.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "039",
+        "title":  "Recipes in TIA WinCC Runtime Professional",
+        "words":  561,
+        "url":  "https://www.plc-hmi-scadas.com/en/039.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "121",
+        "title":  "KepServer Configuration with SoftLogix5800",
+        "words":  576,
+        "url":  "https://www.plc-hmi-scadas.com/en/121.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "kepserver-1500",
+        "title":  "KepServer with S7-1500",
+        "words":  310,
+        "url":  "https://www.plc-hmi-scadas.com/en/KepServer_1500.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "simaticnet-vdf",
+        "title":  "PC Station Simatic Net Configuration",
+        "words":  743,
+        "url":  "https://www.plc-hmi-scadas.com/en/SimaticNet_VDF.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "simaticnet-cargar-configuracion-pcstation",
+        "title":  "Simatic Net - Load PC Station Configuration",
+        "words":  394,
+        "url":  "https://www.plc-hmi-scadas.com/en/SimaticNet_Cargar_Configuracion_PCStation.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "017",
+        "title":  "RSLinx OPC Server",
+        "words":  368,
+        "url":  "https://www.plc-hmi-scadas.com/en/017.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "048",
+        "title":  "Popup Window for Controlling Multiple Motors in TIA WinCC RT Professional",
+        "words":  596,
+        "url":  "https://www.plc-hmi-scadas.com/en/048.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "intouch-daserver",
+        "title":  "DAServer Manager BackUp - Restore",
+        "words":  338,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_DAServer.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "007",
+        "title":  "OPC Communication S7-200 with KepServer",
+        "words":  510,
+        "url":  "https://www.plc-hmi-scadas.com/en/007.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "ww-oigateway",
+        "title":  "Wonderware OI.Gateway.2",
+        "words":  265,
+        "url":  "https://www.plc-hmi-scadas.com/en/WW_OIGateway.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "069",
+        "title":  "OPC KepServer Configuration with Omron CQM1 PLC",
+        "words":  308,
+        "url":  "https://www.plc-hmi-scadas.com/en/069.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "018",
+        "title":  "OPC Factory Server OFS Configuration",
+        "words":  310,
+        "url":  "https://www.plc-hmi-scadas.com/en/018.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "intouch-dasmbtcp",
+        "title":  "Intouch - DASMBTCP Configuration",
+        "words":  418,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_DASMBTCP.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "071",
+        "title":  "CodeSys OPC Server",
+        "words":  384,
+        "url":  "https://www.plc-hmi-scadas.com/en/071.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "073",
+        "title":  "OPC TwinCAT Server Configuration",
+        "words":  241,
+        "url":  "https://www.plc-hmi-scadas.com/en/073.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "021",
+        "title":  "FSGateway Configuration",
+        "words":  335,
+        "url":  "https://www.plc-hmi-scadas.com/en/021.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "mqtt",
+        "title":  "MQTT",
+        "words":  119,
+        "url":  "https://www.plc-hmi-scadas.com/en/MQTT/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "119",
+        "title":  "DASABCIP Configuration with SoftLogix",
+        "words":  529,
+        "url":  "https://www.plc-hmi-scadas.com/en/119.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "058",
+        "title":  "Modbus RTU Network Simulation",
+        "words":  426,
+        "url":  "https://www.plc-hmi-scadas.com/en/058.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "modbus",
+        "title":  "Modbus RTU / TCP",
+        "words":  155,
+        "url":  "https://www.plc-hmi-scadas.com/en/Modbus/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "088",
+        "title":  "DASSIDirect Configuration with S7-1200",
+        "words":  339,
+        "url":  "https://www.plc-hmi-scadas.com/en/088.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "snmp",
+        "title":  "SNMP",
+        "words":  92,
+        "url":  "https://www.plc-hmi-scadas.com/en/SNMP/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-explotando-vulnerabilidades-modbus-tcp",
+        "title":  "Exploiting Modbus TCP Vulnerabilities",
+        "words":  682,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/explotando-vulnerabilidades-modbus-tcp/"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "industrial-networks",
+        "title":  "Industrial Ethernet Networks",
+        "words":  293,
+        "url":  "https://www.plc-hmi-scadas.com/en/Industrial-Networks/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-espiando-comunicaciones-modbus",
+        "title":  "Analyzing Modbus TCP Communications",
+        "words":  840,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/espiando-comunicaciones-modbus/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-snmp-simple-network-management-protocol",
+        "title":  "SNMP (Simple Network Management Protocol)",
+        "words":  603,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/snmp-simple-network-management-protocol/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "004",
+        "title":  "Register PLC Data in Database with OPC Server and VB.NET",
+        "words":  619,
+        "url":  "https://www.plc-hmi-scadas.com/en/004.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "others",
+        "title":  "Others",
+        "words":  63,
+        "url":  "https://www.plc-hmi-scadas.com/en/Others/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-entregados-a-la-causa",
+        "title":  "Committed to the Cause",
+        "words":  279,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/entregados-a-la-causa/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "ai-code",
+        "title":  "AI-Generated Code",
+        "words":  220,
+        "url":  "https://www.plc-hmi-scadas.com/en/AI-Code/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-pps-ethernet-ip-omron-eip21",
+        "title":  "PPS: The Heart (and the Limit) of EtherNet/IP",
+        "words":  722,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/pps-ethernet-ip-omron-eip21/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp",
+        "title":  "Networks: GNS3, Broadcast Storm and STP Protocol",
+        "words":  1245,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/redes-gns3-tormenta-de-broadcast-y-protocolo-stp/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones",
+        "slug":  "blog-vpn-home-lab-wireguard",
+        "title":  "How to Set Up a VPN in Your Home Lab with WireGuard",
+        "words":  3393,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/vpn-home-lab-wireguard/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "blog-algoritmo-de-la-burbuja-generado-por-ia",
+        "title":  "Bubble Algorithm - Generated by AI",
+        "words":  528,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/algoritmo-de-la-burbuja-generado-por-ia/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "industrial-ai",
+        "title":  "Applied Industrial AI",
+        "words":  145,
+        "url":  "https://www.plc-hmi-scadas.com/en/Industrial-AI/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "blog-el-buscaminas-iii-un-salto-de-calidad",
+        "title":  "Minesweeper III: \"A Quality Leap\"",
+        "words":  811,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/el-buscaminas-iii-un-salto-de-calidad/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "blog-buscaminas-programado-con-inteligencia-artificial-remasterizado-24-25",
+        "title":  "Minesweeper 2: AI Strikes Back",
+        "words":  628,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/buscaminas-programado-con-inteligencia-artificial-remasterizado-24-25/"
+    },
+    {
+        "locale":  "en",
+        "category":  "software",
+        "slug":  "git",
+        "title":  "Version Control â€” Git \u0026 GitHub",
+        "words":  147,
+        "url":  "https://www.plc-hmi-scadas.com/en/Git/"
+    },
+    {
+        "locale":  "en",
+        "category":  "software",
+        "slug":  "blog-git-github-flujo-colaborativo-vscode",
+        "title":  "Git \u0026 GitHub for Teams:Interactive Guide to Collaborative Workflows with VS Code",
+        "words":  2742,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/git-github-flujo-colaborativo-vscode/"
+    },
+    {
+        "locale":  "en",
+        "category":  "software",
+        "slug":  "vscode",
+        "title":  "Framework â€” VS Code \u0026 Copilot",
+        "words":  119,
+        "url":  "https://www.plc-hmi-scadas.com/en/VSCode/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "blog-buscaminas-con-inteligencia-artificial",
+        "title":  "Minesweeper Programmed with Artificial Intelligence",
+        "words":  1073,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/buscaminas-con-inteligencia-artificial/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "databases",
+        "title":  "Databases",
+        "words":  248,
+        "url":  "https://www.plc-hmi-scadas.com/en/Databases/"
+    },
+    {
+        "locale":  "en",
+        "category":  "software",
+        "slug":  "136",
+        "title":  "SQL Databases in SCADAs",
+        "words":  871,
+        "url":  "https://www.plc-hmi-scadas.com/en/136.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "rest-api",
+        "title":  "REST API",
+        "words":  100,
+        "url":  "https://www.plc-hmi-scadas.com/en/REST-API/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "blog-el-problema-de-la-mochila-aplicado-en-industria",
+        "title":  "The knapsack problem applied to industry",
+        "words":  794,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/el-problema-de-la-mochila-aplicado-en-industria/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "agents-copilots",
+        "title":  "Agents \u0026 Copilots",
+        "words":  86,
+        "url":  "https://www.plc-hmi-scadas.com/en/Agents-Copilots/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-open-pipe",
+        "title":  "WinCC Unified Open Pipe",
+        "words":  515,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-open-pipe/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-redundancy-v20",
+        "title":  "WinCC Unified Redundancy V20",
+        "words":  910,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-redundancy-v20/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-cwc-open-pipe",
+        "title":  "WinCC Unified â€” CWC and Open Pipe",
+        "words":  692,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-cwc-open-pipe/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-wincc-unified-rt-graphql",
+        "title":  "WinCC Unified RT GraphQL",
+        "words":  525,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-rt-graphql/"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "wincc-datamonitor-2",
+        "title":  "WinCC DataMonitor - Part 2: Advanced Reporting",
+        "words":  145,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_DataMonitor_2.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "wincc-vbs-invertir-bits-us",
+        "title":  "WinCC VBScript InvertBitInTag",
+        "words":  165,
+        "url":  "https://www.plc-hmi-scadas.com/en/WinCC_VBS_Invertir_Bits_US.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-novedades-scada-aveva-intouch-2023",
+        "title":  "AVEVA Intouch 2023 - News",
+        "words":  375,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/novedades-scada-aveva-intouch-2023/"
+    },
+    {
+        "locale":  "en",
+        "category":  "ai",
+        "slug":  "blog-little-scada-creando-una-interfaz-de-control-con-python",
+        "title":  "Little SCADA: creating a control interface with Python and ChatGPT",
+        "words":  790,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/little-scada-creando-una-interfaz-de-control-con-python/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-historical-data",
+        "title":  "AVEVA Intouch Historical Data (Part 1)",
+        "words":  608,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-historical-data-parte-2",
+        "title":  "AVEVA Intouch Historical Data (Part 2)",
+        "words":  348,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-parte-2/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-historical-data-access-system-histdata-parte-2",
+        "title":  "AVEVA Intouch Historical Data Access System (HistData Part 2)",
+        "words":  342,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-access-system-histdata-parte-2/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-intouch-rdp-a",
+        "title":  "AVEVA Intouch RDP - Alarms \u0026 Events",
+        "words":  671,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/intouch-rdp-a/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-rds-cmd",
+        "title":  "AVEVA Intouch RDS - CMD",
+        "words":  184,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-cmd/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-intouch-rds-nad",
+        "title":  "AVEVA Intouch RDS - NAD",
+        "words":  377,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/intouch-rds-nad/"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-aveva-intouch-rds-query-events",
+        "title":  "AVEVA Intouch RDS - Query Events and 21 CFR Part 11",
+        "words":  381,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-query-events/"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "intouch-2020r1sp1-opcua",
+        "title":  "Intouch 2020R2SP1 OPC UA Server",
+        "words":  71,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_2020R1Sp1_OPCUA.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "snmp",
+        "title":  "SNMP",
+        "words":  92,
+        "url":  "https://www.plc-hmi-scadas.com/en/SNMP.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "ftvse-datalog-2",
+        "title":  "Factory Talk View SE - DataLogs Configuration",
+        "words":  375,
+        "url":  "https://www.plc-hmi-scadas.com/en/FTVSE_DataLog_2.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-pm-analyze",
+        "title":  "PM-Analyze (Part - 1)",
+        "words":  640,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/pm-analyze/"
+    },
+    {
+        "locale":  "en",
+        "category":  "communications",
+        "slug":  "redes",
+        "title":  "Industrial Ethernet Networks",
+        "words":  293,
+        "url":  "https://www.plc-hmi-scadas.com/en/REDES.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "scada",
+        "slug":  "blog-pm-analyze-parte-2",
+        "title":  "PM-Analyze (Part - 2)",
+        "words":  336,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/pm-analyze-parte-2/"
+    },
+    {
+        "locale":  "en",
+        "category":  "comunicaciones-industriales",
+        "slug":  "comunicaciones-industriales",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/Comunicaciones-Industriales/"
+    },
+    {
+        "locale":  "en",
+        "category":  "software",
+        "slug":  "blog-entorno-desarrollo-vscode-copilot-agentes",
+        "title":  "Set Up a Development Environment with VS Code, GitHub Copilot and AI Agents",
+        "words":  2574,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/entorno-desarrollo-vscode-copilot-agentes/"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-espionage-modbus-communications",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/espionage-modbus-communications/"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "intouch-activex-aahistclienttrend",
+        "title":  "ActiveX Control aaHistClientTrendControl",
+        "words":  413,
+        "url":  "https://www.plc-hmi-scadas.com/en/Intouch_ActiveX_aaHistClientTrend.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "beckhoff-ce-hmi",
+        "title":  "Beckhoff - HMI CE",
+        "words":  181,
+        "url":  "https://www.plc-hmi-scadas.com/en/Beckhoff_CE_HMI.php"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-wp-content-uploads-2024-06-queryformat-txt",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/wp-content/uploads/2024/06/QueryFormat.txt"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "contact",
+        "title":  "Let\u0027s Talk",
+        "words":  157,
+        "url":  "https://www.plc-hmi-scadas.com/en/Contact"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-little-scada-creating-a-control-interface-with-python",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/little-scada-creating-a-control-interface-with-python/"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-factory-talk-historian-pi-interface-performance-monitor",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-pi-interface-performance-monitor/"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-scada",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/scada/"
+    },
+    {
+        "locale":  "en",
+        "category":  "home",
+        "slug":  "index",
+        "title":  "Industrial automation resources",
+        "words":  110,
+        "url":  "https://www.plc-hmi-scadas.com/en/"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-ia",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/IA/"
+    },
+    {
+        "locale":  "en",
+        "category":  "articles",
+        "slug":  "blog-aveva-intouch-historical-data-access-system-histdata",
+        "title":  "AVEVA Intouch Historical Data Access System (HistData Part 1)",
+        "words":  353,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-access-system-histdata/"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-minesweeper-with-artificial-intelligence",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/minesweeper-with-artificial-intelligence/"
+    },
+    {
+        "locale":  "en",
+        "category":  "blog",
+        "slug":  "blog-minesweeper-programmed-with-artificial-intelligence-remastered-24-25",
+        "title":  "404",
+        "words":  38,
+        "url":  "https://www.plc-hmi-scadas.com/en/blog/minesweeper-programmed-with-artificial-intelligence-remastered-24-25/"
+    }
+]

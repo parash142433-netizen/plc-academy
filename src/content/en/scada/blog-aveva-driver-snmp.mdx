@@ -1,0 +1,69 @@
+---
+title: "AVEVA SNMP Driver"
+slug: "blog-aveva-driver-snmp"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-driver-snmp/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA SNMP Driver
+
+Jose Manuel Luque Jan 18, 2025
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA SNMP Driver](./assets/images/blog-aveva-driver-snmp/AVEVA_SNMP_Driver-7.png)
+
+After some very basic concepts about [SNMP](#/a/en%2Fblog-snmp-simple-network-management-protocol) **Simple Network Management Protocol**, we will see the example to configure the driver in **AVEVA**.  
+We start from the default configuration, leaving the parameters as they are.
+
+![](./assets/images/blog-aveva-driver-snmp/AVEVA_SNMP_Driver-1-1024x742.png)
+
+  
+We add a new channel and unless there are specific changes, we leave the parameters as default; port 162 is the one used by default for Trap messages.
+
+![](./assets/images/blog-aveva-driver-snmp/AVEVA_SNMP_Driver-2-1024x526.png)
+
+  
+And finally, we add our device, our server, switch, printer, or device of interest that supports and has an **SNMP agent**.  
+I will use my **Windows Server 2022** and by default, the port is 161 using the **UDP** protocol.  
+And of course, it is advisable to establish security ;-)
+
+![](./assets/images/blog-aveva-driver-snmp/AVEVA_SNMP_Driver-3-1024x606.png)
+
+  
+As with all drivers, the next step is to create a group and the refresh time that interests us.
+
+![](./assets/images/blog-aveva-driver-snmp/AVEVA_SNMP_Driver-4-1024x606.png)
+
+  
+And the items, there is no need to declare them here, as in other drivers, but for the example, it is more illustrative, as we will directly connect with an OPC Client to test the operation.  
+We can now save the configuration and start our server.
+
+![](./assets/images/blog-aveva-driver-snmp/AVEVA_SNMP_Driver-5-1024x606.png)
+
+  
+To avoid creating any application in Intouch, the easiest way is to connect with an **OPC Client** to the **OPC Server** **OI.SNMPDRV.1**  
+As shown in the image, I have connected to the server, created a group, and added the items.
+
+![](./assets/images/blog-aveva-driver-snmp/AVEVA_SNMP_Driver-6.png)
+
+  
+From the old SMC now called Operations Control Management Console, we can now verify that a client is connected and the items to which it is subscribed.  
+There is an error in the date and time conversion, but you can see the name of my server and system information.
+
+![](./assets/images/blog-aveva-driver-snmp/AVEVA_SNMP_Driver-7-1024x606.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA SNMP Driver](https://www.plc-hmi-scadas.com/en/blog/aveva-driver-snmp/) — Jose Manuel Luque*

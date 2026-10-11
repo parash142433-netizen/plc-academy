@@ -1,0 +1,63 @@
+---
+title: "View PDF files in WinCC"
+slug: "wincc-activex-pdf"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_pdf.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","ActiveX","pdf","Scada"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# View PDF files in WinCC
+
+Jose Manuel Luque 11 Feb, 2019
+
+WinCC ActiveX pdf Scada
+
+**View PDF files in WinCC**
+
+In the following article, we will see how we can view PDF files within WinCC.
+
+The first control we will use is already installed by default, which is the WinCC WebBrowser Control. Here we just need to define the file path in the MyPage property and that's it.
+
+![](./assets/images/wincc-activex-pdf/WinCCActiveX-000092.png)
+
+Once in Runtime, it loads the page defined in the MyPage property and opens the PDF document.
+
+Now we would include the details of wanting to display the navigation bar, etc...
+
+![](./assets/images/wincc-activex-pdf/WinCCActiveX-000093.png)
+
+Continuing with the ActiveX controls, we can install Acrobat Reader, which has its ActiveX control, and as an alternative, we can also use Foxit Reader, which after installation also provides the FoxitReaderBrowserAx.dll Control, as can be seen in the following image.
+
+![](./assets/images/wincc-activex-pdf/WinCCActiveX-000087.png)
+
+Once selected to be available in WinCC, like any other control, we select it and insert it into our screen.
+
+![](./assets/images/wincc-activex-pdf/WinCCActiveX-000088.png)
+
+This control by default does not have any property to define which file we want to open. The src property does not work. Therefore, we will resort to VBScript for this.
+
+![](./assets/images/wincc-activex-pdf/WinCCActiveX-000089.png)
+
+We will use a button to open the document, but if we want the document to open when the screen is opened, we would use [the Open event](#/a/en%2Fwincc-eventos-pdl) of the screen itself, to reference our object and open the document.
+
+The code would be as follows to open it either directly when the screen opens or via the button.
+
+We use the OpenFile(Path) method
+
+![](./assets/images/wincc-activex-pdf/WinCCActiveX-000090.png)
+
+Once in Runtime, after pressing the button, we have our document.
+
+![](./assets/images/wincc-activex-pdf/WinCCActiveX-000091.png)
+
+11-02-2019
+
+---
+*Source: [View PDF files in WinCC](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_pdf.php) — Jose Manuel Luque*

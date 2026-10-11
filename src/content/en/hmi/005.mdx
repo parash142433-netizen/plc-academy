@@ -1,0 +1,49 @@
+---
+title: "Registering Variables in WinCC Flexible PC Runtime"
+slug: "005"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/005.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["VBScripts","WinCC Flexible","Databases"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# Registering Variables in WinCC Flexible PC Runtime
+
+Jose Manuel Luque
+
+VBScripts WinCC Flexible Databases
+
+In this practice, we will see how to register the Process Values ("PV") in a Database in WinCC Flexible PC Runtime
+
+We have two options:
+
+1.- Configure in History -> Data File.
+
+     To use the custom format, it is necessary to create a new user DSN in Administrative Tools -> Data Sources (ODBC) that will reference our Database; I show an example for an Access Database.
+
+![](./assets/images/005/WCF-DataLog02.jpg)
+
+2.- As a second alternative, we have the option to create a Script, and as an SQL statement an Insert, to register the values at the time interval we establish, since in our PLC program we can make a Flip/Flop with the time that interests us, and assign the execution of the Script to that variable. It would be equivalent to continuous acquisition mode and file cycle x (Where x equals Time).
+
+![](./assets/images/005/WCF-DataLog03.jpg)
+
+Our database is simple, a single table with the following fields:
+
+![](./assets/images/005/WCF-DataLog04.jpg)
+
+This Script option can be useful when working with WinCC RT Professional V.11, since when configuring the Historical it does not allow us to select the Database we want; it is a System Database and cannot be easily accessed, other methods must be used, hence the use of the Script.
+
+![](./assets/images/005/WCF-DataLog05.jpg)
+
+The equivalent of WinCC Flexible in the new TIA Portal is WinCC RT Advanced, which will have the same appearance as in WinCC Flexible when configuring the historical.
+
+July 2012
+
+---
+*Source: [Registering Variables in WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/005.php) — Jose Manuel Luque*

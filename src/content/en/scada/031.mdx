@@ -1,0 +1,71 @@
+---
+title: "RSView32 Connection with OPC Server"
+slug: "031"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/031.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["RSView32","OPC Server","RSLinx OPC Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# RSView32 Connection with OPC Server
+
+Jose Manuel Luque
+
+RSView32 OPC Server RSLinx OPC Server
+
+In this practice, we will configure a link between an OPC Server and the RSView32 SCADA. As I mentioned in other practices, when we want to link a SCADA with a PLC from another manufacturer, one solution is to use an OPC Server. In this practice, I will use RSLinx as the OPC Server, and its configuration was covered in this [practice](#/a/en%2F017 "RSLinx Configuration as OPC Server"). When we start our project, this is the interface that is shown to us.
+
+![](./assets/images/031/RSView32-007.jpg)
+
+1.- We navigate to the System directory and expand it, select Node, and here is where we make our configuration, selecting OPC Server.
+
+![](./assets/images/031/RSView32-008.jpg)
+
+In the Name field: we assign the name that interests us. The next step is to specify the name of the Server; if we click on the icon ..., a window will automatically open, showing all the servers that we have installed on the PC. In this case, we select RSLinx OPC Server.
+
+![](./assets/images/031/RSView32-009.jpg)
+
+3.- In the Access Path field, it refers to the topic we have created in RSLinx, as will be seen in the following images. It is better to leave this field blank since when configuring the items, it will alert us that it needs to be deleted. I will leave it to show the warning and will delete it later.
+
+![](./assets/images/031/RSView32-011.jpg)
+
+4.- With these steps, we have configured our link. As can be observed, the next step is to configure the items, Tags, or variables that we want to access or manipulate.
+
+![](./assets/images/031/RSView32-012.jpg)
+
+5.- We navigate to Tag Database, filling in the fields according to the tag, with its name, data type, description, and Security. I take this opportunity to mention that we have already configured users and security [here](#/a/en%2F030 "User and Security Management in RSWiew32"), so depending on the level of security we assign to the tags, they can be manipulated by different operators.
+
+![](./assets/images/031/RSView32-020.jpg)
+
+6.- Once all the necessary fields to create a new Tag are filled in, we need to select the data source. Since they are from a Device, we select Device; if it were an internal Tag, we would select Memory. We search for the Data source by selecting the icon, and the following image appears, we select Micrologix, which is the one we have configured previously.
+
+![](./assets/images/031/RSView32-021.jpg)
+
+7.- When trying to add the memory address of the Tag, the warning message I mentioned earlier appears, indicating that we should delete the Access Path. We return to the configuration screen and delete it.
+
+![](./assets/images/031/RSView32-022.jpg)
+
+8.- Once deleted, we click on the icon again to search for the memory address, and another pop-up window appears, where we will select the Tag that interests us, and so on with all the Tags.
+
+![](./assets/images/031/RSView32-023.jpg)
+
+![](./assets/images/031/RSView32-024.jpg)
+
+![](./assets/images/031/RSView32-025.jpg)
+
+9.- Now we just need to check that it has been configured correctly. To do this, we use the Tag Monitor, add the Tags we are interested in visualizing, and we can observe the changes and the status. In the next practice, we will configure a direct link, with the option of [configuring a "Channel"](#/a/en%2F032 "Language Configuration in Intouch").
+
+![](./assets/images/031/RSView32-026.jpg)
+
+![](./assets/images/031/RSView32-027.jpg)
+
+September 6, 2012
+
+---
+*Source: [RSView32 Connection with OPC Server](https://www.plc-hmi-scadas.com/en/031.php) — Jose Manuel Luque*

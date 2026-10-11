@@ -1,0 +1,186 @@
+---
+title: "Logging PLC Data with InfluxDB"
+slug: "blog-registro-datos-plc-influxdb"
+locale: "en"
+category: "communications"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/registro-datos-plc-influxdb/"
+author: ""
+date: ""
+breadcrumbs: ["Home","Communications","OPC"]
+tags: ["InfluxDB","OPC UA","Siemens PLC","S7-1500","Chronograf","Python"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Communications](#/a/en%2Findustrial-communications) › [OPC](#/a/en%2Fopc) › Logging PLC Data with InfluxDB
+
+# Logging PLC Data with InfluxDB
+
+Collecting Siemens PLC data served by OPC UA Server, storing it in InfluxDB and visualizing it with Chronograf.
+
+05 Jun, 2026
+
+InfluxDB OPC UA Siemens PLC S7-1500 Chronograf Python
+
+![System architecture for logging Siemens PLC OPC UA data in InfluxDB and visualizing it with Chronograf](./assets/images/blog-registro-datos-plc-influxdb/Portada%20InfluxDB.png)
+
+**Objective**
+
+We are going to build a simple industrial historization system using **InfluxDB**, a time-series database that can be useful as an open source alternative in specific scenarios.
+
+The lab uses **3 Siemens S7-1500 PLCs** as **OPC UA** servers, **InfluxDB** as the database, **Chronograf** for data visualization and a **Python** bridge as the connector between OPC UA and InfluxDB.
+
+[InfluxData](https://www.influxdata.com/) maintains several InfluxDB versions. This example uses the classic **InfluxDB 1.x** stack because it fits well with Chronograf and HTTP API writes.
+
+**Architecture**
+
+InfluxDB stores data points associated with a timestamp. It organizes them by measurements, tags and values, which makes it useful for logging industrial signals, sensors, PLC variables or metrics every few seconds.
+
+Unlike SQL Server or MySQL, which are designed around table relationships and business processes, InfluxDB is optimized for writing large volumes of chronological data, compressing it and querying it quickly by time range.
+
+*   **Database:** InfluxDB.
+*   **Data source:** 3 S7-1500 PLCs with OPC UA Server.
+*   **Connector:** Python script sending data through HTTP + Line Protocol.
+*   **Visualization:** Chronograf.
+*   **Environment:** Linux LXC container in Proxmox.
+
+**Siemens PLCs as OPC UA servers**
+
+With **TIA Portal V20** and **PLCSIM Advanced V7.0**, we create 3 PLC projects with sample variables and functions to modify their values.
+
+Then we prepare the OPC UA server for each PLC. The starting point is explained in [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens). In this lab the security policy is left as **None**; for certificate-based communication, see [OPC UA Security: Siemens S7-1500 and UA Expert Client](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert).
+
+Siemens also documents [access to the S7-1500 OPC UA server](https://docs.tia.siemens.cloud/r/en-us/v20/configuring-automation-systems/using-opc-ua-communication-s7-1200-s7-1500-s7-1500t/using-the-s7-1500-as-an-opc-ua-server-s7-1500-s7-1500t/configuring-the-opc-ua-server-s7-1500-s7-1500t/access-to-the-opc-ua-server-s7-1500-s7-1500t) in the TIA Portal documentation.
+
+![Three Siemens S7-1500 PLCs configured as OPC UA servers](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-01-servidores-opc-ua.png)
+
+**InfluxDB in LXC**
+
+InfluxDB is installed in a Linux LXC container inside Proxmox. The same machine hosts the database, the bridge, Chronograf and the management dashboard.
+
+*   **ID:** 115.
+*   **Name:** opcua-influx.
+*   **IP:** 192.168.1.115.
+*   **System:** Debian 13.
+*   **Resources:** 2 cores, 2 GB RAM, 512 MB swap and 12 GB disk.
+
+![LXC container configuration for InfluxDB in Proxmox](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-02-lxc-proxmox.png)
+
+For the test, InfluxDB is installed from system packages:
+
+Debian
+
+```
+apt-get install -y influxdb
+```
+
+The version installed in this environment is **influxdb 1.6.7~rc0-2+b12**. InfluxData provides official documentation for the [InfluxDB 1.x HTTP API](https://docs.influxdata.com/influxdb/v1/tools/api/) and [Line Protocol](https://docs.influxdata.com/influxdb/v1/write_protocols/line_protocol_tutorial/), which are the pieces used in this setup.
+
+![Checking the installed InfluxDB version](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-03-version-influxdb.png)
+
+**Chronograf**
+
+To visualize InfluxDB data we can use tools such as **Chronograf** or Grafana. In this case we use Chronograf, the natural web interface for the classic InfluxData stack.
+
+Installation
+
+```
+apt-get install -y chronograf
+systemctl enable --now chronograf
+systemctl status chronograf
+```
+
+Chronograf is available on port **8888** of the LXC. In this lab: `http://192.168.1.115:8888`. Official documentation is available at [Chronograf Documentation](https://docs.influxdata.com/chronograf/v1/).
+
+![Chronograf service running in Debian](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-04-estado-chronograf.png)
+
+![Chronograf web interface connected to InfluxDB](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-05-chronograf-web.png)
+
+**OPC UA to InfluxDB bridge**
+
+There are several ways to send data to InfluxDB: HTTP API with Line Protocol, Python `influxdb` library, `influxdb-client` library or Telegraf.
+
+In this example we use **HTTP + Line Protocol** because it is simple, fast, robust and transparent for InfluxDB 1.x.
+
+Python builds a text line and sends it by HTTP to the write endpoint:
+
+Line Protocol
+
+```
+plc_values,source=opcua,connection=plc1,tag=Var1_Bool bool_value=true
+```
+
+HTTP API
+
+```
+POST http://127.0.0.1:8086/write?db=opcua
+```
+
+The main bridge script is located at:
+
+Path
+
+```
+/opt/opcua-client/bridge/opcua_to_influx.py
+```
+
+As an alternative, using the Python `influxdb` library, writing a point would look like this:
+
+Python
+
+```
+from influxdb import InfluxDBClient
+
+client = InfluxDBClient(host="127.0.0.1", port=8086, database="opcua")
+client.write_points([
+    {
+        "measurement": "plc_values",
+        "tags": {
+            "connection": "plc1",
+            "tag": "Var1_Bool",
+        },
+        "fields": {
+            "bool_value": True,
+        },
+    }
+])
+```
+
+**OPC UA Bridge Studio**
+
+To make configuration easier, I created an **OPC UA Bridge Studio**. The interface allows us to create connections quickly, configure certificates, browse the OPC UA server and add variables to InfluxDB.
+
+First, the connection is created with the OPC UA server address.
+
+![Creating an OPC UA connection in OPC UA Bridge Studio](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-06-bridge-conexion-opc-ua.png)
+
+Then we name the **measurement**, which will be the group in InfluxDB, and browse the OPC UA tree.
+
+![InfluxDB measurement and OPC UA tree in Bridge Studio](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-07-measurement-arbol-opc.png)
+
+We select the variables to log and add them to InfluxDB.
+
+![Selecting OPC UA variables to log in InfluxDB](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-08-variables-influxdb.png)
+
+At this point the connection is created and ready to start logging data.
+
+![OPC UA connection created in Bridge Studio](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-09-conexion-creada.png)
+
+**Results**
+
+In Chronograf we can now access the values logged in InfluxDB from the previously created connections. The data explorer shows the stored signals and their time evolution.
+
+![PLC signals logged in InfluxDB and visualized in Chronograf](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-10-resultados-chronograf.png)
+
+![Values logged in InfluxDB from OPC UA variables](./assets/images/blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-11-valores-influxdb.png)
+
+This validates a simple flow: Siemens PLC as OPC UA server, Python bridge writing to InfluxDB and Chronograf displaying the time series.
+
+**Related articles**
+
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [OPC UA Security: Siemens S7-1500 and UA Expert Client](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert)
+*   [SQL Records with PLC S7-1500, Intercepted with Wireshark](#/a/en%2Fblog-registros-en-sql-con-plc-1500-interceptados-con-wireshark)
+*   [Temperature Control System (III) - OPC UA](#/a/en%2Fblog-sistema-de-control-de-temperatura-iii)
+
+---
+*Source: [Logging PLC Data with InfluxDB](https://www.plc-hmi-scadas.com/en/blog/registro-datos-plc-influxdb/)*

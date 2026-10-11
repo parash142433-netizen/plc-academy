@@ -1,0 +1,77 @@
+---
+title: "Infilink Configuration with OPC KepServer"
+slug: "057"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/057.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INFILINK"]
+tags: ["Scada","Infilink","OPC","KepServer"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INFILINK](#/a/en%2Fother-scadas) › Article
+
+# Infilink Configuration with OPC KepServer
+
+Jose Manuel Luque
+
+Scada Infilink OPC KepServer
+
+In this practice, we will see how to configure the Infilink Scada with the OPC KepServer, which in turn will be configured with the necessary Driver for the corresponding PLC. Here, I will only focus on the configuration of the Scada with the OPC. Once opened, this is the interface that is offered to us.
+
+To create the communication, we click on the Tags Group icon.
+
+![](./assets/images/057/Infilink%201%2024.png)
+
+The following pop-up window opens, where the System tags appear. To create a new group, we select the marked icon.
+
+![](./assets/images/057/Infilink%201%2025.png)
+
+Following this, the next window appears. To create the new group, we specify the name and description as needed, and in the program ID, we click on the button ... and select from the list the OPC server that interests us. In this case, I will use the latest version of KepWare, KepServer 5.10, so I take the opportunity to test it.
+
+![](./assets/images/057/Infilink%201%2026.png)
+
+Once added, it appears in the Tags Group. We select it and can now add the tags, items of interest. When we click on new tag, the following window appears.
+
+![](./assets/images/057/Infilink%201%2028.png)
+
+![](./assets/images/057/Infilink%201%2031.png)
+
+At the same time, we click on the button ... to search for the tags available in our OPC Server. The Tag Browser appears, and we select the tag or tags that interest us.
+
+![](./assets/images/057/Infilink%201%2030.png)
+
+![](./assets/images/057/Infilink%201%2039.png)
+
+Once added, they load in the window where you can navigate between the tags using the buttons <-  or  ->. It is important to pay attention to the corresponding data type.
+
+In the following example, I have added three tags, one of type String, Real, and Boolean.
+
+![](./assets/images/057/Infilink%201%2032.png)
+
+To verify that everything is correctly configured, we insert some texts and an object where we configure some animation.
+
+![](./assets/images/057/Infilink%201%2033.png)
+
+In this first field, we will display the value of a tag, and for the circle, we configure a color change with the boolean tag we have.
+
+![](./assets/images/057/Infilink%201%2034.png)
+
+![](./assets/images/057/Infilink%201%2035.png)
+
+We run the KepServer, and we can observe how there are several clients connected at the bottom of the image, as well as the Active tags that we have configured.
+
+![](./assets/images/057/Infilink%201%2038.png)
+
+We run the Infilink Runtime and observe that the configuration is correct and works perfectly.
+
+![](./assets/images/057/Infilink%201%2036.png)
+
+![](./assets/images/057/Infilink%201%2037.png)
+
+December 19, 2012
+
+---
+*Source: [Infilink Configuration with OPC KepServer](https://www.plc-hmi-scadas.com/en/057.php) — Jose Manuel Luque*

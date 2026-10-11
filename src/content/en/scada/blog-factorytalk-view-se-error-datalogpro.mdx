@@ -1,0 +1,83 @@
+---
+title: "Factory Talk View SE - DataLogPro Error"
+slug: "blog-factorytalk-view-se-error-datalogpro"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factorytalk-view-se-error-datalogpro/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","Rockwell"]
+tags: ["Factory Talk View SE","DataLogPro","IIS","HTTPS","Certificates"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [Rockwell](#/a/en%2Fscada-allen-bradley) › Factory Talk View SE - DataLogPro Error
+
+# Factory Talk View SE - DataLogPro Error
+
+Unable to open the DataLogPro because the HMI server is not available.
+
+Jose Manuel Luque June 11, 2026
+
+Factory Talk View SE DataLogPro IIS HTTPS Certificates
+
+![Factory Talk View SE - DataLogPro Error](./assets/images/blog-factorytalk-view-se-error-datalogpro/factorytalk-view-se-datalogpro-error-01.png)
+
+**Objective**
+
+After installing **FactoryTalk View SE v16**, we are going to configure variables in the **DataLogPro** configurator, in this case thinking about a later setup with **InfluxDB**.
+
+When opening the editor, FactoryTalk View Studio shows an error that seems to point to the **HMI Server**, but the real origin is in the machine's web configuration. The objective of this article is to pinpoint the fault and solve it without unnecessary detours.
+
+**DataLogPro opening fault**
+
+The error appears when entering **Data Log > DataLogPro** inside the FactoryTalk View SE project:
+
+> Unable to open the DataLogPro because the HMI server is not available.
+
+The message can make us think about a project or **HMI Server** problem. However, the HMI Server was available; what was failing was the **HTTPS** layer used by **DataLogPro.**
+
+![Unable to open the DataLogPro because the HMI server is not available message](./assets/images/blog-factorytalk-view-se-error-datalogpro/factorytalk-view-se-datalogpro-error-01.png)
+
+**Cause of the problem**
+
+Checking **Internet Information Server** (**IIS) Manager**, we can see that the default site has both **HTTP** and **HTTPS** enabled. The problem appears because HTTPS is active, but it does not have a valid certificate assigned to the server.
+
+In this scenario, DataLogPro tries to open its service through that web configuration. If the HTTPS binding is not properly completed with its certificate, FactoryTalk View Studio cannot open the editor and returns the HMI Server error.
+
+> **As a general criterion, we should always work with HTTPS**
+
+> **Avoid keeping HTTP enabled if it is not necessary.**
+
+![HTTP and HTTPS bindings for the Default Web Site in IIS Manager](./assets/images/blog-factorytalk-view-se-error-datalogpro/factorytalk-view-se-datalogpro-error-02.png)
+
+**Resolution**
+
+The solution is to create or import an **SSL certificate** and assign it to the HTTPS binding of the **Default Web Site** in IIS.
+
+A self-signed certificate could be used for a quick test, _**but it is not the most recommended option**_. In this case, it was created with a **Certificate Manager CA**, so the server has a certificate issued by a controlled CA.  
+
+Once the certificate is available, open the HTTPS binding, select the certificate in **SSL certificate** and leave port **443** correctly configured.
+
+![IIS HTTPS binding with an SSL certificate selected for the server](./assets/images/blog-factorytalk-view-se-error-datalogpro/factorytalk-view-se-datalogpro-error-03.png)
+
+We can also check it from **Server Certificates** in IIS. The server certificate should appear there, with its validity date and the associated private key.
+
+![Server certificate visible in IIS Server Certificates](./assets/images/blog-factorytalk-view-se-error-datalogpro/factorytalk-view-se-datalogpro-error-04.png)
+
+**Final check**
+
+After assigning the certificate to the HTTPS binding, restart and go back to **FactoryTalk View Studio**, then open DataLogPro again. The editor now loads correctly and allows you to continue with log group and variable configuration.
+
+This resolves the initial block. In the next article, we will cover the step-by-step configuration of **InfluxDB inside FactoryTalk View SE**.
+
+![DataLogPro opened correctly in FactoryTalk View Studio](./assets/images/blog-factorytalk-view-se-error-datalogpro/factorytalk-view-se-datalogpro-error-05.png)
+
+Quick summary: if DataLogPro says that the HMI Server is not available right after installing FactoryTalk View SE, check the **IIS bindings** and the **HTTPS certificate** first. It is a short check and can save a good amount of time.
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [Factory Talk View SE - DataLogPro Error](https://www.plc-hmi-scadas.com/en/blog/factorytalk-view-se-error-datalogpro/) — Jose Manuel Luque*

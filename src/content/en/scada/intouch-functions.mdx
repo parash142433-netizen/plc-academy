@@ -1,0 +1,54 @@
+---
+title: "Intouch GetNodeName"
+slug: "intouch-functions"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_Functions.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch GetNodeName"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Intouch GetNodeName
+
+Jose Manuel Luque
+
+Intouch GetNodeName
+
+**Intouch Function GetNodeName();  
+**
+
+In the latest practices, we have been looking at a distributed application from Wonderware with the Application Server and ArchestrA.
+
+Let’s assume the following scenario: we have a server with its instance of Intouch and two client machines. As can be seen, all machines are running the same instance, which means it is the same developed application.
+
+The purpose of the practice is that even though it is the same application on all machines, the behavior will be different, and we will achieve this thanks to the function GetNodeName(String NodeName, Integer LongNodeName);
+
+The example I am going to show will be as follows: each node will execute a different startup screen. Based on this example, and once we know the node where the application is running, we can implement the necessary instructions through conditionals to carry out the development of
+
+![](./assets/images/intouch-functions/173-Intouch-Functions-00.png)
+
+the application, whether to show objects or not, whether they have write permissions or not, and everything else necessary. To start developing the application, within the Scripts, we will execute On Startup, initiating the call to the function GetNodeName(), and once we have saved the node name, we will call the function I created, MainScreen()
+
+![](./assets/images/intouch-functions/173-Intouch-Functions-01.png)
+
+Once the application has started, we have saved the Node name "PC" and then we call the next function, where the parameter we pass is the Node name. Through conditionals, we will establish the startup screen depending on where the application is running.
+
+![](./assets/images/intouch-functions/173-Intouch-Functions-02.png)
+
+In the WindowViewer configuration, we have set the startup screen to only the Menu, which occupies the header of our screen. Besides this common screen, the startup screen will depend on the Node.
+
+![](./assets/images/intouch-functions/173-Intouch-Functions-03.png)
+
+Once the Runtime has been executed, we observe the menu on each of the nodes, where we can see in the variable NodeName the name of the Node where the application is running. Each of them has displayed its configured screen.
+
+![](./assets/images/intouch-functions/173-Intouch-Functions-04.png) ![](./assets/images/intouch-functions/173-Intouch-Functions-06.png) ![](./assets/images/intouch-functions/173-Intouch-Functions-05.png)
+
+September 17, 2013
+
+---
+*Source: [Intouch GetNodeName](https://www.plc-hmi-scadas.com/en/Intouch_Functions.php) — Jose Manuel Luque*

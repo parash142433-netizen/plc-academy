@@ -1,0 +1,48 @@
+---
+title: "Step 7 Conversion Big Little Indian"
+slug: "stept7-big-litle-indian"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Stept7_Big_Litle_Indian.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Step 7 Conversion Big Little Indian"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Step 7 Conversion Big Little Indian
+
+Jose Manuel Luque
+
+Step 7 Conversion Big Little Indian
+
+**Big Little Indian Conversion  
+**
+
+Some time ago I received a query about how to convert from Big Indian to Little Indian or vice versa, since what we are going to propose is simply to invert the order of the Bytes.
+
+First, a brief description of Big and Little Indian, their difference lies in how data is ordered in memory, "Little" The least significant Byte is stored at the lowest address and the most significant Byte at the highest, on the other hand "Big" The most significant Byte is stored at the lowest address and the least significant Byte at the highest address.
+
+![](./assets/images/stept7-big-litle-indian/Step7_BiglitleIndian-01.png)
+
+For this, we are going to create a FC Function, where we will pass a DWORD as input parameters and as output we will obtain another DWORD with the Bytes inverted.
+
+With the following image, I don't think it is necessary to explain its operation.
+
+If we are interested in converting a Word, the procedure would be the same, but with two Bytes.
+
+And the best way is to see an example in operation, we make the necessary calls to our FC and pass the DWord we want to invert and where we are going to store it. Once online, the simplest way to see it is in Hexadecimal format, as seen in the following images.
+
+![](./assets/images/stept7-big-litle-indian/Step7_BiglitleIndian-05.png) ![](./assets/images/stept7-big-litle-indian/Step7_BiglitleIndian-06.png)
+
+And in the next one, we can observe the value of each Byte and how we transfer it to its opposite address
+
+![](./assets/images/stept7-big-litle-indian/Step7_BiglitleIndian-04.png)
+
+December 7, 2013
+
+---
+*Source: [Step 7 Conversion Big Little Indian](https://www.plc-hmi-scadas.com/en/Stept7_Big_Litle_Indian.php) — Jose Manuel Luque*

@@ -1,0 +1,84 @@
+---
+title: "CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration"
+slug: "tia-portal-modbus-rtu"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/TIA_Portal_Modbus_RTU.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["CB1241(RS-485)","CM1241(RS-232)","Modbus RTU"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration
+
+Jose Manuel Luque
+
+CB1241(RS-485) CM1241(RS-232) Modbus RTU
+
+**CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration  
+**
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(4\).png)
+
+In this practice, we will see two in one, as we will configure a CB1241 (RS-485) module for Modbus RTU communication on an RS-485 network and at the same time the CM 1241(RS-232) for another Modbus RTU communication but this time point-to-point.
+
+The first thing we will do is read the documentation of the Modbus slaves, to know the communication parameters and the registers we want to access, the following image is a sample of this.
+
+First, we will start with the CB1241, which we insert into the same PLC, as can be seen in the image.
+
+We proceed to configure it and assign the corresponding parameters to the port, it is good practice to do it this way, although later in the initialization block it will also be re-parameterized.
+
+For the rest, we can leave the default values.
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(10\).png)
+
+Another important parameter for the parameterization of the Function Blocks to be used is the Hardware ID, where each module has a unique and unrepeatable ID.
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(11\).png)
+
+And next, having inserted the CM 1241(RS-232), we repeat the same steps as before, the configuration of the port, with the values according to our slave. Since we only have one slave to perform the tests, both will be tested with it, hence the repetition of parameters.
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(13\).png) ![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(14\).png)
+
+Likewise, we will use the ID for the blocks that we will see next.
+
+The first block we are going to use to initialize both ports, corresponding to the CB and CM is the **MB\_COMM\_LOAD** which when inserted creates the corresponding instance DB, if we look at the parameters we have to pass, the first of them **REQ**, since we are going to execute it in OB100 we set it to TRUE directly, the next parameter **PORT**, is associated with the ID we mentioned earlier, **BAUD** is the baud rate of the communication with our slave, just like the parity **PARITY**, finally we have **MB\_DB** which we will later associate with the instance DB of the next block to be used **MB\_MASTER**.
+
+The next parameters on the right side correspond to the control bits and status word, in case of an error, otherwise its value is 0.
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(9\).png)
+
+We make the same configuration for the next port, in this case the CM 1241 and associate the corresponding values, just like the previous one this block is inserted in OB100.
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(15\).png)
+
+We can now insert the **MB\_MASTER** block directly into OB1, or create an FC-FB for the call of said block, just like the previous one, when inserted the assistant will create the instance DB, which is the one we associate with the **MB\_COMM\_LOAD** block.
+
+Now we proceed to parameterize it, **REQ** for request to execute the block, that will depend on our program logic, **MB\_ADDR** is the address of the slave, **MODE** if we are going to execute read or write, in this case read corresponds to 0, **DATA\_ADRR** corresponds to the first address of the registers we are interested in reading, followed by **DATA\_LEN** which is the number of registers. Finally, we have **DATA\_PRT** which is the pointer where we will store the read data.
+
+As with the previous block, the parameters on the right correspond to the control bits and the status word, which we directly associate with its instance DB.
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(16\).png) ![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(8\).png)
+
+For the block corresponding to the other port, we would do the same procedure, in this case they are repeated, since it has been tested with the same slave, connecting one to connect to the other and check its operation.
+
+As can be seen in the previous images, we were already in RUN, the program had already been compiled and loaded, and if we check the addresses where the pointer pointed, we confirm that we have read the registers we are interested in.
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(7\).png)
+
+If we change the view, and see the addresses of the second block, we confirm that we have also successfully read the registers, it can be observed that some registers still retain the same value, while others have changed. Now we just need to adapt them to the correct addresses of the slaves and put it to work.
+
+![](./assets/images/tia-portal-modbus-rtu/TIA%20Portal%20Modbus%20RTU%20%20\(17\).png)
+
+May 17, 2014
+
+If you liked it or found it useful, share it...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration](https://www.plc-hmi-scadas.com/en/TIA_Portal_Modbus_RTU.php) — Jose Manuel Luque*

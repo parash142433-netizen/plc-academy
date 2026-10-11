@@ -1,0 +1,59 @@
+---
+title: "CodeSys OPC Server"
+slug: "071"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/071.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["CodeSys","OPC","Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# CodeSys OPC Server
+
+Jose Manuel Luque
+
+CodeSys OPC Server
+
+This practice aims to configure the CodeSys OPC Server, which, to reiterate, is the same for ABB, which I am currently using.
+
+To make the configuration, we run the OPCConfig, and this is the interface; the first thing we do is Add a PLC.
+
+![](./assets/images/071/OPC%20CodeSys%20-01.png)
+
+We give it a name of our interest and select the type of Interface; it is important to highlight that depending on the version of CodeSys used, we will choose one or another. For version 3.x, we will use the one that adds the 3; this is my case, and I select GATEWAY3. The other values can be left as default.
+
+![](./assets/images/071/OPC%20CodeSys%20-02.png)
+
+Once the Interface is selected, we go to Connection to configure how the connection with our PLC will be. We click the Edit button, and the following pop-up window appears where we configure the IP, port, and Address. Since our PLC is running on the same machine, we indicate the IP or localhost with the port.
+
+The PLC address can be observed if we go to the device configuration as shown.
+
+![](./assets/images/071/OPC%20CodeSys%20-03.png)
+
+![](./assets/images/071/OPC%20CodeSys%20-05.png)
+
+Once the parameters are configured, we accept and can save. The file that is saved, modified, and can be manually configured for any modifications is the OPCServer file found in the directory indicated when saving, along with the \*.log file where it is recorded whether it has been configured correctly or if any error has occurred.
+
+![](./assets/images/071/OPC%20CodeSys%20-06.png)
+
+![](./assets/images/071/OPC%20CodeSys%20-07.png)
+
+The following image shows the default directory when the installation has been completed. I have added the configuration file for the tags; this file is configured as we saw earlier and is created when the build is executed if all steps have been followed. I have tried without placing the file and had some issues when trying to load the tags; placing it has worked perfectly as will be verified.
+
+![](./assets/images/071/OPC%20CodeSys%20-08.png)
+
+And in the following image, our program is running, and the configuration of the OPC Client to access the Server and check its operation.
+
+If the version of CodeSys 2.x is used, the configuration of the symbols differs from how we have done it; if anyone has any questions, please leave a comment.
+
+![](./assets/images/071/OPC%20CodeSys%20-10.png)
+
+February 5, 2013
+
+---
+*Source: [CodeSys OPC Server](https://www.plc-hmi-scadas.com/en/071.php) — Jose Manuel Luque*

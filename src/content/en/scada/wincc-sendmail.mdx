@@ -1,0 +1,45 @@
+---
+title: "WinCC Send Mail VBScript"
+slug: "wincc-sendmail"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_SendMail.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","Mail","VBScript"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Send Mail VBScript
+
+Jose Manuel Luque
+
+WinCC Mail VBScript
+
+**WinCC Send Mail VBScript**
+
+Throughout all the practices, we have already seen how to send emails with [Factory Talk View](#/a/en%2Fftvse-mail), one of the first was with [CitectScada and Outlook Express](#/a/en%2F034), and now with little difference in the code compared to Factory Talk View, we will see it in WinCC, which will also serve us for WinCC Flexible Runtime and WinCC RT Advanced from TIA Portal.
+
+For new students, to create this procedure, we open the VBS-Editor, once opened, in the workplace, we have four different tabs, we select Project Module and create a new file.
+
+![](./assets/images/wincc-sendmail/WinCC_Send_Mail_04.png)
+
+I have created a procedure to send emails, passing as arguments, the recipient **SendTo**, with a copy to **CC**, Title **Subject**, Message **Text**, and if we attach any file **Attach**.
+
+As the Mail server, it is Gmail; if using another, adapt the necessary parameters.
+
+![](./assets/images/wincc-sendmail/WinCC_Send_Mail_01.png)
+
+Subsequently, in the event of what interests us, a button, an alarm, etc... we call our function.
+
+![](./assets/images/wincc-sendmail/WinCC_Send_Mail_03.png)
+
+February 11, 2018
+
+"Silent gratitude isn't much use to anyone." Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Send Mail VBScript](https://www.plc-hmi-scadas.com/en/WinCC_SendMail.php) — Jose Manuel Luque*

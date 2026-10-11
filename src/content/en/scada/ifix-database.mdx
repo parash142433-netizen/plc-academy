@@ -1,0 +1,55 @@
+---
+title: "iFix 6.0 - Open DataBase Connectivity (ODBC)"
+slug: "ifix-database"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/IFix_DataBase.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","IFIX / FIX32"]
+tags: ["iFix 6.0","Open DataBase Connectivity","ODBC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [IFIX / FIX32](#/a/en%2Fother-scadas) › Article
+
+# iFix 6.0 - Open DataBase Connectivity (ODBC)
+
+Jose Manuel Luque 06 Jun, 2019
+
+iFix 6.0 Open DataBase Connectivity ODBC
+
+**iFix 6.0 - Open DataBase Connectivity (ODBC)**
+
+In today's article, we will see how to connect to our Database with iFix. As a Database Management System, I have selected PostgreSQL, as we have seen with [CitectSCADA](#/a/en%2Fcitectscada-database).
+
+The first step is to install the psqlodbc Driver for PostgreSQL and configure a new Data Source. If you have any doubts, here is another [example](#/a/en%2Fodbc-remote-oracle) for Oracle Database.
+
+![](./assets/images/ifix-database/PSQL_CitectScada_DB_02.png)
+
+Once we have opened our project, I created a new image, where I inserted several objects, including a button.
+
+![](./assets/images/ifix-database/IFIX_DB_02.png)
+
+To edit the actions, we right-click and Edit Script is the option we are looking for.
+
+![](./assets/images/ifix-database/IFIX_DB_03.png)
+
+Once opened, we can see that the scripting language of iFix is Visual Basic for Applications.
+
+As code, we are reusing what we already had from CitectSCADA, with the difference that here we are utilizing the full power of Visual Basic for Applications.
+
+![](./assets/images/ifix-database/IFIX_DB_04.png)
+
+We switch to Runtime to test our code and observe in the debugger that everything works perfectly.
+
+![](./assets/images/ifix-database/IFIX_DB_05.png)
+
+The data we have in our Database for this example.
+
+![](./assets/images/ifix-database/PostgreSQL_01.png)
+
+06-06-2019
+
+---
+*Source: [iFix 6.0 - Open DataBase Connectivity (ODBC)](https://www.plc-hmi-scadas.com/en/IFix_DataBase.php) — Jose Manuel Luque*

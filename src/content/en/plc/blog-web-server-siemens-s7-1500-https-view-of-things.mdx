@@ -1,0 +1,186 @@
+---
+title: "Siemens S7-1500 Web Server"
+slug: "blog-web-server-siemens-s7-1500-https-view-of-things"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/web-server-siemens-s7-1500-https-view-of-things/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","PLC","Siemens"]
+tags: ["Siemens","S7-1500","Web Server","HTTPS","View of Things","TIA Portal"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [Siemens](#/a/en%2Fplc-siemens) › S7-1500 Web Server
+
+# Siemens S7-1500 Web Server
+
+How to create a small HMI integrated in the PLC with Web Server and View of Things.
+
+Pedro Pagán Pallarés 24 Jul, 2026
+
+Siemens S7-1500 Web Server HTTPS View of Things TIA Portal
+
+![Cover image for the Web Server of a Siemens S7-1500 PLC](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/web-server-siemens-s7-1500-portada.png)
+
+**Goal and environment**
+
+The goal is to get the **integrated Web Server** of a **Siemens S7-1500** PLC working in a useful way, not just to open a diagnostics page. We will protect it with a user, enable secure communication through **HTTPS** and publish a small **View of Things** screen designed in TIA Portal.
+
+The test uses a **CPU 1515-2 PN** simulated with **PLCSIM Advanced**. The PLC IP address in the lab is **192.168.1.156**; **192.168.1.154** is the PLCSIM Advanced adapter address. In a real installation, replace the PLC IP with the physical CPU address.
+
+![PLCSIM Advanced interface with S7-1500 CPU and simulation adapter](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/01-plcsim-advanced-interface.png)
+
+Siemens documents that S7-1500 CPUs include an integrated web server with interface-specific activation, HTTPS access and authentication through local or central user management. For **View of Things**, Siemens describes it as an HTML5 web application stored in PLC memory and opened in the browser through the PLC Web Server.
+
+Official references used to check the workflow: [S7-1500 Web server](https://docs.tia.siemens.cloud/r/simatic_s7_1500_et_200mp_manual_collection_enus_21/basic-information/automation-system/industrial-cybersecurity/secure-operation-of-cpus/web-server?contentId=pGZaW4UxuqZEQLXZ0CKifg), [Web Server security](https://docs.tia.siemens.cloud/r/en-us/v21/configuring-automation-systems/configuring-the-web-server-s7-300-s7-400-s7-1500/standard-websites-s7-300-s7-400-s7-1500/server-security-s7-300-s7-400-s7-1500), [S7-1500 users and roles](https://docs.tia.siemens.cloud/r/en-us/v21/functional-description-of-s7-1500-cpus-s7-1500/setting-the-operating-behavior-s7-1500/protection-security-s7-1500/settings-for-local-users-and-roles-s7-1500/useful-information-on-the-local-user-administration-and-access-control-s7-1500) and [View of Things for PLC](https://docs.tia.siemens.cloud/r/en-us/v21/visualizing-processes-with-view-of-things/wincc-unified-view-of-things-for-plc?contentId=6slsLt8obJ3hFRqy8fOZ7w).
+
+**Enable the Web Server**
+
+In the CPU properties, open **Web server** and enable the web server on the Ethernet interface you are going to use. Make sure the enabled interface is the one that owns the IP address you will open from the browser.
+
+![Enabling the Web Server in a Siemens S7-1500 CPU from TIA Portal](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/02-tia-activar-web-server-cpu.png)
+
+Then compile and download the configuration to the PLC or to the PLCSIM Advanced instance. If the Web Server does not respond, check the simple things first: correct IP, correct interface and hardware configuration actually downloaded.
+
+**First access from the browser**
+
+With the Web Server enabled, open the PLC IP address in the browser. In this lab:
+
+`https://192.168.1.156/`
+
+At first the browser may mark the page as not secure. That is expected if we have not installed the CA yet or if the PC does not trust the certificate.
+
+![Home page of the Web Server in a Siemens S7-1500 CPU](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/03-web-server-s7-1500-home.png)
+
+![CPU information visible from the S7-1500 Web Server](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/04-web-server-informacion-cpu.png)
+
+Without a user with permissions, access will be limited. To use the Web Server as a real diagnostics and operation tool, we need to configure user management.
+
+![Access to the S7-1500 Web Server before trusting the HTTPS certificate](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/07-login-web-server-no-seguro.png)
+
+**Web Server user and permissions**
+
+In TIA Portal V19 and newer, with current firmware, management is done from **Security settings > Users and roles**. The practical flow is: create a user, create a role with Web Server rights, and assign that role to the user.
+
+In this example the user is **phs**, with a role that includes Web Server permissions. This avoids leaving access open and lets us decide what each user can do.
+
+![TIA Portal users and roles editor for a Siemens S7-1500 PLC](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/05-tia-usuarios-y-roles.png)
+
+![Assigning Web Server permissions to a user role in TIA Portal](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/06-tia-permisos-web-server.png)
+
+After downloading the configuration, log in with that user. The Web Server menu now shows more functions and you can view pages such as diagnostics, CPU status, module information or buffers, depending on the assigned rights.
+
+![Full Web Server menu after logging in with an authorized user](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/08-menu-web-server-s7-1500.png)
+
+![Diagnostics events viewed from the Siemens PLC Web Server](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/09-diagnostico-web-server.png)
+
+**HTTPS and certificates**
+
+For the browser connection to be trusted, we need a server certificate and the PC must trust the authority that signed it. With the **Certificate Manager** in TIA Portal we can generate a certificate for the Web Server and sign it with the project CA.
+
+One important detail: if you access the PLC by IP address, that IP address must be covered by the certificate. If the CPU IP changes, regenerate and download the certificate again.
+
+![Enabling global certificate management in TIA Portal](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/10-activar-gestion-global-certificados.png)
+
+![TIA Portal Certificate Manager used to generate the Web Server certificate](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/11-certificate-manager-web-server.png)
+
+Generate the certificate for the Web Server and select it in the web server security settings of the CPU.
+
+![Certificate generated for the Web Server of the S7-1500 CPU](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/12-certificado-generado-web-server.png)
+
+![Assigning the HTTPS certificate to the CPU Web Server](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/13-asignar-certificado-web-server.png)
+
+![Web Server certificate shown as used in TIA Portal](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/14-certificado-usado-web-server.png)
+
+To make Windows and the browser trust the connection, export both the Web Server certificate and the CA certificate of the project. In this case the CA is the TIA Portal project itself.
+
+![Exporting the Web Server certificate from TIA Portal](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/15-exportar-certificado-web-server.png)
+
+![Exporting the certificate authority of the TIA Portal project](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/16-exportar-ca-tia-portal.png)
+
+Then import the CA into the Windows certificate store under **Trusted Root Certification Authorities**. Windows will display a warning because we are deciding to trust that CA; if this is our own project and a lab environment, accept it.
+
+![Importing the TIA Portal CA into the Windows certificate manager](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/17-importar-ca-windows.png)
+
+![Windows warning before trusting the project certificate authority](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/18-aviso-confianza-ca.png)
+
+![TIA Portal CA installed as a trusted root certification authority](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/19-ca-tia-portal-entidades-confianza.png)
+
+Open the PLC URL again and the browser now shows the connection as secure. At this point the Web Server requires a user and the traffic is encrypted over HTTPS.
+
+![Secure HTTPS connection to the Web Server of a Siemens S7-1500](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/20-conexion-https-segura.png)
+
+**Validation with Wireshark**
+
+To verify that traffic is really encrypted, capture the communication between the PC and the PLCSIM Advanced network adapter. The console shows the IP address used by the simulation interface.
+
+![IP address of the Ethernet adapter used by PLCSIM Advanced](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/21-ip-adapter-plcsim-advanced.png)
+
+In Wireshark we should no longer see pages, credentials or values in clear text. We should see TLS/HTTPS traffic between the browser and the PLC, which is what we want before considering the Web Server outside a lab.
+
+![Wireshark capture showing encrypted HTTPS traffic to the PLC Web Server](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/22-wireshark-https-cifrado-plc.png)
+
+**View of Things as a web screen**
+
+**View of Things**, or **VoT**, lets us create a small HTML5 web visualization and serve it from the S7-1500 itself. Screens are designed in TIA Portal with the WinCC Unified editor and dynamizations, but the runtime opens from the PLC Web Server.
+
+For a small diagnostics or local control panel, this is very practical: we do not need a full HMI, but we still get a web screen connected to PLC tags.
+
+![Creating a View of Things screen in TIA Portal](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/23-crear-pantalla-view-of-things.png)
+
+Tags are generated on the HMI side and linked to DB variables. For small screens, dragging variables from the DB speeds things up because TIA Portal creates the associated HMI tag automatically.
+
+![HMI tags generated for a View of Things screen](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/24-tags-hmi-view-of-things.png)
+
+Then configure the VoT start screen. If we want the operation screen to appear when opening the Web Server, instead of the system page, select the View of Things page as the default page.
+
+![Configuring the View of Things start screen](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/25-configurar-pantalla-inicio-vot.png)
+
+![Selecting View of Things as the default Web Server page](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/26-pagina-defecto-view-of-things.png)
+
+**Load and final test**
+
+There are two easy-to-miss points. First, the Web Server and View of Things must be compiled separately when we change the web part. Second, when loading to the PLC, mark the VoT application update; otherwise the PLC will keep serving the previous version.
+
+![Compiling the Web Server and View of Things in TIA Portal](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/27-compilar-web-server-vot.png)
+
+![Loading View of Things to the PLC from TIA Portal](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/28-cargar-view-of-things-plc.png)
+
+Open the Web Server again and log in with the user that already has permissions. If VoT is configured as the default page, the browser will take you directly to the control screen after login.
+
+![Login screen before opening View of Things from the Web Server](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/29-login-view-of-things.png)
+
+![View of Things control screen running from the PLC Web Server](./assets/images/blog-web-server-siemens-s7-1500-https-view-of-things/30-view-of-things-pantalla-control.png)
+
+This closes the complete loop: Web Server enabled, user login, HTTPS certificate trusted by the PC, encrypted communication and a View of Things screen loaded in the PLC.
+
+**Checklist before using it in a plant**
+
+*   **Enable only the required interface:** do not expose the Web Server on networks where it is not needed.
+*   **Always use HTTPS:** HTTP access or untrusted certificates are acceptable for quick lab tests, not as the final state.
+*   **Create named users:** avoid shared generic users for operation or maintenance.
+*   **Limit rights by role:** diagnostics, read-only access, control and administration should not mean the same thing.
+*   **Regenerate certificates if the IP or name changes:** the browser validates the certificate against the destination used.
+*   **Compile and load VoT explicitly:** if the screen does not change, first check the Web Server compilation and load step.
+*   **Validate with a capture:** Wireshark helps confirm that credentials and data are not being sent in clear text.
+
+To review supported functions and View of Things limitations, keep the official Siemens documentation on [View of Things installation and functions](https://docs.tia.siemens.cloud/r/en-us/v21/visualizing-processes-with-view-of-things/installation-and-functions) close by.
+
+**Related articles**
+
+*   [Secure Siemens PLC Communication with HMI and PC/PG](#/a/en%2Fblog-comunicacion-plc-hmi-pc-pg-segura)
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [Secure OPC UA in Siemens S7-1500: certificates, UA Expert and Sign & Encrypt](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert)
+*   [OPC UA sniffer in Siemens PLC with UA Expert](#/a/en%2Fblog-sniffer-opc-ua-plc-siemens-uaexpert)
+*   [Trace in TIA Portal: how to find a phantom fault](#/a/en%2Fblog-trace-tia-portal-plc-siemens)
+*   [Simatic S7-1200/1500 Web Server](#/a/en%2F091)
+
+The practical conclusion is simple: the S7-1500 Web Server is not just a diagnostics page. Properly configured, it can be useful for maintenance and small web screens, as long as it is not left open carelessly. Users, roles, HTTPS and certificates are not decoration; they are the difference between a convenient lab test and a configuration that can be reasonably defended.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Siemens S7-1500 Web Server](https://www.plc-hmi-scadas.com/en/blog/web-server-siemens-s7-1500-https-view-of-things/) — Pedro Pagán Pallarés*

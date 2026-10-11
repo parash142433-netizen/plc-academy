@@ -1,0 +1,55 @@
+---
+title: "WinCC - WebNavigator \"No Connection to server\""
+slug: "blog-wincc-webnavigaror-no-connection-to-server"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigaror-no-connection-to-server/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","SCADA","WinCC","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC - WebNavigator "No Connection to server"
+
+Jose Manuel Luque 06 Oct, 2024
+
+SCADA SCADA WinCC WinCC
+
+![WinCC - WebNavigator ](./assets/images/blog-wincc-webnavigaror-no-connection-to-server/WinCCWebNavigatorNoserver-1.png)
+
+If after configuring our WinCC WebNavigator server, and it works correctly on our own server, but when we connect from a client we get the following message "**No Connection to server**"  
+As seen in the following image, from the client, we can access the server, which means that the web service is working correctly, the username/password is also correct since we have connected and obviously we can ping.
+
+![](./assets/images/blog-wincc-webnavigaror-no-connection-to-server/WinCCWebNavigatorNoserver-2.png)
+
+  
+So the first thing to check if you are in this situation is whether remote connections have been enabled on the WinCC WebNavigator Server.
+
+We access the Simatic Shell and right-click to access the settings.
+
+![](./assets/images/blog-wincc-webnavigaror-no-connection-to-server/WinCCWebNavigatorNoserver-3.png)
+
+  
+The checkbox **Remote communication** is not enabled :-(  
+We need to enable it and that's it...
+
+![](./assets/images/blog-wincc-webnavigaror-no-connection-to-server/WinCCWebNavigatorNoserver-4.png)
+
+  
+The client connects perfectly now :-)
+
+![](./assets/images/blog-wincc-webnavigaror-no-connection-to-server/WinCCWebNavigatorNoserver-5.png)
+
+  
+If it has not been resolved, you can consult the following [checklist](https://support.industry.siemens.com/cs/document/109814515/checklist-webnavigator-datamonitor-server-connection?dti=0&lc=en-ME) and review the documentation of [WinCC WebNavigator](https://support.industry.siemens.com/cs/document/109818198/wincc-basic-options-v8-0-webnavigator-datamonitor-webux?dti=0&lc=en-ES)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC - WebNavigator "No Connection to server"](https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigaror-no-connection-to-server/) — Jose Manuel Luque*

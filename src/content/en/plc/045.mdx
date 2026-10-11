@@ -1,0 +1,61 @@
+---
+title: "Communication between PC and Omron CQM1 PLC"
+slug: "045"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/045.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","OMRON"]
+tags: ["Automata","PLC","Omron","CQM1"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [OMRON](#/a/en%2Fplc-omron) › Article
+
+# Communication between PC and Omron CQM1 PLC
+
+Jose Manuel Luque
+
+Automata PLC Omron CQM1
+
+In this practice, we will establish communication between the PC and the PLC, in order to later create, modify, and download a program to the PLC or in some situations vice versa, download from the PLC to the PC.
+
+The first step once CX-Programmer is opened will be to create a new project, assigning it a name and specifying the model and type of CPU.
+
+![](./assets/images/045/Omron-Com-02.jpg)
+
+![](./assets/images/045/Omron-Com-03.jpg)
+
+Once specified, we will configure the Network that we will use to establish communication; by default, we will use the values assigned by the program.
+
+![](./assets/images/045/Omron-Com-04.jpg)
+
+At this point, we will assume several cases; we have created our project and we will perform the transfer to load the program, but we can also have the situation where we will load the configuration of a PLC to our PC. For this reason, the next step will be to go to the tab PLC -> Work Online.
+
+![](./assets/images/045/Omron-Com-05.jpg)
+
+A pop-up window will inform us to establish the connection with the PLC and through the configured network, we confirm if we want to proceed.
+
+![](./assets/images/045/Omron-Com-06.jpg)
+
+In the next image, we can observe that an attempt is being made to establish the connection between both devices; if there is any error, an error window will appear; if not, and the configuration is correct, we will proceed to the next image.
+
+![](./assets/images/045/Omron-Com-07.jpg)
+
+In this case, the connection has been successfully established, and we can see that we are Online and in Run Mode; when connected, a series of options will be enabled that will be used to perform the transfer.
+
+![](./assets/images/045/Omron-Com-08.jpg)
+
+We go to the PLC tab and within it to Transfer -> here we will select the option that interests us, either to transfer to the PLC or to transfer from the PLC to the PC.
+
+![](./assets/images/045/Omron-Com-09.jpg)
+
+We also have the option to make an automatic Online connection, where the program will scan the network at different speeds and configurations; the following video shows an example.
+
+              If you are using a browser with JavaScript disabled please enable it now. Otherwise, please update your version of the free Flash Player by [downloading here](http://www.adobe.com/go/getflashplayer).
+
+October 20, 2012
+
+---
+*Source: [Communication between PC and Omron CQM1 PLC](https://www.plc-hmi-scadas.com/en/045.php) — Jose Manuel Luque*

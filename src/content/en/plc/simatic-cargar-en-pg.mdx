@@ -1,0 +1,70 @@
+---
+title: "Download program from an S7-300 Step7"
+slug: "simatic-cargar-en-pg"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Simatic_Cargar_en_PG.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Download program from an S7-300 Step7"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Download program from an S7-300 Step7
+
+Jose Manuel Luque
+
+Download program from an S7-300 Step7
+
+**Load in PG Step 7 Program  
+**
+
+In the following practice, we will see how to download a program from an S7-300/400 PLC, but this time we will download the program through the ISO protocol, since we do not know the IP address of the CP to use the TCP/IP protocol.
+
+First of all, we create a new blank project, do not use the wizard.
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_00.png)
+
+Once the project is created, we will adjust the communication interface, for this go to Tools --> Adjust PC-PG interface.
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_01.png)
+
+As we mentioned, we will use the industrial Ethernet ISO interface, where instead of working with IP addresses, we will work with M.A.C addresses.
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_02.png)
+
+With the interface adjusted, we go to Target System --> Load in PG...
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_03.png)
+
+The following screen will appear, where it will automatically search for all devices on the network. As can be seen, it has found the CP-343-1, where its CPU is in Slot 2, and belonging to Rack 0. These data are by default what we will always apply. By clicking accept, we will load our project, the current program, with its hardware.
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_04.png)
+
+The next image shows the hardware of the project and the current program, but without any comments!!!
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_05.png)
+
+We can now access our CP in the Hardware, from this moment on, we will know the IP address and the subnet it belongs to.
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_06.png)
+
+If necessary, we can modify the IP address, the subnet mask, etc...
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_07.png)
+
+We load our modifications and in case we have changed the IP address, we can now set our PC in the same range and change the interface to TCP/IP.
+
+![](./assets/images/simatic-cargar-en-pg/Step7_ISO_08.png)
+
+May 13, 2014
+
+If you liked it or found it helpful, share it...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Download program from an S7-300 Step7](https://www.plc-hmi-scadas.com/en/Simatic_Cargar_en_PG.php) — Jose Manuel Luque*

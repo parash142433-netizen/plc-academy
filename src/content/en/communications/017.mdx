@@ -1,0 +1,93 @@
+---
+title: "RSLinx OPC Server"
+slug: "017"
+locale: "en"
+category: "communications"
+originalUrl: "https://www.plc-hmi-scadas.com/en/017.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Communications","OPC SERVER"]
+tags: ["RSLinx","OPC Server","RSLogix Emulate 5000","OPC Test Client"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Communications](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › RSLinx OPC Server
+
+# RSLinx OPC Server
+
+Creating an OPC topic in RSLinx and testing reads with OPC Test Client.
+
+Jose Manuel Luque Aug 15, 2012
+
+RSLinxOPC ServerRSLogix Emulate 5000OPC Test Client
+
+![RSLinx OPC Server](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-03.jpg)
+
+**Objective**
+
+RSLinx, in Professional or Gateway version, can act as the OPC server for the Allen Bradley PLC family. This practice creates a topic and tests it with OPC Test Client.
+
+The example uses the PLC simulated in the RSLogix Emulate 5000 practice, but the procedure is the same if the simulator is replaced by a real PLC.
+
+**Create a Topic in RSLinx**
+
+Run RSLinx and open DDE/OPC > Topic Configuration.
+
+Click New to create a new topic and assign a useful name. That name will later be used by OPC clients.
+
+![RSLinx access to Topic Configuration](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-03.jpg)
+
+![Creating a new OPC topic in RSLinx](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-04.jpg)
+
+**Assign the Topic to the PLC**
+
+The topic is assigned to the PLC it will reference. In this case RSLogix Emulate 5000 is used, which behaves like a real controller for simulation purposes.
+
+In the Data Collection tab, assign the project or CSV file that provides access to the tags or items.
+
+![Topic assigned to the emulated controller](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-05.jpg)
+
+![OPC topic Data Collection tab](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-05a.jpg)
+
+![Project or tag file selection](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-05b.jpg)
+
+**Test with OPC Test Client**
+
+With the topic configured, RSLinx OPC Server can be accessed. OPC Test Client is used to verify it.
+
+First define the OPC server, RSLinx OPC Server in this case, and then add a group.
+
+![Selecting RSLinx OPC Server in OPC Test Client](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-06.jpg)
+
+![Creating an OPC group](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-07.jpg)
+
+![OPC group properties](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-08.jpg)
+
+**Add Items and Validate Quality**
+
+Add items from the OPC Test Client browser. Navigate through configured topics and select the variables to read.
+
+Finally check variable values and communication quality. When a client is connected, RSLinx shows a padlock on the topic inside DDE/OPC.
+
+![Browsing OPC topics and items](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-10.jpg)
+
+![Selecting OPC items](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-11.jpg)
+
+![OPC values and quality](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-12.jpg)
+
+![Topic locked while a client is connected](./assets/images/017/Intouch%20-%20RSLogix%20Emulate-13.jpg)
+
+_Original article published on August 15, 2012._
+
+**Related Articles**
+
+*   [RSLogix Emulate 5000](#/a/en%2F011)
+*   [FSGateway configuration](#/a/en%2F021)
+*   [InTouch with RSLogix Emulate 5000 through FSGateway](#/a/en%2F022)
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [RSLinx OPC Server](https://www.plc-hmi-scadas.com/en/017.php) — Jose Manuel Luque*

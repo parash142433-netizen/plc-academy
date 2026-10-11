@@ -1,0 +1,63 @@
+---
+title: "TIA Portal 19 - Get / Put"
+slug: "blog-tia-portal-19-get-put"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/tia-portal-19-get-put/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["PLC","SIEMENS PLC","TIA Portal"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# TIA Portal 19 - Get / Put
+
+Jose Manuel Luque Apr 27, 2024
+
+PLC SIEMENS PLC TIA Portal
+
+![TIA Portal 19 - Get / Put](./assets/images/blog-tia-portal-19-get-put/TIAPortal19_GETPUT-6.png)
+
+If you communicate your programmed PLC with [TIA Portal V.19](https://support.industry.siemens.com/cs/document/109820994/descarga-del-simatic-step-7-incluyendo-safety-s7-plcsim-y-wincc-v19-de-prueba-\(trial\)?dti=0&lc=es-WW) with an HMI/SCADA, you need to activate the checkbox that allows GET/PUT communications, otherwise you won’t be able to communicate, and with this version, you will find that you need to make some adjustments.  
+  
+Siemens is very aware of [Cybersecurity](https://www.siemens.com/global/en/products/automation/topic-areas/industrial-cybersecurity.html?gclid=CjwKCAjwxLKxBhA7EiwAXO0R0Lym4phFPMiXIr7J4L4whPNPXhZRMrfVy5oEzFRnpvY42iUhmlDNjRoCBOUQAvD_BwE&acz=1&gad_source=1) and it is becoming more evident in their products.
+
+![](./assets/images/blog-tia-portal-19-get-put/TIAPortal19_GETPUT-1.png)
+
+  
+What we need to do is create a new role, where by default we will assign the permissions we are going to grant; I have configured Full access, as if it were before this update :-). Here, assign according to the needs.
+
+![](./assets/images/blog-tia-portal-19-get-put/TIAPortal19_GETPUT-3-1.png)
+
+  
+Once the role is created, the next step is to assign it to the Anonymous user as seen in the following image.
+
+![](./assets/images/blog-tia-portal-19-get-put/TIAPortal19_GETPUT-4.png)
+
+  
+We can now check how the permissions have automatically changed to Full access.
+
+![](./assets/images/blog-tia-portal-19-get-put/TIAPortal19_GETPUT-5.png)
+
+  
+And now we can enable the checkbox that we need.
+
+![](./assets/images/blog-tia-portal-19-get-put/TIAPortal19_GETPUT-6.png)
+
+  
+We compile our project and we can now download it to the PLC and communicate as always...
+
+![](./assets/images/blog-tia-portal-19-get-put/TIAPortal19_GETPUT-7.png)
+
+  
+PS. For my work colleagues, don’t say later that it doesn’t communicate because it’s a SCADA problem. The problem is always with the SCADA ;-)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [TIA Portal 19 - Get / Put](https://www.plc-hmi-scadas.com/en/blog/tia-portal-19-get-put/) — Jose Manuel Luque*

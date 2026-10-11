@@ -1,0 +1,628 @@
+---
+title: "How to Set Up a VPN in Your Home Lab with WireGuard"
+slug: "blog-vpn-home-lab-wireguard"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/vpn-home-lab-wireguard/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","REDES INDUSTRIALES"]
+tags: ["VPN","WireGuard","Home Lab","Linux","Networking"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [REDES INDUSTRIALES](#/a/en%2Findustrial-networks) › Article
+
+# How to Set Up a VPN in Your Home Lab with WireGuard
+
+Access your local network from anywhere in the world, securely and in under 45 minutes
+
+Pedro Pagán Pallarés Mar 07, 2026
+
+VPN WireGuard Home Lab Linux Networking
+
+![VPN Home Lab diagram with WireGuard — Secure connection from Internet to home local network](./assets/images/blog-vpn-home-lab-wireguard/VPNwireguard.png)
+
+Choose how you want to follow this guide:
+
+  Read Article   Step-by-Step Tutorial
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+### Planning and Requirements
+
+Step 1 of 7 — What do you need to set up your VPN?
+
+Before we start, let's understand what a VPN is and why you'd want one at home. A **VPN (Virtual Private Network)** creates an encrypted tunnel between your device and your local network, allowing you to access it as if you were at home from anywhere in the world.
+
+*   **Server:** An always-on Linux machine at home (Raspberry Pi, mini PC, VM, old laptop with Ubuntu...)
+*   **Router:** Access to your router settings to open ports (port forwarding)
+*   **Public IP:** Your ISP assigns a public IP (it can be dynamic, we'll solve that with DDNS)
+*   **Client device:** Phone, laptop or tablet to connect from (WireGuard has apps for everything)
+
+📱 You (away from home) → 🌐 Internet → 📡 Your Router → 🖥️ WireGuard Server → 🏠 Local Network
+
+**Why WireGuard?** It's faster, simpler and more secure than OpenVPN. Its source code has ~4,000 lines versus OpenVPN's ~100,000. It's been integrated into the Linux kernel since version 5.6.
+
+### Install WireGuard on the Server
+
+Step 2 of 7 — Prepare the server
+
+*   Update the operating system:
+
+sudo apt update && sudo apt upgrade -y
+
+*   Install WireGuard:
+
+sudo apt install wireguard -y
+
+*   Verify the kernel module is loaded:
+
+sudo modprobe wireguard lsmod | grep wireguard
+
+*   Enable IP forwarding (packet forwarding):
+
+\# Edit sysctl.conf sudo nano /etc/sysctl.conf # Uncomment or add this line: net.ipv4.ip\_forward = 1 # Apply changes: sudo sysctl -p
+
+On **Raspberry Pi OS** (Debian), the command is exactly the same. On **Ubuntu 20.04+**, WireGuard is already in the official repositories.
+
+### Generate Cryptographic Keys
+
+Step 3 of 7 — The foundation of security
+
+WireGuard uses elliptic curve cryptography (**Curve25519**) to generate key pairs. Each device (server and each client) needs its own pair.
+
+*   Generate **server** keys:
+
+\# Create secure directory sudo mkdir -p /etc/wireguard/keys cd /etc/wireguard/keys # Generate server private key wg genkey | sudo tee server\_private.key # Generate public key from private key sudo cat server\_private.key | wg pubkey | sudo tee server\_public.key # Protect key files sudo chmod 600 /etc/wireguard/keys/\*
+
+*   Generate **client** keys (repeat for each device):
+
+\# Client 1 keys (e.g.: my phone) wg genkey | sudo tee client1\_private.key sudo cat client1\_private.key | wg pubkey | sudo tee client1\_public.key
+
+*   Write down the keys (you'll need them in the next steps)
+
+**NEVER share private keys!** Private keys are like passwords. Only public keys are shared between server and clients.
+
+### Configure the WireGuard Server
+
+Step 4 of 7 — The main configuration file
+
+*   Identify your network interface:
+
+\# See which interface your server uses for Internet ip route | grep default # Typical result: "default via 192.168.1.1 dev eth0" # Your interface is: eth0 (or wlan0 if using WiFi)
+
+*   Create the configuration file `/etc/wireguard/wg0.conf`:
+
+sudo nano /etc/wireguard/wg0.conf
+
+*   Write the configuration (replace keys and interface):
+
+\[Interface\] # Server IP within the VPN tunnel Address = 10.0.0.1/24 # Listening port (UDP) ListenPort = 51820 # Server PRIVATE key PrivateKey = <CONTENTS\_OF\_server\_private.key> # Firewall rules (NAT) — replace eth0 with your interface PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE # --- Clients (Peers) --- \[Peer\] # Client 1: My phone PublicKey = <CLIENT\_1\_PUBLIC\_KEY> AllowedIPs = 10.0.0.2/32
+
+*   Start and enable WireGuard:
+
+\# Start the VPN interface sudo wg-quick up wg0 # Enable at system boot sudo systemctl enable wg-quick@wg0 # Check status sudo wg show
+
+The **10.0.0.0/24** subnet is the VPN tunnel's virtual network. The server is `10.0.0.1`, and clients go from `10.0.0.2` onwards.
+
+### Router: Port Forwarding and DDNS
+
+Step 5 of 7 — Opening the door from the Internet
+
+For you to connect from outside your home, your router needs to redirect VPN connections to the server.
+
+*   Access your router panel (usually `http://192.168.1.1`)
+*   Find the **Port Forwarding** / **NAT** / **Virtual Servers** section
+*   Create a rule:
+
+**Port Forwarding Configuration:** Protocol → UDP  
+External Port → 51820  
+Internal IP → Your server's IP (e.g.: 192.168.1.100)  
+Internal Port → 51820
+
+*   **Dynamic IP → Configure DDNS** (if your public IP changes)
+
+\# Option 1: Duck DNS (free) — duckdns.org # Sign up and create a subdomain: yourdomain.duckdns.org # Install cron to update the IP automatically: echo "\*/5 \* \* \* \* curl -s 'https://www.duckdns.org/update?domains=yourdomain&token=YOUR\_TOKEN'" | crontab - # Option 2: No-IP (noip.com) — free with monthly renewal # Option 3: Some routers have built-in DDNS (TP-Link, ASUS, etc.)
+
+*   Assign a static IP (DHCP reservation) to the server on the router
+
+If your public IP is static, you don't need DDNS. You can check at [whatismyip.com](https://www.whatismyip.com/) — if it changes daily, you need DDNS.
+
+### Configure the Clients
+
+Step 6 of 7 — Connect your devices
+
+*   Install WireGuard on the client:
+
+**Download WireGuard:** 📱 Android → [Google Play Store](https://play.google.com/store/apps/details?id=com.wireguard.android)  
+🍎 iOS → [App Store](https://apps.apple.com/app/wireguard/id1441195209)  
+💻 Windows → [wireguard.com/install](https://www.wireguard.com/install/)  
+🐧 Linux → `sudo apt install wireguard`  
+🍏 macOS → [Mac App Store](https://apps.apple.com/app/wireguard/id1451685025)
+
+*   Create the client configuration file:
+
+\[Interface\] # Client IP within the tunnel (unique per device) Address = 10.0.0.2/32 # Client PRIVATE key PrivateKey = <CONTENTS\_OF\_client1\_private.key> # DNS (use your network's or a public one) DNS = 1.1.1.1, 8.8.8.8 \[Peer\] # Server PUBLIC key PublicKey = <CONTENTS\_OF\_server\_public.key> # Your home address (public IP or DDNS domain) Endpoint = yourdomain.duckdns.org:51820 # What traffic to route through the VPN: # Local network only: AllowedIPs = 10.0.0.0/24, 192.168.1.0/24 # All traffic (full tunnel): # AllowedIPs = 0.0.0.0/0 # Keep connection alive (important behind NAT) PersistentKeepalive = 25
+
+*   Import the configuration in the app (.conf file or QR code)
+
+**Mobile trick:** Generate a QR code on the server to import the config easily:  
+`sudo apt install qrencode && qrencode -t ansiutf8 < client1.conf`
+
+### Verification and Testing
+
+Step 7 of 7 — Confirm everything works
+
+*   Connect the client (activate VPN in the WireGuard app)
+*   Verify on the server that the peer is connected:
+
+sudo wg show # Should show: latest handshake, transfer, and client endpoint
+
+*   Ping the server from the client:
+
+\# Ping the VPN server ping 10.0.0.1 # Ping a local network device (e.g.: other PC, NAS) ping 192.168.1.50 # Ping from server to client ping 10.0.0.2
+
+*   Access local services (Home Assistant, NAS, cameras, etc.)
+*   Verify the connection is stable and fast
+
+**VPN is working!** You now have secure remote access to your local network from anywhere in the world. WireGuard will keep the tunnel encrypted with minimal latency.
+
+**Post-installation security:** Configure a firewall (`ufw`), keep the system updated, and limit peers to only the devices you actually need.
+
+Previous Step 1 of 7 Next
+
+#### 1\. What is a VPN and why use one in a Home Lab?
+
+A **VPN (Virtual Private Network)** is a technology that creates an encrypted tunnel between two points over a public network like the Internet. When you set up a VPN at home, you're essentially creating a secure gateway that allows you to connect to your home network as if you were physically there, no matter where you are.
+
+If you have a **home lab** — whether it's a server with Home Assistant, a NAS with your files, IP security cameras, or industrial automation equipment like PLCs and SCADAs for practice — a VPN gives you secure remote access to all of it without exposing services directly to the Internet.
+
+**Why not just open ports for each service?** Because every open port is a potential attack surface. With a VPN, you only open **one port** (UDP 51820 for WireGuard) and through it you access your entire network.
+
+*   **NAS access:** Files, photos and backups from anywhere.
+*   **Home Assistant / smart home:** Control your home securely.
+*   **PLC laboratory:** Access simulation or programming environments remotely.
+*   **IP cameras:** View without exposing RTSP streams to the Internet.
+*   **Remote desktop:** Secure RDP/VNC connections to your machines.
+*   **Public WiFi protection:** Browse safely at cafes and airports.
+
+#### 2\. Comparison: WireGuard vs OpenVPN vs IPSec
+
+There are several solutions for setting up a VPN at home. Here are the main options and why we chose WireGuard:
+
+Feature
+
+WireGuard
+
+OpenVPN
+
+IPSec/IKEv2
+
+**Lines of code**
+
+~4,000
+
+~100,000
+
+~400,000
+
+**Speed**
+
+Very high (kernel-level)
+
+Medium (userspace)
+
+High
+
+**Latency**
+
+Minimal (~1ms overhead)
+
+Medium (~5-10ms)
+
+Low
+
+**Configuration**
+
+Very simple
+
+Complex (certificates)
+
+Complex
+
+**Protocol**
+
+UDP
+
+UDP or TCP
+
+UDP
+
+**Cryptography**
+
+Modern (ChaCha20, Curve25519)
+
+Configurable (OpenSSL)
+
+Configurable
+
+**Linux kernel integration**
+
+Yes (since 5.6)
+
+No (tun/tap)
+
+Yes (XFRM)
+
+**Cross-platform apps**
+
+All (official)
+
+All
+
+Native on many OSes
+
+**Best for**
+
+Home lab, remote access
+
+Legacy corporate environments
+
+Site-to-site connections
+
+WireGuard is the most modern, fastest and simplest option for a home lab. OpenVPN is still valid if you need **TCP compatibility** (to bypass restrictive firewalls) or already have X.509 certificate-based infrastructure. IPSec is overkill for home use.
+
+#### 3\. Solution architecture
+
+Our VPN setup looks like this:
+
+**EXTERNAL NETWORK (Internet)**  
+📱 Client (10.0.0.2) ⟶ 🌐 Internet (your-home.duckdns.org)
+
+**YOUR ROUTER**  
+📡 Router (Public IP → NAT → 192.168.1.100:51820)
+
+**LOCAL NETWORK (192.168.1.0/24)**  
+🖥️ WireGuard Server (192.168.1.100 / 10.0.0.1)  
+💻 PC (192.168.1.50) 📁 NAS (192.168.1.60) 📷 Cameras (192.168.1.70)
+
+The flow is:
+
+1.  The **client** (your phone away from home) sends encrypted packets to the **Endpoint** (your public IP or DDNS domain, port 51820/UDP).
+2.  Your **router** forwards the traffic to the local server via **port forwarding**.
+3.  The **WireGuard server** decrypts the packets and routes them to the local network.
+4.  Responses travel back through the same encrypted tunnel. From your client's perspective, it's like being at home.
+
+#### 4\. Install WireGuard on the server
+
+First, prepare the server. It can be a **Raspberry Pi**, a mini PC, or any Linux machine running 24/7. Even an old laptop with Ubuntu Server works perfectly.
+
+Terminal (Server)
+
+```
+# Update the system
+sudo apt update && sudo apt upgrade -y
+
+# Install WireGuard
+sudo apt install wireguard -y
+
+# Verify kernel module is available
+sudo modprobe wireguard
+lsmod | grep wireguard
+# Expected output: wireguard   XXXXX  0
+
+# Enable IP forwarding (needed for server to forward packets)
+echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+# Output: net.ipv4.ip_forward = 1
+```
+
+On **Debian/Ubuntu**\-based distributions (including Raspberry Pi OS), WireGuard is available in official repositories. On CentOS/RHEL you may need to enable the EPEL repository.
+
+#### 5\. Generate cryptographic keys
+
+WireGuard uses modern and efficient cryptography based on **Curve25519** for key exchange, **ChaCha20** for symmetric encryption, **Poly1305** for authentication, and **BLAKE2s** for hashing. Each device needs a key pair (private + public).
+
+Terminal (Server)
+
+```
+# Create directory for keys (with restrictive permissions)
+sudo mkdir -p /etc/wireguard/keys
+sudo chmod 700 /etc/wireguard/keys
+cd /etc/wireguard/keys
+
+# ─── SERVER keys ───
+wg genkey | sudo tee server_private.key
+sudo cat server_private.key | wg pubkey | sudo tee server_public.key
+
+# ─── CLIENT 1 keys (e.g.: phone) ───
+wg genkey | sudo tee client1_private.key
+sudo cat client1_private.key | wg pubkey | sudo tee client1_public.key
+
+# ─── CLIENT 2 keys (e.g.: laptop) ───
+wg genkey | sudo tee client2_private.key
+sudo cat client2_private.key | wg pubkey | sudo tee client2_public.key
+
+# Protect all private keys
+sudo chmod 600 /etc/wireguard/keys/*_private.key
+
+# View generated keys
+echo "=== Server ==="
+echo "Private: $(sudo cat server_private.key)"
+echo "Public:  $(sudo cat server_public.key)"
+echo ""
+echo "=== Client 1 ==="
+echo "Private: $(sudo cat client1_private.key)"
+echo "Public:  $(sudo cat client1_public.key)"
+```
+
+**Important:** Store keys in a safe place. Private keys should **never** be shared or transmitted through insecure channels. Each device only knows its own private key and the _public_ keys of other devices.
+
+#### 6\. Configure the server
+
+Now let's create the server configuration file. This file defines the tunnel interface, firewall rules and authorized peers (clients).
+
+/etc/wireguard/wg0.conf
+
+```
+[Interface]
+# Server IP address on the VPN network
+Address = 10.0.0.1/24
+
+# Listening port (the one we'll open on the router)
+ListenPort = 51820
+
+# Server private key (copy from server_private.key)
+PrivateKey = SERVER_PRIVATE_KEY_HERE
+
+# Firewall rules for NAT (replace eth0 with your network interface)
+# This allows VPN clients to access the local network
+PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+# ─── PEER: Client 1 (Phone) ───
+[Peer]
+PublicKey = CLIENT1_PUBLIC_KEY_HERE
+AllowedIPs = 10.0.0.2/32
+
+# ─── PEER: Client 2 (Laptop) ───
+[Peer]
+PublicKey = CLIENT2_PUBLIC_KEY_HERE
+AllowedIPs = 10.0.0.3/32
+```
+
+Terminal (Server)
+
+```
+# Protect the configuration file
+sudo chmod 600 /etc/wireguard/wg0.conf
+
+# Bring up the WireGuard interface
+sudo wg-quick up wg0
+
+# Enable auto-start on boot
+sudo systemctl enable wg-quick@wg0
+
+# Verify everything works
+sudo wg show
+# You should see: interface: wg0, listening port: 51820, and your peers
+```
+
+#### 7\. Port forwarding and dynamic DNS
+
+This step connects your server with the outside world. You need to do two things:
+
+**7.1 — Port Forwarding on the router**
+
+Every router has different menus, but the concept is the same: redirect connections arriving at UDP port 51820 on your public IP to your server's local IP. Generic steps:
+
+1.  Access your router panel (usually `192.168.1.1` or `192.168.0.1`).
+2.  Find the **Port Forwarding**, **NAT**, **Virtual Servers** or similar section.
+3.  Create a new rule: Protocol **UDP**, External port **51820**, Destination IP **your server's local IP**, Internal port **51820**.
+4.  It's highly recommended to **assign a static IP** to the server (DHCP reservation on the router) so the rule always points to the right machine.
+
+**7.2 — Dynamic DNS (DDNS)**
+
+Most home connections have a **dynamic public IP** (it changes periodically). A DDNS service maps a fixed domain name to your current IP.
+
+Terminal (Server)
+
+```
+# ─── Option 1: Duck DNS (100% free) ───
+# 1. Sign up at https://www.duckdns.org with your GitHub/Google account
+# 2. Create a subdomain: yourlab.duckdns.org
+# 3. Copy your token
+
+# Update script (runs every 5 minutes via cron)
+echo "*/5 * * * * curl -s 'https://www.duckdns.org/update?domains=yourlab&token=YOUR_TOKEN_HERE&ip=' > /dev/null 2>&1" | crontab -
+
+# Verify it works:
+curl -s "https://www.duckdns.org/update?domains=yourlab&token=YOUR_TOKEN_HERE&ip="
+# Should respond: OK
+
+# ─── Option 2: Cloudflare (if you own a domain) ───
+# Use the Cloudflare API to update an A record automatically
+# (more advanced but professional)
+
+# ─── Option 3: Router built-in DDNS ───
+# Many routers (ASUS, TP-Link, FRITZ!Box) have built-in DDNS
+# Check your router's WAN / DDNS section
+```
+
+#### 8\. Configure the clients
+
+WireGuard has official apps for **all platforms**: Android, iOS, Windows, macOS and Linux. Configuration is identical across all — a simple `.conf` file.
+
+client1.conf (Phone)
+
+```
+[Interface]
+# Unique IP for this client within the VPN tunnel
+Address = 10.0.0.2/32
+
+# THIS client's private key (client1_private.key)
+PrivateKey = CLIENT1_PRIVATE_KEY_HERE
+
+# DNS servers to use when VPN is active
+DNS = 1.1.1.1, 8.8.8.8
+
+[Peer]
+# Server PUBLIC key (server_public.key)
+PublicKey = SERVER_PUBLIC_KEY_HERE
+
+# Your home address (DDNS domain or static public IP)
+Endpoint = yourlab.duckdns.org:51820
+
+# ─── What traffic to route through the VPN? ───
+
+# Option A: Local network access only (split tunnel) — RECOMMENDED
+AllowedIPs = 10.0.0.0/24, 192.168.1.0/24
+
+# Option B: All traffic (full tunnel) — for public WiFi
+# AllowedIPs = 0.0.0.0/0
+
+# Keep connection alive (essential behind mobile NAT)
+PersistentKeepalive = 25
+```
+
+**Split tunnel or full tunnel?**
+
+*   **Split tunnel** (`AllowedIPs = 10.0.0.0/24, 192.168.1.0/24`): Only traffic directed to your local network goes through the VPN. Everything else goes out normally. **Ideal for remote access** — less data and battery usage.
+*   **Full tunnel** (`AllowedIPs = 0.0.0.0/0`): All traffic goes through your home. **Ideal for public WiFi** — encrypts absolutely everything.
+
+Terminal (Server)
+
+```
+# Install QR generator
+sudo apt install qrencode -y
+
+# Generate QR of client configuration file
+# (scan it from the WireGuard mobile app)
+qrencode -t ansiutf8 < /etc/wireguard/clients/client1.conf
+
+# To see QR as PNG (useful over SSH):
+qrencode -o client1-qr.png < /etc/wireguard/clients/client1.conf
+```
+
+#### 9\. Security and hardening
+
+Your VPN is working, but let's tighten security:
+
+**9.1 — Firewall with UFW**
+
+Terminal (Server)
+
+```
+# Install and configure UFW
+sudo apt install ufw -y
+
+# Allow SSH (do this BEFORE enabling the firewall!)
+sudo ufw allow 22/tcp
+
+# Allow WireGuard
+sudo ufw allow 51820/udp
+
+# Enable the firewall
+sudo ufw enable
+
+# Check rules
+sudo ufw status verbose
+```
+
+**9.2 — Automatic updates**
+
+Terminal (Server)
+
+```
+# Install automatic security updates
+sudo apt install unattended-upgrades -y
+sudo dpkg-reconfigure -plow unattended-upgrades
+# Select "Yes" to enable
+```
+
+**9.3 — Additional best practices:**
+
+*   **Limit peers:** Only add devices you actually need.
+*   **Rotate keys:** Generate new keys periodically (every 6-12 months).
+*   **Monitor:** Check `sudo wg show` regularly to see active peers and traffic.
+*   **Fail2ban:** While WireGuard doesn't respond to unauthenticated packets (stealth), you can protect SSH with fail2ban.
+*   **Don't use root:** Manage the server with a regular user and `sudo`.
+*   **Backup configuration:** Store copies of `/etc/wireguard/` in a safe place outside the server.
+
+#### 10\. Common troubleshooting
+
+If something isn't working, check these common points:
+
+Diagnostics
+
+```
+# 1. Is WireGuard running?
+sudo wg show
+# Should show interface wg0 with listening port
+
+# 2. Does the server have connectivity?
+ping -c 3 8.8.8.8
+
+# 3. Is IP forwarding active?
+cat /proc/sys/net/ipv4/ip_forward
+# Should show: 1
+
+# 4. Is the port listening?
+sudo ss -ulnp | grep 51820
+# Should show: UNCONN ... 0.0.0.0:51820
+
+# 5. Are iptables rules in place?
+sudo iptables -t nat -L POSTROUTING -v
+# Should show the MASQUERADE rule
+
+# 6. Is the router forwarding correctly?
+# From OUTSIDE your home, test:
+nc -zuv YOUR_PUBLIC_IP 51820
+# or use: https://www.yougetsignal.com/tools/open-ports/
+```
+
+**Common problems and solutions:**
+
+*   **"Handshake won't complete":** Check that public/private keys are correctly crossed (server's public key in client, client's public key in server).
+*   **"I can ping the VPN server but not the local network":** IP forwarding is not active, or iptables MASQUERADE rules weren't applied.
+*   **"Works on local WiFi but not from mobile data":** Router port forwarding isn't configured correctly or ISP is blocking the port.
+*   **"Connection drops after a few minutes":** Make sure you have `PersistentKeepalive = 25` in the client configuration.
+*   **"CG-NAT: my ISP doesn't give me a public IP":** Some ISPs use CG-NAT (Carrier-Grade NAT). In that case, you need to request a public IP from your ISP or use alternatives like Tailscale or Cloudflare Tunnel.
+
+#### 11\. Advanced use cases
+
+Once your basic VPN is up and running, you can explore these possibilities:
+
+*   **Pi-hole as VPN DNS:** Change the client DNS to Pi-hole's IP (`DNS = 10.0.0.1` if Pi-hole is on the same server). Block ads and trackers even away from home.
+*   **PLC and SCADA access:** If you have a lab with Siemens (TIA Portal), Rockwell or Schneider equipment, the VPN lets you program and monitor remotely without exposing industrial protocols.
+*   **Site-to-site VPN:** Connect two local networks (home + office) by creating a permanent tunnel between two WireGuard servers.
+*   **Multiple clients:** Add peers with incremental IPs (10.0.0.3, 10.0.0.4...) for your whole family or team.
+*   **Automation:** Create a script that automatically generates keys, configurations and QR codes for new clients.
+
+#### 12\. Conclusion
+
+Setting up a VPN with WireGuard in your home lab is one of the best time investments you can make. In under an hour you have a secure, fast and modern remote access to your entire local network.
+
+WireGuard stands out for its **simplicity** (minimal configuration, no complex certificates), its **performance** (integrated into the Linux kernel, minimal latency) and its **security** (modern cryptography, reduced attack surface).
+
+Whether it's accessing your NAS, controlling your smart home, practicing with PLCs in your lab, or just browsing securely on public WiFi networks, WireGuard is the ideal tool for your home lab.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [How to Set Up a VPN in Your Home Lab with WireGuard](https://www.plc-hmi-scadas.com/en/blog/vpn-home-lab-wireguard/) — Pedro Pagán Pallarés*

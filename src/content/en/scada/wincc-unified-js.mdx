@@ -1,0 +1,61 @@
+---
+title: "WinCC Unified JavaScript Synchronous/ Asynchronous"
+slug: "wincc-unified-js"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Unified_JS.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","WinCC Unified","JavaScript"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified JavaScript Synchronous/ Asynchronous
+
+Jose Manuel Luque 07 Mar, 2020
+
+WinCC WinCC Unified JavaScript
+
+**WinCC Unified JavaScript Synchronous/ Asynchronous**
+
+![](./assets/images/wincc-unified-js/vba-logo.png) ![](./assets/images/wincc-unified-js/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+With the arrival of TIA Portal V16, one of the new features was WinCC Unified. As I should have started with the installation and basic steps, I have moved on to answer a question that was asked of me, and thus we are adding content to the website again.
+
+The problem was the execution of a script that was not executing correctly.
+
+Since the new scripting language for WinCC Unified is JavaScript, we will need to learn some concepts if we are not familiar with it.
+
+Here is a concept we need to keep in mind: the difference between executing scripts synchronously and asynchronously.
+
+With the following example, the concept will be clear. I have created two buttons as shown in the image, and this first one will execute synchronously. This means that it will execute line by line as if it were VBScript, and for the next instruction to execute, the previous one must finish. We will output a trace of a message to make it easier to understand.
+
+![](./assets/images/wincc-unified-js/Unified_Script_1.png)
+
+In the following code, the script will execute asynchronously. This means it will execute line by line, but it is not necessary for the first instruction to finish for the next one to execute.
+
+If we look at the code, I have introduced the function to write a text file, which I know requires some time among the same traces we had before. Note that the function has the execution **async**.
+
+![](./assets/images/wincc-unified-js/Unified_Script_2.png)
+
+If we are in runtime and execute the code of the first button, everything executes normally and in order, as we were already familiar with VBScript.
+
+![](./assets/images/wincc-unified-js/Unified_Script_3.png)
+
+But if we look at the following trace of the messages, we see that it is not in the order we wrote our code. The instruction to write the file started when it was supposed to, but it did not wait for it to finish to write the next trace. The command was launched, and the code continued, which is why all the traces are consecutive, and finally, the text file was written correctly.
+
+With this, it is clear what function we need to assign to the execution of our scripts.
+
+\-Consecutive order as the code was written (Synchronous)
+
+\-Order by execution of the function that is executed, regardless of the order (Asynchronous)
+
+![](./assets/images/wincc-unified-js/Unified_Script_4.png)
+
+07-03-2020
+
+---
+*Source: [WinCC Unified JavaScript Synchronous/ Asynchronous](https://www.plc-hmi-scadas.com/en/WinCC_Unified_JS.php) — Jose Manuel Luque*

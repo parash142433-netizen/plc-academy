@@ -1,0 +1,74 @@
+---
+title: "Factory Talk Historian - PIPerfMon (Interface Performance Monitor)"
+slug: "blog-factory-talk-historin-piperfmon"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historin-piperfmon/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk Historian","Factory Talk VIEW SE","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk Historian - PIPerfMon (Interface Performance Monitor)
+
+Jose Manuel Luque Mar 27, 2024
+
+Factory Talk Historian Factory Talk VIEW SE SCADA SCADA
+
+![Factory Talk Historian - PIPerfMon (Interface Performance Monitor)](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000071.png)
+
+After the installation of Factory Talk Historian, by default it comes with 140 tags created, containing system information and information about the Historian itself. The curious thing is that by default, these variables are created but will not show values, nor are they active.  
+The following image is a sample of the tags we are talking about.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/image.png)
+
+If you are interested in reading these variables, you must install the Interface Performance Monitor **PIPerfMon** from the installer. In the following path, all the interfaces that can be installed by default are listed.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000075A-2.png)
+
+We run the Setup and it will install the two missing components.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000071.png)
+
+Once this interface or another one exists is installed, a directory with an executable and some \*.bat files will have been created in our operating system that we will use to add the interface to our system. We run the ICU - **Interface Configuration Utility** and we are going to add a new interface from a BAT file.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000071A.png)
+
+As we mentioned, a directory has been created within Interfaces, regarding **PiPerfMon**, and we select the PiPderMon file.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000071B.png)
+
+The following configuration will automatically load.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000073.png)
+
+Reading the product documentation, it is recommended within Service to configure a user and password. This will prevent a possible error when displaying the values of the variables with an I/O Timeout message.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000078.png)
+
+Note that the user we configured belongs to the operating system user group of **Performance Monitor Users**
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000079.png)
+
+And that we have also configured within Service for the service to be automatic, for this if we press the create button, it modifies two .bat files of the Historian so that the service starts and stops automatically.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000074-1024x466.png)
+
+We just need to restart the Historian and check that everything works correctly. If we check the interfaces, we can already see that PIPerfMon is running.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000075-1024x322.png)
+
+And now we are going to check the status of the variables.
+
+![](./assets/images/blog-factory-talk-historin-piperfmon/FactoryTalkHistorian_000075A-1024x582.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Factory Talk Historian - PIPerfMon (Interface Performance Monitor)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historin-piperfmon/) — Jose Manuel Luque*

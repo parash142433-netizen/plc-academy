@@ -1,0 +1,55 @@
+---
+title: "WinCC Events Screen (Graphics Designer)"
+slug: "wincc-eventos-pdl"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Eventos_PDL.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","Graphics Designer","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Events Screen (Graphics Designer)
+
+Jose Manuel Luque 05 Feb, 2019
+
+WinCC Graphics Designer SCADA
+
+**WinCC Events Screen (Graphics Designer)**
+
+As we have already seen, in this new version of WinCC 7.5, the Close Picture event has been included, so we now have the Open Picture - Close Picture, and I will explain how I implement the While Running.
+
+![](./assets/images/wincc-eventos-pdl/WinCC75-000044.png)
+
+To begin and clarify concepts, by default the trigger is set to 2 seconds; this parameter can be changed in the settings of the Graphics Designer, but if it is not changed, that is the default value after the installation of WinCC.
+
+On a screen, within the properties of Miscellaneous, there is the Update Cycle property, which as we mentioned is set to 2 seconds, the default value if we have not changed it; the following image illustrates this.
+
+![](./assets/images/wincc-eventos-pdl/WinCC75-000053.png)
+
+To implement the While Running, we just need to insert an object; I like to use a text object to write While Running and make it invisible at runtime.
+
+Within the text property or any other property, this does not matter, we will write our VBScript code; as an example, we will show the screen we are on and the current date. Any default property is executed with the Default trigger.
+
+![](./assets/images/wincc-eventos-pdl/WinCC75-000045.png)
+
+When saving the screen with all the changes, we already have a performance warning on screen xxx of object xxx and property xxx.
+
+![](./assets/images/wincc-eventos-pdl/WinCC75-000046.png)
+
+What we are going to do is the following: we will change the update time to the time that interests us for refreshing, or we will create a specific trigger for our time.
+
+![](./assets/images/wincc-eventos-pdl/WinCC75-000055.png)
+
+Subsequently, we change the trigger to Windows Cycle so that it executes according to the time we just defined; this avoids the warning, and I assume this would be a more correct way to do it. If we run the Runtime, while we are on this screen, all our code will execute every x time.
+
+![](./assets/images/wincc-eventos-pdl/WinCC75-000054.png) ![](./assets/images/wincc-eventos-pdl/WinCC75-000056.png)
+
+05-02-2019
+
+---
+*Source: [WinCC Events Screen (Graphics Designer)](https://www.plc-hmi-scadas.com/en/WinCC_Eventos_PDL.php) — Jose Manuel Luque*

@@ -1,0 +1,74 @@
+---
+title: "OPC Driver Configuration WinCC"
+slug: "wincc-driver-opc"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Driver_OPC.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","OPC","OPC Server","Beckhoff","TwinCAT"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# OPC Driver Configuration WinCC
+
+Jose Manuel Luque
+
+WinCC OPC OPC Server Beckhoff TwinCAT
+
+**OPC Driver Configuration WinCC  
+**
+
+Last week we saw the example of the GetTagRaw function, in which we read a variable from a Beckhoff PLC with an OPC link to our WinCC. Today we will see how to configure this Driver.
+
+The first thing we do is go to our variable manager and add a new driver.
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff00.png)
+
+A pop-up window opens where we have all the available drivers. In our example, we select OPC.chn
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff01.png)
+
+Once added, the next thing we do is add a new connection, but this time we will go to System Parameters, as it will make it easier to create the new connection.
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff02.png)
+
+The following window appears where all the OPC Servers installed on our local machine will automatically appear. In my case, I configured it as shown in the image Beckhoff.TwinCATOPCServerDA and selected the Browse Server button.
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff03.png) ![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff04.png)
+
+A new window appears for filtering, we leave it by default, selecting the two Check Boxes (Read access and Write access).
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff05.png)
+
+Finally, we connect to the Server and can observe the variables we have linked. In my case, they are the following to illustrate this example. I select the 5 items and click the Add Items button.
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff07.png)
+
+As we did not have any connection created, a message will appear indicating that we do not have any connection. If we want to add one, we confirm that we do.
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff08.png)
+
+The next step will be to add the name we are interested in. Once we have entered the name or left the default one shown, we must add a prefix and suffix for our variables.
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff09.png) ![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff10.png)
+
+We finish the wizard by clicking finish and we have added our variables and completed the configuration of our connection.
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff11.png)
+
+We can now put our project in Runtime and check its operation. The following image shows us that the communication is correct and works perfectly.
+
+![](./assets/images/wincc-driver-opc/WinCC_OPC_Beckoff13.png)
+
+January 31, 2016
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [OPC Driver Configuration WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Driver_OPC.php) — Jose Manuel Luque*

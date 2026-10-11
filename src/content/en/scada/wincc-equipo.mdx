@@ -1,0 +1,84 @@
+---
+title: "WinCC Equipment Properties"
+slug: "wincc-equipo"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Equipo.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Server","WinCC Client"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Equipment Properties
+
+Jose Manuel Luque
+
+WinCC Server WinCC Client
+
+**WinCC Equipment Properties  
+**
+
+We are going to take advantage of the Multi-User project and its redundancy to see the properties we can configure on the equipment, both on the Server Equipment and on the Client Equipment.
+
+I usually configure these properties the first time I put the project in Runtime to debug and make the necessary checks to ensure everything works properly.
+
+If we position ourselves over the equipment, we will see the devices we have configured; in the case of a Multi-User project, we can add a new device by right-clicking, New device...
+
+![](./assets/images/wincc-equipo/WinCC_Equipo_00.png)
+
+We will see the properties simultaneously for both the Server Equipment and the Client Equipment; if we make any changes to the name of any device, it is necessary to restart WinCC.
+
+In the General tab, we have the devices or device configured for our project.
+
+![](./assets/images/wincc-equipo/WinCC_Equipo_01.png) ![](./assets/images/wincc-equipo/WinCC_Equipo_06.png)
+
+In the Startup tab, we have the options that we can enable when starting the Runtime; note that on the Client Equipment, there are certain options disabled, as these depend directly on the Server Equipment.
+
+In the case of the Server, having configured Redundancy and Synchronization, there are two applications that will start when the Runtime starts.
+
+![](./assets/images/wincc-equipo/WinCC_Equipo_02.png) ![](./assets/images/wincc-equipo/WinCC_Equipo_07.png)
+
+In the Parameters tab, we have it enabled on the Server Equipment, where we will configure the startup language and alternative language; this will depend directly on the installed languages.
+
+We have a RadioButton to select the type of time adjustment; by default, it comes PLC adjusted to Coordinated Universal Time (UTC).
+
+With the checkBox to disable key combinations, we disable, as its name indicates, the ability to do ALT + F4 for example and the key combinations available in Windows.
+
+![](./assets/images/wincc-equipo/WinCC_Equipo_03.png) ![](./assets/images/wincc-equipo/WinCC_Equipo_08.png)
+
+In the Graphics-Runtime tab, we will configure the properties of the window where our application will start; once the project is finished, it is normal to set it to full screen and that's it, but for debugging, it is advisable not to set it to full screen, to easily switch between applications and modify the screens.
+
+We must select what will be the initial screen and choose the menu in case we have configured it; we will do this later when we create it.
+
+There are also properties to disable certain window properties.
+
+On the other hand, we have the mouse behavior; for advanced functions, Siemens recommends having Logitech mouse drivers installed.
+
+There are certain properties, those in the lower right corner, that have no functionality if the project has not been executed with the wizard and the screens, hierarchy, etc. have been defined, so we will not use those properties. If I am mistaken, please contact me and I will update the information.
+
+![](./assets/images/wincc-equipo/WinCC_Equipo_04.png) ![](./assets/images/wincc-equipo/WinCC_Equipo_09.png)
+
+Finally, in the Runtime tab, we will see the main properties; the first one I recommend selecting is Show error window, it will be very helpful when debugging Scripts, as it will take us to the line of code where we have the error. This will be seen soon in its section.
+
+We have some options for design configuration. In the [startup practice](#/a/en%2Fwincc), there is an introduction for selecting and configuring a design.
+
+There is the option to select the checkBox Enable on-screen keyboard, to start the application related to the Keyboard.
+
+The option to use image cache is more applicable in multi-user configurations. The manual recommends creating the PDLCache folder in the installation path of WinCC /bin/PDLCache.
+
+Finally, we can configure the image that will show our cursor in the following situations, or by default the one that appears on the side of each option.
+
+![](./assets/images/wincc-equipo/WinCC_Equipo_05.png) ![](./assets/images/wincc-equipo/WinCC_Equipo_10.png)
+
+March 31, 2014
+
+If you liked it or found it useful, share it...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Equipment Properties](https://www.plc-hmi-scadas.com/en/WinCC_Equipo.php) — Jose Manuel Luque*

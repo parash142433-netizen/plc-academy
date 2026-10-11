@@ -1,0 +1,77 @@
+---
+title: "AVEVA Intouch Read Alarms"
+slug: "blog-aveva-intouch-leer-alarmas"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-leer-alarmas/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["AVEVA Intouch","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch Read Alarms
+
+Jose Manuel Luque 03 May, 2025
+
+AVEVA Intouch SCADA
+
+![AVEVA Intouch Read Alarms - PLC HMI SCADAS](./assets/images/blog-aveva-intouch-leer-alarmas/AVEVALeerAlarms-5.png)
+
+Can we read alarms in **AVEVA Intouch** or **System Platform**?
+
+The answer is that with a few lines of code we will add that functionality.
+
+## Search for the System.Speech Library
+
+By default, we do not have the library we are interested in if we search for **System.Speech**
+
+![Searching for System.Speech in AVEVA Intouch](./assets/images/blog-aveva-intouch-leer-alarmas/image.png)
+
+## Locate the Library in the .NET Framework
+
+You will have it installed on your operating system because it is part of the .NET Framework. You can search for it, as it will be the one we add.
+
+![Locating System.Speech in .NET Framework](./assets/images/blog-aveva-intouch-leer-alarmas/AVEVALeerAlarms-1.png)
+
+## Import the Library into the Environment
+
+Once located, we will import the library into our environment. Once imported, if you want to know a little more, in this [example](#/a/en%2Fblog-aveva-intouch-sqlite), more information is added.
+
+![Importing System.Speech Library into AVEVA Environment](./assets/images/blog-aveva-intouch-leer-alarmas/AVEVALeerAlarms-5.png)
+
+## Enable the NewAlarm Event in AlarmClient
+
+In our symbol where we have embedded the **AlarmClient**, we enable that every time an alarm is generated it triggers the **NewAlarm event**. To do this, when the symbol called MyAlarms is loaded, we will change the mode according to the following information, since by default it does not execute, its value is 0.
+
+![Configuring NewAlarm Event in AlarmClient](./assets/images/blog-aveva-intouch-leer-alarmas/AVEVALeerAlarms-4-1024x488.png)
+
+## Trigger Internal Property in the Event
+
+And in its event, we will trigger an internal property of our symbol.
+
+![Triggering Internal Property in NewAlarm Event](./assets/images/blog-aveva-intouch-leer-alarmas/AVEVALeerAlarms-2.png)
+
+## Demo Code
+
+The following code only demonstrates its functionality and how we already have the library we imported. It would need to be worked on better to only read critical alarms and not all of them... but we will leave that for you to make sense of your SCADA.
+
+![Demo Code with System.Speech in AVEVA Intouch](./assets/images/blog-aveva-intouch-leer-alarmas/AVEVALeerAlarms-3-1024x608.png)
+
+## Functionality Video
+
+And now let's see its functionality ;-)
+
+ Your browser does not support HTML5 video.
+
+Demonstration: Reading Alarms in AVEVA Intouch with System.Speech
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch Read Alarms](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-leer-alarmas/) — Jose Manuel Luque*

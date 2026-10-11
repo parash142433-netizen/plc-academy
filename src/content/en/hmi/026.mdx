@@ -1,0 +1,55 @@
+---
+title: "Backup Panel View with PanelBuilder32"
+slug: "026"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/026.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","ROCKWELL"]
+tags: ["RSLinx","PanelView","PanelBuilder32"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [ROCKWELL](#/a/en%2Fhmi-allen-bradley) › Article
+
+# Backup Panel View with PanelBuilder32
+
+Jose Manuel Luque
+
+RSLinx PanelView PanelBuilder32
+
+In this practice, we will perform a Backup of a PanelView 550. For programming this type of panels, the PanelBuilder32 software is required. The first thing I will do is identify the ports that the panel has and the interface needed to make an upload; consulting the manual, I extract the following information that provides me with the pinout of the cable to be made
+
+![](./assets/images/026/PanelBuilder%20-10.jpg)
+
+1.- The first step will be to configure the DF1 driver in RSLinx, as we will make a point-to-point connection; we run RSLinx and add a new driver
+
+![](./assets/images/026/PanelBuilder-15.jpg)
+
+![](./assets/images/026/PanelBuilder-16.jpg)
+
+2.- We can now see how our PanelView has been detected; we are ready to run PanelBuilder32 and proceed to make the Upload, but first we need to put our panel in transfer mode by accessing the configuration mode, otherwise the application loaded would run
+
+![](./assets/images/026/PanelBuilder-11.jpg)
+
+3.- We run PanelBuilder32, File-> Upload, a window appears where we configure the directory for the application and the specification of the type of communication
+
+![](./assets/images/026/PanelBuilder-06.jpg)
+
+![](./assets/images/026/PanelBuilder-07.jpg)
+
+4.- Once specified, you can click OK and the transfer starts as observed
+
+![](./assets/images/026/PanelBuilder-08.jpg)
+
+![](./assets/images/026/PanelBuilder%20-11.jpg)
+
+![](./assets/images/026/PanelBuilder-09.jpg)
+
+5.- We have completed the Backup of our project
+
+August 30, 2012
+
+---
+*Source: [Backup Panel View with PanelBuilder32](https://www.plc-hmi-scadas.com/en/026.php) — Jose Manuel Luque*

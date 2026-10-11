@@ -1,0 +1,54 @@
+---
+title: "WinCC Active Alarms Number / Unacknowledged Alarms Number"
+slug: "wincc-numero-alarmas"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Numero_Alarmas.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","Alarms","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Active Alarms Number / Unacknowledged Alarms Number
+
+Jose Manuel Luque
+
+WinCC Alarms SCADA
+
+**WinCC Active Alarms Number / Unacknowledged Alarms Number  
+**
+
+Recovering other pending practices from last year...
+
+Sometimes we are interested in knowing if we have any alarms, or any unacknowledged alarms in our system without having to go to the Alarm control; this has been possible since version 6.2 with the following code shown below. For this, we will use two input/output fields, where we will associate the code where the tag we are interested in would go.
+
+As can be seen, it is configured in Decimal format and in integer format.
+
+![](./assets/images/wincc-numero-alarmas/WinCC_Alarmas_00.png)
+
+The code must be in ANSI C and would be as follows:
+
+We will also configure the Event to trigger our code cyclically every Image cycle, although we adapt it to our interest.
+
+![](./assets/images/wincc-numero-alarmas/WinCC_Alarmas_01.png) ![](./assets/images/wincc-numero-alarmas/WinCC_Alarmas_02.png)
+
+To know the Number of Unacknowledged Alarms, we proceed as before and the code is as follows.
+
+![](./assets/images/wincc-numero-alarmas/WinCC_Alarmas_03.png)
+
+Finally, we just need to put it in Runtime and check its functionality.
+
+![](./assets/images/wincc-numero-alarmas/WinCC_Alarmas_06.png) ![](./assets/images/wincc-numero-alarmas/WinCC_Alarmas_07.png) ![](./assets/images/wincc-numero-alarmas/WinCC_Alarmas_08.png)
+
+January 21, 2017
+
+If you liked it or found it useful, share it...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Active Alarms Number / Unacknowledged Alarms Number](https://www.plc-hmi-scadas.com/en/WinCC_Numero_Alarmas.php) — Jose Manuel Luque*

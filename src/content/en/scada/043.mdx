@@ -1,0 +1,105 @@
+---
+title: "Popup window for controlling elements in WinCC V7.0"
+slug: "043"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/043.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["Scada","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# Popup window for controlling elements in WinCC V7.0
+
+Jose Manuel Luque
+
+Scada WinCC
+
+Popup window for controlling elements in WinCC V7.0
+
+This practice is in response to a query on how to control various field elements, such as motors, valves, etc... with a popup window that includes a start button and a stop button to avoid having to create these objects next to each element. Following the example, other functionalities can be included, such as reading and writing the Set Point (SP) of a motor and observing the Process Value (PV) or according to needs.
+
+![](./assets/images/043/WinCCMotor-01.jpg)
+
+I assume there will be several ways to do it, although I will explain one of them that answers the question asked.
+
+The first step is to create a new structure with the variables that interest us from each object, for our example of motors, and this is the structure created that will be according to the needs.
+
+![](./assets/images/043/WinCCMotor-02.jpg)
+
+Within the Variables, I have created a group of variables to store the variables of the created structure and two other variables that we will need will be for the location of the image window and its corresponding X - Y coordinates.
+
+![](./assets/images/043/WinCCMotor-03.jpg)
+
+![](./assets/images/043/WinCC%20Control%20Motores-04.jpg)
+
+Once we have created the variables, this is our image, and the objects we are going to use will be the following:
+
+An image window, which will be the popup window and will locate the image Motor.pdl. Motor.pdl is a new image adapted to the size of our image window in which we will have the buttons and a static text.
+
+The creation of a faceplate, with a circle as an object, since this practice is not dedicated to that objective, although ideally, the motor, valve, etc... should be created within the faceplate, to be able to reuse it.
+
+![](./assets/images/043/WinCC%20Control%20Motores-05.jpg)
+
+The creation of a faceplate is done in the Graphics Designer editor File-> New faceplate type.
+
+A new image opens and we adapt it to the dimensions we are interested in, then we insert a circle, although as I mentioned earlier, here the motor, valve, etc. would be created with the relevant animations.
+
+![](./assets/images/043/WinCC%20Control%20Motores-06.jpg)
+
+What interests us is to create a new property of this object, for this, while in the faceplate window we go to
+
+Edit -> Configure faceplate type, the following image opens and we click on Add property and give it the name we are interested in, I have named it GetVariableName, because we will retrieve the variable we are interested in manipulating, if we want to add other properties it is enough to drag them to the properties.
+
+This is the most basic thing we need to do, we can now save and close the window.
+
+![](./assets/images/043/WinCC%20Control%20Motores-07.jpg)
+
+Another object that we have mentioned we are going to use is an image window that we will link to the image Motor.pdl as shown below, and within its properties, we will dynamize the X-Y coordinates with the variables we created for this.
+
+![](./assets/images/043/WinCC%20Control%20Motores-010.jpg)
+
+![](./assets/images/043/WinCC%20Control%20Motores-011.jpg)
+
+It is time to configure the image Motor.pdl, it will have the size we defined in the image window, so that the scale matches and there is no need to adapt the image.
+
+It will have 3 buttons as observed, next we will see the programming code that each of them has and a static text field that will show us the name of the element we are going to manipulate.
+
+Within the properties of the image, we go to the Event tab and select Other -> Image selection and add the following code, which will show the name of the element we are going to manipulate in the static field, this is possible because the prefix of the variable to be manipulated has previously been sent to the image window, this will be seen when we insert an instance of the faceplate and configure its events.
+
+![](./assets/images/043/WinCC%20Control%20Motores-10.jpg)
+
+The code that we will insert in the On Button will be to activate that bit and in Off to deactivate it, when observing the code it will be seen that we access a variable .CMD that initially there is no such variable, but as I just mentioned, the image window has inherited the prefix we sent, so the variable we are going to manipulate is Prefix.CMD.
+
+To close the image window, we make it invisible with the code that can be observed.
+
+![](./assets/images/043/WinCC%20Control%20Motores-11.jpg)
+
+![](./assets/images/043/WinCC%20Control%20Motores-12.jpg)
+
+![](./assets/images/043/WinCC%20Control%20Motores-13.jpg)
+
+Finally, we insert an instance of the created faceplate and in the user-defined properties, we observe the two we created, in the GetVariableName property, we specify the variable we are interested in, as can be seen the variable is Motor\_A.CMD, the prefix of this variable is Motor\_A which will be the text we will show, hence when we manipulated the variable we referred to .CMD which is the common part of all the variables belonging to the structure.
+
+![](./assets/images/043/WinCC%20Control%20Motores-14.jpg)
+
+![](./assets/images/043/WinCC%20Control%20Motores-15.jpg)
+
+And this is the code we insert when clicking with the mouse, there is a small comment for each function used, except strlok, which segments the variable up to the specified argument, in this case the character ".", then establishes this as a prefix to the image window.
+
+![](./assets/images/043/WinCC%20Control%20Motores-17.jpg)
+
+To conclude this practice, we will see the operation in a small demonstration video.
+
+            #### The content of this page requires a more recent version of Adobe Flash Player.
+
+[![Get Adobe Flash Player](./assets/images/043/get_flash_player.gif)](http://www.adobe.com/go/getflashplayer)
+
+October 8, 2012
+
+---
+*Source: [Popup window for controlling elements in WinCC V7.0](https://www.plc-hmi-scadas.com/en/043.php) — Jose Manuel Luque*

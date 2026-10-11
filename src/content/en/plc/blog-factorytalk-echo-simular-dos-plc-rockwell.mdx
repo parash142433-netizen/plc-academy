@@ -1,0 +1,119 @@
+---
+title: "FactoryTalk Echo: Simulate Two Rockwell PLCs"
+slug: "blog-factorytalk-echo-simular-dos-plc-rockwell"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factorytalk-echo-simular-dos-plc-rockwell/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","PLC","Rockwell"]
+tags: ["FactoryTalk Echo","Studio 5000","Rockwell","ControlLogix"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [Rockwell](#/a/en%2Fplc-allen-bradley) › FactoryTalk Echo
+
+# FactoryTalk Echo: Simulate Two Rockwell PLCs
+
+Two IPs on one network card, two controllers and download from Studio 5000.
+
+Pedro Pagán Pallarés 09 Jul, 2026
+
+FactoryTalk Echo Studio 5000 Rockwell ControlLogix
+
+![Studio 5000 project download to a Rockwell PLC simulated in FactoryTalk Echo](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/14-studio-5000-download-selected-plc.png)
+
+**Objective**
+
+We are going to test **FactoryTalk Echo** by simulating two Rockwell PLCs on the same PC. The idea is to use one network card with two IP addresses, create two controllers in Echo and download each project from **Studio 5000**.
+
+The example is useful for testing isolated PLCs and also communication between them, for example with **produced and consumed tags**.
+
+**Configure IPs in Windows**
+
+To simulate two or more Rockwell PLCs using the same network card, add multiple IP addresses to the Windows interface.
+
+![IPv4 configuration of the Windows network card](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/01-windows-ipv4-adapter.png)
+
+First set the first IP address, which will be used by the first PLC.
+
+![First IP address configured for the first simulated PLC](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/02-fixed-ip-first-plc.png)
+
+Then add a second IP address on the same network card.
+
+![Adding a second IP address to the network card](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/03-add-second-ip-address.png)
+
+![Second IP address added in the advanced TCP IP settings](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/04-second-ip-confirmed.png)
+
+Check the configuration with `ipconfig`.
+
+![ipconfig check showing the two configured IP addresses](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/05-ipconfig-two-addresses.png)
+
+**Create the PLCs in FactoryTalk Echo**
+
+Open **FactoryTalk Echo** and create the first chassis.
+
+![Adding a chassis in FactoryTalk Echo](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/06-factorytalk-echo-add-chassis.png)
+
+Assign a name and accept.
+
+![Name of the chassis created in FactoryTalk Echo](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/07-factorytalk-echo-chassis-name.png)
+
+Now add a controller to the chassis.
+
+![Adding a controller to the FactoryTalk Echo chassis](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/08-factorytalk-echo-add-controller.png)
+
+In this case select **ControlLogix 5380**, assign a name and use the IP dedicated to the first PLC: **192.168.1.170**.
+
+![First ControlLogix 5380 controller with IP 192.168.1.170 in FactoryTalk Echo](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/09-factorytalk-echo-first-controller-ip.png)
+
+For the second PLC, repeat the process: create another chassis and add another controller.
+
+![Second chassis created for another PLC in FactoryTalk Echo](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/10-factorytalk-echo-second-chassis.png)
+
+Assign the second controller the second IP address created in Windows.
+
+![Second Rockwell controller with the second configured IP address](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/11-factorytalk-echo-second-controller-ip.png)
+
+Apply the changes. Both PLCs are now ready to receive the downloads.
+
+![Two PLCs configured and ready in FactoryTalk Echo](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/12-factorytalk-echo-two-plcs-ready.png)
+
+**Download from Studio 5000**
+
+In **Studio 5000**, under communications, select the simulated PLC you want to download to. In this example, a production line and a palletizer communicating with each other are being simulated.
+
+First browse for the controller on the network.
+
+![Browsing for the simulated PLC on the network from Studio 5000](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/13-studio-5000-browse-network.png)
+
+Select the matching PLC and download the project.
+
+![Selecting the PLC and downloading the project from Studio 5000](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/14-studio-5000-download-selected-plc.png)
+
+For the palletizer PLC, do the same, selecting the second simulated controller.
+
+![Downloading the palletizer project to the second simulated PLC](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/15-studio-5000-download-palletizer.png)
+
+**Test PLC communication**
+
+With two IP addresses on the same Windows network card and both emulators running in FactoryTalk Echo, both projects can be downloaded and the PLC-to-PLC communication can be validated.
+
+This setup is useful for testing communication with produced and consumed tags before moving the project to real hardware.
+
+![Communication between two simulated Rockwell PLCs using produced and consumed tags](./assets/images/blog-factorytalk-echo-simular-dos-plc-rockwell/16-produced-consumed-tags-between-plcs.png)
+
+**Related articles**
+
+*   [FactoryTalk Echo - Update Firmware v.37](#/a/en%2Fblog-factorytalk-echo-update-firmware-v-37)
+*   [Ethernet/IP and Common Industrial Protocol (CIP)](#/a/en%2Fblog-ethernet-ip-cip-common-industrial-protocol)
+*   [Studio 5000 and Electronic Data Sheet (EDS)](#/a/en%2Fblog-rslogix-5000-studio-5000-electronic-data-sheet-eds)
+*   [Logix5000 - Consumed and produced tags](#/a/en%2F117)
+*   [Simulation with RSLogix Emulate 5000](#/a/en%2F011)
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [FactoryTalk Echo: Simulate Two Rockwell PLCs](https://www.plc-hmi-scadas.com/en/blog/factorytalk-echo-simular-dos-plc-rockwell/) — Pedro Pagán Pallarés*

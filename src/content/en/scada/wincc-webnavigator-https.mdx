@@ -1,0 +1,72 @@
+---
+title: "WebNavigator HTTPS Configuration"
+slug: "wincc-webnavigator-https"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_WebNavigator_https.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WebNavigator HTTPS Configuration"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WebNavigator HTTPS Configuration
+
+Jose Manuel Luque
+
+WebNavigator HTTPS Configuration
+
+**WebNavigator HTTPS Configuration  
+**
+
+Once our WebNavigator is configured, we can follow the [next practice](#/a/en%2F055) that we have already done, which involves changing its configuration to access it through a secure and encrypted connection using the HTTPS protocol.
+
+The first step is to go to the Internet Information Services (IIS) Manager, which can be accessed from Administrative Tools or by going to Start -> search programs and files, and searching for "IIS".
+
+The next step is to create a new self-signed certificate. To do this, we locate the PC name followed by the logged-in user, in this case PC (PC\\Admin), once selected, we look within IIS -> Server Certificates.
+
+![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS_02.png) ![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS_04.png)
+
+Within the Server Certificates, we will observe the ones that have already been created and we will create a new one.
+
+We assign a name that interests us, and with that, we have generated our certificate.
+
+![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS_05.png)
+
+The next thing we do is go to the site that interests us, in this case to WebNavigator, and on the right side of actions, Modify site -> Bindings. By default, we will see that the HTTP protocol is assigned to port 80 unless another port was configured when running the Web Configurator.
+
+We will add a new one, selecting the type HTTPS, the port that interests us, by default port 443 is the default port for this protocol, and we select the certificate we just created.
+
+![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS_06.png) ![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS_07.png)
+
+Finally, what we are going to configure is SSL (_Secure Sockets Layer_), we open its configuration screen and select Require SSL, apply the changes and restart our Web site. With that, we can test that it works correctly.
+
+![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS_08.png) ![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS_09.png)
+
+If we open our Internet Explorer, version 8-9, when connecting, the following screen will appear, we select continue and then a pop-up will appear for us to log in, we enter the necessary credentials configured in WinCC and that's it.
+
+![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS22.png) ![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS23.png)
+
+We can now access our WebNavigator via https, if we select the "x" symbol in the address bar, we can see information about the certificate.
+
+![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS24.png)
+
+On the other hand, if we are using an unsupported version of Internet Explorer for WebNavigator, we can use WinCCViewerRT. Once configured, a Security pop-up will appear, where, as before, we will confirm that we want to access.
+
+![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS25.png) ![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS26.png)
+
+And here would be our application, running on https and functioning perfectly.
+
+![](./assets/images/wincc-webnavigator-https/WinCC_HTTPS27.png)
+
+October 26, 2014
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WebNavigator HTTPS Configuration](https://www.plc-hmi-scadas.com/en/WinCC_WebNavigator_https.php) — Jose Manuel Luque*

@@ -1,0 +1,75 @@
+---
+title: "Language Configuration in Intouch"
+slug: "028"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/028.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch","$Language","Language Configuration"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Language Configuration in Intouch
+
+Jose Manuel Luque
+
+Intouch $Language Language Configuration
+
+In this practice, we will see how to configure another language and be able to change it when running the Runtime. I start from the basis that I have created my project with the default language, which is English. In the menu, we select Special -> Language -> Configure Languages...
+
+![](./assets/images/028/Intouch%20Lenguaje-00.jpg)
+
+![](./assets/images/028/Intouch%20Lenguaje-01.jpg)
+
+![](./assets/images/028/Intouch%20Lenguaje-03.jpg)
+
+2.- The following pop-up window appears, we click on Add and another pop-up window appears where we select the language of interest. Each language has an ID that will help us change the language in a script when running the Runtime. We also have the option to configure the font.
+
+![](./assets/images/028/Intouch%20Lenguaje-04.jpg)
+
+![](./assets/images/028/Intouch%20Lenguaje-07.jpg)
+
+3.- Once a language is configured, other options become available. We will use Export Dictionary; with this function, we will export an XML file according to the specified path.
+
+![](./assets/images/028/Intouch%20Lenguaje-08.jpg)
+
+![](./assets/images/028/Intouch%20Lenguaje-09.jpg)
+
+4.- We navigate to the selected directory, and there is the file we need to modify to add the words in the language of interest, in this example, Spanish. The file can be opened with any plain text editor like Notepad.
+
+![](./assets/images/028/Intouch%20Lenguaje-10.jpg)
+
+5.- Of all the words used, we have the <Translation> tag, and here is where we introduce the translation of the word as can be seen. As a warning, do not modify any other tags.
+
+![](./assets/images/028/Intouch%20Lenguaje-11.jpg)
+
+![](./assets/images/028/Intouch%20Lenguaje-12.jpg)
+
+6.- Once the file has been modified and all words translated, we save the changes made and we can use the import function to reload the modified file.
+
+We select the path where the file is located and click import. If it completes without any warnings, we will be notified that it has been completed successfully.
+
+For the changes to take effect, the WindowsViewer must be restarted.
+
+![](./assets/images/028/Intouch%20Lenguaje-13.jpg)
+
+![](./assets/images/028/Intouch%20Lenguaje-14.jpg)
+
+7.- The next step will be to create the button to effect the language change when running the Runtime. We create a button and add the following script; to the system variable $Language we assign the ID of the language of interest.
+
+![](./assets/images/028/Intouch%20Lenguaje-16.jpg)
+
+8.- We can now run the Runtime and check the results. We can also change the language if we click on special -> Language on the WindowsViewer and select one of the added dictionaries.
+
+![](./assets/images/028/Intouch%20Lenguaje-17.jpg)
+
+![](./assets/images/028/Intouch%20Lenguaje-18.jpg)
+
+September 1, 2012
+
+---
+*Source: [Language Configuration in Intouch](https://www.plc-hmi-scadas.com/en/028.php) — Jose Manuel Luque*

@@ -1,0 +1,41 @@
+---
+title: "FIFO Function in CX-Programmer"
+slug: "037"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/037.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","OMRON"]
+tags: ["Automata","FIFO","CX-Programmer"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [OMRON](#/a/en%2Fplc-omron) › Article
+
+# FIFO Function in CX-Programmer
+
+Jose Manuel Luque
+
+Automata FIFO CX-Programmer
+
+This practice is to take advantage of an example I had created to test the operation of the FIFO Function in CX-Programmer.
+
+To use the FIFO function, we will first use the SSET function where we will define the address and number of channels for our FIFO function, this instruction will be executed with the system variable P\_First\_Cycle.
+
+Once defined, we will use the PUSH function to add the values we are registering to the stack; in my example, I used the variable D100, where I was forcing different values.
+
+And finally, we use the FIFO function where the first one in will be the first one out.
+
+![](./assets/images/037/CX-Programmer%20Fifo-00.jpg)
+
+![](./assets/images/037/CX-Programmer%20Fifo-01.jpg)
+
+Below is a small animation where you can see the operation.
+
+![](./assets/images/037/CX-Programmer-Fifo-03.gif)
+
+September 13, 2012
+
+---
+*Source: [FIFO Function in CX-Programmer](https://www.plc-hmi-scadas.com/en/037.php) — Jose Manuel Luque*

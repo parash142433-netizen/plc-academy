@@ -1,0 +1,95 @@
+---
+title: "RSLogix Emulate 500 Configuration"
+slug: "023"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/023.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["RSLogix Emulate 500","RSLogix 500","RSLinx","DH485 Emulator"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › RSLogix Emulate 500
+
+# RSLogix Emulate 500 Configuration
+
+Simulation of SLC 5/xx and MicroLogix controllers using RSLogix 500, RSLinx and the DH485 Emulator driver.
+
+Jose Manuel Luque Aug 24, 2012
+
+RSLogix Emulate 500 RSLogix 500 RSLinx DH485 Emulator
+
+![RSLogix 500 project prepared for RSLogix Emulate 500](./assets/images/023/RSLogixEmulate500-01.jpg)
+
+**Objective**
+
+In this practice, **RSLogix Emulate 500** is configured to test programs for the **SLC 5/xx** and **MicroLogix** controller families.
+
+At the time, Rockwell offered a demo version for the MicroLogix family from its download page. The idea of the exercise is to open an RSLogix 500 project, verify it, configure RSLinx and run it on the emulator.
+
+**Verify the Program in RSLogix 500**
+
+Start from an already created **RSLogix 500** program. Before taking it to the emulator, open it, verify it and compile it to avoid warnings when loading it.
+
+![Project opened in RSLogix 500](./assets/images/023/RSLogixEmulate500-01.jpg)
+
+![Project verification and compilation in RSLogix 500](./assets/images/023/RSLogixEmulate500-02.jpg)
+
+**Configure the Driver in RSLinx**
+
+Run **RSLinx** and configure a new driver. For RSLogix Emulate 500, select **SLC500 (DH485) Emulator driver** and add it.
+
+![Selecting the SLC500 DH485 Emulator driver in RSLinx](./assets/images/023/RSLogixEmulate500-03.jpg)
+
+Assign a name to the created driver.
+
+![DH485 Emulator driver name in RSLinx](./assets/images/023/RSLogixEmulate500-04.jpg)
+
+Then configure the station number for the PC running RSLinx and assign it a name. In this example, the name **PC** is used.
+
+![PC station configuration in the RSLinx driver](./assets/images/023/RSLogixEmulate500-06.jpg)
+
+The driver is now configured and running.
+
+![Configured driver running in RSLinx](./assets/images/023/RSLogixEmulate500-07.jpg)
+
+![RSLinx view with the DH485 Emulator driver](./assets/images/023/RSLogixEmulate500-08.jpg)
+
+**Load the Project in RSLogix Emulate 500**
+
+The next step is to run **RSLogix Emulate 500** and click **Open** to load the program to be tested. If the program has not been verified and compiled, a warning will appear asking for compilation.
+
+![Opening RSLogix Emulate 500](./assets/images/023/RSLogixEmulate500-09.jpg)
+
+![Loading the program in RSLogix Emulate 500](./assets/images/023/RSLogixEmulate500-10.jpg)
+
+An emulator configuration window appears. The default values can be left as they are or adjusted as needed. The station number can be checked from the program itself.
+
+![Emulated controller configuration](./assets/images/023/RSLogixEmulate500-10a.jpg)
+
+In the program, go to **Controller Properties** and specify the previously created driver. From here, the station number assigned to the PLC can also be identified.
+
+![Controller Properties in RSLogix 500](./assets/images/023/RSLogixEmulate500-11.jpg)
+
+![Communication driver selection in Controller Properties](./assets/images/023/RSLogixEmulate500-13.jpg)
+
+**Detect the PLC and Go Online**
+
+With these steps, RSLinx detects the emulated PLC. From here, the project can go online and the program operation can be checked.
+
+![Emulated PLC detected from RSLinx](./assets/images/023/RSLogixEmulate500-14.jpg)
+
+![Program running online with RSLogix Emulate 500](./assets/images/023/RSLogixEmulate500-15.gif)
+
+The environment is now ready to test the logic of an RSLogix 500 project without the physical PLC.
+
+_Original article published on August 24, 2012._
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [RSLogix Emulate 500 Configuration](https://www.plc-hmi-scadas.com/en/023.php) — Jose Manuel Luque*

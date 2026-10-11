@@ -1,0 +1,73 @@
+---
+title: "WinCC Unified User Management"
+slug: "wincc-unified-administracion-usuarios"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Administracion_Usuarios.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Unified","User Management","SCADA","WinCC","Siemens"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified User Management
+
+Jose Manuel Luque 14 Mar, 2020
+
+WinCC Unified User Management SCADA WinCC Siemens
+
+**WinCC Unified User Management**
+
+![](./assets/images/wincc-unified-administracion-usuarios/vba-logo.png) ![](./assets/images/wincc-unified-administracion-usuarios/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+We have already seen that once WinCC Unified is installed, the first thing we need to do is run the WinCC Unified configuration, just as we have seen [here](#/a/en%2Fwincc-unified-transferir-proyecto).
+
+Therefore, we start from the point that we already have the WinCC Unified user management administrator, and we are going to log in to create the users that we will use in our project.
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_1.png)
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_2.png)
+
+For this example, regardless of the Administrator (UMCAdmin), I have created the users Monitor and Operator, which means that these users will be able to log in to the system.
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_3.png)
+
+Now in our TIA Portal project and within Security Settings, which is outside the WinCC Unified device, we are going to create these users and this is where we will assign the permissions or roles that we are interested in. Note that when we create these users, they are of the local type.
+
+Example of the Administrator with the role of HMI Administrator
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_4.png)
+
+And another example with the user Monitor, with the role of HMI Monitor, remember this user for a moment, as we will see it in more detail later.
+
+Once we have finished creating our users, there are two small icons that are highlighted and have the functionality to synchronize with UMC and check the status. Apply the Synchronize.
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_6.png)
+
+In the case of creating our own roles, we have the section where we define our own and assign them. Personally, I prefer to define when it comes to read, write, read and write permissions, etc.
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_8.png)
+
+Within our screens, all objects have the property Security --> Authorization, and here will be all our roles, both the default ones and those we have created.
+
+We assign to the corresponding objects the role we have defined. Once this is done, we can test our project.
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_9.png)
+
+We have already compiled and transferred the project. The Server is running and we can now log in.
+
+Do you remember the user Monitor, who only had HMI Monitor permissions? Well, with that permission only, he is not enabled to log in. In conclusion, it is better for all users to have Operator permissions and later assign them the roles we have defined.
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_15.png)
+
+If we now log in as Operator, we have been able to log in and I have assigned administrator permissions to a button, so if we do not have permissions, we have our pop-up window indicating lack of permissions.
+
+![](./assets/images/wincc-unified-administracion-usuarios/WCCUnified_User_16.png)
+
+14-03-2020
+
+---
+*Source: [WinCC Unified User Management](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Administracion_Usuarios.php) — Jose Manuel Luque*

@@ -1,0 +1,145 @@
+---
+title: "Optimizing Industry: Version Control and TIA Portal (Part 2)"
+slug: "blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/"
+author: "Jhon Chuquimarca Castillo"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["PLC","SIEMENS PLC","SIEMENS PLC","TIA Portal"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Optimizing Industry: Version Control and TIA Portal (Part 2)
+
+Jhon Chuquimarca Castillo June 07, 2024
+
+PLC SIEMENS PLC SIEMENS PLC TIA Portal
+
+![Optimizing Industry: Version Control and TIA Portal (Part 2)](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-23.png)
+
+## Graphical Interface of GIT in SIEMENS.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/PLC_industria_dalle-1024x585.webp)
+
+  
+After creating our repository in the previous [post](#/a/en%2Fblog-gittialportal), we will see how we can manage it and make the most of this powerful tool.  
+After following the previous post, we will have a local repository. We will work with this, and very briefly it would be like a backup of our programming.
+
+Although I find it convenient for some things, I miss many commands in the graphical interface of GIT for TIA PORTAL. In this post, we will work with the graphical interface, but for the next post, we will use the command console so you can see the true potential of GIT.
+
+We will see several uses of GIT (Graphical Interface of SIEMENS):
+
+*   Exporting and importing changes locally.
+*   Creating a remote repository.
+*   Exporting and importing changes remotely.
+
+## EXPORTING AND IMPORTING CHANGES
+
+To add a new block to GIT tracking, we will open our WorkStation, search for our block, and drag it from the right (our project) to the left (our repository). \***Tip: If it is inside a folder, drag the entire folder to maintain the same folder structure in the repository.**
+
+By dragging, we will be using `git add` to start tracking a block.  
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-23-1024x314.png)
+
+Once processing is complete, it performs an automatic commit that asks us for a message. We add a descriptive message of the changes and that's it.
+
+\*The automatic commit is because we have it configured this way by default. If we want to disable it, we must right-click on a block:  
+**Git** > **Settings** > **Commit on VCI synchronize**.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-34.png)
+
+After this, we will see a green circle on our project side, which means it is being tracked and there are no changes since our last commit on that block.  
+**_\*After making a change, it will appear in blue and gray._**
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-24-1024x424.png)
+
+After making our changes, we will have 3 options in the action column:  
+**\*We can choose block by block what we want to do.**
+
+*   **Export to our repository:** This would be making a commit/save of our software in our repository.
+*   **Import from our repository:** Revert the changes we have made in the project.
+*   **No action:** We leave the differences; this can help us make several different commits with different descriptions, dates, etc.
+
+With this, we can now make commits as needed, and later we can recover any of them if needed.  
+
+## REMOTE REPOSITORY
+
+### Why Work with a Remote Repository?
+
+Instead of keeping local copies of your project versions, it is sometimes convenient to use a remote server. This can be useful for various reasons, such as having a backup on another computer or allowing multiple people to work on the project simultaneously.
+
+#### Advantages of the Remote Repository
+
+1.  **Backup:** Keeping a copy of the project on a remote server ensures that the data is backed up in case of failures on the local machine.
+2.  **Collaboration:** Allows multiple programmers to work together. Changes can be pushed to the remote repository and pulled to other machines to keep all projects synchronized.
+
+#### Workflow
+
+1.  **Link Local Git to Remote:** Configure your local repository to connect to a remote server.
+2.  **Send Changes:** Every time you make a commit, publish the changes to the remote server using `git push`.
+3.  **Receive Changes:** If other developers have uploaded changes, use `git pull` to update your local repository with the latest modifications.
+
+#### Collaboration Example
+
+*   **Programmer 1:** Makes changes to the project and uploads them to the remote repository (`git push`).
+*   **Programmer 2:** Downloads those changes to their computer (`git pull`) to have the most updated version.
+*   **Programmer 2:** Makes new changes and uploads them to the remote repository.
+*   **Programmer 1:** Downloads the new changes to stay synchronized.
+
+Git handles these operations efficiently to prevent one programmer from overwriting another's work, managing merges and conflicts automatically.
+
+#### Configure Remote Repository
+
+For this, we will need, first and foremost, a remote server to store the data. It can be our own with tools like [**Bonobo Git Server**](https://bonobogitserver.com/) or it can be in the cloud or a third-party server like **[GitHub](https://github.com/)**.
+
+In our case, we will do it with **GitHub**.
+
+*   We open our **GitHub** account and create our repository.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-42.png)
+
+*   We copy the link that appears in our repository.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-43.png)
+
+*   We access the command console and execute the following command `git remote add origin "URL of our github"`.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-45.png)
+
+*   After this, we will need to add our local repository to our remote repository. This is done with the following command `git push --set-upstream origin master`.
+*   Finally, it will ask for verification, and we will probably have to log in to our GITHUB.
+
+After doing all this, you will see in the next image our repository remotely. After this, we would have a backup on another server, and we could throw our computer out the window :D.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-44.png)
+
+##   
+EXPORTING AND IMPORTING IN OUR REMOTE REPOSITORY
+
+To finish, from our TIA PORTAL we can synchronize our repositories:
+
+*   **Push:** Synchronization of our repository with the remote repository.
+*   **Pull:** Synchronization of the remote repository with our local repository.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-40.png)
+
+We can also configure it so that every time we make a commit, a push is automatically made to our remote repository.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-41.png)
+
+Once everything is configured to our liking, we will have a local repository and a backup in our remote repository. This will allow us to experiment and make mistakes without worries, as if at any point something goes wrong in our local repository, we can clone the entire repository with all our commits using `git clone`.
+
+So far, we have learned how to back up all the changes we have made, but we have not yet seen how to restore or compare data. In the next post, we will explore how to recover commits, compare them with the current program or with other commits, and we will see another quite common and useful use when making large changes in the code.
+
+I hope this helps.  
+
+#### Jhon Chuquimarca Castillo
+
+Industrial Automation Technician.
+
+---
+*Source: [Optimizing Industry: Version Control and TIA Portal (Part 2)](https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/) — Jhon Chuquimarca Castillo*

@@ -1,0 +1,933 @@
+---
+title: "Industrial Automation Guide"
+slug: "blog-flujo-trabajo-ingeniero-automatizacion"
+locale: "en"
+category: "articles"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/flujo-trabajo-ingeniero-automatizacion/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Articles"]
+tags: ["PLC","HMI","SCADA","Methodology","Commissioning"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Articles](#/a/en%2Farticles) › Article
+
+# Industrial Automation Guide
+
+Complete engineer's workflow: from FDS to commissioning in 10 phases
+
+Pedro Pagán Pallarés 28 Feb, 2026
+
+PLC HMI SCADA Methodology Commissioning
+
+![Automation engineering project workflow diagram](./assets/images/blog-flujo-trabajo-ingeniero-automatizacion/ProyectoIngenieria.PNG)
+
+Choose how you want to explore this guide:
+
+  Explore Workflow   Read Article
+
+Phase 1 of 10 — 10% complete
+
+Documentation
+
+Software Spec
+
+I/O List
+
+Instrumentation
+
+PLC Programming
+
+HMI Development
+
+SCADA & Recording
+
+FAT Testing
+
+Commissioning
+
+Validation
+
+### Documentation Receipt & Analysis
+
+Phase 1 of 10 — The starting point of every project
+
+Every automation project begins with the receipt of engineering documentation. The automation engineer must analyse, understand and validate these documents before taking a single step. This is the time to ask questions, detect inconsistencies and establish the true scope of the work.
+
+Typical duration: 1 – 2 weeks
+
+100%
+
+Docs reviewed
+
+0
+
+Open RFIs
+
+✓
+
+P&ID vs FDS
+
+✓
+
+Scope approved
+
+#### Inputs
+
+*   FDS (Functional Design Specification) or URS
+*   P&ID (Piping & Instrumentation Diagram)
+*   Equipment list with specifications
+*   Preliminary I/O list
+*   Process narratives and flow diagrams
+*   Cause & Effect Matrix (if available)
+
+#### Outputs
+
+*   Reviewed and annotated documentation
+*   RFI list (Requests for Information)
+*   Initial scope and hours estimate
+*   Requirements traceability matrix
+*   Technical feasibility report
+
+Process Engineers Project Manager Client / End User
+
+#### Tips & Best Practices
+
+*   **Always** request the latest revision of each document — verify revision control.
+*   Cross-check the P&ID against the FDS: every instrument on the P&ID must be described in the FDS.
+*   Identify gaps and ambiguities **now**, not during programming.
+*   Use a document receipt checklist to ensure nothing is missed.
+*   Log every RFI with a number, date and assigned respondent.
+
+#### Common Issues
+
+*   The FDS is incomplete or uses ambiguous terminology.
+*   The P&ID does not match the latest FDS revision.
+*   Missing specifications for critical equipment (drives, proportional valves).
+*   Process changes _after_ document delivery without formal change control.
+*   The client assumes you "just know" requirements that were never written down.
+
+#### Field Note
+
+On a real project, dedicate at least 2 hours to reading the FDS **without interruptions**. Mark with colours: green = clear, yellow = doubt, red = missing info. After the first read, you'll have an RFI list that will save you weeks of rework.
+
+**Deliverables checklist:**
+
+*   FDS reviewed and annotated
+*   P&ID verified vs FDS
+*   RFI list submitted
+*   Traceability matrix created
+*   Scope estimated and approved
+*   Kick-off meeting completed
+
+Next
+
+### Software Specification (SDS)
+
+Phase 2 of 10 — Translating the process into control logic
+
+With the documentation analysed, the automation engineer produces the Software Design Specification (SDS). This document bridges what the process needs and what the program will do. Control narratives, state diagrams, interlock matrices, alarm lists and PID loop definitions are all defined here.
+
+Typical duration: 2 – 4 weeks
+
+#### Inputs
+
+*   Reviewed and validated FDS
+*   Annotated P&ID
+*   Equipment datasheets
+*   RFI responses
+*   Applicable standards (IEC 62443, GAMP5…)
+
+#### Outputs
+
+*   SDS (Software Design Specification)
+*   Control narratives per equipment/area
+*   Interlock matrix (process and safety)
+*   Alarm list with priorities (ISA-18.2)
+*   PID loop definitions, set-points and ranges
+*   Batch recipes if applicable (ISA-88)
+
+Process Engineers Safety Team (SIL) QA / Validation
+
+#### Tips & Best Practices
+
+*   Define naming conventions from day one (ISA-5.1 for tags).
+*   Use standard templates: a well-formatted control narrative saves hours of programming.
+*   Obtain formal sign-off on the SDS before starting to code.
+*   Classify alarms per ISA-18.2: not everything is "High Priority".
+*   Include state machine diagrams for complex sequences.
+
+#### Common Issues
+
+*   **Scope creep**: "while you're at it, can you also add…?" without change control.
+*   Undefined or incomplete start/stop sequences.
+*   Missing failure-mode analysis (what happens if the sensor fails?).
+*   Alarm priorities assigned without formal rationalisation.
+
+Previous Phase 1 of 10 Next
+
+### I/O List & Electrical Design
+
+Phase 3 of 10 — Where software meets hardware
+
+This phase is critical because it connects the software world with real hardware. The I/O list defines every signal entering or leaving the PLC: signal type, engineering range, rack/slot/channel assignment, cable number and terminal strip. Close coordination with the electrical design team is essential for panels, wiring and control architecture to fit together perfectly.
+
+Typical duration: 1 – 3 weeks
+
+#### Inputs
+
+*   Approved SDS
+*   Instrument and equipment datasheets
+*   Electrical schematics (draft)
+*   Proposed network topology
+*   Tag naming standard
+
+#### Outputs
+
+*   Final I/O list (tag, type, range, rack/slot/channel)
+*   PLC hardware BOM (CPUs, modules, PSUs, racks)
+*   Network address assignment
+*   Control architecture diagram
+*   I/O spare capacity specification (10-15%)
+
+Electrical Designers Instrumentation Engineers Procurement
+
+#### Tips & Best Practices
+
+*   Use a database or structured spreadsheet for the I/O list — avoid messy files.
+*   Verify each signal type: 4-20 mA, 0-10 V, NPN/PNP, dry contact, PT100, thermocouple…
+*   Plan **10-15% spare I/O capacity** — signals always get added during commissioning.
+*   Identify long-lead-time items and order them as early as possible.
+*   Coordinate with the electrical team on panel layout and power/signal separation.
+
+#### Common Issues
+
+*   Wrong signal type specified (voltage instead of current, or vice versa).
+*   Insufficient I/O: no spare capacity and now extra modules are needed.
+*   Module incompatibility with the selected CPU type.
+*   I/O list changes after panels have already been built.
+*   Cable numbering errors that go undetected until commissioning.
+
+Previous Phase 1 of 10 Next
+
+### Instrumentation & Equipment Configuration
+
+Phase 4 of 10 — Preparing the field before coding
+
+Before PLC code makes real sense, every field instrument and device must be correctly configured. This includes transmitters, flow meters, variable frequency drives, smart valves, network switches and any device that interacts with the control system. A single misconfigured instrument can cause hours of debugging during commissioning.
+
+Typical duration: 1 – 2 weeks
+
+#### Inputs
+
+*   Finalised I/O list
+*   Instrument and drive datasheets
+*   Network topology design
+*   Client parameterisation standards
+
+#### Outputs
+
+*   Configured instruments (range, damping, comms)
+*   Drive parameter sheets
+*   Network diagram with IP addresses/nodes
+*   HART/Profibus PA/IO-Link configurations
+*   Calibration documentation
+
+Instrumentation Engineers Vendor Support IT/OT Team Electrical Contractors
+
+#### Tips & Best Practices
+
+*   Document **all** parameter changes from factory defaults.
+*   Keep a backup of the original configuration for every drive before modifying anything.
+*   Use structured IP addressing: a coherent scheme saves problems later.
+*   For VFDs: configure motor parameters first, then control parameters.
+*   Verify communication for each instrument _before_ final field installation.
+
+#### Common Issues
+
+*   Incorrect range on transmitters (0-10 bar when the process runs at 0-6 bar).
+*   Fieldbus addressing conflicts (Profibus, Modbus).
+*   Drive parameters causing overcurrent trips on first start-up.
+*   Network switches with default config generating broadcast storms.
+
+Previous Phase 1 of 10 Next
+
+### PLC Programming
+
+Phase 5 of 10 — The heart of automation
+
+This is where all previous work takes shape as executable logic. The engineer develops the PLC program following the SDS narratives, using IEC 61131-3 standards and industry best practices. Motor control blocks, valves, PID loops, sequences, interlocks, communications and diagnostics are all programmed. Reusable libraries, well-structured code and proper documentation are essential.
+
+Typical duration: 3 – 8 weeks
+
+#### Inputs
+
+*   Approved SDS with control narratives
+*   I/O list with final assignments
+*   PLC hardware configuration
+*   Standard block library (if available)
+*   Client/company programming standards
+
+#### Outputs
+
+*   Complete PLC program (FBD/LAD/ST/SFC)
+*   Symbol tables / tag definitions
+*   Function block documentation
+*   Offline simulation results
+*   Version-controlled source code
+
+Other Engineers (code review) Process Engineers Safety Engineers (Safety PLC)
+
+**Common platforms:**
+
+TIA Portal
+
+Siemens — S7-1200/1500
+
+Studio 5000
+
+Rockwell — ControlLogix/CompactLogix
+
+EcoStruxure Control Expert
+
+Schneider — M340/M580
+
+TwinCAT 3
+
+Beckhoff — CX series
+
+Sysmac Studio
+
+Omron — NJ/NX series
+
+#### Tips & Best Practices
+
+*   Use **structured programming**: reusable FB libraries, UDTs, custom data types.
+*   Implement robust error handling: what does the system do if a sensor fails?
+*   Use **version control** (Git + TIA Portal Openness, L5X export, etc.).
+*   Comment your code: every block should explain its purpose, not just how it works.
+*   IEC 61131-3 — choose the right language for each task (SFC for sequences, ST for calculations, FBD for combinational logic).
+
+#### Common Issues
+
+*   Scan time exceeding requirements due to inefficient programming.
+*   Data type mismatches between modules.
+*   Poorly initialised timers/counters causing erratic behaviour on start-up.
+*   "Reinventing the wheel" instead of using proven library blocks.
+*   Missing handling of transient states (what happens during the first scan?).
+
+#### Field Note
+
+Before writing a single line of code, **create the complete project structure**: folders, empty FBs, UDTs and symbol tables. It's like the foundations of a house. If you start programming without structure, you'll end up with spaghetti code nobody can maintain.
+
+**Deliverables checklist:**
+
+*   Complete PLC program
+*   Documented symbol tables
+*   Standard FBs tested
+*   Offline simulation OK
+*   Code under version control
+*   Block documentation
+
+Next
+
+### HMI Development
+
+Phase 6 of 10 — The operator's window to the process
+
+The HMI is the interface between the operator and the process. Good HMI design improves operational efficiency, reduces human error and facilitates anomaly detection. Overview screens, equipment detail views, alarm management, historical trending and intuitive navigation are designed following ISA-101 principles and High Performance HMI guidelines.
+
+Typical duration: 2 – 5 weeks
+
+#### Inputs
+
+*   SDS — HMI section
+*   P&ID (basis for overview screens)
+*   Rationalised alarm list
+*   Client operational requirements
+*   Corporate style guide (if available)
+
+#### Outputs
+
+*   Complete HMI screens (overview, detail, alarms, trends)
+*   Alarm and event configuration
+*   Documented navigation structure
+*   Operator training guide
+*   Screen scripts and animations
+
+Operators (usability) Process Engineers Safety (critical displays)
+
+**Common platforms:**
+
+WinCC / WinCC Unified
+
+Siemens
+
+FactoryTalk View SE/ME
+
+Rockwell
+
+AVEVA InTouch
+
+Schneider / AVEVA
+
+Vijeo Designer
+
+Schneider Electric
+
+#### Tips & Best Practices
+
+*   **Grey-scale backgrounds**: reserve bright colours for abnormal states only.
+*   Minimise unnecessary animations: they distract and consume resources.
+*   Design for the operator's workflow, not to "look pretty".
+*   Implement a clear hierarchy: Overview → Area → Equipment Detail.
+*   ISA-18.2: manage alarms properly to avoid alarm flooding.
+
+#### Common Issues
+
+*   Too much information on a single screen (information overload).
+*   Inconsistent colour coding between screens.
+*   Poorly managed alarms: alarm floods that operators just ignore.
+*   Slow or confusing screen navigation.
+*   Not consulting real operators during the design phase.
+
+Previous Phase 1 of 10 Next
+
+### SCADA & Recording Systems
+
+Phase 7 of 10 — Global visibility and data recording
+
+In larger installations, the SCADA system provides centralised supervision of multiple PLCs and areas. The recording system stores historical process data for analysis, reporting and regulatory compliance. Correctly configuring client-server architecture, OPC UA/DA communications, redundancy and storage policies is fundamental for a robust system.
+
+Typical duration: 2 – 4 weeks
+
+#### Inputs
+
+*   SCADA requirements from the SDS
+*   Tag list for historisation
+*   Storage and retention requirements
+*   Report templates (KPIs, batch reports)
+*   Server architecture
+
+#### Outputs
+
+*   Configured and operational SCADA system
+*   Recording system collecting data
+*   Reports and dashboards
+*   Configured web/mobile access
+*   Architecture documentation
+
+IT Department Management Quality
+
+**Platforms and tools:**
+
+AVEVA System Platform
+
+InTouch + data recording
+
+WinCC OA
+
+Siemens (distributed SCADA)
+
+FactoryTalk (recording)
+
+Rockwell / AVEVA (PI)
+
+OSIsoft PI
+
+AVEVA (formerly OSIsoft)
+
+#### Tips & Best Practices
+
+*   Plan the tag hierarchy with a future-proof mindset — restructuring later is painful.
+*   Define clear data retention policies (how long is data kept?).
+*   Optimise polling rates: not everything needs updating every 100 ms.
+*   Implement redundancy on critical servers (SCADA, recording server).
+*   Use OPC UA whenever possible — it is the future of industrial communications.
+
+#### Common Issues
+
+*   Communication bottlenecks from too many tags or overly fast polling.
+*   Full disks from not planning data recording storage capacity.
+*   Excessive data compression losing relevant information.
+*   Licensing issues in distributed systems (nodes, tags, connections).
+*   IT blocking ports or breaking OPC communication without notice.
+
+Previous Phase 1 of 10 Next
+
+### FAT (Factory Acceptance Test)
+
+Phase 8 of 10 — Validate before going to site
+
+The FAT is the opportunity to verify that everything works correctly **before** arriving at the plant. A simulation environment is set up to test all sequences, interlocks, alarms, communications and failure modes. The client witnesses the tests and signs off. A well-executed FAT drastically reduces issues during actual commissioning.
+
+Typical duration: 1 – 2 weeks
+
+#### Inputs
+
+*   Complete PLC program
+*   Complete HMI/SCADA application
+*   FAT protocol (test document)
+*   Simulation environment (PLCSim, emulators)
+*   Acceptance criteria
+
+#### Outputs
+
+*   Signed FAT report (pass/fail per test)
+*   Punch list (pending issues)
+*   Evidence: screenshots, videos
+*   Software ready for site deployment
+*   Corrective action list if applicable
+
+Client Representatives Process Engineers Quality (protocol compliance)
+
+#### Tips & Best Practices
+
+*   Prepare the simulation environment **well in advance** — not the day before the FAT.
+*   Document each test with screenshots and step-by-step descriptions.
+*   The client should sign **each section** of the FAT, not just the final document.
+*   Include failure tests: loss of communication, sensor failure, power cut.
+*   Record critical sequences on video as additional evidence.
+
+#### Common Issues
+
+*   Incomplete simulation: not all real-world conditions can be tested in the office.
+*   Last-minute changes that invalidate tests already completed.
+*   FAT environment not reflecting the actual plant configuration (firmware versions, networks).
+*   Schedule pressure reducing test coverage.
+*   Unclear definition of acceptance criteria (what constitutes "OK"?).
+
+#### Field Note
+
+Prepare a **test status table** (pending / in progress / pass / fail / N/A) and project it on screen during the FAT. The client sees real-time progress, feels involved, and the sign-off process is much smoother.
+
+**Deliverables checklist:**
+
+*   Signed FAT protocol
+*   Screenshots and videos
+*   Documented punch list
+*   I/O tests complete
+*   Sequence tests OK
+*   Software ready for site
+
+Next
+
+### Commissioning (SAT — Site Acceptance Test)
+
+Phase 9 of 10 — The acid test
+
+Commissioning is where all the office work faces reality. It is divided into sub-phases: **pre-commissioning** (panel inspection, point-to-point verification), **cold commissioning** (systems energised, no process) and **hot commissioning** (real process running). Coordination with installers, electricians, operators and safety managers is constant and demanding.
+
+Typical duration: 2 – 6 weeks
+
+#### Inputs
+
+*   Installed hardware on site
+*   FAT-approved software
+*   Commissioning plan with schedule
+*   Loop check protocols
+*   Work permits and LOTO
+
+#### Outputs
+
+*   Commissioned and operational system
+*   Signed SAT report
+*   Completed and documented loop checks
+*   PID loops tuned with real process
+*   Post-SAT punch list
+*   Updated as-built documentation
+
+Installers / Electricians Operations Team Process Engineers Safety Manager Maintenance
+
+#### Tips & Best Practices
+
+*   Hold **short daily stand-up meetings** to coordinate with all trades.
+*   Always have your programming laptop, cables, adapters and basic tools at hand.
+*   Methodical loop checks: follow a logical order (panel → field → PLC → HMI) and document everything.
+*   PID loops need tuning with the real process, not theoretical values.
+*   Keep a daily log of issues and resolutions — it's your proof of work.
+*   Anticipate plant access issues (permits, schedules, security).
+
+#### Common Issues
+
+*   Wiring errors discovered during loop checks (crossed cables, loose terminals).
+*   Faulty instruments or wrong ranges discovered in the field.
+*   "While you're here, can you also do this?" — **scope creep** on site.
+*   The process behaves differently than expected (times, flows, temperatures).
+*   Communication issues in a noisy industrial environment (EMI, distances).
+*   Scheduling conflicts with other trades (who has panel access now?).
+
+#### Field Note
+
+The **commissioning engineer's bag**: charged laptop + charger, Ethernet cables (2 min.), USB-serial cable, Profibus adapter, insulation tape, flat/Phillips screwdrivers, head torch, phone charger, PPE and a notebook. If you arrive on site missing any of these, you'll lose half a day looking for it.
+
+**Deliverables checklist:**
+
+*   Loop checks complete
+*   Signed SAT report
+*   PIDs tuned
+*   Alarms adjusted
+*   Punch list updated
+*   As-built documentation
+
+Next
+
+### Validation & Handover
+
+Phase 10 of 10 — Closing the project properly
+
+The final phase ensures the system meets all requirements, is properly documented and is handed over to the production and maintenance teams. In regulated industries (pharmaceutical, food), this includes formal validation (IQ/OQ/PQ per GAMP5). Operator and maintenance training, along with complete as-built documentation, are essential for the project's long-term success.
+
+Typical duration: 1 – 3 weeks
+
+#### Inputs
+
+*   SAT results
+*   Validation protocols (IQ/OQ/PQ)
+*   Process performance data
+*   Operations feedback
+*   Regulatory requirements (GMP, FDA, etc.)
+
+#### Outputs
+
+*   Signed validation reports
+*   Complete as-built documentation
+*   SOPs (Standard Operating Procedures)
+*   Training records
+*   Recommended spare parts list
+*   Maintenance/support contract
+*   Final acceptance certificate
+
+Production / Operations Quality / Validation Maintenance Client Management Regulators (if applicable)
+
+#### Tips & Best Practices
+
+*   As-built documentation must reflect the system's **actual** state, not the original design.
+*   Train operators on the real process, not just with presentations.
+*   Provide clear maintenance procedures: what to do if component X fails.
+*   Leave a contact list for post-handover technical support.
+*   Hold a lessons-learned session with the entire team.
+
+#### Common Issues
+
+*   Documentation not updated with the latest commissioning changes.
+*   Insufficient training: operators don't feel comfortable with the system.
+*   Validation deviations requiring investigation and corrective actions.
+*   Resistance to change from production staff.
+*   Punch list items dragging on for weeks or months.
+
+Previous Phase 1 of 10 Next
+
+### Table of Contents
+
+1.  [Introduction: The Automation Project Lifecycle](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+2.  [Phase 1 — Documentation Receipt & Analysis](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+3.  [Phase 2 — Software Specification (SDS)](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+4.  [Phase 3 — I/O List & Electrical Design](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+5.  [Phase 4 — Instrumentation & Equipment Configuration](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+6.  [Phase 5 — PLC Programming](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+7.  [Phase 6 — HMI Development](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+8.  [Phase 7 — SCADA & Recording Systems](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+9.  [Phase 8 — FAT (Factory Acceptance Test)](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+10.  [Phase 9 — Commissioning (SAT)](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+11.  [Phase 10 — Validation & Handover](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+12.  [Summary: The Complete Flow at a Glance](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+
+## Introduction: The Automation Project Lifecycle
+
+The work of an industrial automation engineer or technician goes far beyond "programming a PLC". It is a complex, multidisciplinary process that spans from understanding the production process to handing over a working system, coordinating with dozens of professionals from different disciplines along the way.
+
+This article walks through the **10 fundamental phases** of an automation project, from the moment you receive the first functional specification (FDS) to the signing of the final acceptance certificate. For each phase you will see:
+
+*   **Inputs**: what you need to start that phase.
+*   **Outputs**: what that phase should produce.
+*   **Interactions**: who you need to talk to and coordinate with.
+*   **Tips**: best practices born from real-world experience.
+*   **Common Issues**: the mistakes that repeat project after project.
+
+📋 FDS / P&ID
+
+📝 SDS
+
+🔌 I/O List
+
+🔧 Instruments
+
+💻 PLC
+
+🖥️ HMI
+
+📊 SCADA
+
+🧪 FAT
+
+🏭 SAT
+
+✅ Validation
+
+Let's walk through each of these phases in detail.
+
+1
+
+## Documentation Receipt & Analysis
+
+Every project starts with documents. The FDS (Functional Design Specification), P&IDs, equipment list and preliminary I/O list are the pillars upon which all subsequent work will be built.
+
+#### Inputs
+
+*   FDS or URS (User Requirements Specification)
+*   P&ID (Piping & Instrumentation Diagram)
+*   Equipment list and datasheets
+*   Preliminary I/O list
+*   Process narratives / PFDs
+
+#### Outputs
+
+*   Reviewed and annotated documentation
+*   RFIs (Requests for Information)
+*   Scope estimate
+*   Traceability matrix
+
+The automation engineer must sit down with the documents and **understand the process** before thinking about code. What does this plant do? What are the material flows? Where are the critical control points? What are the operating modes (automatic, manual, cleaning, maintenance)?
+
+It is essential to cross-check the P&ID against the FDS: **every instrument, every valve, every motor** on the P&ID must have its corresponding entry in the FDS. If it doesn't, that is a gap to be resolved now, with a formal RFI that is properly documented.
+
+**Process engineers** are your primary contact in this phase. They designed the process and can resolve your queries. The **project manager** defines scope and timelines. And the **end client** can provide context on unwritten requirements, previous experiences or operational preferences.
+
+#### Key Tip
+
+*   Never assume: if something is not written in the FDS, ask. An RFI at the start is worth ten hours of rework at the end.
+
+2
+
+## Software Specification (SDS)
+
+The SDS translates process requirements into concrete control logic. It is the cornerstone of programming: if the SDS is done well, the program practically writes itself.
+
+#### Inputs
+
+*   Reviewed and validated FDS
+*   Annotated P&ID
+*   Equipment datasheets
+*   RFI responses
+
+#### Outputs
+
+*   Complete SDS
+*   Control narratives
+*   Interlock matrix
+*   Alarm list (ISA-18.2)
+*   PID loop definitions
+
+The SDS should define, for each equipment or control area:
+
+*   **Control narrative**: step-by-step description of operation. Example: "On pressing Start, if the inlet valve is open and the tank level is below 90%, start the feed pump. If the level reaches 95%, stop the pump and close the valve."
+*   **State diagram**: state machine (idle → running → paused → stopping → stopped) with clear transitions.
+*   **Interlocks**: safety conditions preventing dangerous operations (process and safety).
+*   **Alarms**: each alarm with its tag, description, trigger point, priority and expected operator action.
+*   **PID loops**: controlled variable, manipulated variable, ranges, default set-point, initial tuning parameters.
+
+For **batch** projects (pharmaceutical, food, chemical), the SDS must follow the ISA-88 structure, defining recipes, units, phases and parameters.
+
+It is **vital** that the process engineer reviews and formally approves the SDS. This approval is your "contract": what is approved is what gets programmed. Any subsequent changes must go through formal change control.
+
+3
+
+## I/O List & Electrical Design
+
+The I/O list is the bridge between process design and automation hardware. Each process signal becomes a row in a table defining exactly how it enters or leaves the control system.
+
+#### Inputs
+
+*   Approved SDS
+*   Instrument datasheets
+*   Electrical schematics (draft)
+*   Naming standard
+
+#### Outputs
+
+*   Final I/O list
+*   PLC hardware BOM
+*   Architecture diagram
+*   Address assignments
+
+Each row of the I/O list typically includes:
+
+*   **Tag name** (following ISA-5.1: FIT-101, LT-201, XV-301…)
+*   **Description** of the instrument/signal
+*   **Signal type**: AI (4-20 mA), AO (4-20 mA), DI (24 VDC), DO (relay/transistor), RTD, thermocouple…
+*   **Engineering range**: 0-100 bar, 0-500 °C, 0-200 m³/h…
+*   **PLC assignment**: rack, slot, channel, address
+*   **Cable and terminal number**
+*   **Location**: local panel, remote I/O, main cabinet…
+
+Coordination with the **electrical design team** is intense: panel layout, cable routing, power/signal separation, 24 VDC power distribution and protections must all be agreed upon. An error here is costly during installation.
+
+Always **reserve 10-15% spare I/O capacity**. During commissioning, there will always be a missing sensor, an additional signal, or instrumentation added at the last minute.
+
+4
+
+## Instrumentation & Equipment Configuration
+
+A misconfigured instrument produces erroneous data that leads to incorrect control decisions. This phase ensures every field device is ready to deliver the correct signal to the PLC.
+
+**Transmitters**: range, damping, engineering units, communication type (HART, Profibus PA, IO-Link). **Variable Frequency Drives (VFDs)**: motor parameters (rated current, voltage, power, speed), control mode (speed, torque), acceleration/deceleration ramps, safety functions (STO, SS1). **Industrial network**: IP addressing, VLAN configuration, managed switches, ring redundancy (MRP, RSTP).
+
+Every parameter change from factory default must be documented. And you must **always** back up the original device configuration before modifying anything.
+
+5
+
+## PLC Programming
+
+The heart of the project. All previous work materialises into lines of code (or graphical blocks) that will control the process in real time, 24/7, for years.
+
+PLC programming follows the **IEC 61131-3** standard, which defines five languages: **LD** (Ladder), **FBD** (Function Block Diagram), **ST** (Structured Text), **IL** (Instruction List, obsolete) and **SFC** (Sequential Function Chart). Each has its ideal domain:
+
+*   **SFC** for complex sequences (start-ups, shut-downs, batches)
+*   **ST** for mathematical calculations and data manipulation
+*   **FBD** for combinational logic and regulation
+*   **LD** for simple binary logic (basic interlocks)
+
+**Program structure**:
+
+*   Standard reusable blocks: motor control (start/stop/fault), valve control, analogue scaling, PID, alarm management.
+*   UDTs (User Defined Types) to standardise data structures.
+*   Modular organisation: one FB per equipment, grouped by functional area.
+*   Comments and inline documentation: each block explains its purpose.
+*   Version control: Git with source export, TIA Portal Openness, L5X for Rockwell.
+
+TIA Portal
+
+Siemens S7-1200/1500
+
+Studio 5000
+
+Rockwell ControlLogix
+
+EcoStruxure Control Expert
+
+Schneider M340/M580
+
+TwinCAT 3
+
+Beckhoff CX
+
+Sysmac Studio
+
+Omron NJ/NX
+
+#### Key Tip
+
+*   Don't reinvent the wheel. Use proven block libraries. If your company doesn't have them, create and document them for the next project.
+
+6
+
+## HMI Development
+
+The HMI is the operator's window to the process. Good HMI design marks the difference between an operator who detects problems early and one who discovers them when it's already too late.
+
+**High Performance HMI** principles (ISA-101) have revolutionised industrial interface design:
+
+*   **Neutral grey background**: bright colours reserved for abnormal states.
+*   **Information hierarchy**: Overview → Area → Detail → Diagnostics.
+*   **Analogue indicators**: level bars with clear normal operating zones.
+*   **Alarms**: managed per ISA-18.2 with prioritisation and shelving.
+*   **Trends**: embedded historical trends in detail screens, not just dedicated trending screens.
+
+Each brand has its development platform: **WinCC and WinCC Unified** (Siemens), **FactoryTalk View SE/ME** (Rockwell), **AVEVA InTouch** (Schneider/AVEVA), **Vijeo Designer** (Schneider). Although the tools vary, the design principles are universal.
+
+Consult **real operators** during the design. They know what information they need, when they need it and how they want to see it. A pretty design that doesn't reflect the operator's workflow is a failed design.
+
+7
+
+## SCADA & Recording Systems
+
+For medium and large installations, the SCADA provides centralised supervision and the recording system stores data for analysis, compliance and optimisation.
+
+SCADA configuration includes **server architecture** (standalone, distributed, redundant), **communications** (OPC DA/UA, native drivers), **user management**, **report generation** and **web/remote access**.
+
+The **recording system** is critical for traceability, process optimisation and regulatory compliance. You must define: which tags are historised, at what time resolution, what compression is applied and how long data is retained. Platforms such as **AVEVA System Platform (InSQL)**, **OSIsoft PI**, **FactoryTalk** or Siemens' own **WinCC** are the most widespread.
+
+Interaction with the **IT department** is inevitable: servers, backups, network security, certificates and updates are topics that must be negotiated. With the **Quality department** you define data requirements and batch reports.
+
+8
+
+## FAT (Factory Acceptance Test)
+
+The FAT is the safety net before going to site. The more exhaustive the FAT, the fewer surprises you'll encounter during commissioning.
+
+A well-structured FAT includes:
+
+*   **I/O verification**: all inputs and outputs forced with program response verified.
+*   **Sequence testing**: every start-up, shut-down and transition sequence.
+*   **Interlock testing**: every process and safety interlock activated and verified.
+*   **Alarm testing**: all alarm conditions triggered with text, priority and response verified.
+*   **Communication testing**: interfaces between PLCs, SCADA, recording systems, MES.
+*   **Failure testing**: loss of communication, sensor failure, power cut, redundancy.
+
+The client must witness the tests and sign each section. Screenshots, videos and data logs are **contractual evidence** that the system works to specification.
+
+#### Warning
+
+*   The simulation environment is never identical to reality. Document the differences and plan complementary tests to be performed on site.
+
+9
+
+## Commissioning (SAT)
+
+Commissioning is where everything is truly put to the test. It is the most intense, most unpredictable and, often, the most rewarding phase of a project.
+
+It divides into three sub-phases:
+
+**1\. Pre-commissioning**: visual panel inspection (wiring, labelling, terminal torques), point-to-point verification (loop checks), network verification (connectivity, redundancy), energisation plan.
+
+**2\. Cold commissioning**: systems energised, no process. Real field signals are verified, motor starters are tested without load, communication with all devices is confirmed, HMI screens are verified with real data, and drives are commissioned (uncoupled from the process).
+
+**3\. Hot commissioning**: the process starts up with real material. PID loops are tuned with the real process, sequences validated with actual times and flows, alarms adjusted (eliminating false positives), performance optimised and operators trained on the live system.
+
+Coordination with **installers and electricians** is constant: "this cable is crossed", "this motor's contactor won't close", "tank 3's instrument has no signal". Coordination with **operations** is key: they start and stop the process while you adjust in real time. And the **safety manager** must authorise every operation involving risk.
+
+#### Site Survival Tips
+
+*   **Always** carry: charged programming laptop, programming cables (Ethernet, USB, Profibus), adapters, insulation tape, screwdrivers, torch and phone charger.
+*   Document every issue and its resolution in a daily log: it's your contractual protection and your memory.
+*   Hold 15-minute morning meetings with all trades to synchronise the day.
+
+10
+
+## Validation & Handover
+
+The project doesn't end at commissioning. Formal validation, as-built documentation, training and handover to the plant team close the cycle.
+
+In **regulated industries** (pharmaceutical, food, cosmetics), validation follows the GAMP5 model:
+
+*   **IQ (Installation Qualification)**: verifies hardware and software are installed to specification.
+*   **OQ (Operational Qualification)**: verifies the system operates as designed across all operating ranges.
+*   **PQ (Performance Qualification)**: confirms the system maintains expected performance consistently with the real process.
+
+**As-built documentation** is perhaps the most undervalued yet most important deliverable: updated P&ID, final electrical schematics, PLC program (latest version), network configuration, instrument parameters, actual I/O list, and operating and maintenance procedures.
+
+**Training** for operators and maintenance must be practical, on the real system, with fault response exercises. A PowerPoint presentation is not enough.
+
+Finally, the **lessons learned session** captures knowledge acquired during the project to improve the next one.
+
+## Summary: The Complete Flow at a Glance
+
+An automation project's lifecycle is an **iterative and collaborative process**. Each phase produces the inputs for the next, and problems not caught in one phase are amplified in subsequent ones. The keys to success are:
+
+*   **Document everything** from day one.
+*   **Communicate** constantly with all stakeholders.
+*   **Use standards** (IEC 61131-3, ISA-5.1, ISA-18.2, ISA-88, ISA-101) as your framework.
+*   **Never assume**: ask, verify, confirm.
+*   **Plan reserves**: I/O, time and budget.
+*   **Record lessons learned** to improve project after project.
+
+Every project is different, but the phases and principles are consistent. With experience, the skill lies not only in programming well, but in **managing complexity, anticipating problems and coordinating people** from very different disciplines towards a common goal: making the plant work.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Industrial Automation Guide](https://www.plc-hmi-scadas.com/en/blog/flujo-trabajo-ingeniero-automatizacion/) — Pedro Pagán Pallarés*

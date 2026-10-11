@@ -1,0 +1,73 @@
+---
+title: "WinCC Unified Transfer Project"
+slug: "wincc-unified-transferir-proyecto"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Transferir_Proyecto.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Unified","Siemens","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified Transfer Project
+
+Jose Manuel Luque 03 13, 2020
+
+WinCC Unified Siemens SCADA
+
+**WinCC Unified Transfer Project**
+
+![](./assets/images/wincc-unified-transferir-proyecto/vba-logo.png) ![](./assets/images/wincc-unified-transferir-proyecto/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+If you are here, it is because you have previously run the WinCC Unified Configuration, if not, check this [guide](#/a/en%2Fwincc-unified-configuration).
+
+With the user we created the first time, which is the Administrator, we can now log in to manage and create other users. Here is another article dedicated to [user administration](#/a/en%2Fwincc-unified-administracion-usuarios).
+
+The initial address is with https://ComputerName - https://Localhost - https://127.0.0.1
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_8.png)
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_9.png)
+
+Assuming we are going to transfer our project, or that we are going to test and try our application, we start the transfer.
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_10.png)
+
+When compiling, we get the following error. The message is already indicating what we need to do; if we want to keep this configuration, otherwise, we have to run the [Unified Configuration](#/a/en%2Fwincc-unified-configuration) again and not define any password by disabling this option.
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_11.png)
+
+Within our project Runtime Settings -> General
+
+We activate the checkbox (Activate encrypted transfer) and assign the password we created for the transfer.
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_13.png)
+
+And later we also have to define it in the Simatic Runtime Manager, there is a small icon like a gear and we assign the same password.
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_12.png)
+
+We can now transfer the project and observe how the server restarts to load the configuration or new configuration.
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_14.png)
+
+Once restarted and the server has started, we log in with the user we initially defined or if we created another one, and that's it.
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_16.png)
+
+We can now observe our application.
+
+The next thing we will see will be user administration, because if you have noticed when working with Unified, we do not have the user management as with other devices to create them and assign the permissions we are interested in.
+
+Here we have another novelty, and we will have to work on it for better understanding.
+
+![](./assets/images/wincc-unified-transferir-proyecto/WCCUnified_18.png)
+
+03-13-2020
+
+---
+*Source: [WinCC Unified Transfer Project](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Transferir_Proyecto.php) — Jose Manuel Luque*

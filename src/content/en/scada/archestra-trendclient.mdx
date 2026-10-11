@@ -1,0 +1,62 @@
+---
+title: "ArchestrA TrendClient"
+slug: "archestra-trendclient"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/ArchestrA_TrendClient.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["ArchestrA TrendClient"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# ArchestrA TrendClient
+
+Jose Manuel Luque
+
+ArchestrA TrendClient
+
+**ArchestrA TrendClient  
+**
+
+We will continue exploring .net controls and in this case, we will use the TrendClient for visualizing the trends of the variables of interest. As in previous cases, we create a new symbol and embed our control within it.
+
+![](./assets/images/archestra-trendclient/166-ArchestrA-TrendClient-00.png)
+
+By default, this control comes with the following animations, which are shown in the next image. Configuring these will make it ready for use.
+
+![](./assets/images/archestra-trendclient/166-ArchestrA-TrendClient-01.png)
+
+The first one we will configure is Historical Sources. Here there are two options: either we have a Historian Server, as in the following example, or we have enabled Historian Logging within Intouch. We will leave that practice for later. In this case, we will use the Historian that is on the same machine, which is Local, and the authentication we have configured is Windows, but it will adapt to our case. If the Historian were running on another Server, remote connections would need to be enabled in SQL Server.
+
+![](./assets/images/archestra-trendclient/166-ArchestrA-TrendClient-03.png)
+
+Once the Data Source is selected and we have tested that the connection is correct, we can proceed to configure the Pens. For this example, I have added two as can be observed. It involves giving a name in Pen Name and associating this name with its reference directly or an Expression; I have associated them directly with the variables of interest.
+
+Automatically, the fields related to _Pen Details_ will be filled with the values configured in the variable declaration, or they can be assigned to the variable of interest. Within _Pen Options_, we will configure the style, color, and decimals as can be observed. Finally, within _Historical_, we can assign a name to the source and the name of the variable we are using in our Pens. In this same way, we would configure all the ones we are interested in.
+
+With these two options we have just configured, we would have enough to see its operation; the other options can either be left as default or configured according to our interest.
+
+![](./assets/images/archestra-trendclient/166-ArchestrA-TrendClient-10.png)
+
+This would be the appearance of the configuration we have just made, the minimum is 0 and the maximum is 100, because those values were acquired from the tags related to Pen Details Min and Max.
+
+![](./assets/images/archestra-trendclient/166-ArchestrA-TrendClient-05.png)
+
+Within our screen in Intouch, we can now insert our symbol and adapt it to the desired dimensions.
+
+![](./assets/images/archestra-trendclient/166-ArchestrA-TrendClient-09.png)
+
+Finally, to test its operation, we start the Historian and the Runtime. Here we can observe the trend of our tags as well as their configuration within the Historian.
+
+![](./assets/images/archestra-trendclient/166-ArchestrA-TrendClient-07.png) ![](./assets/images/archestra-trendclient/166-ArchestrA-TrendClient-08.png)
+
+In the next practice
+
+September 3, 2013
+
+---
+*Source: [ArchestrA TrendClient](https://www.plc-hmi-scadas.com/en/ArchestrA_TrendClient.php) — Jose Manuel Luque*

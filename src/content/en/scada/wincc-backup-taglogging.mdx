@@ -1,0 +1,80 @@
+---
+title: "Control.Net Connect BackUp TagLogging in Clients"
+slug: "wincc-backup-taglogging"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_BackUp_TagLogging.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["Control.Net","BackUp TagLogging","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# Control.Net Connect BackUp TagLogging in Clients
+
+Jose Manuel Luque
+
+Control.Net BackUp TagLogging WinCC
+
+**Control.Net Connect BackUp TagLogging in Clients  
+**
+
+Today I am going to present my latest .net control for WinCC. First of all, a brief explanation: by default, when we have configured a Backup of our TagLogging databases, when we want to load them in Runtime, we either do it from the editor itself, and in Runtime we can load them from the Online Trend Control, Table Control, and other ActiveX controls, including the option to load it through VBScript. However, if we are on a Client, all the options to connect from the ActiveX controls are disabled, and this is the reason for my Control. To create a control that allows loading the Database from any Client.
+
+The following image shows how we have enabled the Backup for both Fast-Slow Databases.
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_09.png)
+
+By default, what we need to do is share the folder where the databases will be stored, so that from the clients, we have access to the directory.
+
+We specify the permissions, by default to the users of interest; I have given permissions as can be seen to everyone.
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_02.png)
+
+On the SQL Server, it is necessary to enable mixed authentication mode; for this, we start the Management Studio and right-click -> Properties and select SQL Server and Windows Authentication mode.
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_00.png)
+
+The other change we need to make is to enable the user 'sa'; for this, we go to Security, right-click on sa and specify the password, after that in Status, we enable it.
+
+These are all the changes we need to make.
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_01.png)
+
+In the Graphic Designer, we can now insert a .Net type object and look for our Control; by default, we will have created a folder in C:\\ called Controls. This is where we will have copied our \*.dll
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_12.png) ![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_13.png)
+
+Once in the Graphic Designer, if we go to properties, we see that there are 5 properties, four of which are essential for it to work:
+
+UserSQLServer := sa ;  
+PasswordSQLServer:= Password of user sa ;  
+ServerName and DatasourceNameRT we assign the System variables.
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_14.png)
+
+The property PasswordsSQLServer, once the password is entered, is encrypted.
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_07.png)
+
+If in the Graphic Designer we assign the path in the property UNCPahtServer, when we switch to Runtime, it disables searching for another directory on the Network.
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_03.png) ![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_04.png)
+
+However, if we have not specified this property, in Runtime it is enabled to search the entire Network for shared folders.
+
+![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_05.png) ![](./assets/images/wincc-backup-taglogging/ConnectBackupDBTagLogging_06.png)
+
+A demonstration video of the functionality of this Control. The quality of the video is not very good, so I recommend watching it in HD and full screen.
+
+July 27, 2016
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Control.Net Connect BackUp TagLogging in Clients](https://www.plc-hmi-scadas.com/en/WinCC_BackUp_TagLogging.php) — Jose Manuel Luque*

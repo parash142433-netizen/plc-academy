@@ -1,0 +1,56 @@
+---
+title: "S7-1500 Driver Configuration"
+slug: "wincc-driver-s71500"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Driver_S71500.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["S7-1500 Driver Configuration"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# S7-1500 Driver Configuration
+
+Jose Manuel Luque
+
+S7-1500 Driver Configuration
+
+**[S7-1500 Driver Configuration](#/a/en%2Fwincc-ibh-link)  
+**
+
+As mentioned in the [last practice](#/a/en%2Fwincc-instalacion), we are going to configure the S7-1500 Driver in the WinCC v7.3 installation on Windows 10. To do this, the first thing we do in TIA Portal is configure or observe the IP address.
+
+![](./assets/images/wincc-driver-s71500/WinCC_W10_24.png)
+
+Once WinCC is started, we open the Variable Manager, and add a new Driver of type SIMATIC S-1200, S7-1500 Channel, and then we add a new link and give it a name of our choice, in my example S7-1500.
+
+![](./assets/images/wincc-driver-s71500/WinCC_W10_18.png) ![](./assets/images/wincc-driver-s71500/WinCC_W10_19.png)
+
+We can now configure the parameters of the created link, assigning the IP of our PLC and in Access Point the method we are going to use. If it appears blank, we will configure PG/PC Interface.
+
+In Options, we have the option, redundancy intended, to configure a Password for the connection.
+
+![](./assets/images/wincc-driver-s71500/WinCC_W10_20.png) ![](./assets/images/wincc-driver-s71500/WinCC_W10_23.png)
+
+If we have no option in Access Point, as I mentioned, we execute the Set PG/PC Interface and configure our interface.
+
+![](./assets/images/wincc-driver-s71500/WinCC_W10_21.png)
+
+The next image shows that I have configured some PLC Tags to check their operation, in my case the Byte of the internal Clock mark.
+
+![](./assets/images/wincc-driver-s71500/WinCC_W10_28.png)
+
+As of April 2016, WinCC v7.4 has been released to run on Windows 10 :-), however, the tests carried out have been satisfactory and its operation correct.
+
+![](./assets/images/wincc-driver-s71500/WinCC_W10_27.png)
+
+June 1, 2016
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [S7-1500 Driver Configuration](https://www.plc-hmi-scadas.com/en/WinCC_Driver_S71500.php) — Jose Manuel Luque*

@@ -1,0 +1,69 @@
+---
+title: "TIA Portal - GSD Installation for Cognex Cameras"
+slug: "tia-portal-gsd-cognex"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/TIA_Portal_GSD_Cognex.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["GSD","Cognex","TIA Portal"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# TIA Portal - GSD Installation for Cognex Cameras
+
+Jose Manuel Luque
+
+GSD Cognex TIA Portal
+
+**TIA Portal - GSD Installation for Cognex Cameras**
+
+The objective of the upcoming practices is to integrate a Cognex camera into our TIA Portal project and configure the communication via Profinet, but I will do it in several parts, and the first of them is where do we download the GSD from Cognex?
+
+How do we install the GSD files in TIA Portal? Well, those are the topics we are going to address in this first part.
+
+To install the GSD files, we go to the Options menu.
+
+![](./assets/images/tia-portal-gsd-cognex/Cognex_1.png)
+
+In Options, we have the option Manage general station description files (GSD). Once we click on it, the following window will open, where we have to browse to the directory where we have the GSD file.
+
+Now we will answer the question, where do we download the GSD files from Cognex? Well, to obtain them, what we need to do is install the Insight Explorer. This is the Cognex Software, and here you can [download it](https://www.cognex.com/Support/InSight/Software.aspx).
+
+Once downloaded and installed, this is my path: C:\\Program Files (x86)\\Cognex\\In-Sight\\In-Sight Explorer 5.2.2\\Factory Protocol Description\\GSD, from here I took them and moved them to the directory that interests me.
+
+We specify the directory, and as can be seen in the following image, it will list all the available files.
+
+![](./assets/images/tia-portal-gsd-cognex/Cognex_2.png)
+
+We select the one that interests us, and we can install it now.
+
+![](./assets/images/tia-portal-gsd-cognex/Cognex_3.png)
+
+The installation process only takes a few seconds.
+
+![](./assets/images/tia-portal-gsd-cognex/Cognex_4.png)
+
+And that's it, we have installed the GSD. This same process is applicable to the installation of any GSD that we are interested in integrating into our hardware. With TIA Portal, once you have integrated a GSD into a project, when you open that project on another PC, it loads automatically. There is no need to install the GSD files.
+
+![](./assets/images/tia-portal-gsd-cognex/Cognex_5.png)
+
+We update the Hardware catalog.
+
+![](./assets/images/tia-portal-gsd-cognex/Cognex_6.png)
+
+And that's it, we now have the devices available that we can integrate into our Profinet network.
+
+![](./assets/images/tia-portal-gsd-cognex/Cognex_7.png)
+
+Once we have installed the GSD files, we will move on to the next practice, where we will [configure the Cognex camera](#/a/en%2Fcognex-insight-explorer) to enable communications via Profinet.
+
+February 4, 2018
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [TIA Portal - GSD Installation for Cognex Cameras](https://www.plc-hmi-scadas.com/en/TIA_Portal_GSD_Cognex.php) — Jose Manuel Luque*

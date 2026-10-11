@@ -1,0 +1,64 @@
+---
+title: "Factory Talk View Flash, GIF Animations"
+slug: "factorytalkview-animaciones"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/FactoryTalkView_Animaciones.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk View Flash Animations","GIF Animations"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk View Flash, GIF Animations
+
+Jose Manuel Luque
+
+Factory Talk View Flash Animations GIF Animations
+
+**Factory Talk View SE Flash, GIF Animations  
+**
+
+With the following practice, we will answer a question raised: how it was possible to insert \*.gif animations into our project created in Factory Talk View SE. Once we are on the subject, we will see how to insert our \*.gif and also our animations created in Flash, with the requirement for the latter being the installation of Adobe Shockwave Player.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-00.png)
+
+Once Adobe Shockwave is installed, we can start our project and insert a new Active X Control, selecting the Shockwave Flash Object.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-01.png)
+
+Once inserted, we can observe its properties. The simplest configuration would be to provide the path of our file in Movie URL, select the corresponding checkboxes for the operation mode of our animation, and with that, it would be ready to execute.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-02.png)
+
+However, if we navigate through its tabs, we have Common, where one of its most important properties is the name in case we are going to configure it through programming in VBA, and in the Connections tab, we would configure it through variables or Expressions.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-03.png) ![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-04.png)
+
+In this case, we will provide the path of our \*.swf file and as we want the file to run in a loop, we select the Loop and Play checkboxes.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-05.png)
+
+The next thing we will do is insert our \*.gif animation. The problem with this type of image is that if we are interested in seeing its animation, we cannot insert it as a normal image, since a \*.gif image is composed of several images and we would only see the first one. The solution is to view them within our browser, for this we will insert another ActiveX Control.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-06.png)
+
+Once our MicrosoftWebBrowser is inserted, we can already see its name in its properties, which is important as we mentioned to make part of its animation with programming in VBA.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-07.png)
+
+This time we will pass the path of our \*.gif file through programming. When we start our application and open this window, the Navigate method of our Active X control MicrosoftWebBrowser2 will be called, which will open our image.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-09.png)
+
+And finally, if we test our application, we will verify its operation.
+
+![](./assets/images/factorytalkview-animaciones/FTView-ActiveX-Flash-08.png)
+
+September 15, 2013
+
+---
+*Source: [Factory Talk View Flash, GIF Animations](https://www.plc-hmi-scadas.com/en/FactoryTalkView_Animaciones.php) — Jose Manuel Luque*

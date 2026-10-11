@@ -1,0 +1,89 @@
+---
+title: "Creation of a Multi-instance FB"
+slug: "065"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/065.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Siemens","Automata","Simatic","FB","Multi-instance"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Creation of a Multi-instance FB
+
+Jose Manuel Luque
+
+Siemens Automata Simatic FB Multi-instance
+
+Following the request of a colleague, I will carry out this practice that deals with the creation of a Multi-instance FB from scratch; the only thing we will consider is that we already have a project created.
+
+The first step will be the creation of a Function Block (FB), we do this as shown:
+
+![](./assets/images/065/FB%20Multiestancia%20-100.png)
+
+For the creation of the FB, the following configuration window appears; it is important to select that it will be a multi-instance FB and the name we assign to it. It will be automatically created upon acceptance. Next, we open our FB
+
+![](./assets/images/065/FB%20Multiestancia%20-101.png)
+
+We will proceed to create the variables that we will use in our function; for this example, I have created a simple start-stop of a motor, with an alarm. We declare the variable and the data type.
+
+We write the corresponding programming code for the implementation of this function
+
+![](./assets/images/065/FB%20Multiestancia%20-101a.png)
+
+![](./assets/images/065/FB%20Multiestancia%20-101b.png)
+
+![](./assets/images/065/FB%20Multiestancia%20-103.png)
+
+Once we have created the Function, we will create another FB where we will call this function (Multi-instance); for this, we follow the same steps as before
+
+![](./assets/images/065/FB%20Multiestancia%20-104.png)
+
+![](./assets/images/065/FB%20Multiestancia%20-105.png)
+
+The next step is important! We are going to declare the variables and the data type; in this case, the variables to declare will be made within STAT (Statics) and as a data type, we will configure the FB created earlier, this will prevent us from having to assign a DB Data Block for each of these; in turn, each new variable we declare of this type creates a new multi-instance.
+
+![](./assets/images/065/FB%20Multiestancia%20-106.png)
+
+![](./assets/images/065/FB%20Multiestancia%20-107.png)
+
+![](./assets/images/065/FB%20Multiestancia%20-108.png)
+
+We can observe that if we expand the created variables in each of them, it can be seen that they have all the data we had created in the first function
+
+Now what we do is insert each of our Multi-instances and assign their corresponding variables, and if applicable, those that the function itself may have.
+
+![](./assets/images/065/FB%20Multiestancia%20-109a.png)
+
+Having created an FB, it is necessary to assign it a Data Block (DB) in order to use it; to create it, we follow the steps below:
+
+![](./assets/images/065/FB%20Multiestancia%20-110.png)
+
+In the configuration window, we need to specify that it is an instance DB and the FB to which it corresponds, as observed
+
+![](./assets/images/065/FB%20Multiestancia%20-112.png)
+
+Upon acceptance, our DB is created; we can open it to observe it
+
+![](./assets/images/065/FB%20Multiestancia%20-113.png)
+
+![](./assets/images/065/FB%20Multiestancia%20-114.png)
+
+We can now make the call from OB1 to the Motors FB, which in turn has the instances of the Command Motors FB, and we assign the DB that we just created.
+
+![](./assets/images/065/FB%20Multiestancia%20-115.png)
+
+We can now load it to our PLC, in this case to our simulator, and observe its operation. It is evident that if we open the CommandMotor FB when starting the first and being online, when we simulate the second, it will not be observed in the Ladder but will be in the data block DB
+
+![](./assets/images/065/FB%20Multiestancia%20-119.png)
+
+![](./assets/images/065/FB%20Multiestancia%20-120.png)
+
+January 16, 2012
+
+---
+*Source: [Creation of a Multi-instance FB](https://www.plc-hmi-scadas.com/en/065.php) — Jose Manuel Luque*

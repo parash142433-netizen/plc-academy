@@ -1,0 +1,97 @@
+---
+title: "SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)"
+slug: "blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","SCADA","WinCC","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)
+
+Jose Manuel Luque June 18, 2024
+
+SCADA SCADA WinCC WinCC
+
+![SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCCActiveX_Sandias.webp)
+
+As the title suggests, we will explain some concepts that may help you if you are doing a migration, especially if you are using **ActiveX** VB6 controls.  
+  
+I recommend reading this other article if you are working with **[Factory Talk View](#/a/en%2Fblog-scadas-con-ms-controls-activex-vb6)**, but I will try to explain everything so that one does not depend on the other.  
+  
+I have prepared a virtual machine with a clean **Windows 11** and the first thing I wanted to check is what type of **ActiveX** (**x86**) controls are included by default, and they are the following.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-1.png)
+
+  
+Here we will start the installation of **WinCC v.8**
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-4.png)
+
+  
+After the installation, we observe how **WinCC** has registered some more controls in the Operating System.  
+For my friend Cesar, this would be a point of improvement :-) , I continue explaining...
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-6.png)
+
+  
+We open the Graphics Designer, and we are going to insert some **ActiveX** control, the first thing we observe is that they are the SP4 :-(  
+I was surprised that out of all of them, some were correctly registered and licensed, but not all.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-10.png)
+
+  
+Here it is perfectly observed that I was able to instantiate an MS Flexgrid, but not, for example, a TreeView.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-12.png)
+
+  
+Now we are going to follow the same procedure that I have already described in the previous article.  
+We will briefly review the steps to follow.  
+We download from Microsoft the [KB3096896](https://www.microsoft.com/en-us/download/details.aspx?id=50722) and extract it with 7zip for example.  
+We copy the contents of the \*.ocx and \*.dll files into the directory:  
+**C:\\WINDOWS\\SysWOW64**
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-13.png)
+
+  
+We run our **PowerShell** to register all the **ActiveX** controls.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-14.png)
+
+  
+All the procedure finishes correctly.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-16.png)
+
+  
+We need to recover our famous \*.reg file from the installation CD.  
+If you are testing the functionality and the migration, here you can find the [complete list](https://github.com/qinyong99/SuperCxHMI/blob/master/other/bin/VB6%20Controls/vb6controls.reg)
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-17.png)
+
+  
+We return to our **WinCC** and we already have the latest version of our controls in our **Windows 11** / **Windows Server 2022** (Also tested)
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-18.png)
+
+  
+And any control works correctly again.  
+  
+**NOTE**: _This procedure is to ensure that the same project continues to function exactly, but one should consider migrating those controls to .Net.  
+I can say that over the years I have migrated quite a few of them and their operation is perfect even in the WebNavigator._
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/WinCC_Retrofit_MSControls-19.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)](https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/) — Jose Manuel Luque*

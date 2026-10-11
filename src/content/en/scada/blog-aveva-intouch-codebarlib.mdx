@@ -1,0 +1,82 @@
+---
+title: "AVEVA Intouch BarcodeLib"
+slug: "blog-aveva-intouch-codebarlib"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-codebarlib/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch BarcodeLib
+
+Jose Manuel Luque 16 Jul, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch BarcodeLib](./assets/images/blog-aveva-intouch-codebarlib/WW-000016.png)
+
+In the following post we will see how we can display a barcode in our SCADA, in this example in AVEVA Intouch.  
+If you are using my dear WinCC, Factory Talk View, IFIX, or any other type of SCADA that supports .Net controls, the operation is the same or should be the same, as long as the object itself is embedded, since the Scripting language of these is not .Net unlike AVEVA's System Platform, from which the ArchestrA Graphics / Industrial Graphics are inherited.
+
+First of all, thanks to [Brad Barnhill](https://github.com/barnhill) for this library that you can download [here](https://github.com/barnhill/barcodelib/releases) or a build [here](https://www.dllme.com/dll/files/barcodelib).
+
+Once we have the library **barcodelib.dll**, we will register it in our project to be able to use it.  
+We make an import of Script Function Library
+
+![](./assets/images/blog-aveva-intouch-codebarlib/WW-000007.png)
+
+We select the location of our library
+
+![](./assets/images/blog-aveva-intouch-codebarlib/WW-000008.png)
+
+And the result should be like the following. As additional information, by performing these steps, a copy of the library has been made to our project, so when we deploy it on the client, it has all its dependencies.
+
+![](./assets/images/blog-aveva-intouch-codebarlib/WW-000009.png)
+
+The next step is to create a new object that I have called PHSBarCodeLib and we are going to insert a .net object of type PictureBox.  
+To insert a PictureBox object, you must have previously imported the library **System.Windows.Forms.dll**  
+If you have any questions, here you have the [procedure](https://plc-hmi-scadas.com/064.php), the only thing is that it updates to .Net Framework 4, since 10 years have passed since the previous example ;-).
+
+![](./assets/images/blog-aveva-intouch-codebarlib/WW-000010a.png)
+
+We are going to create a property for our object, which will be the variable that we will pass with the barcode
+
+![](./assets/images/blog-aveva-intouch-codebarlib/WW-000011.png)
+
+And every time that property changes, we will execute the following code.
+
+Code
+
+```
+dim barcode as BarcodeLib.Barcode;
+barcode = new BarcodeLib.Barcode();
+barcode.IncludeLabel = true;
+
+'PictureBox1.Image = barcode.Encode(BarcodeLib.TYPE.UPCA, code);
+PictureBox1.Image = barcode.Encode(BarcodeLib.TYPE.UPCA, MyBarCode , Color.Black, Color.White, PictureBox1.Width, PictureBox1.Height);
+```
+
+![](./assets/images/blog-aveva-intouch-codebarlib/WW-000015-1024x361.png)
+
+We instantiate our object and we can now test its functionality.
+
+![](./assets/images/blog-aveva-intouch-codebarlib/WW-000013-1024x568.png)
+
+Functioning perfectly and with several barcode formats!!!
+
+![](./assets/images/blog-aveva-intouch-codebarlib/WW-000014.png)
+
+Thank you very much Brad for this library :-)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch BarcodeLib](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-codebarlib/) — Jose Manuel Luque*

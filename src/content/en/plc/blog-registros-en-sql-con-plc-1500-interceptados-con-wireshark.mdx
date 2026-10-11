@@ -1,0 +1,120 @@
+---
+title: "SQL Records with Siemens S7-1500 PLC, Intercepted with Wireshark"
+slug: "blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/registros-en-sql-con-plc-1500-interceptados-con-wireshark/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["PLC","SIEMENS PLC","NETWORKS","SQL","Vulnerabilities","Wireshark"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › SQL records with S7-1500 PLC
+
+# SQL Records with Siemens S7-1500 PLC, Intercepted with Wireshark
+
+SQL traffic capture from a Siemens S7-1500 PLC to see what information travels without encryption.
+
+Pedro Pagán Pallarés 09 Jun, 2024
+
+PLC SIEMENS PLC NETWORKS SQL Vulnerabilities Wireshark
+
+![Wireshark capture of SQL communication from a Siemens S7-1500 PLC](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/wireshark-plc-siemens-sql.png)
+
+**Introduction**
+
+This time we will use the blocks from the LSQL library based on the example that Siemens has posted on their [page](https://support.industry.siemens.com/cs/document/109779336/connecting-a-s7-1200-plc-s7-1500-plc-to-a-sql-database-?dti=0&lc=en-ES), to register in a SQL database with S7-1500 PLC, later intercepted with Wireshark.
+
+We will do this quickly to focus later on how to capture the packets that the PLC sends to the database and try to gain access to it, similar to what we did with [Modbus](#/a/en%2Fblog-espionage-modbus-communications). We can perform it on a local network, or all on localhost; for the example, it doesn't matter.
+
+**Writing variables**
+
+In this example, we use a simulated 1515-2 PN to send queries to a database where we want to store historical data of our variables.
+
+**1- We instantiate the block "Lsql\_Microsoft"**, generating the associated DB and parameterizing it with the variables from the DB itself. In Siemens' example, everything is prepared for this, and the [manual](https://support.industry.siemens.com/cs/document/109779336/connecting-a-s7-1200-plc-s7-1500-plc-to-a-sql-database-?dti=0&lc=en-ES) explains it well.
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-47.png)
+
+**2-** **We parameterize the connection data**, which we will obtain from where we have the database that we want to write to.
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-49.png)
+
+*   We write an appropriate INSERT command according to the structure of the database; in my case, there are 3 temperatures, two pressures, and one date (Timestamp). At this point, it is important to work correctly with the formats, especially with dates.
+
+*   You can pass fixed values directly or parameterize it with PLC variables (which is the idea); for this, I had to create a function that does all this:
+
+[QueryFormat](#/a/en%2Fblog-wp-content-uploads-2024-06-queryformat-txt) [Download](#/a/en%2Fblog-wp-content-uploads-2024-06-queryformat-txt)
+
+As can be seen, the last lines generate the string that I will pass when I make the corresponding INSERT.
+
+**3- We enable the block:** the connection with the database is established. If everything goes well, it will respond with Valid=TRUE and error=FALSE.
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-50.png)
+
+**4- We enable the "Execute\_Command" flag** so that the data in the INSERT string is sent cyclically.
+
+And we will see that if all goes well, the length of the telegram will change, and the dataReceived will be set to TRUE, confirming the write operation.
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-51.png)
+
+**5- We confirm the write operation in the database with the Management:** in my case, it is on another virtual machine, but it could be on the same host.
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-53.png)
+
+**Analyzing the frame**
+
+Now we will do the same as in the Modbus article, listening to the network card, looking for frames that match the communication we know is taking place.
+
+We will try to see the query that is being passed with our INSERT of values.
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-55-1024x571.png)
+
+We see certain frames with relevant content like "S7-1500", so we filter by the PLC's IP as "Source" and obtain the following:
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-56-1024x519.png)
+
+  
+There are two types of packets from our PLC:
+
+*   **TCP:** information related to the protocol and connection establishment.
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-57.png)
+
+*   **TDS:** packet with the data of our query. If we investigate a little, we will see them at the bottom, with the specific data of that packet.
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-58-1024x298.png)
+
+It can be observed how the query matches what we programmed in Step 1.
+
+**Database user and password**
+
+We have already discovered one of the frames we sent, but... we can still do something more. When we established the connection with the PLC and activated the Enable flag, the connection with SQL was established, and therefore at that moment, the credentials had to be passed. Can we see them?
+
+*   **We turn off the connection and disconnect the write** and leave Wireshark listening. We see that when disconnecting, a special packet comes out:
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-59.png)
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-61-1024x328.png)
+
+*   We activate the connection again and observe the packets:
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-62-1024x308.png)
+
+The packet leaves no room for doubt... TDS7 login. Let's see what's inside....
+
+![](./assets/images/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark/image-63.png)
+
+**Surprise.** We have the login data for the database where we write, with the username and password in plain text and unencrypted.
+
+**Conclusion**
+
+*   A SQL communication from a PLC, if the authentication is not protected and the communications are not encrypted, it is very easy to see the packets sent, and worse still, if encryption is not configured, it is very simple to obtain the login for the database.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [SQL Records with Siemens S7-1500 PLC, Intercepted with Wireshark](https://www.plc-hmi-scadas.com/en/blog/registros-en-sql-con-plc-1500-interceptados-con-wireshark/) — Pedro Pagán Pallarés*

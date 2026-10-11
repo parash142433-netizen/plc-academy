@@ -1,0 +1,324 @@
+---
+title: "OPC UA Security: Siemens S7-1500 and UA Expert Client"
+slug: "blog-certificados-opc-ua-plc-siemens-uaexpert"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/certificados-opc-ua-plc-siemens-uaexpert/"
+author: "PLC-HMI-SCADAS"
+date: ""
+breadcrumbs: ["Home","PLC","Siemens"]
+tags: ["Siemens","OPC UA","Certificates","UA Expert","Wireshark","Encryption"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [Siemens](#/a/en%2Fplc-siemens) › OPC UA Security: Siemens S7-1500 and UA Expert Client
+
+# OPC UA Security: Siemens S7-1500 and UA Expert Client
+
+From readable OPC UA traffic in Wireshark to mutual trust, certificates and an encrypted channel, step by step.
+
+Jose Manuel Luque May 31, 2026
+
+Siemens OPC UA Certificates UA Expert Wireshark Encryption
+
+![OPC UA Security: Siemens S7-1500 and UA Expert Client](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-02.png)
+
+**Introduction**
+
+The goal is to move from an OPC UA connection that works but leaves information visible to a communication path with mutual trust and an encrypted channel.
+
+In the previous article we left the [Siemens PLC OPC UA server](#/a/en%2Fblog-servidor-opc-ua-plc-siemens) running and validated from **UA Expert**. Here we continue from that point: certificates, trust and the comparison between **None**, **Sign** and **Sign & Encrypt**.
+
+**Tools:** Wireshark, TIA Portal V20, PLCSIM Advanced V7.0 and UA Expert.
+
+**Insecure communication problem**
+
+**Wireshark with None**
+
+We start with the UA Expert connection configured as **None**. In this mode the communication works, but the application traffic can be inspected from the machine where the client is running.
+
+In Wireshark we can see the negotiation, the OPC UA messages and the activity between the client and the simulated PLC.
+
+![Wireshark capture with OPC UA traffic without channel security](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-60.jpg)
+
+When we enter the credentials and authentication is completed, the session becomes active. The user appears in the trace and, although the password is not shown as plain text in this capture, the process data still travels without effective encryption.
+
+![OPC UA authentication observed in Wireshark](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-04.png)
+
+![OPC UA user and visible data with None policy](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-05.png)
+
+**Visible values in Wireshark**
+
+To make it clear, we set values in the PLC and change them manually. When the server publishes the change, we capture a **PublishResponse** from the PLC to the client.
+
+The nesting path inside the Wireshark packet is:
+
+1.  **OpcUa Service:** root block of the OPC UA payload.
+2.  **PublishResponse:** server response to the client subscription.
+3.  **NotificationMessage:** main container for the published data.
+4.  **DataChangeNotification:** confirms that this is a value change.
+5.  **MonitoredItemNotification:** monitored item that has changed.
+6.  **DataValue / Variant:** real variable value and its metadata.
+
+![Int16 value visible inside a PublishResponse in Wireshark](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-06.png)
+
+![Internal OPC UA path down to the monitored value](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-61.jpg)
+
+The same happens with a **Real** variable. If the channel is not encrypted, Wireshark lets us follow the packet down to the published value.
+
+![Real variable monitored in UA Expert](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-08.png)
+
+![Real value visible inside the OPC UA packet](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-62.jpg)
+
+With this we confirm that anyone capturing the traffic between server and client could see the packets and their content, with the risks that this implies.
+
+**Securing**
+
+**Basic concepts**
+
+**When we talk about security here, we are protecting the communication in several ways:  
+  
+signature, encryption and certificate.**
+
+*   **Signature:** validates integrity and authenticity. If someone modifies the message, it is detected.
+*   **Encryption:** hides the content. Even if someone captures the frame, they cannot read variables or values.
+*   **Certificate:** identifies an application or server and allows trust to be established. In OPC UA there are old policies and algorithms that are now obsolete or weakened; they are easier to attack, so it is better to avoid them and use current policies supported by the PLC and the client.
+
+**OPC UA security type**
+
+In the first OPC UA Server security test, we enable a policy with **Sign**. It is useful to understand the trust flow, but by itself it does not encrypt the process data.
+
+![First test with OPC UA policy in Sign mode](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-12.png)
+
+**Enable Certificate Manager**
+
+The next step is to enable **Certificate Manager** in the TIA Portal project. Before generating certificates, we compile to see which errors appear and separate the problems.
+
+![Enabling Certificate Manager in TIA Portal](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-13.png)
+
+After enabling it and compiling the project, TIA Portal reports compilation errors derived from that activation.
+
+![Compilation errors related to OPC UA certificates](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-14.png)
+
+When certificate management is enabled, TIA Portal forces us to create a user for project management. After that, the required **Security features** become available.
+
+![Creating a user to manage Security Features in TIA Portal](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-15.png)
+
+An engineering administration user has been created.
+
+![Project certificates view in TIA Portal](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-17.png)
+
+![Project certificate authority configuration](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-18.png)
+
+This activates the project security features.
+
+![Security Features available after enabling certificate management](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-16.png)
+
+**Create CA and OPC UA server certificate**
+
+At this point we need three things:
+
+*   Create the project **Certificate Authority**.
+*   Create the **OPC UA Server** certificate.
+*   Assign the certificate to the PLC so the OPC UA server can use it.
+
+The **Certificate Authority** issues, signs and validates the project certificates. In a local test it can be the project CA itself; in a real plant this should fit the site's certificate policy.
+
+![Certificate Authority created in the TIA Portal project](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-19.png)
+
+Now we create the **OPC UA Server** certificate. We select the corresponding usage, define a common name and add the required **Subject Alternative Names**: application, IP and/or URI.
+
+The **SAN** is important because it gives the client more proof that this certificate belongs to that specific server. It does not only say "I am the PLC"; it also says "I am valid for this IP, this name or this OPC UA URI".
+
+![Creating the OPC UA Server certificate in TIA Portal](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-63.jpg)
+
+![Subject Alternative Names of the OPC UA Server certificate](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-21.png)
+
+Then we assign the certificate to the PLC so it is stored in the controller and can be selected in the OPC UA server configuration.
+
+![Assigning the certificate to the PLC storage](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-22.png)
+
+We assign it as the OPC UA Server certificate.
+
+![Selecting the certificate in the PLC OPC UA server](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-23.png)
+
+After compiling again, the specific OPC UA error for a missing certificate disappears. The OPC UA server now has an associated certificate.
+
+![Compilation without OPC UA Server certificate error](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-24.png)
+
+**PG/PC and HMI certificate**
+
+Although it is not the main goal of this article, we also generate the certificate for **PG/PC and HMI** communications. This prepares the path for other scenarios, for example WinCC Unified.
+
+![Generating PG PC and HMI certificate in TIA Portal](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-64.jpg)
+
+Again, we assign it to the certificates stored in the PLC.
+
+![PG PC and HMI certificate added to the PLC](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-26.png)
+
+To assign it to the service, we go to **Protection & Security** and associate it in the corresponding connection mechanisms.
+
+![Associating the PG PC HMI certificate in Connection mechanisms](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-27.png)
+
+We compile again and there are no more errors related to the security we enabled.
+
+![Compilation without OPC UA or PG PC HMI certificate errors](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-28.png)
+
+**Trust the server from UA Expert**
+
+We download the PLC and return to **UA Expert**. The first warning is expected: the client no longer considers the server certificate trusted.
+
+![UA Expert warning about an untrusted server certificate](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-29.png)
+
+![Untrusted server certificate detail in UA Expert](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-65.jpg)
+
+If we try to use the previous connection in **None**, it is no longer valid. We rebuild the connection by selecting the secure policy we want to test and entering the user credentials.
+
+![New UA Expert connection using an OPC UA security policy](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-66.jpg)
+
+![User credentials in UA Expert](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-33.png)
+
+Because the certificate authority has not been imported correctly yet, UA Expert shows the trust warning.
+
+![Untrusted certificate warning when connecting from UA Expert](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-67.jpg)
+
+We can accept it temporarily to see variables, but that is not the clean solution because the connection is not fully trusted.
+
+![OPC UA variables visible after temporarily accepting the certificate](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-35.png)
+
+**Import CA and CRL in UA Expert**
+
+The solution is to make UA Expert trust the **Certificate Authority** that signed the PLC certificate. We export the CA from TIA Portal and copy it to the UA Expert **issuers** folder.
+
+![Exporting the certificate authority from TIA Portal](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-68.jpg)
+
+We enter the export password:
+
+![Certificate authority export options](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-37.png)
+
+Then we save it in the UA Expert client path and move the CA certificate there.
+
+![UA Expert issuers folder path](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-70.jpg)
+
+We verify that it appears as an issuer.
+
+![CA certificate copied into the UA Expert issuers folder](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-69.jpg)
+
+Then another warning appears: the **certificate revocation list**, or **CRL**, is missing. Copying the CA is not enough; the client also expects to check whether a certificate issued by that CA has been revoked.
+
+![UA Expert indicates that the CRL is missing](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-71.jpg)
+
+We go back to Certificate Manager to export, but now we select the CRL file type.
+
+![Exporting the revocation list from TIA Portal](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-72.jpg)
+
+In the UA Expert client folder, we place it in the corresponding path, in this case **crl**.
+
+![Copying the CRL into the corresponding UA Expert folder](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-73.jpg)
+
+Once the CA and its CRL are imported, the UA Expert side is correct and the PLC OPC UA server can be validated cleanly.
+
+It keeps running and the UA Expert log confirms that there are no errors.
+
+![UA Expert with CA and CRL imported correctly](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-74.jpg)
+
+**Trust the UA Expert client**
+
+There is one important question left: why did we not have to import the UA Expert client certificate into the PLC during the first test?
+
+In other words, we had not told the PLC that this specific client was going to connect to its OPC UA server.
+
+The reason was this PLC option: **Automatically accept client certificates during runtime**. With this option enabled, the PLC accepts client certificates during runtime. It is convenient for tests, but it is not ideal if we want controlled trust.
+
+![Automatically accept client certificates during runtime option in the PLC](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-45.png)
+
+After disabling automatic acceptance, we download the PLC again and the connection no longer works. Now we do need to explicitly register the UA Expert client certificate in the project.
+
+![Connection rejected when client certificates are not accepted automatically](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-75.jpg)
+
+To do that, we go to UA Expert's own certificates, inside **own**, and locate the client application certificate.
+
+![UA Expert client certificate in the own folder](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-47.png)
+
+We import that certificate into the project **Certificate Manager**, together with the other certificates we generated before.
+
+![Importing the UA Expert client certificate in TIA Portal](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-48.png)
+
+Once imported, we assign it as an OPC UA client certificate.
+
+![UA Expert certificate added as a trusted OPC UA client](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-49.png)
+
+Now we can see that it is used for OPC UA.
+
+![Trusted clients list for OPC UA in the PLC](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-50.png)
+
+We download the PLC and repeat the connection. The path is now complete: UA Expert trusts the PLC CA and CRL, and the PLC trusts the UA Expert client certificate.
+
+![UA Expert connected with security policy and mutual trust](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-76.jpg)
+
+**Move from Sign to Sign & Encrypt**
+
+With the certificates now in order, it is time to look at Wireshark again. In the test with **Sign**, both sides trust each other and the messages are signed, but the content is not encrypted.
+
+This is the fine point of the article: **signing is not encrypting**.
+
+> The signature protects against modification, but it does not stop the data from being read if the selected mode does not encrypt the channel.
+
+![Wireshark showing signed OPC UA traffic that is still readable](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-77.jpg)
+
+![Signed OPC UA traffic detail in Wireshark](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-78.jpg)
+
+We then change the channel security to **Sign & Encrypt**, download the PLC and rebuild the connection from UA Expert using the new policy.
+
+![Changing OPC UA security mode to Sign and Encrypt](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-53.png)
+
+![UA Expert using the new encrypted security policy](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-54.png)
+
+Now the connection is immediate and everything communicates correctly on the first try because the certificates are the same. What changed is the policy, in other words, the way the communication is protected.
+
+![Correct OPC UA connection with Sign and Encrypt](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-79.jpg)
+
+**Verification**
+
+**Check encryption in Wireshark**
+
+When we capture again, we can no longer follow the same route down to the monitored values. It is not even as obvious to locate the publish responses. The conversation is encrypted.
+
+This is the result we wanted: certificates correctly distributed, mutual trust between client and PLC, and an OPC UA channel with active encryption.
+
+![Encrypted OPC UA traffic in Wireshark without readable PLC values](./assets/images/blog-certificados-opc-ua-plc-siemens-uaexpert/certificados-opc-ua-plc-siemens-uaexpert-56.png)
+
+**Key points**
+
+1.  **None policy in OPC UA:** useful for quick tests, but it leaves the conversation observable in Wireshark.
+2.  **User and password:** control access, but they do not replace channel encryption.
+3.  **Certificate Manager:** enables formal certificate management inside the TIA Portal project.
+4.  **Project CA:** issues and signs the certificates that client and server must later trust.
+5.  **OPC UA Server certificate:** identifies the PLC as the server and should include coherent alternative names for IP, name or URI.
+6.  **UA Expert:** must trust the PLC CA and have the revocation list available.
+7.  **Client certificate:** if the PLC does not accept clients automatically, the UA Expert certificate must be imported as a trusted client.
+8.  **Sign:** signs the message and helps with integrity, but it does not hide the data.
+9.  **Sign & Encrypt:** this is where the capture stops showing process values.
+
+**Mental model:** first we make the parties know each other through certificates; then we make them trust the CA and CRL; finally we choose a security mode that actually encrypts. If one of those pieces is missing, the connection can fail or it can work while being less protected than we think.
+
+**Notes:**
+
+\- Depending on the OPC client used, different certificate security requirements may apply.
+
+\- Not every client supports the most modern security policies.
+
+\- Old security policies are more vulnerable to attack, so current policies should be used when the PLC and client support them.
+
+**Related articles**
+
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [Secure OPC UA connection flow under IEC 62443](#/a/en%2Fblog-flujo-de-conexion-opc-ua-segura)
+*   [Temperature control system (III) - OPC UA](#/a/en%2Fblog-sistema-de-control-de-temperatura-iii)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [OPC UA Security: Siemens S7-1500 and UA Expert Client](https://www.plc-hmi-scadas.com/en/blog/certificados-opc-ua-plc-siemens-uaexpert/) — PLC-HMI-SCADAS*

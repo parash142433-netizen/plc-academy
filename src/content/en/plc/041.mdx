@@ -1,0 +1,85 @@
+---
+title: "Profibus Configuration between S7-300 and S7-200 EM277"
+slug: "041"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/041.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Profibus","S7-300","S7-200","EM277"]
+downloads: [{"title":"link","url":"https://www.plc-hmi-scadas.com/en/support.automation.siemens.com/WW/llisapi.dll/csfetch/113652/EM277.ZIP?func=cslib.csFetch&nodeid=18714107"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Profibus Configuration between S7-300 and S7-200 EM277
+
+Jose Manuel Luque
+
+Profibus S7-300 S7-200 EM277
+
+This practice is dedicated to a colleague who needed to exchange data between an S7-300 and an S7-200 via Profibus. For this, the S7-200 requires the EM277 module, which can only be coupled to a CPU 222, 224, or 226.
+
+I will start from the basis that we already have a new project created in the Simatic Manager, and the interface is as follows. The first thing I am going to configure will be the Hardware to add the EM277 module.
+
+![](./assets/images/041/S7-300-08.jpg)
+
+2.- The next step is to install the GSD file of the EM277 module since it is not included in the standard catalog. You can download it from the following [link](https://www.plc-hmi-scadas.com/en/support.automation.siemens.com/WW/llisapi.dll/csfetch/113652/EM277.ZIP?func=cslib.csFetch&nodeid=18714107 "GSD EM277"). Once downloaded, unzip the file. In HW Config, go to the Tools tab -> Install GSD files.
+
+![](./assets/images/041/S7-300-09.jpg)
+
+3.- Navigate to the directory where you previously unzipped the file and select it. Once selected, click Install. A pop-up window will appear that we will confirm, and it will be installed and ready to use.
+
+![](./assets/images/041/S7-300-10.jpg)
+
+4.- To find the location of the file, we use the search bar specifying EM 277, and it will automatically take us to it. We can now select it and drag it to the Profibus Network. A window will appear where we specify the Profibus address of the Module; in my example, number 4.
+
+![](./assets/images/041/S7-300-11.jpg)
+
+![](./assets/images/041/S7-300-12.jpg)
+
+5.- We double-click on the module in question, and a window will appear where we must specify in the Parameterize tab -> Specific device parameters -> I/O Offset in the V-memory. The memory address that we will use in our PLC program for the exchange will be done in the S7-200 program. In this example, I will use V0, considering that the first bytes are for input and the consecutive ones for output.
+
+![](./assets/images/041/S7-300-14.jpg)
+
+![](./assets/images/041/S7-300-25.jpg)
+
+6.- Next, we add the exchange bytes that we are going to use or the type of data coherence that interests us, since if we want to transfer floating-point data, we would have to use buffer coherence. In this basic example, I will use 2 bytes for input and 2 bytes for output.
+
+The address that we will use is assigned by default, but we can modify it as we see fit. In this example, I will use AB100 - AB101 - EB100 - EB101 since we will work in Bytes.
+
+![](./assets/images/041/S7-300-26.jpg)
+
+7.- We move on to the programming part, in OB1, I will create the data exchange using the MOVE instruction in KOP or Load and Transfer in AWL. The program will do the following.
+
+As it has been configured that we will exchange 2 bytes of input and 2 bytes of output starting from address 100, the first thing we do is load the byte we want to send to 200, in this case, MB0, and we move it, transferring it to output byte AB100, and the same with the second byte we want to send.
+
+The same procedure will be done to receive the data sent to us by the S7-200; we receive it in byte EB100 and EB101, and then we move it to MB2 and MB3.
+
+The program in question would be as follows:
+
+![](./assets/images/041/S7-300-15.jpg)
+
+8.- We transfer all the hardware configuration and program to the S7-300, and we can check how the EM277 module is well configured if we go online on the hardware. The same Profibus address of the EM 277 will have been physically configured on the module.
+
+![](./assets/images/041/em27701.jpg)
+
+![](./assets/images/041/S7-300-22.jpg)
+
+9.- We create a new project in Microwin, where we will practically carry out the same program as in the S7-300, knowing that we have configured the V memory area starting from Byte 0, and that the first two Bytes are for Data input and the consecutive ones for output. The program while online would be as follows:
+
+![](./assets/images/041/S7-300-23.jpg)
+
+10.- To observe, force values, and check that it works correctly, I have created the following table in the S7-300, where I send the values 10 and 12 from the S7-300 to the S7-200, and from there I send the following values 20, 22, forcing these from a status table.
+
+![](./assets/images/041/S7-300-16.jpg)
+
+![](./assets/images/041/S7-300-17.jpg)
+
+![](./assets/images/041/S7-300-18.jpg)
+
+September 22, 2012
+
+---
+*Source: [Profibus Configuration between S7-300 and S7-200 EM277](https://www.plc-hmi-scadas.com/en/041.php) — Jose Manuel Luque*

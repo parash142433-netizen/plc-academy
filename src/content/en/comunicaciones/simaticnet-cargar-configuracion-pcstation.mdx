@@ -1,0 +1,73 @@
+---
+title: "Simatic Net - Load PC Station Configuration"
+slug: "simaticnet-cargar-configuracion-pcstation"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/SimaticNet_Cargar_Configuracion_PCStation.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["Simatic Net","PC Station","Step7"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# Simatic Net - Load PC Station Configuration
+
+Jose Manuel Luque
+
+Simatic Net PC Station Step7
+
+**Simatic Net - Load PC Station Configuration**
+
+We have already seen in the previous tutorial how to configure Simatic Net and our PC Station, now we are going to see the other option to load the configuration. Let’s imagine that we are at our Engineering station where we have the complete project, the PLC or PLCs, and all the components, all developed from the Simatic Manager as we can see.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_00.png)
+
+Let’s assume that we need to make a modification, and we are going to insert another object of the Application type. Just as we did, we drag it to our rack. Importantly, we must keep in mind that when we insert the objects, they must correspond with the version that is installed.
+
+We will see an image if we select a version that does not correspond.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_01.png)
+
+Here we have made the corresponding modification, we can now save and compile.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_01\(1\).png)
+
+If we explore the directory of our project, there is a folder called XDBs, in this folder is where the configuration file(s) of our PC Station is saved.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_02.png)
+
+This is the file that we need to take to our PC, to load the new configuration.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_03.png)
+
+Now we are at our PC and this was the configuration that was loaded. We click the Import Station button, and this is the warning message that it shows us.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_06.png)
+
+We explore to the directory where we have the file pcst\_1.xdb, this is the default name. Now the file I am going to import has an invalid configuration because I selected hardware objects of a different version.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_07.png)
+
+As can be seen, the message is an error because we do not have the version referenced installed.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_08.png)
+
+Now we are going to import the correct file, and the warning message is that it will overwrite the existing one, so there is no problem.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_09.png)
+
+We have now loaded the new configuration. We can now put the application into operation and that's it.
+
+**CONCLUSION**: We can load the configuration directly with the PC Internal interface, or we can import the configuration that was previously created on another machine.
+
+![](./assets/images/simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_10.png)
+
+August 20, 2017
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [Simatic Net - Load PC Station Configuration](https://www.plc-hmi-scadas.com/en/SimaticNet_Cargar_Configuracion_PCStation.php) — Jose Manuel Luque*

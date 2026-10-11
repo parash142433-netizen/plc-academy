@@ -1,0 +1,309 @@
+---
+title: "Temperature Control System (III)"
+slug: "blog-sistema-de-control-de-temperatura-iii"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-iii/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["Temperature control","Django","AI","Artificial intelligence","OPC server","PLC","SIEMENS PLC","SIEMENS PLC"]
+downloads: [{"title":"OPC server","url":"https://www.automation.siemens.com/sce-static/learning-training-documents/tia-portal/advanced-communication/sce-092-300-opc-ua-s7-1500-r1807-es.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# Temperature Control System (III)
+
+Pedro Pagán Pallarés May 11, 2024
+
+Temperature control Django AI Artificial intelligence OPC server PLC SIEMENS PLC SIEMENS PLC
+
+![Temperature Control System (III)](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-22.png)
+
+## Integration of OPC Client with Python
+
+To conclude the temperature control series, we will see how we can use an OPC client generated in our Little SCADA application to control and monitor the temperature that we were able to [simulate](#/a/en%2Fblog-simulador-de-temperatura) first and [adjust using a PID](#/a/en%2Fblog-sistema-de-control-de-temperatura-ii) later.  
+
+For this, we will also need to publish the PLC variables that we want to see and control, through an [OPC server](https://www.automation.siemens.com/sce-static/learning-training-documents/tia-portal/advanced-communication/sce-092-300-opc-ua-s7-1500-r1807-es.pdf). The steps to follow will therefore be:  
+1- Generating OPC server in Siemens PLC and publishing variables  
+2- Creating OPC client using Python and Django  
+3- Visualization and control from a view in Little SCADA.
+
+### Step 1: Generating OPC Server in Siemens PLC and Publishing Variables
+
+Starting from the TIA PORTAL project, where we were adjusting the PID and generating the simulated temperature, we will now publish to an OPC UA server in the PLC itself, to be able to monitor both the **tank temperature** and **valve opening**, as well as to provide different Set Points to our simulated tank.
+
+*   We add a new OPC UA interface:
+
+![](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-15.png)
+
+*   We drag the variables we want to publish to the OPC server:
+
+![](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-16-1024x321.png)
+
+*   We activate the OPC server in the PLC configuration, as well as the license (The Siemens OPC UA server requires a specific license for this service).
+
+![](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-17.png)
+
+![](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-18.png)
+
+We download the PLC and test with a client like UA Expert to check that we can see the variables. In this case, I will see them from another machine, where I have the Little SCADA application, thus ensuring connectivity for my OPC client.  
+
+![](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-19.png)
+
+For this specific case, we do not use certificates. We choose "none" and proceed to visualize the variables.  
+
+![](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-20-1024x592.png)
+
+Perfect! We now have our PLC publishing and have ensured the connection from an OPC client, so we can now "see it" from other OPC clients.
+
+### Step 2: Creating OPC Client using Python and Django
+
+Now we want to create an OPC client, but to integrate it into a Python application, in my case in Little SCADA, that is, in a WEB application that will control the process.
+
+To avoid lengthening the post, I will focus on the OPC client per se, omitting details of Django. It basically consists of two functions, one that retrieves the data and another that writes the temperature SP.
+
+The control is done using **Python** to interact with the system, and **Java** for data processing and functions.
+
+*   **Get OPC data:** I show you the code, which was provided to me by chatGPT, although I had to make certain adjustments; especially how to call the nodes, which is very important. Check UA Expert to know more: **_("ns=3;s=\\"SIM\_Tem\\".\\"T\_tanque\\"")_**
+
+Python
+
+Code
+
+```
+
+from django.http import JsonResponse
+from opcua import Client, ua
+from opcua.ua import DataValue, Variant
+
+def obtener_datos_opc(request):
+    try:
+        # Connect to the OPC-UA server
+        client = Client("opc.tcp://192.168.1.43:4840/")
+        client.connect()
+
+        # Get the temperature from the OPC-UA server
+        temperatura_node = client.get_node("ns=3;s=\"SIM_Tem\".\"T_tanque\"")
+        temperatura = temperatura_node.get_value()
+
+        # Get the valve value from the OPC-UA server
+        valvula_node = client.get_node("ns=3;s=\"SIM_Tem\".\"Valvula100\"")
+        valvula = valvula_node.get_value()
+
+        # Disconnect from the OPC-UA server
+        client.disconnect()
+
+        # Return the data as JSON
+        return JsonResponse({'temperatura': round(temperatura, 1), 'valvula': round(valvula, 1)})
+
+    except Exception as e:
+        # Handle any errors that may occur
+        error_message = str(e)
+        return JsonResponse({'error_message': error_message}, status=500)
+```
+
+This code is called via Ajax in the corresponding Java file for this function:
+
+Java
+
+Code
+
+```
+
+
+function obtenerDatos() {
+        $.ajax({
+            url: '/obtener_datos_opc/',
+            type: 'GET',
+            success: function(response) {
+                $("#current-temperature").text(response.temperatura);
+                $("#valve-opening").text(response.valvula);
+    
+                var now = new Date();
+                var timeLabel = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+    
+                temperaturaData.push(response.temperatura);
+                valvulaData.push(response.valvula);
+                labels.push(timeLabel);
+    
+                // Update the Y-axis max and min
+                updateYAxis(temperaturaData, valvulaData);
+    
+                chart.update();
+    
+                if (labels.length > 120) {
+                    temperaturaData.shift();
+                    valvulaData.shift();
+                    labels.shift();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error getting data:', error);
+            }
+        });
+    }
+```
+
+* * *
+
+*   **Write SP:** in this code we pass a target temperature to our variable T\_SP.
+
+Next is the function in Python to perform the sending:
+
+Python
+
+Code
+
+```
+
+
+from opcua import Client, ua
+from opcua.ua import DataValue, Variant
+from django.http import JsonResponse
+
+def enviar_sp(request):
+    temperatura_sp = request.POST.get('temperatura_sp')
+    if temperatura_sp is None:
+        return JsonResponse({'error': 'Setpoint temperature not provided'}, status=400)
+
+    # Try to convert the temperature to float
+    try:
+        new_value = float(temperatura_sp)
+    except ValueError:
+        return JsonResponse({'error': 'Invalid value for setpoint temperature'}, status=400)
+
+    client = Client("opc.tcp://192.168.1.43:4840/")
+    try:
+        client.connect()
+        print("Connection established successfully.")
+
+        variable_node = client.get_node("ns=3;s=\"SIM_Tem\".\"T_SP\"")
+        print(f"Current node value: {variable_node.get_value()}")
+
+        # Create a DataValue and assign the temperature value
+        data_value = DataValue(Variant(new_value, ua.VariantType.Float))
+
+        # Set the new value of the node
+        variable_node.set_value(data_value)
+        print(f"Updated node value: {variable_node.get_value()}")
+
+        return JsonResponse({'message': 'Setpoint temperature sent successfully'})
+
+    except Exception as e:
+        print(f"Error writing to node: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
+
+    finally:
+        if client:
+            client.disconnect()
+
+```
+
+This code is called by a Java function when the "send" button is pressed:
+
+Java
+
+Code
+
+```
+
+
+    $("#setpoint-button").click(function() {
+        var setpointValue = $("#setpoint-input").val();
+        console.log('Setpoint value:', setpointValue);
+        var csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+            url: '/enviar_sp/',
+            type: 'POST',
+            data: {
+                'temperatura_sp': setpointValue
+            },
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            success: function(response) {
+                console.log('Setpoint temperature value sent successfully:', response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending setpoint temperature value:', error);
+            }
+        });
+    });
+
+```
+
+_I understand that using Django can be complex due to its structure. However, generating an OPC client is very simple and can be isolated from the use of Django to test its power. Django in this case facilitates the visualization of data in graphical format as well as the overall web structure._
+
+I explained this in the article on [Little SCADA with a simple OPC client example](#/a/en%2Fblog-little-scada-creating-a-control-interface-with-python).
+
+### Step 3: Visualization and Control from a View in Little SCADA.
+
+Having done all of the above, we can now use this information to display it on our WEB. For this, codes in HTML (Templates), Java, CSS, and Python have been necessary.
+
+Here I show you how the temperature control template looks, which in turn uses a base from the website itself. I recommend looking at Django tutorials because it has a lot of power, and although it seems complex at first, it greatly reduces programming times.
+
+Markup
+
+Code
+
+```
+HTML
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Temperature Control{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="quadrant_controlTem">
+        <div class="chart-container">
+            <canvas id="temperatura-chart"></canvas>
+        </div>
+        <div class="control-panel">
+            <h2>Temperature Control</h2>
+            <div class="input-group">
+                <label for="setpoint-input">Temperature SP:</label>
+                <input type="number" id="setpoint-input" step="0.1" placeholder="Enter temperature SP">
+                <button id="setpoint-button">Send</button>
+            </div>
+            <div class="temperature-info">
+                <p>Valve opening: <span id="valve-opening">-</span>%</p>
+                <p>Current Temperature: <span id="current-temperature">-</span>°C</p>
+            </div>
+        </div>
+
+      </div>
+
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/controlTem.js' %}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+{% endblock %}
+```
+
+**RESULTS:**
+
+#### Data Visualization  
+
+![](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-22-1024x519.png)
+
+#### Temperature Setpoint
+
+![](./assets/images/blog-sistema-de-control-de-temperatura-iii/image-23.png)
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Temperature Control System (III)](https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-iii/) — Pedro Pagán Pallarés*

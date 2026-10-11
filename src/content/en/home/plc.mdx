@@ -1,0 +1,138 @@
+---
+title: "PLC — Programmable Logic Controllers"
+slug: "plc"
+locale: "en"
+category: "home"
+originalUrl: "https://www.plc-hmi-scadas.com/en/PLC/"
+author: "Jose Manuel"
+date: ""
+breadcrumbs: ["Home"]
+tags: []
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › PLC
+
+# PLC — Programmable Logic Controllers
+
+Programming and configuration guides for the main industrial PLC manufacturers on the market.
+
+**PLCs (Programmable Logic Controllers)** are the brain of any industrial automation system. Since their appearance in the 1960s as replacements for relay systems, they have evolved into high-performance devices capable of managing everything from small machines to complete plants.
+
+In this section you will find practical programming and configuration guides for the main manufacturers on the market: **Siemens** (S5, S7-200, S7-300/400, S7-1200/1500 with TIA Portal), **Rockwell Allen Bradley** (PLC-5, SLC-500, CompactLogix/ControlLogix with RSLogix/Studio 5000), **Schneider** (Modicon with Unity Pro / EcoStruxure Control Expert), **Omron** (CX-Programmer), **Beckhoff** (TwinCAT) and others.
+
+Each article is oriented towards solving real-world problems: communication configuration (serial, Ethernet, Profibus, Profinet, EtherNet/IP), project simulation, function block creation, HMI/SCADA integration and much more.
+
+Show more
+
+![Siemens](./assets/images/plc/siemens.svg)
+
+### [Simatic Siemens](#/a/en%2Fplc-siemens)
+
+Within the Simatic PLC family, we trace their evolution from the early S5 to the latest S7-1500.
+
+To program an **S5** family PLC you need **Step 5** software; the latest version 7.23 can run on Windows XP. The required interface is **RS-232/TTY**.
+
+To program an **S7-200** family PLC, the required software is **Microwin**; the latest version is v4.SP9 and can run on 64-bit Windows 7. This PLC has entered the discontinuation phase; its replacement is the S7-1200. The required interface is the PC-Adapter **RS-232/PPI or USB/PPI**.
+
+To program an **S7-300/400** family PLC, you need the **Simatic Manager**; the latest version is V5.6 for Windows 10. With the evolution, migration to TIA Portal has taken place. The required interface is the PC-Adapter/TC-Adapter **RS-232 or USB/MPI**, or a CP such as the **CP5512/CP5611**.
+
+To program **S7-300/400, S7-1200/1500** PLCs, you need **TIA Portal** (Totally Integrated Automation). Since the entire S7-1200/1500 family has a built-in Ethernet port, the required interface is an **Ethernet cable**.
+
+Read more
+
+[View Siemens articles](#/a/en%2Fplc-siemens)
+
+![Schneider](./assets/images/plc/schneider.svg)
+
+### [Schneider "Telemecanique"](#/a/en%2Fplc-schneider)
+
+Within the Schneider (Telemecanique) PLC family there is a great variety, evolving from one of the first PLCs, the Modicon 084, to the current Quantum range.
+
+The programming software varies depending on the PLC model: for a legacy Quantum, Momentum or Atrium, the required software is **Concept**. For older Modicon Micro or Modicon Premium models, **PL7** is needed.
+
+For the new generation of PLCs, the software is **Unity Pro** (currently **EcoStruxure Control Expert**), used with Modicon Premium, Atrium and Quantum.
+
+The required interface varies by PLC; the most common is **serial**, and for the latest models, **Ethernet**.
+
+Read more
+
+[View Schneider articles](#/a/en%2Fplc-schneider)
+
+![Rockwell](./assets/images/plc/rockwell.svg)
+
+### [Rockwell "Allen Bradley"](#/a/en%2Fplc-allen-bradley)
+
+Within the Allen Bradley (Rockwell) PLC family, we trace their evolution from the early PLC-2 to the new Logix5000 family.
+
+To program a **PLC-5** family controller, you need **RSLogix 5** (V7.40 allows installation on Windows 7). The simulator is **RSLogix Emulate 5**. Interfaces: serial cable, DH+/ControlNet/Ethernet depending on the processor. For DH+ networks, a PCMK card or a **USB to DH+ converter (1784-U2DHP)** is used.
+
+For the **SLC-500 / MicroLogix** family, the software is **RSLogix 500** (latest version V9.0). The simulator is **RSLogix Emulate 500**. The required interface is a serial cable or Ethernet (for processors like SLC500/05).
+
+For the **Logix5000** family (CompactLogix, ControlLogix, SoftLogix, FlexLogix), the software is **RSLogix 5000** (latest version was V20), and from there, **Studio 5000**. The required interface is a serial cable, Ethernet, or the new **USB** port that newer controllers include.
+
+Read more
+
+[View Rockwell articles](#/a/en%2Fplc-allen-bradley)
+
+![Omron](./assets/images/plc/omron.svg)
+
+### [Omron](#/a/en%2Fplc-omron)
+
+Within the Omron PLC family, there is also a great variety. Omron classifies them by characteristics into **Compact** PLCs (CPMxx, CP1x), **Modular** (CJxx), and **Rack-mounted** (CSxx).
+
+The programming software may vary by model and year; as **CX-Programmer** was updated, earlier versions could be programmed to unify them in a single software. The oldest software is **Sysmac**.
+
+Read more
+
+[View Omron articles](#/a/en%2Fplc-omron)
+
+![Beckhoff](./assets/images/plc/beckhoff.svg)
+
+### [Beckhoff TwinCAT](#/a/en%2Fplc-beckhoff)
+
+Within Beckhoff, the Embedded PC category is subdivided into: **CX8000**, **CX9000**, **CX1010**, **CX5000**, **CX1020-30**, **CX2000**.
+
+The most current programming software is **TwinCAT V.3**, which integrates directly into Visual Studio. TwinCAT 3 supports IEC 61131-3 programming, C++, and EtherCAT as native fieldbus.
+
+Read more
+
+[View Beckhoff articles](#/a/en%2Fplc-beckhoff)
+
+### [Other PLCs](#/a/en%2Fother-plcs)
+
+Other PLC manufacturers: ABB, GE Fanuc, CodeSys, B&R Automation Studio.
+
+**CodeSys** is the software for programming controllers according to the IEC 61131-3 standard. It supports all 6 programming languages (IL, ST, LD, FBD, SFC, CFC). Based on CodeSys, we find major brands like ABB, Beckhoff, Wago, Moeller.
+
+**GE Fanuc:** Within the GE Fanuc PLC family, we can subdivide them into three categories: VersaMax Micro/Modular, Series 90-30, and PAC800. All of them can be programmed with **Proficy Machine Edition**. For older PLCs, the required software is **Versa Pro**.
+
+**ABB:** The legacy **AC31** series with 07Cx4x (Series 40), 07Kx51 (Series 50), and 07Kx9x-Rxxx (Series 90) requires **907AC1131** software based on CodeSys. The **AC500/AC500 eCo** series is programmed with **Control Builder Plus PS501**. The **Compact AC800** series is programmed with **Control Builder AC800**. There is also the AC800F series and the new AC700F Freelance series.
+
+**B&R Automation Studio:** Within B&R, ControlSystems are subdivided into X20 System, System 2003, and System 2005. The most current programming software is **Automation Studio 4**.
+
+Read more
+
+[View other PLCs](#/a/en%2Fother-plcs)
+
+## General automation guides
+
+### [Industrial Automation Guide](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+
+Complete automation engineer workflow: from FDS to commissioning in 10 phases. PLC, HMI, SCADA, FAT, SAT and startup.
+
+[View full guide](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+
+![GRAFCET](./assets/images/plc/gracetPHSarticulo.PNG)
+
+### [GRAFCET: Complete Design Guide](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+
+What is GRAFCET, elements, evolution rules, structures, GEMMA and step-by-step tutorial for designing before PLC programming.
+
+[View GRAFCET guide](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+
+*   [Industrial Automation Guide: Complete Workflow](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion)
+*   [GRAFCET: Complete Design Guide for Industrial Automation](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+
+---
+*Source: [PLC — Programmable Logic Controllers](https://www.plc-hmi-scadas.com/en/PLC/) — Jose Manuel*

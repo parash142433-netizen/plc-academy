@@ -1,0 +1,301 @@
+---
+title: "Sending WinCC Alarms via Whatsapp"
+slug: "blog-alarmas-wincc-por-whatsapp"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/alarmas-wincc-por-whatsapp/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["Alarms","Cybersecurity","Flask","PLC","OT Network","SCADA","Whatsapp","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# Sending WinCC Alarms via Whatsapp
+
+Pedro Pagán Pallarés Mar 21, 2025
+
+Alarms Cybersecurity Flask PLC OT Network SCADA Whatsapp WinCC
+
+![Sending WinCC Alarms via Whatsapp - PLC HMI SCADAS](./assets/images/blog-alarmas-wincc-por-whatsapp/PHS-Whatsapp-Alarm-1024x585.png)
+
+The purpose of this article is to provide an alternative to **send WinCC alarms [via Whatsapp](https://www.siemens.com/global/en/products/automation/industry-software/automation-software/scada/simatic-wincc-v8.html)** , so that when an alarm is triggered in our control system, the alarm text is sent to a Whatsapp group.
+
+The utility of this solution is to **alert system users** (maintenance, production, etc.) **in a timely manner** and through a **widely used channel.** In this example, we will send it to a group, although it is equally applicable to individuals.
+
+There are various ways to do this; in my case, I opted NOT to use the Whatsapp Business API, as it presents greater complexity and additional costs. The handling of the browser and the library [pywhatkit](https://pypi.org/project/pywhatkit/) has been used.
+
+### Table of Contents
+
+*   [Architecture](#/a/en%2Fblog-alarmas-wincc-por-whatsapp)
+*   [Flask Server Configuration](#/a/en%2Fblog-alarmas-wincc-por-whatsapp)
+*   [WinCC Configuration](#/a/en%2Fblog-alarmas-wincc-por-whatsapp)
+    *   [Extracting Alarm Text with GMsgFunction](#/a/en%2Fblog-alarmas-wincc-por-whatsapp)
+    *   [Sending Alarm Text to Flask Server](#/a/en%2Fblog-alarmas-wincc-por-whatsapp)
+*   [Demonstration](#/a/en%2Fblog-alarmas-wincc-por-whatsapp)
+*   [Conclusions](#/a/en%2Fblog-alarmas-wincc-por-whatsapp)
+
+**Architecture**
+
+![Architecture for Sending WinCC Alarms via Whatsapp](./assets/images/blog-alarmas-wincc-por-whatsapp/image-30.png)
+
+**Elements**
+
+*   **WinCC V8 Runtime** running on a virtual machine (VM 1) with IP 192.168.18.88
+*   **Flask Server**, on another machine (VM 2), for listening to messages and sending via Whatsapp, with IP 192.168.18.77 and port 5000
+*   **Sender Phone:** it is necessary to associate a phone with the Flask server account, as it will be the one sending the messages. Only necessary to scan QR the first time.
+*   **Whatsapp Group:** this will be the group to which we will send the WinCC alarm message.
+
+_Notes: as seen in the image, VM1 has no internet connection and is isolated, simulating a protected OT network. It communicates with VM2 over a local network, emulating the DMZ, and it is the one that can communicate with the outside._
+
+**Flask Server Configuration**
+
+A **Flask server** is a lightweight web application written in Python that allows you to create and serve web pages or APIs easily and quickly.
+
+In this example, it is used to listen for POST requests from the WinCC SCADA. Once it receives such a request, with the **alarm message in a JSON**, it executes via Pywhatkit a browser handling that opens the Whatsapp application (previously authenticated, with a sender phone).
+
+Pywhatkit takes care of logging in, locating the Whatsapp group (with its ID; [see in the invitation link](https://faq.whatsapp.com/3242937609289432/?locale=es_LA&cms_platform=web)), and writing the message it received from the SCADA system.
+
+Python app.py
+
+```python
+from flask import Flask, request, jsonify
+import pywhatkit  # type: ignore
+import time
+from datetime import datetime
+from webdriver_manager.chrome import ChromeDriverManager  # type: ignore
+
+app = Flask(__name__)
+
+@app.route('/wincc', methods=['POST'])
+def enviar_mensaje_grupo():
+    print("🔹 Request received from WinCC.")
+    start_time = datetime.now()  # Capture start time
+
+    # 1) Read the JSON with the text to send
+    data = request.get_json(silent=True)
+    if not data or "mensaje" not in data:
+        return jsonify({
+            "status": "error",
+            "message": "The key 'mensaje' was not found in the JSON."
+        }), 400
+
+    mensaje = data["mensaje"]
+
+    # Group ID (from the invitation link)
+    group_id = "XXXXXXXXXXXXX"
+
+    try:
+        # 2) Use PyWhatKit to open WhatsApp Web and write the message
+        print("🔹 PyWhatKit opening WhatsApp Web and writing message...")
+        pywhatkit.sendwhatmsg_to_group_instantly(group_id, mensaje, wait_time=7, tab_close=False)
+
+        # 3) Wait for the message to be written in the box
+        time.sleep(3)
+
+        end_time = datetime.now()  # Capture end time
+        elapsed_time = (end_time - start_time).total_seconds()
+
+        print(f"✅ Message sent to group with ID {group_id}: {mensaje}")
+        print(f"⏳ Elapsed time: {elapsed_time:.2f} seconds")
+
+        return jsonify({
+            "status": "success",
+            "message": f"Message sent successfully to the group (ID {group_id}).",
+            "elapsed_time": f"{elapsed_time:.2f} seconds"
+        }), 200
+
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(host="192.168.18.77", port=5000)
+```
+
+The steps to keep this service listening are like any other Flask application. First, create a [VENV environment](https://docs.python.org/es/3.13/tutorial/venv.html) with the necessary libraries, activate it, and run it with `python app.py`
+
+This service must always be available and active to receive and process requests from WinCC. In later articles, we will see how we can embed it in a [Docker](https://www.docker.com/products/docker-desktop/).
+
+**WinCC Configuration**
+
+Once we have the server ready to listen, and with Whatsapp authenticated, we proceed to prepare our SCADA to be able to **extract the alarm text** and then **send it** when it is triggered.
+
+**Extracting Alarm Text with GMsgFunction and MSRTGetMsgText**
+
+Although it seems trivial, it is not easy to extract the text of an alarm when it is triggered, as several functions must be used to obtain it and perform configurations, let’s see:
+
+**Step 1: Configure the alarm action.** You must check the option "**Activate an action**", "**Loop in alarm**" and assign the function "[GMsgFunction](https://support.industry.siemens.com/forum/es/en/posts/gmsgfunction/190598)", which is executed when the alarm is triggered.
+
+![Step 1 - Configure Alarm Action in WinCC](./assets/images/blog-alarmas-wincc-por-whatsapp/image-21-1024x465.png)
+
+**Step 2: Modify GMsgFunction** so that when the alarm is triggered, it collects its parameters including the alarm text. The function is in C, and is already prepared to bring some data from the alarm such as Timestamp, ID, and others, but **NOT THE TEXT**.
+
+![Step 2 - GMsgFunction in WinCC](./assets/images/blog-alarmas-wincc-por-whatsapp/image-23-1024x230.png)
+
+To obtain the alarm text, another function must be used that, by passing the alarm object as a parameter, and pointing to the correct field, retrieves the message text. Here is the code:
+
+C GMsgFunction
+
+```c
+BOOL GMsgFunction( char* pszMsgData)
+{
+BOOL bOK;
+WORD wTextBlock=0;
+DWORD dwTextNr =34 ;
+MSG_TEXT_STRUCT scMsgText;
+CMN_ERROR scError;
+MSG_CSDATA_STRUCT sM; // holds alarm info
+CMN_ERROR pError;
+
+
+  MSG_RTDATA_STRUCT mRT;
+  memset( &mRT, 0, sizeof( MSG_RTDATA_STRUCT ) );
+
+
+  if( pszMsgData != NULL )
+  {
+     printf( "Message : %s \r\n", pszMsgData );
+
+    // Read message data
+     sscanf( pszMsgData,  "%ld,%ld,%04d.%02d.%02d,%02d:%02d:%02d:%03d,%ld, %ld, %ld, %d,%d",
+	&mRT.dwMsgNr, 			// Message number
+	&mRT.dwMsgState,  		// Status MSG_STATE_COME, .._GO, .._QUIT, .._QUIT_SYSTEM
+	&mRT.stMsgTime.wYear, 		// Year
+	&mRT.stMsgTime.wMonth, 		// Month
+	&mRT.stMsgTime.wDay,		// Day
+	&mRT.stMsgTime.wHour, 		// Hour
+	&mRT.stMsgTime.wMinute,		// Minute
+	&mRT.stMsgTime.wSecond, 	// Second
+	&mRT.stMsgTime.wMilliseconds,	// Millisecond
+	&mRT.dwTimeDiff,		// Duration of the pending message
+	&mRT.dwCounter,			// Internal message counter
+	&mRT.dwFlags,			// Flags (intern)
+	&mRT.wPValueUsed,
+	&mRT.wTextValueUsed );
+
+      // Read process values, if desired
+    }
+
+  printf("Nr : %d, St: %x, %d-%d-%d %d:%d:%d.%d, Dur: %d, Cnt %d, Fl %d\r\n" ,
+  mRT.dwMsgNr, mRT.dwMsgState, mRT.stMsgTime.wDay, mRT.stMsgTime.wMonth,
+  mRT.stMsgTime.wYear, mRT.stMsgTime.wHour, mRT.stMsgTime.wMinute,
+  mRT.stMsgTime.wSecond, mRT.stMsgTime.wMilliseconds, mRT.dwTimeDiff,
+  mRT.dwCounter, mRT.dwFlags );
+
+
+//----------------------------BY PHS----------------------------
+
+// ADDED TO EXTRACT TEXT
+MSRTGetMsgCSData(mRT.dwMsgNr, &sM, &pError);
+printf ("MSRTGetMsgCSData() - szText=\"%i\"\r\n", sM.dwTextID[0]);
+
+
+bOK = MSRTGetMsgText(wTextBlock, sM.dwTextID[0], &scMsgText, &scError );
+printf ("MSRTGetMsgText() - szText=\"%s\"\r\n", scMsgText.szText);
+
+//ASSIGNING ALARM TEXT TO VARIABLE TO PASS AND USE IN VBS
+SetTagChar("AlarmText",scMsgText.szText);	//Return-Type: BOOL
+
+   return( TRUE );
+}
+```
+
+With this, we now have the alarm text, when triggered, stored in `AlarmText`.
+
+![Variable AlarmText in WinCC](./assets/images/blog-alarmas-wincc-por-whatsapp/image-22.png)
+
+**Sending Alarm Text to Flask Server**
+
+Now that the alarm is stored, we just need to make the request to the Flask server to send it via Whatsapp. For this, I have done it with VBS. As you can see, we will collect the text from the `AlarmText` variable and send it to the server IP=192.168.18.77:5000/wincc
+
+VBScript SendTextToServer
+
+```vbs
+Sub EnviarTextoAServidor()
+	Dim http
+	Dim url
+	Dim data
+	Dim mensaje
+
+	Dim mensajeAlarma
+
+	mensajeAlarma = HMIRuntime.Tags("AlarmText").Read(1)
+	HMIRuntime.Trace mensajeAlarma
+	' Define the message to send (you can replace it with a dynamic variable)
+	mensaje = mensajeAlarma
+
+	' Create the XMLHTTP object to send the request
+	Set http = CreateObject("MSXML2.XMLHTTP")
+
+	' Address of the Flask server
+	url = "http://192.168.18.77:5000/wincc"
+
+	' Open the POST connection
+	http.Open "POST", url, False
+
+	' Set the header to send data as JSON
+	http.setRequestHeader "Content-Type", "application/json"
+
+	' Create the JSON with the message
+	data = "{""mensaje"":""" & mensaje & """}"
+
+	' Send the data
+	http.send data
+
+	' Read the server response
+	Dim response
+	response = http.responseText
+
+	MsgBox "Server response: " & response
+
+	' Release object
+	Set http = Nothing
+
+End Sub
+```
+
+And now you may wonder: when is this function executed? There are many ways to do it; in the end, what we need is for the alarm to trigger the execution. In my case, as an example, I have associated the alarm text with a Text Field, and when it changes, it executes the script.
+
+![Associate VBS script with text field in WinCC](./assets/images/blog-alarmas-wincc-por-whatsapp/image-24.png) ![Event configuration in WinCC](./assets/images/blog-alarmas-wincc-por-whatsapp/image-25.png)
+
+**Demonstration**
+
+**PLC:** We trigger the alarm
+
+![PLC - Trigger Alarm](./assets/images/blog-alarmas-wincc-por-whatsapp/image-26.png)
+
+**WinCC:** The alarm is triggered in SCADA and its text is saved in the textbox.
+
+![WinCC - Alarm Triggered in SCADA](./assets/images/blog-alarmas-wincc-por-whatsapp/image-27.png)
+
+**Flask Server + Browser:** receives the alarm and sends it via Whatsapp through browser handling.
+
+![Flask Server sending alarm via Whatsapp](./assets/images/blog-alarmas-wincc-por-whatsapp/image-29.png)
+
+ Your browser does not support HTML5 video.
+
+Video demonstration of sending alarm via Whatsapp
+
+**MessageBox in SCADA** confirming the sending:
+
+![MessageBox confirming sending in WinCC](./assets/images/blog-alarmas-wincc-por-whatsapp/image-28.png)
+
+**Conclusions**
+
+It is possible to send alarms with Whatsapp without using APIs and with minimal cost. This can be very useful for certain users of industrial systems, where certain critical alarms need to be monitored in real time.
+
+The method used for sending Whatsapp requires a phone number to associate with the Whatsapp account that performs the sending, typically it could be a basic maintenance account.
+
+The functionality has been completely isolated from the SCADA. The control system remains perfectly isolated in the OT network without the need for internet and exposure.
+
+Obtaining the alarm text in WinCC is not trivial, and a generic and scalable way to do it has been provided.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Sending WinCC Alarms via Whatsapp](https://www.plc-hmi-scadas.com/en/blog/alarmas-wincc-por-whatsapp/) — Pedro Pagán Pallarés*

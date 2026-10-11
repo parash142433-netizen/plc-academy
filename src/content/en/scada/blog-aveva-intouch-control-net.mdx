@@ -1,0 +1,188 @@
+---
+title: "AVEVA Intouch Control .Net"
+slug: "blog-aveva-intouch-control-net"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-control-net/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch Control .Net
+
+Jose Manuel Luque 16 Jul, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch Control .Net](./assets/images/blog-aveva-intouch-control-net/WW-000017-1.png)
+
+The following example is dedicated to my colleague Raul Vizcaino ... _**Never lose the desire to keep learning...**_ A promise is a promise, and here it is.
+
+Using the BarcodeLib library, we will create a .net object to instantiate it and that's it.
+
+We can do the following example in a [Visual Studio project](https://plc-hmi-scadas.com/WinCC_Net.php), where it is much more comfortable, but we can also do it this way.
+
+Create a directory, where for the following example the BarcodeLib.dll library is located. Copy the following code into a notepad and save it with the name PHSPictureBox.cs, note that the important thing is the file extension **\*.cs**
+
+Code
+
+```
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+using BarcodeLib;
+
+namespace PHSPictureBox
+{
+    public partial class PHSPictureBox : PictureBox
+    {
+        private string _BarCode;
+        private string _MessageError;
+        private string _CodeType;
+        private  BarcodeLib.TYPE UserType = BarcodeLib.TYPE.UPCA;
+
+public string BarCode
+        {
+            get
+            {
+                return _BarCode;
+            }
+            set
+            {
+		_BarCode = value;
+		LoadMyBarcode(_BarCode);
+            }
+        }
+
+        public string CodeType
+        {
+            get
+            {
+                return _CodeType;
+            }
+            set
+            {
+                _CodeType = value;
+                GetMyCode(_CodeType);
+                if (! String.IsNullOrEmpty(BarCode) )
+                {
+                    LoadMyBarcode(BarCode);
+                }
+            }
+        }
+
+       public string MessageError
+       {
+            get
+            {
+                return _MessageError;
+            }
+            set
+            {
+                _MessageError = value;
+            }
+       }
+		
+       public PHSPictureBox()
+       {
+            this.BackColor = System.Drawing.Color.White;
+            this.MaximumSize = new System.Drawing.Size(1900, 1060);
+            this.MinimumSize = new System.Drawing.Size(50, 25);
+            this.Name = "PHSPictureBox";
+            this.Size = new System.Drawing.Size(203, 84);
+       }
+
+private void GetMyCode(String Type)
+       {
+            if (String.IsNullOrEmpty(CodeType))
+            {
+                UserType = BarcodeLib.TYPE.UPCA;
+            }
+            else
+            {
+                /*
+                Code 128 	Code 93 	Code 39 (Extended / Full ASCII)
+                Code11 	    EAN-8 	    FIM (Facing Identification Mark)
+                UPC-A 	    UPC-E 	    Pharmacode
+                MSI 	    PostNet 	Standard 2 of 5
+                ISBN 	    Codabar 	Interleaved 2 of 5
+                ITF-14 	    Telepen 	UPC Supplemental 2
+                JAN-13 	    EAN-13 	    UPC Supplemental 5
+                */
+
+                switch (Type)
+                {
+                    case "CODE128":
+                        UserType = BarcodeLib.TYPE.CODE128;
+                        break;
+                    case "CODE11":
+                        UserType = BarcodeLib.TYPE.CODE11;
+                        break;
+                    case "UPCA":
+                        UserType = BarcodeLib.TYPE.UPCA;
+                        break;
+                    case "MSI":
+                        UserType = BarcodeLib.TYPE.MSI_Mod11_Mod10;
+                        break;
+                    case "ISBN":
+                        UserType = BarcodeLib.TYPE.ISBN;
+                        break;
+                    case "ITF14":
+                        UserType = BarcodeLib.TYPE.ITF14;
+                        break;
+                    case "JAN13":
+                        UserType = BarcodeLib.TYPE.JAN13;
+                        break;
+                    default:
+                        UserType = BarcodeLib.TYPE.UPCA;
+                        break;
+                }
+            }
+       }
+
+       public void LoadMyBarcode(string Code)
+       {
+            MessageError = "";
+            try
+            {
+                BarcodeLib.Barcode b = new BarcodeLib.Barcode();
+                b.IncludeLabel = true;
+                this.Image = b.Encode(UserType, Code, Color.Black, Color.White, this.Width, this.Height);
+            }
+            catch(Exception ex)
+            {
+                MessageError = ex.ToString();
+            }           
+       }
+    }
+}
+```
+
+Next, run the Windows console as an administrator and execute the following command. I assume that the .NET framework v4.0 is installed.
+
+Code
+
+```
+C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\csc /t:library /out:PHSPictureBox.dll /r:System.dll;System.Drawing.dll;System.Windows.Forms.dll;BarcodeLib.dll PHSPictureBox.cs
+```
+
+![](./assets/images/blog-aveva-intouch-control-net/WW-000017.png)
+
+If everything is correct, the corresponding \*.dll will have been generated.
+
+![](./assets/images/blog-aveva-intouch-control-net/WW-000018.png)
+
+Now you can use it in your SCADA, whether it is AVEVA Intouch, WinCC, Factory Talk View, IFIX, etc... as long as it supports .Net controls.  
+Here is a small example of how to implement it in **[AVEVA Intouch Client Controls](#/a/en%2Fblog-aveva-intouch-client-controls-net)**
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch Control .Net](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-control-net/) — Jose Manuel Luque*

@@ -1,0 +1,77 @@
+---
+title: "WinCC Modbus TCP Driver"
+slug: "wincc-modbustcp"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_ModbusTCP.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Modbus TCP Driver"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Modbus TCP Driver
+
+Jose Manuel Luque 21 Apr, 2019
+
+WinCC Modbus TCP Driver
+
+**WinCC Modbus TCP Driver**
+
+Assuming we have a Schneider PLC and we want to communicate it with WinCC, these would be the steps to configure the communication driver. First of all, we need to know that the communication is via Modbus TCP.
+
+The procedure is as follows: in Tag Management, we add a new Driver and select Modbus TCPIP.
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP001.png)
+
+The next step is to add a new connection, giving it a name that interests us.
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP002.png)
+
+I named it UnityPro, and then with the right button, we access Connection Parameters.
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP003.png)
+
+This is where we will define the type of CPU. From the three available, I selected as shown in the image. By default, the port for Modbus TCPIP communications is port 502, we leave it as is, and in our case, we do not need to define the remote slave address, we leave it at 255.
+
+After conducting some tests, the checkbox for Swap words in 32 bit values must be unchecked.
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP004.png)
+
+Now we move on to the driver documentation to know what type of data it allows. This is the information from the manual and will be what we will test.
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP005.png)
+
+And for the addressing, we will use the following information.
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP006.png)
+
+That said, these are the variables I created to check the operation, which are the ones we have created in our Control Expert project.
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP007.png)
+
+We start the Runtime and display the value and Quality code to verify that everything is correct.
+
+Do you remember this [fragment](#/a/en%2Fcontrolexpertplcsim) "_For example, the variable defined as M1 is mapped to address %M1, and in turn, the variable defined as M11 points to Q1.5.1, which is the same address as %M1_"? Well, in WinCC, the variable M11-M12-M13, etc., do not update the data correctly; in this example, the outputs should be activated, but they are not!!!
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP009.png)
+
+Here you can see the values we have in the PLC Simulator that is on another machine.
+
+![](./assets/images/wincc-modbustcp/UnityPro-Modbus04.png)
+
+This is the configuration we are checking.
+
+![](./assets/images/wincc-modbustcp/UnityPro-Modbus05.png)
+
+An image to illustrate read-only variables and read/write variables.
+
+![](./assets/images/wincc-modbustcp/WinCCModbusTCP010.png)
+
+21-04-2019
+
+---
+*Source: [WinCC Modbus TCP Driver](https://www.plc-hmi-scadas.com/en/WinCC_ModbusTCP.php) — Jose Manuel Luque*

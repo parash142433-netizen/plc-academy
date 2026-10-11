@@ -1,0 +1,69 @@
+---
+title: "OPC KepServer Configuration with Omron CQM1 PLC"
+slug: "069"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/069.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["OPC","KepServer","PLC","Omron","CQM1"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# OPC KepServer Configuration with Omron CQM1 PLC
+
+Jose Manuel Luque
+
+OPC KepServer PLC Omron CQM1
+
+We have already configured the driver for the [S7-2xx PPI PLC](#/a/en%2F007), this time we will configure the driver to communicate with an Omron CQM1 PLC, for this we start the KepServer and add a new channel giving it the desired name
+
+![](./assets/images/069/Omron%20Kepserver01.png)
+
+![](./assets/images/069/Omron%20Kepserver02.png)
+
+The next step is to select the driver, for our PLC we choose Host Link and the parameters of our serial port, which as we can see are the default values to communicate with the PLC, just like when the [communication between PC and PLC was configured with CX-Programmer](#/a/en%2F045)
+
+![](./assets/images/069/Omron%20Kepserver03.png)
+
+![](./assets/images/069/Omron%20Kepserver04.png)
+
+The next step is to define the writing of our tags, by default we leave the first selection and with that the channel has been configured
+
+![](./assets/images/069/Omron%20Kepserver05.png)
+
+![](./assets/images/069/Omron%20Kepserver06.png)
+
+Once the channel is defined, the next step is to add our device, our PLC, we give it a name according to our interest and select the PLC model, which is CQM1
+
+![](./assets/images/069/Omron%20Kepserver08.png)
+
+![](./assets/images/069/Omron%20Kepserver09.png)
+
+We assign a unique ID number, which cannot be repeated, and the acquisition time, which by default is 1 second and three attempts to establish communication.
+
+![](./assets/images/069/Omron%20Kepserver10.png)
+
+![](./assets/images/069/Omron%20Kepserver11.png)
+
+The next window is for enabling or disabling in case of failure to establish communication and the last step is to set the time, which by default is 0
+
+![](./assets/images/069/Omron%20Kepserver12.png)
+
+![](./assets/images/069/Omron%20Kepserver13.png)
+
+With this we have configured our channel and our device, we would be ready to add all the tags we are interested in with their data type.
+
+![](./assets/images/069/Omron%20Kepserver14.png)
+
+Once the tags are added, we can check that the configuration has been successfully completed by connecting our PLC to the serial port of our PC, the result when connecting with the OPC Client is as follows
+
+![](./assets/images/069/Omron%20Kepserver18.png)
+
+February 3, 2013
+
+---
+*Source: [OPC KepServer Configuration with Omron CQM1 PLC](https://www.plc-hmi-scadas.com/en/069.php) — Jose Manuel Luque*

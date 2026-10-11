@@ -1,0 +1,121 @@
+---
+title: "How to Create WinCC Unified SQLite Reports in SSRS"
+slug: "blog-ssrs-wincc-unified-sqlite"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/ssrs-wincc-unified-sqlite/"
+author: "Pedro Pagan Pallares"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SSRS","SQLite","WinCC Unified","ODBC","Report Builder"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › How to Create WinCC Unified SQLite Reports in SSRS
+
+# How to Create WinCC Unified SQLite Reports in SSRS
+
+Connect SSRS to the WinCC Unified historical SQLite database via ODBC and build custom datalog and alarm reports.
+
+Jose Manuel Luque May 01, 2026
+
+SSRS SQLite WinCC Unified ODBC Report Builder
+
+![How to Create WinCC Unified SQLite Reports in SSRS](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-1.png)
+
+**Introduction**
+
+In our [previous article](#/a/en%2Fblog-iis-reverse-proxy-reporting-services-wincc-unified), we configured an IIS Reverse Proxy to embed SSRS in WinCC Unified without CORS policy conflicts. Now that the infrastructure is in place, the next step is to **build custom reports** that read directly from the Unified historical SQLite database.
+
+WinCC Unified stores **datalogs** (historical tag values) and **alarms** in SQLite databases. SSRS Report Builder can connect to these sources through **ODBC**. In this guide, we follow the real workflow, from file discovery to the final validated report in the viewer.
+
+*   Configure an ODBC Data Source pointing to SQLite
+*   Explore database structure and available data
+*   Design a visual report in Report Builder
+*   Publish and view the report in SSRS
+
+**Step 1: Locate SQLite files**
+
+Start at the real data source. In Windows Explorer, identify the physical path used by WinCC Unified: `C:\ProgramData\SCADAProjects\RT\TLGDB\`. You will find **.db3**, **.db3-shm**, and **.db3-wal** files, confirming where historical data is stored.
+
+![SQLite files in C:\\ProgramData\\SCADAProjects\\RT\\TLGDB](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-12.png)
+
+**Step 2: Explore with DB Browser for SQLite**
+
+Once the location is confirmed, install and open **DB Browser for SQLite** to inspect the database. Download it from [sqlitebrowser.org/dl](https://sqlitebrowser.org/dl/), install the appropriate version, and open the `.db3` file to verify that data is accessible before moving to SSRS.
+
+![Exploring data with DB Browser for SQLite](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-11.png)
+
+**Step 3: Build the query in SQL Browser**
+
+Before connecting SSRS, prepare the query logic based on the structure shown in SQL Browser. This step validates the tables and fields required in the report and helps reach a stable final query.
+
+![Database structure and query preparation in SQL Browser](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-8.png)
+
+**Step 4: Verify available ODBC drivers**
+
+With the data model clear, download and install the **SQLite ODBC Driver** from [ch-werner.de/sqliteodbc](https://www.ch-werner.de/sqliteodbc/). Then validate in ODBC Data Source Administrator that the driver is available and the DSN is properly defined. This avoids connection errors later in SSRS.
+
+![ODBC Data Source Administrator with installed drivers](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-7.png)
+
+**Step 5: ODBC connection details**
+
+Next, configure the DSN with database path and technical parameters. This defines the ODBC connection consumed by SSRS, including the connection test to confirm proper response.
+
+![SQLite3 DSN ODBC configuration](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-6.png)
+
+**Step 6: View the report in SSRS server**
+
+Inside SSRS, verify that both report and data source exist in the portal. This server-side view confirms that objects are published and linked in the expected location.
+
+![Report and Data Source visible in SSRS portal](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-4.png)
+
+**Step 7: Configure Data Source in SSRS**
+
+Open Data Source properties and set the ODBC connection string and credentials. The connection test is the key verification that SSRS can read the SQLite database.
+
+![ODBC Data Source properties in SSRS](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-5.png)
+
+**Step 8: Design the report in Report Builder**
+
+With the source operational, design the report in Report Builder: dataset, fields, Tablix layout, and visual formatting. This defines what the end user will see.
+
+![Report design in Microsoft Report Builder](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-9.png)
+
+**Step 9: Run and preview the report**
+
+Run the report to validate real data loading, pagination behavior, and output quality. If this step works correctly, the report is ready for operational use.
+
+![Running report in Report Builder](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-10.png)
+
+**Step 10: Report Server home page**
+
+On the Report Server home page, validate overall SSRS availability and access to published resources. This is the main entry point for daily administration and operation.
+
+![Report Server home page](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-3.png)
+
+**Step 11: Validate in Report Viewer**
+
+With the server running, review the report in Report Viewer to confirm data rendering, formatting, and navigation. This is the checkpoint before final acceptance.
+
+![Report view in Report Viewer](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-2.png)
+
+**Step 12: Final report view**
+
+Final result of the full workflow: operational report, visible historical data, page navigation, and output ready for export and production usage.
+
+![Final SSRS report in Report Viewer](./assets/images/blog-ssrs-wincc-unified-sqlite/ssrs-wincc-unified-sqlite-1.png)
+
+**Conclusion**
+
+With these 12 steps, we covered the complete path from ODBC driver configuration at OS level to final report visualization in SSRS. The combination of:
+
+*   SQLite as WinCC Unified historical database
+*   ODBC as connectivity protocol
+*   SSRS and Report Builder for reporting
+*   IIS Reverse Proxy for Unified embedding (from the previous article)
+
+...provides a complete and professional solution to build advanced reports from automation project historical data. End users can access these reports directly from WinCC Unified, filter by date ranges, export to multiple formats, and perform deep analysis on datalogs and alarms.
+
+---
+*Source: [How to Create WinCC Unified SQLite Reports in SSRS](https://www.plc-hmi-scadas.com/en/blog/ssrs-wincc-unified-sqlite/) — Pedro Pagan Pallares*

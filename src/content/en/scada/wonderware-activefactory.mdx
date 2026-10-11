@@ -1,0 +1,74 @@
+---
+title: "Active Factory/Historian Client Trends"
+slug: "wonderware-activefactory"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Wonderware_ActiveFactory.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Active Factory/Historian Client Trends"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Active Factory/Historian Client Trends
+
+Jose Manuel Luque
+
+Active Factory/Historian Client Trends
+
+**ActiveFactory/Historian Client Trends Configuration  
+**
+
+In one of the previous practices, we saw how to [Configure the TrendClient Control](#/a/en%2Farchestra-trendclient) where the data source was the Historian Server. This time we will look at one of the applications included in the ActiveFactory software in its older versions or Historian Client in its new version, the application is the Trend.
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactoryHistorianClient-00.png) ![](./assets/images/wonderware-activefactory/169-AcriveFactory02.png)
+
+Here we can observe that on our server machine called SERVERWW, we are running the Historian, where it is assumed that we have configured the tags that interest us.
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory-00.png)
+
+Regardless of the version we have, ActiveFactory or Historian Client, we run the Trend, as its configuration is the same, this is the interface it shows us.
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory03.png)
+
+The first step is the server configuration. When the application is run for the first time, the server configuration wizard may appear; however, we can access it through Tools -> Servers..
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory04.png)
+
+And this is the wizard for server configuration. In the TextBox regarding Server, we specify the name of our Server, and by default, the user wwUser appears to log in with its password. For this, we return to the server where the Historian is running.
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory05.png)
+
+We log in with Management Studio to the SQL Server. By default, after installing the Historian, a database called Runtime is created, where we can observe the tables and more...
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory-01.png)
+
+And in turn, if we go to Security -> Logins, we can observe the user wwUser, which we need for the server configuration. Here we can change its password and permissions on the database.
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory-02.png)
+
+If we return to our configuration, we can now enter the password and add the server. It may happen that an error or warning occurs if the user wwUser does not have permissions. If it proceeds without incidents, we have now added the Server.
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory07.png)
+
+We can now observe our server correctly added in the TagPicker Section; we can expand the tree and observe all the subdirectories.
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory08.png)
+
+To observe a Tag, we simply search for it and drag it to the graph window. Once added, we can press Play and navigate to observe the values it had from day xxx to day xxx, and we observe a time of 5 minutes...
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory09.png)
+
+We can visualize independently by the tags we have added, delete them, add others, in short, it depends on what interests us, or we can save a specific Trend and load it later.
+
+This has been an introduction to the functionality of the Trend in its ActiveFactory application. The next thing we will do is embed this control in our ArchestrA Application and observe it within our Intouch screen; this will be in the next practice.
+
+![](./assets/images/wonderware-activefactory/169-AcriveFactory10.png)
+
+September 10, 2013
+
+---
+*Source: [Active Factory/Historian Client Trends](https://www.plc-hmi-scadas.com/en/Wonderware_ActiveFactory.php) — Jose Manuel Luque*

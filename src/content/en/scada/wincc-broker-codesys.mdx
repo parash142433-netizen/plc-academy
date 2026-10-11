@@ -1,0 +1,51 @@
+---
+title: "WinCC MQTT Publish - Broker - Codesys Subscriber"
+slug: "wincc-broker-codesys"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Broker_Codesys.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC MQTT Publish","Broker","Codesys"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC MQTT Publish - Broker - Codesys Subscriber
+
+Jose Manuel Luque 21 May, 2019
+
+WinCC MQTT Publish Broker Codesys
+
+**WinCC MQTT Publish - Broker - Codesys Subscriber**
+
+![](./assets/images/wincc-broker-codesys/vba-logo.png) ![](./assets/images/wincc-broker-codesys/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+We have just seen how we send data to our Broker with [WinCC](#/a/en%2Fwincc-mqtt) and with a client we subscribe to receive new messages. To make it a bit more dynamic and enjoyable, we are going to subscribe from our program in CodeSys.
+
+I have downloaded the following library from Codesys that we can use in Demo mode.
+
+![](./assets/images/wincc-broker-codesys/CodeSys_MQTT_00.png)
+
+Once installed, we have already added it to our repository, and these are the available functions.
+
+![](./assets/images/wincc-broker-codesys/CodeSys_MQTT_01.png)
+
+Using the same demonstration project, I have left only what is strictly necessary to test it.
+
+One instance to connect to the Broker and two instances to subscribe to the two variables that we had configured.
+
+![](./assets/images/wincc-broker-codesys/CodeSys_MQTT_02.png)
+
+Once we put it in Runtime, we can check how we connect to the broker, and when we make a new publication in WinCC, changing the value of the variable, since we are subscribed to those topics, we receive the new value.
+
+So let's keep learning...
+
+![](./assets/images/wincc-broker-codesys/CodeSys_MQTT_03.png)
+
+21-05-2019
+
+---
+*Source: [WinCC MQTT Publish - Broker - Codesys Subscriber](https://www.plc-hmi-scadas.com/en/WinCC_Broker_Codesys.php) — Jose Manuel Luque*

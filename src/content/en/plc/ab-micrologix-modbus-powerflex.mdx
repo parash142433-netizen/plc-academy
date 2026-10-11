@@ -1,0 +1,52 @@
+---
+title: "Micrologix Master Modbus PowerFlex 4 Slave Modbus"
+slug: "ab-micrologix-modbus-powerflex"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/AB_Micrologix_Modbus_PowerFlex.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["Micrologix Master Modbus PowerFlex 4 Slave Modbus"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# Micrologix Master Modbus PowerFlex 4 Slave Modbus
+
+Jose Manuel Luque
+
+Micrologix Master Modbus PowerFlex 4 Slave Modbus
+
+**Micrologix Master Modbus PowerFlex 4 Slave Modbus  
+**
+
+First of all, I would like to dedicate this practice to Miguel Custodio. As we have seen before, the [Micrologix can be the Master in a Modbus network](#/a/en%2Frslogix500-micrologix-master-modbus), after that first test with the simulator, today we are going to carry it out but with a PowerFlex, we are going to control our drive via Modbus.
+
+The first thing we do is configure the communication parameters, just as we did before.
+
+![](./assets/images/ab-micrologix-modbus-powerflex/Micrologix_Modbus_PowerFlex_01.png)
+
+The values we want to write/read to our drive will be done through MSG Messages, where each of them points to an address, depending on what we want to achieve.
+
+![](./assets/images/ab-micrologix-modbus-powerflex/Micrologix_Modbus_PowerFlex_03.png)
+
+An essential requirement is to know the addresses of the registers we want to access, whether to read or write; for this, I am attaching a PDF with information that cannot be overlooked. Here is an example of the Setup of the main Message.
+
+![](./assets/images/ab-micrologix-modbus-powerflex/Micrologix_Modbus_PowerFlex_05.png)
+
+Here is a PDF with the most relevant addresses.
+
+An image of the messages sent and received between the Micrologix and the PowerFlex.
+
+![](./assets/images/ab-micrologix-modbus-powerflex/Micrologix_Modbus_PowerFlex_06.png)
+
+And to finish, a small online video of the operation. I recommend changing the video setting to 720HD.
+
+If you liked it or found it useful, share it... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Micrologix Master Modbus PowerFlex 4 Slave Modbus](https://www.plc-hmi-scadas.com/en/AB_Micrologix_Modbus_PowerFlex.php) — Jose Manuel Luque*

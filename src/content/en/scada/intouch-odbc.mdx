@@ -1,0 +1,67 @@
+---
+title: "Intouch  - Open DataBase Connectivity (ODBC)"
+slug: "intouch-odbc"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_ODBC.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch - ODBC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Intouch - Open DataBase Connectivity (ODBC)
+
+Jose Manuel Luque 01 Jun, 2019
+
+Intouch - ODBC
+
+**Intouch - Open DataBase Connectivity (ODBC)**
+
+![](./assets/images/intouch-odbc/vba-logo.png) ![](./assets/images/intouch-odbc/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+In this article, we will see the basis for communicating Intouch with any database management system that has an Open DataBase Connectivity (ODBC) Driver.
+
+We have seen an example with [MySQL](#/a/en%2Fintouch-mysql), but without defining a Data Source.
+
+1.- The first step will be the installation of the ODBC Driver; in the case of MySQL, we perform the following installation (MySQL Connector/ODBC 8.0), which is the current version.
+
+![](./assets/images/intouch-odbc/WinCC_MySQL_DB_01.png)
+
+Once the installation is complete, and very importantly the 32-bit version, we can check that we have two new drivers available.
+
+![](./assets/images/intouch-odbc/WinCC_MySQL_DB_03.png)
+
+The next step will be the definition of a new Data Source, which I have defined as MySQL.
+
+![](./assets/images/intouch-odbc/Intouch_Oracle_11.png)
+
+![](./assets/images/intouch-odbc/Intouch_Oracle_12.png)
+
+As I mentioned earlier, if you are reading this article and are new to Wonderware Intouch, I suggest you review this other [article](#/a/en%2Fintouch-db-oracle) to reach the point where we are now; if, on the other hand, you are up to date, we are creating a new symbol, where we associate the following code.
+
+The important thing to highlight here is the Connection String, where we define the name we created in our Data Source, and as in the wizard to create it, we defined user and passwords; here it is not necessary to define them.
+
+If it were Oracle, then we would need to define user and password, as it is not defined in the Data Source.
+
+![](./assets/images/intouch-odbc/Intouch_Oracle_16.png)
+
+Now we are going to test it; we insert our symbol into a new screen and switch to Runtime to check it.
+
+![](./assets/images/intouch-odbc/Intouch_Oracle_13.png)
+
+![](./assets/images/intouch-odbc/Intouch_Oracle_17.png)
+
+And the values that are in the Database
+
+![](./assets/images/intouch-odbc/WinCC_MySQL_DB_13.png)
+
+[Download the Code text](https://www.plc-hmi-scadas.com/Download/VBNET%20Intouch.txt)
+
+01-06-2019
+
+---
+*Source: [Intouch  - Open DataBase Connectivity (ODBC)](https://www.plc-hmi-scadas.com/en/Intouch_ODBC.php) — Jose Manuel Luque*

@@ -1,0 +1,79 @@
+---
+title: "WinCC Unified OPC Server UA"
+slug: "wincc-unified-servidor-opc-ua"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Servidor_OPC_UA.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Unified OPC Server UA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified OPC Server UA
+
+Jose Manuel Luque 12 Mar, 2020
+
+WinCC Unified OPC Server UA
+
+**WinCC Unified OPC Server UA**
+
+![](./assets/images/wincc-unified-servidor-opc-ua/vba-logo.png) ![](./assets/images/wincc-unified-servidor-opc-ua/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+I would like to start by giving THANKS in capital letters to C.F.R, who I haven’t asked for permission to mention, so for now I will leave it like this.
+
+We have already seen that WinCC Unified has an [driver](#/a/en%2Fwincc-unified-connection-opcua) to communicate via OPC UA and in turn, our Panel or our PC can also be an OPC UA Server.
+
+Let’s consider that we have already transferred our project and we are in Runtime, it is running perfectly, but we want to activate this option.
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_14.png)
+
+In our project in TIA Portal, we go to Runtime Settings and in services we have the option to activate the checkbox Operate as OPC Server, we will activate it, compile and transfer it again...
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_13.png)
+
+We have the following configuration file as shown in the next image, and this will be where we can make certain changes, modify the port, enable or disable security type, etc...
+
+The default port is 4890, if we make any changes, we need to restart the server for them to take effect.
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_15.png)
+
+In the same file is where the directories of the certificates are located and where we will have to move when we make a connection, a more detailed explanation in the next example with [WinCC](#/a/en%2Fwincc-cliente-opcua-beckhoff)
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_16.png)
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_17.png)
+
+While we are transferring, we can see how it restarts.
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_20.png)
+
+And once restarted, it is now as an OPC UA server.
+
+With the OPC Client from Unified Automation, we can check that by default, with this version the unsecure connection type is not enabled, which means we need a Username and Password.
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_18.png)
+
+Well, we already know that we have to create a User with permissions for OPC-UA.
+
+Within our TIA Portal project and Security Settings, we have the user and role management that we will assign. I have created the user Admin and I will assign the role of HMI Administrator.
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_21.png)
+
+If we check the roles that this user has by default, we can already see OPC-UA Read and Write.
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_22.png)
+
+And to finish, we can observe how the connection has been established perfectly, with the defined security type and authentication.
+
+If we check the State variable of the Server, we can see that we are in running.
+
+![](./assets/images/wincc-unified-servidor-opc-ua/Unified_OPCUA_23.png)
+
+12-03-2020
+
+---
+*Source: [WinCC Unified OPC Server UA](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Servidor_OPC_UA.php) — Jose Manuel Luque*

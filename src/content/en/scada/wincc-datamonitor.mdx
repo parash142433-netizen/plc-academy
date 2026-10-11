@@ -1,0 +1,80 @@
+---
+title: "WinCC DataMonitor"
+slug: "wincc-datamonitor"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_DataMonitor.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC DataMonitor"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC DataMonitor
+
+Jose Manuel Luque
+
+WinCC DataMonitor
+
+**WinCC DataMonitor Part 1  
+**
+
+Among the software that complements the WinCC Scada, there is DataMonitor, which includes a series of components for Data visualization, such as Alarms, UserArchives, TagLogging and together with Microsoft Office, the following can be available:  
+\* "WinCCViewerRT"  
+\* "Excel Workbook"  
+\* "Reports"  
+\* "Webcenter"  
+\* "Trends & Alarms"
+
+If we are going to work with DataMonitor, before installation we will prepare the equipment; for this practice, I have chosen a Server 2008 R2 Operating System, and it can be any of those shown:
+
+![](./assets/images/wincc-datamonitor/WinCC_DataMonitor_01.png)
+
+For the DataMonitor Client, we have the following options:
+
+![](./assets/images/wincc-datamonitor/WinCC_DataMonitor_02.png)
+
+Once these details are covered, we will proceed to install the components to prepare our equipment. The first of these is Message Queuing
+
+![](./assets/images/wincc-datamonitor/WinCC_Server_05.png)
+
+Secondly, once the IIE is installed with its default characteristics, we need to add the following, which are the selected check boxes, according to their scope: Application Development, Management Tools, Security
+
+![](./assets/images/wincc-datamonitor/WinCC_Server_07.png) ![](./assets/images/wincc-datamonitor/WinCC_Server_08.png) ![](./assets/images/wincc-datamonitor/WinCC_Server_09.png) ![](./assets/images/wincc-datamonitor/WinCC_Server_11.png)
+
+Next, after preparing the equipment, I have installed Microsoft Office 2007; it is possible to use version 2010 initially.
+
+Once this entire process is completed, I have installed WinCC, which when selecting the DataMonitor Server, automatically selects the DataMonitor Client and the WebNavigator Server; the latter will be used for publishing screens, just like when we configure the WebNavigator.
+
+When we have completed the installation with the DataMonitor Server, a series of User Groups have been created on the equipment; for proper functioning, permissions must be granted to the user, in my case, the Administrator.
+
+I have added the Administrator to the following Groups:  
+SIMATIC Reports Administrators  
+SIMATIC Reports Publishers  
+SIMATIC Reports Users
+
+In Internet Explorer, I have added localhost to the trusted sites within the Intranet, and the ports are enabled in the firewall; these steps are the same as those performed in the WebNavigator
+
+![](./assets/images/wincc-datamonitor/WinCC_DataMonitor_08.png)
+
+I will advance an image where I have accessed WinCC DataMonitor with the Administrator User, and I was able to log in correctly, but the logged-in user is not the Administrator; it is a user created by default during installation. It should also be mentioned that I do not have permissions to manage the site as can be observed.
+
+![](./assets/images/wincc-datamonitor/WinCC_DataMonitor_21.png) ![](./assets/images/wincc-datamonitor/WinCC_DataMonitor_30.png)
+
+To resolve this incident, it is necessary to add the Administrator User to the following Groups: SIMATIC HMI and SIMATIC HMI VIEWER
+
+![](./assets/images/wincc-datamonitor/WinCC_DataMonitor_28.png)
+
+If we try the connection again after these changes, the restriction no longer appears, and our Administrator user is shown as logged in.
+
+With these steps completed so far, we can now manage our site
+
+![](./assets/images/wincc-datamonitor/WinCC_DataMonitor_29.png)
+
+To avoid prolonging this practice too much, I will divide it into several parts, this being the first and here the second
+
+---
+*Source: [WinCC DataMonitor](https://www.plc-hmi-scadas.com/en/WinCC_DataMonitor.php) — Jose Manuel Luque*

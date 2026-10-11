@@ -1,0 +1,57 @@
+---
+title: "S7-2xx (PPI) Link with WinCC RT Advanced PC (TIA)"
+slug: "049"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/049.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["S7-200","WinCC Advanced RT","TIA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# S7-2xx (PPI) Link with WinCC RT Advanced PC (TIA)
+
+Jose Manuel Luque
+
+S7-200 WinCC Advanced RT TIA
+
+Today we are going to reconfigure a link between an S7-2xx and a PC with WinCC RT Advanced, which is the successor of WinCC Flexible PC Runtime. Here you can check how it was configured for [WinCC Flexible](#/a/en%2F016 "S7-2xx Link and WinCC Flexible PC Runtime"), although the configuration is identical, we will verify that it works correctly, as I have received several emails stating that the same configuration did not work. The main reason I found for this to happen is that the PC had software from various manufacturers installed and was rather overloaded. In case of doubt, the main test that can be done is to create a virtual machine where you only need to install the Runtime and transfer the project.
+
+We move on to the new configuration, we create a new project, and this is what the interface looks like.
+
+![](./assets/images/049/S7-200%20TIA%20WinCC%20Advanced%20RT-01.jpg)
+
+![](./assets/images/049/S7-200%20TIA%20WinCC%20Advanced%20RT-04.jpg)
+
+The first thing we are going to do is create a new connection, define its name, and select the driver, in this case, SIMATIC S7 200, and we proceed to configure the parameters for the connection.
+
+![](./assets/images/049/S7-200%20TIA%20WinCC%20Advanced%20RT-02.jpg)
+
+We configure the speed according to the interface configuration, and the default address is 1. As the access point, we will use the PPI cable, and the PLC address, if it has not been changed, is usually 2 by default.
+
+![](./assets/images/049/S7-200%20TIA%20WinCC%20Advanced%20RT-08.jpg)
+
+The next thing we will do is configure the variables we are going to use. In the connection, we select the link we defined earlier and its address.
+
+![](./assets/images/049/S7-200%20TIA%20WinCC%20Advanced%20RT-06.jpg)
+
+We create some input/output fields to check the operation, which update the variables according to our program, and we can compile now.
+
+![](./assets/images/049/S7-200%20TIA%20WinCC%20Advanced%20RT-07.jpg)
+
+Once compiled, if there are no errors, we can run the WinCC Runtime and observe its operation. The result is satisfactory; it works perfectly.
+
+![](./assets/images/049/S7-200%20TIA%20WinCC%20Advanced%20RT-09.jpg)
+
+![](./assets/images/049/S7-200%20TIA%20WinCC%20Advanced%20RT-10.jpg)
+
+November 13, 2012
+
+            [downloading here](http://www.adobe.com/go/getflashplayer).
+
+---
+*Source: [S7-2xx (PPI) Link with WinCC RT Advanced PC (TIA)](https://www.plc-hmi-scadas.com/en/049.php) — Jose Manuel Luque*

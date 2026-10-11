@@ -1,0 +1,68 @@
+---
+title: "Global Connection Date and Time"
+slug: "factorytalkviewme-globalconnection-dt"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_GlobalConnection_DT.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","ROCKWELL"]
+tags: ["Panel View Plus","Factory Talk View ME","Global Connections"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [ROCKWELL](#/a/en%2Fhmi-allen-bradley) › Article
+
+# Global Connection Date and Time
+
+Jose Manuel Luque
+
+Panel View Plus Factory Talk View ME Global Connections
+
+**Global Connections Date and Time  
+**
+
+In the following practice, we will see an example of one of the ways to synchronize date and time between the Controller and the PanelView Plus. For this, we will look at the functionality of Global Connections within Factory Talk View Studio.
+
+But the first thing we will do in the Controller in RSLogix5000 is to define two new UDT User Defined Data Types, the first of which has the structure used in the WALLCLOCKTIME Class, where we already saw an example with the use of GSV / SSV functions.
+
+![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-00.png) ![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-01.png)
+
+The second one will be composed of the first one we defined as DATEANDTIME and two more variables for DayOfWeek and DayOfMonth.
+
+Correction, DayOfMonth would not be necessary because in the previous structure we have DAY.
+
+At the Controller level, I have created a new variable of the type we just defined, which can be seen in the following image.
+
+![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-02.png)
+
+Now in our Factory Talk View project, the only thing we have defined is the link with the Controller through RSLinx Enterprise. Within the directory System -> Global Connections -> We go to the Date and Time tab, which is the one we are interested in. Here we have two options: The Year, Day of Week, Month, Day of Month, Hour, Minute, Second connections are for writing from the Panel View to the Controller, and the Remote ... are the opposite.
+
+The update time is set to 60 seconds, meaning that every minute data will be written from the HMI to the PLC.
+
+![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-03.png)
+
+We associate each Tag with its corresponding one in the Controller, as can be seen, the Server is RSLinx Enterprise and the shortcut is FactoryTalkViewME.
+
+![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-04.png) ![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-05.png)
+
+In the PLC, we have only created the Tags, I have uploaded the project and set it to Run and Online.
+
+![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-06.png)
+
+I run the Factory Talk View Application and I have not configured anything except what has been seen, but we can observe that data is being written to the configured Tags.
+
+![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-07.png)
+
+If we go to the Controller Tags in our project and then to Monitor Tags, we can see the Result.
+
+![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-08.png)
+
+And every minute that passes, they are updated again. Now, if that time and date is what we are interested in writing to the Controller, we just have to use the GSV / SSV functions, as seen in the practice dedicated to it.
+
+![](./assets/images/factorytalkviewme-globalconnection-dt/FTViewME-GlobalConnection-DT-09.png)
+
+July 20, 2013
+
+---
+*Source: [Global Connection Date and Time](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_GlobalConnection_DT.php) — Jose Manuel Luque*

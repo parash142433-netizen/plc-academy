@@ -1,0 +1,90 @@
+---
+title: "SoftLogix 5"
+slug: "softlogix5"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/SoftLogix5.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["SoftLogix 5"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# SoftLogix 5
+
+Jose Manuel Luque
+
+SoftLogix 5
+
+**SoftLogix5  
+**
+
+We have already seen how to configure the [SoftLogix5800](#/a/en%2F111), and today we will see the SoftLogix5, this software was designed to run on a Windows NT or Windows 2000 operating system, in this case it is installed on a Windows NT operating system.
+
+The SoftLogix5 is like having a PLC5-80, depending on the cards we have installed, we will be able to communicate with different networks, by default the only card here is the Network card and the serial card COM1.
+
+![](./assets/images/softlogix5/Softlogix5.png)
+
+Once installed, we will see its status in the toolbar, and depending on the status it will be as seen, a black circle or a green circle if it is configured and running.
+
+![](./assets/images/softlogix5/Softlogix5-00.png)
+
+For its configuration, we double click on the circle or from start -> Programs -> Rockwell -> SoftLogix and this is the interface that shows for configuration and commissioning.
+
+![](./assets/images/softlogix5/Softlogix5-01.png)
+
+The first thing we do is press the Config button to open the configuration window, and we are shown the following window with 5 different tabs. The first of them is Scanner Configuration and we can leave it with the default configuration or adapt it to our needs.
+
+![](./assets/images/softlogix5/Softlogix5-02.png)
+
+Within the I/O Device Driver Configuration tab, it would be the cards we have installed on the PC and would serve to create a Network, whether DeviceNet, ControlNet, Profibus, etc... as it is not the case, the drivers are not installed, in the case of having one of them it would be selected and the Install button would be pressed.
+
+![](./assets/images/softlogix5/Softlogix5-03.png)
+
+The Communication Configuration tab where we configure the driver for communication, therefore the one installed is SoftLogix 5 WinSock TCP/IP.
+
+![](./assets/images/softlogix5/Softlogix5-04.png)
+
+The User Mode Comm Channel Setup tab is used to enable the COM port of our PC, we configure the number of ports and their parameters.
+
+![](./assets/images/softlogix5/Softlogix5-05.png)
+
+The Logic Extension Modules tab is for the installation of extra modules, as it is not the case, we leave it as is.
+
+![](./assets/images/softlogix5/Softlogix5-06.png)
+
+Once we have configured the corresponding options, we return to the main tab and we can press the Start SoftLogix5 button, it shows us that the service is running. Once it is Running is when we can load our program from RSLogix5.
+
+![](./assets/images/softlogix5/Softlogix5-07.png)
+
+Once running, the main window has three buttons that function as the key, whether to switch to Program, Remote or Run, with these simple steps the most basic of SoftLogix5 would be configured.
+
+![](./assets/images/softlogix5/Softlogix5-08.png)
+
+Now we are going to create a small program to check its operation, we start RSLogix5 and create a new project, within this new one, we select Soft Controller as the platform.
+
+![](./assets/images/softlogix5/Softlogix5-15.png)
+
+We can already see that automatically the processor changes to SoftLogix5, as we had configured the [Driver in RSLinx](#/a/en%2Frslinx-softlogix5), we can now select it in the Driver section.
+
+![](./assets/images/softlogix5/Softlogix5-16.png) ![](./assets/images/softlogix5/Softlogix5-17.png)
+
+We create a new segment with a start/stop, to check the operation is more than enough.
+
+![](./assets/images/softlogix5/Softlogix5-18.png) ![](./assets/images/softlogix5/Softlogix5-19.png)
+
+We can now perform the download, we go to Comms -> Download .. as the communication driver has already been previously assigned, it shows us a message for the download, you confirm and our program is transferred.
+
+![](./assets/images/softlogix5/Softlogix5-20.png)
+
+In this image we can already see that we are in Program, if we press Run, we are already online and can check our program.
+
+![](./assets/images/softlogix5/Softlogix5-21.png) ![](./assets/images/softlogix5/Softlogix5-22.png)
+
+August 15, 2013
+
+---
+*Source: [SoftLogix 5](https://www.plc-hmi-scadas.com/en/SoftLogix5.php) — Jose Manuel Luque*

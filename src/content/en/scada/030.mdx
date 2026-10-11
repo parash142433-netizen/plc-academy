@@ -1,0 +1,79 @@
+---
+title: "User Management and Security in RSView32"
+slug: "030"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/030.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["User Management in RSView32","Security in RSView32"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# User Management and Security in RSView32
+
+Jose Manuel Luque
+
+User Management in RSView32 Security in RSView32
+
+In this practice, we will see how to configure Security and user management in RSView32. Depending on the operating system where RSView32 is installed or will be installed, users can be managed to be the same as the Operating System or can be created; here I will create them and assign the relevant permissions.
+
+The first thing I will do is configure the SECURITY CODES. The Security Codes are the security enabled for the macros and functions that the SCADA has by default; here we will configure the level of security that interests us.
+
+The window that appears by default is configured with DEFAULT with full permission, which is what the symbol \* means. We select the macros that interest us and enable security for them. There are 16 security levels ranging from A to P plus the symbol \*, a total of 17 levels.
+
+![](./assets/images/030/RSView32-Security%20-00.jpg)
+
+![](./assets/images/030/RSView32-Security%20-02.jpg)
+
+We navigate through the System directory and select and assign permissions. It is important to leave the Login and Logout functions accessible to all personnel; for this, we assign the symbol \*.
+
+![](./assets/images/030/RSView32-Security%20-01.jpg)
+
+For this example, I have used several functions to check their functionality, and each one will adapt them according to their needs.
+
+![](./assets/images/030/RSView32-Security%20-04.jpg)
+
+Once the Security Codes are configured, we can proceed to create users with their relevant permissions. Depending on the operating system where RSView32 is installed or will be installed, users can be managed to be the same as the Operating System or can be created, as in this practice.
+
+Just like with the Security Codes window, the User Accounts window also comes by default with the user DEFAULT with full permission.
+
+The following animation shows how to create a new user, assign permissions and a password, confirm the latter, and so on. Finally, we can use the command console "Command Line" to execute the Login and Logout Macros.
+
+![](./assets/images/030/RSView32-2.Users.gif)
+
+In the following image, you can observe the functions I have used and their access level to be able to use them and the created users with the permissions they possess
+
+![](./assets/images/030/RSView32-Security%20-05.jpg)
+
+Enter your text here
+
+To conclude this first part, we will create a new screen and insert some buttons to which we will assign the functions that interest us, in this case, Login, Logout, and ProjectStop.
+
+We navigate to the Graphics Directory -> Display and create a new screen
+
+![](./assets/images/030/RSView32-Security%20-100.jpg)
+
+We select the button tool, give it the appearance we like best in the General tab. In the Action tab, we will configure which event we want to execute when the Button is pressed, and in the Up and Down tabs, we configure the text and appearance.
+
+![](./assets/images/030/RSView32-Security%20-101.jpg)
+
+![](./assets/images/030/RSView32-Security%20-102.jpg)
+
+![](./assets/images/030/RSView32-Security%20-103.jpg)
+
+We perform the same steps for the other buttons, assigning their corresponding macros, and we can already check their operation. The following animation shows their execution
+
+![](./assets/images/030/RSView32-3.Runtime.gif)
+
+In Activity Log Viewer, you can observe the activity that has been executed
+
+![](./assets/images/030/RSView32-S.Runtime%20-13.jpg)
+
+September 5, 2012
+
+---
+*Source: [User Management and Security in RSView32](https://www.plc-hmi-scadas.com/en/030.php) — Jose Manuel Luque*

@@ -1,0 +1,66 @@
+---
+title: "Factory Talk Alarm and Events Database"
+slug: "137"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/137.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk Alarm and Events Database"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk Alarm and Events Database
+
+Jose Manuel Luque
+
+Factory Talk Alarm and Events Database
+
+**Factory Talk Alarm and Events Database  
+**
+
+The following practice is the response to a query, and it involves creating a database for Factory Talk Alarm & Events. The application is developed locally, so the first step is to log in to the Local Directory.
+
+![](./assets/images/137/137-FTVSE-DB-02.png)
+
+Once we are logged in and have the permissions, we execute the Factory Talk Administration Console. If we do not have permissions, the first step will be to add Users and User Groups for system administration. After this step, we go to the Connections directory, right-click on Databases -> New Database.
+
+![](./assets/images/137/137-FTVSE-DB-01.png)
+
+This is the wizard to configure our Database. We define the name we will assign in the first field, Definition name, and select the type of Database Management System. Since it is a requirement to install SQL Server when installing Factory Talk View Studio, we will use that.
+
+_**Computer name**_: Name of the PC where SQL Server is installed. As we have mentioned that we are local, it is the host itself, known as Localhost.
+
+_**Database user name**_: Name of the user with privileges to manage the SQL Server. By default, Windows Authentication is used to log in to SQL Server, so the Administrator user who performed the installation has the permissions.
+
+_**Database Password**_: Password of the user specified in the previous field; it is essential that the user has a password.
+
+_**Database name**_: Name of the Database we are going to create in case it does not exist or the name of an existing one.
+
+We click OK to confirm, and a pop-up window appears requesting a Username and Password.
+
+![](./assets/images/137/137-FTVSE-DB-06.png) ![](./assets/images/137/137-FTVSE-DB-07.png)
+
+After processing the request, the following Warning appears: Unable to connect to the database.
+
+![](./assets/images/137/137-FTVSE-DB-08.png)
+
+Considering that the User has permissions and the password is correct, the problem lies in the parameters we passed to the Computer name field, as when we click the button ... it scans the network and shows us all the devices on it, but this is not enough to connect to the SQL Server. We need to provide the instance name, as when installing FTView SE we have that option; the instance created is FTVIEWX64TAGDB, we pass that argument as well. In the end, this wizard creates an SQL query "CREATE DATABASE".
+
+![](./assets/images/137/137-FTVSE-DB-03.png) ![](./assets/images/137/137-FTVSE-DB-04.png)
+
+By passing that new argument, when we click the OK button, a window appears showing a notice, in this case, that the Database does not exist. If we want to create it, we click YES, and our Database is created.
+
+To verify, we run SQL Server Management Studio and connect. As can be seen in the image, the Database is created.
+
+![](./assets/images/137/137-FTVSE-DB-05.png)
+
+July 1, 2013
+
+If you liked or found the information useful, share it ...
+
+---
+*Source: [Factory Talk Alarm and Events Database](https://www.plc-hmi-scadas.com/en/137.php) — Jose Manuel Luque*

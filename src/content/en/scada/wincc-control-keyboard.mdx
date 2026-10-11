@@ -1,0 +1,57 @@
+---
+title: "WinCC Control .Net KeyBoard"
+slug: "wincc-control-keyboard"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Control_KeyBoard.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","Control .Net","KeyBoard"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Control .Net KeyBoard
+
+Jose Manuel Luque
+
+WinCC Control .Net KeyBoard
+
+**WinCC Control .Net KeyBoard  
+**
+
+This time I am going to present another .net control, an idea to see if in the next versions of WinCC, they decide to create an ActiveX Control that at least has the properties of limit values, since from my point of view, when we have an Input/Output field and we enter a value that is out of range, a pop-up window appears, but with no further information, as shown in the following image:
+
+![](./assets/images/wincc-control-keyboard/WinCCKeyBoard_04.png)
+
+To solve this, I have created a .net control, one of the very good features of WinCC, the creation of .Net controls as I described [here](#/a/en%2Fwincc-net).
+
+In this one, I have created the main properties that we need to know about an Input/Output field as shown below:
+
+![](./assets/images/wincc-control-keyboard/WinCCKeyBoard_00.png)
+
+And it is equipped with an event, so when we change the value, it writes it to the variable.
+
+![](./assets/images/wincc-control-keyboard/WinCCKeyBoard_01.png)
+
+What we do is the following, in the fields that are Input and Output or Input, when we right-click we will execute the following script, if we right-click we will write as we usually do. To avoid having to copy the script into each field, [we make use of VBA](#/a/en%2Fwincc-vba) to loop through all the objects we have in our PDL or all the PDLs in our project and do all the work for us :-)
+
+![](./assets/images/wincc-control-keyboard/WinCCKeyBoard_02.png)
+
+If you want to make your own keyboard, these are the properties that you will at least need and we pass them to our Keyboard, first we make the image window visible and then we pass all the information.
+
+![](./assets/images/wincc-control-keyboard/WinCCKeyBoard_03.png)
+
+And here is a small demonstration video of its operation.
+
+July 2, 2016
+
+[](http://www.contadorvisitasgratis.com/ "wordpress visit counter")  
+[![clic para ver los detalles de las visitas este sitio](./assets/images/wincc-control-keyboard/counter.php "clic para ver los detalles de las visitas este sitio")](https://www.contadorvisitasgratis.com/geozoom.php?c=6043c616354df6d8763690a285755b84&base=counter5&type_clic=1)![](./assets/images/wincc-control-keyboard/pointeur.gif)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Control .Net KeyBoard](https://www.plc-hmi-scadas.com/en/WinCC_Control_KeyBoard.php) — Jose Manuel Luque*

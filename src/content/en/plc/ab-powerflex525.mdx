@@ -1,0 +1,52 @@
+---
+title: "Parameterizing PowerFlex525 with Component Workbench"
+slug: "ab-powerflex525"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/AB_PowerFlex525.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["PowerFlex525","Component Workbench"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# Parameterizing PowerFlex525 with Component Workbench
+
+Jose Manuel Luque
+
+PowerFlex525 Component Workbench
+
+**Parameterizing PowerFlex525 with Component Workbench  
+**
+
+![](./assets/images/ab-powerflex525/AB_PowerFlex_16.png) ![](./assets/images/ab-powerflex525/AB_PowerFlex_17.png)
+
+Continuing with the previous practice and thanks to my friend Raul, here we have our Micro830 and a PowerFlex 525 drive. With this type of drive, we have the possibility to parameterize it within the Component WorkBench via a USB cable, without the need for the 1203 USB converter, and we will see the process followed for this.
+
+We add our drive to our project, in this case the mentioned 525, and once added we go to the parameters to adjust it to our motor and our needs. In this case, since we will control it from the PLC, we will change several parameters including 46-47, and in the latter, we will assign the speed reference with our analog output 4-20mA.
+
+![](./assets/images/ab-powerflex525/AB_PowerFlex_07.png)
+
+Once the parameters are adjusted, within the same environment, we will go to Properties, and within properties to the Import/Export tab, where we will export a \*.PF5 file that will be the one we later transfer to the drive.
+
+![](./assets/images/ab-powerflex525/AB_PowerFlex_05.png)
+
+We will proceed to load our file to the drive. To do this, we connect a USB cable to the drive and automatically on our PC, a new directory will appear, just like when we connect a USB memory. Inside this unit, there are two files, a document with all the parameters of our drive GUIDE.pdf, and an application that we will use.
+
+We run the application and we can already see that we are Connected. Next, since we already have our file, we will do a Download.
+
+![](./assets/images/ab-powerflex525/AB_PowerFlex_00.png) ![](./assets/images/ab-powerflex525/AB_PowerFlex_01.png)
+
+We follow the wizard, where the first step is to search for the file we created later. Once selected, we click next and continue with the wizard. As we can see, we have successfully transferred our new parameters to the PowerFlex525.
+
+![](./assets/images/ab-powerflex525/AB_PowerFlex_08.png) ![](./assets/images/ab-powerflex525/AB_PowerFlex_09.png)
+
+If you liked it or found it useful, share it ... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Parameterizing PowerFlex525 with Component Workbench](https://www.plc-hmi-scadas.com/en/AB_PowerFlex525.php) — Jose Manuel Luque*

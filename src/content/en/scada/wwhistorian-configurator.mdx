@@ -1,0 +1,50 @@
+---
+title: "Configurator WWHistorian"
+slug: "wwhistorian-configurator"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WWHistorian_Configurator.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Wonderware Historian"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Configurator WWHistorian
+
+Jose Manuel Luque
+
+Wonderware Historian
+
+**Configurator WWHistorian  
+**
+
+The previous practice where I talked about the [autoStart of WWHistorian](#/a/en%2Fwwhistorian-autostart), was using an old version, when it was called IndustrialSQL, but still in use. Starting from 2012, if I’m not mistaken (_I will check to make sure_), the initial configuration, with the wizard is very simple, let’s see the steps, once the Historian is installed.
+
+![](./assets/images/wwhistorian-configurator/WWHistorian201x_00.png) ![](./assets/images/wwhistorian-configurator/WWHistorian201x_01.png)
+
+By default, we leave the directories of the database that will be created (Runtime)
+
+SQL Login information, we leave Windows Authentication by default.
+
+If we execute the Configure button, we can observe how a series of SQL statements are executed, and the database with its tables and stored procedures is created.
+
+In the next image, we can see that it has been created correctly. In the Service Configuration option, we have the checkbox for autoStart, which changes the value of the parameter that we had changed manually. The Configurator Wizard can be run again to make the changes we are interested in, delete and recreate the database, etc...
+
+![](./assets/images/wwhistorian-configurator/WWHistorian201x_04.png)
+
+Once we restart the system, it starts automatically and everything is correct. It goes without saying that, likewise, in the parameters we still have the autostart parameter.
+
+![](./assets/images/wwhistorian-configurator/WWHistorian201x_05.png)
+
+April 10, 2015
+
+If you liked it or found it useful, share it... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Configurator WWHistorian](https://www.plc-hmi-scadas.com/en/WWHistorian_Configurator.php) — Jose Manuel Luque*

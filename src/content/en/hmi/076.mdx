@@ -1,0 +1,91 @@
+---
+title: "FactoryTalk View ME communicating with RSLogix Emulate 5000"
+slug: "076"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/076.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","ROCKWELL"]
+tags: ["FactoryTalk View ME","PanelView Plus","RSLogix Emulate 5000","RSLinx Gateway"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [ROCKWELL](#/a/en%2Fhmi-allen-bradley) › FactoryTalk View ME
+
+# FactoryTalk View ME communicating with RSLogix Emulate 5000
+
+Connecting a Machine Edition application, PanelView Plus style, to a simulated PLC.
+
+Jose Manuel Luque Feb 13, 2013
+
+FactoryTalk View ME PanelView Plus RSLogix Emulate 5000 RSLinx Gateway
+
+![FactoryTalk View Machine Edition communicating with RSLogix Emulate 5000](./assets/images/076/Factory%20Talk%20View%20ME%20-09.png)
+
+**Context**
+
+In a previous practice, [FactoryTalk View Site Edition was configured with RSLogix Emulate](#/a/en%2F074 "FactoryTalk View Site Edition with RSLogix Emulate"). This time the same idea is applied to **FactoryTalk View Machine Edition**, the environment used to program **PanelView Plus** HMI applications.
+
+The main difference is the target of the application: Site Edition is SCADA-oriented, while Machine Edition is used for HMI. To communicate with RSLogix Emulate, the RSLinx [Remote Device Linx Gateway](#/a/en%2F075 "RSLinx Remote Device Linx Gateway") driver is used.
+
+**Create the Application**
+
+Create a new application in FactoryTalk View ME. The interface is very similar to FactoryTalk View SE, although the available functions change depending on the project type.
+
+![New application interface in FactoryTalk View Machine Edition](./assets/images/076/Factory%20Talk%20View%20ME%20-12.png)
+
+**Configure the OPC Link**
+
+Since the PLC will be **RSLogix Emulate 5000**, configure an **OPC Data Server** link. Right-click the project name and follow the option to create the new server.
+
+![Creating an OPC Data Server in FactoryTalk View ME](./assets/images/076/Factory%20Talk%20View%20ME%20-15.png)
+
+To configure the new link, assign a name, indicate where the OPC Server is located and finally select the OPC Server that communicates with RSLinx.
+
+![OPC Server configuration in FactoryTalk View Machine Edition](./assets/images/076/Factory%20Talk%20View%20ME%20-16.png)
+
+**Assign Tags to a Numeric Display**
+
+To check that the link is configured correctly, insert a **Numeric Display** object and configure a tag that belongs to the created link.
+
+In the object properties, under the **Connections** tab, select **Tags**. A pop-up window with the **Tag Browser** will open.
+
+![Numeric Display object in FactoryTalk View ME](./assets/images/076/Factory%20Talk%20View%20ME%20-18.png)
+
+![Numeric Display connection properties](./assets/images/076/Factory%20Talk%20View%20ME%20-22.png)
+
+To refresh the available tags, use the right mouse button inside the browser. A tidy approach is to show the server names, especially when more than one link exists in the application.
+
+![Context menu to refresh or show tags in the Tag Browser](./assets/images/076/Factory%20Talk%20View%20ME%20-23.png)
+
+![OPC Server tags visible in FactoryTalk View ME](./assets/images/076/Factory%20Talk%20View%20ME%20-24.png)
+
+**Test Display and Test Application**
+
+With these steps complete, the application can be tested. FactoryTalk View ME can run a quick screen test with **Test Display**, or execute the full application with **Test Application**.
+
+![Display ready to test in FactoryTalk View ME](./assets/images/076/Factory%20Talk%20View%20ME%20-26.png)
+
+![Test Display result](./assets/images/076/Factory%20Talk%20View%20ME%20-27.png)
+
+The next screenshot belongs to **Test Application**, once the application has been compiled.
+
+![FactoryTalk View ME application running after compilation](./assets/images/076/Factory%20Talk%20View%20ME%20-29.png)
+
+The final result is a FactoryTalk View ME HMI application reading tags from RSLogix Emulate 5000 through the configured OPC link.
+
+_Original article published on February 13, 2013._
+
+**Related Articles**
+
+*   [FactoryTalk View SE communicating with RSLogix Emulate 5000](#/a/en%2F074)
+*   [Remote Device Linx Gateway](#/a/en%2F075)
+*   [RSLogix Emulate 5000](#/a/en%2F011)
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [FactoryTalk View ME communicating with RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/076.php) — Jose Manuel Luque*

@@ -1,0 +1,49 @@
+---
+title: "Configuration of PlaceHolders and Parameters"
+slug: "080"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/080.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","ROCKWELL"]
+tags: ["Factory Talk View ME","Rockwell","Allen Bradley"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [ROCKWELL](#/a/en%2Fhmi-allen-bradley) › Article
+
+# Configuration of PlaceHolders and Parameters
+
+Jose Manuel Luque
+
+Factory Talk View ME Rockwell Allen Bradley
+
+In today's practice, we will see the functionality of PlaceHolders and the creation of a new Parameters object. PlaceHolders are preceded by the hash sign # and the assigned name, and the number we use can range from 1 to 500.
+
+The configuration of these is done in a new parameters object, we create a new one with the right-click -> new as we have been doing every time we want to create a new object.
+
+![](./assets/images/080/FTView%20ME%20PlaceHolders%20Parameters%20-1.png)
+
+The creation of a new file (Parameters) looks like this, similar to a plain text file, where comments are preceded by the sign !. Here, what we do is configure the name we are interested in with the assigned tag. The example I am going to perform is the substitution of the assigned tags in the Display PROG-HORARIA, where I will replace the tags of the objects with those created here.
+
+![](./assets/images/080/FTView%20ME%20PlaceHolders%20Parameters%20-2.png)
+
+Following the detailed explanation above, I will now replace the various objects with their corresponding tag equivalent.
+
+![](./assets/images/080/FTView%20ME%20PlaceHolders%20Parameters%20-3.png)
+
+![](./assets/images/080/FTView%20ME%20PlaceHolders%20Parameters%20-4.png)
+
+Finally, we will assign the list of parameters we have configured earlier to the GoTo Display button. This same procedure can be done for the different Screens we configure, as for the main image when running the Runtime, its list of parameters is configured in Startup.
+
+![](./assets/images/080/FTView%20ME%20PlaceHolders%20Parameters%20-5.png)
+
+We run the Runtime to check its operation, as can be seen it works perfectly.
+
+![](./assets/images/080/FTView%20ME%20PlaceHolders%20Parameters%20-6.png)
+
+February 20, 2013
+
+---
+*Source: [Configuration of PlaceHolders and Parameters](https://www.plc-hmi-scadas.com/en/080.php) — Jose Manuel Luque*

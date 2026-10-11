@@ -1,0 +1,62 @@
+---
+title: "Driver SI7"
+slug: "fix32-driver-si7"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Fix32_Driver_SI7.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","IFIX / FIX32"]
+tags: ["FIX32","iFix"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [IFIX / FIX32](#/a/en%2Fother-scadas) › Article
+
+# Driver SI7
+
+Jose Manuel Luque
+
+FIX32 iFix
+
+**FIX32 - iFix Configuration Driver SI7  
+**
+
+Configuration of the Driver SI7 to communicate with Siemens PLCs and with the SCADA FIX32 and iFix vX.X; it also works with the quite old FIX32. The first requirement is that we have configured Simatic Net and we have loaded the configuration to our station "PCStation". As can be seen, we have a Network card since the communication will be TCP/IP, and we have a Virtual Field Device application and in the Conn icon, the link with our PLC appears. Later in this practice, we will see [how to configure the Simatic Station](#/a/en%2Fsimaticnet-vdf).
+
+![](./assets/images/fix32-driver-si7/FIX32_SimaticNet_11.png)
+
+Once the Driver is installed, we will see the steps that need to be followed; they are very simple and intuitive. It is about configuring a communication channel, the device, and the variables.
+
+![](./assets/images/fix32-driver-si7/FIX32_SimaticNet_12.png)
+
+The first thing we are going to define is the communication channel, as we have already mentioned, it will be via TCP/IP and we select the network card of our equipment.
+
+Next, we select the Virtual Field Device, as can be seen, it is the same name as the one loaded in the Simatic station. VFD1
+
+![](./assets/images/fix32-driver-si7/FIX32_SimaticNet_13.png)
+
+Once the Channel is defined, we proceed to configure our device, in my case it is an S7-300. Device Name is the name of the device; I have assigned the same name as the name configured in the NetPro link of the Simatic, I called it S7, for that reason in the Connection field it also has the same name, which is the really important one.
+
+![](./assets/images/fix32-driver-si7/FIX32_SimaticNet_14.png)
+
+Finally, what we have left to configure are the Data Blocks. As can be seen in the image, for each data block we create, we assign a name, start address, end address, and we have the data length. It is also important to specify the data type. In each configuration step, we activate the Enable checkbox, in the same way, we create all the data blocks that interest us.
+
+![](./assets/images/fix32-driver-si7/FIX32_SimaticNet_15.png)
+
+If we put the application in Run and check the operation, we can observe the values in the selected format and that the communication is good.
+
+![](./assets/images/fix32-driver-si7/FIX32_SimaticNet_17.png) ![](./assets/images/fix32-driver-si7/FIX32_SimaticNet_18.png)
+
+On the other hand, we check that the connection of the Simatic Station is correct.
+
+![](./assets/images/fix32-driver-si7/FIX32_SimaticNet_16.png)
+
+We can now configure our variables in FIX32 or iFix and get to work.
+
+August 12, 2017
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Driver SI7](https://www.plc-hmi-scadas.com/en/Fix32_Driver_SI7.php) — Jose Manuel Luque*

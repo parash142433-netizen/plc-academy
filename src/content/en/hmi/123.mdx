@@ -1,0 +1,84 @@
+---
+title: "Update Firmware Panel View Plus 600"
+slug: "123"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/123.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","ROCKWELL"]
+tags: ["Update Firmware Panel View Plus 600"]
+downloads: [{"title":"Modbus Manual","url":"https://www.dropbox.com/s/4vgjbe0fw86q8e0/MODBUS%20panelview.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [ROCKWELL](#/a/en%2Fhmi-allen-bradley) › Article
+
+# Update Firmware Panel View Plus 600
+
+Jose Manuel Luque
+
+Update Firmware Panel View Plus 600
+
+**Update Firmware Panel View Plus 600  
+**
+
+Thanks to Miguel's collaboration, we will see how to update the firmware on a Panel View Plus 600, and taking the opportunity, how it is possible to install KepServer Enterprise drivers on the Panel View, which we have seen previously.
+
+The first thing we need to do is download the firmware for our Panel View from Rockwell Automation, and the version that interests us; it is necessary to be registered with Rockwell for the download.
+
+![](./assets/images/123/1xx-UpdateFirmwarePV-00.png)
+
+We select according to our Panel and download the version that interests us; in this example, we will install the latest available version 5.10.10, currently having 5.00 installed.
+
+![](./assets/images/123/1xx-UpdateFirmwarePV-01.png)
+
+Having already installed KepServer on our machine and downloaded the firmware, we can proceed with the update; for this, we use the Firmware Upgrade application wizard.
+
+In our case, we are going to update the firmware on the Terminal.
+
+![](./assets/images/123/123-UpdateFirmwarePV-00.png)
+
+The first notice that it shows us is that we must have a backup of the project currently on the Panel, in case we are interested, and that we must delete it before proceeding.
+
+![](./assets/images/123/123-UpdateFirmwarePV-01.png)
+
+To establish communication with the Panel View, it can be done according to the following image; here RSLink will be used to determine our device.
+
+![](./assets/images/123/123-UpdateFirmwarePV-02.png)
+
+We select our device and follow the wizard; by clicking next, communication automatically starts, and once established, we can continue.
+
+![](./assets/images/123/123-UpdateFirmwarePV-03.png) ![](./assets/images/123/123-UpdateFirmwarePV-04.png)
+
+In the next step, we need to specify the directory where the new firmware to be installed and the version is located.
+
+![](./assets/images/123/123-UpdateFirmwarePV-05.png)
+
+It is time to select whether we want to install any new driver together with the firmware from all the available ones when the KepServer was installed.
+
+![](./assets/images/123/123-UpdateFirmwarePV-06.png)
+
+For testing purposes, we have selected as a sample the [Modbus Manual](https://www.dropbox.com/s/4vgjbe0fw86q8e0/MODBUS%20panelview.pdf) Serial; by clicking next, it already shows us the current firmware version, the new version, and the additional drivers we have selected.
+
+We confirm by clicking next, and it warns us that we need to restart it to complete the process.
+
+![](./assets/images/123/123-UpdateFirmwarePV-07.png) ![](./assets/images/123/123-UpdateFirmwarePV-08.png)
+
+In the following images, the firmware is being downloaded to the Panel View.
+
+![](./assets/images/123/123-UpdateFirmwarePV-10.png) ![](./assets/images/123/123-UpdateFirmwarePV-11.png)
+
+And once downloaded, it is when we must restart it to complete the process.
+
+![](./assets/images/123/123-UpdateFirmwarePV-12.png)
+
+Finally, it shows us the following warning to consider; if we agree, we click yes, and finish the process; we now have our firmware updated.
+
+![](./assets/images/123/123-UpdateFirmwarePV-13.png) ![](./assets/images/123/123-UpdateFirmwarePV-14.png)
+
+June 7, 2013
+
+If you liked it or found it useful, share it...
+
+---
+*Source: [Update Firmware Panel View Plus 600](https://www.plc-hmi-scadas.com/en/123.php) — Jose Manuel Luque*

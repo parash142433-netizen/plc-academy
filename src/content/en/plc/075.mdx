@@ -1,0 +1,89 @@
+---
+title: "Remote Device Linx Gateway"
+slug: "075"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/075.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["RSLinx","Gateway","RSLogix Emulate 5000","Rockwell"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Remote Device Linx Gateway
+
+# Remote Device Linx Gateway
+
+Remote access to RSLogix Emulate 5000 using RSLinx Gateway.
+
+Jose Manuel Luque Feb 13, 2013
+
+RSLinxGatewayRSLogix Emulate 5000Rockwell
+
+![Remote Device Linx Gateway](./assets/images/075/RSLinx%20Gateway%2001.png)
+
+**Objective**
+
+This practice configures the Remote Device Linx Gateway driver. Requirements are RSLinx Gateway and both computers being in the same workgroup.
+
+The goal is to access devices available on another PC acting as a gateway, specifically RSLogix Emulate 5000, to later use it with FactoryTalk View ME.
+
+![Environment with RSLinx Gateway](./assets/images/075/RSLinx%20Gateway%2001.png)
+
+![Computers in the same workgroup](./assets/images/075/RSLinx%20Gateway%2005.png)
+
+**Enable RSLinx Classic Gateway**
+
+To enable the gateway function, go to Communications > Configure Gateway and select Enable RSLinx Classic Gateway.
+
+In Client Access List, add the IP of the computer from which the Remote Device Linx Gateway driver will be configured.
+
+![RSLinx Classic Gateway enabled](./assets/images/075/RSLinx%20Gateway%2007.png)
+
+![Client access list in RSLinx Gateway](./assets/images/075/RSLinx%20Gateway%2008.png)
+
+**Check the Gateway Computer**
+
+The next image shows RSLogix Emulate 5000, the computers in the same workgroup and the computer IP address.
+
+![RSLogix Emulate 5000 visible on the gateway computer](./assets/images/075/RSLinx%20Gateway%2011.png)
+
+![IP and workgroup computers](./assets/images/075/RSLinx%20Gateway%2009.png)
+
+**Create the Remote Driver**
+
+Now go to the computer where the driver will be configured, where FactoryTalk View Machine Edition is installed to simulate a PanelView.
+
+Add a new driver and choose Remote Device Linx Gateway. Assign a name and enter the IP address of the computer where the driver to access is located.
+
+![Adding a new driver in RSLinx](./assets/images/075/RSLinx%20Gateway%20-02.png)
+
+![Remote Device Linx Gateway driver selection](./assets/images/075/RSLinx%20Gateway%20-03.png)
+
+![Gateway computer IP for the remote driver](./assets/images/075/RSLinx%20Gateway%20-04.png)
+
+**Verify Remote Access**
+
+If everything is correct, the driver is running and remote access to RSLogix Emulate 5000 is available.
+
+After that, only a new topic for that controller needs to be configured, as used in the FactoryTalk View ME practice.
+
+![Remote Device Linx Gateway driver running](./assets/images/075/RSLinx%20Gateway%20-05.png)
+
+![Remote access to RSLogix Emulate 5000](./assets/images/075/RSLinx%20Gateway%20-07.png)
+
+_Original article published on February 13, 2013._
+
+**Related Articles**
+
+*   [FactoryTalk View ME communicating with RSLogix Emulate 5000](#/a/en%2F076)
+*   [FactoryTalk View SE communicating with RSLogix Emulate 5000](#/a/en%2F074)
+*   [RSLogix Emulate 5000](#/a/en%2F011)
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [Remote Device Linx Gateway](https://www.plc-hmi-scadas.com/en/075.php) — Jose Manuel Luque*

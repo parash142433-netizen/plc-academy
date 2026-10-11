@@ -1,0 +1,113 @@
+---
+title: "Network Segmentation - S7 1500 & WinCC Unified"
+slug: "blog-segmentacion-de-redes-s71500-wincc-unified"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/segmentacion-de-redes-s71500-wincc-unified/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","WinCC","WinCC Unified","WinCC Unified"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# Network Segmentation - S7 1500 & WinCC Unified
+
+Jose Manuel Luque Mar 08, 2025
+
+WinCC WinCC WinCC Unified WinCC Unified
+
+![Network Segmentation - S7 1500 & WinCC Unified](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/image-12.png)
+
+**Proposed objective**: A laboratory for practicing network segmentation, following the diagram below and **approaching** compliance with regulations such as [IEC 62443](https://www.incibe.es/incibe-cert/blog/el-iec-62443-4-2-necesidad-securizar-los-componentes)  
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/image-12.png)
+
+  
+For the development of this, we will implement it with **TIA Portal V20**, for programming and configuring **PLCSim Advanced v7** & **WinCC Unified RT**.  
+  
+For practice, we have the following virtual machines:  
+VM: Engineering Station  
+VM: PLCSim Advanced  
+VM: WinCC RT Unified  
+VM: Firewall (PfSense)
+
+A reference document that you should not miss in your documentation is the following  
+**[Network concept for discrete manufacturing](https://support.industry.siemens.com/cs/document/109802750/network-concept-for-discrete-manufacturing?dti=0&lc=en-BG)**
+
+As I do not have a physical **firewall**, I have based it on [**PfSense**](https://www.pfsense.org/download/) which you can download and create a virtual machine for your laboratory.
+
+The one we are going to use is the following that I have already prepared, with the different interfaces to simulate the different "**VLANs**" for the various rules that we will apply.
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/image-13.png)
+
+###   
+PLC and WinCC RT Unified Configuration with TIA Portal
+
+Following our diagram, we are going to **configure** according to it: we assign the IP to our **PLC S7-1500** and configure the use of a router with the corresponding gateway. By default, I have left **10.0.VLAN.254.** for all gateways.
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/STiaFirewall-1.png)
+
+  
+In **WinCC RT Unified**, we will perform the same steps and connect it in the same **logical bus** to create the link.
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/STiaFirewall-2.png)
+
+  
+The example would be as shown in the following image:
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/STiaFirewall-3.png)
+
+  
+Our link between the **PLC (S7-1500) & SCADA** **(WinCC Unified RT)**
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/STiaFirewall-4.png)
+
+  
+That is the easiest part; now we need to direct the traffic according to the different rules and ports.  
+To familiarize yourself with **troubleshooting**, I recommend installing **Wireshark.**
+
+With the following captures, I analyzed the traffic with Wireshark and it shows that **port 102** is used to upload the project from **the engineering station** to the **PLC.**
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/STiaFirewall-6.png)
+
+  
+And in turn, we need **port 20008** to upload from **the engineering station** to our **WinCC RT Unified** server.
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/STiaFirewall-7.png)
+
+###   
+**Firewall Rules Configuration**
+
+With that information, we can now create the following **basic rules** for our tests and of course, we add other rules to be able to see the ping (**Protocol -> ICMP**). 😉
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/image-14.png)
+
+  
+For communication between the **PLC and the SCADA.** We add the following rule :-)
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/image-15.png)
+
+  
+If we check the status of the different interfaces, we will be able to see how our communication between the **SCADA** and the **PLC** is, what protocol and ports are being used.
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/image-16.png)
+
+  
+And here is our testing screen :-) Tested with **WinCC Unified RT & WinCC v8.1**
+
+![](./assets/images/blog-segmentacion-de-redes-s71500-wincc-unified/image-17.png)
+
+  
+****PfSense** is an excellent tool for learning and deepening the topic of networks and security. We will continue learning ... ;-)**
+
+> **"The more I learn, the more I realize how much I don't know."**
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Network Segmentation - S7 1500 & WinCC Unified](https://www.plc-hmi-scadas.com/en/blog/segmentacion-de-redes-s71500-wincc-unified/) — Jose Manuel Luque*

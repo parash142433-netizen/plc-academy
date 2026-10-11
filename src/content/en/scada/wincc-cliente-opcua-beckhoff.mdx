@@ -1,0 +1,109 @@
+---
+title: "OPC UA WinCC Channel Driver"
+slug: "wincc-cliente-opcua-beckhoff"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCUA_Beckhoff.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","Beckhoff","OPC UA WinCC Channel Driver"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# OPC UA WinCC Channel Driver
+
+Jose Manuel Luque 05 25, 2019
+
+WinCC Beckhoff OPC UA WinCC Channel Driver
+
+**OPC UA WinCC Channel Driver**
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/vba-logo.png) ![](./assets/images/wincc-cliente-opcua-beckhoff/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+It has been a few years since the first configuration that [we did](#/a/en%2Fwincc-cliente-opcua), and WinCC has updated and improved the driver configuration, so we will see another example.
+
+As the OPC UA server, I have selected the Beckhoff Server to connect the PLC to WinCC.
+
+We will carry out all the steps, starting from running the Variable Manager.
+
+Add new driver -> OPC UA WinCC Channel
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_001.png)
+
+Once the driver is added, we will create a new connection.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_002.png)
+
+We have assigned the name we are interested in, in this case Beckhoff, the next step is to right-click on the created channel and link parameters.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_003.png)
+
+A new configuration pop-up window opens.
+
+Since the server is not on the local machine, we double-click to add servers.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_004.png)
+
+We enter the Server address and confirm.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_005.png)
+
+If everything has been correct, we will have connected to the server.
+
+A possible failure that we may encounter is not having a rule in the firewall for the desired port, to allow connections, which may reject the connection. If this happens initially, disable the firewall to check if it is the reason.
+
+We accept and that's it.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_006.png)
+
+Now we need to add the tags we are interested in, for this right-click on the connection and examine OPC Server.
+
+Note that I have selected the most secure option in the security policy and automatically for security mode. By selecting this option, it will force the certificate error.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_013.png) ![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_007.png)
+
+What we need to do is move the certificate from the folder C:\\Program Files (x86)\\Siemens\\WinCC\\opc\\UAClient\\PKI\\Rejected\\certs to the folder C:\\Program Files (x86)\\Siemens\\WinCC\\opc\\UAClient\\PKI\\Trusted\\Certs
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_008.png)
+
+However, upon re-examining the OPC Server, we encounter the following error again.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_009.png)
+
+This time what we need to do is precisely the same, but this time on the OPC UA Server.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/OPCUA_Server_Security_02.png)
+
+We have two certificates because they correspond to the following:
+
+But right now we are talking about the Siemens OPC UA Tag Importer for WinCC certificate.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/OPCUA_Server_Security_03.png) ![](./assets/images/wincc-cliente-opcua-beckhoff/OPCUA_Server_Security_04.png)
+
+Once this is done, we can now access all Symbols, Tags, and Tag structures, programs, etc...
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_010.png)
+
+We add the variables we are interested in.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_011.png)
+
+Finally, we run the Runtime, and the first time we run the Runtime we will have a communication error, this error is due to the second certificate we were talking about earlier.
+
+Siemens OPC UA Client for WinCC Runtime
+
+Therefore, we need to move it to the folder C:\\TwinCAT\\OPC\\UA\\PKI\\CA\\trusted\\certs, but on the machine where the OPC UA Server is installed. If you have another OPC UA Server, check its installation directory.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_014.png)
+
+Once we have moved it, and restarted the runtime, we can check that the operation is perfect, we can now configure our screens and we have connected our Beckhoff PLC to WinCC.
+
+![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_012.png) ![](./assets/images/wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_015.png)
+
+05-25-2019
+
+---
+*Source: [OPC UA WinCC Channel Driver](https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCUA_Beckhoff.php) — Jose Manuel Luque*

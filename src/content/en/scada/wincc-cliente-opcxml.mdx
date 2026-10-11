@@ -1,0 +1,82 @@
+---
+title: "WinCC OPC XML Client Server"
+slug: "wincc-cliente-opcxml"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCXML.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC OPC XML Client Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC OPC XML Client Server
+
+Jose Manuel Luque
+
+WinCC OPC XML Client Server
+
+**WinCC OPC XML Client Server  
+**
+
+Continuing with the latest practices, this time we will use WinCC as an OPC XML Server and another WinCC as an OPC XML Client. On the server, we can see that it is installed and working correctly if we perform the following checks.
+
+First of all, check that a new Wincc-OPC-XML application is added in IIS.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote1.png)
+
+If we explore the directory, we check that the following files are present.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote2.png)
+
+Finally, if we open Internet Explorer and type the address Http://Server/WinCC-OPC-XML/DAWebservise.asmx
+
+The following image will appear, indicating that it is functioning correctly.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote01.png)
+
+Once we have verified that the Server is correctly installed and functioning, we proceed to configure the new link in our WinCC Client. As in the previous practice, we have added a new Driver, of type OPC.
+
+With the right button, we start the wizard and this time select Web Service OPC.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote00.png)
+
+We add, as we mentioned, the address of the Server, which we previously verified was correct and functioning.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote02.png)
+
+Once added, we click on Browse Server, and specify the filtering that interests us, if we are interested.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote03.png) ![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote04.png)
+
+We can now observe all the created variables and groups, where we will select the ones we are interested in and from the group we are interested in. When adding elements, since we have not created the connection, the wizard appears to create a new one.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote05.png) ![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote06.png)
+
+We assign a name for the new connection that we are going to create.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote07.png)
+
+Together with the prefix and suffix that interest us for this connection, with this we can finish the wizard and the new connection will be created with the variables we have selected.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote08.png)
+
+Here we have the added variables, to which the prefix and suffix for the connection are added from the source variable. We can now use the variables in our project and get to work.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote09.png)
+
+To check the operation, we run the runtime and check the status of the connection with the WinCC Channel Diagnosis and the value of the variable showing its column.
+
+![](./assets/images/wincc-cliente-opcxml/OpcXMLServerWinCC_Remote10.png)
+
+September 26, 2014
+
+If you liked it or found it useful, share it... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC OPC XML Client Server](https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCXML.php) — Jose Manuel Luque*

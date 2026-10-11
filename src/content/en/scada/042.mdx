@@ -1,0 +1,83 @@
+---
+title: "Recording Data in CitectScada"
+slug: "042"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/042.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SCHNEIDER"]
+tags: ["Scada","Database","CitectScada"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SCHNEIDER](#/a/en%2Fscada-schneider) › Article
+
+# Recording Data in CitectScada
+
+Jose Manuel Luque
+
+Scada Database CitectScada
+
+In this practice, we will use the internal functions of Cicode to record data in a Database. The Database Management System can be any that supports ODBC; in this example, I will use Access.
+
+The first step will be to create a Database with the information we want to store. My database is called DBCitectScada, which contains a single table with the following fields.
+
+![](./assets/images/042/Citect%20DB03.jpg)
+
+![](./assets/images/042/Citect%20DB04.jpg)
+
+Once the database is created, we will configure a new DSN. To do this, we go to the control panel and administrative tools, Data Sources (ODBC).
+
+![](./assets/images/042/Citect%20DB05.jpg)
+
+In the User DSN tab, we click the Add button and select according to our Database Management System; in this example, Microsoft Access Driver \*.mdb.
+
+![](./assets/images/042/Citect%20DB06.jpg)
+
+![](./assets/images/042/Citect%20DB07.jpg)
+
+A pop-up window will open where we navigate through the directories to the location of our Database. If using a login and password, it will need to be specified and configured.
+
+![](./assets/images/042/Citect%20DB09.jpg)
+
+![](./assets/images/042/Citect%20DB08.jpg)
+
+With these steps, we have configured access to our database via ODBC connection.
+
+![](./assets/images/042/Citect%20DB10.jpg)
+
+Assuming we have created our project, we go to the Cicode Files directory to create a new one. The editor will automatically open, and we are ready to insert the code.
+
+![](./assets/images/042/Citect%20DB11.jpg)
+
+As I mentioned at the beginning, we will use the already configured functions, but we will group several of them into a new function to see the complete operation. This will then be adapted to the needs of the project or the user.
+
+The function RegisterData() first connects to the database using the SQLConnect function, passing the previously created DSN as a parameter. If we connect successfully, we will insert the data with an Insert query in SQL language. As can be seen, the values captured from the variables must be passed as strings, hence the conversion with the IntToStr function. Next, we execute the query, that is, the insert, and with the SQLDisconnect function, we disconnect from the database.
+
+![](./assets/images/042/Citect%20DB12.jpg)
+
+Now we configure a button with the function we created, and when pressed, we will call that function and register the values of our variables.
+
+![](./assets/images/042/Citect%20DB13.jpg)
+
+![](./assets/images/042/Citect%20DB14.jpg)
+
+Once done, we can compile, and if we have no errors, we can run the application and observe the results.
+
+![](./assets/images/042/Citect%20DB15.jpg)
+
+To verify that it has executed correctly, we can open our database and check the records that have been inserted.
+
+![](./assets/images/042/Citect%20DB21.jpg)
+
+A good practice is to check the function code using the tools available in the editor itself. Here we can observe the sequential execution and the values that our variables acquire, as well as the state of them, and observe any errors.
+
+![](./assets/images/042/Citect%20DB19.jpg)
+
+![](./assets/images/042/Citect%20DB20.jpg)
+
+October 12, 2012
+
+---
+*Source: [Recording Data in CitectScada](https://www.plc-hmi-scadas.com/en/042.php) — Jose Manuel Luque*

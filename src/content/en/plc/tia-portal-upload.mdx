@@ -1,0 +1,75 @@
+---
+title: "TIA Portal - Upload project"
+slug: "tia-portal-upload"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/TIA_Portal_Upload.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["TIA Portal"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# TIA Portal - Upload project
+
+Jose Manuel Luque
+
+TIA Portal
+
+TIA Portal - Upload project
+
+We had previously published a guide on how to download a project with TIA Portal. On this occasion, we will clarify some concepts that we need to keep in mind when we are going to perform this operation.
+
+Let’s assume the following scenario: I need to make a modification to a program created with TIA Portal, and I need to obtain the source code from the PLC itself, that is, I need to upload it to my engineering station.
+
+Throughout all versions of TIA Portal, it evolved from the very first one v10.5- v11 - v12 - v13 - v13SP1 - v13SP2 - v14 - v14SP1 and [the most recent v15](https://support.industry.siemens.com/cs/document/109752224/delivery-release-tia-portal-v15?dti=0&lc=en-WW).
+
+With the example we are developing, we have a CPU 1511-1 PN (6ES7 511-1AK00-0AB0 firmware 1.5)
+
+With version **TIA Portal v10.5**, it is not possible to program a CPU 1500
+
+With version **TIA Portal v11**, it is not possible to program a CPU 1500 as shown in the following image.
+
+![](./assets/images/tia-portal-upload/TIAPortal_Upload_000.png)
+
+With version **TIA Portal v12**, it was the first released to program CPU 1500. We insert our CPU and one of the characteristics is that the firmware does not match
+
+![](./assets/images/tia-portal-upload/TIAPortal_Upload_001.png)
+
+We can go online and observe the message:
+
+![](./assets/images/tia-portal-upload/TIAPortal_Upload_002.png)
+
+And if we want to perform an upload, we cannot due to the following error message. As we mentioned, the firmware does not correspond
+
+![](./assets/images/tia-portal-upload/TIAPortal_Upload_003.png)
+
+Now we proceed to test with version **TIA Portal v13**, we reinsert our device, and this time we have correctly defined the firmware.
+
+![](./assets/images/tia-portal-upload/TIAPortal_Upload_004.png)
+
+We connect online and if we try to perform an upload, we find that we cannot do it, as we observe in the following image.
+
+![](./assets/images/tia-portal-upload/TIAPortal_Upload_005.png)
+
+Now we will proceed to test with version TIA Portal v14. We can go online, and from this version, we have a new feature, which is the version of the TIA Portal project, and here we do have information about which version we should use.
+
+![](./assets/images/tia-portal-upload/TIAPortal_Upload_007.png)
+
+If we try to perform an upload, we find that we cannot, this is the message:
+
+![](./assets/images/tia-portal-upload/TIAPortal_Upload_008.png)
+
+**Conclusion**: If we want to perform an upload, we must know which version was used to perform the download of the program, so as not to try with all versions, we can use the feature that the latest versions have, which if we go online tells us the version of TIA Portal that was used for the program.
+
+We cannot download the project that is on the PLC with any version, but we can migrate between versions, as long as the firmware that the CPU has is supported.
+
+January 9, 2018
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [TIA Portal - Upload project](https://www.plc-hmi-scadas.com/en/TIA_Portal_Upload.php) — Jose Manuel Luque*

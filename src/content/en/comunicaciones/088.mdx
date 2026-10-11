@@ -1,0 +1,57 @@
+---
+title: "DASSIDirect Configuration with S7-1200"
+slug: "088"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/088.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["Intouch","DAServer","DASSIDirect","with","S7-1200"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# DASSIDirect Configuration with S7-1200
+
+Jose Manuel Luque
+
+Intouch DAServer DASSIDirect with S7-1200
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-00.png)
+
+Configuration of the DASSIDirect DAServer, with version .3 it is possible to configure an S7-1200, which is the objective of this practice, so the first step has been the update, in case it is already installed or a new installation of the DAServer, you can also observe the new functionalities that the update offered.
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-01.png)
+
+Once updated, or installed, we run the SMC Administration Console, and we can already see how our Server appears, although by default this service comes disabled.
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-04.png)
+
+The first thing we are going to add by right-clicking is a PortCpS7 object, in the same way we would configure an S7-300/400, the Global parameters can be left as default or adapted according to needs.
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-15.png)
+
+To the added PortCpS7 object, we assign the name we want, and it can be observed that the type of port will be via TCP/IP.
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-07.png)
+
+The next step, by right-clicking again, is to add the S7Cp object, again giving it the name we are interested in, and here is where we configure it with our device, specifying the IP address of our PLC, the Rack number which by default is 0 and the Slot number 1 for my case, since it is simply the PLC, Connection Resources can be left as default.
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-08.png)
+
+The next step is to add a new group, to which we will later add the tags we are interested in and the update period.
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-09.png)
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-14.png)
+
+Now we can activate the Server and with any Client Server we can check if it is well configured and works correctly, in this example we will use the OPC Scout, where we add the tags we are interested in and activate Monitoring. It can be observed that the quality is good and it works perfectly, the next step would be to configure a new Access Name in Intouch and configure the tags.
+
+![](./assets/images/088/Intouch-DASSDirect-S7-1200-13.png)
+
+March 22, 2013
+
+---
+*Source: [DASSIDirect Configuration with S7-1200](https://www.plc-hmi-scadas.com/en/088.php) — Jose Manuel Luque*

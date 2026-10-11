@@ -1,0 +1,87 @@
+---
+title: "InTouch with RSLogix Emulate 5000 through FSGateway"
+slug: "022"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/022.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["InTouch","FSGateway","RSLogix Emulate 5000","RSLinx OPC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › InTouch and FSGateway
+
+# InTouch with RSLogix Emulate 5000 through FSGateway
+
+Reading simulated tags in InTouch using FSGateway and RSLinx OPC Server.
+
+Jose Manuel Luque Aug 23, 2012
+
+InTouchFSGatewayRSLogix Emulate 5000RSLinx OPC
+
+![InTouch Access Name for FSGateway](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-35.jpg)
+
+**Objective**
+
+This practice communicates InTouch with RSLogix Emulate 5000 through FSGateway. FSGateway links to RSLinx configured as an OPC server.
+
+The same configuration could be used in a real system by replacing RSLogix Emulate 5000 with a physical PLC.
+
+**Create the Access Name in InTouch**
+
+Start the InTouch project and add a new Access Name. Application Name will be FSGateway and the topic will be the one configured in the FSGateway practice.
+
+![New InTouch Access Name for FSGateway](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-35.jpg)
+
+**Add InTouch Variables**
+
+Once the Access Name is created, add the items or variables. Select the matching Access Name and use the tag name as the item name.
+
+Use the same names defined when configuring the items in FSGateway.
+
+![Creating variables linked to the Access Name](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-36.jpg)
+
+![Item Name using names configured in FSGateway](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-36a.jpg)
+
+**Prepare the Screens**
+
+Configure the InTouch screens to display variable values and a test push button.
+
+![InTouch screen with variables and controls](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-37.jpg)
+
+**Run Runtime and Check Data**
+
+Run Runtime and observe the results. Use the simulator to force inputs and check that RSLinx is active and serving the items.
+
+FSGateway can also be reviewed to confirm that it is running correctly with the configured items.
+
+![InTouch Runtime reading data from the emulator](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-41.jpg)
+
+![FSGateway running with configured items](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-42.jpg)
+
+**Test with the Simulator**
+
+LEDs and a Toggle push button were added to the screen. If the input is triggered from SCADA, InTouch shows it as active, but the simulator and online program show that the real value is not forced.
+
+The ideal approach is to use the simulator to force inputs while working with RSLogix for the PLC program and InTouch for SCADA visualization.
+
+![Test with LEDs and Toggle push button from InTouch](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-46.jpg)
+
+![Test using the simulator and RSLogix online](./assets/images/022/Intouch%20-%20RSLogix%20Emulate-45.jpg)
+
+_Original article published on August 23, 2012._
+
+**Related Articles**
+
+*   [RSLogix Emulate 5000](#/a/en%2F011)
+*   [RSLinx OPC Server](#/a/en%2F017)
+*   [FSGateway configuration](#/a/en%2F021)
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [InTouch with RSLogix Emulate 5000 through FSGateway](https://www.plc-hmi-scadas.com/en/022.php) — Jose Manuel Luque*

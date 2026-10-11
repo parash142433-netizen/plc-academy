@@ -1,0 +1,136 @@
+---
+title: "UMC (User Management Control)"
+slug: "blog-umc-user-management-control"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/umc-user-management-control"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["PLC SIEMENS","PLC SIEMENS","UMC","WinCC Unified","WinCC Unified"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# UMC (User Management Control)
+
+Jose Manuel Luque 16 Feb, 2025
+
+PLC SIEMENS PLC SIEMENS UMC WinCC Unified WinCC Unified
+
+![UMC (User Management Control)](./assets/images/blog-umc-user-management-control/UMC-Server-32.png)
+
+Once WinCC Unified Redundancy has been tested without the configuration of **UMC**, the next step is its configuration and operation.  
+I have based this on the following [documentation](https://support.industry.siemens.com/cs/document/109780337/administraci%C3%B3n-central-de-usuarios-con-el-user-management-component-componente-de-gesti%C3%B3n-de-usuarios-\(umc\)?dti=0&lc=es-ES) for its configuration and in the installation manual itself.
+
+We start by preparing the Operating System with the following roles and features.  
+Install the **Web Server Role (IIS)** with the following features.
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-0.png)
+
+  
+We download and install the following components: [URL Rewrite](https://www.iis.net/downloads/microsoft/url-rewrite) and [Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing).
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-2.png)
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-3.png)
+
+  
+We have now configured and have our (**IIS**) running by default with **HTTP**.
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-12.png)
+
+  
+The next step is to configure a certificate to work with **HTTPS** and this is where we have innovated. The Siemens manual explains how to do this with the open-source software [XCA,](https://apps.microsoft.com/detail/9n9k02v7xr1b?hl=es-ES&gl=ES) but...  
+  
+Siemens in **WinCC** & **WinCC Unified** has the application to generate **CA** certificates and it works correctly, so why isn’t there one for the configuration of **UMC**?  
+  
+From the installation of **WinCC RT Unified**, I have taken the following files that are necessary for the application to work correctly without any additional dependencies as you can see in the following image.
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-14.png)
+
+  
+We run the application and we are going to generate our certificate, we follow the steps and for more detail you can see the article with [WinCC Web Navigator](#/a/en%2Fblog-wincc-webnavigator-webux-certificados-https).
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-17.png)
+
+  
+We now have the certificate we just created and installed.
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-19.png)
+
+  
+The next step is to assign it to our (**ISS**) when we are configuring **HTTPS**.  
+For this, we select **Default Web Site** -> **Bindings ...** (_It appears on the right side_).
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-20.png)
+
+  
+We leave only the **HTTPS** protocol and remove the **HTTP** entry.
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-21.png)
+
+  
+We have now correctly configured and running our first step :-)
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-22.png)
+
+  
+The next step is the installation and configuration of UMC.  
+The software we need to install is on DVD2 of the corresponding TIA Portal V.x, in my case TIA Portal V20, which you can download [here](https://support.industry.siemens.com/cs/document/109963850/simatic-step-7-incl-safety-s7-plcsim-and-wincc-v20-trial-download?dti=0&lc=en-ES).
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-4-1.png)
+
+  
+Once as **administrator** we will follow the next steps:  
+We go to the installation directory and run **UMConf.exe**.  
+The first thing we need to define is the name we will designate as **UM domain name**.  
+**Note:** _This does not refer to your Active Directory domain if you are working on it._
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-24.png)
+
+  
+The next step is to define the **administrator user** of our **UMC.**  
+**Note**: _It does not have to be a Windows user._
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-25.png)
+
+  
+The next step is to create a user and password to run the service, this one must be a Windows user; you can use **NT SERVICE\\UMC Service,** this does not require a password.  
+  
+And finally, if you are in a domain and want to access Active Directory, in this last step you will select \[y\], in our case \[n\].
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-27.png)
+
+![](./assets/images/blog-umc-user-management-control/image-2.png)
+
+  
+And with those steps, we have finished configuring the **UMC**.
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-28.png)
+
+  
+The next step is the deployment in **IIS** of the entire architecture and structure; for this, we run the following script, and if you observe the IIS, you will see how it has been generated.
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-29.png)
+
+  
+And we have finished configuring it :-)
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-30.png)
+
+  
+The next step is to log in and manage our **UMC**.
+
+![](./assets/images/blog-umc-user-management-control/UMC-Server-32.png)
+
+  
+The next step is to link the **UMC** to our **TIA Portal** in [the next article](#/a/en%2Fblog-tia-portal-central-user-management).
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [UMC (User Management Control)](https://www.plc-hmi-scadas.com/en/blog/umc-user-management-control) — Jose Manuel Luque*

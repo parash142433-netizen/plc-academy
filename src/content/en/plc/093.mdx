@@ -1,0 +1,81 @@
+---
+title: "System Diagnosis and Diagnostic Viewer"
+slug: "093"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/093.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["System Diagnosis","Diagnostic Viewer","Confort Panels"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# System Diagnosis and Diagnostic Viewer
+
+Jose Manuel Luque
+
+System Diagnosis Diagnostic Viewer Confort Panels
+
+In this practice, I will test the System Diagnostic Viewer object available in all Compact Panels, the new generation of Siemens HMI. First, we will activate the system diagnosis for this PLC, available in the CPU properties. This option is available in the 300/400 and 1500 series; by default, this option is disabled, and sending notifications is enabled by default, as can be seen.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-00.png)
+
+As I mentioned earlier, I activate the option in the General tab. Next, in Notifications, the default notifier component is the Rack, although we can change it to a module or any option of interest, just like the available notification information.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-01.png)
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-04.png)
+
+In the Diagnostic Support options, we activate the diagnostic status DB, which by default is DB127 unless it is already used, although we can assign any number we want. If we have a Profibus or Profinet network configured in the project, the Profinet IO/DP DB will be enabled for us to select its corresponding checkbox.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-05.png)
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-02.png)
+
+By activating the System diagnosis, the diagnostic blocks have automatically been enabled, which will be generated automatically when we compile and load the program to the PLC. If these DBs exist in the program, we can change the DB number.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-06.png)
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-07.png)
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-11.png)
+
+Here we can observe how the DBs we have configured have been generated, as well as the different OBs 82, 83, 85, and 86.
+
+Additionally, the different OBs that have been inserted call FB49 and FC49 respectively, which facilitates programming.
+
+Once we have completed the part in the PLC, we move on to the screen. The configuration is very simple; we just need to drag the System Diagnostic Viewer object.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-03.png)
+
+Within the properties of the object, we will configure the display options; the Column Titles option will be the title that will be displayed in our viewer.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-13.png)
+
+And within Columns, we will select the columns we are interested in visualizing.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-14.png)
+
+Once we have made the necessary changes, we can run the Runtime to check the operation of our diagnostic viewer object. I generated an error to check the functionality, and in the following images, it can be seen how to navigate between all the available modules in the rack.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-08.png)
+
+Within the Viewer, we can navigate through the different screens.
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-09.png)
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-10.png)
+
+Once the error is resolved, we can see how it updates correctly, and a personal opinion, I believe that the configuration of this object for maintenance is essential.
+
+A small video can be seen in the [practice of the Media Player object](#/a/en%2F095).
+
+![](./assets/images/093/WinCC-Advanced-VisorDeDiagnostico-12.png)
+
+April 2, 2013
+
+---
+*Source: [System Diagnosis and Diagnostic Viewer](https://www.plc-hmi-scadas.com/en/093.php) — Jose Manuel Luque*

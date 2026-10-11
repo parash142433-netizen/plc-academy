@@ -1,0 +1,61 @@
+---
+title: "Intouch - Oracle DataBase"
+slug: "intouch-db-oracle"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_DB_Oracle.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch","Oracle","DataBase"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Intouch - Oracle DataBase
+
+Jose Manuel Luque 01 Jun, 2019
+
+Intouch Oracle DataBase
+
+**Intouch - Oracle DataBase**
+
+![](./assets/images/intouch-db-oracle/vba-logo.png) ![](./assets/images/intouch-db-oracle/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+In this article, we will see the essentials of how to communicate Intouch or SystemPlatform ArchestrA with an Oracle database. If you are instead interested in [MySQL](#/a/en%2Fintouch-mysql).
+
+By default, if we try to establish communication without having prepared the Intouch equipment, we will not be able to do so, so we must follow some steps.
+
+1.- Installation of **[Oracle Data Access Components (ODAC)](#/a/en%2Foracle-drivers)** or alternatively the installation of Oracle Client, but since we only need the drivers, I opted for the former.
+
+Once these requirements are met, we move on to Intouch, and the truth is, there is a lot to tell, since with the latest version of Wonderware 2017, we can work with ArchestrA Graphic in an Intouch application, without the need to be in a Galaxy or in SystemPlatform, or having to publish an Intouch application where we had used symbols; all that has changed for a considerable improvement, but let's continue and we will talk about those new features later.
+
+We are going to create a new Symbol, where we assign the name we are interested in and edit it...
+
+![](./assets/images/intouch-db-oracle/Intouch_Oracle_02.png)
+
+![](./assets/images/intouch-db-oracle/Intouch_Oracle_03.png)
+
+Once in the editor, for this functionality, we insert a button and we are going to create an animation of the ActionScripts type.
+
+![](./assets/images/intouch-db-oracle/Intouch_Oracle_04.png)
+
+And this is the code, where the most important part is the definition of the Connection String, where the Provider is OraOLEDB.Oracle and the Data Source is our configuration file when installing the ODAC.
+
+The programming language for ArchestrA Graphics is Visual Basic .Net, in this case, we are using OleDB to connect to our Database and this is our code.
+
+![](./assets/images/intouch-db-oracle/Intouch_Oracle_05.png)
+
+Now we are going to test our code, we insert our symbol into a new screen and move on to Runtime.
+
+![](./assets/images/intouch-db-oracle/Intouch_Oracle_07.png)
+
+![](./assets/images/intouch-db-oracle/Intouch_Oracle_08.png)
+
+[Download the Code Text](https://www.plc-hmi-scadas.com/Download/VBNET%20Intouch.txt)
+
+01-06-2019
+
+---
+*Source: [Intouch - Oracle DataBase](https://www.plc-hmi-scadas.com/en/Intouch_DB_Oracle.php) — Jose Manuel Luque*

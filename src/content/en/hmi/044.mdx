@@ -1,0 +1,83 @@
+---
+title: "Starting Vijeo Runtime on PC"
+slug: "044"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/044.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SCHNEIDER"]
+tags: ["Vijeo Runtime","PC Runtime","Schneider"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SCHNEIDER](#/a/en%2Fhmi-schneider) › Article
+
+# Starting Vijeo Runtime on PC
+
+Jose Manuel Luque
+
+Vijeo Runtime PC Runtime Schneider
+
+This practice aims to show the type of configuration I have chosen to run an application developed in Vijeo Designer that will run on an office PC that has Vijeo Runtime installed, making a serious comparison to the Siemens Runtime, but in this case from Schneider.
+
+We assume that we have created a new project and in Type we must select iPC Series, the model may vary but as can be seen I select a Compact PC BOX, specifying the resolution according to my PC screen, plus its IP address, although in this case we will not use it, but I have in mind to do some practice where we link this PC with several PLCs.
+
+![](./assets/images/044/VJD%20Runtime-1.jpg)
+
+Important in Hardware, select if we want to view the configuration of our PC, even make modifications, such as the IP address, etc...
+
+![](./assets/images/044/VJD%20Runtime-1a.jpg)
+
+In Remote Access, we will configure it to be a Web Server, we add the port, which is generally port 80, although we can modify it and we will allow connections from any IP, we can restrict access to a series as can be observed.
+
+![](./assets/images/044/VJD%20Runtime-2.jpg)
+
+We select the Web Gate option and indicate what our initial screen will be and what we want to publish, pop-up panels, Actions. I have set everything to better experiment with it and not impose limitations, then we must adapt to the project's needs.
+
+![](./assets/images/044/VJD%20Runtime-3.jpg)
+
+![](./assets/images/044/VJD%20Runtime-4.jpg)
+
+Finally, before transferring, we will specify the location of the data and files, for this location I have selected a partition of the hard drive called H:\\
+
+![](./assets/images/044/VJD%20Runtime-5a.jpg)
+
+Let’s assume we have already created our entire project, with its corresponding screens, alarms, notifications, etc... and what remains is the transfer to our PC where Vijeo Runtime is installed, as in my case I have Vijeo Runtime installed, together with Vijeo Designer, as a means of transfer I will select file systems, which will compile my project and generate a file with the extension \*.vda that is necessary to run Vijeo Runtime.
+
+![](./assets/images/044/VJD%20Runtime-6.jpg)
+
+The file path that I am going to generate is in the directory H:\\ArchivoVijeoRuntime.
+
+_As a warning, I would add that the directory must be in a different location than C:\\ if the programs are installed in this directory._
+
+Once compiled without errors we can proceed with the transfer, right-click on the project and Download to (File System).
+
+![](./assets/images/044/VJD%20Runtime-7.jpg)
+
+Once transferred, we can open the previously selected directory and observe the file that interests us, this will be the one we will load.
+
+![](./assets/images/044/VJD%20Runtime-8.jpg)
+
+To load the file we have obtained and run Vijeo Runtime, we start the Vijeo Designer application installer and look for the directory with the file _"Remember that its location must be different from C:\\ if this is the directory where we have installed the program"_
+
+![](./assets/images/044/VJD%20Runtime-13.jpg)
+
+![](./assets/images/044/VJD%20Runtime-16.jpg)
+
+When loading the file, the Runtime starts with the screen we have selected, if we remember that we configured the corner to access the configuration, let's try...
+
+![](./assets/images/044/VJD%20Runtime-23.jpg)
+
+Indeed, the configuration of our PC as HMI opens, where we can access its functionalities, although not all of them are enabled, but all the necessary ones to configure our PC.
+
+We will see other functionalities in upcoming practices.
+
+![](./assets/images/044/VJD%20Runtime-22.jpg)
+
+![](./assets/images/044/VJD%20Runtime-21.jpg)
+
+October 16, 2012
+
+---
+*Source: [Starting Vijeo Runtime on PC](https://www.plc-hmi-scadas.com/en/044.php) — Jose Manuel Luque*

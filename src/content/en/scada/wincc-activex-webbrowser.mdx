@@ -1,0 +1,51 @@
+---
+title: "WinCC ActiveX WebBrowser - .Net WebBrowser"
+slug: "wincc-activex-webbrowser"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_WebBrowser.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","ActiveX",".NET","Scada"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC ActiveX WebBrowser - .Net WebBrowser
+
+Jose Manuel Luque 31 Jan, 2019
+
+WinCC ActiveX .NET Scada
+
+**WinCC ActiveX WebBrowser - .Net WebBrowser**
+
+Recently in the Siemens forum, there was a question about the WinCC WebBrowser Control, where the WinCC control, when opening a web page, gave script execution errors, which will be discussed later.
+
+My response was to try using the Microsoft Web Browser ActiveX Control, which depends on the browser we have installed, as can be seen in the following image.
+
+![](./assets/images/wincc-activex-webbrowser/WinCCActiveXWebBrowser00.png)
+
+We add the control and now we have it available to insert into our screen.
+
+In the ActiveX button, I have defined which web page I want to display, using Siemens' page as an example.
+
+![](./assets/images/wincc-activex-webbrowser/WinCCActiveXWebBrowser01.png)
+
+And here we have the famous error we were talking about.
+
+![](./assets/images/wincc-activex-webbrowser/WinCCActiveXWebBrowser02.png)
+
+The solution I found and propose is to replace the ActiveX control with the .Net System.Windows.Forms.WebBrowser control, where we have the ScriptErrorsSuppressed property.
+
+![](./assets/images/wincc-activex-webbrowser/WinCCActiveXWebBrowser03.png)
+
+The operation is correct and can be a solution. Experiment with it, and if you find yourself in this situation, remember this other option.
+
+![](./assets/images/wincc-activex-webbrowser/WinCCActiveXWebBrowser04.png)
+
+31-01-2019
+
+---
+*Source: [WinCC ActiveX WebBrowser - .Net WebBrowser](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_WebBrowser.php) — Jose Manuel Luque*

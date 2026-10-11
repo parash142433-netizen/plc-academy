@@ -1,0 +1,57 @@
+---
+title: "WinCC Read / Write Tags (Ansi C - VBScript)"
+slug: "wincc-rw-tag"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_RW_Tag.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","Ansi C","VBScript"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Read / Write Tags (Ansi C - VBScript)
+
+Jose Manuel Luque
+
+WinCC Ansi C VBScript
+
+**WinCC Read / Write Tags (Ansi C - VBScript)**
+
+Recently I published how to [Read / Write raw variables with VBScript](#/a/en%2Fwincc-vbs-gettagraw), but let's see the explanation of the difference between the different functions we have whether we work with C or with VBScript.
+
+Here is an image extracted from a Siemens FAQ, where you can observe how WinCC operates when reading and writing variables.
+
+The big difference is that when we use **GetTagWaitXXX(TagName)**, we are reading directly from the PLC; if we extrapolate this to the VBScript language, the function we use is **HMIRuntime.Tags(TagName).Read(1)**.
+
+On the other hand, when we want to write, we use **SetTagWaitXXX(TagName, Value)** and **HMIRuntime.Tags(TagName).Write Value, 1**.
+
+It is worth noting that in VBScript we have two options, the one we just mentioned and the following:
+
+Dim MyTag
+
+Set MyTag = HMIRuntime.Tags(TagName)
+
+MyTag.Read
+
+MyTag.Read(1)
+
+MyTag.Write Value
+
+MyTag.Write Value, 1
+
+![](./assets/images/wincc-rw-tag/WinCC_RW_C_VBS_02.png)
+
+An image of all the functions available for Reading / Writing variables when we use C Code. In VBScript, there is no distinction between the type of data we are going to handle; we always use the same method.
+
+![](./assets/images/wincc-rw-tag/WinCC_RW_C_VBS_00.png) ![](./assets/images/wincc-rw-tag/WinCC_RW_C_VBS_01.png)
+
+January 28, 2018
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Read / Write Tags (Ansi C - VBScript)](https://www.plc-hmi-scadas.com/en/WinCC_RW_Tag.php) — Jose Manuel Luque*

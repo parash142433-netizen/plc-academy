@@ -1,0 +1,63 @@
+---
+title: "OPC Factory Server OFS Configuration"
+slug: "018"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/018.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["OPC Factory Server","OFS","OPC Schneider"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# OPC Factory Server OFS Configuration
+
+Jose Manuel Luque
+
+OPC Factory Server OFS OPC Schneider
+
+Once the OPC OFS Server from Schneider is installed, we have several applications. For configuration, we will run the OFS Configuration Tool.
+
+1.- The first step is to create a New Device Alias, giving it a name that we are interested in.
+
+![](./assets/images/018/OPC%20OFS-1.jpg)
+
+2.- For this example, I will use the Virtual PLC from the Unity Simulator, which was configured in the following [practice](#/a/en%2F012). We select the options according to our needs.
+
+![](./assets/images/018/OPC%20OFS-2.jpg)
+
+3.- The next step is to configure the equipment we want to access. In our case, we will use the TCP/IP Protocol with a PLC programmed with Unity. We set the IP address of our PLC; we have seen that for simulation purposes, we should select 127.0.0.1 (LocalHost).
+
+![](./assets/images/018/OPC%20OFS-3.jpg)
+
+4.- Now we will define the symbols we will have access to, selecting the name of the Project created in Unity, and we will have our configuration completed.
+
+![](./assets/images/018/OPC%20OFS-4.jpg)
+
+5.- Now we need to test its functionality. For this, there is also an OPC Client available. We create a new project and in Node, specify LocalHost to see the OPC servers, selecting Schneider-Aut.OFS.
+
+![](./assets/images/018/OPC%20OFS-6.jpg)
+
+6.- The next step will be to create a new Group, give it a name, and select the available options. In this case, the configuration is the one that appears by default.
+
+![](./assets/images/018/OPC%20OFS-7.jpg)
+
+7.- Once the group is created, we need to add the Items.
+
+![](./assets/images/018/OPC%20OFS-8.jpg)
+
+8.- We access the items that interest us or that we want to visualize.
+
+![](./assets/images/018/OPC%20OFS-9.jpg)
+
+9.- And finally, we check that there is communication and that the configuration is done correctly. With this configuration we have done, we can now configure any SCADA that has OPC drivers and access our PLC.
+
+![](./assets/images/018/OPC%20OFS-10.jpg)
+
+August 15, 2012
+
+---
+*Source: [OPC Factory Server OFS Configuration](https://www.plc-hmi-scadas.com/en/018.php) — Jose Manuel Luque*

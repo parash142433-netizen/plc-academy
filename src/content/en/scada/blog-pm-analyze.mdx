@@ -1,0 +1,146 @@
+---
+title: "PM-Analyze (Part - 1)"
+slug: "blog-pm-analyze"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/pm-analyze/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","SCADA","WinCC","WinCC"]
+downloads: [{"title":"PM-Analyze","url":"https://support.industry.siemens.com/cs/attachments/109885680/PM-ANALYZE_New.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# PM-Analyze (Part - 1)
+
+Jose Manuel Luque Nov 24, 2024
+
+SCADA SCADA WinCC WinCC
+
+![PM-Analyze (Part - 1)](./assets/images/blog-pm-analyze/PM_Analize_-2.png)
+
+A few years ago I experienced the most basic concepts of PM-Quality that you can find [here](https://plc-hmi-scadas.com/WinCC_PM_Quality_1.php). Now we will explore the latest version as of today of [PM-Analyze](https://support.industry.siemens.com/cs/attachments/109885680/PM-ANALYZE_New.pdf).  
+The PM-ANALYZE, PM-QUALITY, and PM-CONTROL share the same working philosophy regarding their components and architectures.
+
+*   PM-PRODUCT (Analyze, Control, Quality)
+*   PM-SERVER
+*   PM-AGENT
+
+_And the first question, what is PM-ANALYZE for?_  
+It serves as a historian to record and analyze the data from our plant.
+
+![](./assets/images/blog-pm-analyze/PM_Analize_-2.png)
+
+Once the installation is done based on a distributed architecture, we dedicate a Server to PM-ANALYZE, which by default includes the PM-SERVER and will be where we create our project, and on the other hand, we have a WinCC RT Unified, where we install the PM-AGENT Unified.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-2.png)
+
+  
+This is the architecture I have set up for testing.
+
+![](./assets/images/blog-pm-analyze/PM_Analize_-1.png)
+
+  
+Once installed and started, the first thing to do is to create a new project.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-1.png)
+
+  
+Following the WinCC philosophy, the default directory is as follows.
+
+**_TIP_** _To delete a project, close the PM-SERVER and delete the entire directory_, _there is no option to do it in the interface_.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-3.png)
+
+![](./assets/images/blog-pm-analyze/PM_Analize-4.png)
+
+  
+Once the project is created, the next step is to create a new station.  
+We select according to our project needs, but for the tests to be performed, we select **PM-AGENT Unified Station**, where the **PM-AGENT** will be responsible for acquiring data from the WinCC RT Unified and supplying it to the **PM-SERVER** for registration in the databases.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-5.png)
+
+  
+We follow the four steps of the wizard. Name of the station.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-6.png)
+
+  
+The data source: Our example based on WinCC RT Unified.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-7.png)
+
+  
+We are testing a distributed architecture, where there is a central Server and the different stations connect to it to register the data.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-8.png)
+
+  
+The next thing the wizard asks us is the name of the PC where the **PM-AGENT** is running.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-9.png)
+
+  
+And we finish the wizard.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-11.png)
+
+  
+It can be seen in the next image that the communication arrows are already correct, now we just need to finish configuring it as a trusted communication to change to running state.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-13.png)
+
+  
+On the machine where WinCC RT Unified is located, it is important for the connection with the **PM-AGENT** to be established that the Runtime is activated; otherwise, it will not start ;-). Try it to understand how it works.
+
+![](./assets/images/blog-pm-analyze/PM-AGENT-5.png)
+
+  
+If WinCC RT is activated, the **PM-AGENT** will go into running mode and the connection with the **PM-SERVER** can be established.
+
+![](./assets/images/blog-pm-analyze/PM-AGENT-6.png)
+
+  
+Here you have the incoming connection and you need to trust the connection to validate the certificate and move it from rejected to trusted.
+
+_**TIP** If you want to delete that connection for some reason and create a new one, the directory where the certificate is located is as follows:  
+**C:\\ProgramData\\Siemens\\Process Management\\PM-AGENT-UNIFIED**  
+If after creating the new connection it doesn't work, restart the PC, due to all the tests I have been conducting._
+
+![](./assets/images/blog-pm-analyze/PM-AGENT-7.png)
+
+  
+Hence the next confirmation, to move the certificate.
+
+![](./assets/images/blog-pm-analyze/PM-AGENT-8.png)
+
+  
+And the connection is now trusted. Once we configure the PM-SERVER, the Tag, Alarms, process value part will start serving the data, and its subsequent registration in the databases.
+
+_**TIP** By default, the buffer is for 30 days, but depending on your configuration, adapt this part to your needs._  
+_You can find the buffer file here and see how it works  
+**C:\\ProgramData\\Siemens\\Process Management\\PM-AGENT-UNIFIED\\xxxx**_
+
+![](./assets/images/blog-pm-analyze/PM-AGENT-9.png)
+
+  
+Here you can already see that the prohibited icon has disappeared and at the same time the running icons are in green ;-)
+
+![](./assets/images/blog-pm-analyze/PM_Analize-14.png)
+
+  
+Important, by default the database configuration is as is, adapt it according to your needs.
+
+![](./assets/images/blog-pm-analyze/PM_Analize-15.png)
+
+  
+We continue in [PM-ANALYZE Part 2](#/a/en%2Fblog-pm-analyze-parte-2) :-)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [PM-Analyze (Part - 1)](https://www.plc-hmi-scadas.com/en/blog/pm-analyze/) — Jose Manuel Luque*

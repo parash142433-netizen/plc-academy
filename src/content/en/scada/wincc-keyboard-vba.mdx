@@ -1,0 +1,50 @@
+---
+title: "WinCC Automate Tasks with VBA"
+slug: "wincc-keyboard-vba"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_KeyBoard_VBA.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","VBA","Visual Basic Application"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Automate Tasks with VBA
+
+Jose Manuel Luque
+
+WinCC VBA Visual Basic Application
+
+**WinCC Automate tasks with VBA  
+**
+
+In the [previous example](#/a/en%2Fwincc-keyboard) we have seen how to display the keyboard in the Input and Output fields, but let's imagine that we have hundreds of Objects where we need to insert that line of code.
+
+So we are going to make the most of Visual Basic Application to relieve us from a very monotonous task, where the most likely thing that usually happens is that we might overlook some object.
+
+If we open the VBA editor, we will see **GlobalTemplate** where all the procedures/Functions we create will be at a Global level, meaning for all the projects we carry out with WinCC.
+
+On the other hand, we have **ProjectTemplate**, in this case all the procedures/Functions we create will be at the Project level, with which we are currently working.
+
+And finally, all the Pdl that we open has **ThisDocument** where all the procedures/Functions we create will be for that pdl.
+
+![](./assets/images/wincc-keyboard-vba/WinCC_KeyBoard_VBA_00.png)
+
+So once we have made a brief description, let's move on to see the code that will do the work for us.
+
+There are some lines that comment on what is being done in each line of code. There is a typographical error as the image exceeded the limits, in the lines x.SourceCode = CodigoC\_xxx, this first part CodigoC is unnecessary.
+
+![](./assets/images/wincc-keyboard-vba/WinCC_KeyBoard_VBA_03.png)
+
+And here is a short demonstration video where you can observe its operation; for better visualization, change the resolution to HD.
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+If you liked it or found it useful, share it ...
+
+---
+*Source: [WinCC Automate Tasks with VBA](https://www.plc-hmi-scadas.com/en/WinCC_KeyBoard_VBA.php) — Jose Manuel Luque*

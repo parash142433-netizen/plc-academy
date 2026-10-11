@@ -1,0 +1,44 @@
+---
+title: "Wonderware Historian I/O Server"
+slug: "archestra-ioserver-historian"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/ArchestrA_IOServer_Historian.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Wonderware Historian I/O Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Wonderware Historian I/O Server
+
+Jose Manuel Luque
+
+Wonderware Historian I/O Server
+
+**Wonderware Historian I/O Server II  
+**
+
+In the [previous practice](#/a/en%2Farchestra-fsgateway-historian), we saw how to configure the link of the Historian through the I/O Server aahIOSvrSvc with our application via the FSGateway. In this one, we will see another way to configure that link, which is through the DDESuiteLinkClient Object. For this, we create a new derived template of our Object, which I have called DDESuiteLink\_aahIOSvrSvc, and the configuration is as follows: **Server node**, since it is the Local machine, we can define the machine name, Localhost, or leave it blank, as in the latter case it is interpreted as Localhost.
+
+**Server name** here we must provide the name of the Server, in this case, its name is _aahIOSvrSvc_, and finally, in this configuration tab, we must specify that the communication protocol is SuiteLink.
+
+![](./assets/images/archestra-ioserver-historian/ArchestrA-DDESuiteLink-Historian-00.png)
+
+We move to the Topic tab, and here we must define a Topic with the same name as the specified Tagname. Next, we can proceed to configure the items, and with these steps, we have completed our configuration.
+
+![](./assets/images/archestra-ioserver-historian/ArchestrA-DDESuiteLink-Historian-01.png)
+
+To check its operation, we only need to instantiate our Object and deploy it. With Object Viewer, we can check its status. In the next instance, the given name has been DDE, but it derives from the already configured one.
+
+Just like the previous practice, once the link is configured, we can access all the available items, including the System items.
+
+![](./assets/images/archestra-ioserver-historian/ArchestrA-DDESuiteLink-Historian-06.png)
+
+August 18, 2013
+
+---
+*Source: [Wonderware Historian I/O Server](https://www.plc-hmi-scadas.com/en/ArchestrA_IOServer_Historian.php) — Jose Manuel Luque*

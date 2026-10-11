@@ -1,0 +1,497 @@
+---
+title: "Set Up a Development Environment with VS Code, GitHub Copilot and AI Agents"
+slug: "blog-entorno-desarrollo-vscode-copilot-agentes"
+locale: "en"
+category: "software"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/entorno-desarrollo-vscode-copilot-agentes/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Software","FRAMEWORK"]
+tags: ["AI","VS Code","GitHub Copilot","Git","Agents"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Software](#/a/en%2Fsoftware) › [FRAMEWORK](#/a/en%2Fvscode) › Article
+
+# Set Up a Development Environment with VS Code, GitHub Copilot and AI Agents
+
+Pedro Pagán Pallarés 28 Feb, 2026
+
+AI VS Code GitHub Copilot Git Agents
+
+![VS Code + AI Agents for Modern Devs — Interactive tutorial with configuration modules, Copilot and frameworks](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/VisuaCodeProyectoAgentes.PNG)
+
+Choose how you want to follow this guide:
+
+  Read Article   Step-by-Step Tutorial
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+### Prerequisites
+
+Step 1 of 7 — Check that you have everything you need
+
+*   I have Windows 10/11, Linux or macOS
+*   I have a stable Internet connection
+*   I have a GitHub account (or I'll create one now at [github.com](https://github.com/signup))
+*   I have (or will subscribe to) a GitHub Copilot subscription
+
+GitHub Copilot has a free tier with limitations. For full AI agents you'll need an Individual, Business or Enterprise subscription.
+
+### Install Visual Studio Code
+
+Step 2 of 7 — Your main editor
+
+*   Downloaded from [code.visualstudio.com](https://code.visualstudio.com/)
+*   Installed with option: **Add to PATH**
+*   Installed with option: **Open with Code** in context menu
+*   Verified in terminal:
+
+code --version
+
+If the command shows the version number, VS Code is correctly installed and available from any terminal.
+
+### Install and Configure Git
+
+Step 3 of 7 — Version control
+
+*   Git downloaded and installed from [git-scm.com](https://git-scm.com/)
+*   Name and email configured:
+
+git config --global user.name "Your Name" git config --global user.email "your@email.com" git config --global core.editor "code --wait"
+
+*   SSH key generated and added to GitHub
+
+ssh-keygen -t ed25519 -C "your@email.com" # Copy public key to GitHub > Settings > SSH Keys
+
+*   SSH connection verified:
+
+ssh -T git@github.com # "Hi username! You've successfully authenticated..."
+
+### Clone the Repository
+
+Step 4 of 7 — Bring the project to your machine
+
+*   Repository cloned:
+
+git clone git@github.com:user/my-project.git cd my-project
+
+*   VS Code opened in the project:
+
+code .
+
+*   File Explorer shows the project structure
+*   Source Control (**Ctrl+Shift+G**) detects the Git repository
+*   Integrated Terminal (**Ctrl+\`**) opens in the project directory
+
+You can also clone from VS Code: **Ctrl+Shift+P** → "Git: Clone" → paste the URL.
+
+### Install GitHub Copilot
+
+Step 5 of 7 — Your AI assistant
+
+*   Extensions panel opened: **Ctrl+Shift+X**
+*   Searched and installed **"GitHub Copilot"** (official extension)
+*   Signed in to GitHub (Sign In with OAuth)
+*   Copilot icon visible in the bottom status bar
+
+The "GitHub Copilot" extension includes both inline autocompletion and Copilot Chat with Agent mode. No separate extensions needed.
+
+### Enable AI Agents
+
+Step 6 of 7 — Select model and agent mode
+
+*   Copilot Chat opened: **Ctrl+Shift+I**
+*   Selected **Agent** mode at the top of the chat
+*   AI model chosen (click on model name):
+
+**Available models:** Claude Opus 4.6 → Complex, multi-file tasks  
+Claude Sonnet 4 → Daily development, balanced  
+GPT-4o → Multimodal, fast  
+Gemini 2.5 Pro → Massive context (1M tokens)  
+o3 → Advanced reasoning and logic
+
+*   Tested with a simple message: _"Can you see the files in my project?"_
+
+In Agent mode, the AI can search files, edit code, run terminal commands and fix errors autonomously.
+
+### Final Verification
+
+Step 7 of 7 — Confirm everything works
+
+*   VS Code open with the project loaded
+*   Git works: `git status` shows the repo state
+*   Copilot active: icon visible in status bar
+*   AI agent responds in the chat
+*   Integrated terminal operational
+
+**Environment ready!** You now have VS Code + Git + GitHub Copilot with AI Agents configured. You can start working productively with your AI assistant.
+
+THIS IS HOW YOUR ENVIRONMENT SHOULD LOOK
+
+![Final result: VS Code development environment with Copilot and AI Agents working](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/VisuaCodeProyectoAgentes.PNG)
+
+Previous Step 1 of 7 Next
+
+#### 1\. Introduction
+
+Nowadays, setting up an efficient development environment goes far beyond installing a text editor. With the arrival of **Artificial Intelligence agents** integrated into code editors, the way we code has changed radically.
+
+In this article we will walk step by step through how to set up a professional development environment using **Visual Studio Code**, **GitHub Copilot** with its AI agents, and a **Git** repository on GitHub. The goal is to have everything ready to work productively, exactly as we are using it right now to write this very article.
+
+This workflow applies to any type of project: from web development, industrial applications, automation scripts, to PLC and SCADA projects where code or documentation is managed.
+
+#### How do the tools interrelate?
+
+The header conceptual map shows how the tools work together to take an **idea** to a **finished project**:
+
+*   **VS Code** is the command centre — the workspace where your code, files and terminal live.
+*   **GitHub Copilot** integrates directly into VS Code and gives access to **AI agents** (Claude, GPT, Gemini).
+*   **AI Agents** execute complete tasks autonomously: they search, edit, run and fix.
+*   **The Integrated Terminal** is where agents execute, test and validate.
+*   **Git + GitHub** ensures every step is recorded. You can roll back and collaborate.
+
+The flow is cyclical: idea → the agent executes → you review → adjust → repeat. Every iteration is backed up in Git.
+
+#### 2\. Prerequisites
+
+Before we begin, we need to have the following ready:
+
+![Prerequisites for the development environment](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/vscode-requisitos.png)
+
+*   **Operating system:** Windows 10/11, Linux or macOS.
+*   **Visual Studio Code:** Latest stable version downloaded from [code.visualstudio.com](https://code.visualstudio.com/).
+*   **Git:** Installed and accessible from the command line.
+*   **GitHub account:** Required for Copilot and for hosting repositories.
+*   **GitHub Copilot subscription:** Individual, Business or Enterprise. A free tier with limitations is also available.
+*   **Internet connection:** AI agents require connectivity to function.
+
+#### 3\. Install Visual Studio Code
+
+Visual Studio Code (VS Code) is a free, open-source code editor developed by Microsoft. It is lightweight, extremely extensible and has become the world's most popular editor for software development.
+
+![Visual Studio Code installation steps](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/vscode-instalacion.png)
+
+**Installation steps:**
+
+1.  Download the installer from [code.visualstudio.com](https://code.visualstudio.com/). Choose the _User Installer_ or _System Installer_ as preferred.
+2.  Run the installer. During installation, check the following important options:
+    *   ✔ Add to system PATH (allows running `code` from terminal).
+    *   ✔ Register VS Code as the default editor.
+    *   ✔ Add "Open with Code" to the context menu for files and folders.
+3.  Complete the installation and restart the computer if prompted.
+4.  Verify the installation by opening a terminal and running:
+
+Terminal
+
+```
+code --version
+```
+
+If the command returns the version number, the installation was successful and VS Code is available from the command line.
+
+#### 4\. Configure Git and GitHub
+
+Git is the most widely used version control system. It will allow us to manage the project's change history and synchronise it with GitHub.
+
+![Git configuration for the development environment](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/vscode-git-config.png)
+
+**Installing Git:**
+
+Download and install from [git-scm.com](https://git-scm.com/). During installation, accept the default options unless you have a specific preference.
+
+**Initial configuration:**
+
+Once Git is installed, open a terminal and run the following commands to set up your identity:
+
+Terminal
+
+```
+# Set name and email (they will appear in every commit)
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+
+# Set VS Code as the default editor for Git
+git config --global core.editor "code --wait"
+
+# Set the default branch to 'main'
+git config --global init.defaultBranch main
+```
+
+**Set up SSH key for GitHub:**
+
+To avoid entering credentials every time you push/pull, it is recommended to set up an SSH key:
+
+Terminal
+
+```
+# Generate SSH key (Ed25519, more secure and faster)
+ssh-keygen -t ed25519 -C "your@email.com"
+
+# Start the SSH agent
+eval "$(ssh-agent -s)"    # Linux/macOS
+# On Windows PowerShell:
+Start-Service ssh-agent
+
+# Add the key to the agent
+ssh-add ~/.ssh/id_ed25519
+
+# Copy the public key to clipboard
+# Windows:
+Get-Content ~/.ssh/id_ed25519.pub | Set-Clipboard
+# Linux:
+cat ~/.ssh/id_ed25519.pub | xclip -selection clipboard
+```
+
+Then go to **GitHub > Settings > SSH and GPG Keys > New SSH Key**, paste the public key and save. To verify the connection:
+
+Terminal
+
+```
+ssh -T git@github.com
+# Expected response: "Hi username! You've successfully authenticated..."
+```
+
+#### 5\. Clone the project repository
+
+With Git configured, the next step is to clone the repository where our project lives. This will download a complete copy of the repository including its full history.
+
+![Clone repository and open workspace in VS Code](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/vscode-clonar-repo.png)
+
+Terminal
+
+```
+# Clone the repository (via SSH)
+git clone git@github.com:user/my-project.git
+
+# Or via HTTPS (will prompt for credentials)
+git clone https://github.com/user/my-project.git
+
+# Enter the project directory
+cd my-project
+
+# Open VS Code directly in the project
+code .
+```
+
+Running `code .` will open VS Code with the project folder as workspace. This is fundamental because:
+
+*   The **File Explorer** (left panel) will show the entire project structure.
+*   **Source Control** (`Ctrl+Shift+G`) will automatically detect the Git repository.
+*   The **Integrated Terminal** (`` Ctrl+` ``) will open in the project directory.
+*   **GitHub Copilot** will have full project context for better suggestions.
+
+**Tip:** You can also clone directly from VS Code with `Ctrl+Shift+P` > _Git: Clone_ and paste the repository URL.
+
+#### 6\. Install GitHub Copilot
+
+GitHub Copilot is the most tightly integrated AI assistant for VS Code. It's not just autocompletion: with **Agent** mode, it can execute complex tasks autonomously, edit multiple files, run terminal commands and much more.
+
+![Install GitHub Copilot in VS Code](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/vscode-copilot-extension.png)
+
+**Step-by-step installation:**
+
+1.  Open VS Code and access the extensions panel: `Ctrl+Shift+X`.
+2.  Search for **"GitHub Copilot"** in the search box.
+3.  Install the official **GitHub Copilot** extension (by GitHub). This extension includes both inline autocompletion and Copilot Chat.
+4.  Upon installation, VS Code will ask you to sign in to GitHub. Click **Sign In** and authorise the application in your browser.
+5.  Once authenticated, verify that the **Copilot icon** (a double-sparkle symbol) appears in the VS Code status bar at the bottom.
+
+**Selecting the AI model:**
+
+One of Copilot's most powerful features is the ability to select from multiple AI models. To change the model:
+
+1.  Open Copilot Chat: `Ctrl+Shift+I` (or click the Copilot icon).
+2.  At the top of the chat panel, click the current model name.
+3.  A dropdown will show the available models. Choose based on your needs.
+
+#### 7\. AI Agents: available models
+
+As of today (February 2026), GitHub Copilot provides access to multiple AI models that you can select depending on the task at hand:
+
+![AI Agents available in VS Code with GitHub Copilot](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/vscode-agentes-ia.png)
+
+Model
+
+Provider
+
+Type
+
+Ideal for
+
+**Claude Opus 4.6**
+
+Anthropic
+
+Autonomous agent
+
+Large projects, migrations, complex debugging
+
+**Claude Sonnet 4**
+
+Anthropic
+
+Balanced agent
+
+Daily development, code review
+
+**GPT-4o**
+
+OpenAI
+
+Multimodal
+
+Varied tasks, visual analysis, prototyping
+
+**o3**
+
+OpenAI
+
+Reasoning
+
+Algorithms, optimisation, advanced logic
+
+**Gemini 2.5 Pro**
+
+Google
+
+Multimodal
+
+Massive context, complete repositories
+
+**Claude Haiku 3.5**
+
+Anthropic
+
+Ultra-fast
+
+Autocompletion, inline suggestions
+
+**What is Agent mode?**
+
+Agent mode is the most significant evolution of copilots. Unlike simple chat where the user asks and the AI replies, in **Agent mode** the AI can:
+
+*   🔍 **Search** the workspace: explore files, find patterns, understand the project structure.
+*   ✏️ **Edit** files: create new files, modify existing code, refactor.
+*   💻 **Run commands** in the terminal: install dependencies, run tests, compile.
+*   🔄 **Iterate**: if it finds an error, it analyses and fixes it autonomously.
+*   📋 **Plan**: breaks down complex tasks into steps and executes them sequentially.
+
+In essence, the agent becomes an **autonomous programming companion** that can carry out tasks from start to finish.
+
+#### 8\. Workflow with agents
+
+Once we have everything configured, the typical workflow with AI agents is as follows:
+
+![Workflow with terminal and AI agents](./assets/images/blog-entorno-desarrollo-vscode-copilot-agentes/vscode-terminal-workflow.png)
+
+**Step 1: Open the project**
+
+We open VS Code in the project directory. The explorer shows the file structure and Git detects the repository.
+
+Terminal
+
+```
+cd C:\Users\MyUser\Documents\GitHub\my-project
+code .
+```
+
+**Step 2: Start Copilot Agent**
+
+We open the Copilot Chat panel with `Ctrl+Shift+I`. We select the desired model (for example, **Claude Opus 4.6** for complex tasks) and enable **Agent mode** at the top of the chat.
+
+**Step 3: Describe the task**
+
+We tell the agent what we want to do. The more detailed the description, the better the result. For example:
+
+Example prompt
+
+```
+"Create a new blog article following the standard format 
+of existing articles. The article should be about how to set up 
+a development environment with VS Code and AI agents. Include images 
+and register the article in the AI category."
+```
+
+**Step 4: The agent works**
+
+The agent will analyse the project, look for patterns in existing articles, create the necessary files, generate images and register everything where it belongs. During the process you can see:
+
+*   The searches it performs in the workspace.
+*   The files it reads to understand the structure.
+*   The files it creates or modifies.
+*   The commands it runs in the terminal.
+*   The questions it may ask if it needs clarification.
+
+**Step 5: Review and commit**
+
+Once the agent finishes, we review the changes in the **Source Control** tab (`Ctrl+Shift+G`). VS Code shows a diff of all modified files. If everything looks good:
+
+Terminal
+
+```
+# Check the status of changes
+git status
+
+# Stage all changes
+git add .
+
+# Commit with a descriptive message
+git commit -m "feat: new article - VS Code development environment with Copilot and AI agents"
+
+# Push to the remote repository
+git push origin main
+```
+
+#### 9\. Tips and best practices
+
+Based on the experience of working with AI agents in VS Code, here are some practical tips:
+
+*   **Be specific in your instructions:** The clearer you are with the agent, the better the results. Specify format, style and project conventions.
+*   **Choose the right model:** For quick tasks use Sonnet or Haiku. For complex, multi-file tasks, Claude Opus 4.6 is the best choice.
+*   **Always review changes:** Agents are powerful but not infallible. Reviewing the diff before committing is essential.
+*   **Use `.gitignore`:** Make sure sensitive files (keys, local configurations) are excluded from the repository.
+*   **Commit frequently:** Making small, frequent commits makes it easier to revert changes if something goes wrong.
+*   **Useful additional extensions:**
+    *   _GitLens_ — Advanced Git history visualisation.
+    *   _Prettier_ — Automatic code formatting.
+    *   _Error Lens_ — Shows errors inline in the editor.
+    *   _Remote - SSH_ — Development on remote machines.
+*   **Integrated Terminal:** Take advantage of VS Code's terminal maintaining the workspace context. It's more efficient than using an external terminal.
+*   **Essential shortcuts:**
+    *   `Ctrl+Shift+I` — Open Copilot Chat / Agent.
+    *   `Ctrl+Shift+G` — Source Control (Git) panel.
+    *   `Ctrl+Shift+X` — Extensions panel.
+    *   `` Ctrl+` `` — Integrated Terminal.
+    *   `Ctrl+Shift+P` — Command Palette (search any action).
+
+#### 10\. Conclusion
+
+Setting up a development environment with VS Code, Git and AI agents is a minimal time investment that enormously multiplies productivity. The ability to have an autonomous agent that can search, edit, run and iterate on your code completely changes the way you work.
+
+The workflow described in this article is exactly what was used to create it: an AI agent (Claude Opus 4.6 via GitHub Copilot) analysed the project structure, created the images, wrote the content and registered the article in the corresponding categories. All from within VS Code, with Git backing up every step.
+
+The combination of VS Code + GitHub Copilot + AI Agents is, as of today, one of the most powerful tools for any developer or technical professional.
+
+28 February 2026
+
+**All trademarks, software and logos are the property of their respective owners.**
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Set Up a Development Environment with VS Code, GitHub Copilot and AI Agents](https://www.plc-hmi-scadas.com/en/blog/entorno-desarrollo-vscode-copilot-agentes/) — Pedro Pagán Pallarés*

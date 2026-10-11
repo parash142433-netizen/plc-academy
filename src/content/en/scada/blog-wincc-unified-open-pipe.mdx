@@ -1,0 +1,156 @@
+---
+title: "WinCC Unified Open Pipe"
+slug: "blog-wincc-unified-open-pipe"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-open-pipe/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","WinCC Unified","WinCC Unified"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified Open Pipe
+
+Jose Manuel Luque Mar 15, 2025
+
+SCADA WinCC Unified WinCC Unified
+
+![WinCC Unified Open Pipe](./assets/images/blog-wincc-unified-open-pipe/image-18.png)
+
+**WinCC Unified Open Pipe** is an interface that allows connecting custom applications to the **WinCC Unified Runtime.** **Open Pipe** provides a **limited** set of functionalities. However, its main advantage lies in flexibility, as the connection code can be written in any programming language that supports the "pipes" technology, such as **Python, Node.js** or **PowerShell**.
+
+After the description, you cannot miss the [documentation](https://support.industry.siemens.com/cs/document/109778823/simatic-hmi-wincc-unified-open-pipe?dti=0&lc=en-ES) you need :-)
+
+#### Enhancing your SCADA WinCC Unified Runtime
+
+The goal of the project is for our **Node.js** project to subscribe to the alarms of the **WinCC Unified Runtime** and, when it detects a **high priority** alarm, to play the alarm text through the speakers of the **SCADA Server** in the control room.
+
+#### General flow of the project:
+
+*   Create a project in **Node.js** that communicates with the **WinCC Unified Runtime** and allows us to subscribe to alarms to receive notifications.
+*   The steps to create the project once **Node.js** is installed
+
+![](./assets/images/blog-wincc-unified-open-pipe/Node.js-Setup.png)
+
+![](./assets/images/blog-wincc-unified-open-pipe/image-18.png)
+
+*   The **app.js** code that you can copy directly
+
+Code
+
+```
+const net = require('net');
+const express = require('express');
+const say = require('say');
+
+const app = express();
+const PORT = 3000;
+const pipePath = '\\\\.\\pipe\\HmiRuntime';
+
+let lastAlarmValue = "FALSE"; // Previous alarm state
+let clients = []; // List of connected clients
+
+// Connection with Open Pipe
+const client = new net.Socket();
+
+client.connect(pipePath, () => {
+  console.log('Connected to Open Pipe');
+
+  // Command to subscribe to alarms
+  const subscribeCommand = JSON.stringify({
+    Message: "SubscribeAlarm",
+    Params: {
+      SystemNames: [],
+      Filter: "Name = 'AlarmOpenPipe'",
+      LanguageId: 1033
+    },
+    ClientCookie: "myAlarmSubscription"
+  }) + '
+';
+
+  client.write(subscribeCommand);
+  console.log('Subscription sent to the server.');
+});
+
+// Listen for data from Open Pipe
+client.on('data', (data) => {
+  const response = data.toString();
+
+  try {
+    const jsonResponse = JSON.parse(response);
+
+    if (jsonResponse.Message === "NotifySubscribeAlarm") {
+      const alarms = jsonResponse.Params?.Alarms;
+
+      if (!alarms || alarms.length === 0) return;
+
+      alarms.forEach(alarm => {
+        const message = alarm.EventText?.trim();
+        const alarmValue = alarm.Value;
+
+        if (!message) return;
+
+        // Detect only the change from 0 to 1 (alarm activated)
+        if (lastAlarmValue === "FALSE" && alarmValue === "TRUE") {
+          console.log(`ALARM ACTIVATED: ${message}`);
+
+          // Send to subscribed clients and clear the list
+          clients.forEach(res => res.json({ alarm: alarm.Name, text: message }));
+          clients = [];
+
+          // Use voice to play the message
+          say.getInstalledVoices((voiceErr, voices) => {
+            if (!voiceErr) {
+              const chosenVoice = voices.find(v => v.toLowerCase().includes('helena'))
+                || voices.find(v => v.toLowerCase().includes('sabina'))
+                || 'Microsoft Helena Desktop';
+              say.speak(message, chosenVoice);
+            } else {
+              console.error('Error getting voices:', voiceErr);
+            }
+          });
+        }
+
+        lastAlarmValue = alarmValue; // Update alarm state
+      });
+    }
+  } catch (error) {
+    console.error('Error processing the response:', error);
+  }
+});
+
+// Connection error handling
+client.on('error', (error) => {
+  console.error('Connection error:', error);
+});
+
+// API for subscriptions
+app.get('/subscribe', (req, res) => {
+  clients.push(res);
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`API server running at http://localhost:${PORT}`);
+});
+```
+
+  
+And we have everything necessary set up...
+
+![](./assets/images/blog-wincc-unified-open-pipe/image-19.png)
+
+  
+And a picture is worth a thousand words… a few seconds of video!  
+Turn on the sound ;-)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC Unified Open Pipe](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-open-pipe/) — Jose Manuel Luque*

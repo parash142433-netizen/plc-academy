@@ -1,0 +1,76 @@
+---
+title: "WinCC Create WPF Controls"
+slug: "wincc-wpf"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_WPF.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Create WPF Controls"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Create WPF Controls
+
+Jose Manuel Luque
+
+WinCC Create WPF Controls
+
+**WinCC Create WPF Controls  
+**
+
+We have already seen the creation of ActiveX Controls, creation of .Net Controls, and in this article, we will see the creation of WPF Controls. First, the definition of the acronym WPF according to Microsoft _[Windows Presentation Foundation provides developers with a unified programming model for building rich Windows smart client user experiences that incorporate UI, media, and documents](http://msdn.microsoft.com/es-es/library/ms754130%28v=vs.110%29.aspx)_ and I recommend the link for information and already developed projects, with which we can familiarize ourselves and learn. In fact, the following practice is based on an Image Viewer, and taking advantage of the fact that I wanted to visualize images in my SCADA, here is the development followed.
+
+The first thing we do is create a new project, with the .Net Framework 3.5 and select WPF User Control Library.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_00.png)
+
+Making a comparison with Visual Basic.Net, in this type of projects, we have a \*.xaml file where we will develop the graphical environment and it is based on XML markup language for the configuration of the objects, that is, to configure properties, define setters, etc...
+
+On the other hand, we have the \*xaml.vb file in which we will develop our programming code, in this case developed in Visual Basic.net although it could be C++.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_01.png)
+
+If we switch to the \*.xaml.vb file, we will create the corresponding code for our objects, defining properties, functions, procedures, etc...
+
+In this object, I have created the property DirectoryImages, which will be the variable or static text that will reference the directory of interest.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_02.png)
+
+Considering that we have already implemented our control, we proceed as in the previous practice, to generate the solution, build, for the creation of our \*.dll.
+
+To know the location of our \*.dll, we go to the project properties, compile, and once generated, we can go to its directory.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_03.png)
+
+![](./assets/images/wincc-wpf/WinCC_WPF_04.png)
+
+Having generated our Control, we start WinCC and the Graphics Designer, and follow the same procedure. We can insert the control either from Smart Object or from Controls; here we will see the first case, we insert a Smart Object control --> WPF Control, it will show us all our controls and we examine to add the new one.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_06.png) ![](./assets/images/wincc-wpf/WinCC_WPF_05.png)
+
+We can now observe that our Control is displayed, we accept and with that, we have loaded it.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_07.png)
+
+On the right side, we have a ListBox to load the thumbnails of our images, and once we assign the path either statically or by variable, the images in our directory will be loaded.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_08.png)
+
+Here are the images that our Directory currently contains.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_09.png)
+
+And finally, we run the Runtime and check its operation; each time a thumbnail is selected, the image is displayed. With this, we have seen the 3 types of custom controls that we can add to WinCC: ActiveX Controls, .Net Controls, and finally WPF Controls.
+
+![](./assets/images/wincc-wpf/WinCC_WPF_11.png)
+
+February 15, 2014
+
+If you liked it or found it useful, share it ... :-)
+
+---
+*Source: [WinCC Create WPF Controls](https://www.plc-hmi-scadas.com/en/WinCC_WPF.php) — Jose Manuel Luque*

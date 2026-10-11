@@ -1,0 +1,76 @@
+---
+title: "AVEVA Intouch RDS - NAD"
+slug: "blog-intouch-rds-nad"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/intouch-rds-nad/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch RDS - NAD
+
+Jose Manuel Luque Jan 21, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch RDS - NAD](./assets/images/blog-intouch-rds-nad/WWRPDNAD_04.png)
+
+Continuing with the configuration of an [Intouch RDS](#/a/en%2Fblog-intouch-rdp-a), we have an important detail to see when working with retentive variables. According to the product documentation, it is supported in this type of architecture as long as NAD is used.  
+  
+In our example, we saw that we had two clients plus the server session.
+
+![](./assets/images/blog-intouch-rds-nad/WWRPDNAD_01.png)
+
+Once our remote session is started, we will see a couple of very useful **CMD** commands:
+
+The first of them is **hostname**: _It will return the name of the PC we are connected to_.  
+The second is **whoami**: _This command will return where we are and who we are._  
+Finally **quser**: _Which will return all the sessions that are running and by whom._  
+[Here](#/a/en%2Fblog-aveva-intouch-rds-cmd) are other examples so as not to extend this article too much.
+
+We have already seen the importance of the **console** session when it comes to **Alarms & Events**, we will reserve a new post for some concepts that we need to be clear about.
+
+![](./assets/images/blog-intouch-rds-nad/WWRPDNAD_02.png)
+
+From the server itself and with the necessary permissions, we will also see the users and processes that each session is executing
+
+![](./assets/images/blog-intouch-rds-nad/WWRPDNAD_03.png)
+
+Configuration of the Intouch manager
+
+Now we will move on to the configuration of each of the clients. We run the Intouch manager, depending on the permissions and user groups we belong to, it may be disabled.
+
+![](./assets/images/blog-intouch-rds-nad/WWRPDNAD_06-1024x679.png)
+
+Configuration of **Node properties**
+
+What we need to do in each of the sessions is to change to **Enable Network Application Development** and define a new directory for each one. I have previously created the directories for each session.  
+  
+With this configuration, what we are going to do is make a copy of the project to this new directory, so the configuration files for retentive variables will be saved for each session.  
+  
+Let’s remember that all memory variables are local variables, local scope variables of the application. And all I/O variables (PLC) are global variables, for all sessions.
+
+![](./assets/images/blog-intouch-rds-nad/WWRPDNAD_08.png)
+
+Projects of all sessions
+
+![](./assets/images/blog-intouch-rds-nad/WWRPDNAD_07.png)
+
+Runtime of our project
+
+![](./assets/images/blog-intouch-rds-nad/WWRPDNAD_09.png)
+
+Files where retentive values are stored.
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch RDS - NAD](https://www.plc-hmi-scadas.com/en/blog/intouch-rds-nad/) — Jose Manuel Luque*

@@ -1,0 +1,170 @@
+---
+title: "Web Embedding in WinCC Unified: Browser, iFrames and Security Policies"
+slug: "blog-embebido-web-wincc-unified-iframe-politicas-seguridad"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/embebido-web-wincc-unified-iframe-politicas-seguridad/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Unified","iframe","CSP","X-Frame-Options","TLS","Same Origin"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](https://www.plc-hmi-scadas.com/Home/) › [SCADA](https://www.plc-hmi-scadas.com/SCADA/) › [SIEMENS](https://www.plc-hmi-scadas.com/SCADA-SIEMENS/) › Web Embedding in WinCC Unified: Browser, iFrames and Security Policies
+
+# Web Embedding in WinCC Unified: Browser, iFrames and Security Policies
+
+A URL opening on its own in the browser does not guarantee it can be displayed inside a WinCC Unified Web Control. Learn the three layers that decide it.
+
+Jose Manuel Luque Apr 27, 2026
+
+WinCC Unified iframe CSP X-Frame-Options TLS Same Origin
+
+![Web Embedding in WinCC Unified: Browser, iFrames and Security Policies](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/embebido-web-wincc-unified-iframe-politicas-seguridad-02.png)
+
+**Navegar vs. Embeber: la distinción fundamental**
+
+La primera regla de oro cuando se trabaja con el **Web Control de WinCC Unified** (o con cualquier **Custom Web Control / CWC**) es la siguiente: **que una URL abra sola en Edge o Chrome no garantiza que pueda mostrarse dentro de un iframe**. Son dos operaciones distintas y el navegador las evalúa con reglas distintas.
+
+Cuando escribes una URL directamente en la barra de direcciones, el navegador carga ese documento como **documento principal** (top-level navigation). No existen ancestros, no hay contexto de frame. El servidor responde y el navegador muestra el contenido sin más restricciones de embebido.
+
+Cuando WinCC Unified carga esa misma URL dentro de un **Web Control**, el navegador trata ese elemento como un **subdocumento embebido**, exactamente igual que un `<iframe>`. En ese momento entran en juego tres capas de control que simplemente no existían en la navegación directa:
+
+*   **Cabeceras anti-frame** enviadas por el propio servidor (`X-Frame-Options`, `Content-Security-Policy: frame-ancestors`)
+*   **Same Origin Policy** del navegador (protocolo + host + puerto exactos)
+*   **Validez TLS** del certificado para la identidad exacta de la URL usada
+
+![Comparacion entre navegar una URL como documento principal y embeberla dentro de un iframe en WinCC Unified](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/diagrama-iframe-vs-top-level.svg)
+
+Entender estas tres capas, en ese orden, es la base para diagnosticar cualquier problema de embebido en Unified de forma eficiente y sin perderse en síntomas secundarios.
+
+**Cómo trata el navegador un iframe**
+
+Internamente, el **Web Control de WinCC Unified** es un contenedor de tipo `iframe`. El motor del navegador lo procesa como un documento anidado dentro de la jerarquía de la página contenedora. Este hecho tiene consecuencias prácticas muy concretas:
+
+*   El documento contenido tiene su propio contexto de origen, sus propias cookies y su propio estado de sesión, pero está **sandboxed** (aislado) según las reglas del navegador.
+*   Las cabeceras HTTP de la **respuesta del servidor** de la URL cargada son las que dictan si esa URL puede o no ser contenida. El servidor que contiene a Unified no tiene poder para cambiar esas cabeceras.
+*   Un aviso de _sandbox del iframe_ en la consola del navegador no es el bloqueo principal; simplemente confirma que el contenido ya se está evaluando como subdocumento embebido.
+*   La línea _"Provisional headers are shown"_ en la pestaña Network indica que la carga no llega a completarse como una navegación normal: la solicitud fue abortada antes de recibir respuesta.
+
+**Note on WinCC Unified sandbox:** The Web Control applies default `sandbox` attributes managed internally by Siemens to protect the Unified Runtime. This means that if the embedded web page tries to open pop-up windows via `window.open()`, submit forms, or run scripts requiring elevated permissions, those actions may fail silently even if the page works perfectly in a standalone browser. The cause is not an error in the target web — it is an explicit restriction because the Unified container does not include `allow-popups` or `allow-forms` in its `sandbox` attribute. In this case, the fix lies in the Web Control configuration inside the TIA Portal project, not in the target server's response headers.
+
+Con esta base clara, el análisis siempre debe empezar inspeccionando las **cabeceras de respuesta** de la URL objetivo. Ahí está la información más determinante.
+
+**X-Frame-Options**
+
+**X-Frame-Options**
+
+`X-Frame-Options` es la cabecera más antigua para controlar el embebido. Puede tomar tres valores:
+
+*   `DENY` — La página **nunca** puede mostrarse en un frame, sin excepciones.
+*   `SAMEORIGIN` — La página solo puede embeberse si el contenedor tiene **exactamente el mismo origen** (protocolo + host + puerto). En la práctica, esto excluye la mayoría de escenarios de Unified donde la URL objetivo vive en un servidor diferente.
+*   `ALLOW-FROM uri` — Permite el embebido solo desde el URI especificado. Está obsoleto y no se soporta en navegadores modernos.
+
+Un servidor puede enviar **ambas** cabeceras (`SAMEORIGIN` y `DENY`) si están mal configuradas o si hay capas middleware. En ese caso, el comportamiento más restrictivo prevalece.
+
+**Conclusión práctica:** si ves `X-Frame-Options: DENY` en los headers, el análisis puede cerrarse en ese punto. No es un problema de Unified, sino una decisión explícita del servidor de la aplicación objetivo.
+
+**Content-Security-Policy: frame-ancestors**
+
+`Content-Security-Policy` con la directiva `frame-ancestors` es hoy el mecanismo **más moderno y determinante**. Cuando está presente, los navegadores actuales la priorizan sobre `X-Frame-Options`. Los valores más habituales que vas a encontrar:
+
+*   `frame-ancestors 'none'` — Bloqueo total. La página no puede ser contenida en ningún frame bajo ninguna circunstancia. **El embebido queda descartado sin necesidad de seguir investigando.**
+*   `frame-ancestors 'self'` — Solo se permite el embebido desde el mismo origen exacto. Útil para recursos internos pero restrictivo en escenarios cross-origin.
+*   `frame-ancestors https:` — Se permite el embebido desde cualquier contenedor servido por HTTPS. El contenedor de Unified debe usar HTTPS para que este caso funcione.
+*   `frame-ancestors https://servidor-especifico/` — Solo se permite desde ese origen concreto.
+
+![Tia Portal Ayuda](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/embebido-web-wincc-unified-iframe-politicas-seguridad-05.png)
+
+**Content-Security-Policy: frame-ancestors**
+
+`Content-Security-Policy` con la directiva `frame-ancestors` es hoy el mecanismo **más moderno y determinante**. Cuando está presente, los navegadores actuales la priorizan sobre `X-Frame-Options`. Los valores más habituales que vas a encontrar:
+
+*   `frame-ancestors 'none'` — Bloqueo total. La página no puede ser contenida en ningún frame bajo ninguna circunstancia. **El embebido queda descartado sin necesidad de seguir investigando.**
+*   `frame-ancestors 'self'` — Solo se permite el embebido desde el mismo origen exacto. Útil para recursos internos pero restrictivo en escenarios cross-origin.
+*   `frame-ancestors https:` — Se permite el embebido desde cualquier contenedor servido por HTTPS. El contenedor de Unified debe usar HTTPS para que este caso funcione.
+*   `frame-ancestors https://servidor-especifico/` — Solo se permite desde ese origen concreto.
+
+![Diagrama de las tres capas de decision para el embebido: politicas anti-frame, same origin y TLS](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/diagrama-capas-embebido.svg)
+
+La ausencia de `frame-ancestors` en la respuesta **no significa que el embebido esté permitido** sin restricciones; simplemente indica que ese mecanismo no impone una restricción explícita, y el comportamiento final depende de la política del navegador y de otras cabeceras.
+
+**Ejemplo — TIA Administrator: bloqueo total por `frame-ancestors 'none'`**
+
+TIA Administrator es el caso más claro de bloqueo definitivo. El login en `https://localhost:8900/login` responde con `200 OK` en navegación directa, pero los headers contienen:
+
+```
+Content-Security-Policy: frame-ancestors 'none'
+```
+
+Esta directiva significa que la página **no puede ser contenida dentro de ningún frame ni iframe, sin excepciones**. Aunque el resto de la aplicación cargue correctamente, esta sola directiva basta para descartar el embebido en Unified.
+
+**Lección:** Cuando aparece `frame-ancestors 'none'`, el análisis puede cerrarse inmediatamente. No es un problema de WinCC Unified; es una restricción explícita impuesta por la propia aplicación. No tiene sentido seguir investigando same origin ni cookies.
+
+![Tia Portal Administrator](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/embebido-web-wincc-unified-iframe-politicas-seguridad-02.png)
+
+Y aqui el ejemplo dentro del Runtime con un CWC menos restrictivo que el original y como no podemos embeber la página  :-)
+
+![Tia Portal Administrator](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/embebido-web-wincc-unified-iframe-politicas-seguridad-08.png)
+
+**Capa 2 — Same Origin Policy (SOP)**
+
+La **Same Origin Policy (SOP)** no bloquea la carga del iframe, pero sí restringe lo que puede hacer el contenido una vez cargado. Un "origen" se define como la combinación exacta de tres componentes:
+
+*   **Protocolo**: `http://` ≠ `https://`
+*   **Host**: `localhost` ≠ `127.0.0.1` ≠ `192.168.1.54` ≠ `servidor.dominio.local`
+*   **Puerto**: `:443` ≠ `:8900` ≠ `:5112`
+
+Esto tiene implicaciones directas en el comportamiento de sesiones, cookies y llamadas JavaScript dentro del iframe:
+
+*   El script del documento contenido **no puede acceder al DOM** del contenedor si los orígenes son distintos.
+*   Las cookies marcadas como `SameSite=Strict` o `SameSite=Lax` **no se envían** en contextos cross-origin embebidos. Para flujos dentro de iframes cross-origin se necesita `SameSite=None; Secure`.
+*   Las peticiones AJAX desde el contenido embebido hacia un origen distinto están sujetas a CORS. El servidor debe incluir los headers `Access-Control-Allow-Origin` y `Access-Control-Allow-Credentials: true` con los valores correctos.
+*   El mismo servidor puede comportarse de forma diferente según si se accede por `localhost`, `127.0.0.1`, una IP o un hostname DNS, porque son orígenes distintos para el navegador.
+
+![Tabla visual de Same Origin Policy comparando protocolo, host y puerto](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/diagrama-same-origin.svg)
+
+**Capa 3 — TLS y la identidad exacta de la URL**
+
+A continuación se analizan los casos reales observados durante pruebas con el ecosistema Siemens. Cada caso ilustra uno o varios de los conceptos anteriores y deja una lección práctica clara.
+
+![Diagrama de validacion TLS entre la URL usada y las identidades CN y SAN del certificado](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/diagrama-tls-identidad-url.svg)
+
+Un problema de certificado y un bloqueo anti-iframe pueden coexistir. Corregir el certificado no elimina automáticamente el bloqueo de frame, y viceversa. Es fundamental diagnosticar **ambas capas por separado**.
+
+En esta segunda imagen, se muestra la configuración recomendada para evitar problemas de resolución en redes industriales:
+
+*   **Subject Alternative Name (SAN):** Se ha regenerado el certificado para incluir explícitamente el campo ``IP Address=192.168.1.111      Ahora el certificado cubre múltiples identidades. El navegador aceptará la conexión como segura tanto si el Web Control apunta al nombre `WSERVER-ENG` como si utiliza la dirección IP directa `192.168.1.111`. Incluir la IP en el SAN es una práctica esencial en entornos donde no existe un servidor DNS fiable, garantizando que el embebido web en WinCC Unified sea robusto y funcional en cualquier circunstancia de red``
+    
+
+![SAN Ip](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/embebido-web-wincc-unified-iframe-politicas-seguridad-07.png)
+
+En esta segunda imagen, se muestra la configuración recomendada para evitar problemas de resolución en redes industriales:
+
+*   **Subject Alternative Name (SAN):** Se ha regenerado el certificado para incluir explícitamente el campo  
+    `IP Address=192.168.1.111      `Ahora el certificado cubre múltiples identidades. El navegador aceptará la conexión como segura tanto si el Web Control apunta al nombre WSERVER-ENG como si utiliza la dirección IP directa 192.168.1.111. Incluir la IP en el SAN es una práctica esencial en entornos donde no existe un servidor DNS fiable, garantizando que el embebido web en WinCC Unified sea robusto y funcional en cualquier circunstancia de red
+    
+
+![SAN Ip](./assets/images/blog-embebido-web-wincc-unified-iframe-politicas-seguridad/embebido-web-wincc-unified-iframe-politicas-seguridad-06.png)
+
+**Conclusiones**
+
+El diagnóstico del embebido web en WinCC Unified se estructura siempre siguiendo las tres capas presentadas en este artículo, de fuera hacia dentro:
+
+1.  **¿Puede la página ser contenida? (Capa 1)** — Revisar `X-Frame-Options` y `Content-Security-Policy: frame-ancestors`. Si hay un bloqueo explícito (`DENY` o `frame-ancestors 'none'`), el análisis termina aquí. No es un problema de Unified, sino una decisión del servidor objetivo.
+2.  **¿Son coherentes los orígenes? (Capa 2)** — Verificar que el protocolo, host y puerto de la URL que usará Unified coinciden con lo que espera la aplicación objetivo. Detectar posibles problemas de cookies `SameSite` y de CORS para llamadas internas.
+3.  **¿Es válido el certificado para la URL exacta usada? (Capa 3)** — Validar que el certificado TLS cubre la identidad exacta de la URL (CN o SAN). Recordar que DNS e IPs son identidades distintas, y que un error de certificado en un iframe es un bloqueo definitivo sin posibilidad de bypass manual.
+
+Una vez superadas estas tres capas, queda el diagnóstico funcional: login, redirecciones SSO, cookies de sesión y tiempos de expiración deben probarse con la URL exacta que Unified va a cargar dentro del Web Control.
+
+El Web Control de Unified no cambia las reglas del navegador; simplemente las hace más visibles porque ya no se trata de navegación directa, sino de contenido embebido evaluado por un motor de seguridad que no hace excepciones.
+
+Resumiendo en una sola frase: **abrir en el navegador confirma que la web existe; embebir en Unified exige además que la aplicación permita ser contenida, que los orígenes sean coherentes, que el certificado cubra la identidad exacta de la URL, y que el flujo de sesión funcione dentro de un iframe.**
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [Web Embedding in WinCC Unified: Browser, iFrames and Security Policies](https://www.plc-hmi-scadas.com/en/blog/embebido-web-wincc-unified-iframe-politicas-seguridad/) — Jose Manuel Luque*

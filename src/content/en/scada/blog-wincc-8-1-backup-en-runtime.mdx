@@ -1,0 +1,70 @@
+---
+title: "WinCC 8.1 Backup in Runtime"
+slug: "blog-wincc-8-1-backup-en-runtime"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-8-1-backup-en-runtime/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","WinCC","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC 8.1 Backup in Runtime
+
+Jose Manuel Luque Mar 29, 2025
+
+SCADA WinCC WinCC
+
+![WinCC 8.1 Backup in Runtime](./assets/images/blog-wincc-8-1-backup-en-runtime/image-42.png)
+
+This new feature of version **WinCC 8.1** deserves a **article** :-)  
+  
+Ten years ago, I wrote this [post](https://plc-hmi-scadas.com/WinCC_Backup_WinCCRuntime.php) to implement this functionality... Of course, it had a lot to improve, but on more than one occasion it fulfilled its purpose ;-)  
+That said, you should know that with the application **CCStartStop** this functionality is included.
+
+What functionalities does this application offer:
+
+Code
+
+```
+CCStartStop.exe /?
+```
+
+![](./assets/images/blog-wincc-8-1-backup-en-runtime/WinCCBackupOnline-5-1024x638.png)
+
+  
+Compared to the previous version **WinCC V8.0,** where we already had some functionalities :-)
+
+![](./assets/images/blog-wincc-8-1-backup-en-runtime/image-41.png)
+
+  
+Executed without arguments, it returns project information.
+
+![](./assets/images/blog-wincc-8-1-backup-en-runtime/WinCCBackupOnline-6.png)
+
+  
+And to perform the backup while in Runtime.
+
+Code
+
+```
+CCStartStop.exe /b /to:C:\Backups
+```
+
+![](./assets/images/blog-wincc-8-1-backup-en-runtime/image-42.png)
+
+  
+And here is our online backup, where it is clear that what it does is a backup of the databases, so that the runtime does not have to be stopped :-)
+
+![](./assets/images/blog-wincc-8-1-backup-en-runtime/2025-03-29-16_30_42-PHSTraining.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC 8.1 Backup in Runtime](https://www.plc-hmi-scadas.com/en/blog/wincc-8-1-backup-en-runtime/) — Jose Manuel Luque*

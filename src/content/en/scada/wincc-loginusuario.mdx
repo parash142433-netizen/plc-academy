@@ -1,0 +1,60 @@
+---
+title: "WinCC LogOn - LogOut"
+slug: "wincc-loginusuario"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_LoginUsuario.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","LogOn","LogOut","Scada"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC LogOn - LogOut
+
+Jose Manuel Luque
+
+WinCC LogOn LogOut Scada
+
+**WinCC LogOn / LogOut  
+**
+
+In this tutorial, we will see several ways to log in to our WinCC, assuming that we have created user groups, users, and assigned the corresponding permissions to each of them, just as we have used the properties corresponding to the permissions in the created screens (pdl) to change variable values, open screens, etc...
+
+Well, the first and simplest method is as follows, right-click on the name of our project and select properties.
+
+![](./assets/images/wincc-loginusuario/WinCCADLogon_29.png)
+
+The following properties dialog opens, and if we go to the Shortcuts tab, we have 4 available actions. We can assign a key combination to each of them; for the Log on function, I assigned Ctrl+L and then clicked the Assign button, and that's it.
+
+![](./assets/images/wincc-loginusuario/WinCCADLogon_27.png) ![](./assets/images/wincc-loginusuario/WinCCADLogon_28.png)
+
+To log off, we do exactly the same, and in my case, I assigned it as shown in the image, Ctrl + Shift + L.
+
+Once we are in Runtime and use this type of key combination or the log in one, the window will appear for that. When we log off, we will be logged out and will not see any window.
+
+It is always advisable to use the internal variables we have to know which user is logged in at all times.
+
+If for any reason we have disabled the use of key combinations, we will move on to the code that will perform the same functions as described.
+
+We will use C code, and the code we will use is the following, which we will use in a button, [here I explained](#/a/en%2Fwincc-menu-vbs) a method to have these functions in the menu.
+
+**LogOff Function**
+
+![](./assets/images/wincc-loginusuario/WinCCADLogon_31.png)
+
+**LogOn Function**
+
+![](./assets/images/wincc-loginusuario/WinCCADLogon_32.png) ![](./assets/images/wincc-loginusuario/WinCCADLogon_33.png)
+
+**Auto LogOn Function**
+
+June 13, 2016
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC LogOn - LogOut](https://www.plc-hmi-scadas.com/en/WinCC_LoginUsuario.php) — Jose Manuel Luque*

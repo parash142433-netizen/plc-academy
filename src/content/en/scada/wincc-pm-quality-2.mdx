@@ -1,0 +1,113 @@
+---
+title: "WinCC - PM Quality (PM-Server & Stations)"
+slug: "wincc-pm-quality-2"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_2.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC - PM Quality PM-Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC - PM Quality (PM-Server & Stations)
+
+Jose Manuel Luque 16 May, 2020
+
+WinCC - PM Quality PM-Server
+
+**WinCC - PM Quality (PM-Server & Stations)**
+
+![](./assets/images/wincc-pm-quality-2/vba-logo.png) ![](./assets/images/wincc-pm-quality-2/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+In the [previous article](#/a/en%2Fwincc-pm-quality-1), we only discussed some basic concepts and continuing with the architecture we have proposed, we will proceed.
+
+![](./assets/images/wincc-pm-quality-2/PM_QUALITY_Start_4.png)
+
+The first thing we are going to configure is a new station, to link it with our WinCC, and to define the data exchange between both.
+
+By default, if we select Project: PMSERVER, this is the main screen, for now we are not going to make any changes, except for the language, which we set to English and leave the default values. As we progress in practice, we will modify and adjust...
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_1.png)
+
+We start the process of adding a new station, we can do this with the + symbol or right-click new station
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_2.png)
+
+The wizard starts, and for our example, the one we are interested in is the PM-Agent Unified Station.
+
+At this point, some basic concepts about this component:
+
+There are two versions of PM-AGENT. I am using WinCC V7.5 SP1, so the PM-Agent used is the PM Agent Unified, for versions prior to V7.5 the PM-Agent is used, this is one of the novelties of the latest version of PM-Quality V.10, and this is because we can also use WinCC Unified, hence the name ;-)
+
+And the first question I asked myself... What is this component for? Well, this is the one responsible for communication between WinCC and the PM-Quality plugins (PM-SERVER)  
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_3.png)
+
+Continuing with the wizard, we assign the name we are interested in to our new station
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_4.png)
+
+We are working in a Stand Alone architecture, so Local System, which will ultimately translate to Standalone system on the network
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_5.png)
+
+And we finish the wizard.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_6.png)
+
+For now in the stations, we have already added it, but the configuration is not correct because it needs to be completed.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_7.png)
+
+If we select the station we just added, we see an error symbol in the certificate, we can solve this simply with the check button and confirming the message
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_8.png)
+
+Certificate added and correct. You can verify this in the Certificates section.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_10.png)
+
+We only have a warning left in our station and we will solve this by adding Project Key, right-click on our station.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_11.png)
+
+And the PM-Agent runs. We select WinCC 7 / RT Prof, which is the system we have, and of course if it were WinCC Unified what would be the option to select.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_12.png)
+
+And now, we see a 1 in Trusted Connections, we click on that notification
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_13.png)
+
+And we have a request that we will select to add it.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_14.png)
+
+We confirm that yes.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_15.png)
+
+And we have configured our connection.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_16.png)
+
+Now we have our station configured correctly.
+
+At this step, we are ready to import Tags, Permissions, Alarm Logging, and Tag Logging.
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_19.png)
+
+And to see that everything is correct, as the saying goes, a picture is worth a thousand words...
+
+We do not have the Runtime started but for now, all the configuration is correct. And we continue in the next [article](#/a/en%2Fwincc-pm-quality-3).
+
+![](./assets/images/wincc-pm-quality-2/PM_Server_18.png)
+
+16-05-2020
+
+---
+*Source: [WinCC - PM Quality (PM-Server & Stations)](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_2.php) — Jose Manuel Luque*

@@ -1,0 +1,69 @@
+---
+title: "Common Industrial Protocol (CIP) Ethernet/IP"
+slug: "blog-ethernet-ip-cip-common-industrial-protocol"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/ethernet-ip-cip-common-industrial-protocol/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["NETWORKS"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# Common Industrial Protocol (CIP) Ethernet/IP
+
+Jose Manuel Luque Mar 19, 2023
+
+NETWORKS
+
+![Common Industrial Protocol (CIP) Ethernet/IP](./assets/images/blog-ethernet-ip-cip-common-industrial-protocol/CIP.png)
+
+Within all the information available on the internet, I will leave some lines and basic concepts about the industrial communication protocol, Ethernet/IP. From there, one can delve into much more detail. First of all, to have that good foundation we need to visit [ODVA](https://www.odva.org/) where we will find all the necessary information to consolidate our knowledge.  
+  
+Among all the communication protocols encompassed by CIP (_**Ethernet/IP, CompoNet, ControlNet, DeviceNet**_), we will focus on **Ethernet/IP** and a very graphical scheme would be as follows:
+
+![](./assets/images/blog-ethernet-ip-cip-common-industrial-protocol/CIP.png)
+
+One of the concepts we need to be clear about is that it is based on the OOP model **Object Oriented Programming**
+
+*   Object (Class)
+    *   Attributes
+
+From here, what we have are instances of those classes; each instance has a unique identifier and we can access its attributes. To access these attributes we will use the **Services Codes**, a code associated with what we are interested in doing, Get\_Attribute, Set\_Attribute...  
+  
+Let's see the following example:
+
+![](./assets/images/blog-ethernet-ip-cip-common-industrial-protocol/Omron_EthernetIP_1.png)
+
+Now let's see another example for ABB drives.
+
+![](./assets/images/blog-ethernet-ip-cip-common-industrial-protocol/ABB_EthernetIP_3-1.png)
+
+![](./assets/images/blog-ethernet-ip-cip-common-industrial-protocol/ABB_EthernetIP_4.png)
+
+Another of the most important concepts we need to know is the type of messages available in communications.
+
+*   **Explicit messaging**
+*   **Implicit messaging**
+
+The big difference between these two types is as follows:
+
+**Explicit messaging** is the type of communication used when it is not critical, that is, it is non-deterministic.
+
+**Implicit messaging** is used for real-time communications under the protocol (UDP/IP); the clearest examples are in I/O communications and when configuring communications between two controllers (Data Consumers / Data Produced). Typically, these are point-to-point communications.  
+[Example of two controllers from Rockwell Automation](https://plc-hmi-scadas.com/117.php)
+
+In the manuals of the devices we want to communicate with, we will see how it specifies which memory we can access explicitly.
+
+  
+In this type of communication, another very important parameter comes into play: **Requested Packet Interval (RPI)**. It is the frequency at which data transfer is required between both devices.
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Common Industrial Protocol (CIP) Ethernet/IP](https://www.plc-hmi-scadas.com/en/blog/ethernet-ip-cip-common-industrial-protocol/) — Jose Manuel Luque*

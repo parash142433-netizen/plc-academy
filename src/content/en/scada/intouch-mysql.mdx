@@ -1,0 +1,67 @@
+---
+title: "Intouch  - MySQL DataBase"
+slug: "intouch-mysql"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_MySQL.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch - MySQL DataBase"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Intouch - MySQL DataBase
+
+Jose Manuel Luque 01 Jun, 2019
+
+Intouch - MySQL DataBase
+
+**Intouch - MySQL DataBase**
+
+![](./assets/images/intouch-mysql/vba-logo.png) ![](./assets/images/intouch-mysql/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+In this article, we will cover the essentials for communicating Intouch with a MySQL database, just as we did with [Oracle](#/a/en%2Fintouch-db-oracle).
+
+By default, although we have mentioned it before, if we try to establish communication without preparing the equipment, we will not be able to do so, so we need to follow some steps.
+
+1.- Installation of MySQL Connector / ODBC Version, we will see this next.
+
+We start and perform the complete installation of MySQL Connector/ODBC 8.0, which is the current version.
+
+![](./assets/images/intouch-mysql/WinCC_MySQL_DB_01.png)
+
+Once the installation is complete, and very importantly the 32-bit version, we can check that we have two new drivers available.
+
+![](./assets/images/intouch-mysql/WinCC_MySQL_DB_03.png)
+
+If you are reading this article and are new to Wonderware Intouch, I suggest you review this other [article](#/a/en%2Fintouch-db-oracle), to reach the point where we are. If, on the contrary, you are up to date, we are creating a new symbol, where we associate the following code.
+
+**IMPORTANT** _DRIVER={MySQL ODBC 8.0 UNICODE Driver}_ will vary depending on the installed version or the one we install.
+
+While working with Visual Basic .Net, note that in this case we are using ODBC and not OLEDB.
+
+As additional information, if you want to try using OLEDB, there will be an error because we are not defining any PROVIDER.
+
+[Here you can see the other variant, where a new Data Source is defined.](#/a/en%2Fintouch-odbc)
+
+![](./assets/images/intouch-mysql/Intouch_Oracle_06.png)
+
+We insert our new symbol on a screen and test the Runtime.
+
+![](./assets/images/intouch-mysql/Intouch_Oracle_09.png)
+
+![](./assets/images/intouch-mysql/Intouch_Oracle_10.png)
+
+And the values that are in the Database.
+
+![](./assets/images/intouch-mysql/WinCC_MySQL_DB_13.png)
+
+[Download the Code text](https://www.plc-hmi-scadas.com/Download/VBNET%20Intouch.txt)
+
+01-06-2019
+
+---
+*Source: [Intouch  - MySQL DataBase](https://www.plc-hmi-scadas.com/en/Intouch_MySQL.php) — Jose Manuel Luque*

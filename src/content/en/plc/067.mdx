@@ -1,0 +1,113 @@
+---
+title: "Create FB in Control Builder Plus"
+slug: "067"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/067.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ABB"]
+tags: ["ABB","PLC","Automata","FB","Control Builder Plus"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ABB](#/a/en%2Fother-plcs) › Article
+
+# Create FB in Control Builder Plus
+
+Jose Manuel Luque
+
+ABB PLC Automata FB Control Builder Plus
+
+**Create Function Block in Control Builder Plus**
+
+In the previous practice, we saw how to create a project in Control Builder with a simple example. In this one, I will explain how to create a Function and at the same time one that I had already done for a Siemens PLC, Allen Bradley, Schneider, and Omron, which you can see in the InfoPLC forum [here](http://www.infoplc.net/foro/showthread.php?12140-Programaci%F3n-Estructurada) 
+
+We start from the assumption that we have already created our project and we add a new Object of the type Function Block in the language that interests us, in this case, Structured Text ST
+
+![](./assets/images/067/ABB%20Control%20Builder%20129.png)
+
+![](./assets/images/067/ABB%20Control%20Builder%20130.png)
+
+Our Function Block is as shown, and what it does is acquire values and calculate the average of the records to try to avoid fluctuations that may occur. This function can serve as a guide and be adapted according to needs.
+
+![](./assets/images/067/ABB%20Control%20Builder%20132.png)
+
+Once the Function is completed, we can compile it and check for possible errors. If everything is correct, we can instantiate our function. To do this, we need to create a new variable and declare it of the type of the function, as observed with the declaration of the variable filter. Another example would be the use of the rising edge function, we declare edge of type R\_TRIG.
+
+Once the variables are declared, we can insert them, and the example would be as follows:
+
+![](./assets/images/067/ABB%20Control%20Builder%20133.png)
+
+Once again, before simulating our function, we compile everything we have done and we can simulate.
+
+![](./assets/images/067/ABB%20Control%20Builder%20137.png)
+
+The process to start the simulation was covered as I mentioned in the previous practice, so we will skip it and proceed to force values and see the operation, which is correct as desired.
+
+![](./assets/images/067/ABB%20Control%20Builder%20134.png)
+
+![](./assets/images/067/ABB%20Control%20Builder%20135.png)
+
+![](./assets/images/067/ABB%20Control%20Builder%20136.png)
+
+For this practice, we have the collaboration of Fermín, who has modified the function according to his needs, although with the same purpose, and he has provided me with the following images of its operation. Thank you very much!!!
+
+![](./assets/images/067/ABB%20Control%20Builder%20143.png)
+
+In the following images, we can observe it in operation, and the graph shows considerable stability.
+
+![](./assets/images/067/ABB%20Control%20Builder%20141.png)
+
+![](./assets/images/067/ABB%20Control%20Builder%20140.png)
+
+And an image of the Synoptic, where the values obtained in mA, which is the result obtained from the function, are highlighted.
+
+![](./assets/images/067/ABB%20Control%20Builder%20138.png)
+
+The code of the function is as follows:
+
+IF IN\_1=0 THEN               
+
+IN\_1:= IN;
+
+IN\_2:= IN;
+
+IN\_3:= IN;
+
+IN\_4:= IN;
+
+IN\_5:= IN;
+
+IN\_6:= IN;
+
+IN\_7:= IN;
+
+IN\_8:= IN;
+
+END\_IF
+
+OUT:= (IN + IN\_1 + IN\_2+ IN\_3+ IN\_4+ IN\_5 + IN\_6+ IN\_7+ IN\_8)/9;
+
+IN\_8:=IN\_7;
+
+IN\_7:=IN\_6;
+
+IN\_6:=IN\_5;
+
+IN\_5:=IN\_4;
+
+IN\_4:=IN\_3;
+
+IN\_3:=IN\_2;
+
+IN\_2:=IN\_1;
+
+IN\_1:=IN;
+
+![](./assets/images/067/ABB%20ac500.jpeg)
+
+January 27, 2013
+
+---
+*Source: [Create FB in Control Builder Plus](https://www.plc-hmi-scadas.com/en/067.php) — Jose Manuel Luque*

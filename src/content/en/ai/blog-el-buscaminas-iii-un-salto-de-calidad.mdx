@@ -1,0 +1,178 @@
+---
+title: "Minesweeper III: \"A Quality Leap\""
+slug: "blog-el-buscaminas-iii-un-salto-de-calidad"
+locale: "en"
+category: "ai"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/el-buscaminas-iii-un-salto-de-calidad/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","AI","CóDIGO GENERADO POR IA"]
+tags: ["Artificial Intelligence","Claude Opus 4.6","ChatGPT","AI Evolution","Code Generation"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [AI](#/a/en%2Fai) › [CóDIGO GENERADO POR IA](#/a/en%2Fai-code) › Article
+
+# Minesweeper III: "A Quality Leap"
+
+Pedro Pagán Pallarés Feb 22, 2026
+
+Artificial Intelligence [Claude Opus 4.6](https://www.anthropic.com/claude) ChatGPT AI Evolution Code Generation
+
+![Minesweeper III - A Quality Leap](./assets/images/blog-el-buscaminas-iii-un-salto-de-calidad/buscaminas-3d-hero.png)
+
+## Minesweeper as an AI Benchmark
+
+Since January 2023, we have been using the same challenge — _"generate a functional Minesweeper"_ — as a thermometer to measure the real capability of generative AI models. Why Minesweeper? Because it seems trivial, but it is not: it requires managing two-dimensional arrays, controlled recursion (flood-fill), event management, multiple states per cell, and complex conditional logic. It is the type of problem that exposes an LLM that only knows how to copy patterns.
+
+Today, three years and three generations of models later, the results speak for themselves.
+
+## Comparison: 3 Generations of Models
+
+Aspect
+
+V1 — OpenAI Playground  
+January 2023
+
+V2 — ChatGPT 4o + Canvas  
+December 2024
+
+V3 — [Claude Opus 4.6](https://www.anthropic.com/claude)  
+February 2026
+
+Prompts Needed
+
+5-8 iterations + manual correction
+
+3 well-structured prompts
+
+1 single prompt
+
+Bugs in First Output
+
+Broken grid, infinite propagation, visible mines
+
+Minor: some edge cases at borders
+
+None detected
+
+Safe First Click
+
+❌ Not implemented
+
+✅ Yes
+
+✅ Yes (3×3 safe area)
+
+Chord Click
+
+❌
+
+❌
+
+✅ Implemented
+
+Difficulty Levels
+
+Fixed (15×15)
+
+Fixed (improved)
+
+3 levels (9×9 / 16×16 / 16×30)
+
+Interface
+
+Basic HTML table, flat colors
+
+Modern CSS, colors by number
+
+3D, industrial panel, 7-segment displays, status LEDs, metal frame
+
+Responsive / Mobile
+
+❌
+
+Partial
+
+✅ 3 breakpoints + long-press mobile
+
+Extras
+
+None
+
+Mine counter
+
+Records, stats, keyboard shortcuts, cascading animations, stagger reveal
+
+Lines of Code
+
+~120
+
+~300
+
+~1000 (CSS+JS)
+
+Human Intervention
+
+High — debug and rewrite
+
+Medium — fine adjustments
+
+Minimal — only the prompt
+
+👉 [Read the V1 article (2023)](#/a/en%2Fblog-minesweeper-with-artificial-intelligence)  ·  👉 [Read the V2 article (2024)](#/a/en%2Fblog-minesweeper-programmed-with-artificial-intelligence-remastered-24-25)
+
+## Impressions After 3 Years of Evolution
+
+**2023 — OpenAI Playground:** Asking AI for a Minesweeper was like supervising a junior's practices. It understood the general concept, but the grid broke, recursion entered an infinite loop, and mines were visible from the start. The impressive part was that it generated _something_, but the result needed hours of human debugging to be usable.
+
+**2024 — ChatGPT 4o with Canvas:** The leap was real. There were no structural bugs; the AI understood flood-fill, generated clean CSS, and even implemented the safe first click without being asked. But you still needed to guide the process: initial prompt, correction, refinement. Three rounds to get to something publishable.
+
+**2026 — [Claude Opus 4.6](https://www.anthropic.com/claude):** This is where things change category. A single detailed prompt and the result is a complete game with 3 difficulty levels, elaborate 3D aesthetics with an industrial panel, animations (the mine cascade when losing is spectacular), chord-click, a record system with `localStorage`, touch support for mobile, and keyboard shortcuts. **No bugs detected in the first execution.**
+
+What impresses the most is not the amount of code — it's ~1000 lines, something a senior could write in a couple of days. What impresses is the **architectural coherence**: the model separates state and presentation, uses consistent CSS variables, implements an IIFE to avoid polluting the global scope, correctly manages event listeners, and has solid stopping conditions in recursion. It does not copy fragments — **it reasons about the complete problem**.
+
+Does it replace the programmer? No. But it changes the role: from _writing code_ to _designing prompts and validating results_. The well-structured prompt is the new source code.
+
+## 🎮 Version 3.0 — 3D Minesweeper ([Claude Opus 4.6](https://www.anthropic.com/claude))
+
+Result of a single prompt. Complete Minesweeper with industrial control panel aesthetics: 3D buttons with physical depth, metal frame with screws, seven-segment displays, status LEDs, and impact animations.
+
+**Controls:** Left click = uncover · Right click (or long press on mobile) = mark flag ⚡ · Click on revealed number = chord (opens adjacent if flags match) · Keys: `R` restart, `1/2/3` difficulty.
+
+MINESWEEPER 3D v3.0
+
+Easy Medium Hard
+
+Mines
+
+010
+
+🔄
+
+Time
+
+000
+
+READY Record: \--- Cells: 0/71
+
+💥
+
+GAME OVER
+
+New Game
+
+## Conclusion
+
+Minesweeper has not changed in three years. The challenge is the same. What has changed radically is **the ability of AI to solve it**.
+
+From a model that generated broken code and needed 8 iterations for something functional, we have moved to another that produces a complete application — with clean architecture, professional aesthetics, responsive, bug-free — in a single conversation turn. That is not an incremental improvement; it is a category change.
+
+For us, who have been documenting this evolution since 2023, the conclusion is clear: **generative AI is no longer a curious assistant — it is a serious production tool**. And the most interesting thing is that this is just the current state. Within a year, this same article will likely seem modest.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Minesweeper III: "A Quality Leap"](https://www.plc-hmi-scadas.com/en/blog/el-buscaminas-iii-un-salto-de-calidad/) — Pedro Pagán Pallarés*

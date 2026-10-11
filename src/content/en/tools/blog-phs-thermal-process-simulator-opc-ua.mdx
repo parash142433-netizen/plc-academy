@@ -1,0 +1,220 @@
+---
+title: "PHS Thermal Process Simulator: simulate processes and control them through OPC UA"
+slug: "blog-phs-thermal-process-simulator-opc-ua"
+locale: "en"
+category: "tools"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/phs-thermal-process-simulator-opc-ua/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Tools"]
+tags: ["PHS Simulator","OPC UA","S7-1500","PLCSIM Advanced","Processes"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Tools](#/a/en%2Ftools) › PHS Thermal Process Simulator
+
+# PHS Thermal Process Simulator: simulate processes and control them through OPC UA
+
+A virtual physical plant, ready to start, connect an OPC UA client PLC and test level, temperature, alarm and sequence control.
+
+Pedro Pagán Pallarés Jul 29, 2026
+
+PHS Simulator OPC UA S7-1500 PLCSIM Advanced Processes
+
+![PHS Thermal Process Simulator controlling a physical process from a PLC through OPC UA](./assets/images/blog-phs-thermal-process-simulator-opc-ua/phs-thermal-process-simulator-opc-ua-portada.png)
+
+Open Source
+
+## Download PHS Thermal Process Simulator
+
+Try the simulator on Windows and control the process from your OPC UA client PLC.
+
+ I accept that the program is provided for educational use and that the rights belong to PLC-HMI-SCADAS. Download Open Source
+
+This article shows how **PHS Thermal Process Simulator** works: a tool created to practice physical process control without having the real plant on the desk. The application runs a process model in the browser and exposes the required variables through **OPC UA**, so a PLC can read states and write commands.
+
+For more complex and complete industrial simulations there is [Siemens SIMIT](https://www.siemens.com/en-us/products/simit/); here the goal is something lighter, direct and ready for quick practice.
+
+The workflow is simple: start the program, open the simulator, switch to remote mode and control the process from an OPC UA client PLC. In this example the natural case is a **Siemens S7-1500** with **PLCSIM Advanced**, but the same concept applies to any controller that can work as an OPC UA client.
+
+Demo of the simulator starting, switching modes and responding to PLC control through OPC UA.
+
+**What it is for**
+
+The purpose is not to replace complex commercial full-simulation platforms, but to provide a direct teaching tool: a small virtual plant that behaves like a physical process and can be controlled from a PLC.
+
+It lets you test filling, draining, transfer, heat exchange, alarms, permissives, sequences and regulation before moving to a real installation. When there is no pump, valve, tank or sensor available on the bench, the simulator becomes the plant.
+
+### Plug and play approach
+
+The package is prepared to run with a double click. It includes the executable and the required dependencies, so you do not need to build a Python environment or install libraries manually to use it.
+
+At startup, the application launches the local server, opens the web interface and exposes the OPC UA server from the PC where it is running.
+
+**Live process**
+
+Equipment and fluids respond to commands and to the simplified physics of the model.
+
+**Realistic control**
+
+The PLC must keep communication alive, write setpoints and check states.
+
+**Training**
+
+Guided tutorials make it possible to practice concrete objectives step by step.
+
+### Minimum requirements
+
+*   **Windows 10 or 11, 64-bit.**
+*   **A PLC or PLC simulator** able to work as an OPC UA client.
+*   **Reachable network path between the PLC and the PC** running the simulator.
+*   To follow the Siemens example, it is useful to review [OPC UA Client in a Siemens S7-1500 PLC with TIA Portal](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500) first.
+
+![PHS Thermal Process Simulator startup screen](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-03.png)
+
+Initial screen while the OPC UA server and web interface start.
+
+**Startup and interface**
+
+### Running the package
+
+After extracting the package, run the main program. The folder includes the executable and the internal elements required for the application to work autonomously.
+
+After startup, the browser opens with the model loaded. From there you can monitor values, operate in local mode or prepare remote control.
+
+![Main PHS Thermal Process Simulator interface open in the browser](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-04.png)
+
+Web interface with the process and the side panel for control and tutorials.
+
+### Light and dark mode
+
+The interface can switch between light and dark mode. This does not change the model behavior; it only helps you work more comfortably depending on the environment, lighting or screenshots you want to prepare for documentation.
+
+![PHS Thermal Process Simulator in dark mode](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-05.png)
+
+**Available modes and models**
+
+### Local and remote
+
+The simulator has two working modes:
+
+*   **Local:** the process is controlled directly from the web interface.
+*   **Remote (PLC):** the plant is governed by commands received from the PLC through OPC UA.
+
+When the simulator is switched to remote mode, control logic must come from outside. The model is no longer just a visual demo; it becomes a plant waiting for coherent commands from a controller.
+
+![Remote PLC mode selector in PHS Thermal Process Simulator](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-06.png)
+
+### Transfer, heat and recovery
+
+The tool includes several models for different complexity levels:
+
+**Transport / transfer**
+
+Move fluid from one tank to another using a pump and valves.
+
+**Heat**
+
+Exchange energy to heat the fluid during transfer.
+
+**Heat and cold with recovery**
+
+Heat, cool and reuse part of the energy from the previous process stage.
+
+![Fluid transport and transfer model](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-07.png)
+
+Transport model: tanks, pump, valves and status signals.
+
+![Heat model with exchanger for temperature control](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-08.png)
+
+Heat model: heat exchange is added to practice regulation.
+
+![Heat and cold model with energy recovery](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-09.png)
+
+Recovery model: more variables, more states and more control decisions.
+
+**PLC control through OPC UA**
+
+The interesting part starts when the simulator enters remote mode. From that point on, the system responds to commands written by the PLC and keeps states, measurements and alarms updated so the control program can make decisions.
+
+The simulation runs on the IP address of the PC where the program is executed and publishes OPC UA on port `4840`. The endpoint follows this pattern:
+
+OPC UA Endpoint
+
+```
+opc.tcp://PC_IP:4840
+```
+
+### Connection and endpoint
+
+The first step in the guided tutorial is to check communication. There must be an OPC UA client permanently connected to the simulator server. In Siemens, this means preparing the client interface, importing or browsing nodes and downloading the project to the PLC or to PLCSIM Advanced.
+
+![Guided tutorial asking to check the OPC UA connection](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-12.png)
+
+First tutorial step: verify that the OPC UA connection is open.
+
+![Siemens project with OPC UA client connected to the simulator server](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-13.png)
+
+OPC UA client in TIA Portal connected to the server exposed by the simulator.
+
+### Write lists
+
+It is better not to write directly to any model variable. The recommended approach is to build the control program around the **Write Lists**: prepared lists where the PLC writes commands, setpoints or valve openings in an orderly way.
+
+The simulation speed can also be adjusted from the corresponding variables. This allows slower tests for debugging or faster runs to see the full process evolution.
+
+![OPC UA simulator variables organized for read and write access](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-15.png)
+
+![Simulation speed control from the tutorial panel](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-16.png)
+
+The simulation can be accelerated or paused to tune control tests.
+
+### Guided tutorial
+
+In addition to manual control, the program includes guided tutorials with concrete objectives. In the transport model, for example, the goal is to fill the initial tank. To do that from the PLC, the matching valve must be opened, the flow must appear and the checklist must continue advancing.
+
+In this test, valve **FV-100** is opened to **55 %**. There is no special regulation yet: it is a simple write from the PLC to verify that the model responds.
+
+![Guided tutorial panel in the simulator](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-10.png)
+
+![OPC UA Write List writing the FV-100 valve opening to 55 percent](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-18.png)
+
+PLC write: FV-100 opening set to 55 % through the write list.
+
+![The model reflects the FV-100 valve opening](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-19.png)
+
+The model reflects the received command and the process starts behaving accordingly.
+
+![Tutorial checklist advancing after PLC control is executed](./assets/images/blog-phs-thermal-process-simulator-opc-ua/captura-20.png)
+
+The tutorial checklist advances when the process conditions are met.
+
+The heat tutorial follows the same logic, but it already requires temperature control, thermal dynamics and PID regulation. That is where the tool becomes especially useful: it forces the jump from “I move a variable” to “I control a process”.
+
+In short, the simulator tries to be the physical plant we often do not have in front of us when testing level control, temperature control, alarms, interlocks or sequences. In a didactic way, it helps to understand basic process concepts before going to the field.
+
+**Downloads**
+
+You can download the compressed program package here.
+
+### PHS Thermal Process Simulator
+
+Compressed file with the executable and its dependencies.
+
+PHS\_Simulador.7z 28,9 MB
+
+ I accept that the program is provided for educational use and that the rights belong to PLC-HMI-SCADAS. Download program
+
+**Related articles**
+
+*   [OPC UA Client in a Siemens S7-1500 PLC with TIA Portal](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500)
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [OPC UA Security: Siemens S7-1500 and UA Expert Client](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert)
+*   [Temperature control system (I)](#/a/en%2Fblog-simulador-de-temperatura)
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [PHS Thermal Process Simulator: simulate processes and control them through OPC UA](https://www.plc-hmi-scadas.com/en/blog/phs-thermal-process-simulator-opc-ua/) — Pedro Pagán Pallarés*

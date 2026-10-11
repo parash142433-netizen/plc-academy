@@ -1,0 +1,52 @@
+---
+title: "WinCC Dynamic Wizard"
+slug: "wincc-dynamic-wizard"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Dynamic_Wizard.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Dynamic Wizard"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Dynamic Wizard
+
+Jose Manuel Luque
+
+WinCC Dynamic Wizard
+
+**WinCC - Dynamic Wizard Example  
+**
+
+In the last practice, we saw how to create a function using the Dynamic Wizard Assistant, but in VBScript. This time we are going to create a new function with the Dynamic Wizard Editor.
+
+Here, it is advisable to read the Manual, as explaining the entire structure is a bit complicated, so I will limit myself to providing the necessary code to create a function that will invert a Boolean variable. That is, when we click on the object we have made dynamic, we will invert its value; if it is 1, we set it to 0 and vice versa.
+
+To insert it into our Project, we must start the Dynamic Wizard Editor and create a new \*wnf File, paste the following code, compile to check for any errors, and save it with the desired name. Once compiled, we generate the AD File, Dynamic Assistant -> Create WAD. Once created, Dynamic Assistant -> Read Wizard Script, and it will automatically load it, and we can use it.
+
+Once we have completed the previous steps, it is time to test if it works correctly... We instantiate a Button Object, and with the Dynamic Assistant, we select the one we just created, and it will execute with a mouse click.
+
+![](./assets/images/wincc-dynamic-wizard/WinCC_Dynamic_Wizard_00.png)
+
+We select the variables that interest us; here, a filter should have been established to only allow the selection of Boolean variables, but... we will solve that next time... and we finish the assistant.
+
+![](./assets/images/wincc-dynamic-wizard/WinCC_Dynamic_Wizard_01.png)
+
+We can now see how the action has been created in the events of our button, and if we check its code, it is as follows.
+
+![](./assets/images/wincc-dynamic-wizard/WinCC_Dynamic_Wizard_03.png)
+
+And if we run the Runtime and test it... it works perfectly. So, if anyone is bored, they should get creative and make something new and share it.
+
+![](./assets/images/wincc-dynamic-wizard/WinCC_Dynamic_Wizard_04.png)
+
+January 18, 2013
+
+If you liked it or found it useful... Share it :-)
+
+---
+*Source: [WinCC Dynamic Wizard](https://www.plc-hmi-scadas.com/en/WinCC_Dynamic_Wizard.php) — Jose Manuel Luque*

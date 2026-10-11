@@ -1,0 +1,63 @@
+---
+title: "TIA Portal — Configuration Time in MRP Ring with Cisco Switch"
+slug: "blog-tia-portal-configuration-time-mpr"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/tia-portal-configuration-time-mpr/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["TIA Portal","PROFINET","MRP","Cisco Switch","S7-1500","Redundancy"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# TIA Portal — Configuration Time in MRP Ring with Cisco Switch
+
+Why the CPU goes to STOP at startup and how the Configuration Time parameter solves the issue in MRP ring topologies
+
+Jose Manuel Luque Mar 14, 2026
+
+TIA Portal PROFINET MRP Cisco Switch S7-1500 Redundancy
+
+![TIA Portal Configuration Time — MRP Ring with Cisco Switch](./assets/images/blog-tia-portal-configuration-time-mpr/tia-portal-configuration-time-mpr-1.png)
+
+### Table of Contents
+
+*   [Introduction](#/a/en%2Fblog-tia-portal-configuration-time-mpr)
+*   [What is the Configuration Time?](#/a/en%2Fblog-tia-portal-configuration-time-mpr)
+*   [Solution: increase the Configuration Time](#/a/en%2Fblog-tia-portal-configuration-time-mpr)
+
+**Introduction**
+
+In industrial installations with **[PROFINET](https://www.plc-hmi-scadas.com/blog/conceptos-basicos-profinet/)** networks, a ring topology using **MRP (Media Redundancy Protocol)** is a common solution to ensure network redundancy. However, when devices inside that ring —such as **[Cisco switches](https://www.cisco.com/c/en/us/products/collateral/networking/industrial-switches/catalyst-ie3100-rugged-series/catalyst-ie3100-rugged-series-ds.html)**— take longer to initialize than the PLC itself, a critical issue can occur: **the Siemens CPU goes to STOP right after startup**.
+
+**What is the Configuration Time in TIA Portal?**
+
+The **Configuration Time** (also referred to as _Systemhochlaufzeit_ in German-language versions, or _peripheral wait time_) is a parameter found in the CPU hardware configuration inside TIA Portal. It defines the maximum time the CPU waits, after transitioning to RUN, for all PROFINET devices configured in the project to connect and respond correctly.
+
+If any device has not completed its initialization before this timer expires, the CPU logs a PROFINET diagnostic error and, depending on the fault reaction settings, may go to **STOP**.
+
+**MRP Ring with a Cisco Switch**
+
+**MRP (Media Redundancy Protocol — IEC 62439-2)** is the Siemens standard protocol for creating redundant topologies in PROFINET networks. One node acts as the **MRM (Media Redundancy Manager)** —usually the CPU or a SCALANCE switch— blocking one of the ring ports to prevent loops. The remaining nodes operate as **MRC (Media Redundancy Clients)**.
+
+![TIA Portal — MRP ring topology with PROFINET devices and Cisco switch](./assets/images/blog-tia-portal-configuration-time-mpr/tia-portal-configuration-time-mpr-1.png)
+
+**Solution: increase the Configuration Time**
+
+The solution is straightforward: **increase the Configuration Time value** in the CPU hardware configuration inside TIA Portal, giving slow devices (the Cisco switch) enough time to complete their initialisation before the CPU evaluates whether all IO Devices are available.
+
+This adjustment does not negatively affect normal system operation. Under normal conditions (when all devices are already active), the CPU will detect the IO Devices well before the new timer expires, and the transition to RUN will occur in the usual time.
+
+![TIA Portal — CPU Properties: Configuration Time parameter](./assets/images/blog-tia-portal-configuration-time-mpr/tia-portal-configuration-time-mpr-2.png)
+
+![TIA Portal — Result after increasing Configuration Time: CPU in RUN](./assets/images/blog-tia-portal-configuration-time-mpr/tia-portal-configuration-time-mpr-3.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [TIA Portal — Configuration Time in MRP Ring with Cisco Switch](https://www.plc-hmi-scadas.com/en/blog/tia-portal-configuration-time-mpr/) — Jose Manuel Luque*

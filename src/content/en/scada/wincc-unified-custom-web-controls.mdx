@@ -1,0 +1,97 @@
+---
+title: "WinCC Unified Custom Web Controls"
+slug: "wincc-unified-custom-web-controls"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Custom_Web_Controls.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Unified","SCADAS","HMI","Siemens","TIA PORTAL","Custom Web Controls"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified Custom Web Controls
+
+Jose Manuel Luque 15 Mar, 2020
+
+WinCC Unified SCADAS HMI Siemens TIA PORTAL Custom Web Controls
+
+**WinCC Unified Custom Web Controls**
+
+![](./assets/images/wincc-unified-custom-web-controls/vba-logo.png) ![](./assets/images/wincc-unified-custom-web-controls/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+Before starting this article, thanks to Cesar Fernandez, because without him, the realization of this and many other articles would not be possible.
+
+So thank you, my friend, because when a person gives without asking for anything in return, you can say that he is a friend, right? Thank you :-).
+
+And now let's move on to the explanation and what we will need to learn to give our applications added value.
+
+In this way, depending on what interests the client and with this knowledge, we will be able to offer new solutions.
+
+If we open our application within My Controls, by default we have two controls.
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_1.png)
+
+These controls, which are default and for all the projects we create in TIA Portal, are in the following directory.
+
+Question: If there are three files, why are there two controls? Because not all three files are defined for TIA Portal to load a screen when opened.
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_2.png)
+
+Well, this is where we will have to insert the controls we have created, and with the following format:
+
+\- A compressed file, with the name of a unique and unrepeatable GUID, exactly as it appears in the image, in zip format
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_3.png)
+
+Now we close our TIA Portal project
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_4.png)
+
+When we reopen it, by default in My Controls, it has already loaded the control we inserted and is ready to be used
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_5.png)
+
+We can now drag it like any other object, where it will have the properties that have been defined, events, etc...
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_6.png)
+
+Continuing with the explanation, what is inside that compressed file? Each control we have created consists of this structure
+
+\- A folder called assets.
+
+\- A folder called control
+
+\- A manifest.json file (JavaScript Object Notation)
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_7.png)
+
+Inside the assets directory, we have the logo that we will see in TIA Portal
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_8.png)
+
+The control directory contains all the code we generated when creating the control, plus a webcc.min.js file
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_9.png)
+
+In the main file of our controls, in this case index.html, is where we will call this library, and where properties, events, and methods of the control we created are defined.
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_11.png)
+
+And finally the manifest.json file, where the definition of our control is subdivided
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_10.png)
+
+And to conclude, let's play a game...
+
+![](./assets/images/wincc-unified-custom-web-controls/WCCUnified_MyControls_12.png)
+
+To avoid extending this article too much, we already have the basis of how it works, and the next thing I hope to do is the creation of a simple control from scratch, so we will know how to implement everything we just saw.
+
+15-03-2020
+
+---
+*Source: [WinCC Unified Custom Web Controls](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Custom_Web_Controls.php) — Jose Manuel Luque*

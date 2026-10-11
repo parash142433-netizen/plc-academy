@@ -1,0 +1,60 @@
+---
+title: "ActiveX Control aaHistClientTrendControl"
+slug: "intouch-activex-aahistclienttrend"
+locale: "en"
+category: "articles"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_ActiveX_aaHistClientTrend.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Articles"]
+tags: ["Intouch","ActiveX","aaHistClientTrendControl"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Articles](#/a/en%2Farticles) › Article
+
+# ActiveX Control aaHistClientTrendControl
+
+Jose Manuel Luque
+
+Intouch ActiveX aaHistClientTrendControl
+
+**ActiveX Control aaHistClientTrendControl  
+**
+
+We have already seen how to configure the [ActiveFactory or Historian Client,](#/a/en%2Fwonderware-activefactory) either through its own software, creating a [symbol](#/a/en%2Farchestra-aahistclienttrendcontrol) where this control is embedded, and in this case, in an Intouch application, through ActiveX controls; here it is required that ActiveFactory or Historian Client is installed on the PC itself. The first thing we are going to do is install our control, so that it is available, and as we have seen in other practices, Special -> Configure -> Wizard/ActiveX Installation
+
+![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-02.png)
+
+We select the Control that interests us, in this case the aaHistClientTrendControl and click install; with this step our control will be available.
+
+![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-00.png)
+
+We assume that we have a window where we are going to insert our new control and select the wizard icon.
+
+![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-03.png)
+
+Here all available ActiveX controls appear, and among them we can already see the one we are interested in; we select it and insert it into our window.
+
+![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-01.png)
+
+Once inserted into our window, we give it the dimensions we are interested in, and we could test it by clicking on runtime; the problem is that we have not configured any server and it would not be visible.
+
+![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-05.png)
+
+To do this, what we are going to do is that when the user goes to this window, through the Onshow script of the window itself, load the server that interests us; if we go to the properties of the window, we access the Scripts from its properties window.
+
+![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-07.png)
+
+To see the properties and methods of our ActiveX controls, we click the selected icon in the image and we will be able to observe them. We choose the method AddServerEX(), with its corresponding parameters, and when this window is displayed, this Script will be executed and the server will be added to our Control. In the same way, we would add the Tags and modify the properties of the control, the visibility of the toolbar, PickServer, etc...
+
+![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-11.png)
+
+To test its operation, we click on Runtime and observe; in the first image, the Server appears but is disconnected, with the right button we click on Logon and the parameters we have configured in the Script will be passed; if we select the checkBox Remember Password, the next time Runtime is executed, it will connect automatically as in the second image.
+
+![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-12.png) ![](./assets/images/intouch-activex-aahistclienttrend/172-ActiveX-HistorianClient-13.png)
+
+September 16, 2013
+
+---
+*Source: [ActiveX Control aaHistClientTrendControl](https://www.plc-hmi-scadas.com/en/Intouch_ActiveX_aaHistClientTrend.php) — Jose Manuel Luque*

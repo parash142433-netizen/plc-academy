@@ -1,0 +1,123 @@
+---
+title: "RSLogix Emulate 5000"
+slug: "011"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/011.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["RSLogix Emulate 5000","RSLogix 5000","RSLinx","PLC Simulation"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › RSLogix Emulate 5000
+
+# RSLogix Emulate 5000
+
+Simulation of a Logix 5000 controller, download from RSLogix 5000 and online test.
+
+Jose Manuel Luque Aug 07, 2012
+
+RSLogix Emulate 5000 RSLogix 5000 RSLinx PLC Simulation
+
+![Initial RSLogix Emulate 5000 setup](./assets/images/011/RSLoxix5000%20Emulate-01.jpg)
+
+**Objective**
+
+This practice configures Allen Bradley RSEmulate 5000 to test projects, exercises and training work without a physical CPU.
+
+With this simulator we can work with Logix 5000 PLCs. Compatible versions are important: if the project is in RSLogix 5000 V16, RSEmulate 5000 V16 is required.
+
+**Create the Project in RSLogix 5000**
+
+The first step is to create a new project. When selecting the CPU, choose Emulator and set the slot number where the controller will be placed.
+
+In this example the CPU is placed in slot 2. The parameters can be changed later from the object properties.
+
+![Selecting the Emulator controller in RSLogix 5000](./assets/images/011/RSLoxix5000%20Emulate-01.jpg)
+
+![Emulated CPU placed in slot 2](./assets/images/011/RSLoxix5000%20Emulate-02.jpg)
+
+![Emulated controller properties](./assets/images/011/RSLoxix5000%20Emulate-03.jpg)
+
+**Add Input and Output Modules**
+
+Once the CPU is selected, add input and output modules from I/O Configuration using right click and New Module.
+
+Simulation modules are found under Other with reference 1756-MODULE. Configure the module as shown in the screenshots; otherwise it may not report an error, but it will not work.
+
+Another important parameter is changing the time from 5 ms to 50 ms, as indicated in the manual. With this, the hardware is ready for a few test rungs.
+
+![New module from I/O Configuration](./assets/images/011/RSLoxix5000%20Emulate-04.jpg)
+
+![Selecting module 1756-MODULE](./assets/images/011/RSLoxix5000%20Emulate-05.jpg)
+
+![Simulation module parameters](./assets/images/011/RSLoxix5000%20Emulate-06.jpg)
+
+![Program rungs for simulation testing](./assets/images/011/RSLoxix5000%20Emulate-20.jpg)
+
+**Configure RSEmulate 5000**
+
+Run RSEmulate 5000. By default, slots 0 and 1 are already occupied, so insert the CPU in slot 2, matching the project.
+
+Select Emulator RSLogix Emulate 5000 Controller and finish the wizard. Then add the 1789-SIM module in slot 3 to simulate inputs and outputs.
+
+![RSEmulate 5000 interface](./assets/images/011/RSLoxix5000%20Emulate-11.jpg)
+
+![Emulator controller selection](./assets/images/011/RSLoxix5000%20Emulate-12.jpg)
+
+![Emulated module configuration](./assets/images/011/RSLoxix5000%20Emulate-13.jpg)
+
+![Controller wizard finish](./assets/images/011/RSLoxix5000%20Emulate-14.jpg)
+
+![Adding module 1789-SIM](./assets/images/011/RSLoxix5000%20Emulate-15.jpg)
+
+![Simulation module configured](./assets/images/011/RSLoxix5000%20Emulate-17.jpg)
+
+**Configure RSLinx**
+
+With RSLogix 5000 and RSEmulate configured, prepare RSLinx. Run RSLinx and add the corresponding driver.
+
+If RSEmulate is running and Autobrowse is active, RSLinx will detect the device automatically. Then close this window and use RSWho from RSLogix to download the project.
+
+![Creating the driver in RSLinx](./assets/images/011/RSLoxix5000%20Emulate-09.jpg)
+
+![Emulated controller detected in RSLinx](./assets/images/011/RSLoxix5000%20Emulate-18.jpg)
+
+**Download and Test**
+
+Return to RSLogix 5000 and open Communications > RSWho. Select the CPU in slot 2 and click Download to transfer the project.
+
+After the download warning, go online, switch the processor to RUN Mode and test the behavior by acting on the simulator.
+
+Historical note: in some later versions, such as V16, the operating system had to be in English for RSEmulate to work correctly.
+
+![Opening RSWho from RSLogix 5000](./assets/images/011/RSLoxix5000%20Emulate-22.jpg)
+
+![Selecting the emulated CPU in RSWho](./assets/images/011/RSLoxix5000%20Emulate-23.jpg)
+
+![Downloading the project to the emulated controller](./assets/images/011/RSLoxix5000%20Emulate-24.jpg)
+
+![Download confirmation](./assets/images/011/RSLoxix5000%20Emulate-25.jpg)
+
+![Controller in RUN Mode](./assets/images/011/RSLoxix5000%20Emulate-29.jpg)
+
+![Program online with RSEmulate 5000](./assets/images/011/RSLoxix5000%20Emulate-31.jpg)
+
+![Simulated input and output test](./assets/images/011/RSLoxix5000%20Emulate-32.jpg)
+
+_Original article published on August 7, 2012._
+
+**Related Articles**
+
+*   [RSLinx OPC Server](#/a/en%2F017)
+*   [FactoryTalk View SE communicating with RSLogix Emulate 5000](#/a/en%2F074)
+*   [FactoryTalk View ME communicating with RSLogix Emulate 5000](#/a/en%2F076)
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/011.php) — Jose Manuel Luque*

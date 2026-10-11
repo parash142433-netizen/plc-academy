@@ -1,0 +1,165 @@
+---
+title: "PPS: The Heart (and the Limit) of EtherNet/IP"
+slug: "blog-pps-ethernet-ip-omron-eip21"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/pps-ethernet-ip-omron-eip21/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","REDES INDUSTRIALES"]
+tags: ["EtherNet/IP","Omron EIP21","RPI","Industrial Networks"]
+downloads: [{"title":"CJ1W-EIP21 / EIP21S — Datasheet (Omron EU)","url":"https://files.omron.eu/downloads/latest/datasheet/en/cj1w-eip21_eip21s_ethernet_ip_unit_datasheet_en.pdf?v=2"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [REDES INDUSTRIALES](#/a/en%2Findustrial-networks) › Article
+
+# PPS: The Heart (and the Limit) of EtherNet/IP
+
+In an industrial network with 150 nodes, Mbps don't matter. What matters is how many packets the PLC card can process per second.
+
+Pedro Pagán Pallarés Mar 14, 2026
+
+EtherNet/IP Omron EIP21 RPI Industrial Networks
+
+![Omron CJ1W-EIP21 card in CJ2 rack — EtherNet/IP PPS limits](./assets/images/blog-pps-ethernet-ip-omron-eip21/imagenPPSarticulo.PNG)
+
+### Table of Contents
+
+*   [What is PPS?](#/a/en%2Fblog-pps-ethernet-ip-omron-eip21)
+*   [The real equation: how to calculate it](#/a/en%2Fblog-pps-ethernet-ip-omron-eip21)
+*   [Configuration in Omron CJ1W-EIP21](#/a/en%2Fblog-pps-ethernet-ip-omron-eip21)
+*   [Hardware limits and the Domino Effect](#/a/en%2Fblog-pps-ethernet-ip-omron-eip21)
+*   [Golden rule for the field](#/a/en%2Fblog-pps-ethernet-ip-omron-eip21)
+
+**What is PPS?**
+
+In an office network, the key metric is **Mbps** (megabits per second). In an industrial network with 150 nodes, that is irrelevant. The metric that matters is **PPS (Packets Per Second)**: how many packets the PLC's communications card can open, process, and close per second.
+
+Every time a drive sends data to the PLC, it generates a packet. The card (such as the **Omron CJ1W-EIP21**) has a dedicated microprocessor. Every received packet is an interrupt for that micro. When packets arrive faster than the micro can handle them, the following chain reaction occurs:
+
+1.  The card's **buffer fills up**.
+2.  The card starts **dropping packets**.
+3.  The PLC interprets the absence of packets from a drive as a lost connection.
+4.  A **network Timeout** is triggered: emergency stop.
+
+**The real equation: how to calculate it**
+
+In EtherNet/IP, communication is cyclic and **bidirectional**. The drive sends data to the PLC and the PLC sends setpoints to the drive. Therefore, each connection consumes **2 packets per cycle**.
+
+The formula for the total packet load is:
+
+**PPStotal = ∑ ( 1000 / RPI × 2 )**
+
+Or simplified for a single node:
+
+**PPSnode = 2000 / RPI**
+
+RPI (ms)
+
+PPS per node
+
+Notes
+
+**10 ms**
+
+200 PPS
+
+Maximum load — only for critical sensors
+
+**50 ms**
+
+40 PPS
+
+80% less than at 10 ms
+
+**100 ms**
+
+20 PPS
+
+90% less than at 10 ms — standard for drives
+
+**Key conclusion:** dropping the RPI from 10 ms to 100 ms reduces card stress by **90%**, with no real impact on the process for most devices.
+
+**Configuration in Omron CJ1W-EIP21**
+
+In the Omron ecosystem, management is done exclusively via the **Network Configurator for EtherNet/IP**. There are three critical parameters:
+
+RPI (Requested Packet Interval)
+
+Update frequency, configurable individually per connection (Target). It is the parameter that most influences total PPS.
+
+Connection Type
+
+**Multi-cast:** the packet is replicated to all switch ports. Poison for large networks without _managed switches_.  
+**Point-to-Point (Unicast):** traffic goes directly to the destination. **Mandatory** in networks with more than ~20 nodes.
+
+Load monitoring
+
+In the software go to _View → Usage Chart_ to see real-time PPS consumption and compare it against the card's limit.
+
+![Omron CJ1W-EIP21 card mounted in rack — physical view of the EtherNet/IP module](./assets/images/blog-pps-ethernet-ip-omron-eip21/EIP.PNG)
+
+Official datasheet: [CJ1W-EIP21 / EIP21S — Datasheet (Omron EU)](https://files.omron.eu/downloads/latest/datasheet/en/cj1w-eip21_eip21s_ethernet_ip_unit_datasheet_en.pdf?v=2)
+
+**Hardware limits and the Domino Effect**
+
+Not all card versions are equal. Exceeding the limit causes total system collapse:
+
+Model / Version
+
+PPS Limit
+
+Overload symptom
+
+CJ1W-EIP21 v2.1 or lower
+
+**6,000 PPS**
+
+Random faults, card in "Error", drives stopped
+
+CJ1W-EIP21 v3.0 or higher
+
+**18,000 PPS**
+
+Greater stability, but the physical limit still exists
+
+![Excerpt from Omron EIP21 datasheet showing the maximum PPS limit per firmware version](./assets/images/blog-pps-ethernet-ip-omron-eip21/datasheet%20pps.PNG)
+
+**The Domino Effect:** when the PPS limit is exceeded, **Jitter** appears (variation in packet arrival time). If a packet should arrive every 50 ms but arrives at 200 ms because the card CPU was busy processing the other 149 nodes, the drive's watchdog interprets a cable cut and triggers an emergency stop due to a communications fault.
+
+**Golden rule for the field**
+
+Senior engineering is not about giving every node the fastest RPI; it is about **giving each piece of data the speed it actually needs**:
+
+Device
+
+Recommended RPI
+
+PPS per node
+
+Safety sensor
+
+20 ms
+
+100 PPS
+
+Motor / pump drive
+
+100 ms
+
+20 PPS
+
+Flow meter / analog sensor
+
+500 ms
+
+4 PPS
+
+With 150 drives at 100 ms each, the total load would be **3,000 PPS** — well below the EIP21 v2.1 limit (6,000 PPS) and far from the v3.0 limit (18,000 PPS). The network will run stably and drives will never interpret a communication loss.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [PPS: The Heart (and the Limit) of EtherNet/IP](https://www.plc-hmi-scadas.com/en/blog/pps-ethernet-ip-omron-eip21/) — Pedro Pagán Pallarés*

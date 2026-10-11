@@ -1,0 +1,74 @@
+---
+title: "WinCC Driver System Info Configuration"
+slug: "wincc-system-info"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_System_Info.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Driver System Info Configuration"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Driver System Info Configuration
+
+Jose Manuel Luque
+
+WinCC Driver System Info Configuration
+
+**WinCC Driver System Info Configuration  
+**
+
+As I mentioned, I will be looking at how to configure the different drivers within WinCC, and as the opportunity arises to test them, I will describe them. The first driver we will look at is System Info.
+
+With the configuration of this driver, we will be able to obtain information about our system, but now we will see the first step, adding a new driver --> System Info
+
+![](./assets/images/wincc-system-info/WinCC-SystemInfo-00.png)
+
+Once the driver is added, the next step is to add a new connection, the name we will assign is Info\_PC
+
+![](./assets/images/wincc-system-info/WinCC-SystemInfo-01.png) ![](./assets/images/wincc-system-info/WinCC-SystemInfo-02.png)
+
+Once the connection is added, the most interesting part comes, the creation of tags, variables...
+
+We create a new one by assigning the name we desire, the important part comes once we have created the tag, as in the address column, we will specify which data or value we want to retrieve from our system.
+
+As can be seen in the list of the subsequent images, we can access Date, Day, Month, Year, Day of the week, Hour, Hours, Minutes, Seconds, Milliseconds.
+
+One very interesting one is Timer, since when we worked with WinCC Flexible, if we wanted a timer, we had the option to do it with VBScript.
+
+We have access to values of the CPU, Memory, Hard Disk, etc...
+
+Let's put some examples.
+
+The first will be to retrieve the system time.
+
+![](./assets/images/wincc-system-info/WinCC-SystemInfo-03.png)
+
+Once we have selected a type of address, we have the option to select from several formats, as can be observed, and in some cases pass some data "arguments" to the configuration window.
+
+![](./assets/images/wincc-system-info/WinCC-SystemInfo-04.png)
+
+In the same way, I have added the date, and the next will be information related to the CPU, as I just mentioned, we have to pass the values such as CPU Number and Update Time.
+
+![](./assets/images/wincc-system-info/WinCC-SystemInfo-05.png)
+
+And for the last example, we will see the free space of our hard disk, or rather the one we have passed, in this case, drive C and we will show its value in percentage.
+
+![](./assets/images/wincc-system-info/WinCC-SystemInfo-06.png)
+
+It is clear that depending on the type of variable we have defined, we must assign it the corresponding data type, since by default when creating a new variable, it always assigns us a 32-bit variable.
+
+![](./assets/images/wincc-system-info/WinCC-SystemInfo-08.png)
+
+And to test its operation, it is only necessary to run the Runtime and display the value column to observe the returned value. With the WinCC Channel Diagnosis, we observe the status of our communication.
+
+![](./assets/images/wincc-system-info/WinCC-SystemInfo-09.png) ![](./assets/images/wincc-system-info/WinCC-SystemInfo-10.png)
+
+November 17, 2013
+
+---
+*Source: [WinCC Driver System Info Configuration](https://www.plc-hmi-scadas.com/en/WinCC_System_Info.php) — Jose Manuel Luque*

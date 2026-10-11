@@ -1,0 +1,105 @@
+---
+title: "WinCC Unified Collaboration in WinCC 8.1"
+slug: "blog-wincc-unified-collaboration-wincc-8-1"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration-wincc-8-1/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","Siemens WinCC"]
+tags: ["WinCC 8.1","WinCC Unified","Collaboration","UnifiedPictureWindow","SCADA"]
+downloads: [{"title":"WinCC Unified manual - Unified Collaboration section","url":"https://support.industry.siemens.com/cs/attachments/download/109794204/WinCCVisualizingProcessesUnifiedenUS_en-US.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [Siemens WinCC](#/a/en%2Fscada-siemens) › WinCC Unified Collaboration in WinCC 8.1
+
+# WinCC Unified Collaboration in WinCC 8.1
+
+Using WinCC Unified screens inside WinCC 8.1 with the UnifiedPictureWindow object.
+
+Jose Manuel Luque June 4, 2026
+
+WinCC 8.1 WinCC Unified Collaboration UnifiedPictureWindow SCADA
+
+![WinCC Unified Collaboration in WinCC 8.1](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-11.png)
+
+**Scenario**
+
+Imagine this scenario: a **central SCADA with WinCC Classic version 8.1 Update 6** and several **WinCC Unified HMIs** distributed in the field.
+
+In this case we can also share the field screens in the WinCC 8.1 SCADA for centralization. This way, the plant HMI panels can be integrated into WinCC Classic through the **UnifiedPictureWindow** object.
+
+**HMI WinCC Unified - field screens**
+
+In the HMI projects, we enable Collaboration from the Runtime settings.
+
+![Enabling Collaboration in the WinCC Unified HMI project](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-01.png)
+
+We check the IP address of the device.
+
+![HMI IP address in the WinCC Unified Collaboration settings](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-02.png)
+
+We enable the certificates required for the communication.
+
+![Certificates in WinCC Unified Certificate Manager](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-03.png)
+
+We transfer the project to the HMI.
+
+![WinCC Unified Runtime screen transferred to the HMI](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-04.png)
+
+**WinCC 8.1**
+
+On the WinCC 8.1 computer, we verify that we are on the same network.
+
+![Network check using hostname and ipconfig commands](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-05.png)
+
+Inside a WinCC 8.1 **PDL**, we select the **UnifiedPictureWindow** object.
+
+![UnifiedPictureWindow object in the WinCC Smart Objects list](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-06.png)
+
+**Note:** in this example, the WinCC F1 help does not include information for this object.
+
+![WinCC help with no results for UnifiedPictureWindow](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-07.png)
+
+We instantiate the object by dragging it into the PDL and then open its properties.
+
+The relevant property is **SourceSystem**, where the URL of the previously configured Unified HMI must be entered.
+
+![SourceSystem property of the UnifiedPictureWindow object in WinCC 8.1](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-08.png)
+
+**Note:** in this example the URL is used by name because it was previously configured through a DNS server or the **hosts** file.
+
+![Hosts file with the name used to resolve the Unified HMI](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-14.png)
+
+**Validation**
+
+We download the SCADA to see the result. The connection is established correctly and WinCC 8.1 asks for the Unified HMI credentials.
+
+![Unified HMI credential prompt from WinCC 8.1](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-10.png)
+
+After logging in, we can see the WinCC Unified HMI content inside WinCC 8.1.
+
+![WinCC Unified HMI content displayed in WinCC 8.1](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-11.png)
+
+Finally, we check the HMI in a browser and WinCC 8.1 running on its machine.
+
+![Unified HMI in a browser and WinCC 8.1 running on the SCADA machine](./assets/images/blog-wincc-unified-collaboration-wincc-8-1/wincc-unified-collaboration-wincc-8-1-12.png)
+
+**Siemens Documentation**
+
+*   [SIMATIC WinCC V8 - Siemens](https://www.siemens.com/en-us/products/wincc/)
+*   [SIMATIC WinCC Unified - Siemens](https://www.siemens.com/en-us/products/simatic-hmi/wincc-unified/)
+*   [WinCC Unified manual - Unified Collaboration section](https://support.industry.siemens.com/cs/attachments/download/109794204/WinCCVisualizingProcessesUnifiedenUS_en-US.pdf)
+
+**Related Articles**
+
+*   [WinCC Unified Collaboration: sharing Screens between Runtimes](#/a/en%2Fblog-wincc-unified-collaboration)
+*   [What's New in Version V8.1](#/a/en%2Fblog-wincc-8-1-novedades)
+*   [Secure Siemens PLC Communication with HMI and PC/PG](#/a/en%2Fblog-comunicacion-plc-hmi-pc-pg-segura)
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [WinCC Unified Collaboration in WinCC 8.1](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration-wincc-8-1/) — Jose Manuel Luque*

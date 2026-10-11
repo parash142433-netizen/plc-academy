@@ -1,0 +1,217 @@
+---
+title: "UMC Admin Studio: guided console for Siemens Central User Management"
+slug: "blog-umc-admin-studio"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/umc-admin-studio/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","Siemens UMC","UMX","UMCONF","Provisioning"]
+downloads: [{"title":"Download UMC Admin Studio (ZIP)","url":"https://www.plc-hmi-scadas.com/Download/UmacAdminStudio.zip"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › UMC Admin Studio: guided console for Siemens Central User Management
+
+# UMC Admin Studio: guided console for Siemens Central User Management
+
+Jose Manuel Luque Apr 05, 2026
+
+SCADA Siemens UMC UMX UMCONF Provisioning
+
+![UMC Admin Studio: guided console for Siemens Central User Management](./assets/images/blog-umc-admin-studio/UMCAdmin%20\(1\).png)
+
+### Índice
+
+*   [Introduction](#/a/en%2Fblog-umc-admin-studio)
+*   [What is UMC Admin Studio](#/a/en%2Fblog-umc-admin-studio)
+*   [Real problem it solves](#/a/en%2Fblog-umc-admin-studio)
+*   [Functional architecture](#/a/en%2Fblog-umc-admin-studio)
+*   [Implemented UMX commands](#/a/en%2Fblog-umc-admin-studio)
+*   [Implemented UMCONF commands](#/a/en%2Fblog-umc-admin-studio)
+*   [Guided builder and advanced console](#/a/en%2Fblog-umc-admin-studio)
+*   [Secure password and log handling](#/a/en%2Fblog-umc-admin-studio)
+*   [Technical key points](#/a/en%2Fblog-umc-admin-studio)
+*   [Practical use cases](#/a/en%2Fblog-umc-admin-studio)
+*   [Improvements made during development](#/a/en%2Fblog-umc-admin-studio)
+*   [Conclusion](#/a/en%2Fblog-umc-admin-studio)
+*   [Final CTA](#/a/en%2Fblog-umc-admin-studio)
+*   [Download](#/a/en%2Fblog-umc-admin-studio)
+*   [Short summary for card / listing](#/a/en%2Fblog-umc-admin-studio)
+
+**Introduction**
+
+In this article I present **UMC Admin Studio**, a desktop application developed to work in a more comfortable, structured, and secure way with Siemens Central User Management.
+
+The main objective is not only command execution, but **to become familiar with Siemens Central User Management and with configuration tools outside the Web environment**. It was created from a practical need: execute UMX and UMCONF commands repeatedly, with many parameters, validate syntax, and reduce operational errors in administration, provisioning, and diagnostics tasks.
+
+**What is UMC Admin Studio**
+
+UMC Admin Studio is an engineering support tool that works as a guided console for Siemens UMC. Internally it still uses the official executables **UMX.exe** and **UMCONF.exe**, but wraps them in a more usable interface. Instead of memorizing long and error-prone syntax, the user selects an operation, fills required parameters, and the application builds the command.
+
+**Project focus and practical motivation**
+
+During tests with UMC domains from the Web page, an important operational limitation appears: **there is no direct synchronize action** in the usual workflow. While researching a consistent way to handle this, this tool was created to explore and understand the real functionality of UMX and UMCONF.
+
+Also, the visible **JSON file** in the workflow is critical for provisioning and configuration. This file can be reviewed and modified with UMCONF, and handling it correctly is key to avoid inconsistencies between configuration, services, and domain behavior.
+
+Another practical driver was understanding how to **promote a Windows user as UMC administrator** in a controlled way, validating parameters and results with technical traceability.
+
+![UMC Admin Studio main screen](./assets/images/blog-umc-admin-studio/UMCAdmin%20\(1\).png)
+
+**Real problem it solves**
+
+Working directly with UMX and UMCONF from terminal has several limitations:
+
+*   Long syntax that is sensitive to errors.
+*   Differences between commands that require credentials and commands that do not.
+*   Hard to remember valid parameters for each operation.
+*   Risk of exposing passwords on screen or in logs.
+*   Lack of clear operational traceability during tests or diagnostics.
+
+The goal was to remove these frictions and turn UMC operations into something more robust and maintainable.
+
+**Functional architecture**
+
+The tool is organized around several blocks:
+
+*   Connection and UMC access profile management.
+*   Guided UMX command builder.
+*   Guided UMCONF command builder.
+*   Advanced console for controlled manual execution.
+*   Technical output and activity log.
+*   JSON provisioning module.
+*   Internal services to build, execute and parse results.
+
+The application does not replace Siemens UMC. It relies on native UMC utilities and organizes them into a friendlier operations layer.
+
+![Command Builder with UMX operation](./assets/images/blog-umc-admin-studio/UMCAdmin%20\(2\).png)
+
+**Implemented UMX commands**
+
+During development, coverage was added for documented UMX commands for:
+
+*   Help and query operations.
+*   Create users, groups, and roles.
+*   Update users and groups.
+*   Object details and inspection.
+*   Listings for users, groups, roles, function rights, domains, and station clients.
+*   Delete operations.
+*   Binding and unbinding between users, groups, roles, and function rights.
+*   Import and export.
+*   Password change and reset.
+*   User unlock.
+*   Status, domain id, and domain name.
+*   Provisioning service synchronization.
+*   Account policies.
+*   PKI, SADS, password check, TOTP, languages, and user properties.
+
+**Implemented UMCONF commands**
+
+UMCONF coverage was also expanded for installation, configuration, and service operations:
+
+*   Help.
+*   Domain, administrator, and claim key creation.
+*   UP Service and UMC Service configuration.
+*   Provisioning and PiiSrv parameters.
+*   GUM port query and change.
+*   Attach, join, unjoin, and fingerprint.
+*   Central configuration.
+*   Upgrade and configuration cleanup.
+*   Allowlist.
+*   Plugins.
+*   Log archive and extraction.
+*   Certificate renewal.
+*   Interactive mode.
+*   Role ID purge.
+*   Server list.
+*   DSSO.
+*   SLRA.
+*   GUM server list.
+
+![Command Builder with UMCONF Help operation](./assets/images/blog-umc-admin-studio/UMCAdmin%20\(3\).png)
+
+**Guided builder and advanced console**
+
+One of the key parts of the project is the command builder. Each operation includes a description, short help, and the required fields to build the right command.
+
+An independent advanced console was also added for direct commands when engineers need extra flexibility, hidden by default to keep the main interface clean.
+
+**Secure password and log handling**
+
+A critical part of development was credential protection. The app executes the real command internally, but displays and logs a sanitized version in the interface and technical logs. This allows users to review what was executed without exposing passwords in screens, captures, or traces.
+
+![Masked password in preview and log](./assets/images/blog-umc-admin-studio/UMCAdmin%20\(4\).png)
+
+Development was validated command by command against the Siemens UMC official manual, checking syntax, valid arguments, and differences between UMX and UMCONF. This process helped detect common mistakes, such as using credentials where they are not required, or moving UMX-only commands into UMCONF.
+
+**Technical key points**
+
+*   When JSON provisioning or configuration changes are applied, it is good practice to validate status, logs, and consistency before continuing with functional tests.
+*   Separating real command and visible command enables technical auditing without exposing credentials.
+
+**Practical use cases**
+
+The application is useful in scenarios such as:
+
+*   Quickly validating access to a UMC environment.
+*   Listing users, groups, roles, and function rights.
+*   Unlocking accounts.
+*   Reviewing account policies.
+*   Running provisioning operations without memorizing parameters.
+*   Testing UMCONF help, attach, join, or GUM operations.
+*   Recording technical activity more clearly during commissioning.
+
+**Improvements made during development**
+
+Several practical improvements were incorporated across the project:
+
+*   Separation between real command and visible command.
+*   Password masking in preview and logs.
+*   Fixes for commands that do not require `-x`.
+*   Expanded guided operations catalog.
+*   Basic text localization.
+*   Copy / clear controls for output and activity log.
+*   Advanced console hidden by default.
+
+![Advanced console and activity log with technical traceability](./assets/images/blog-umc-admin-studio/UMCAdmin%20\(5\).png)
+
+**Conclusion**
+
+**UMC Admin Studio** turns daily Siemens UMC work into a much more controlled and efficient experience. For engineers who manage users, groups, roles, provisioning, or diagnostics in UMC, having a visual layer over UMX and UMCONF reduces errors, speeds up testing, and provides cleaner traceability. It is a tool born from a real engineering need and designed for field work, commissioning, and technical support.
+
+**Final CTA**
+
+If you work with Siemens UMC and want to avoid syntax errors, credential exposure in terminal, or wasted time searching UMX and UMCONF parameters, this application can be a very useful base for your own engineering and administration projects.
+
+**Download**
+
+You can download and test the application here:
+
+[Download UMC Admin Studio (ZIP)](https://www.plc-hmi-scadas.com/Download/UmacAdminStudio.zip)
+
+#### File integrity verification
+
+**SHA256 of the ZIP file:**  
+`AC48282ADBEEDC9BAED8564987340173BA2BA77DAC8172C1E68CF31B8F630A18`
+
+**Origin of SHA256:** Calculated directly from the `UmacAdminStudio.zip` file located at `/Download/`.
+
+**How to verify on Windows (PowerShell):**
+
+```
+Get-FileHash -Path "UmacAdminStudio.zip" -Algorithm SHA256
+```
+
+The hash must match exactly with the value shown above to ensure the file has not been modified.
+
+**Short summary for card / listing**
+
+UMC Admin Studio is a desktop application for Siemens UMC that encapsulates UMX and UMCONF commands in a guided interface, with contextual help, credential protection, and technical traceability.
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [UMC Admin Studio: guided console for Siemens Central User Management](https://www.plc-hmi-scadas.com/en/blog/umc-admin-studio/) — Jose Manuel Luque*

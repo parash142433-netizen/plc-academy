@@ -1,0 +1,70 @@
+---
+title: "PC/PG Communication and S7-2xx CPU"
+slug: "001"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/001.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Siemens","S7-200","S7-200 CPU","Microwin"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# PC/PG Communication and S7-2xx CPU
+
+Jose Manuel Luque
+
+Siemens S7-200 S7-200 CPU Microwin
+
+Communication between PC/PG and S7-2xx CPU
+
+1.- I will carry out the following practice on a 32-bit Windows 7 Operating System. For Microwin to work correctly, SP8 needs to be installed; if it were 64-bit, SP9 would be required. Since the equipment has an RS-232 serial port, I will use the standard PC/PPI cable.
+
+2.- The first step will be configuring the COM Port. To do this, we go to the device manager and configure it with the default values. If these parameters have been changed previously, it is sufficient to restore them.
+
+![](./assets/images/001/001.jpg)
+
+3.- Once this step is completed, we open Microwin and go to the Adjust PC/PG Interface icon, select the PC/PPI interface, leave the PPI properties with the predefined values, and in the Local Connection tab, select the COM Port to be used.
+
+![](./assets/images/001/003.jpg)
+
+![](./assets/images/001/004.jpg)
+
+4.- The next step will be to click on the Communication Icon and double-click where indicated.
+
+![](./assets/images/001/005.jpg)
+
+5.- The search for devices will automatically start. If the option to search at all transfer speeds is selected, it will start with the lowest speed and perform a search at all available speeds. Once a CPU is found, we select it and click OK. From this moment, the connection is established, and we can proceed to transfer a project to the CPU or make a copy of the Project to our PC/PG. To provide a more detailed visualization, I will transfer the Project currently running on the CPU to the PC/PG.
+
+![](./assets/images/001/006.jpg)
+
+6.- We click on the Load to PG Icon, the one selected in the following image, and provide the location and name for our project.
+
+![](./assets/images/001/008.jpg)
+
+7.- We select Load to PG and the desired options; by default, it appears as shown in the image.
+
+![](./assets/images/001/009.jpg)
+
+8.- Once the transfer is completed, we can go online and visualize the execution of our project. The first step will be to switch the CPU to RUN and select Program Status. After any modifications, the project will be compiled, and if there are no errors, the Project can be loaded to the CPU by clicking on the Load to CPU icon.
+
+![](./assets/images/001/011.jpg)
+
+As additional information, there is the possibility to establish the connection and communication with an S7-2xx using a PC-Adapter (MPI) if the EM277 Profibus-DP Module is available. The same procedure described will be followed with the following variations: we will select a COM port speed of 19200 or 38400 according to the DIP switch of the PC-Adapter.
+
+In the PG/PC interface settings, we will select PC-Adapter (MPI) and we can establish communication.
+
+[  
+](javascript:void\(0\))
+
+![](./assets/images/001/014.jpg)
+
+![](./assets/images/001/015.jpg)
+
+July 2012
+
+---
+*Source: [PC/PG Communication and S7-2xx CPU](https://www.plc-hmi-scadas.com/en/001.php) — Jose Manuel Luque*

@@ -1,0 +1,65 @@
+---
+title: "Transfer of the project to NB3Q"
+slug: "omron-transfer-hmi"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Omron_Transfer_HMI.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","OMRON"]
+tags: ["Omron","N3BQ"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [OMRON](#/a/en%2Fhmi-omron) › Article
+
+# Transfer of the project to NB3Q
+
+Jose Manuel Luque
+
+Omron N3BQ
+
+Transfer of the project to NB3Q
+
+Once we have developed our application and debugged it, the last step is to transfer the project to our screen. The first thing to do is to put it in setup mode to define the IP address, as we will transfer the project via the network.
+
+To do this, we will set SW1 to ON and SW2 to ON.
+
+![](./assets/images/omron-transfer-hmi/Omron_S7200_35.png)
+
+We enter configuration mode and define the IP address, Port, Subnet Mask, and Gateway, if necessary; in this case, there is no router, so we do not define it.
+
+![](./assets/images/omron-transfer-hmi/Omron_S7200_37.png)
+
+![](./assets/images/omron-transfer-hmi/Omron_S7200_36.png)
+
+We can now turn off the screen and switch the switches back to the User Project Mode position. SW1 to Off and SW2 to Off.
+
+Once this step is completed, we will check it by executing a Ping and verifying that it responds correctly.
+
+![](./assets/images/omron-transfer-hmi/Omron_S7200_26.png)
+
+Now we move to NB-Designer, and we will configure the transfer mode, which, as we said, will be via the network.
+
+![](./assets/images/omron-transfer-hmi/Omron_S7200_27.png)
+
+The following pop-up window appears, and we will change from the default, which is USB, to Ethernet and adjust it to the address we configured on our screen as well as the port.
+
+![](./assets/images/omron-transfer-hmi/Omron_S7200_28.png) ![](./assets/images/omron-transfer-hmi/Omron_S7200_29.png)
+
+Once we accept the changes made earlier, we will transfer, Tools --> Transfer
+
+The following pop-up window appears, and we select the options that interest us; for this example, it would be the default configuration. We click transfer, and a confirmation window will appear, confirming that we do.
+
+![](./assets/images/omron-transfer-hmi/Omron_S7200_31.png) ![](./assets/images/omron-transfer-hmi/Omron_S7200_32.png)
+
+The transfer begins, and if everything is correct, as it should be, the last window will inform us that the transfer was successful.
+
+![](./assets/images/omron-transfer-hmi/Omron_S7200_33.png) ![](./assets/images/omron-transfer-hmi/Omron_S7200_34.png)
+
+August 27, 2017
+
+"Silent gratitude isn't much use to anyone." Gladys Bronwyn Stern
+
+---
+*Source: [Transfer of the project to NB3Q](https://www.plc-hmi-scadas.com/en/Omron_Transfer_HMI.php) — Jose Manuel Luque*

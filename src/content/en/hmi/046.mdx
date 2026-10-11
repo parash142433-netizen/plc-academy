@@ -1,0 +1,63 @@
+---
+title: "Link between Omron CQM1 PLC and WinCC Advanced RT V.11"
+slug: "046"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/046.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["TIA WinCC Advanced RT","Omron","CQM1"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# Link between Omron CQM1 PLC and WinCC Advanced RT V.11
+
+Jose Manuel Luque
+
+TIA WinCC Advanced RT Omron CQM1
+
+In this practice, we will configure a link between a PC with WinCC RT Advanced, which would be the successor of WinCC Flexible RT, and an Omron PLC, to be more precise, a CQM1. We start from the basis that we have created our PLC project.
+
+We create a new project in TIA Portal and add a new device, as we mentioned, our case is WinCC RT Advanced.
+
+![](./assets/images/046/Omron%20TIA-02.jpg)
+
+This is the interface we have once we have added our device. The next step will be to configure a new connection that will refer to our PLC.
+
+![](./assets/images/046/Omron%20TIA-05.jpg)
+
+We add the name we are interested in and in the driver, we select Omron Host Link. By default, COM1 port and default values appear, these are correct if we have respected these parameters when configuring the PLC port, as can be seen below. If necessary, adjust them to the values; otherwise, it will give us a communication failure.
+
+![](./assets/images/046/Omron%20TIA-06a.jpg)
+
+![](./assets/images/046/Omron%20TIA-06.jpg)
+
+Once we have added the connection, we can now include the variables, tags that we will use or need to develop the application. Consult the help to verify the data types supported by TIA Portal.
+
+![](./assets/images/046/Omron%20TIA-07.jpg)
+
+We can now add some input/output fields and link them to the created variables to check that there is communication and that the link and the configuration of the variables have been done correctly. For the example, I have added Outputs, Timers, and DM memory area.
+
+Once these steps are completed, we can compile our project, and if there are no errors, we can check its operation.
+
+![](./assets/images/046/Omron%20TIA-08.jpg)
+
+Once executed, here we have an example where the link with the PLC fails. This case was due to an error in the serial port configuration.
+
+![](./assets/images/046/Omron%20TIA-10.jpg)
+
+Once that problem is solved, we recompile and execute, and the result is satisfactory; it works perfectly. This same configuration is applicable to WinCC Flexible 2008.
+
+![](./assets/images/046/Omron%20TIA-11.jpg)
+
+Finally, the cable used for the connection between the PC and the PLC serial port is the following, although the one used for the transfer between PC and PLC, that is, the one on the right, also works perfectly; for that reason, I have added it.
+
+![](./assets/images/046/Omron%20TIA-13.jpg)
+
+October 28, 2012
+
+---
+*Source: [Link between Omron CQM1 PLC and WinCC Advanced RT V.11](https://www.plc-hmi-scadas.com/en/046.php) — Jose Manuel Luque*

@@ -1,0 +1,83 @@
+---
+title: "Beckhoff OPC UA Server - CE"
+slug: "beckhoff-server-opc-ua"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Beckhoff_Server_OPC_UA.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","BECKHOFF"]
+tags: ["Beckhoff","OPC UA Server - CE"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [BECKHOFF](#/a/en%2Fplc-beckhoff) › Article
+
+# Beckhoff OPC UA Server - CE
+
+Jose Manuel Luque 05 25, 2019
+
+Beckhoff OPC UA Server - CE
+
+**Beckhoff OPC UA Server - CE**
+
+![](./assets/images/beckhoff-server-opc-ua/vba-logo.png) ![](./assets/images/beckhoff-server-opc-ua/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+We have already seen how to connect remotely with the CERHOST and manage our system. Once the FTP Server is enabled, we will transfer the file to install the OPC UA Server on our device.
+
+We connect and simply transfer the \*.CAB file, which we previously obtained by starting the installation on our machine. Once installed, the \*.CAB files have been extracted in the installation directory.
+
+We transfer it to the default directory.
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_09.png)
+
+Once transferred, we will start the installation with a double click.
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_11.png)
+
+The default installation must be done in the System directory. As shown in the following image.
+
+Once the installation is complete, the \*.CAB file will be deleted.
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_12.png)
+
+Once installed, what interests us is the PKI directory, for the certificates and the ServerConfig file. In the next article, we will discuss the topic of certificates when we have defined optimal security.
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_15.png)
+
+The ServerConfig file is where we will configure our Server.
+
+By default, when the file is created, there is a Demo configuration, which we will update with the parameters that interest us; these are the source parameters.
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_14.png)
+
+And here is the updated configuration, where we have updated the following parameters
+
+<AdsNetId>192.168.1.250.1.1</AdsNetId>
+
+<AutoCfg>7</AutoCfg>
+
+<AutoCfgSymFile>\\Hard Disk\\TwinCAT\\Boot\\PLC.tpy</AutoCfgSymFile>
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_17.png)
+
+We transfer the configuration file \*.TPY via FTP, and move it to the directory \\Hard Disk\\TwinCAT\\Boot
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_18.png)
+
+Once all these changes are made, we need to restart our device, as we saw Start->Reset, so we do not have to cut power to the device and have to turn it back on
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_19.png)
+
+We are going to test its operation; for this, we will use Unified Automation UaExpert
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_20.png)
+
+And here we check that everything works perfectly, we can now establish communication with our [WinCC](#/a/en%2Fwincc-cliente-opcua-beckhoff)
+
+![](./assets/images/beckhoff-server-opc-ua/WindowCE_Install_Server_21.png)
+
+05-25-2019
+
+---
+*Source: [Beckhoff OPC UA Server - CE](https://www.plc-hmi-scadas.com/en/Beckhoff_Server_OPC_UA.php) — Jose Manuel Luque*

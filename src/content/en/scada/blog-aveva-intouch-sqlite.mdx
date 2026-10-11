@@ -1,0 +1,135 @@
+---
+title: "AVEVA Intouch - SQLite"
+slug: "blog-aveva-intouch-sqlite"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-sqlite/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch - SQLite
+
+Jose Manuel Luque May 26, 2024
+
+AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch - SQLite](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-6-1.png)
+
+Today we are going to see how to work with **Intouch - System Platform** and with **SQLite** databases. And if you want to know its origins, a bit of literature [here](https://learn.microsoft.com/es-es/dotnet/standard/data/sqlite/compare). As its name indicates, it is not a database for millions of records, but there are times when it is interesting to have an embedded database with a single file, as is the case with SQLite, without the need to install anything; it can be and is very useful, in fact, AVEVA uses it for the Licence Manager ;-)
+
+_What do we need?_
+
+*   We will need the .Net library **System.Data.SQLite**
+
+_Where do I download it?_
+
+*   Here we have all the [information](https://system.data.sqlite.org/index.html/doc/trunk/www/downloads.wiki) related that interests us. This was the package I downloaded for the first tests.
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-1.png)
+
+This is the package I downloaded, with the library we are interested in and the one we are going to import into Intouch / System Platform
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-2-1024x686.png)
+
+  
+And here is the surprise... Error importing the library.
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-3.png)
+
+  
+If you want to avoid this type of problems, download this package that includes several libraries depending on the .NET framework you need.
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-5-1024x391.png)
+
+  
+This time the import is done without problems and we are ready to write our code.
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-6-1.png)
+
+  
+In this example, what we are going to do is a select to show all the records we have in our configuration table and we are going to write them in the logger.
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-7.png)
+
+  
+Here is the code to copy and paste ;-).
+
+Visual
+
+Code
+
+```
+try
+	Dim connectionString As String;
+	Dim query As String;
+	Dim connection as System.Data.SQLite.SQLiteConnection;
+	Dim reader As System.Data.SQLite.SQLiteDataReader;
+	Dim command as System.Data.SQLite.SQLiteCommand;
+
+	LogMessage("--> 1.-Start");
+
+	connectionString = "Data Source=C:\Resources\PHS.db;";
+	query = "SELECT * FROM Configuration";
+
+	connection = New System.Data.SQLite.SQLiteConnection(connectionString);
+
+	connection.Open();
+
+	if connection.State == System.Data.ConnectionState.Open then
+
+		command = New System.Data.SQLite.SQLiteCommand(query, connection);
+
+		reader = command.ExecuteReader();
+
+		While reader.Read()
+		    UserName.Text = reader.GetString(0); 
+		    Level.Text = reader.GetInt32(1); 
+			LogMessage("          User: " + UserName.Text + "-" + Level.Text);
+		EndWhile;
+
+		Connection.Close();
+	endif;
+
+	LogMessage("--> 2.-End");
+catch
+	LogMessage(error);
+endtry;
+```
+
+  
+If we run our code, it works perfectly, now it's your turn to adapt it according to your needs and if you really need it; if not, you already know that this option exists.
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-8.png)
+
+  
+And for those who are new to this field, a bit of additional information.  
+Every time we import a .Net library, what happens?  
+Intouch / System Platform itself creates a package with the name of the library and with the extension **\*.aaSLIB**. If you change the extension to .zip, you will see what we are talking about.  
+This package is used internally to reference all the libraries, functions, methods contained in our assembly and to call them from **Intouch / System Platform**.  
+In total, to go from theory to practice, close your project, and delete the contents of the following directory.  
+If you reopen the project and go to where you were using the library, you will have an error, as the references cannot be found.  
+**NOTE**: When you are writing your own libraries and importing new changes, if they are not applied correctly, delete the contents and re-import.
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-9.png)
+
+  
+On the other hand, a copy of the library in question is made within the following directory, so when you take the project from one PC to another, you can open the project and work without problems, just like the runtime.  
+This means that by observing this directory, you can tell if you are working with any extra library in the project.
+
+![](./assets/images/blog-aveva-intouch-sqlite/AVEVAIntouch-SQLLite-10.png)
+
+  
+And now we are going to extrapolate this functionality to how it will be in [WinCC](#/a/en%2Fblog-wincc-sqlite)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch - SQLite](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-sqlite/) — Jose Manuel Luque*

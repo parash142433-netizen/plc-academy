@@ -1,0 +1,204 @@
+---
+title: "Version Control with Git, GitHub and TIA Portal V21"
+slug: "blog-control-versiones-git-tia-portal-v21"
+locale: "en"
+category: "software"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/control-versiones-git-tia-portal-v21/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Software","Version Control"]
+tags: ["TIA Portal V21","Git","GitHub","VCI"]
+downloads: [{"title":"Download PDF","url":"https://www.plc-hmi-scadas.com/Download/PHS_TIA_V21_VCI_Git_Guia_Rapida.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Software](#/a/en%2Fsoftware) › [Version Control](#/a/en%2Fgit) › TIA Portal V21 + Git
+
+# Version Control with Git, GitHub and TIA Portal V21
+
+Version PLC blocks with Version Control Interface, SIMATIC SD and a Git repository.
+
+Pedro Pagán Pallarés 15 Aug, 2026
+
+TIA Portal V21 Git GitHub VCI
+
+![Version control in TIA Portal V21 with VCI, SIMATIC Source Documents and Git](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-tia-portal-v21.png)
+
+**Context and evolution in TIA Portal V21**
+
+In previous versions of TIA Portal it was already possible to integrate Git through **Version Control Interface** and add-ons such as **VCI-VCS Connector**. The previous series already covered how to prepare the environment, work with a local and remote repository, and recover versions: [Part 1](#/a/en%2Fblog-gittialportal), [Part 2](#/a/en%2Fblog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2) and [Part 3](#/a/en%2Fblog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3).
+
+The difference in this article is **TIA Portal V21**: **SIMATIC Source Documents** already existed for certain objects, such as **LAD**, **DBs** and **PLC types**, but Siemens extends its use to more languages, especially **SCL**, **FBD** and blocks with mixed languages. This allows more PLC logic to be represented through textual formats such as `.s7dcl` and `.s7res`, making comparison and versioning with Git easier.
+
+The goal remains the same: traceability, comparison and recovery of PLC code changes. Instead of relying only on the TIA project binary file, the blocks are exported to a workspace with **Version Control Interface** and those files are versioned with **Git**.
+
+TIA Portal V21 VCI / Workspace SIMATIC SD Git GitHub
+
+**Requirements**
+
+*   TIA Portal V21 with Version Control Interface available.
+*   Git installed on Windows.
+*   GitHub Desktop, optional but convenient for reviewing diffs, commits and push.
+*   A GitHub account signed in to GitHub Desktop if a remote copy is required.
+*   A dedicated local workspace folder, for example `C:\PHS\TIA_GIT_TEST`.
+
+**SIMATIC SD and VCI**
+
+**SIMATIC Source Documents** does not appear for the first time in V21: it is the textual format that TIA Portal can use to represent certain engineering objects outside the project. VCI exports blocks and types to files such as `.s7dcl` and, where applicable, `.s7res`. This allows Git to show line-by-line changes: new entries, modified conditions or removed logic.
+
+![TIA Portal V21 project with the Version Control Interface panel open](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-01.png)
+
+![Initial VCI workspace configuration in TIA Portal](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-02.png)
+
+**Prepare the workspace**
+
+From the project tree, add a new workspace under **Version control interface** and associate it with the local folder shared by TIA Portal and Git. In this example the folder is `C:\PHS\TIA_GIT_TEST`.
+
+**Export formats**
+
+In **Configure workspace**, under **Export formats**, select **SIMATIC SD** for the available languages and objects: LAD, FBD, SCL, data blocks and PLC data types. It is best to define this when the workspace is created.
+
+![Workspace export format options before selecting SIMATIC SD](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-03.png)
+
+Change the formats to SIMATIC SD.
+
+![Export formats configured as SIMATIC SD](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-04.png)
+
+With that configuration, VCI generates the files in the folder shared by TIA Portal and Git.
+
+![Files generated in the shared folder between TIA Portal and Git](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-05.png)
+
+**First SCL FB exported**
+
+Program, save and compile the block. In the example, the motor FB in **SCL** is exported from VCI using **Action: Export** and **Synchronize**, taking advantage of the SIMATIC SD expansion in TIA Portal V21.
+
+![Motor block export from Version Control Interface](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-06.png)
+
+![FB\_Motor block exported into the workspace](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-07.png)
+
+When the directory is checked, the exported file is already there, for example `FB_Motor.s7dcl`.
+
+![Local directory with the exported FB\_Motor file](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-08.png)
+
+**First commit and publication**
+
+**Local Git**
+
+Now move to Git. First, open PowerShell in the workspace folder.
+
+![PowerShell opened in the C:\\PHS\\TIA\_GIT\_TEST folder](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-09.png)
+
+PowerShell
+
+```
+cd C:\PHS\TIA_GIT_TEST
+git init
+git status
+git add .
+git commit -m "Version inicial FB_Motor"
+git log --oneline
+```
+
+Initialize the repository and check the project status.
+
+![Git repository initialized and project status in PowerShell](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-10.png)
+
+Add all exported files and check that they are staged for the commit.
+
+![Git add and git status with exported files staged for commit](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-11.png)
+
+Create the first commit. If Git asks for identity, configure it once with `git config --global user.name` and `git config --global user.email`.
+
+![First FB\_Motor commit from PowerShell](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-12.png)
+
+Check that the repository is on the `master` branch and that the working tree is clean.
+
+![Git status on master branch with no pending changes](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-13.png)
+
+**GitHub Desktop**
+
+Then add the local repository in GitHub Desktop by selecting the same workspace folder.
+
+![GitHub Desktop Add local repository window with the workspace path](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-14.png)
+
+![Local repository opened in GitHub Desktop with the exported block](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-15.png)
+
+At this point the repository is local, so publish it from GitHub Desktop. For real projects it can be kept private.
+
+![Publish repository option in GitHub Desktop](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-16.png)
+
+![GitHub Desktop Publish repository form](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-17.png)
+
+The motor block is now published in GitHub.
+
+![GitHub repository with the published FB\_Motor block](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-18.png)
+
+**Changes, diff and history**
+
+**Modify the FB**
+
+With the first version saved, modify the FB by adding one more variable and some logic.
+
+![FB\_Motor modification with a new variable and additional logic](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-19.png)
+
+The project detects the change. In the workspace, the synchronization status of the objects is visible.
+
+![TIA Portal shows the modified block inside the project](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-20.png)
+
+![Synchronization states between project and workspace in VCI](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-21.png)
+
+To make the workspace match the project, select **Export** again.
+
+![Export action in the workspace to synchronize the modified block](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-22.png)
+
+GitHub Desktop shows the change because it compares the exported file with the version that was already uploaded before.
+
+![Line-by-line diff of the FB\_Motor block in GitHub Desktop](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-23.png)
+
+**Commit, push and history**
+
+Create a commit with a clear comment, push it and check those changes in the history.
+
+![GitHub Desktop history with the block changes commit](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-24.png)
+
+**Key points:** VCI is not Git; VCI synchronizes TIA with external files and Git keeps the history. Export moves changes from TIA to the workspace; Import does the opposite. Commit saves a local version; Push sends it to GitHub.
+
+**Ladder block: workflow check**
+
+The **Ladder** test remains a practical check of the same system: when the block is exported through SIMATIC SD, VCI generates files that Git can detect and compare within the workflow.
+
+![Ladder block prepared for the versioning test](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-25.png)
+
+Export the Ladder block to the workspace.
+
+![Workspace with exported files after modifying the Ladder block](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-26.png)
+
+Local Git detects the modified files and GitHub Desktop allows the change to be reviewed before confirming the version.
+
+![GitHub Desktop detects local changes in the Ladder block](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-27.png)
+
+Then confirm the change with a commit and publish it to the remote branch.
+
+![Two-file commit in GitHub Desktop for the Ladder block](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-28.png)
+
+![Push origin button to publish the changes to the remote branch](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-29.png)
+
+The result is that the block is incorporated into the repository with traceable history, just like the other objects exported from TIA Portal.
+
+![Repository with the updated motor history](./assets/images/blog-control-versiones-git-tia-portal-v21/control-versiones-git-tia-portal-v21-30.png)
+
+**Quick guide and related articles**
+
+**Quick PDF guide**
+
+Compact summary of the workflow: TIA Portal, VCI Export, SIMATIC SD, Git diff, Commit, Push and GitHub.
+
+[Download PDF](https://www.plc-hmi-scadas.com/Download/PHS_TIA_V21_VCI_Git_Guia_Rapida.pdf)
+
+Related: [Version control and TIA Portal, part 1](#/a/en%2Fblog-gittialportal), [part 2](#/a/en%2Fblog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2), [part 3](#/a/en%2Fblog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3) and [Git and GitHub: collaborative workflow from VS Code](#/a/en%2Fblog-git-github-flujo-colaborativo-vscode).
+
+#### Pedro Pagán Pallarés
+
+Industrial automation and version control applied to PLC projects.
+
+---
+*Source: [Version Control with Git, GitHub and TIA Portal V21](https://www.plc-hmi-scadas.com/en/blog/control-versiones-git-tia-portal-v21/) — Pedro Pagán Pallarés*

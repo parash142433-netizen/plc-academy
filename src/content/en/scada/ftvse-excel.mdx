@@ -1,0 +1,60 @@
+---
+title: "VBA Code to Save Data in Excel"
+slug: "ftvse-excel"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/FTVSE_Excel.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk View SE"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# VBA Code to Save Data in Excel
+
+Jose Manuel Luque
+
+Factory Talk View SE
+
+**Example VBA Code to Save Data in Excel  
+**
+
+I am going to write some articles dedicated to Factory Talk View and particularly to the Visual Basic for Applications part, so any reader who wants to contribute some code, example, etc... should get in touch and we will publish it...
+
+Let's start with an example, in which we will save some data in an Excel sheet, which we could also apply inversely, collecting some data from Excel and using it in FTVSE.
+
+![](./assets/images/ftvse-excel/FTVSE_Excel_01.png)
+
+The first thing we do is open the Microsoft Visual Basic for Applications editor; in this case, we have inserted a button to make the registration in Excel, we right-click on it and access the editor with VBA Code...
+
+![](./assets/images/ftvse-excel/FTVSE_Excel_02.png) ![](./assets/images/ftvse-excel/FTVSE_Excel_04.png)
+
+Once the editor is open, the first step to be able to use an Excel object is to add its reference; as can be seen in the images, Tools --> References and we add Microsoft Excel 12.0 Object Library, the version may change depending on the version of Microsoft Office installed.
+
+The code for our example is as follows:
+
+1.- Create a TagGroup, where we will add the variables that interest us.
+
+2.- Instantiate an Excel object; in this case, we will open an existing workbook, if you want to create it from scratch, use the commented code with the .Add method.
+
+3.- Insert in the cells that interest us the values of the variables we have defined.
+
+4.- Save the Excel file and close the workbook.
+
+![](./assets/images/ftvse-excel/FTVSE_Excel_06.png)
+
+Here is an example image, where once the code is executed, we check that it has worked correctly.
+
+![](./assets/images/ftvse-excel/FTVSE_Excel_07.png)
+
+March 24, 2015
+
+If you liked it or found it helpful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [VBA Code to Save Data in Excel](https://www.plc-hmi-scadas.com/en/FTVSE_Excel.php) — Jose Manuel Luque*

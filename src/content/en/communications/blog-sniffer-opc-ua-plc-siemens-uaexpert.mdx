@@ -1,0 +1,73 @@
+---
+title: "OPC UA Sniffer with Siemens PLC, UA Expert and Capture Application"
+slug: "blog-sniffer-opc-ua-plc-siemens-uaexpert"
+locale: "en"
+category: "communications"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/sniffer-opc-ua-plc-siemens-uaexpert/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Communications","OPC"]
+tags: ["Siemens","OPC UA","UA Expert","OPC UA Sniffer","Wireshark"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Communications](#/a/en%2Fcomunicaciones-industriales) › [OPC](#/a/en%2Fopc) › OPC UA sniffer with capture application
+
+# OPC UA Sniffer with Siemens PLC, UA Expert and Capture Application
+
+Quick video capturing OPC UA packets between a Siemens PLC and UA Expert over a channel with no OPC UA security.
+
+Jose Manuel Luque Jul 05, 2026
+
+Siemens OPC UA UA Expert OPC UA Sniffer Wireshark
+
+![OPC UA sniffer with Siemens PLC, UA Expert and capture application](./assets/images/blog-sniffer-opc-ua-plc-siemens-uaexpert/sniffer-opc-ua-portada.png)
+
+**Warning:** this content is educational and defensive. The goal is to show why an unprotected OPC UA communication is a risk, not to encourage attacks or unauthorized access. Run this type of test only in your own lab or in environments where you have explicit permission.
+
+In this test we use a **Siemens PLC as the OPC UA server**, a **UA Expert** client and an **application developed to work as a sniffer**, intercepting and capturing the OPC UA communications in the lab.
+
+The OPC UA connection in this lab is configured with **No security / None**. That means there is no channel signing or encryption, so the traffic can be inspected with capture tools. For the secure version with certificates and encryption, see the article about [OPC UA security with Siemens S7-1500 and UA Expert](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert).
+
+ Your browser cannot play this video.
+
+OPC UA traffic capture between the Siemens PLC and UA Expert using a sniffer application developed for the test.
+
+**Video goal**
+
+The goal is to show, in a simple way, that OPC UA communication in **None** mode leaves information visible if someone can capture traffic between the client and the server.
+
+We start from the same approach explained in [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens): a PLC publishes variables through OPC UA and UA Expert connects to read them.
+
+**Test setup**
+
+The architecture is deliberately simple: the Siemens PLC acts as the OPC UA server, UA Expert acts as the client and a custom application performs the sniffer role to intercept and capture OPC UA packets. The point is not to make the lab complex, but to see the real data flow.
+
+This scenario fits with other OPC UA tests on the site, such as the [OPC UA client in a Siemens S7-1500](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500) or [CODESYS SoftPLC as OPC UA server and Siemens as client](#/a/en%2Fblog-codesys-softplc-servidor-opc-ua-siemens-cliente).
+
+**OPC UA capture without security**
+
+In UA Expert we select the endpoint with no security. This makes the connection quick for a test, but it also means the content is not protected by signing or encryption.
+
+With the capture running, we can follow the negotiation, OPC UA messages and server responses. For a real installation, avoid this mode and use certificates, current security policies and **Sign & Encrypt**.
+
+**New online DB and packet detail**
+
+During the test, a new DB is added online in the PLC and we observe how the changes appear in the communication. Then we drill down into the packet details to locate the OPC UA part that transports the published information.
+
+Related reading: [OPC UA security with Siemens and UA Expert](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert), [Siemens OPC UA server](#/a/en%2Fblog-servidor-opc-ua-plc-siemens) and [Siemens S7-1500 OPC UA client](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500).
+
+**Conclusion**
+
+If OPC UA communication is not protected with proper security policies, certificates and encryption, a capture application can see the published variables and their values. In this article we are not performing an attack: we are showing, in a controlled way, that when the channel remains in **None**, process data can be exposed to inspection.
+
+In upcoming articles we will see how, starting from this kind of communication, a [Man-in-the-Middle (MITM)](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) scenario could be approached, and why OPC UA communication should be closed with real security.
+
+**Tool and inquiries:** if you are interested in this tool or want to discuss a similar case, contact us by email at [info@plc-hmi-scadas.com](mailto:info@plc-hmi-scadas.com) or through [LinkedIn](https://www.linkedin.com/company/plc-hmi-scadas/).
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [OPC UA Sniffer with Siemens PLC, UA Expert and Capture Application](https://www.plc-hmi-scadas.com/en/blog/sniffer-opc-ua-plc-siemens-uaexpert/) — Jose Manuel Luque*

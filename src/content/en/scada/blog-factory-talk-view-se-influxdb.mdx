@@ -1,0 +1,129 @@
+---
+title: "FactoryTalk View SE - InfluxDB"
+slug: "blog-factory-talk-view-se-influxdb"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-influxdb/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","Allen-Bradley SCADA"]
+tags: ["InfluxDB","FactoryTalk View SE","Rockwell"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](https://www.plc-hmi-scadas.com/Home/) › [SCADA](https://www.plc-hmi-scadas.com/SCADA/) › [Allen-Bradley SCADA](https://www.plc-hmi-scadas.com/SCADA-ALLEN-BRADLEY/) › FactoryTalk View SE - InfluxDB
+
+# FactoryTalk View SE - InfluxDB
+
+Configuring InfluxDB to log data from FactoryTalk View SE.
+
+Jose Manuel Luque 20 Jun, 2026
+
+InfluxDB FactoryTalk View SE Rockwell
+
+**Introduction and initial access**
+
+Starting with FactoryTalk View SE version 14, a new data logging system is included alongside the existing ones: integration with InfluxDB, as shown in another example.  
+After installation, if you check the corresponding port, you will see the access page.
+
+![InfluxDB access screen after installation](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-14.png)
+
+**User and token creation**
+
+We are going to see how to create a user and password to access and configure InfluxDB.  
+These are the commands.
+
+![Commands to create a user and password in InfluxDB](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-08.png)
+
+Codigo
+
+```
+$influx = "C:\Program Files (x86)\Rockwell Software\RSView Enterprise\3rdParty\InfluxData\InfluxCli\influx.exe"
+& $influx user create -n FTAdmin -p xxxxxxx. -o Rockwell
+```
+
+And with this command we are going to extract the token, which is essential for the later configuration.
+
+![Command to extract the InfluxDB access token](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-09.png)
+
+Codigo
+
+```
+$influx = "C:\Program Files (x86)\Rockwell Software\RSView Enterprise\3rdParty\InfluxData\InfluxCli\influx.exe"
+& $influx auth create --org Rockwell --user FTAdmin --all-access
+```
+
+Now, with the user we have created, we are going to log in and check that everything works.
+
+![Logging into InfluxDB with the created user](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-15.png)
+
+**HMIServer bucket verification**
+
+When the page loads, we can see that the HMIServer bucket appears, which we added to our project.
+
+![HMIServer bucket visible in InfluxDB](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-06.png)
+
+**InfluxDB connection setup**
+
+Now it is time to configure the connection to a new database, which in this example is InfluxDB.
+
+![Database connection configuration screen in FactoryTalk View SE](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-10.png)
+
+The next capture shows the different types available.
+
+![Available connection types during setup](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-11.png)
+
+And here is the important part: indicate where the access token was obtained.
+
+![Token field in the connection configuration](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-12.png)
+
+The connection has now been created.
+
+![InfluxDB connection created successfully](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-13.png)
+
+**DataLogPro configuration**
+
+In DataLogPro, once the [initial problem](https://www.plc-hmi-scadas.com/blog/factorytalk-view-se-error-datalogpro/) has been solved:  
+  
+
+> Unable to open the DataLogPro because the HMI server is not available. 
+
+  
+We can now open the editor and configure which variables we want to log.
+
+![DataLogPro editor to select variables to log](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-01.png)
+
+**Visualization with TrendPro**
+
+For visualization, we need the TrendPro object to connect to InfluxDB and plot the data.
+
+![TrendPro object configured with InfluxDB connection](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-02.png)
+
+We configure the variables we are interested in.
+
+![Variable selection for TrendPro visualization](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-03.png)
+
+We are going to look at the system variables, which are the ones we set to log.
+
+![System variables logged for trending](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-04.png)
+
+And the behavior is correct. Everything works perfectly.
+
+![TrendPro showing historical data from InfluxDB](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-05.png)
+
+**Final verification in InfluxDB**
+
+We can also view the records directly in InfluxDB.
+
+![Stored records visible in InfluxDB](./assets/images/blog-factory-talk-view-se-influxdb/factory-talk-view-se-influxdb-07.png)
+
+**Related articles**
+
+[Logging PLC Data with InfluxDB](#/a/en%2Fblog-registro-datos-plc-influxdb)
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [FactoryTalk View SE - InfluxDB](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-influxdb/) — Jose Manuel Luque*

@@ -1,0 +1,104 @@
+---
+title: "PM-Analyze (Part - 2)"
+slug: "blog-pm-analyze-parte-2"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/pm-analyze-parte-2/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","SCADA","WinCC","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# PM-Analyze (Part - 2)
+
+Jose Manuel Luque Nov 24, 2024
+
+SCADA SCADA WinCC WinCC
+
+![PM-Analyze (Part - 2)](./assets/images/blog-pm-analyze-parte-2/PM-AGENT-9.png)
+
+If you have not read [PM-Analyze (Part - 1)](#/a/en%2Fblog-pm-analyze)
+
+We already have the connection between our server and our agent, now we need to add the variables, historical data, alarms, etc. according to the needs.  
+**I am mainly exploiting the data logging performance for analysis and what methods or tools are available to leverage that data.**
+
+Therefore, the first thing we do is import the logging variables that we have defined in our WinCC Unified project.  
+**NOTE**: **I am logging 5000 tags at 100 ms, the maximum limit of the SQLite database, from which we will draw further conclusions.**
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-16-.png)
+
+  
+We simply follow the wizard and here are our tags that are being logged.
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-18.png)
+
+  
+And the same for the tags of our project:
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-19.png)
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-22.png)
+
+  
+Once we have that first step, the next is to create our **Tag archive**
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-23.png)
+
+  
+We follow the wizard
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-24.png)
+
+  
+If we use our PM-SERVER as historical data, we are interested in it being persistent and that the configuration of the segments / database is as defined in the project.
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-25.png)
+
+  
+This option can be modified, but our tags will be the ones we imported to our station.
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-26.png)
+
+  
+And this option does not apply for my tests ;-), but adapt according to needs.
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-27.png)
+
+  
+And we finish the wizard.
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-28.png)
+
+  
+Here is the summary of the wizard, where we can modify everything except the type of Archive
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-29.png)
+
+  
+It is time to add which variables we want, notice in the **Tags** section
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-30.png)
+
+  
+And the **Archive Tags** section contains all the tags we have imported
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-31.png)
+
+  
+And I am going to add the **5000 Tags**  
+To verify that the communication and updating are working correctly, in **Online Tags** it can already be checked
+
+![](./assets/images/blog-pm-analyze-parte-2/PM_Analize-35.png)
+
+And finally the data analysis. PM-Analyze (Part - 3) In process ...
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [PM-Analyze (Part - 2)](https://www.plc-hmi-scadas.com/en/blog/pm-analyze-parte-2/) — Jose Manuel Luque*

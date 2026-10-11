@@ -1,0 +1,117 @@
+---
+title: "PROFINET Basics"
+slug: "blog-conceptos-basicos-profinet"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/conceptos-basicos-profinet/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["NETWORKS","NETWORKS"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# PROFINET Basics
+
+Jose Manuel Luque Jan 19, 2025
+
+NETWORKS NETWORKS
+
+![PROFINET Basics](./assets/images/blog-conceptos-basicos-profinet/image-2.png)
+
+**PROFINET** is an industrial protocol based on Ethernet, developed by the [**Profibus & Profinet International (PI)**.](https://www.profibus.com/) It emerged as an evolution of the **PROFIBUS** protocol, aimed at meeting the growing demands for connectivity, flexibility, and performance in modern industrial automation networks.  
+  
+And here we have the famous [OSI model](https://ccnadesdecero.es/que-es-modelo-osi/) and how the PROFINET protocol fits in.
+
+![OSI Model and PROFINET](./assets/images/blog-conceptos-basicos-profinet/image-2.png)
+
+[https://profinetuniversity.com](https://profinetuniversity.com/industrial-automation-ethernet/network-reference-model/)
+
+  
+  
+Before PROFINET, the **PROFIBUS** protocol was one of the most widely used standards in automation.  
+**PROFIBUS** is a serial protocol developed in 1989 by the PI consortium, designed to connect field devices such as sensors, actuators, and controllers.  
+  
+The PI organization launched **PROFINET** in the 2000s as the Ethernet-based version of PROFIBUS, leveraging standard Ethernet infrastructure but optimized to meet the stringent requirements of industrial systems.  
+  
+Some of the main features are as follows:
+
+*   Uses standard Ethernet (IEEE 802.3) as the physical medium, allowing for faster communication and easy integration with enterprise networks.
+*   **PROFINET RT (Real Time):** Communication for applications with deterministic time requirements, such as motion control and device synchronization.
+*   **PROFINET IRT (Isochronous Real Time):** Designed for applications with strict synchronization requirements, such as high-speed factory automation.
+*   **TSN (Time Sensitive Networking)** is a set of standards defined by IEEE 802.1, designed to ensure deterministic communication in standard Ethernet networks, which is essential for critical industrial applications where timing and synchronization are crucial.
+*   **CiR (Configuration in Runtime)** is a functionality of PROFINET that allows changes to the system configuration without stopping the controller or interrupting communication on the network. This capability is especially valuable in industrial environments where operational continuity is critical, as it facilitates modifications, updates, or expansions of the system during normal operation.
+
+**IEEE 802.1AS**
+
+Time synchronization across the network.
+
+**IEEE 802.1Qbv**
+
+Traffic scheduling to prioritize critical data.
+
+**IEEE 802.1CB**
+
+Seamless redundancy through packet duplication.
+
+**IEEE 802.1Qbu**
+
+Preemption handling to ensure critical packets are not delayed.
+
+**IEEE 802.1Qci**
+
+Traffic policies to prevent congestion and packet loss.
+
+Redundancy configurations in PROFINET:
+
+**S1 (No redundancy)** One controller and one field device communicate through a single connection without redundancy implemented.
+
+![](./assets/images/blog-conceptos-basicos-profinet/image-3.png)
+
+  
+**S2 (Simple controller redundancy)** A PROFINET device supports communication relationships with both the main controller and its backup through a single connection. In the event of a failure of the main controller, seamless switching to its physical copy occurs.
+
+![](./assets/images/blog-conceptos-basicos-profinet/image-4.png)
+
+  
+**R1 and R2 (Device and controller redundancy)** To achieve very high or maximum availability, a redundant communication interface is implemented in the field device. In R2, each of the two communication interfaces of a device can establish communication relationships with both the main controller and its redundant copy, offering maximum protection against failures.
+
+![](./assets/images/blog-conceptos-basicos-profinet/image-5.png)
+
+  
+The **Media Redundancy Protocol (MRP)** is a functionality of PROFINET that allows the configuration of ring topologies to ensure redundancy in network communication. According to the **IEC 62439** standard, **MRP** describes redundancy in **PROFINET** with a typical reconfiguration time after a failure of less than 200 ms for networks with up to 50 devices, applicable for both acyclic and cyclic data in RT mode.
+
+In a highly available Ethernet network using **MRP**, a **Media Redundancy Manager (MRM)** and one or more **Media Redundancy Clients (MRC)** are required. The MRM monitors the integrity of the ring and converts a ring structure into a line structure in case of failure, while the MRCs act as routers for test telegrams and generally do not assume an active role in the ring.
+
+**MRM (Media Redundancy Manager)**: Responsible for managing the ring network topology, acting upon failures to automatically reconnect the network to its line structure.
+
+**MRC (Media Redundancy Client)**: Devices that, although they do not actively act in the ring, participate in network checks and collaborate in redundancy protection.
+
+![](./assets/images/blog-conceptos-basicos-profinet/image-6.png)
+
+**NOTE**: _Whenever possible, implement a ring. In PROFINET, each device acts as a switch, switching packets and regenerating the signal, unlike PROFIBUS, which uses a linear bus. This means that if a device fails in a linear network, all other devices will also fail. This is the big difference and the weak point compared to the benefits that PROFINET offers._
+
+Now let's continue expanding knowledge and don't forget to check [PROFINET](https://www.profinet.com/) and here you have some basic concepts of the [Simple Network Management Protocol](#/a/en%2Fblog-snmp-simple-network-management-protocol) (SNMP) for the management, monitoring, and diagnosis of our devices.
+
+And some tools that will make your work easier:
+
+*   [PRONETA](https://support.industry.siemens.com/cs/document/67460624/proneta-basic-3-8-commissioning-and-diagnostics-tool-for-profinet?dti=0&lc=en-NL)
+*   [SINEC PNI](https://support.industry.siemens.com/cs/document/109964180/descarga-y-liberaci%C3%B3n-para-la-venta-suministro-del-sinec-pni-v2-0-basic-professional-sp1-?dti=0&lc=es-WW)
+
+![](./assets/images/blog-conceptos-basicos-profinet/image-7.png)
+
+*   [PROFINET COMMANDER](https://profinetcommander.com/)
+
+Based on this, we implement and have PROFISave, PROFIDrive, and PROFIprocess, which is where I was documenting myself ;-) and getting up to speed...
+
+> The more I learn, the more I realize how much I don't know.  
+> Albert Einstein
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [PROFINET Basics](https://www.plc-hmi-scadas.com/en/blog/conceptos-basicos-profinet/) — Jose Manuel Luque*

@@ -1,0 +1,57 @@
+---
+title: "Print Files from WinCC Flexible PC Runtime"
+slug: "003"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/003.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["PC Runtime","WinCC Flexible","VBScripts"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# Print Files from WinCC Flexible PC Runtime
+
+Jose Manuel Luque
+
+PC Runtime WinCC Flexible VBScripts
+
+The principle of this practice is based on a question from a colleague in the Infoplc.net forum, where the goal is to print labels when an input is activated. To write this guide, I used the Paint program to print an image of a Barcode, but it has been tested with other applications; to reuse it, the script code will need to be adapted.
+
+The solution involves using the resources of Visual Basic Script, and the procedure I followed was as follows:
+
+1.- Set up the default printer; for this, go to Control Panel -> Printers and Faxes and select the one we are going to use; in my case, for testing, I used a virtual printer called PDFCreator.
+
+![](./assets/images/003/Barcode08.jpg)
+
+2.- The next step will be to open a new project or the project we are working on in WinCC Flexible.
+
+3.- Go to the Scripts section and create a new one; the code would be as follows: this script would open an application, open the specified file, print it, and close the application.
+
+![](./assets/images/003/Barcode05.jpg)
+
+4.- The problem arises because it is not possible to use the Sleep method in WinCC Flexible; the solution is to create an external script outside of WinCC Flexible and then call it from the Runtime.
+
+5.- To execute an external program, we can use obj\_Shell.Exec or obj\_Shell.Run (the name obj\_Shell is symbolic), although another issue arises: it is not possible to use the .bat or .vbs extension, so the script we create outside of WinCC Flexible will be converted to an .exe file to be called from the Runtime.
+
+![](./assets/images/003/Barcode0002.jpg)
+
+6.- Once we have created our .exe file, we are ready to create the script that will call this when the input is at 1.
+
+7.- The script in WinCC Flexible will be as follows:
+
+![](./assets/images/003/Barcode06.jpg)
+
+8.- Now we just need to configure the execution of the script, which we will do in the corresponding tag, and it will execute every time it changes value. However, if we want to print a Word or Excel document from the Runtime, the structure of the script would be something like the following:
+
+![](./assets/images/003/Barcode09.jpg)
+
+![](./assets/images/003/Barcode09.jpg)
+
+July 2012
+
+---
+*Source: [Print Files from WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/003.php) — Jose Manuel Luque*

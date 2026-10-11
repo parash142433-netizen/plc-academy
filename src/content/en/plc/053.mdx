@@ -1,0 +1,73 @@
+---
+title: "Reading and Writing Date and Time from PLC and WinCC RT Advanced"
+slug: "053"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/053.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["CPU200","PLC","WinCC RT Advanced","READ_RTC","SET_RTC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Reading and Writing Date and Time from PLC and WinCC RT Advanced
+
+Jose Manuel Luque
+
+CPU200 PLC WinCC RT Advanced READ\_RTC SET\_RTC
+
+In response to a question asked, I will demonstrate how to read and write the time in an S7-2xx CPU and modify it from the screen. I will use a PC with WinCC RT Advanced as the screen; this same configuration can be applied to WinCC Flexible PC Runtime.
+
+To read and write, we have two functions or four, depending on the CPU you are using. In this case, I have enabled all four functions, but I will use the basic ones.
+
+The first thing we will do is consult the manual to understand how the function works and the type of data to use.
+
+![](./assets/images/053/CPU2xx%20Clock-0.jpg)
+
+Once reviewed, we know that in T we will introduce a pointer to the first memory address. From this, it will use 7 consecutive bytes to store year, month, day ...
+
+We insert the function for both reading and writing using VB0.......VB.
+
+![](./assets/images/053/CPU2xx%20Clock-01.png)
+
+With this, we would have enough, but I have used some intermediate markers that are not necessary. We could write directly on VB0 for the year, VB1 for the month, and so on consecutively. However, as I mentioned, I have configured 7 bytes starting from MB10... MB17, and the program is simple; I move the loaded values to their corresponding VBx memory.
+
+![](./assets/images/053/CPU2xx%20Clock-02.png)
+
+![](./assets/images/053/CPU2xx%20Clock-03.png)
+
+And the status table to check its operation is as follows:
+
+![](./assets/images/053/CPU2xx%20Clock-04.png)
+
+I compile, check that there are no errors, and load the program to the CPU. If you have any doubts when loading, here is [an example](#/a/en%2F001 "Communication between S7-2xx and PC"). I go online and read the clock configuration of my CPU, checking its values in the status table.
+
+![](./assets/images/053/CPU2xx%20Clock-05.png)
+
+![](./assets/images/053/CPU2xx%20Clock-06.png)
+
+We open our project in WinCC Flexible or TIA Portal and create the configuration to run the Runtime on the PC communicating with the S7-200 through the PPI cable. Here you can find [the example of this configuration](#/a/en%2F049 "Communication between S7-2xx and WinCC RT Advanced"). We create the variables that we will use; according to this example, the following.
+
+![](./assets/images/053/CPU2xx%20Clock-12.png)
+
+We insert some Input and Output fields for the visualization and modification of the date and time. Here comes one of the things to keep in mind; otherwise, it will give us an error that is not visible. The formats of the date and time are in BCD, meaning their format is from 0 to 9. Since we do not have that format, we will use hexadecimal and enter the values as if they were in BCD; for example, 10 will be entered as such and not as 16#A, and we repeat this for each field.
+
+![](./assets/images/053/CPU2xx%20Clock-09.png)
+
+![](./assets/images/053/CPU2xx%20Clock-11.png)
+
+The final appearance of our screen is as follows, where once the values are entered in the memory area fields MB, we perform the move. According to the program, when pressing Set Values, which is associated with marker M0.0, once this is done, we write with marker M1.1 or read with marker M1.0, which is associated with the Read Clock button.
+
+![](./assets/images/053/CPU2xx%20Clock-07.png)
+
+We run the Runtime and here is the result; we can read and write, and the values we have entered in decimal while the field is configured as hexadecimal. I hope this resolves the doubt.
+
+![](./assets/images/053/CPU2xx%20Clock-13.png)
+
+November 28, 2012
+
+---
+*Source: [Reading and Writing Date and Time from PLC and WinCC RT Advanced](https://www.plc-hmi-scadas.com/en/053.php) — Jose Manuel Luque*

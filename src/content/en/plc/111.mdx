@@ -1,0 +1,107 @@
+---
+title: "SoftLogix"
+slug: "111"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/111.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["SoftLogix","Allen Bradley","Rockwell"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# SoftLogix
+
+Jose Manuel Luque
+
+SoftLogix Allen Bradley Rockwell
+
+In this practice, we will configure the SoftLogix, this is the software from Rockwell Allen Bradley that allows us to turn our PC into a PLC. The slots will be the PCI cards that we install or have installed in our PC, and for older PCs, there are ISA cards.
+
+The SoftLogix will be the one I will use to test our projects in the absence of having the CPU and to establish our link with the Panel View Plus or Factory Talk View SE.
+
+Once installed, it starts automatically, and this is the interface, practically the same as the RSLogix Emulate 5000; we add the modules in the same way, right-click -> Create and add the card that interests us, as an example, I will add the Ethernet/IP network card.
+
+![](./assets/images/111/111-Softlogix-00.png)
+
+![](./assets/images/111/111-Softlogix-02.png)
+
+Within the available catalog, we select the one that interests us, in my case Ethernet/IP SoftLogix5800, and I will use the card that I already have installed.
+
+![](./assets/images/111/111-Softlogix-03.png)
+
+![](./assets/images/111/111-Softlogix-04.png)
+
+We assign the label that we want to display in the rack, and with that, we would have configured the card; we would do the same with subsequent cards to be added, in the case of configuring a DeviceNet network, ControlNet ...
+
+![](./assets/images/111/111-Softlogix-05.png)
+
+![](./assets/images/111/111-Softlogix-06.png)
+
+The configuration of RSLinx for project transfer is done by configuring the same driver as RSLogix Emulate, Virtual Backplane. We run RSLinx and add that driver.
+
+![](./assets/images/111/111-Softlogix-07.png)
+
+![](./assets/images/111/111-Softlogix-08.png)
+
+We click on add and assign it the name we are interested in; if there is no error, it will show that it is running.
+
+![](./assets/images/111/111-Softlogix-09.png)
+
+![](./assets/images/111/111-Softlogix-10.png)
+
+We can now observe that all our hardware configured in the SoftLogix is displayed correctly.
+
+![](./assets/images/111/111-Softlogix-12.png)
+
+So far, we have configured the SoftLogix, the RSLinx, and finally, we are going to create a project to download to our controller. We run RSLogix and create a new project, selecting our SoftLogix as the controller, and by default, the chassis is assigned automatically; the default project directory is as is, and we click OK once a name and some description are assigned.
+
+![](./assets/images/111/111-Softlogix-13.png)
+
+The following is the image of our new project; the next thing we will do is configure the hardware, as we need to add our Network card, for this, on Backplane, right-click -> New Module.
+
+![](./assets/images/111/111-Softlogix-14.png)
+
+![](./assets/images/111/111-Softlogix-15.png)
+
+A pop-up window opens where we select the type of Module that interests us, in this case, communications and Ethernet/IP.
+
+![](./assets/images/111/111-Softlogix-16.png)
+
+We configure the name we want to assign, with the IP address that we had configured in the SoftLogix and the Slot where it is located.
+
+![](./assets/images/111/111-Softlogix-17.png)
+
+Our Network card is now added, and in the different tabs, we configure according to our needs; for this example, what has been done is sufficient, we click OK and that's it.
+
+![](./assets/images/111/111-Softlogix-18.png)
+
+Assuming that we have developed our program, which in this practice I will skip, as I will dedicate a practice to explain the different sections of our project, but we assume that we have done it and we are going to perform the transfer.
+
+On Communications -> Who Active
+
+![](./assets/images/111/111-Softlogix-20.png)
+
+An instance of the Who Active from RSLinx opens, and we click on the controller, in this case, the SoftLogix; from this moment, we could perform a transfer from the PC to the Controller (Download) or vice versa, load the project from the Controller to our PC (Upload).
+
+![](./assets/images/111/111-Softlogix-21.png)
+
+As I am interested in loading my program, I do a Download, and first, a warning window appears; we confirm, and the transfer starts automatically.
+
+![](./assets/images/111/111-Softlogix-22.png)
+
+![](./assets/images/111/111-Softlogix-23.png)
+
+From this point on, we could put our Controller in Run; our program will execute, and we can monitor it, go online, observe, check... and modify if necessary.
+
+![](./assets/images/111/111-Softlogix-24.png)
+
+May 8, 2013
+
+If you liked it or the information was useful to you, share it...
+
+---
+*Source: [SoftLogix](https://www.plc-hmi-scadas.com/en/111.php) — Jose Manuel Luque*

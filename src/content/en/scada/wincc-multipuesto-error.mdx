@@ -1,0 +1,76 @@
+---
+title: "This computer is not in the client list of the server project"
+slug: "wincc-multipuesto-error"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Multipuesto_Error.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","WinCC Multi-user"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# This computer is not in the client list of the server project
+
+Jose Manuel Luque
+
+WinCC WinCC Multi-user
+
+**WinCC Multi-project - Error _"This computer is not in the client list of the server project"  
+_**
+
+_
+
+In the following practice, we will see **a possible cause** of the problem "_This computer is not in the client list of the server project_". This error will occur when we are working with a WinCC Multi-project, where we have a Server and X Clients.
+
+The message that will appear when we try to open the project on the client is as follows:
+
+![](./assets/images/wincc-multipuesto-error/WinCC_MultiProject_2.png)
+
+We will consider that all the requirements necessary for this type of project are already met: We have already mentioned them in the following [example](#/a/en%2Fwincc-multipuesto), but we will recall the main ones.
+
+\-Add a new Client on the Server
+
+\-Generate the Data package (Server Data)
+
+\-User and Password policies are met, whether in Workgroup or Domain. The user has been configured with permissions 1000 and 1001. Activate and configure remote
+
+\-They are on the same Network, and we can ping between them using the IP address and their Name.
+
+With the Simatic Shell tool, we check our devices, as shown in the image everything seems correct
+
+![](./assets/images/wincc-multipuesto-error/WinCC_MultiProject_8.png)
+
+If we ping from our Client to our Server using their IP address and Name, to resolve the DNS Server, we verify that everything is correct, yet we still get the displayed error.
+
+![](./assets/images/wincc-multipuesto-error/WinCC_MultiProject_5.png)
+
+We will see this time where the error was:
+
+By default on the Server, it is most common to have two Network cards, one to communicate with the PLCs and another for the WinCC Network, and each is on a different subnet.
+
+![](./assets/images/wincc-multipuesto-error/WinCC_MultiProject_4.png)
+
+We return to the Simatic Shell, right-click and Settings
+
+![](./assets/images/wincc-multipuesto-error/WinCC_MultiProject_10.png)
+
+Here we check the Network cards we have and we must have selected the one corresponding to the Network of the PCs where WinCC is installed, in this case, this was the error. The PLC network card was selected.
+
+Although in the image they are in the same IP range, the subnet mask for each device was different.
+
+![](./assets/images/wincc-multipuesto-error/WinCC_MultiProject_7.png)
+
+July 10, 2015
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+_
+
+---
+*Source: [This computer is not in the client list of the server project](https://www.plc-hmi-scadas.com/en/WinCC_Multipuesto_Error.php) — Jose Manuel Luque*

@@ -1,0 +1,77 @@
+---
+title: "WinCC Debugger VBScript"
+slug: "wincc-debugger-vbscript"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Debugger_VBScript.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","Debugger","VBScript"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Debugger VBScript
+
+Jose Manuel Luque 31 Jan, 2019
+
+WinCC Debugger VBScript
+
+**WinCC Debugger VBScript**
+
+In this article, we will explain step by step how we can debug our scripts in the Microsoft Visual Studio debugger. As a first step, we proceed with its installation, following these steps.
+
+By default, once WinCC is installed, the Microsoft Visual Studio 2008 Debugger is available. If there is no version installed, we proceed to install it from the directory shown in the following image.
+
+C:\\VS 2008 Shell Redist\\Integrated Mode\\vside.enu
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000100.png)
+
+We start the executable and follow the wizard.
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000101.png)
+
+Here you can see the Visual Studio extension that we are going to install, we proceed with next and finish the wizard.
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000102.png)
+
+Once installed, and with our WinCC project in Runtime, we proceed to create a new file
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000105.png)
+
+And within the category, we select Script and Windows Script Host
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000106.png)
+
+A WindowsScriptX.wsf file is automatically created for us
+
+The next step is to attach the process we are interested in, for this Tools-> Attach to Process...
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000107.png)
+
+A list of all running processes appears, and we will select pdlRt.exe because I am going to debug a script that I have on a screen. We can also add the process that refers to Global Script and VBScript.
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000108.png)
+
+On the right side, the PDLRT process is attached along with the screen that is in Runtime at that moment, since the script is on a Button, I select screen\_Events, because the script executes on the button press event. If the script were in the Global Script, we can add the process gscrt.exe and debug it in the same way.
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000109.png)
+
+The file opens with all the scripts on that screen, we look for the code we are interested in and set a Breakpoint. To set a breakpoint, we double-click on the left side, where the red dot is :-), but on the line of code that interests us. Normally always on the first line if we want to see the result of the operations
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000110.png)
+
+Once we have set our BreakPoint, we click the button on the WinCC screen and the debugger stops at the relevant line. We then proceed to go line by line by pressing the F11 key
+
+While in Runtime, we can modify some value to perform tests and debug...
+
+Conclusion: This is how we debug all the scripts we are interested in but with the VBScript language. It is not applicable for debugging scripts in ANSI C. To debug these scripts and all in general, we will use the APDIAG.exe tool, more information here.
+
+![](./assets/images/wincc-debugger-vbscript/WinCCDebug-000111.png)
+
+31-01-2019
+
+---
+*Source: [WinCC Debugger VBScript](https://www.plc-hmi-scadas.com/en/WinCC_Debugger_VBScript.php) — Jose Manuel Luque*

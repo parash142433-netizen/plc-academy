@@ -1,0 +1,59 @@
+---
+title: "OPC TwinCAT Server Configuration"
+slug: "073"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/073.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["Beckhoff","OPC Server","TwinCAT"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# OPC TwinCAT Server Configuration
+
+Jose Manuel Luque
+
+Beckhoff OPC Server TwinCAT
+
+**OPC TwinCAT Server Configuration**
+
+In the following practice, we will see how easy it has been to configure the TwinCAT OPC Server based on the project we created in the [previous practice](#/a/en%2F072 "First project in Beckhoff"). The first thing we do is run the program that displays the following interface and create a new device in the I/O Device directory, assigning the name we are interested in as we usually do.
+
+![](./assets/images/073/Beckoff%20OPC%20-21.png)
+
+![](./assets/images/073/Beckoff%20OPC%20-22.png)
+
+There are several options for AutoConfiguring; we select option number 7 as it refers to using the file generated in our project.
+
+Next, in AutoCfgFile, we click on the Browser and select our file.
+
+![](./assets/images/073/Beckoff%20OPC%20-23.png)
+
+For the following parameters we need, we will obtain them from our project; we will obtain the Port and the address as can be observed.
+
+![](./assets/images/073/Beckoff%20OPC%20-24.png)
+
+![](./assets/images/073/Beckoff%20OPC%20-25.png)
+
+With these simple steps, we have configured the OPC Server; we just need to save and generate our XML file and activate the server, for this we save.
+
+![](./assets/images/073/Beckoff%20OPC%20-26.png)
+
+When saving, the following pop-up window appears to activate our configuration, and it shows us the following message indicating that it has been done successfully.
+
+![](./assets/images/073/Beckoff%20OPC%20-27.png)
+
+![](./assets/images/073/Beckoff%20OPC%20-28.png)
+
+To check that it works correctly, we can use the OPC Client and verify that everything is correct, and as can be seen, it works perfectly.
+
+![](./assets/images/073/Beckoff%20OPC%20-29.png)
+
+February 7, 2013
+
+---
+*Source: [OPC TwinCAT Server Configuration](https://www.plc-hmi-scadas.com/en/073.php) — Jose Manuel Luque*

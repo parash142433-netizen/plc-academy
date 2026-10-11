@@ -1,0 +1,54 @@
+---
+title: "DAServer Manager BackUp - Restore"
+slug: "intouch-daserver-items"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_DAServer_Items.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch","DAServer Manager"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# DAServer Manager BackUp - Restore
+
+Jose Manuel Luque
+
+Intouch DAServer Manager
+
+**DAServer Manager Item Configuration in Intouch  
+**
+
+Once we have created the configuration of our DAServer, regardless of the type we are using, once we have defined the Group, we only need to define the items that interest us. Well, on this occasion, we are not going to perform that step; we will leave the configuration as it is.
+
+![](./assets/images/intouch-daserver-items/WW_DAServer_DeviceItems_00.png)
+
+What we do is the same as if we had defined the items, and we define in the Tagname Dictionary the items; here the address is taken directly from the PLC or OPC, as is my case. You can observe the Channel0\_User\_Definid, group Sine, and tag Sine5.
+
+![](./assets/images/intouch-daserver-items/WW_DAServer_DeviceItems_10.png)
+
+From that moment on, we can insert an object, in this case of the Text type, which allows us to use the dynamic Value Display, and we select the Tag we just added and so on with all the tags that interest us.
+
+![](./assets/images/intouch-daserver-items/WW_DAServer_DeviceItems_04.png) ![](./assets/images/intouch-daserver-items/WW_DAServer_DeviceItems_12.png)
+
+If we run our project, we can observe that it works correctly.
+
+At the same time, we check with the OPC Client the value of the Tag we had defined.
+
+![](./assets/images/intouch-daserver-items/WW_DAServer_DeviceItems_09.png)
+
+In the SMC Administration Console, we can also observe in the Diagnostics Group --> Client Groups, all the Tags that have been declared and those that are active, in this case 14.
+
+![](./assets/images/intouch-daserver-items/WW_DAServer_DeviceItems_11.png)
+
+Monday, February 4, 2015
+
+If you liked it or found it useful, share it ... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [DAServer Manager BackUp - Restore](https://www.plc-hmi-scadas.com/en/Intouch_DAServer_Items.php) — Jose Manuel Luque*

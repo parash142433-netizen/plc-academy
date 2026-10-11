@@ -1,0 +1,62 @@
+---
+title: "Logix5000 – Read Barcode Codes"
+slug: "125"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/125.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["Logix5000 – Read Barcode Codes with the serial port"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# Logix5000 – Read Barcode Codes
+
+Jose Manuel Luque
+
+Logix5000 – Read Barcode Codes with the serial port
+
+**Read Barcode Codes in Logix5000  
+**
+
+The following practice involves the configuration made to connect a Barcode Reader to a Logix5000 via the RS-232 serial port. Therefore, it is essential that our Controller has a serial port.
+
+The new range of Controllers has already replaced the RS-232 Serial port with the USB Serial port.
+
+I will perform the practice with SoftLogix, although it is applicable to Logix5000; thus, the first thing is to know the types of communications we can perform, and the following image illustrates this in detail.
+
+                        [![Get Adobe Flash player](./assets/images/125/get_flash_player.gif)](http://www.adobe.com/go/getflash)
+
+![](./assets/images/125/125-SoftLogix-Comunication-22.png) ![](./assets/images/125/125-SoftLogix-Comunication-23.png)
+
+The first thing I did was configure the serial port. We start from the basis that we have created our project and configured our hardware.
+
+If we go to the properties of our CPU, we have two tabs, SerialPort and User Protocol; in the first, we specify in User Mode, and choose the parameters. In Control Line, it was important to specify No handshake.
+
+The User Protocol tab is used to specify the protocol we will use, which will be ASCII, and the Buffer of number of Bytes for communication.
+
+![](./assets/images/125/125-SoftLogix-Comunication-00.png) ![](./assets/images/125/125-SoftLogix-Comunication-01.png)
+
+Once we have configured our serial port, we can proceed to programming. In this example, what I am going to do is store each time a barcode is read into a String Array, to process it later. However, I have limited the array to 9 positions; once stored, I will increment the index to save in the next position and so on.
+
+For reading the serial port, there are several functions; I have chosen ARD (ASCII Read) where the parameters to pass are the channel number, by default 0, where I will store the read data, my array. The following parameters must be declared as a variable of type SERIAL\_PORT\_CONTROL; this variable is a data structure that provides us with a series of bits to know the status of the function.
+
+![](./assets/images/125/125-SoftLogix-Comunication-02.png)
+
+The following image shows the variables I have created at the Program level, meaning they are only accessible within my program. To know specifically each of the bits, consult the RSLogix5000 help.
+
+![](./assets/images/125/125-SoftLogix-Comunication-03.png)
+
+The following video shows data acquisition, with SoftLogix running and reading barcodes with the reader; you will see how the codes are recorded in the Array.
+
+                        [![Get Adobe Flash player](./assets/images/125/get_flash_player.gif)](http://www.adobe.com/go/getflash)
+
+June 12, 2013
+
+If you liked it or found it useful, share it...
+
+---
+*Source: [Logix5000 – Read Barcode Codes](https://www.plc-hmi-scadas.com/en/125.php) — Jose Manuel Luque*

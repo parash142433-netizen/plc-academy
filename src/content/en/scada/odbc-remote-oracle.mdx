@@ -1,0 +1,59 @@
+---
+title: "ODBC Configuration for Oracle Database"
+slug: "odbc-remote-oracle"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/ODBC_Remote_Oracle.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["ODBC","Database","Oracle"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# ODBC Configuration for Oracle Database
+
+Jose Manuel Luque 26 May, 2019
+
+ODBC Database Oracle
+
+**ODBC Configuration for Oracle Database**
+
+![](./assets/images/odbc-remote-oracle/vba-logo.png) ![](./assets/images/odbc-remote-oracle/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+ODBC configuration for accessing Oracle database, Local or Remote. In this case remotely, and the first step is the installation on the machine from which we are going to connect to our database the **Oracle Data Access Components (ODAC)** this package will install the drivers we select in the setup wizard, remember WinCC is a 32-bit application so we are interested in that version of ODAC, for executing our scripts in VBScripts
+
+I have already installed the package and we continue, if you have any questions, consult the [installation](#/a/en%2Foracle-drivers)
+
+The first thing we are going to check is a PING to the Server machine where the database is located.
+
+![](./assets/images/odbc-remote-oracle/ODBC_ORACLE_REMOTE_007.png)
+
+We run the ODBC Data Source Administrator, but the 32-bit executable, which has precisely been the reason for the installation in 32 bits.
+
+Once started, we add a new User Data Source
+
+![](./assets/images/odbc-remote-oracle/ODBC_ORACLE_REMOTE_001.png)
+
+In the wizard, we select Oracle in OraClient18Home\_32bit, which is the driver that has been installed after the installation.
+
+![](./assets/images/odbc-remote-oracle/ODBC_ORACLE_REMOTE_002.png)
+
+And now we move on to the configuration: We assign the name we are interested in the Data Source Name parameter, followed by a description. When we reach the TNS Service Name parameter, as we are configuring it for remote access, we specify the IP address / Followed by the Name, by default if it was not changed in the installation it is ORCL, and we are going to connect with the User SYSTEM
+
+![](./assets/images/odbc-remote-oracle/ODBC_ORACLE_REMOTE_003.png)
+
+We are going to test the connection, we specify the password for the SYSTEM user
+
+![](./assets/images/odbc-remote-oracle/ODBC_ORACLE_REMOTE_004.png) ![](./assets/images/odbc-remote-oracle/ODBC_ORACLE_REMOTE_005.png)
+
+We have now configured our Data Sources and now we move on to how to [use it](#/a/en%2Fwincc-db-oracle). Note how it specifies 32-bit
+
+![](./assets/images/odbc-remote-oracle/ODBC_ORACLE_REMOTE_006.png)
+
+26-05-2019
+
+---
+*Source: [ODBC Configuration for Oracle Database](https://www.plc-hmi-scadas.com/en/ODBC_Remote_Oracle.php) — Jose Manuel Luque*

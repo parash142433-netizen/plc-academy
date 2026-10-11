@@ -1,0 +1,85 @@
+---
+title: "DELTA DOP-B Screen Editor Alarm Configuration"
+slug: "063"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/063.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","DELTA"]
+tags: ["DELTA","DOP-B","Screen Editor"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [DELTA](#/a/en%2Fother-hmis) › Article
+
+# DELTA DOP-B Screen Editor Alarm Configuration
+
+Jose Manuel Luque
+
+DELTA DOP-B Screen Editor
+
+In the following practice, we will see how to configure alarms for a Delta HMI. For this, the software we will use is the Screen Editor. This is the first time I am using it, as the reason for this is to try to help a colleague who has contacted me.
+
+I will create a new project, and the PLC will be indifferent for the alarm configuration since the only thing that will vary is the memory area, but I will take the opportunity to experiment, so I will choose an S7-200.
+
+![](./assets/images/063/Delta%20S7-200%20-001.png)
+
+This is the interface displayed by the software. Each time an object is inserted into the properties window, this is where the appropriate configurations are made. The available objects are organized hierarchically as seen in the left window.
+
+![](./assets/images/063/Delta%20S7-200%20-002.png)
+
+The first thing I will configure is the control word and the status word. We do this in Options -> Configuration.
+
+![](./assets/images/063/Delta%20S7-200%20-003.png)
+
+We have the options that can be observed, although for alarm configuration it is not necessary to follow these steps since we can select the word that interests us. I considered it important to document this.
+
+When working with an S7-200, the data area for these words is in the zone.
+
+![](./assets/images/063/Delta%20S7-200%20-04.png)
+
+The communication port will be COM1 with the configured parameters, which must match those of our PLC.
+
+![](./assets/images/063/Delta%20S7-200%20-05.png)
+
+We move on to the part which was the objective, the alarm configuration. We can configure alarms in the internal memory area of the Panel or in the memory area of the PLC. For this, in Options -> Tag Table, we will configure the alarms that interest us and the memory area.
+
+![](./assets/images/063/Delta%20S7-200%20-06.png)
+
+The next image is where we must configure the alarm bits and, as I mentioned, in the memory area that interests us. Since I do not have the PLC, I will configure it in Internal Memory. We assume that we will have 6 alarms, and each of them is a bit within a word, so in one word we will have 16 alarms. If I am not mistaken, there is a limit of 32 words for configuring alarms.
+
+![](./assets/images/063/Delta%20S7-200%20-07.png)
+
+![](./assets/images/063/Delta%20S7-200%20-08.png)
+
+Once the alarm bits are configured, we open the Setup Alarm from the Tools menu. In the address, we specify the first word of the alarms. I have configured the system bits $0.0,1,2,3,4... so the corresponding word is $0, and for each bit, we specify its message.
+
+![](./assets/images/063/Delta%20S7-200%20-09.png)
+
+The next image is to check that it works correctly, a button with the Set function and another with the Reset function for each of the alarm bits.
+
+![](./assets/images/063/Delta%20S7-200%20-10.png)
+
+We run the Runtime to check the operation, and since no PLC is connected, the following warning appears, and immediately the Runtime is executed.
+
+![](./assets/images/063/Delta%20S7-200%20-12.png)
+
+![](./assets/images/063/Delta%20S7-200%20-13.png)
+
+I click on the Set buttons, and the state of the corresponding bit changes state. In the window to display the alarms, the configured text and the alarm number are shown. The alarms are also observed at the top of the panel.
+
+![](./assets/images/063/Delta%20S7-200%20-14.png)
+
+![](./assets/images/063/Delta%20S7-200%20-15.png)
+
+As the alarms are reset, they disappear. If I had configured in the Alarm Setup window the option to maintain the alarms that have occurred, the maximum number of records to show, and other options.
+
+With this, I hope I have clarified the question and that it can help to understand its operation.
+
+![](./assets/images/063/Delta%20S7-200%20-16.png)
+
+January 12, 2012
+
+---
+*Source: [DELTA DOP-B Screen Editor Alarm Configuration](https://www.plc-hmi-scadas.com/en/063.php) — Jose Manuel Luque*

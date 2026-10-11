@@ -1,0 +1,75 @@
+---
+title: "AVEVA Intouch Historical Data Access System (HistData Part 2)"
+slug: "blog-aveva-intouch-historical-data-access-system-histdata-parte-2"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-access-system-histdata-parte-2/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch Historical Data Access System (HistData Part 2)
+
+Jose Manuel Luque 08 Jul, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch Historical Data Access System (HistData Part 2)](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_42.png)
+
+After the [introduction](#/a/en%2Fblog-aveva-intouch-historical-data-access-system-histdata), we will move on to the practical part:  
+We have the following graph and we will perform an automatic export
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_36.png)
+
+**TIP (1)**: The TagViewer is our best ally ;-)  
+I just pressed the button and it shows no error, but no file has been generated either, the reason is that the HistData application is not started, however, if we observe the quality of the variables, they already give us a clue!!! _Use the Quality in your application._
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_37.png)
+
+Now I am going to start the HistData and once started, if I press the save button again, I do not get any error message but also no file.
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_39.png)
+
+**TIP (2)**: After starting the HistData application and knowing that it is running, you can verify it with the following function **InfoAppActive()**, if the quality of the variables is not 192, you need to restart the topic or programmatically with the following functions
+
+Code
+
+```
+IOReinitAccessName("AccessName", Default);
+IOStartUninitConversations();
+```
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_40.png)
+
+And automatically, the highlighted variables ... are now communicating.
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_41.png)
+
+And with the next save, we have what we are looking for... we now have our file, with the 250 records within the time interval that goes from the variable **HDWStartDate** / **HDWStartTime** with a duration of **HDWDuration** and the **HDWInterval**, all this automatically
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_42.png)
+
+To do it manually, what we would have to do is change the parameters that interest us and directly force the variable **HDWWriteFile** to 1, which automatically resets to 0 once the transaction is executed.
+
+**CONCLUSION**: Before exporting data, verify that the **HistData** is running, that the variable **HDWStatus** is true and that its quality is 192, and then you can export  
+The variable HDWError will give you the error information. Example:
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_43.png)
+
+Errors collected in the manual:
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_44.png)
+
+![](./assets/images/blog-aveva-intouch-historical-data-access-system-histdata-parte-2/WWHistory_45.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch Historical Data Access System (HistData Part 2)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-access-system-histdata-parte-2/) — Jose Manuel Luque*

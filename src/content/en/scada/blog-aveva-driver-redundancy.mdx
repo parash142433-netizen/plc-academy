@@ -1,0 +1,123 @@
+---
+title: "AVEVA Driver Redundancy"
+slug: "blog-aveva-driver-redundancy"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-driver-redundancy/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Driver Redundancy
+
+Jose Manuel Luque Jan 19, 2025
+
+AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Driver Redundancy](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-8.png)
+
+We will see how we can test how the concept of redundancy works for AVEVA drivers, and for this, we will use the simulation driver. But it would be equivalent for another driver.  
+  
+We have PLC1 with the same configuration as PLC2, changing the suffixes from 1-2  
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-2.png)
+
+  
+PLC1 - Device Groups -> Fast1
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-3.png)
+
+  
+In the definition of the Items, we create Item\_0
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-4.png)
+
+  
+For PLC2, we have exactly the same configuration, starting with the algorithm for the simulator.
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-5.png)
+
+  
+PLC2 - Device Groups -> Fast2
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-6.png)
+
+  
+And as we mentioned, we have configured the same item.
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-7.png)
+
+  
+We insert a new redundancy object, where we have to point to the configuration of our PLCs. As seen in the image, Primary & Secondary and as Ping Item, the variable we have defined in both configurations.
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-8.png)
+
+  
+The next device group will be the one we will use when configuring our driver for ... Intouch, Historian, etc...
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-9.png)
+
+  
+And in items, it will be the redundant items from both PLC1 and PLC2
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-10.png)
+
+  
+And now once we have the driver running, it is time to check its operation.  
+I will disable the configuration of PLC2
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-16-1024x393.png)
+
+  
+With an OPC Client, we will subscribe to the item we have created for each connection, we have stopped PLC2 and we can already see how Item\_0 of that PLC does not communicate and Item\_0 of redundancy has the value of PLC1
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-17.png)
+
+  
+If on the contrary we stop PLC1 and enable PLC2, we can check its operation.
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-15.png)
+
+  
+And to finish, if we disable both PLCs, well of course...
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-19-1024x393.png)
+
+  
+We have no communication with any PLC, and the variable $SYS$Status of the redundancy configuration indicates that there is no communication.
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-18.png)
+
+  
+How we configure our Historian for a driver configured with redundancy. [More information](https://docs.aveva.com/bundle/sp-historian/page/CE_Configuring_IOServers.html.html)  
+The first step, like any driver, is the server where our IO Server is and the name of the application, for this example SIM.  
+And where the key point is that in the topic, we have to point to the topic of the redundancy configuration.
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-12.png)
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-13.png)
+
+  
+And we can now define all our items, if previously the items are configured in the driver we point to that reference, otherwise in item Name, we point directly to the PLC address.
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-14.png)
+
+  
+And we already have our driver configured, running, and logging...
+
+![](./assets/images/blog-aveva-driver-redundancy/AVEVA_Drivers_Redundancy-11-1024x393.png)
+
+  
+Now what you can check is to disable the configuration of the different PLCs and with the online graph, verify that it works correctly.
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Driver Redundancy](https://www.plc-hmi-scadas.com/en/blog/aveva-driver-redundancy/) — Jose Manuel Luque*

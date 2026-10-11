@@ -3,10 +3,3 @@ dist/
 *.log
 .claude/
 .vscode/
-
-# Mirrored third-party content (other authors' work) - regenerate locally with `npm run scrape`
-src/content/en/
-src/content/es/
-src/content/curriculum-index.json
-public/assets/images/
-public/user_images/

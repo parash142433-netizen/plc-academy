@@ -1,0 +1,71 @@
+---
+title: "UnityPro-ControlExpert CANOpen"
+slug: "controlexpert-canopen"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/ControlExpert_CanOpen.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SCHNEIDER"]
+tags: ["UnityPro","ControlExpert","CANOpen"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SCHNEIDER](#/a/en%2Fplc-schneider) › Article
+
+# UnityPro-ControlExpert CANOpen
+
+Jose Manuel Luque 06 May, 2019
+
+UnityPro ControlExpert CANOpen
+
+**UnityPro-ControlExpert CANOpen**
+
+Within Schneider's programmable logic controllers that are programmed with Unity Pro - which is now called Control Expert, if you need to configure a CANOpen network, there are two versions. For many of you, this is basic knowledge, but we must always consider the new generations or the initial tests.
+
+The first one is the tool embedded within Unity or Control Expert to configure the network, as shown in the following image.
+
+By double-clicking on the CANOpen network, the editor and the device hardware to be inserted into the network open up.
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_1.png)
+
+Configuration of our device, where we select the mode that interests us and the Process Data Objects (PDO). Some devices will have more than one configuration mode, as would be the case with the Altivar, where there are several modes or it may be that only one configuration is available.
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_2.png)
+
+We can observe the network and the node number in each element.
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_3.png)
+
+But on the other hand, if for example we have a TSX P57
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_4.png)
+
+It has a CANOpen network and information about the module, LEDs, etc...
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_5.png)
+
+But if we go to Channel 1, it is waiting for the configuration file \*.co to load the database, or we need to have SyCon installed to start it and configure the network.
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_7.png)
+
+With SyCon we can configure the CANOpen, InterBus, and Profibus networks.
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_8.png)
+
+An example from SyCon, where we will configure the entire network with all the devices.
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_9.png)
+
+Each device is associated with an EDS - Electronic Data Sheets where all the information is stored. And it is in the properties of each device where we perform the configuration that interests us.
+
+We save the file \*.co and it is the one we will select as the Database file.
+
+As information, the latest version of SyCon is v.11.
+
+![](./assets/images/controlexpert-canopen/ControlExpert_CanOpen_11.png)
+
+06-05-2019
+
+---
+*Source: [UnityPro-ControlExpert CANOpen](https://www.plc-hmi-scadas.com/en/ControlExpert_CanOpen.php) — Jose Manuel Luque*

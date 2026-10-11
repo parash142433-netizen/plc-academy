@@ -1,0 +1,80 @@
+---
+title: "Information Server Win-XML"
+slug: "133"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/133.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Information Server Win-XML"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Information Server Win-XML
+
+Jose Manuel Luque
+
+Information Server Win-XML
+
+**Information Server Win-XML  
+**
+
+In the [previous practice](#/a/en%2F131), an introduction to the Wonderware Information Server was presented, and at the end, there was a link to download the Win-XML application, so we installed it and it is recommended to install it on the same PC where we have the InTouch application to publish.
+
+![](./assets/images/133/133-Intouch-Publish-11.png) ![](./assets/images/133/133-Intouch-Publish-12.png)
+
+First, we are going to create a new project, we assign it a name that interests us and a directory for it, this will be where the project files are generated.
+
+![](./assets/images/133/133-Intouch-Publish-14.png)
+
+Following the wizard, once the name and directory are defined, the next step is to provide the address of the Information Server / Wonderware, when we click Verify, it will ask for a username and password, it is important to install the Information Server with an Administrator user that has a password.
+
+![](./assets/images/133/133-Intouch-Publish-15.png) ![](./assets/images/133/133-Intouch-Publish-16.png)
+
+If everything is correct, a message will appear showing us the following message.
+
+![](./assets/images/133/133-Intouch-Publish-18.png)
+
+Finishing the wizard, according to the parameters we have passed to it, the following configuration is created, although we always have the option to select the checkbox and make the necessary modifications.
+
+With that, we have completed the wizard for our project.
+
+![](./assets/images/133/133-Intouch-Publish-20.png) ![](./assets/images/133/133-Intouch-Publish-21.png)
+
+By default, once the project is created, a directory _(WindowsSet)_ is created for our screens, in the case of having created Symbols, right-clicking on the name of our project, _(new SymbolSet)_ would create a directory for them. To test, I will use the demo project that comes with the installation of InTouch.
+
+File-> Open InTouch Application and select the directory of the project to publish.
+
+![](./assets/images/133/133-Intouch-Publish-24.png) ![](./assets/images/133/133-Intouch-Publish-27.png)
+
+Once opened, all the created screens are automatically loaded, now the ones we are interested in publishing are the ones we drag to our directory (WindowsSet), it is important in previous versions to publish ActiveX objects, follow the instructions in the manual for their publication.
+
+![](./assets/images/133/133-Intouch-Publish-28.png) ![](./assets/images/133/133-Intouch-Publish-34.png)
+
+About the screens imported into the directory, we can consult the information of their conversion and a preview of the same.
+
+![](./assets/images/133/133-Intouch-Publish-35.png)
+
+The following image shows a screen whose conversion has not been performed correctly, either due to unsupported functions or objects.
+
+![](./assets/images/133/133-Intouch-Publish-36.png)
+
+Once we have the screens correctly converted, we can publish them on the Information Server, for that, we right-click on the name of our project and select Publish, it will ask for a username and password again and once confirmed, it will be published automatically.
+
+![](./assets/images/133/133-Intouch-Publish-37.png)
+
+We have the option to use the Go Online button and check how our screen will be displayed, we can now access the Server with our web browser and check our application.
+
+![](./assets/images/133/133-Intouch-Publish-40.png)
+
+June 27, 2013
+
+If you liked it or found the information useful, share it...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Information Server Win-XML](https://www.plc-hmi-scadas.com/en/133.php) — Jose Manuel Luque*

@@ -1,0 +1,54 @@
+---
+title: "Restore to Factory Settings"
+slug: "simatic-restaurar-ktp"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Simatic_Restaurar_KTP.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["This device contains Free Software see OP properties in the Control Panel for details"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# Restore to Factory Settings
+
+Jose Manuel Luque
+
+This device contains Free Software see OP properties in the Control Panel for details
+
+**Restore Factory Settings on KTP  
+**
+
+In the following practice, we will see how to solve when on our screen, for some reason... the following message appears, "This device contains Free Software see OP properties in the Control Panel for details"
+
+![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_01.png)
+
+To solve this, we will connect an Ethernet cable between our PC and our Panel; it does not need to be crossed since the KTP port is auto-crossing, or connect both devices to a switch and run ProSave, as we will restore our device to the factory image. First, define the type of panel we have and the type of connection we will use, we define the IP address of our panel.
+
+![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_00.png) ![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_08.png)
+
+We switch to the OS Update tab; automatically, depending on the installed version, whether it is WinCC Flexible or Tia Portal, it will indicate the directory where the images are located. At this step, the most important thing is to select the checkbox Reset to factory settings, where input fields will automatically appear to enter the M.A.C address of our Screen.
+
+A pop-up window will appear to notify us that the data will be irretrievably lost; we confirm with yes.
+
+![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_02.png) ![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_03.png)
+
+And from this moment the process begins...
+
+![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_04.png) ![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_05.png)
+
+Followed by the transfer of all data and the loading of the operating system image. If everything is correct, a message will appear indicating that the transfer has been successfully completed. We can now reload our project and get back to work...
+
+![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_06.png) ![](./assets/images/simatic-restaurar-ktp/Simatic_Restaurar_KTP_07.png)
+
+May 12, 2014
+
+If you liked it or found it useful, share it...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Restore to Factory Settings](https://www.plc-hmi-scadas.com/en/Simatic_Restaurar_KTP.php) — Jose Manuel Luque*

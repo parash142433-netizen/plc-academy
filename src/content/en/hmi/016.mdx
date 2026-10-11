@@ -1,0 +1,53 @@
+---
+title: "S7-2xx (PPI) Link with WinCC Flexible PC Runtime"
+slug: "016"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/016.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["S7-200 link with WinCC Flexible","PPI","Programmable Logic Controllers"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# S7-2xx (PPI) Link with WinCC Flexible PC Runtime
+
+Jose Manuel Luque
+
+S7-200 link with WinCC Flexible PPI Programmable Logic Controllers
+
+In this practice, we will see how to configure a link between an S7-2xx and the WinCC Flexible PC Runtime using the RS232/PPI cable, **warning** the USB/PPI cable cannot be used for this, as it is only for transferring.
+
+1.- The first step will be to adjust the PG/PC Interface, selecting PC/PPI, we go to properties and adjust the parameters
+
+![](./assets/images/016/WCF%20S7-2xx-02.jpg)
+
+![](./assets/images/016/WCF%20S7-2xx-01.jpg)
+
+2.- We select the COM port, in our case COM1
+
+![](./assets/images/016/WCF%20S7-2xx-03.jpg)
+
+3.- We start our project in WinCC Flexible, and the first step we will take is to configure the connections, we create a new one and adjust according to the previous parameters and our project
+
+![](./assets/images/016/WCF%20S7-2xx-05.jpg)
+
+4.- We create some variables to visualize the operation
+
+![](./assets/images/016/WCF%20S7-2xx-06.jpg)
+
+5.- Finally, we create a screen with input and output fields to visualize the variables created earlier
+
+![](./assets/images/016/WCF%20S7-2xx-07.jpg)
+
+6.- Finally, we compile and if there are no errors we can run the Runtime and observe its operation
+
+![](./assets/images/016/WCF%20S7-2xx-09.jpg)
+
+August 14, 2012
+
+---
+*Source: [S7-2xx (PPI) Link with WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/016.php) — Jose Manuel Luque*

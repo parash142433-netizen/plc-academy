@@ -1,0 +1,138 @@
+---
+title: "WinCC RT Professional Load Project Runtime Station"
+slug: "wincc-rt-cargar-proyecto"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_RT_Cargar_Proyecto.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC RT Professional","Runtime","TIA Portal","Simatic","Siemens"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC RT Professional Load Project Runtime Station
+
+Jose Manuel Luque
+
+WinCC RT Professional Runtime TIA Portal Simatic Siemens
+
+**WinCC RT Professional Load Project Runtime Station  
+**
+
+We will start this practice with a brief introduction. First of all, we need to differentiate between the software we will need depending on the device we are going to program. The following image illustrates this perfectly. We also need to differentiate between simulation and execution in RT (Runtime).
+
+Today we will see how to load our WinCC Runtime Professional project onto our PC. Generally, we will have our Engineering station with the TIA Portal installation, and on the other hand, we will have a machine where WinCC RT Professional is installed.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_0.png)
+
+In the following image, you can clearly see what was described earlier. This point is very important; in TIA Portal, what we can do is simulation, but not execution, unless we also have WinCC RT Prof installed. This is why the RT icon is not enabled.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_3.png)
+
+I am going to create a new project, and we will see the necessary configuration to achieve our goal.
+
+We create a new project that we will call WinCC RT Prof and switch to project view (3)
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_01.png)
+
+Once in project view, we will add a new device.
+
+We select PC System and within this, we expand SIMATIC HMI Application, and for this example, WinCC RT Professional corresponds to the Scada WinCC, but in the TIA Portal environment.
+
+Finally, in this step, we will select the version that interests us and click ok.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_05.png)
+
+The next thing we are going to do is the configuration; for this, we go to equipment configuration (1) and what we need to add to our equipment will be the network card, in my case IE general (2). If you have other communication processors, add them here.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_06.png)
+
+By default, when we add a network card, we need to add it to our network in case we already have one configured; if we do not have any, we will add a new one, in this case.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_07.png)
+
+The next thing we are going to do is configure the IP address of our equipment; here we can use the Simatic Shell, and we should see our equipment, as shown in the image; here we see the equipment address of our machine.
+
+NOTE: For proper operation on both machines, our engineering station and our PC for the Scada, we must see in the Simatic Shell both machines or all that are on the network.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_10.png) ![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_11.png)
+
+To finalize the configuration of our PC Station, we need to give it a name.
+
+By default, it does not have one, and we must assign one.
+
+With this, we have configured our station with the basics.
+
+\- Name.
+
+\- Add Network Card and configure IP address and subnet mask.
+
+I will not go into details here; we will simply add a new screen so that when we run the runtime, we can visualize it and check that it really works.
+
+I have simply added two text fields, and that's it.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_15.png)
+
+The next thing we do is go to the Runtime configuration, where we will define the Start screen, which is the only thing I have done; here we would need to do a new practice to explain step by step all the options, we will leave that for next time.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_16.png)
+
+Now we go to the most interesting part of today’s topic, that is, once we have completed our application, we need to distribute it.
+
+To do this, the first thing we do once we have finished is to Compile our project. We have several options to execute the compilation; I will use the following one because we can observe the different options we have.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_18.png)
+
+The first time we compile our project, we will use the first option.
+
+From this point on, every time we compile, we will use the last option.
+
+Here we see an image once our project is compiled without any errors or warnings.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_19.png)
+
+Once compiled, we will transfer it; we also have several options to download our project, but like the compilation, I will use the following method, which is more visual.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_20.png)
+
+Once we have clicked Download and one of the options that interest us, the following pop-up window appears to continue with the download.
+
+Note that we will use the File type and the File system interface, as what we are going to do is move the files of our project.
+
+What we need to define in this window is the destination folder, which will be where our WinCC RT Professional is installed, and it must be a shared folder. So we navigate to our PC and select the desired folder. By default, the winccprojects folder is a shared folder.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_22.png)
+
+If everything is correct up to this point, we will be able to observe, as I have highlighted in the following image, that the connection has been successfully established, and we can proceed with the wizard.
+
+To do this, we finish with Load and continue...
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_23.png)
+
+Finally, the following window appears; here, if it is the first time we have performed the transfer or it is an update, we must click on the following checkboxes, depending on what we want. The options, as you can see, are to start the Runtime directly. Other options are to reset the TagLogging and AlarmLogging database (Log files, Alarms).
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_25.png)
+
+And finalizing the process, we click Load, and if everything is correct, we will not receive any warnings or errors, and we can go to our destination PC to check and run it.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_26.png)
+
+Once our project is transferred, we go to the destination PC and run the WinCC RT Start application, in which the only thing we have to do is load the project file that we just transferred.
+
+We can put it in Runtime and that's it :-)
+
+If we want to stop it, we will do so from our application or from the Stop icon of WinCC RT Start.
+
+![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_32.png) ![](./assets/images/wincc-rt-cargar-proyecto/WinCC_RT_Prof_V13_34.png)
+
+February 11, 2016
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC RT Professional Load Project Runtime Station](https://www.plc-hmi-scadas.com/en/WinCC_RT_Cargar_Proyecto.php) — Jose Manuel Luque*

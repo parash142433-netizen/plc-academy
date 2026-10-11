@@ -1,0 +1,63 @@
+---
+title: "WinCC Flexible Logged User Name"
+slug: "winccflexible-currentuser"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCCFlexible_CurrentUser.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["WinCC","VBScript","GetUserName","login"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# WinCC Flexible Logged User Name
+
+Jose Manuel Luque
+
+WinCC VBScript GetUserName login
+
+**WinCC Flexible Logged User Name**
+
+In Vocational Training (CFGS), classes are held with WinCC Flexible, so we are going to give a little push to future technicians.
+
+The following practice is to know when a user is logged into our system and when they are not.
+
+The first thing we are going to do is create two internal variables, as shown in the following image.
+
+![](./assets/images/winccflexible-currentuser/WCFLoginLogout_01.png)
+
+Next, we are going to create a Script that I have called LogOn\_LogOut.
+
+If we analyze the lines of code, I have declared an internal Script variable User. We then use the System function GetUserName and assign the result to our internal variable User.
+
+At that moment, we use a conditional and compare if the value of User is equal to Admin or Supervisor, which are the two users I have created in the project. If one of these two users is present, we change the UserLogin variable to TRUE or FALSE.
+
+With the value of this variable, we will know if there is any user logged in. With this, we have finished our Script, and now we just need to call it.
+
+![](./assets/images/winccflexible-currentuser/WCFLoginLogout_03.png)
+
+To call the Script we just created, we go to the Task Scheduler and create a new task with the User Change event. We assign our Script to the functions that will be executed at each User change.
+
+With this, we have finished. Now let's see what we can do with the variable that tells us that there is a user logged in.
+
+![](./assets/images/winccflexible-currentuser/WCFLoginLogout_05.png)
+
+We are going to create a new graphics list with a boolean value and assign two images as an example. When there is no user, the value is 0, and when there is a user, the value is 1.
+
+![](./assets/images/winccflexible-currentuser/WCFLoginLogout_06.png)
+
+We assign this graphics list to a button and link the tag UserLogin, with this we will visually know when there is a user in the System. You just have to run it in Runtime and check it.
+
+We can also put an Output field with the variable CurrentUser, which we had created, and we will see the User's name.
+
+![](./assets/images/winccflexible-currentuser/WCFLoginLogout_07.png)
+
+June 1, 2018
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Flexible Logged User Name](https://www.plc-hmi-scadas.com/en/WinCCFlexible_CurrentUser.php) — Jose Manuel Luque*

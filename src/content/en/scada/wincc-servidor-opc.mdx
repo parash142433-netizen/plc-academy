@@ -1,0 +1,99 @@
+---
+title: "WinCC OPC Server"
+slug: "wincc-servidor-opc"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Servidor_OPC.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC OPC Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC OPC Server
+
+Jose Manuel Luque
+
+WinCC OPC Server
+
+**WinCC OPC Server  
+**
+
+In the following practice, we will see the OPC Servers available in WinCC.
+
+\-WinCC OPC DA
+
+\-WinCC OPC XML
+
+\-WinCC OPC UA
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_13.png)
+
+**WinCC OPC DA Server  
+**
+
+When we perform a complete installation of WinCC, the OPC Server is installed by default. As I mentioned, WinCC can be an OPC DA, XML, and UA Server; the first one we will look at is the DA.
+
+To see the three cases, we will start from the basis that we have created a project and have it in Runtime. To check its operation, we will use the OPC Scout Client included in Simatic Net. We start a new project, and by default, it recognizes all the installed Servers on the PC, of the DA and UA types.
+
+As can be seen in the image, when we are over the Server, we right-click to initiate the connection with it, and we can already see its information, including name and protocol used.
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_7.png)
+
+Now we will add the variables, which we only need to expand from the directory of interest and drag them to the Scout interface and in turn to the DA View. Once added, we click the Monitoring button to check the properties of the configured tags.
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_6.png)
+
+If we perform a check and write in WinCC, we will observe how the data is served to the client and updated with its values and properties.
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_8.png)
+
+**WinCC OPC XML Server  
+**
+
+The second one we will see is the XML Server, which, if the requirements have been met prior to installation, will also be installed with a Complete installation of WinCC, with the difference that it will require a separate license from the WinCC Option Connectivity Pack.
+
+The prerequisites are the installation of the Internet Information Server, and within the IIS installation, install the same plugins as if it were the installation of the WinCC Web Navigator.
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_1.png) ![](./assets/images/wincc-servidor-opc/WinCCOPCServer_2.png)
+
+As we have mentioned, in this case, the servers of this class are not listed. The name with which we access it is the following:
+
+http:/ComputerName/WinCC-OPC-Xml/DAWebservice.asmx
+
+To add it to the Scout, as shown in the image.
+
+We can now observe, as in the previous case, the information of it, and as a special feature, that the protocol used is HTTP/HTTPS.
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_9.png)
+
+We add the variables in the same way we did previously. And once added, we can monitor them to observe and write new values to check their operation.
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_3.png)
+
+With WinCC in Runtime, we perform the same test as before.
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_5.png)
+
+**WinCC OPC UA Server  
+**
+
+And to finish, we will look at the OPC UA, which is the latest technology in OPC and has considerable advantages over DA, the most important being that it does not use Microsoft’s DCOM technology, allowing us to have OPC Servers and Clients on other Operating Systems like Linux, for example.
+
+In this case, in the Scout, it does list the servers of this type, and we can see that there are a series of them, because depending on the Security we employ, we will have certain credentials and certificates to access. For this example, we will try with the one that has no security.
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_10.png)
+
+We repeat the same steps we have performed previously...
+
+![](./assets/images/wincc-servidor-opc/WinCCOPCServer_11.png) ![](./assets/images/wincc-servidor-opc/WinCCOPCServer_12.png)
+
+August 26, 2014
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC OPC Server](https://www.plc-hmi-scadas.com/en/WinCC_Servidor_OPC.php) — Jose Manuel Luque*

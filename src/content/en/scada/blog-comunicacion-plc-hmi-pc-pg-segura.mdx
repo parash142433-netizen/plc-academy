@@ -1,0 +1,227 @@
+---
+title: "Secure Siemens PLC Communication with HMI and PC/PG"
+slug: "blog-comunicacion-plc-hmi-pc-pg-segura"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/comunicacion-plc-hmi-pc-pg-segura/"
+author: ""
+date: ""
+breadcrumbs: ["Home","SCADA","Siemens WinCC"]
+tags: ["Siemens","WinCC Unified","TIA Portal V20","S7-1500","Secure loading"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [Siemens WinCC](#/a/en%2Fscada-siemens) › Secure Siemens PLC Communication with HMI and PC/PG
+
+# Secure Siemens PLC Communication with HMI and PC/PG
+
+Step by step from TIA Portal to Runtime: protected PLC, protected project, encrypted loading and PLC-HMI communication with WinCC Unified.
+
+June 12, 2026
+
+Siemens WinCC Unified TIA Portal V20 S7-1500 Secure loading
+
+![Secure Siemens PLC Communication with HMI and PC/PG](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-02.png)
+
+**Objective and complete flow**
+
+The objective is to establish **secure communication between a Siemens PLC and a WinCC Unified SCADA Runtime**.
+
+To do this, first prepare several settings in the **TIA Portal** project: both PLC security and protection for the project itself. In this example the PLC is simulated with **PLCSIM Advanced**, the PLC IP is **192.168.1.188** and the PC Runtime IP is **192.168.1.169**.
+
+1.  Protect the PLC and avoid anonymous or unprotected access.
+2.  Protect the project and enable the **Security Features**.
+3.  Prepare the PLC network, test tags and FC.
+4.  Configure WinCC Unified Runtime and the HMI-PLC connection.
+5.  Load the PLC and SCADA, then verify encrypted communication.
+
+As an external reference, it is useful to keep the Siemens documentation for [encrypted loading in RT Unified](https://docs.tia.siemens.cloud/r/en-us/v20/compiling-and-loading-rt-unified/basics-rt-unified/loading-project-encrypted-rt-unified) close at hand.
+
+**Step 1: PLC security**
+
+Create the project and open the PLC security settings. This first step protects the CPU.
+
+![Initial Siemens PLC security settings in TIA Portal](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-01.png)
+
+![Enabling PLC Security settings](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-02.png)
+
+Follow the security wizard and prepare the base configuration before creating users and permissions.
+
+![First step of the PLC security wizard](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-03.png)
+
+![Second step of the PLC security wizard](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-04.png)
+
+For this example, use **local user management** and configure an administrator for the project/PLC.
+
+![Local user management in the project](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-05.png)
+
+Do not allow anonymous access: leave that option unchecked.
+
+![Anonymous access disabled in PLC security](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-06.png)
+
+Leave everything protected so no unprotected access is allowed.
+
+![Unprotected access disabled in the PLC](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-07.png)
+
+The wizard shows the final summary of the security applied to the PLC.
+
+![Siemens PLC security summary](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-08.png)
+
+**Step 2: project protection**
+
+The next step is to protect the project. Here a project user is created; keep these credentials safe, because losing them may prevent future access to the project.
+
+![Project protection in TIA Portal](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-09.png)
+
+![Creating a user to protect the project](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-10.png)
+
+When creating the project user, TIA Portal asks you to enter or change the password for the user defined for the PLC.
+
+![Changing the PLC user password](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-11.png)
+
+Permissions that were not available before now appear because a project user exists.
+
+![Permissions available after creating the project user](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-12.png)
+
+Once the project is protected, the **Security Features** are enabled. From this point, certificates and advanced security options can be managed.
+
+![Security Features enabled in the project](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-13.png)
+
+The top area shows the logged-in user and the available user actions.
+
+![Logged-in user and user actions in TIA Portal](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-14.png)
+
+**Step 3: PLC preparation**
+
+Configure the PLC network with the usual lab IP: **192.168.1.188**.
+
+![PLC network configuration with IP 192.168.1.188](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-15.png)
+
+Reuse an FC and DB from another project, and enable clock memory and system memory. Then create **Bool**, **Int** and **Real** test variables, plus an FC to move those variables.
+
+![PLC test variables and logic](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-16.png)
+
+Compile the PLC and leave it ready to download into **PLCSIM Advanced**.
+
+![PLC compilation before downloading to PLCSIM Advanced](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-17.png)
+
+**Step 4: WinCC Unified configuration**
+
+Add the **WinCC Unified Runtime**, which includes its own PC Station inside the project.
+
+![Adding WinCC Unified Runtime to the project](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-18.png)
+
+Add a network interface to the PC Runtime so it can communicate with the PLC.
+
+![PC Runtime network interface](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-19.png)
+
+Assign the destination PC IP, in this case **192.168.1.169**, and connect it to the network previously created for the PLC.
+
+![PC Runtime IP and PLC network connection](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-20.png)
+
+Check in **Devices & Networks** that the PLC, network and PC Runtime are correctly linked.
+
+![Devices and Networks view with PLC and PC Runtime linked](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-21.png)
+
+Create a basic start screen by dragging PLC variables onto the screen. This lets TIA Portal automatically create the connection and the required HMI tags. The easiest way is to use a split view.
+
+![WinCC Unified screen with PLC variables dragged onto it](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-22.png)
+
+Confirm that the connection to the PLC has been created automatically.
+
+![Automatically created HMI-PLC connection](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-23.png)
+
+Also confirm that the variables have been created in **HMI tags**.
+
+![Variables created in HMI tags](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-24.png)
+
+Compile the HMI project and two transfer-related errors appear.
+
+![HMI compilation errors related to transfer](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-25.png)
+
+TIA Portal requests a transfer password. This password is used for HMI loading and protects communication between the engineering station and Runtime.
+
+The password must meet the RT Unified complexity rules: between 8 and 120 characters, with at least one uppercase letter, one lowercase letter, one number and one special character. It must also match in the HMI device runtime configuration and in Runtime Manager.
+
+![HMI transfer password configuration](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-26.png)
+
+For the first time, if secure loading has not yet been configured in WinCC, it may be necessary to allow the initial transfer through an unencrypted load.
+
+![First loading option before secure loading is active](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-27.png)
+
+If we compile again now, there are no errors.
+
+![Successful HMI compilation](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-28.png)
+
+**Step 5: device loading**
+
+**Step 5.1: load the PLC**
+
+Start with the PLC download.
+
+![Starting the PLC download](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-29.png)
+
+Enable supported simulation to load the project into **PLCSIM Advanced**.
+
+![Enabling supported PLC simulation](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-30.png)
+
+![Loading the PLC into PLCSIM Advanced](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-31.png)
+
+Enter the PLC password when TIA Portal requests it.
+
+![PLC password request during download](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-32.png)
+
+Start the simulated PLC.
+
+![Starting the simulated PLC](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-33.png)
+
+![Simulated PLC running in PLCSIM Advanced](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-34.png)
+
+**Step 5.2: load the SCADA**
+
+Load the SCADA into the virtual machine where Runtime runs, with IP **192.168.1.169**.
+
+![Loading the SCADA into the Runtime virtual machine](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-35.png)
+
+Enter the password configured for encrypted loading.
+
+**Important point:** the first time, download without encryption so the password is loaded on the PC station. Then enter it in **SIMATIC Runtime Manager**.
+
+![Password configuration in Runtime Manager](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-36.png)
+
+Start the Runtime.
+
+![Starting WinCC Unified Runtime](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-37.png)
+
+**Validation and encrypted communication**
+
+Open the application and enter the credentials for the **phs** user created earlier with HMI permissions.
+
+![Login in WinCC Unified Runtime with phs user](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-38.png)
+
+You can enter the user in autostart or log in directly.
+
+![Autostart user configuration in Runtime](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-39.png)
+
+![WinCC Unified Runtime screen after login](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-40.png)
+
+The HMI is now communicating with the PLC.
+
+![HMI communicating with the Siemens PLC](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-41.png)
+
+Is the communication encrypted? Yes: it uses an internal certificate generated by TIA Portal.
+
+![Encrypted communication between WinCC Unified and PLC](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-42.png)
+
+![Internal certificate generated by TIA Portal for secure communication](./assets/images/blog-comunicacion-plc-hmi-pc-pg-segura/comunicacion-plc-hmi-pc-pg-segura-43.png)
+
+**Related articles**
+
+*   [WinCC Unified Collaboration: sharing screens between Runtimes](#/a/en%2Fblog-wincc-unified-collaboration)
+*   [Network segmentation - S7 1500 & WinCC Unified](#/a/en%2Fblog-segmentacion-de-redes-s71500-wincc-unified)
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [WinCC Unified Configuration](#/a/en%2Fwincc-unified-configuration)
+*   [WinCC Unified Project Transfer](#/a/en%2Fwincc-unified-transferir-proyecto)
+
+---
+*Source: [Secure Siemens PLC Communication with HMI and PC/PG](https://www.plc-hmi-scadas.com/en/blog/comunicacion-plc-hmi-pc-pg-segura/)*

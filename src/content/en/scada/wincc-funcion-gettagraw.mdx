@@ -1,0 +1,48 @@
+---
+title: "WinCC Function GetTagRaw"
+slug: "wincc-funcion-gettagraw"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Funcion_GetTagRaw.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","SCADA","GetTagRaw"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Function GetTagRaw
+
+Jose Manuel Luque
+
+WinCC SCADA GetTagRaw
+
+**WinCC Function GetTagRaw  
+**
+
+In this practice, we will see a small example of the GetTagRaw function. To see the following example, we will start from the fact that I have a connection with a Beckhoff PLC through its OPC server, which I will add soon.
+
+I have a variable that is an Array, and it will be on this variable that we will apply the example. First of all, the code that we are going to use.
+
+1.- The declaration of the variables, one is an array of type Byte with 16 Elements and the other is a variable of type Integer.
+
+2.- It is a for loop to iterate through all the elements we are interested in, in my case 11. This is where we use the function of this example, and as we traverse the loop, we store in our array the values contained in our variable PLc\_fbGetSystemTime\_TwinCAT.
+
+3.- We will use a printf to display the values and verify the functionality. All this code is within a button for this explanation.
+
+![](./assets/images/wincc-funcion-gettagraw/WinCC_TagRaw_03.png)
+
+Once our code is compiled, we can run the runtime and check the functionality. In the next image, we have proof of this and a connection to the Beckhoff OPC Server to verify that it is correct.
+
+![](./assets/images/wincc-funcion-gettagraw/WinCC_TagRaw_01.png)
+
+January 24, 2016
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Function GetTagRaw](https://www.plc-hmi-scadas.com/en/WinCC_Funcion_GetTagRaw.php) — Jose Manuel Luque*

@@ -1,0 +1,98 @@
+---
+title: "FactoryTalk View SE communicating with RSLogix Emulate 5000"
+slug: "074"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/074.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["FactoryTalk View SE","RSLogix","Emulate 5000","RSLinx OPC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › FactoryTalk View SE
+
+# FactoryTalk View SE communicating with RSLogix Emulate 5000
+
+A classic Jose Manuel Luque practice for linking FactoryTalk View SE SCADA with a simulated PLC.
+
+Jose Manuel Luque Feb 11, 2013
+
+FactoryTalk View SE RSLogix Emulate 5000 RSLinx OPC
+
+![FactoryTalk View SE ready to communicate with RSLogix Emulate 5000](./assets/images/074/FT%20View%20SE%20Comunicacion%2001.png)
+
+**Objective**
+
+This practice is dedicated to the website readers who asked for an entry about **FactoryTalk View**. The first test is to communicate the SCADA with a PLC.
+
+The PLC used here is **RSLogix Emulate 5000**, so screens, variables and commands can be tested without a physical controller.
+
+**Previous Requirements**
+
+Before starting, it is useful to have the simulator and the RSLinx OPC topic already configured:
+
+*   [RSLogix Emulate 5000](#/a/en%2F011 "RSLogix Emulate 5000") prepared with the project loaded.
+*   [A topic in RSLinx OPC Server](#/a/en%2F017 "RSLinx OPC Server") pointing to the simulated controller.
+*   A project created in FactoryTalk View Site Edition.
+
+**Create the OPC Data Server**
+
+With the FactoryTalk View SE project open, the first step is to add the link to the PLC. Communication will be done through the RSLinx OPC Server.
+
+Right-click the project and add a new **OPC Data Server**.
+
+![Menu to add an OPC Data Server in FactoryTalk View SE](./assets/images/074/FT%20View%20SE%20Comunicacion%2002.png)
+
+In the configuration window, assign a name to the link and select the corresponding OPC Server. This server will be the bridge between FactoryTalk View SE and the topic created in RSLinx.
+
+![OPC Data Server name configuration](./assets/images/074/FT%20View%20SE%20Comunicacion%2004.png)
+
+![RSLinx OPC Server selection](./assets/images/074/FT%20View%20SE%20Comunicacion%2003.png)
+
+Once added, the new server appears inside the project. Since the RSLinx topic points to RSLogix Emulate 5000, the PLC project tags can now be accessed.
+
+![OPC Data Server added to the FactoryTalk View SE project](./assets/images/074/FT%20View%20SE%20Comunicacion%2005.png)
+
+**Browse PLC Tags**
+
+To check that the link works, insert several **Numeric Display** objects and associate them with PLC variables.
+
+![Inserting Numeric Display objects in FactoryTalk View SE](./assets/images/074/FT%20View%20SE%20Comunicacion%2014.png)
+
+![Numeric Display properties in FactoryTalk View SE](./assets/images/074/FT%20View%20SE%20Comunicacion%2015.png)
+
+In the object properties, click **Tags** to configure the variable that should be displayed.
+
+When the **Tag Browser** opens, the tags may not appear immediately. If there is more than one link, the clearest approach is to show the servers and browse the tags belonging to each one.
+
+![FactoryTalk View SE Tag Browser before tags are visible](./assets/images/074/FT%20View%20SE%20Comunicacion%2008.png)
+
+![Tag Browser showing available servers and tags](./assets/images/074/FT%20View%20SE%20Comunicacion%2009.png)
+
+**Test Communication**
+
+With a variable configured and a button using the **Toggle** function, the test can begin. Click the **Play** icon to run the display and observe the results.
+
+![FactoryTalk View SE display ready for testing](./assets/images/074/FT%20View%20SE%20Comunicacion%2017.png)
+
+![Read and write test against RSLogix Emulate 5000](./assets/images/074/FT%20View%20SE%20Comunicacion%2018.png)
+
+This validates the basic communication between **FactoryTalk View SE**, **RSLinx OPC Server** and **RSLogix Emulate 5000**.
+
+_Original article published on February 11, 2013._
+
+**Related Articles**
+
+*   [RSLogix Emulate 5000](#/a/en%2F011)
+*   [RSLinx OPC Server](#/a/en%2F017)
+*   [Remote Device Linx Gateway](#/a/en%2F075)
+*   [FactoryTalk View ME communicating with RSLogix Emulate 5000](#/a/en%2F076)
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [FactoryTalk View SE communicating with RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/074.php) — Jose Manuel Luque*

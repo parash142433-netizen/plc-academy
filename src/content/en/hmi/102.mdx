@@ -1,0 +1,63 @@
+---
+title: "OPC Server Comfort Panels"
+slug: "102"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/102.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["Comfort Panels","OPC Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# OPC Server Comfort Panels
+
+Jose Manuel Luque
+
+Comfort Panels OPC Server
+
+Continuing with the services offered by the Comfort Panels, just like PC Runtime Advanced, we have another great advantage, as the OPC Server no longer requires a license, it is available by default on all Comfort Panels.
+
+We simply need to select the Check Box, and once the runtime starts, the OPC server is executed.
+
+![](./assets/images/102/102-Comfort-Panels-Servidor-OPC-01.png)
+
+We start with our project created, I have only 4 items for this example, but all the items we have created will be the ones available in the OPC Server.
+
+![](./assets/images/102/102-Comfort-Panels-Servidor-OPC-03.png)
+
+Once our project is compiled, we run the Runtime, from this moment we can access the OPC Server.
+
+![](./assets/images/102/102-Comfort-Panels-Servidor-OPC-05.png)
+
+The first test I am going to perform will be with the OPC Scout, the OPC Client of Simatic Net, to check that I can access the items and connect to the Server.
+
+The name of the Server is OPC.SimaticHMI.CoRtHmiRTm, it is necessary to know it in case we are interested in creating an application in some object-oriented language, although later we will check how to access it with an Excel sheet and the help of VBA.
+
+![](./assets/images/102/102-Comfort-Panels-Servidor-OPC-04.png)
+
+Continuing with the tests, the next example is an Excel sheet that I downloaded from Siemens and adapted for my example, which you can download [here](https://www.dropbox.com/s/fmkjwjhkyjl95oj/OPCClient1.xls), you will be able to check the code to create the connection, disconnection, reading, and writing.
+
+Here it can be seen that the read values are correct.
+
+![](./assets/images/102/102-Comfort-Panels-Servidor-OPC-06.png)
+
+Now I am going to write in the variables Tag\_1 and Tag\_3, when writing these variables, Tag\_2 and Tag\_4 will change.
+
+![](./assets/images/102/102-Comfort-Panels-Servidor-OPC-08.png)
+
+And here is the update of our variables on our Panel.
+
+Some time ago I received a query in which a new Panel was going to be installed, but from another manufacturer, one option was for the existing panel to act as an OPC Server and the new Panel to communicate with this OPC since it did not have the necessary driver.
+
+![](./assets/images/102/102-Comfort-Panels-Servidor-OPC-07.png)
+
+April 22, 2013
+
+If you liked it or found it useful, share it...
+
+---
+*Source: [OPC Server Comfort Panels](https://www.plc-hmi-scadas.com/en/102.php) — Jose Manuel Luque*

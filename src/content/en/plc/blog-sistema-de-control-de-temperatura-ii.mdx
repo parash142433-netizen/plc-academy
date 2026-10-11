@@ -1,0 +1,124 @@
+---
+title: "Temperature Control System (II)"
+slug: "blog-sistema-de-control-de-temperatura-ii"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-ii/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["PID","TIA Portal","PLCSIM Advanced","S7-1500","Temperature control"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Temperature Control System (II)
+
+# Temperature Control System (II)
+
+Tuning a temperature PID control with TIA Portal and PLCSIM Advanced, using PID Compact and the commissioning tool.
+
+Pedro Pagán Pallarés May 01, 2024
+
+PID TIA Portal PLCSIM Advanced S7-1500 Temperature control
+
+![Auto-tuning completed in PID Compact with the system tuned](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-7-1024x592.png)
+
+**Control objective**
+
+Continuing with the [tank temperature simulator](#/a/en%2Fblog-simulador-de-temperatura), in this second part we will program a **temperature PID control** in TIA Portal 18.
+
+The goal is to act on the inlet proportional valve to keep the tank at a given temperature. The test uses a Siemens PLC simulated in **PLCSIM Advanced V5.0**.
+
+**Control and process variables**
+
+Before inserting the PID, the main signals of the system must be clear:
+
+*   **Tank temperature:** process variable we want to regulate.
+*   **Desired temperature or SP:** setpoint for the tank.
+*   **Inlet proportional valve:** variable we act on to modify the heat exchange.
+
+![Main variables of the temperature control system](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-8-1-1024x724.png)
+
+**Add PID Compact in TIA Portal**
+
+Add a **PID Compact** as a technology object in the project. For this example it is enough and keeps the setup simple. TIA Portal also includes a temperature-specific PID, useful when more parameterization is needed, such as cooling and heating regulation.
+
+![Adding PID Compact as a technology object in TIA Portal](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-1.png)
+
+The PID is called from an **OB30 Cycle interrupt**. This avoids loading the main OB1 cycle with the regulator calculations.
+
+Then link the three main variables. In this case we use the normal inputs and outputs because the process input is temperature. The **\_PER** signals are reserved for direct percentage variables.
+
+![PID Compact linked to temperature, setpoint and proportional valve](./assets/images/blog-sistema-de-control-de-temperatura-ii/Captura-3.png)
+
+**PID parameterization**
+
+The PID block allows adjusting inputs, outputs, limits and parameters such as **Kp**, **Ki** and **Kd**. In this test we use the TIA Portal commissioning tool and let the **auto-tune** calculate the values.
+
+![PID Compact parameters in TIA Portal](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-2.png)
+
+Note about real systems
+
+In real systems, especially with more inertia or delay, it may be necessary to review the parameters manually if the basic commissioning does not give the expected result.
+
+**Commissioning and sampling**
+
+With the sensor reading correctly and the valve already tested, open the **PID commissioning** window.
+
+![PID Compact commissioning window](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-3.png)
+
+Go online and start sampling. The temperature values begin to appear in the graph, although the PID is not regulating yet.
+
+![Online temperature sampling before activating PID regulation](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-4.png)
+
+Disable manual mode so that the control can run automatically. This checkbox must remain disabled for the regulator to act.
+
+![Manual mode disabled to allow automatic PID control](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-5.png)
+
+**System auto-tuning**
+
+There are two main modes for tuning the PID:
+
+*   **Pretuning:** used when the desired value is far from the current value.
+*   **Fine tuning:** used when the process is already close to the setpoint.
+
+![Selecting the PID Compact tuning mode](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-6.png)
+
+In this example we tune the system around **30 °C** and press **Start Fine Tuning**. The system starts opening and closing the valve to find the regulator parameters.
+
+The process may take longer if the system has a lot of inertia, delay or large fluid volumes.
+
+![Auto-tuning completed in PID Compact with the system tuned](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-7-1024x592.png)
+
+Important note about the operating point
+
+A PID is tuned around an operating point. If the tank range is 0 to 100 °C and it is tuned around 30 °C, it will respond better near that area and worse the further it moves away from it.
+
+**Value verification**
+
+After tuning, check the values calculated by the tool and make sure they are loaded correctly into the PLC.
+
+![PID values calculated during tuning](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-8.png)
+
+![Final response graph of the temperature PID control](./assets/images/blog-sistema-de-control-de-temperatura-ii/image-9.png)
+
+These values should be saved as startup values so the tuning is not lost after restarting the PLC.
+
+**Conclusions**
+
+*   **It helps commissioning:** the TIA Portal assistant reduces the initial work for simple controls.
+*   **It is not infallible:** systems with high inertia, long delays or indirect regulation may need finer tuning or even cascade PID.
+
+**Related articles**
+
+*   [Tank temperature simulator](#/a/en%2Fblog-simulador-de-temperatura)
+*   [Temperature Control System (III): OPC UA](#/a/en%2Fblog-sistema-de-control-de-temperatura-iii)
+*   [Siemens S7-1500 OPC UA client: read and write in TIA Portal](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500)
+*   [Siemens S7-1500 OPC UA server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Temperature Control System (II)](https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-ii/) — Pedro Pagán Pallarés*

@@ -1,0 +1,147 @@
+---
+title: "WinCC Unified Redundancy V20"
+slug: "blog-wincc-unified-redundancy-v20"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-redundancy-v20/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","Siemens","WinCC Unified","TIA Portal V20","Redundancy"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › WinCC Unified Redundancy V20
+
+# WinCC Unified Redundancy V20
+
+Practical configuration of a redundant WinCC Unified PC Runtime V20 architecture, with primary server, secondary server, DB Storage, transfer and switchover test.
+
+Jose Manuel Luque 01 Feb, 2025
+
+SCADA Siemens WinCC Unified TIA Portal V20 Redundancy
+
+![Server selection for WinCC Unified Redundancy V20](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-12.png)
+
+**Test objective**
+
+With [TIA Portal V20](https://support.industry.siemens.com/cs/document/109963850/descarga-del-simatic-step-7-incluyendo-safety-s7-plcsim-y-wincc-v20-de-prueba-\(trial\)?dti=0&lc=es-WW), the **WinCC Unified Redundancy** option is now available. In this article we will prepare a basic configuration to verify that two WinCC Unified PC Runtime servers can operate as a redundant pair.
+
+Before starting, it is worth reviewing Siemens' [official considerations for WinCC Unified Redundancy V20](https://support.industry.siemens.com/cs/document/109977320/consideraciones-sobre-el-uso-de-wincc-unified-redundancy-v20?dti=0&lc=es-WW), because installation, storage, certificates, users and licensing requirements directly affect the commissioning process.
+
+The workflow is: create the WinCC Unified PC device in TIA Portal, define the primary server, configure the network interface, enable redundancy, prepare historian storage with SQL Server, transfer to both servers and test the switchover from a client.
+
+**Create the WinCC Unified PC**
+
+Start from a new TIA Portal project or from an existing one. Add a new device of type **SIMATIC WinCC Unified PC**. This is the runtime that will later be downloaded to the servers.
+
+![Adding a SIMATIC WinCC Unified PC device in TIA Portal](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-13.png)
+
+When the device is added, TIA Portal automatically creates the **SIMATIC PC Station**. In its properties we define which machine will act as the **primary server**. The names used here should match the real or virtual machines where the runtime will be installed.
+
+![SIMATIC PC Station properties to define the primary server](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-15.png)
+
+**Configure PC Station and network**
+
+The next step is to add the corresponding network card to the PC Station chassis. It should match the interface the server will use to communicate with the plant network and with the redundant node.
+
+![Adding a network card to the SIMATIC PC Station](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-14.png)
+
+Assign the IP address to the interface. With this, the required hardware configuration is ready and TIA Portal can identify the station and prepare the download.
+
+![IP address configured on the PC Station network card](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-17.png)
+
+**Enable redundancy**
+
+Open the properties of **WinCC Unified PC RT**. The basic configuration is straightforward: enable **Enable redundancy** and define the **redundant server**. From that point on, the project knows the server pair.
+
+![Enabling redundancy in WinCC Unified PC RT](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-4.png)
+
+**Historian data with DB Storage**
+
+For this redundancy configuration, historical data must be stored through **WinCC Unified DB Storage** on **SQL Server**, not with SQLite. Therefore, historian data storage should be configured before the final download.
+
+![DB Storage configuration for WinCC Unified Redundancy](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-18.png)
+
+To keep the test simple, the project screen only contains redundancy system variables. This makes it easy to check the real status of the servers without adding process functionality to the example.
+
+**Prepare both servers**
+
+At this point we assume there are two servers with the names configured in TIA Portal. Both must have the required components installed and configured to run WinCC Unified in redundancy.
+
+Installed components:
+
+*   [WinCC Unified PC Runtime V20 + SR1](https://support.industry.siemens.com/cs/document/109963700/updates-para-simatic-wincc-unified-pc-runtime-v20?dti=0&lc=es-WW).
+*   **WinCC Unified DB Storage V20**.
+
+Previous configuration:
+
+*   **WinCC Unified Certificate Manager**, to generate the certificates that will later be installed on the clients.
+*   **WinCC Unified Configuration**.
+*   Synchronization between the two servers.
+
+From the engineering station with TIA Portal, both servers can be checked as available.
+
+![WinCC Unified servers available from the engineering station](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-10.png)
+
+**Transfer to primary and secondary server**
+
+First transfer the project to the **primary server**. The download window shows the options that can be applied during the transfer.
+
+![Transferring the project to the primary WinCC Unified server](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-11.png)
+
+![Transfer options for WinCC Unified PC Runtime](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-1.png)
+
+The natural question at this point is: **how do we transfer to the secondary server?** If both servers are available, TIA Portal also allows selecting the secondary node and downloading the project to it.
+
+![Selecting the secondary server for WinCC Unified Redundancy transfer](./assets/images/blog-wincc-unified-redundancy-v20/WinCCUnifiedRedundancy-12.png)
+
+After the download is completed, both servers are running as a redundant pair.
+
+![Two WinCC Unified Redundancy servers running](./assets/images/blog-wincc-unified-redundancy-v20/image-1024x545.png)
+
+**Runtime tests**
+
+At this stage, connect from a client and run the basic tests:
+
+*   Connect to the system with both servers active.
+*   Disable or stop the primary server and check the switch to the redundant server.
+*   Restore the primary server and observe the recovery.
+*   Repeat the test by stopping the other server.
+
+The video shows the behavior of the test. One important detail: when switching servers, the user has to log in again.
+
+**Required licenses**
+
+The configuration also depends on licensing. The redundancy license is common to the architecture, but the remaining licenses should be considered for each server, similarly to traditional WinCC systems.
+
+*   **WinCC Unified Redundancy**.
+*   **WinCC Unified Runtime (RT)**.
+*   **WinCC Unified Database Storage**.
+*   **WinCC Unified Clients**, according to the number of clients.
+*   **WinCC Unified Logging Tags**, optional.
+*   **WinCC Unified Audit**, optional.
+*   **WinCC Unified Parameter Control**, optional.
+
+**Next step: UMC**
+
+The next natural test is to configure **UMC**, the [User Management Component](https://support.industry.siemens.com/cs/document/109780337/administraci%C3%B3n-central-de-usuarios-con-el-user-management-component-componente-de-gesti%C3%B3n-de-usuarios-\(umc\)?dti=0&lc=es-WW), to work with centralized user management in the architecture.
+
+![Reference to UMC User Management Component for WinCC Unified](./assets/images/blog-wincc-unified-redundancy-v20/image-1.png)
+
+**Related articles**
+
+*   [UMC (User Management Control): installation and configuration](#/a/en%2Fblog-umc-user-management-control)
+*   [TIA Portal Central User Management](#/a/en%2Fblog-tia-portal-central-user-management)
+*   [UMC Redundancy (User Management Component)](#/a/en%2Fblog-umc-redundancy-user-management-component)
+*   [WinCC Unified User Management Component](#/a/en%2Fblog-wincc-unified-user-management-component)
+*   [SSRS with WinCC Unified and SQLite](#/a/en%2Fblog-ssrs-wincc-unified-sqlite)
+*   [IIS Reverse Proxy for Reporting Services in WinCC Unified](#/a/en%2Fblog-iis-reverse-proxy-reporting-services-wincc-unified)
+*   [Network segmentation with S7-1500 and WinCC Unified](#/a/en%2Fblog-segmentacion-de-redes-s71500-wincc-unified)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC Unified Redundancy V20](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-redundancy-v20/) — Jose Manuel Luque*

@@ -1,0 +1,162 @@
+---
+title: "The knapsack problem applied to industry"
+slug: "blog-el-problema-de-la-mochila-aplicado-en-industria"
+locale: "en"
+category: "ai"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/el-problema-de-la-mochila-aplicado-en-industria/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","AI","Industrial AI"]
+tags: ["Industrial AI","Optimization","Knapsack","Python","Streamlit","OR-Tools"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [AI](#/a/en%2Fai) › [Industrial AI](#/a/en%2Findustrial-ai) › Article
+
+# The knapsack problem applied to industry
+
+Pedro Pagán Pallarés April 22, 2025
+
+Industrial AI Optimization Knapsack Python Streamlit OR-Tools
+
+![Industrial application of the knapsack problem](./assets/images/blog-el-problema-de-la-mochila-aplicado-en-industria/ChatGPT-Image-22-abr-2025-20_00_49.png)
+
+## The knapsack problem
+
+We have all heard the question: **what would you take to a deserted island?** The idea sounds simple, but it forces us to choose between several items that provide a **benefit** while consuming a **limited capacity** in our backpack.
+
+If there are only a few items, the decision can be made manually. However, when the number of options grows, many combinations offer similar benefits and similar costs. Choosing the best one is no longer obvious.
+
+This type of problem is known in operations research as the [knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem).
+
+To visualize it, understand it and solve it in an educational way, I developed an application that allows different configurations, tests several algorithms and compares the result obtained by each technique.
+
+The natural next step would be to **connect this logic to a SCADA application**, so decisions could be automated and converted into real actions on PLCs.
+
+## Application in industry
+
+Industry constantly faces similar decision problems. Some clear examples:
+
+*   **Activating production lines with limited energy:** deciding which lines to enable without exceeding electrical consumption limits.
+*   **Selecting maintenance tasks during shutdowns:** choosing which jobs to execute when available time is limited.
+*   **Managing truck loads:** maximizing transported value without exceeding weight, volume or logistics priorities.
+
+* * *
+
+## Mathematical model
+
+The basic model seeks to maximize the total value of selected items without exceeding a capacity constraint.
+
+![Mathematical model of the knapsack problem](./assets/images/blog-el-problema-de-la-mochila-aplicado-en-industria/image-18.png)
+
+* * *
+
+## Resolution complexity
+
+As the number of items increases, the number of possible combinations **grows exponentially**.
+
+This makes finding the **exact solution** **computationally unfeasible** in many cases. In practice, evaluating every combination can become impossible when there are many items or many constraints.
+
+That is why approximate algorithms are often used: they provide good solutions quickly, even if they do not always guarantee the perfect one.
+
+* * *
+
+## Possible solutions
+
+When the number of items is low or moderate, exact solutions can be used. When the problem grows, more efficient methods become necessary.
+
+![Comparison of approaches for solving the knapsack problem](./assets/images/blog-el-problema-de-la-mochila-aplicado-en-industria/image-21-1024x178.png)
+
+### 1\. Exact solutions
+
+*   They evaluate all possible combinations or explore the search space in a controlled way.
+*   They are reliable, but can become slow when there are many items.
+*   They rely on techniques such as **dynamic programming** or **branch and bound**.
+*   Google OR-Tools can apply these techniques to small or medium-sized problems.
+
+### 2\. Approximate or heuristic solutions
+
+*   They do not always guarantee the best solution, but they are fast and practical.
+*   They use simple rules, such as selecting items with the best value-to-weight ratio.
+*   They are very useful in industrial systems that require real-time response.
+
+### 3\. Metaheuristics
+
+*   They are more advanced algorithms inspired by processes such as evolution, simulated annealing or swarms.
+*   They fit large, complex problems with multiple constraints.
+*   They can provide solutions very close to the optimum with low computational cost.
+
+**OR-Tools**, Google's open-source library, combines several of these techniques and can solve the knapsack problem exactly or approximately depending on the case size and urgency. It is lightweight, fast and a good fit for industrial Python solutions.
+
+* * *
+
+## Practical application: PHS Knapsack
+
+The application aims to make the problem visible in an educational way and show different open-source algorithms for solving it. I built it with [Copilot Agent](https://code.visualstudio.com/blogs/2025/02/24/introducing-copilot-agent-mode) in [Visual Studio Code](https://code.visualstudio.com/), using [Streamlit](https://streamlit.io/).
+
+![PHS Knapsack interface in Streamlit](./assets/images/blog-el-problema-de-la-mochila-aplicado-en-industria/image-20-1024x465.png)
+
+The application lets you define the number of items, assign random benefits and weights, set the maximum knapsack capacity and run different algorithms to compare how each one solves the problem.
+
+**With the application we can:**
+
+*   Modify the number of items, benefits and weights.
+*   Select different solving algorithms.
+*   Compare the results obtained by each algorithm.
+
+_Here is a video example:_
+
+* * *
+
+## Source code
+
+PHS Knapsack is built with Streamlit and developed in Visual Studio Code. The source code is available on GitHub:
+
+[Download PHS Knapsack](https://github.com/Furiadelimon/PHS_Knapsack)
+
+Once downloaded and opened in Visual Studio Code, the basic steps are:
+
+### Setup and execution
+
+[1\. Install Python](https://www.python.org/downloads/)
+
+2\. Create a virtual environment:
+
+Python
+
+```
+python -m venv venv
+```
+
+3\. Activate the environment:
+
+Terminal
+
+```
+source venv/bin/activate
+```
+
+4\. Install requirements:
+
+Terminal
+
+```
+pip install -r requirements.txt
+```
+
+5\. Run the application:
+
+Terminal
+
+```
+streamlit run app.py
+```
+
+I also strongly recommend using Copilot Agent to continue developing the application, add new algorithms and adapt it to real plant scenarios.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [The knapsack problem applied to industry](https://www.plc-hmi-scadas.com/en/blog/el-problema-de-la-mochila-aplicado-en-industria/) — Pedro Pagán Pallarés*

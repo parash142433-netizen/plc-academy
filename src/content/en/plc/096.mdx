@@ -1,0 +1,47 @@
+---
+title: "Indexed Text to Display Messages on HMI"
+slug: "096"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/096.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["TIA Portal","HMI","KTP"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Indexed Text to Display Messages on HMI
+
+Jose Manuel Luque
+
+TIA Portal HMI KTP
+
+This small example is dedicated to Luis. The idea is to display on a Panel a string that shows a series of messages, alarms, activated steps in a sequence, etc... For this, we are going to create a FB that I have called warnings, with an input variable declared as Cycle, which will be the time to display the messages and check if it is activated or not, and an output variable declared as Text, which we will link in the HMI as a String type Output field.
+
+As static variables, an Array of bits has been declared, which will correspond to the different messages, and a string array that will contain the text to be displayed; a more elegant way would have been to declare a structure like the image shown.
+
+![](./assets/images/096/S7-1200-Texto-Indexado-23.png)
+
+![](./assets/images/096/S7-1200-Texto-Indexado-25.png)
+
+The code is simple; we will check at each stipulated Cycle if the message is activated, if so, we will display it on the screen, and so on. If there are no messages, we will not display anything, or in its absence, there are no messages.
+
+![](./assets/images/096/S7-1200-Texto-Indexado-19.png)
+
+We call our FB1 Warnings, associating its instance DB, and in the cycle, I have created a Flip Flop that I change the time according to interest.
+
+![](./assets/images/096/S7-1200-Texto-Indexado-18a.png)
+
+I will check the operation with PLCSIM and it works correctly according to the main idea; here we observed the DB associated with our FB and forced the bits of the memory area DB7.DBX2820.0.
+
+![](./assets/images/096/S7-1200-Texto-Indexado-20.png)
+
+![](./assets/images/096/S7-1200-Texto-Indexado-21.png)
+
+April 5, 2013
+
+---
+*Source: [Indexed Text to Display Messages on HMI](https://www.plc-hmi-scadas.com/en/096.php) — Jose Manuel Luque*

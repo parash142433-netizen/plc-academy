@@ -1,0 +1,60 @@
+---
+title: "KepServer with S7-1500"
+slug: "kepserver-1500"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/KepServer_1500.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["KepServer","S7-1500"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# KepServer with S7-1500
+
+Jose Manuel Luque
+
+KepServer S7-1500
+
+**KepServer Configuration with S7-1500  
+**
+
+Thanks to Mariano, we will be able to see a series of practices with an S7-1500 PLC.
+
+The first one will be the communication with the KepServer OPC Server.
+
+We have already seen how to configure the [S7-1200](#/a/en%2F087), as the process is exactly the same and we will not repeat it, except that we need an updated version of KepServer that includes this PLC. I have used the latest available version 5.17, and the only problem I encountered is the reason for this practice.
+
+![](./assets/images/kepserver-1500/KepServer1500_06.png)
+
+Considering that we have already completed the configuration, we are ready to test it, and as we can see, there is a warning with the message, Device returned protocol error Class=0x81, Code=0x04, so I consulted the manual for the errors and 0x81 was a failure in the address or ID of the PLC, but I pinged the PLC and it responded correctly.
+
+![](./assets/images/kepserver-1500/KepServer1500_02.png)
+
+With the client, we observe that the Quality is Bad and value Unknown...
+
+![](./assets/images/kepserver-1500/KepServer1500_03.png)
+
+The problem is in the project loaded to the PLC, so we go to TIA Portal, and here is the important part, not only for this practice but for any communication we are interested in making with our PLC, we will see another example soon.
+
+What we need to do is enable the checkbox to allow access to remote communications (PLC, HMI, OPC,...) as shown in the image, this is in the properties of our CPU.
+
+Once we have made this change, we compile and load again.
+
+![](./assets/images/kepserver-1500/KepServer1500_04.png)
+
+The results can be seen in the following image... We can now communicate perfectly...
+
+![](./assets/images/kepserver-1500/KepServer1500_05.png)
+
+April 18, 2015
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [KepServer with S7-1500](https://www.plc-hmi-scadas.com/en/KepServer_1500.php) — Jose Manuel Luque*

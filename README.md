@@ -1,12 +1,15 @@
-﻿# PLC Academy
+# PLC Academy
 
 An offline reader and simulator workbench for studying the PLC / HMI / SCADA tutorials published at
 [plc-hmi-scadas.com](https://www.plc-hmi-scadas.com/).
 
-**This repository contains only the application code.** The articles, images and downloads belong to
-their original authors (principally Jose Manuel Luque and the other contributors credited on each page)
-and are *not* included. You generate a private local copy for personal study with the included crawler;
-every mirrored page keeps its author, original URL and a credit line.
+**Attribution.** The articles, images and downloads under `src/content/` and `public/assets/images/` are an
+offline study mirror of [plc-hmi-scadas.com](https://www.plc-hmi-scadas.com/). They are the work of their
+original authors (principally Jose Manuel Luque and the other contributors credited on each page) and remain
+their property. Every page keeps its author, its original URL and a credit line, and links back to the source.
+
+**Takedown.** If you are an author or rights holder and want any of this removed, open an issue on this
+repository and it will be taken down promptly. Please read the originals at the source site.
 
 ## What's here
 
@@ -27,8 +30,7 @@ npm run scrape        # optional: MAX_PAGES=40 npm run scrape for a small test
 npm run dev
 ```
 
-Please be considerate: the crawler is rate-limited by default; do not republish the mirrored content
-without permission from its authors.
+The crawler is rate-limited and honours `robots.txt`; please be considerate if you re-run it.
 
 ## Notes
 

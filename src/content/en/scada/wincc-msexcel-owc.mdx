@@ -1,0 +1,51 @@
+---
+title: "WinCC - MS Excel - Office Web Component"
+slug: "wincc-msexcel-owc"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_MSExcel_OWC.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","MSExcel","VBScript"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC - MS Excel - Office Web Component
+
+Jose Manuel Luque
+
+WinCC MSExcel VBScript
+
+**WinCC - MS Excel - Office Web Component**
+
+We have seen an example a few years ago with [Office Web Components](#/a/en%2Fwincc-activex-excel), we assume that it is already installed and added to our ActiveX controls in our WinCC project.
+
+The goal is to visualize an Excel sheet within WinCC, with the information it contains.
+
+As we mentioned, the first step is to add the control.
+
+![](./assets/images/wincc-msexcel-owc/WinCC_Excel_OWC_00.png)
+
+We now have our ActiveX Control, I have changed the name in the properties, I have assigned OWC, which is specific for now when we look at the code.
+
+![](./assets/images/wincc-msexcel-owc/WinCC_Excel_OWC_01.png)
+
+And here we have the code, I have added a line of comment to clarify what we are doing. In summary, we open an Excel file, and copy the content of all the cells that are used. Once copied to the clipboard, we reference our object in WinCC, reference the sheet where we are going to work, and paste the content.
+
+Subsequently, it can be formatted to adjust the column widths and other properties ...
+
+![](./assets/images/wincc-msexcel-owc/WinCC_Excel_OWC_03.png)
+
+The result we obtain is as follows, first we will visualize the content of the Excel sheet, and how it appears in WinCC. Note: Graphs and other controls are not displayed, only data.
+
+![](./assets/images/wincc-msexcel-owc/WinCC_Excel_OWC_02.png) ![](./assets/images/wincc-msexcel-owc/WinCC_Excel_OWC_04.png)
+
+February 11, 2018
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [WinCC - MS Excel - Office Web Component](https://www.plc-hmi-scadas.com/en/WinCC_MSExcel_OWC.php) — Jose Manuel Luque*

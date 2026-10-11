@@ -1,0 +1,55 @@
+---
+title: "WinCC Unified Trace JavaScript"
+slug: "wincc-unified-trace-javascript"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Unified_Trace_JavaScript.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Unified Trace JavaScript"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified Trace JavaScript
+
+Jose Manuel Luque 14 Mar, 2020
+
+WinCC Unified Trace JavaScript
+
+**WinCC Unified Trace JavaScript**
+
+![](./assets/images/wincc-unified-trace-javascript/vba-logo.png) ![](./assets/images/wincc-unified-trace-javascript/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+To debug our scripts in WinCC Unified, there are two methods; one is with an application that we will see here, and if you are used to WinCC, it is a must-have, and the other is with the browser itself.
+
+The function we use is exactly the same as in WinCC HMIRuntime.Trace("Message we want to display");
+
+![](./assets/images/wincc-unified-trace-javascript/WCCUnified_Trace_2.png)
+
+We can run the application directly, or with TIA Portal, we can create a direct link to run it later; if we want to do the latter, here is the procedure
+
+Tools --> External applications --> Configure
+
+![](./assets/images/wincc-unified-trace-javascript/WCCUnified_Trace_4.png)
+
+And we define the path of our application. In this case, there is no need to pass any arguments. With this, it would be ready, and every time we need it from TIA Portal, we run it.
+
+![](./assets/images/wincc-unified-trace-javascript/WCCUnified_Trace_5.png)
+
+If on the other hand, you want to run it independently, this is the path where it is located.
+
+![](./assets/images/wincc-unified-trace-javascript/WCCUnified_Trace_1.png)
+
+We can now observe and debug our Scripts.
+
+If we are only interested in the Scripts, it is ideal to filter by Filter --> Module --> ScriptHMIRuntime.
+
+![](./assets/images/wincc-unified-trace-javascript/WCCUnified_Trace_3.png)
+
+14-03-2020
+
+---
+*Source: [WinCC Unified Trace JavaScript](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Trace_JavaScript.php) — Jose Manuel Luque*

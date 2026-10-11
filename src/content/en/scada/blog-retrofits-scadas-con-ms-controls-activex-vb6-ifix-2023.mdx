@@ -1,0 +1,78 @@
+---
+title: "SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)"
+slug: "blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","IFIX / FIX32"]
+tags: ["IFix","IFix","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [IFIX / FIX32](#/a/en%2Fother-scadas) › Article
+
+# SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)
+
+Jose Manuel Luque June 26, 2024
+
+IFix IFix SCADA SCADA
+
+![SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IFIX_SCADA_MicrosoftActiveX.webp)
+
+We have seen this same example with [**Factory Talk View SE**](#/a/en%2Fblog-scadas-con-ms-controls-activex-vb6) & [**WinCC**](#/a/en%2Fblog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8)  
+And now it is the turn of **[IFix 2023](https://www.ge.com/digital/documentation/ifix/version2023/index.html)**, which I have already been testing on a **[Windows Server 2022](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022)**  
+The first screenshot we are going to show is the controls [**Active X**](https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/com-interop/how-to-work-with-activex-controls) that come by default with Windows Server 2022  
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-0.png)
+
+  
+And once we have installed IFix with Historian on the same Node (Server), we have all the following controls.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-1.png)
+
+  
+Version we are using for the tests carried out, latest version.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-1.1.png)
+
+  
+I have added a new synoptic and we are going to see by default what controls we have :-)  
+To add an ActiveX control -> **Objects/Links** -> **Ole Object**  
+And here we have the list of all components.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-2.png)
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-3.png)
+
+  
+From all of them I am going to insert some to check how they behave in the IDE.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-4.png)
+
+As can be seen, these controls can be inserted without problems and do not cause licensing issues, the only drawback is that not all components are present, and some that used to be essential, like the DataGrid, are missing.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-6-1024x668.png)
+
+  
+And to check that they are properly registered and licensed, we will look at [the Windows registry](https://support.microsoft.com/en-us/windows/how-to-open-the-registry-editor-in-windows-10-deab38e6-91d6-e0aa-4b7c-8878d9e07b11).  
+We have the following as you can verify, and they are some of those we have instantiated to check it. If you need the rest, you can follow the same philosophy as explained in the other two articles with [Factory Talk View SE](#/a/en%2Fblog-scadas-con-ms-controls-activex-vb6) & [WinCC](#/a/en%2Fblog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8)
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-8-1024x591.png)
+
+And why is the famous DataGrid from MS Controls ActiveX missing? Because IFix has created its own ActiveX control, which are the so-called VisiconX, and if we consult the help, it is explained.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-92.png)
+
+  
+These controls and others that IFix itself uses in its environment are in the default installation directory.
+
+![](./assets/images/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/IfixMSControls-10-1024x588.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)](https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/) — Jose Manuel Luque*

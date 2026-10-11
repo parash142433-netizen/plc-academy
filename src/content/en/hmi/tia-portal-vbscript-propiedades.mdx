@@ -1,0 +1,48 @@
+---
+title: "VBScript Change Object Properties"
+slug: "tia-portal-vbscript-propiedades"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/TIA_Portal_VBScript_Propiedades.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["TIA Portal","VBScript","WinCC Advanced"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# VBScript Change Object Properties
+
+Jose Manuel Luque
+
+TIA Portal VBScript WinCC Advanced
+
+**VBScript Change Object Properties  
+**
+
+Examples of VBScript for TIA Portal: With the following procedure, we will change the properties of an object; the properties should be defined according to the needs. For this example, I will use the Background color and Font color. This procedure can be applied to any object that has those properties.
+
+In the following image, once the Script editor is open, we create a new one, and assign it a name and the parameters it will have, as well as the method of passing them, by Reference or by Value.
+
+![](./assets/images/tia-portal-vbscript-propiedades/TIA_VBScript_04.png)
+
+The code for our example is as follows, where we start with the statement On Error Resume Next, in case it encounters any error during execution, it will jump to the next instruction, and at the end of the code, we evaluate if any error has occurred. If so, in the Alarm control, we will see the message we have defined.
+
+![](./assets/images/tia-portal-vbscript-propiedades/TIA_VBScript_05.png)
+
+Once our Script is compiled and saved, we can use it, either by calling it directly from the events of any object, in this case from a button, or making a call within another Script, which we will see in the next example of Scripts.
+
+![](./assets/images/tia-portal-vbscript-propiedades/TIA_VBScript_06.png) ![](./assets/images/tia-portal-vbscript-propiedades/TIA_VBScript_07.png)
+
+This last image is to show that when we pass the arguments to our procedure, we pass the values as Strings, in this example, the four parameters.
+
+July 31, 2015
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [VBScript Change Object Properties](https://www.plc-hmi-scadas.com/en/TIA_Portal_VBScript_Propiedades.php) — Jose Manuel Luque*

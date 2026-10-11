@@ -1,0 +1,68 @@
+---
+title: "Graphic Designer Image Window"
+slug: "wincc-graphic-designer-vi"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Graphic_Designer_VI.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","Graphic Designer","Image Window"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# Graphic Designer Image Window
+
+Jose Manuel Luque
+
+WinCC Graphic Designer Image Window
+
+**Graphic Designer "Image Window"  
+**
+
+In today's practice, we will see an object that we have already used in some examples, but today we will delve a little deeper. The object in question is an Image Window.
+
+We will take the following image as an example; we have a PDL and from this we will reference objects that are in a PDL contained in the image window of our PDL.
+
+That is, we have a PDL called PDL\_Parent and this contains an image window called VI\_Parent, which in turn will contain the PDL called PDL\_Child.
+
+From the objects of the main PDL, PDL\_Parent, we will change the properties of the PDL\_Child.
+
+NOTE: In this example, we are doing a nesting of 1 level; if I remember correctly, it seems that we can use up to 8. I have tested it with 4 and it works perfectly.
+
+The only thing that needs to be implemented when doing it at another level is to repeat the existing syntax.
+
+PDLName.ImageWindowName:PDLName
+
+![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_03.png)
+
+Once all the PDLs and all the objects are created, we will proceed to implement the VBScript code. As can be seen, the complete code with its description is in the attached images.
+
+![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_12.png)
+
+For the second circle, we repeat the syntax, changing the text and color of the object that interests us.
+
+![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_14.png)
+
+Now it is time to do it vice versa, that is, from the objects contained in the PDLs, reference the objects that are one or several levels higher. We do this with the syntax Item.Parent, until we reach the PDL that contains the object we are interested in and with ScreenItems("Name") we access it.
+
+![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_06.png) ![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_07.png)
+
+We can now put it in Runtime and test its functionality. When we click on a circle, the image window appears and we change the text and color of the referenced object. And vice versa, when we click the button of the child PDL, we change the backcolor property of the corresponding circle.
+
+![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_08.png) ![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_09.png)
+
+And if we click the other object, the same applies with the change of other options to our properties; now we just need to get it running and experiment with it.
+
+![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_10.png) ![](./assets/images/wincc-graphic-designer-vi/WinCC_VentanaImagen_11.png)
+
+October 19, 2014
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Graphic Designer Image Window](https://www.plc-hmi-scadas.com/en/WinCC_Graphic_Designer_VI.php) — Jose Manuel Luque*

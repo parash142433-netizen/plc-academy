@@ -1,0 +1,84 @@
+---
+title: "ActiveX Controls in Intouch"
+slug: "129"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/129.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["ActiveX Controls in Intouch"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# ActiveX Controls in Intouch
+
+Jose Manuel Luque
+
+ActiveX Controls in Intouch
+
+**ActiveX Controls in Intouch  
+**
+
+In the following practice, we will see how to work with ActiveX controls in Intouch, and at the same time answer the question from Juan Francisco, who is interested in browsing the network from an Intouch window.
+
+The first thing we need to do is install the ActiveX Control (Microsoft Web Browser); for this, we follow the instructions in the image.
+
+![](./assets/images/129/129-Intouch-ActiveX-01.png)
+
+The following window appears, we switch to the ActiveX Control Installation tab, and by default, we have 4 Controls. Now, from the available controls, we look for the ones we are interested in and install them. Depending on the software we have installed on the PC, more or fewer controls will appear. Since another objective is to view a PDF, I have installed Acrobat Reader.
+
+![](./assets/images/129/129-Intouch-ActiveX-02.png) ![](./assets/images/129/129-Intouch-ActiveX-03.png) ![](./assets/images/129/129-Intouch-ActiveX-04.png)
+
+Once installed, when we click on the Wizard, the following window appears, where the available Controls and the ones we just installed are displayed first. We click on the Explorer and position it in the window we are interested in.
+
+![](./assets/images/129/129-Intouch-ActiveX-07.png)
+
+With the right button on our object, we access the properties. An ActiveX object has certain properties and methods. When working with the Microsoft Web Browser control, it is easier since there is a lot of information available from Microsoft, such as the following:
+
+ Error: Cannot display the Object [Visit the page that could not be displayed](http://msdn.microsoft.com/en-us/library/aa752085%28v=vs.85%29.aspx)
+
+Once we know the properties and methods of our object, we can move on to the configuration.
+
+![](./assets/images/129/129-Intouch-ActiveX-08.png) ![](./assets/images/129/129-Intouch-ActiveX-09.png) ![](./assets/images/129/129-Intouch-ActiveX-10.png)
+
+I have some images that will function as buttons for navigation. We will assign the GoHome() function to the house icon, where the home page is the one we have configured in our IEExplorer browser.
+
+![](./assets/images/129/129-Intouch-ActiveX-11.png) ![](./assets/images/129/129-Intouch-ActiveX-12.png)
+
+The action will be as shown; when clicking on the object, the action will call the method of the Browser Control, GoHome(), where this method has no arguments. With the left and right arrow images, we will follow the same methodology and use the GoBack() and GoForward() functions.
+
+![](./assets/images/129/129-Intouch-ActiveX-13.png)
+
+We need the object where we can write the web address we want to go to; for this, we use a rectangle with the user Input function, where we will associate a variable of the message type to constantly visualize the address. We insert text and re-associate it with the same variable.
+
+![](./assets/images/129/129-Intouch-ActiveX-14.png)
+
+Finally, once we have written the web address we want to visit, we need to call the function _object._Navigate(url, Flags, TargetFrameName, PostData, Headers) where we can omit the arguments except for the url, which will be the variable we have already defined.
+
+![](./assets/images/129/129-Intouch-ActiveX-15.png) ![](./assets/images/129/129-Intouch-ActiveX-16.png)
+
+Here is a small demonstration video to see it in action:
+
+Continuing with the same procedure, we will insert another ActiveX object, in this case, of the PDF type. For this, we need to create a variable of the message type that will contain the path where our file is located.
+
+![](./assets/images/129/129-Intouch-ActiveX-17.png)
+
+If we go to the properties of our object, we will see that we have the src property of the message type; this is where we will pass our variable that contains the path.
+
+![](./assets/images/129/129-Intouch-ActiveX-19.png) ![](./assets/images/129/129-Intouch-ActiveX-18.png)
+
+If we run the Runtime, we can observe how our Intouch manual is embedded within our application. The procedure we have followed here is applicable when working with other SCADA Systems and ActiveX controls.
+
+![](./assets/images/129/129-Intouch-ActiveX-20.png)
+
+June 22, 2013
+
+If you liked or found the information useful, share it ...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [ActiveX Controls in Intouch](https://www.plc-hmi-scadas.com/en/129.php) — Jose Manuel Luque*

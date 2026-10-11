@@ -1,0 +1,76 @@
+---
+title: "Send SMS with CP 1242-7"
+slug: "tia-portal-1200-sms"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/TIA_Portal_1200_SMS.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Send SMS with CP 1242-7"]
+downloads: [{"title":"existing","url":"https://support.automation.siemens.com/WW/llisapi.dll/csfetch/58638283/58638283_Set32_SMS_CODE_V10.zip?func=cslib.csFetch&nodeid=76308194"},{"title":"following","url":"https://cache.automation.siemens.com/dnl/DQ/DQ0ODUwMQAA_58638283_Tools/58638283_Set32_SMS_CP1242-7_DOKU_V10_en.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Send SMS with CP 1242-7
+
+Jose Manuel Luque
+
+Send SMS with CP 1242-7
+
+**TIA Portal, Send SMS with CP 1242-7  
+**
+
+In the following practice, we will put into practice the resources that Siemens offers us to test the operation of sending SMS through the CP 1242-7. The example is based on the [existing](https://support.automation.siemens.com/WW/llisapi.dll/csfetch/58638283/58638283_Set32_SMS_CODE_V10.zip?func=cslib.csFetch&nodeid=76308194) project and the [following](https://cache.automation.siemens.com/dnl/DQ/DQ0ODUwMQAA_58638283_Tools/58638283_Set32_SMS_CP1242-7_DOKU_V10_en.pdf) manual. The first thing we did was install the file so that the CP 1242-7 is available in our catalog; once installed, we insert it into our hardware, and it will look like this.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-00.png) ![](./assets/images/tia-portal-1200-sms/S7-1200-sms-01.png)
+
+We enter the configuration of the properties of our CP 1242-7 and leave the radio button as it comes by default in direct GPRS, since the goal is to send SMS.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-03.png)
+
+We move to the modem configuration section, where the first number corresponds to the SIM card of the CP. We select the checkbox to enable SMS and the number we must enter should be provided by the company associated with our SIM; it is the Message Center number.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-04.png)
+
+Authorized subscriber numbers, we leave it by default in our case; configure it if necessary.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-05.png)
+
+With those simple steps, we have configured everything necessary in our CP 1242-7. Finally, we check the Hardware ID number, as we will need it when using the SMS sending function.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-06.png)
+
+The next thing we did was create a function to select the text we will send in the message. Depending on the alarm bit that occurs, a different text will be loaded, and if two alarms occur at the same time, they will have priority in descending order: Alarm\_1 takes precedence over Alarm\_2, and Alarm\_2 takes precedence over Alarm\_3, and so on.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-10.png)
+
+In addition, regardless of which alarm bit has been activated, we will activate the combined failure mark bit, which will be the one we use in the SMS sending function.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-11.png)
+
+And here is the function we extracted from the example project. For our case, this meets the expected requirements: when a positive edge occurs in REQ, the text we have in Message Text will be sent to the phone number we added in PhoneNumber, and we will use HardwareID 273, with a unique and unrepeatable connection ID for other possible calls to the same function.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-12.png)
+
+Once we have finished the logic of our program, we upload the project to the PLC and proceed to perform the first tests to see if it works correctly.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-13.png)
+
+As can be seen in the first tests, only one alarm with its corresponding bit was implemented. Once its correct operation was verified, the previously detailed implementation was carried out.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-14.png) ![](./assets/images/tia-portal-1200-sms/S7-1200-sms-15.png)
+
+And here is the image of the mobile phone with the messages received correctly.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-16.png)
+
+And once we have verified it, we finish adapting our program with all the alarms we had configured. Thank you, Angel Lorente, for collaborating on this practice.
+
+![](./assets/images/tia-portal-1200-sms/S7-1200-sms-20.png)
+
+October 13, 2013
+
+---
+*Source: [Send SMS with CP 1242-7](https://www.plc-hmi-scadas.com/en/TIA_Portal_1200_SMS.php) — Jose Manuel Luque*

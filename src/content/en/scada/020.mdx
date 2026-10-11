@@ -1,0 +1,85 @@
+---
+title: "Security and User Management in Intouch"
+slug: "020"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/020.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch","Intouch Users","Scada Intouch","Security Intouch"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Security and User Management in Intouch
+
+Jose Manuel Luque
+
+Intouch Intouch Users Scada Intouch Security Intouch
+
+In this practice, we will see how to establish security for our Scada Intouch and user management. We must know that Intouch supports three types of security:
+
+\- Intouch Security  
+\- Operating System Based Security  
+\- ArchestrA Security
+
+By default, when creating a new application, the established security is None, which can be observed and changed by going to Special -> Security -> XXX
+
+I will use Intouch security; if I were working with ArchestrA Application Server, I would use its security.
+
+![](./assets/images/020/Intouch%20Users-02.jpg)
+
+1.- The first step will be to establish security for Intouch.
+
+![](./assets/images/020/Intouch%20Users-03.jpg)
+
+2.- If we observe the previous image, we can see that the options Log On.. / Change Password / Configure Users ... / Log Off   are disabled. By changing the security to Intouch, we enable the possibility of Log On..., by default the User is **Administrator** with the password **wonderware** and an access level of **9999**.
+
+![](./assets/images/020/Intouch%20Users-04.jpg)
+
+![](./assets/images/020/Intouch%20Users-05.jpg)
+
+3.- Upon logging in, we can now make use of the other options. If we select Configure Users, it is the option we are interested in to create the users we will have and assign passwords and access levels. The access level depends on the value we assign, with values ranging from (0-9999). Intouch has some internal variables that will be useful when managing our Scada.
+
+![](./assets/images/020/Intouch%20Users-06.jpg)
+
+![](./assets/images/020/Intouch%20Users-08.jpg)
+
+![](./assets/images/020/Intouch%20Users-09.jpg)
+
+![](./assets/images/020/Intouch%20Users-10.jpg)
+
+4.- We have now created our users User, Engineer, Administrator, and None. When no user is logged in, each has a different Access Level, hierarchically: Administrator - Engineer - User - None.
+
+5.- Now we will create buttons for the functions Login, Logout, Configure Users, and some text fields to observe the registered user and their access level.
+
+![](./assets/images/020/Intouch%20Users-11.jpg)
+
+6.- We assign the following Script to the Login button, which calls the function PostLogonDialog() that will show us the pop-up window to log in.
+
+![](./assets/images/020/Intouch%20Users-12.jpg)
+
+7.- We assign the following Script to the Logout button to call the function Logout().
+
+![](./assets/images/020/Intouch%20Users-13-0.jpg)
+
+8.- And if we want to manage users once our application is in Runtime, we will configure the Configure Users button with the following Script, which only the Administrator or the user with an access level higher than 9000 will have access to.
+
+Based on this example, we will use similar conditions when we want to restrict access to a user for a specific button, screen, graphic, forced action, etc...
+
+![](./assets/images/020/Intouch%20Users-13-1.jpg)
+
+9.- With this small example, we can now run the Runtime and observe its operation.
+
+![](./assets/images/020/Intouch-Users-14.gif)
+
+10.- I will also make use of the internal variable $Inactivity Timeout so that after a period of inactivity in the Scada, the last logged-in user will be logged out if they have not done so before, to prevent tampering. This time is configured in the properties of WindowsViewer, by default the value is 0, which means it is out of service.
+
+![](./assets/images/020/Intouch%20Users-23.jpg)
+
+August 22, 2012
+
+---
+*Source: [Security and User Management in Intouch](https://www.plc-hmi-scadas.com/en/020.php) — Jose Manuel Luque*

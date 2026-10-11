@@ -1,0 +1,54 @@
+---
+title: "DDE Server Configuration with Microsoft Excel"
+slug: "rsview-dde"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/RSView_DDE.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["RSView32","DDE Server","Microsoft Excel"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# DDE Server Configuration with Microsoft Excel
+
+Jose Manuel Luque
+
+RSView32 DDE Server Microsoft Excel
+
+**DDE Server Configuration with Microsoft Excel  
+**
+
+We have already seen an example of the configuration of [Direct Driver](#/a/en%2F032) and [OPC Server](#/a/en%2F031), this time we will see how to configure a DDE (Dynamic Data Exchange) communication with RSView32 and Microsoft Excel.
+
+To do this, we go to the Node directory and create a new one, selecting the DDEServer RadioButton, we assign the name we are interested in the Name field, in the Application field, for Microsoft Excel it will be Excel.exe and the Topic name is the name of the file with its extension plus the name of the sheet.
+
+![](./assets/images/rsview-dde/RSView32-Node-DDE-00.png)
+
+This is how it will look once we have created it.
+
+![](./assets/images/rsview-dde/RSView32-Node-DDE-01.png)
+
+Once the link is created, the next thing we will do is create the Tags, we do this within TagDatabase, where in the Node Name field, we assign the Node we just created.
+
+![](./assets/images/rsview-dde/RSView32-Node-DDE-02.png)
+
+The addresses for Microsoft Excel are based on Rows and Columns, that is, to access row number 1 and column number 1, we address it as F1C1 and the same methodology applies for the cells we are interested in, in this case it is so because the language of Microsoft Excel is Spanish.
+
+![](./assets/images/rsview-dde/RSView32-Node-DDE-03.png) ![](./assets/images/rsview-dde/RSView32-Node-DDE-04.png)
+
+We have already created the node and the tags we are interested in, now we will create some Numeric Display type objects for the visualization and verification of our communication. We assign each Tag to each object.
+
+![](./assets/images/rsview-dde/RSView32-Node-DDE-05.png)
+
+Finally, to check its operation, we can now run the display, and we automatically see the result of our Excel Sheet in the objects we just created.
+
+![](./assets/images/rsview-dde/RSView32-Node-DDE-06.png) ![](./assets/images/rsview-dde/RSView32-Node-DDE-07.png)
+
+July 24, 2013
+
+---
+*Source: [DDE Server Configuration with Microsoft Excel](https://www.plc-hmi-scadas.com/en/RSView_DDE.php) — Jose Manuel Luque*

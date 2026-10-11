@@ -1,0 +1,71 @@
+---
+title: "Modbus RTU Network Simulation"
+slug: "058"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/058.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","MODBUS"]
+tags: ["Network","Modbus RTU"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [MODBUS](#/a/en%2Fmodbus) › Article
+
+# Modbus RTU Network Simulation
+
+Jose Manuel Luque
+
+Network Modbus RTU
+
+![](./assets/images/058/ModbusRTU.png)
+
+In today's practice, we are going to simulate a Modbus RTU point-to-point network, as it will be point-to-point, and its topology would be like the attached image. This will serve as an introduction for the next practice where we will use an S7-200 as a Modbus slave and check that it is properly configured.
+
+We will use the following software: a COM port simulator, which you can download [here](http://www.eterlogic.com/Downloads.html "Virtual Serial Port Emulator"), and to simulate the Modbus Master/Slave, we will use Modbus Poll / Modbus Slave, which you can download [here](http://www.modbustools.com/download.asp "Modbus Tools").
+
+Once downloaded, we will configure the Virtual Serial Ports. When starting it, this is the interface; we right-click and create.
+
+![](./assets/images/058/Simulation%20Modbus-04.png)
+
+The wizard for the type of configuration we want will open; in this case, we will use Pair, as observed. Next, we specify two serial ports, in this case, COM3-COM4, which are virtual.
+
+![](./assets/images/058/Simulation%20Modbus-06.png)
+
+![](./assets/images/058/Simulation%20Modbus-07.png)
+
+Once finished, it can be observed that it is running and functioning correctly.
+
+![](./assets/images/058/Simulation%20Modbus-08.png)
+
+The next step is to run Modbus Poll, which will be our virtual Master. We specify that the connection is serial and from the two serial ports created earlier, we assign one, with the parameters of a serial port, speed, parity, etc... IMPORTANT, these data must match in the Slave.
+
+We define an area of Registers that we want to access for reading/writing.
+
+![](./assets/images/058/Simulation%20Modbus-10.png)
+
+![](./assets/images/058/Simulation%20Modbus-14.png)
+
+We run Modbus Slave, specify that the connection is serial, with the same parameters that we had defined earlier, and in the Setup -> Slave Definition, we define the area of registers that interests us, which must match what we defined in Modbus Poll and the slave number.
+
+![](./assets/images/058/Simulation%20Modbus-09.png)
+
+Once both are configured, the connection is established correctly; if there were no connection, we would have an error message. We can now read and write in the registers.
+
+![](./assets/images/058/Simulation%20Modbus-11.png)
+
+Now, if we want to write to a register, we double-click, and a window appears where we define the value and the address. When we click Send, the update is shown in the Slave and Response OK in Modbus Poll.
+
+![](./assets/images/058/Simulation%20Modbus-15.png)
+
+On the other hand, if we want to do it vice versa, writing in the Slave, we double-click and define the value, and then Modbus Poll updates.
+
+![](./assets/images/058/Simulation%20Modbus-17.png)
+
+![](./assets/images/058/Simulation%20Modbus-16.png)
+
+With this, we have simulated our virtual network, which can be useful when we want to simulate a Slave, or conversely, when we want to simulate a Master (Poll).
+
+---
+*Source: [Modbus RTU Network Simulation](https://www.plc-hmi-scadas.com/en/058.php) — Jose Manuel Luque*

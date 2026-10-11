@@ -1,0 +1,77 @@
+---
+title: "SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500"
+slug: "zenon-driver-tia"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Zenon_Driver_TIA.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ZENON COPA-DATA"]
+tags: ["ZENON","Supervisor","COPA-DATA","TIA Portal"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ZENON COPA-DATA](#/a/en%2Fother-scadas) › Article
+
+# SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500
+
+Jose Manuel Luque
+
+ZENON Supervisor COPA-DATA TIA Portal
+
+**SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500**
+
+Having made initial contact with the Software, and taking advantage of having an S7-1500, we are going to configure the Driver to see its configuration.
+
+To add a new Driver, within the tree of our project - Variables - Drivers and we add a new one.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000004.png)
+
+We assign the name of the Driver that interests us, this must be unique, duplicates are not allowed, and the following configuration window automatically appears. Where in Mode we select Hardware, because we are not going to simulate.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000005.png)
+
+In the Options tab, we will directly load the symbols from the PLC, for this, we need to have the PLC connected and Online.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000006.png)
+
+Finally, we need to define the PLC parameters, Net Address, Name assigned to the CPU, Prefix if we are interested, and the IP address of the PLC.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000008.png)
+
+Once the parameters are defined, we start the Import variables wizard from the Driver:
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000009.png)
+
+As seen in the following image, the name we defined for our CPU and the Net Address appears.
+
+At this point, it is important that the PLC is connected; otherwise, an error message will appear regarding the connection.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000012.png)
+
+The next screen is where we will define where we want the variables from, either from a DB - Blocks or from the variable table.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000013.png)
+
+Having selected Table, the variables that I have declared in my TIA Portal project appear.
+
+Here we select the variables that interest us and add them.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000014.png)
+
+We now have the variables we have added for our Demonstration project. If we want to add the variables manually, the most relevant parameter is the Symbolic address field.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000015.png)
+
+If we now create a screen and insert an object linked to our variables, we verify that the communication is correct.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000016.png)
+
+In case there is an error in communication, the indication we have is a red square at the top, which indicates that there is no communication with that variable.
+
+![](./assets/images/zenon-driver-tia/ZenonDriver-000017.png)
+
+January 21, 2019
+
+---
+*Source: [SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500](https://www.plc-hmi-scadas.com/en/Zenon_Driver_TIA.php) — Jose Manuel Luque*

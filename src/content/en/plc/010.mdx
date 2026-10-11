@@ -1,0 +1,71 @@
+---
+title: "Scale Analog Input in Twido"
+slug: "010"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/010.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SCHNEIDER"]
+tags: ["Scale analog input Twido","Twido suite","PLC","Telemecanique Automation"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SCHNEIDER](#/a/en%2Fplc-schneider) › Article
+
+# Scale Analog Input in Twido
+
+Jose Manuel Luque
+
+Scale analog input Twido Twido suite PLC Telemecanique Automation
+
+Due to a query from a colleague in the [InfoPLC](http://www.infoplc.net/foro/showthread.php?10571-Escalado-Anal%F3gicas-en-TwidoSuite) forum about how to scale an analog input like the Siemens FC105 function, I decided to test how it would be done.
+
+The first step would be to know what the FC105 function does; if we go to the help, it shows us the following message: The "Scale values" (SCALE) function takes an integer value at the input IN and converts it into a real value, scaling it to a range between a lower limit and an upper limit (LO\_LIM and HI\_LIM). The result is written to the output OUT. The SCALE function applies the following formula:  
+  
+OUT = \[ ((FLOAT (IN) – K1)/(K2–K1)) \* (HI\_LIM–LO\_LIM)\] + LO\_LIM
+
+The constants K1 and K2 are applied differently, depending on whether the input value is BIPOLAR or UNIPOLAR.  
+  
+·    BIPOLAR:    It is assumed that the input integer value must be between  
+        -27648 and 27648, therefore, K1 = -27648.0 and K2 = +27648.0  
+  
+·    UNIPOLAR:    It is assumed that the input integer value must be between  
+        0 and 27648, therefore, K1 = 0.0 and K2 = +27648.0
+
+I will develop an example assuming I have a Unipolar input.
+
+We start from the basis that we have created a project in TwidoSuite and the first step will be to configure the analog input either 0-10V or 4-20 mA, we select in custom scope and give the Minimum and Maximum values, I, to follow the example of the FC105, give the maximum value of 27648  
+  
+  
+
+![](./assets/images/010/Twido-Scale-03.png)
+
+2.- Once our input is configured, we proceed to programming; I have created a Scalar FC105 subroutine applying the formula mentioned earlier, and it would look like the following image
+
+![](./assets/images/010/Twido-Scale-02.png)
+
+3.- Now from our program, we call the subroutine SR0 and pass the values of Hi\_LIM and Lo\_LIM
+
+![](./assets/images/010/Twido-Scale-08.png)
+
+4.- Finally, to test its operation, we will create the simulation; for simulation purposes, I have changed the analog input %IW1.0 to %MW50 to be able to modify its value in the animation table
+
+![](./assets/images/010/Twido-Scale-04.png)
+
+![](./assets/images/010/Twido-Scale-05.png)
+
+![](./assets/images/010/Twido-Scale-06.png)
+
+And the FC105 function from Siemens would give us results like the following:
+
+![](./assets/images/010/Twido-Scale3.png)
+
+![](./assets/images/010/Twido-Scale2.png)
+
+![](./assets/images/010/Twido-Scale4.png)
+
+July 29, 2012
+
+---
+*Source: [Scale Analog Input in Twido](https://www.plc-hmi-scadas.com/en/010.php) — Jose Manuel Luque*

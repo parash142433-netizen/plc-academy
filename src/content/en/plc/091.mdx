@@ -1,0 +1,55 @@
+---
+title: "S7-1200 Web Server"
+slug: "091"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/091.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["S7-1200 Web Server","S7-1200"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# S7-1200 Web Server
+
+Jose Manuel Luque
+
+S7-1200 Web Server S7-1200
+
+In this practice, we will check the S7-1200 Web Server, which is an option included in all S7-1200 and its future generations...
+
+We start from the assumption that we already have a project and we are going to activate the Web Server
+
+![](./assets/images/091/S7-1200-WebServer-00.png)
+
+Our project will have an IP address for the PLC and the connection to a subnet, we basically have two options, either access the Web Server within the same subnet, where it will be connected to a switch, where it is not necessary to select the checkbox Use router, on the other hand if we want to have access from the internet, it is necessary to configure the gateway, which is the address of the router
+
+![](./assets/images/091/S7-1200-WebServer-02.png)
+
+![](./assets/images/091/S7-1200-WebServer-03.png)
+
+The next step is to navigate to the Web Server option and activate it, we also have the option to select that the connection is only secure with HTTPS
+
+Automatic update is recommended to be activated when we are viewing the status of the variables, by default it is selected.
+
+Finally, we have the option to upload our own pages, but it is optional, so in this first part we leave it as default
+
+![](./assets/images/091/S7-1200-WebServer-04.png)
+
+We can now compile and upload our project to the PLC, with these simple steps, we can now access the Web Server, we open the browser and enter the address of the controller, the web page will automatically open.
+
+If we want to access the Web Server from the Internet, we need to open ports 80(_HTTP_) and 443(_HTTPS_) on the router.
+
+![](./assets/images/091/S7-1200-WebServer-05.png)
+
+To see the options, here is a small video where the available pages can be observed.
+
+              [downloading here](http://www.adobe.com/go/getflashplayer).
+
+March 28, 2013
+
+---
+*Source: [S7-1200 Web Server](https://www.plc-hmi-scadas.com/en/091.php) — Jose Manuel Luque*

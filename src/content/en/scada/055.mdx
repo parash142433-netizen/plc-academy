@@ -1,0 +1,161 @@
+---
+title: "WinCC WebNavigator Configuration"
+slug: "055"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/055.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["Scada","WinCC","WebNavigator"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC WebNavigator Configuration
+
+Jose Manuel Luque
+
+Scada WinCC WebNavigator
+
+In a previous practice, we saw how to configure the [WinCC Flexible PC Runtime as a Web server](#/a/en%2F025) for our application; this time we will see it with the Scada WinCC and the additional software WebNavigator, without which it is not possible to do it! If the first time we installed WinCC we did not select it, we would not receive a warning about the necessary requirements, but if we want to use it, we must install IIS (Internet Information Services) which can be installed from Add/Remove Programs, selecting the icon that says Add or Remove Windows Components, and installing it. As information, when we perform any installation of an additional operating system service, it is good to have the Installation disk, as it is necessary for some.
+
+![](./assets/images/055/WinCC%20WebNavigator-000.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-001.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-002.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-003.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-03.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-04.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-05.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-07.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-09.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-10.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-11.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-12.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-14.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-16.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-18.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-19.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-20.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-22.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-24.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-25.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-26.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-27.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-28.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-28-1.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-28-2.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-29.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-30.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-32.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-38.png)
+
+As I mentioned, if we have it installed, in the tree of our project, the Web Navigator icon appears last; if we do not have it installed, this icon will not be shown.
+
+To continue with this example, I will take up the project from a previous practice where I already have some images configured.
+
+We move on to the configuration; the first step will be to configure the users who will have permission to access and the functionalities that we will enable for them.
+
+We open the User Administrator, and if we have not configured any users, only the Administrator appears. I will create a new user group called WebNavigator, and the Admin user with all privileges; this is also the default user of the operating system, being an Administrator with its password, since when it comes to a Scada, user security should always be enabled**.**
+
+We enable the WebNavigator checkbox, selecting the initial Image when activating the Web server and the language.
+
+Once we have managed the users and confirmed that we have defined our Images, we will use the wizard to create a Web space; we right-click on the WebNavigator icon and select Web Configurator, and a wizard like the following appears.
+
+We select to create a standard website and click next; the next window appears, where by default a predetermined website MainControl.asp appears, which we need to replace with WebClient.asp; we leave the default port at 80, which is the default port for any Web Server; if this is already in use, it is usually resorted to 8080.
+
+By clicking next, we can already see the recommendation that the wizard itself shows us, to configure the Firewall
+
+We go to the advanced options tab, configuration, or we could add the Exceptions by adding the ports, but when I did the WinCC Flexible practice as a Web Server, several colleagues asked me why those ports and why those numbers; to make it clearer, we go to advanced options and configuration
+
+A list appears with all the Services that we can enable/disable; the last two are the ones that interest us, and as can be seen, they are ports 80 and 443; we add them and specify the host name or IP address; as always, it is advisable to assign a static IP to our PC for these cases; I use the IP.
+
+![](./assets/images/055/WinCC%20WebNavigator-41.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-42.png)
+
+With this, we can finalize the web service configuration wizard.
+
+The changes made are applied, and at the end, we are recommended to restart the computer.
+
+To check that the steps previously taken have been successfully completed, we can verify it by observing the Internet Information Services IIS; for this, we go to Control Panel -> Administrative Tools and IIS
+
+We expand the Web sites and it shows that our service is Started and the configured port number, and even when the import of images, functions, etc. is finished, we can navigate in the directory and see the content that has been generated.
+
+Another configuration that needs to be made in the Internet properties, under Local Intranet, is to allow the content of ActiveX controls; although later we will see the warning that the web browser throws at us, we can also add our site; we click on sites -> a pop-up window appears that by default has the first checkbox selected, we click on the advanced button and add the site, but for functionality, it is not necessary, although it is recommended according to Siemens' indications.
+
+Finally, we need to add the images; we go back to the Web Navigator icon and now select Web View Publisher, and then the wizard appears.
+
+The first screen that shows us is the configuration of the different directories of the location of our project and the Web Server; we leave them by default if we have not made any unusual changes.
+
+The second window that shows us is to select the images we want to publish; in this example, I select all, but it may be that we do not want to include an image when accessing the web
+
+In case of having referenced functions and Graphics, these will be shown as before and we select them according to our interest
+
+Once these steps are followed, we can click finish and automatically these images will appear in the directory of our project
+
+Here we can see that they have been added correctly; we can make changes and add or delete if we run the wizard again
+
+![](./assets/images/055/WinCC%20WebNavigator-43.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-45.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-46.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-48.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-49.png)
+
+![](./assets/images/055/WinCC%20WebNavigator-64.png)
+
+When trying to access from another computer on the same network using the Mozilla browser, the warning that shows us is that it is not supported.
+
+This is accessing from the same network, but if we want to access from the Internet, the only thing we have to do is configure our router so that the traffic from the web server is referenced to the computer where it is running and open the same ports that we configured in the firewall 80 - 443.
+
+And here is our project!!! We can navigate through it as if we were on the computer; well, it depends on the permissions assigned to the logged-in user and the published images.
+
+An interesting topic is how the programming we had done in C and VBA, in the publication process has been converted to VBScript to perform the actions, a topic I will investigate...
+
+Once executed and installed, it shows us the following page, where we can select the component we wish to install and directly click on Process Images
+
+Once we log in, the following web page appears, and the warning that shows us about ActiveX controls; this may not happen if I had configured the section to add this website to Local Intranet and granted permissions to run ActiveX controls marked as unsafe.
+
+Since I haven't done it, I click on the bar to execute it
+
+The moment has come to check if it works correctly; we open the browser; when working with IIS, it is safest to work with the Internet Explorer browser; in fact, I tried to connect with Mozilla and could not.
+
+It asks us for the username and password; we log in with the user we created at the beginning and its password
+
+December 9, 2012
+
+---
+*Source: [WinCC WebNavigator Configuration](https://www.plc-hmi-scadas.com/en/055.php) — Jose Manuel Luque*

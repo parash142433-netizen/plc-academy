@@ -1,0 +1,69 @@
+---
+title: "Factory Talk Historian - FTLD"
+slug: "blog-factory-talk-historian-ftld-interface"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-ftld-interface/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk Historian","Factory Talk VIEW SE","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk Historian - FTLD
+
+Jose Manuel Luque Mar 27, 2024
+
+Factory Talk Historian Factory Talk VIEW SE SCADA SCADA
+
+![Factory Talk Historian - FTLD](./assets/images/blog-factory-talk-historian-ftld-interface/FTHistorian-FHLD-6.png)
+
+Factory Talk Historian, by default uses the FTLD interface to communicate with Factory Talk View SE.  
+This interface, unlike the one we have seen previously ([PIPerfMon](#/a/en%2Fblog-factory-talk-historian-pi-interface-performance-monitor)), does not require configuration, as it is automatically created when we create the link in Factory Talk View SE.
+
+What we are going to do is extend its properties; we will enable some system tags that will help us achieve our goal: to know the status of the Historian from any Factory Talk View SE Client.
+
+From Tools, we start the Interface Configuration Utility (ICU).
+
+![](./assets/images/blog-factory-talk-historian-ftld-interface/FTHistorian-FHLD-7.png)
+
+Here we will have all the interfaces we have created. We will select FTLD1, and by default, it loads the configuration we have applied.
+
+![](./assets/images/blog-factory-talk-historian-ftld-interface/FTHistorian-FHLD-6.png)
+
+If we select UnitInt (Universal Interface) and Health Points, we have a series of system tags that are not created.
+
+I am going to create the following, which are the ones I am interested in to know the status of my Historian.  
+With the right button, we select the ones we are interested in and Create.
+
+![](./assets/images/blog-factory-talk-historian-ftld-interface/FTHistorian-FHLD-5.png)
+
+As information, in case of having a redundancy of Historian, in Failover, the configuration would be made and the tags would be created for the same purpose.  
+Once created, to apply the changes, we already have a warning message that we need to restart our interface.
+
+![](./assets/images/blog-factory-talk-historian-ftld-interface/FTHistorian-FHLD-4.png)
+
+Once the service is restarted, we will check the values of our tags; for this, we use the tool Data -> Current Values.  
+We add the tags we have created.
+
+![](./assets/images/blog-factory-talk-historian-ftld-interface/FTHistorian-FHLD-3.png)
+
+And we observe their values.
+
+![](./assets/images/blog-factory-talk-historian-ftld-interface/FTHistorian-FHLD-2-1024x204.png)
+
+If we stop the interface service and check the values... these are the results.
+
+![](./assets/images/blog-factory-talk-historian-ftld-interface/FTHistorian-FHLD-1-1024x190.png)
+
+With these variables, and especially the Heartbeat tag, it will help us to know the status of our Historian from any client. Here is the next part [Factory Talk View SE - Factory Talk Historian Status (FTLD)](#/a/en%2Fblog-factory-talk-view-se-factory-talk-historian-status-ftld).
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Factory Talk Historian - FTLD](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-ftld-interface/) — Jose Manuel Luque*

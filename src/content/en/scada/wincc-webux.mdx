@@ -1,0 +1,88 @@
+---
+title: "WinCC New WebUX Server V7.3"
+slug: "wincc-webux"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_WebUX.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC WebUX V7.3"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC New WebUX Server V7.3
+
+Jose Manuel Luque
+
+WinCC WebUX V7.3
+
+In the following practice
+
+**WinCC New WebUX Server V7.3  
+**
+
+![](./assets/images/wincc-webux/WinCCWebUX_06.png)
+
+The latest version of WinCC V7.3 is now available, which includes a feature that cannot be overlooked. The new WebUX Server, to see all its features visit the [official page](https://w3.siemens.com/mcms/human-machine-interface/en/visualization-software/scada/wincc-options/wincc-web-ux/Pages/Default.aspx) of Siemens.
+
+We can highlight that with this application we can now access from any device, Tablets, SmartPhones, browsers that support HTML 5.
+
+After installation and after restarting the PC, the following configuration pop-up window for WebUX appears.
+
+We click Apply configuration, and in the IIS configuration, another pop-up window appears for the configuration of the new Web site, we give or assign the default name, and the port number, by default Https is 443. In the Certificate area, we select Install certificate later. We accept and it will ask for a system restart.
+
+![](./assets/images/wincc-webux/WinCCWebUX_01.png) ![](./assets/images/wincc-webux/WinCCWebUX_03.png) ![](./assets/images/wincc-webux/WinCCWebUX_04.png)
+
+Once restarted, we go to Control Panel / System Tools / Internet Information Services IIE, we will finish the configuration. We click on the name of the PC and within the IIS area, we go to Server Certificates
+
+![](./assets/images/wincc-webux/WinCCWebUX_14.png)
+
+We are going to create a new one, but for that we will use the Create Self-Signed Certificate action, where we assign the name that interests us and follow the wizard for its creation.
+
+![](./assets/images/wincc-webux/WinCCWebUX_16.png)
+
+Once the certificate is created, we go to our Web site, and within the actions to Bindings, as shown in the following image.
+
+![](./assets/images/wincc-webux/WinCCWebUX_17.png)
+
+And what we are going to do is edit the site, and add the certificate that we created earlier, for this in SSL certificate, we select ours and Ok. With these steps we have finished configuring our new website.
+
+![](./assets/images/wincc-webux/WinCCWebUX_18.png)
+
+Finally, we will add to the Firewall, the exception for the ports that we will use 443 = HTTPS, if we have used the default configuration, otherwise create a new rule applied to the port.
+
+![](./assets/images/wincc-webux/WinCCWebUX_28.png)
+
+We can now move on to the images we want to be on the Web Server, it should be noted that among all the objects we can instantiate, there are certain limitations, for example, of the standard objects, the only one that is not supported is the Connector, for more information, consult the manual.
+
+And to enable it, a new property has been included within Miscellaneous -> Web - enable, we set it to yes, and when saving, two files are generated, the normal \*.pdl and the \*.rdf that will be on the web server.
+
+![](./assets/images/wincc-webux/WinCCWebUX_32.png)
+
+Now we move on to user configuration, and a section dedicated to WebUX has been added within the Web properties, we enable this, with the screen that will be the initial one and that's it.
+
+![](./assets/images/wincc-webux/WinCCWebUX_09.png)
+
+We can now start the Runtime and check its operation.
+
+![](./assets/images/wincc-webux/WinCCWebUX_25.png)
+
+We access from the Web browser, we have to log in with the user we have enabled for this purpose
+
+![](./assets/images/wincc-webux/WinCCWebUX_23.png)
+
+Checked with the browsers Google, Mozilla, Safari, Internet Explorer version 8.0 and above, with this one had security certificate issues.
+
+![](./assets/images/wincc-webux/WinCCWebUX_30.png) ![](./assets/images/wincc-webux/WinCCWebUX_29.png) ![](./assets/images/wincc-webux/WinCCWebUX_24.png)
+
+August 3, 2014
+
+If you liked it or found it useful, share it... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC New WebUX Server V7.3](https://www.plc-hmi-scadas.com/en/WinCC_WebUX.php) — Jose Manuel Luque*

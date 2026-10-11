@@ -1,0 +1,174 @@
+---
+title: "GrafSim · GRAFCET editor and simulator"
+slug: "blog-grafsim"
+locale: "en"
+category: "tools"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/grafsim/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Tools"]
+tags: ["GRAFCET","IEC 60848","Simulator","PLC","Automation","Free"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Tools](#/a/en%2Ftools) › GrafSim
+
+# GrafSim · GRAFCET editor and simulator
+
+Pedro Pagán Pallarés 09 Aug, 2026
+
+GRAFCET IEC 60848 Simulator PLC Automation Free
+
+IEC 60848
+
+## Draw and simulate a GRAFCET in your browser
+
+[Open GrafSim](https://www.plc-hmi-scadas.com/blog/tools/grafsim/) [Watch the video · 2 min](#/a/en%2Fblog-grafsim)
+
+**Free** · nothing to install · no sign-up
+
+## Video: from nothing to a running GRAFCET
+
+Two and a half minutes, uncut: creating the steps, declaring the signals, writing a receptivity, hooking elements by dragging, adding a standard time delay, closing the cycle and running the simulation.
+
+ Your browser does not support HTML5 video. [Download the video](https://www.plc-hmi-scadas.com/blog/wp-content/uploads/2026/08/grafsim-tutorial-en.webm).
+
+A full walkthrough of GrafSim, recorded on the real tool.
+
+## What GrafSim is
+
+**GrafSim** is a GRAFCET editor and simulator that runs entirely in the browser. It is built on the model the **IEC 60848** standard requires: the transition is an element in its own right, with its preceding and following steps, and the engine applies the **five evolution rules** exactly as they are written.
+
+That is not an academic detail. It is what makes it possible to represent an **AND convergence** that genuinely waits for every branch to arrive, to have two simultaneously fireable transitions fire together, and to have a continuous action drop to zero the moment its step deactivates.
+
+![GrafSim editor showing a GRAFCET sequence: initial step with double square, transitions with their receptivity and action boxes](./assets/images/blog-grafsim/grafsim-en-01-editor.png)
+
+The editor, with the double-square initial step and the actions to the right of each step.
+
+#### Genuinely to standard
+
+Initial step, transition as a first-class element, the five evolution rules and iteration until a stable situation is reached.
+
+#### Nothing to install
+
+It opens in the browser and works offline once loaded. Your work is saved on your own machine.
+
+#### English and Spanish
+
+The whole interface, the help, the guided tutorial and even the comments in the generated PLC code.
+
+#### Free
+
+No sign-up, no account, no usage limits and no paid tier lurking behind it.
+
+## Drawing with the mouse
+
+Move the mouse near a step and a **connector** appears on its bottom edge. Drag it onto another step and the two get linked: the **transition in between is created for you**, because in GRAFCET two steps are never joined directly. Drop it on empty space and both the transition and the next step are created at once.
+
+With a step selected you also get buttons to continue the sequence, open divergences or close a loop; and **right-clicking** anywhere opens a menu with everything you can do there.
+
+![Guided tutorial inside GrafSim, highlighting an element of the interface](./assets/images/blog-grafsim/grafsim-en-10-tutorial.png)
+
+The tool ships with a 17-step guided tutorial that advances on its own as you do each thing.
+
+## Receptivities and time delays
+
+Receptivities use the notation of the standard and are validated as you type. On top of that, the variables you have declared **are suggested for you**, filtered by what you have typed so far.
+
+*   `a·b`, `a+b`, `!a` and parentheses
+*   `↑a` and `↓a` for rising and falling edges
+*   `X3` for step activity
+*   `t/X3/5s` for a standard time delay
+*   `=1` for an always-true receptivity
+
+![GrafSim receptivity field showing the dropdown of declared variables](./assets/images/blog-grafsim/grafsim-en-02-sugerencias.png)
+
+As you type, declared variables are offered grouped by inputs, outputs and steps.
+
+## OR and AND divergences
+
+The bars are not drawn by hand: they are **derived from the topology** of the diagram. If a step has several outgoing links it is an OR divergence and the bar is single; if it is a transition that has several outgoing links, it is an AND divergence and the bar is double. Always consistent with what is actually drawn.
+
+![AND divergence and convergence in GrafSim, with double bar and two simultaneous branches](./assets/images/blog-grafsim/grafsim-en-03-and.png)
+
+Simultaneous sequences: double bar at both ends. The convergence waits for both branches.
+
+![OR divergence and convergence in GrafSim, with single bar and mutually exclusive receptivities](./assets/images/blog-grafsim/grafsim-en-04-or.png)
+
+Sequence selection: single bar, with one transition per branch.
+
+## Simulating and watching the signals
+
+While simulating, the active step is painted green with its token, and each transition is coloured by state: **amber** when it is enabled and **green** when its receptivity is also true. That shows you _why_ the GRAFCET advances, or why it does not.
+
+Inputs are toggled **by clicking them**, and you can do it right on the diagram: every variable in a receptivity is a live object. Timers show a progress bar and the remaining seconds, and the timing chart at the bottom plots steps, inputs and outputs.
+
+![Simulation in GrafSim: active step in green, timer countdown on the transition and timing chart](./assets/images/blog-grafsim/grafsim-en-05-simulacion.png)
+
+Simulation running: active step, timer counting down on the transition and the timing chart below.
+
+![GrafSim variables panel during simulation, with switches for the inputs](./assets/images/blog-grafsim/grafsim-en-06-variables.png)
+
+During simulation the variables panel turns into a switch board.
+
+## Standard diagnostics
+
+GrafSim validates the diagram as you draw and flags what the standard does not allow: no initial step, transitions without a preceding or following step, undeclared variables, unreachable steps or steps that deadlock the cycle, and **OR divergences whose branches are not mutually exclusive** —that last one properly checked, by enumerating the combinations of the variables involved.
+
+![GrafSim diagnostics panel showing the detected structures and the simulation log](./assets/images/blog-grafsim/grafsim-en-07-diagnostico.png)
+
+Diagnostics also lists the detected structures and logs every firing.
+
+## PLC code
+
+Every diagram can be turned into **Siemens SCL**, **CODESYS ST** or plain pseudocode for documentation. It is not a text dump: it follows the two-phase structure a cyclic-scan PLC needs —fireable transitions are computed first, then steps are deactivated and activated— which is precisely what guarantees rules 4 and 5 of the standard.
+
+```iecst
+// ─── Phase 1: fireable transitions (rule 2) ───
+T1 := X1 AND (start AND part);
+T4 := X4 AND X5 AND (TRUE);
+
+// ─── Phase 2a: deactivate preceding steps (rule 3) ───
+IF T1 THEN X1 := FALSE; END_IF;
+
+// ─── Phase 2b: activate following steps ───
+// This comes after ALL deactivations, so a step that is deactivated
+// and activated at once stays active (rule 5).
+IF T1 THEN X2 := TRUE; END_IF;
+
+// ─── Actions associated with the steps ───
+drill := X2 OR X3;   // continuous action N
+```
+
+![PLC code window generated by GrafSim in Siemens SCL](./assets/images/blog-grafsim/grafsim-en-08-plc.png)
+
+The code can be copied to the clipboard or downloaded.
+
+## Other details
+
+*   **Light and dark themes**, using the site palette.
+*   **Save and open** as JSON, and export the diagram as **vector SVG**, ready to print or drop into a document.
+*   **It imports diagrams from the old GrafSim**: every connection becomes a transition, and anything without a standard equivalent is reported.
+*   **Undo and redo** with Ctrl+Z, plus autosave in the browser.
+*   **Built-in examples**: sequence with a loop, sequence selection and simultaneous sequences.
+
+![GrafSim in dark theme](./assets/images/blog-grafsim/grafsim-en-09-oscuro.png)
+
+Dark theme, for the long sessions.
+
+## Getting started
+
+### Open it and try it in a minute
+
+No sign-up, nothing to install. If it is your first time, the guided tutorial builds a whole GRAFCET with you, step by step.
+
+[Open GrafSim](https://www.plc-hmi-scadas.com/blog/tools/grafsim/)
+
+Missing something, or found a bug? Tell me and I will look into it: the tool keeps being polished. If you want to brush up on the theory, there is a [complete GRAFCET guide](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion) right here.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organisation engineer specialised in data and applied AI.
+
+---
+*Source: [GrafSim · GRAFCET editor and simulator](https://www.plc-hmi-scadas.com/en/blog/grafsim/) — Pedro Pagán Pallarés*

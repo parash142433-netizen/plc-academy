@@ -1,0 +1,101 @@
+---
+title: "WinCC Flexible Simotion"
+slug: "winccflexible-simotion"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["WinCC","VBScript","Simotion"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# WinCC Flexible Simotion
+
+Jose Manuel Luque
+
+WinCC VBScript Simotion
+
+**WinCC Flexible Simotion**
+
+These are the drivers that WinCC Flexible has, among them, today we will see how to configure the driver for communication with Simotion.
+
+Requirements: Step 7, Simotion Scout, WinCC Flexible
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_01.png)
+
+The first thing we need to check is which panels and screens support it. When talking about WinCC Flexible 2008, we have those from that time.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_02.png)
+
+And very importantly... How to configure it to work with Simotion.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_03.png)
+
+Let's do an example, and if we create a project of the PC type, which is supported as we have seen in the documentation.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_04.png)
+
+When we go to the available Drivers, the Simotion Driver does not appear.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_05.png)
+
+Now, let's create an HMI within a project where we have a Simotion, here [an example](#/a/en%2Fwinccflexible-simotion-opc) of how to create such a project.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_06.png)
+
+We insert a new Object of the type SIMATIC HMI-Station
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_07.png)
+
+And as before, we will define that it is in PC Runtime.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_08.png)
+
+If we now check the drivers we have available, we will see that SIMOTION appears.
+
+But before selecting it, we will finish making some previous and necessary configurations.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_10.png)
+
+As we have defined that it would be a PC Runtime, we open the Hardware configuration
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_14.png)
+
+And the first thing we are going to do is add a network card of the type **IE General**, where we define the IP address and the network. If there is no network, we create a new one.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_15.png)
+
+In the properties of the card, we have to define in the Assignment tab and according to the protocol we are going to use, in our case TCP/IP (S7ONLINE)
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_16.png)
+
+When we save and compile, we get the following error, system data could not be created because the saved configuration is inconsistent.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_17.png)
+
+To solve it, you need to select the checkbox for Adjust MAC address / Use ISO protocol. With that, it compiles and saves correctly.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_18.png)
+
+Now we can configure the simotion driver correctly and with it the Station, interlocutor, node, etc...
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_19.png)
+
+When creating the variables, we can now access the entire Simotion project
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_20.png)
+
+And the particularity of this type of connection is the addressing that is used. If in the future you want to migrate to TIA Portal, you need to know the compatibilities because not all equipment can be migrated.
+
+![](./assets/images/winccflexible-simotion/WCF_Simotion_21.png)
+
+June 5, 2018
+
+"Silence gratitude serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Flexible Simotion](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion.php) — Jose Manuel Luque*

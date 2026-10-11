@@ -1,0 +1,56 @@
+---
+title: "Tag Alarm and Event Server ..."
+slug: "tagalarmeventserver"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/TagAlarmEventServer.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Tag Alarm and Event Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Tag Alarm and Event Server ...
+
+Jose Manuel Luque
+
+Tag Alarm and Event Server
+
+**Tag Alarm and Event Server ...  
+**
+
+So far we have seen how to [configure Alarms and Events using one of the two methods, through RSLinxEnterprise and a CPU firmware version greater than V.16](#/a/en%2Ffactorytalk-alarmevents), in this case we will assume that we have a firmware version that is not possible and we will not use RSLInxEnterprise, we have configured a new OPC Server, called RSLInxOPCServer.
+
+The first thing we are going to do is add a new Alarm and Event Server, as shown in the image.
+
+![](./assets/images/tagalarmeventserver/FTView-TagAlarmAndEventServer-02.png)
+
+Once added, we will configure it, in the General tab, we assign the name we want and the startup type, we leave it by default, in the Priorities and History tab, we set the priorities of the Alarms and if we want them to be logged in a Database, we will take advantage of the Database that we already had created.
+
+![](./assets/images/tagalarmeventserver/FTView-TagAlarmAndEventServer-04.png) ![](./assets/images/tagalarmeventserver/FTView-TagAlarmAndEventServer-03.png) ![](./assets/images/tagalarmeventserver/FTView-TagAlarmAndEventServer-06.png)
+
+With these steps we have already configured our Alarm and Event Server.
+
+Once the Server is configured, we need to configure the Alarms, for this we run the Alarm and Event Setup wizard and the following wizard initializes, for this example I will create the same digital alarm that we had already created, on the digital tab we create a new alarm.
+
+![](./assets/images/tagalarmeventserver/FTView-TagAlarmAndEventServer-08.png)
+
+This and the next configuration tabs are the same as when we configured the Alarm in RSLogix5000, for this example I will only configure this first tab.
+
+![](./assets/images/tagalarmeventserver/FTView-TagAlarmAndEventServer-11.png)
+
+We can now see that we have created our alarm, in this same way we would create all the Alarms that interest us, modify them or delete them.
+
+![](./assets/images/tagalarmeventserver/FTView-TagAlarmAndEventServer-14.png)
+
+To check its operation, we will force the alarm that we had already created in RSLogix5000 and observe its operation.
+
+![](./assets/images/tagalarmeventserver/FTView-TagAlarmAndEventServer-15.png)
+
+July 19, 2013
+
+---
+*Source: [Tag Alarm and Event Server ...](https://www.plc-hmi-scadas.com/en/TagAlarmEventServer.php) — Jose Manuel Luque*

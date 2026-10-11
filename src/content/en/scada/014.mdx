@@ -1,0 +1,79 @@
+---
+title: "Logging Data in Access Database with Intouch"
+slug: "014"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/014.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch","Scripts","SQLConnect","SQLInsert","BindList"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Logging Data in Access Database with Intouch
+
+Jose Manuel Luque
+
+Intouch Scripts SQLConnect SQLInsert BindList
+
+**Logging Data in Access Database with Intouch**
+
+To work with Wonderware Databases, Intouch has a specific application for this called the Historian. However, in a simpler application, we can use the functions that Intouch incorporates to work with Databases, and this practice consists of using the functions to log data into an Access database. I use Access for its simplicity, but any other Database Management System can be used.
+
+If we were working with the Application Server, a prerequisite for its installation is to have installed SQL Server 2005, which is the default Database Management System of Wonderware.
+
+1.- The first step is to create the Database, and except for the Id field, the others will be the values we want to log; these are variables that we use in Intouch.
+
+![](./assets/images/014/Intouch-BindList-02.jpg)
+
+2.- Once the Database is created, we need to create a new DSN. To do this, we go to:
+
+Start -> Control Panel -> Administrative Tools -> Data Sources
+
+We add a new one by selecting the type of Database Management System, in this practice Microsoft Access Driver (\*.mdf), and select our Database.
+
+![](./assets/images/014/Intouch-BindList-06.jpg)
+
+![](./assets/images/014/Intouch-BindList-07.jpg)
+
+3.- Once these steps are completed, we can start our project in Intouch, and the next step is to create a Bind List. The first time we click on Bind List, a pop-up window appears asking if we want to create a file \*\*\* Important to say YES, as this file is where the configuration of all the Bind Lists we create is saved.
+
+Once accepted, the following configuration window for our Bind List appears.
+
+![](./assets/images/014/Intouch-BindList-01.jpg)
+
+The first field to fill in is the name we assign to our BindList, then we have Tagname.FieldName and ColumnName; these two fields are related and refer to the name of the variable and the name of the column in our Database.
+
+![](./assets/images/014/Bindlist.PNG)
+
+We can now proceed to implement our Script. To see the operation in this practice, I will log data every 10 minutes or when an equality occurs with an assigned variable. Within the Scripts, I will create 3: one to establish the connection, another to insert, and another to disconnect from the Database.
+
+![](./assets/images/014/Intouch-BindList-08.jpg)
+
+The variables we will need to implement our SQLConnect, SQLInsert, and SQLDisconnect functions are as follows, and the Scripts can be observed below:
+
+![](./assets/images/014/Intouch-BindList-09.jpg)
+
+![](./assets/images/014/Intouch-BindList-10.jpg)
+
+![](./assets/images/014/Intouch-BindList-11.jpg)
+
+We run the Runtime and test our Script; we enter 1 to connect, 5 to insert or at certain intervals, and 0 to disconnect.
+
+![](./assets/images/014/Intouch-BindList-13.jpg)
+
+![](./assets/images/014/Intouch-BindList-15.jpg)
+
+![](./assets/images/014/Intouch-BindList-12.jpg)
+
+Now we open our Database to check that the data has been entered correctly.
+
+![](./assets/images/014/Intouch-BindList-14.jpg)
+
+August 5, 2012
+
+---
+*Source: [Logging Data in Access Database with Intouch](https://www.plc-hmi-scadas.com/en/014.php) — Jose Manuel Luque*

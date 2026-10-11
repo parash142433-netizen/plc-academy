@@ -1,0 +1,89 @@
+---
+title: "Factory Talk View SE - Factory Talk Historian Status (FTLD)"
+slug: "blog-factory-talk-view-se-factory-talk-historian-status-ftld"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-factory-talk-historian-status-ftld/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk Historian","Factory Talk VIEW SE","SCADA","SCADA"]
+downloads: [{"title":"latest version","url":"https://literature.rockwellautomation.com/idc/groups/literature/documents/um/hseld-um024_-en-e.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk View SE - Factory Talk Historian Status (FTLD)
+
+Jose Manuel Luque March 27, 2024
+
+Factory Talk Historian Factory Talk VIEW SE SCADA SCADA
+
+![Factory Talk View SE - Factory Talk Historian Status (FTLD)](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-16.png)
+
+When working in a distributed architecture, we are interested in knowing the status of our Factory Talk Historian from any point in the application.  
+  
+We already have half the work done with the configuration of system tags of the interface used [Factory Talk Live Data (FTLD)](#/a/en%2Fblog-factory-talk-historian-ftld-interface)  
+  
+The next thing we will do is create 2 tags, for this example in the PLC at the controller level, one of type string and another of type INT, here adapt as needed.
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-19.png)
+
+Those tags we have created, we will register them in our Factory Talk Historian. If you are new to Factory Talk Historian, we will leave that part for another entry.  
+But from Factory Talk View SE, we add those PI points, **Add Individual Historian Points**...
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-3A.png)
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-3.png)
+
+The next step will be to edit them. We are going to change the configuration for this **Point Builder** is our tool.
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-4.png)
+
+The first thing I am going to do is change the name with rename, if you change it directly without this option, a new one will be created when saving ;-)
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-5-1024x473.png)
+
+And now comes the most interesting part, for these tags we are going to configure the **Source Tag**, and we will assign the system tags we had created, assigning Device\_Status to our Status tag and the Heartbeat to its corresponding one.  
+What this means is that as a source, we will write the value of our system tag to our PLC tag.
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-6-1024x626.png)
+
+But first, another very important change for this to work. We have to change the parameters of our Tag and specifically **Location3**, this is the default configuration once we add our tag from Factory Talk View SE  
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-7.png)
+
+And the change we need to make is to change **Location3** to 2.
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-8.png)
+
+And if you want a little more information, this is what the manual says, where **Location1** by default is 1, **Location2** does not apply (NA), **Location3** as described here, **Location4** does not apply when Location3 = 2 and **Location5** is related to Location3, so it does not apply (NA).
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-11-1024x416.png)
+
+If you want to expand with more information a link to the [latest version](https://literature.rockwellautomation.com/idc/groups/literature/documents/um/hseld-um024_-en-e.pdf).
+
+And now we need to check that everything we have done works, if we observe the PLC, we can see that we have values.
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-15.png)
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-16.png)
+
+If we stop the service of our interface ... we observe that the value of our Status has not changed to be able to use its value, but we do see that the Heartbeat tag does not update and that can be useful.
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-17.png)
+
+If we analyze what we have registered, we can observe that the message _Starting ..._ to change to _Good_ occurs in the same second, and the Good message is not captured in our tag, this means that if we are interested in the PLC, as soon as the Heartbeat value does not update, we should reset our message to _BAD_.
+
+![](./assets/images/blog-factory-talk-view-se-factory-talk-historian-status-ftld/FTHistorian-Status-18.png)
+
+And as a conclusion, we already have in our PLC a variable that changes every second, this means that if something does not update for more than X seconds, something is not working correctly, and with this, you can configure in Factory Talk View SE as you see fit.
+
+A message, an alarm, a condition, etc...
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Factory Talk View SE - Factory Talk Historian Status (FTLD)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-factory-talk-historian-status-ftld/) — Jose Manuel Luque*

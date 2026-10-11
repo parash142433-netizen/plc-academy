@@ -1,0 +1,66 @@
+---
+title: "AVEVA Intouch Historical Data Access System (HistData Part 1)"
+slug: "blog-aveva-intouch-historial-data-access-system-histdata"
+locale: "en"
+category: "articles"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historial-data-access-system-histdata/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Articles"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Articles](#/a/en%2Farticles) › Article
+
+# AVEVA Intouch Historical Data Access System (HistData Part 1)
+
+Jose Manuel Luque 08 Jul, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch Historical Data Access System (HistData Part 1)](./assets/images/blog-aveva-intouch-historial-data-access-system-histdata/WWHistory_32.png)
+
+**What is HistData?** The HistData "Intouch Historical Data Access System" is the native Intouch application for extracting data stored in files (_Historical Log files \*.lgh_)
+
+![](./assets/images/blog-aveva-intouch-historial-data-access-system-histdata/WWHistory_46.png)
+
+To use HistData, we first need to create some variables and their corresponding access name. The easiest way is to insert a **HistData Panel Wizard** object, and it will do this work for us ;-)  
+The only thing we need to define is the variable set for the **Historical Trend Chart** and the number of records we want to export between the start and end, of all the values displayed in the chart.
+
+![](./assets/images/blog-aveva-intouch-historial-data-access-system-histdata/WWHistory_31.png)
+
+It will create the following _access name_
+
+![](./assets/images/blog-aveva-intouch-historial-data-access-system-histdata/WWHistory_32.png)
+
+And the following variables, which clearly point to their _access name_
+
+![](./assets/images/blog-aveva-intouch-historial-data-access-system-histdata/WWHistory_28.png)
+
+By doing it automatically with the wizard, there are two variables that are not created, and if we are interested in using them, we need to create them ourselves, which are the following:
+
+![](./assets/images/blog-aveva-intouch-historial-data-access-system-histdata/WWHistory_33.png)
+
+We now have everything we need to extract data. It is worth noting that we have two methods for exporting data:
+
+**Manual**: This means that we assign the parameters we are interested in to the previous variables and perform the export by writing the variable **HDWWriteFile** to 1
+
+**Automatic**: The automatic way is with the object we just saw and the current configuration of our ActiveX Historical Trend Chart object, by pressing the _Save To File_ button
+
+![](./assets/images/blog-aveva-intouch-historial-data-access-system-histdata/WWHistory_34.png)
+
+For more information about all the tags, it is mandatory reading the manual ITDataManagement.pdf which you can find [here](https://cdn.logic-control.com/docs/Wonderware/InTouch/) in addition to many [Tech Notes](https://cdn.logic-control.com/docs/Wonderware/Tech%20Notes/) ;-)  
+  
+However, I will highlight a couple of tags where the duration and interval are parameterized, because this is where the maximum number of records we can export is defined, which is 42 days.
+
+![](./assets/images/blog-aveva-intouch-historial-data-access-system-histdata/WWHistory_35.png)
+
+In the [next part](#/a/en%2Fblog-aveva-intouch-historical-data-access-system-histdata-parte-2), we will move on to practice and other important details we need to know...
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch Historical Data Access System (HistData Part 1)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historial-data-access-system-histdata/) — Jose Manuel Luque*

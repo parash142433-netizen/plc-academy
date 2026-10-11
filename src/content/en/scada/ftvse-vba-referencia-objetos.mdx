@@ -1,0 +1,56 @@
+---
+title: "Object Reference with VBA in Factory Talk View SE"
+slug: "ftvse-vba-referencia-objetos"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/FTVSE_VBA_Referencia_Objetos.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["VBA","Factory Talk View SE"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Object Reference with VBA in Factory Talk View SE
+
+Jose Manuel Luque
+
+VBA Factory Talk View SE
+
+**Object Reference with VBA in Factory Talk View SE  
+**
+
+Once we have seen the introduction, we will move on to a series of examples. In the first one, we will reference objects that are in the same Display or in another one; however, if we reference another display, it must be active, even if it is not visible, but it must be active and loaded.
+
+In the first part of this example, we will change the BackGround property of an object that is in a different Display from the one we will execute its code.
+
+Assuming that Display\_Help is active, when pressing a button in Display\_Main, we will change the background color of an Element (Object) of type Polygon, named DHelp\_Polygon. The name is assigned to each object in its properties, in the Tab, Common and property Name. This is where we assign the name we want for each object.
+
+_Note that we have declared the variable MyObject as Polygon, which is the object whose property we want to change._
+
+![](./assets/images/ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_1.png)
+
+In the second part, we will see another example where we will reference objects that belong to the same display. We can do this in two ways as shown in the code in the image.
+
+![](./assets/images/ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_2.png)
+
+If we run the Runtime and check what has been done, here are some images...
+
+![](./assets/images/ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_6.png)
+
+By pressing the selected button with the cursor, we will execute our code and change the properties
+
+![](./assets/images/ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_7.png)
+
+The operation is perfect...
+
+April 2, 2015
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Object Reference with VBA in Factory Talk View SE](https://www.plc-hmi-scadas.com/en/FTVSE_VBA_Referencia_Objetos.php) — Jose Manuel Luque*

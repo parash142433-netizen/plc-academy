@@ -1,0 +1,149 @@
+---
+title: "Siemens S7-1500 OPC UA Client: Read and Write in TIA Portal"
+slug: "blog-cliente-opc-ua-plc-s7-1500"
+locale: "en"
+category: "communications"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/cliente-opc-ua-plc-s7-1500/"
+author: ""
+date: ""
+breadcrumbs: ["Home","Communications","OPC"]
+tags: ["Siemens","S7-1500","OPC UA","OPC UA Client","PLCSIM Advanced"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Communications](#/a/en%2Fcomunicaciones-industriales) › [OPC](#/a/en%2Fopc) › Siemens S7-1500 OPC UA Client: Read and Write
+
+# Siemens S7-1500 OPC UA Client: Read and Write in TIA Portal
+
+Practical setup of an S7-1500 as an OPC UA client reading and writing variables from another simulated PLC.
+
+Jun 23, 2026
+
+Siemens S7-1500 OPC UA OPC UA Client PLCSIM Advanced
+
+![Enabling the OPC UA client in a Siemens S7-1500 PLC](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-05-activar-opc-cliente.png)
+
+**Objective and setup**
+
+In this article we configure a **Siemens S7-1500 PLC as an OPC UA client**. The client reads variables from another S7-1500 acting as an OPC UA server and also writes one test variable.
+
+The test is built with **TIA Portal** and **PLCSIM Advanced**. To keep the example direct, the communication is left as **No security**. If certificates are required, review the article about [OPC UA security with Siemens S7-1500 and UA Expert](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert) first.
+
+Setup used:
+
+*   **OPC UA server PLC:** 192.168.1.191.
+*   **OPC UA client PLC:** 192.168.1.192.
+*   **PLC:** CPU 1515-2 PN.
+*   **Simulation:** PLCSIM Advanced.
+
+![Two simulated PLCs in PLCSIM Advanced for OPC UA client and server testing](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-01-plcsim-advanced-plcs.png)
+
+**OPC UA server PLC**
+
+The OPC UA server must be running before configuring the client. Here we start from the same approach explained in [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens): a DB with simulated variables, an FC that changes values and an OPC UA interface publishing those variables.
+
+To generate quick test variables, the DB and FC can be prepared from an external source. Siemens documents this workflow in its guide to [importing external source files into TIA Portal](https://support.industry.siemens.com/cs/document/79168964/import-external-source-files-into-tia-portal-and-generate-blocks-from-them?dti=0&lc=en-AZ). This also lets us use AI tools such as [Codex](https://openai.com/codex/) to generate test blocks and save time when we only need changing values to validate communication.
+
+![Simulation DB and FC for the OPC UA server](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-02-db-fc-servidor.png)
+
+Then publish the variables in the OPC UA server interface. These are the variables that the client PLC will discover, read and write.
+
+![Variables published in the Siemens PLC OPC UA server interface](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-03-variables-servidor-opc-ua.png)
+
+**OPC UA client PLC**
+
+Create another **CPU 1515-2 PN** to use as the client. In PLCSIM Advanced assign the prepared IP address for this client PLC, in this example **192.168.1.192**.
+
+![Assigning the IP address to the OPC UA client PLC in PLCSIM Advanced](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-04-plc-cliente-ip.png)
+
+Enable the **OPC Client** from the PLC configuration. This step enables the client functionality inside the CPU.
+
+![Enabling OPC Client from the Siemens S7-1500 PLC configuration](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-05-activar-opc-cliente.png)
+
+As with the server, the matching OPC UA license is required. For a CPU 1515, use the **Medium** license.
+
+![OPC UA Medium license for enabling the OPC UA client in S7-1500](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-06-licencia-opc-ua-cliente.png)
+
+**Interface and variables**
+
+Create an **OPC UA client interface**. Enter the server PLC IP address, **192.168.1.191**. The default OPC UA port is kept.
+
+![Endpoint configuration in the OPC UA client interface](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-07-interfaz-cliente-endpoint.png)
+
+On the security tab, leave **No security** for this test. In a real installation, this is where security policies and certificates must be handled.
+
+![No security configuration in the OPC UA client](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-08-seguridad-none.png)
+
+Now connect online to the OPC UA server to select variables. Change the source to **Online** and click **Online Access**.
+
+![Selecting Online Access to browse OPC UA variables](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-09-online-access.png)
+
+In the connection window, enter the OPC UA server IP address and search for the server. When it appears, select the unsecured connection for this example.
+
+![Searching for the OPC UA server from TIA Portal](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-10-buscar-servidor.png)
+
+If the connection is correct, the address space published by the server PLC appears. Expand the server interface and select the variables to use.
+
+![OPC UA address space published by the server PLC](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-11-espacio-direcciones.png)
+
+To read variables, create a **read list**. If there is a complete DB, it can be added as a group and then checked for consistency.
+
+![OPC UA read list with server variables](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-12-lista-lectura.png)
+
+A **write list** can also be created. In this case we use a test variable named **Cmd** and check consistency again.
+
+![OPC UA write list with Cmd variable](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-13-lista-escritura.png)
+
+After running **Rebuild all**, TIA Portal generates the interface DB with the variables from the lists. A full compile is important so those DBs are generated correctly.
+
+![DB generated by TIA Portal for the OPC UA client interface](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-14-db-interfaz-generado.png)
+
+**Compact blocks**
+
+With the interface ready, the OPC UA calls must be executed from the program. Siemens provides several blocks. For this example we use the compact blocks, which simplify connection handling and reading.
+
+![Compact OPC UA blocks available for Siemens S7-1500 client](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-15-bloques-compactos.png)
+
+Insert **OPC\_UA\_ReadList\_C** and configure it with the wizard. First select the client interface created earlier.
+
+![Configuration wizard for the OPC\_UA\_ReadList\_C block](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-16-asistente-readlist.png)
+
+In **Data access**, select the read list. TIA Portal then fills the remaining fields needed to access the list.
+
+![Selecting the read list in Data access for OPC\_UA\_ReadList\_C](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-17-data-access-readlist.png)
+
+To write the **Cmd** value, instantiate the write block using the same steps as the read block: select the OPC UA client interface and parameterize **Data access** with the write list configured earlier.
+
+![OPC UA write block parameterized with the client interface and Cmd write list](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-21-asistente-writelist.png)
+
+Two signals remain important:
+
+*   **REQ:** read request. Each positive edge updates the data.
+*   **MaintainSession:** OPC UA session maintenance.
+
+For a test, a marker or clock signal is enough. In a real application, the refresh rate must be chosen according to load and process needs.
+
+![REQ and MaintainSession configuration in the OPC UA client block](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-18-req-maintain-session.png)
+
+**Final test**
+
+Test the read operation online. With a positive edge on **REQ\_OPC\_UA**, the server values are updated in the client interface DB.
+
+![OPC UA read test updating values in the client DB](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-19-prueba-lectura.png)
+
+For writing, enter a value in **Cmd** from the client PLC and check it in the server PLC with another request.
+
+![OPC UA write test from client PLC to server PLC](./assets/images/blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-20-prueba-escritura.png)
+
+The key point is consistency between the variables published by the server and the lists configured in the client. If the server DB changes, compile properly, review the lists and regenerate the interface DBs before testing again.
+
+**Related articles**
+
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [OPC UA Security: Siemens S7-1500 and UA Expert Client](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert)
+*   [Secure OPC UA Connection Flow](#/a/en%2Fblog-flujo-de-conexion-opc-ua-segura)
+*   [Docker: OPC UA Server and Web Client](#/a/en%2Fblog-docker-servidor-opc-ua)
+*   [Temperature Control System (III): OPC UA](#/a/en%2Fblog-sistema-de-control-de-temperatura-iii)
+
+---
+*Source: [Siemens S7-1500 OPC UA Client: Read and Write in TIA Portal](https://www.plc-hmi-scadas.com/en/blog/cliente-opc-ua-plc-s7-1500/)*

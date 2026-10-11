@@ -1,0 +1,50 @@
+---
+title: "Historian AutoStart"
+slug: "wwhistorian-autostart"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WWHistorian_AutoStart.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Wonderware Historian"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Historian AutoStart
+
+Jose Manuel Luque
+
+Wonderware Historian
+
+**Setup AutoStart WWHistorian  
+**
+
+In this practice, I will answer a question, since if it has not been configured, every time we start the WWHistorian Server, it needs to be started. The question was how to start it automatically.
+
+We start from the assumption that we have just started our machine and the Service is stopped.
+
+![](./assets/images/wwhistorian-autostart/WW_Historian_AutoStart_01.png) ![](./assets/images/wwhistorian-autostart/WW_Historian_AutoStart_02.png)
+
+To Start or Stop it, right-click on Status, and a menu will appear where we will select the option that interests us. In this case, we are interested in starting it, you need to log in with a username and password, and it will start automatically.
+
+![](./assets/images/wwhistorian-autostart/WW_Historian_AutoStart_03.png)
+
+Here we can see in the following image that it has started correctly. We observe the tags that we are registering, the number of License tags, errors, Warnings, etc...
+
+![](./assets/images/wwhistorian-autostart/WW_Historian_AutoStart_04.png)
+
+Now the answer, if we go to Configuration Editor --> System Configuration --> Parameters, we look for the AutoStart property and change the value to 1. With that, the next time we restart the machine, all services will start automatically.
+
+![](./assets/images/wwhistorian-autostart/WW_Historian_AutoStart_05.png)
+
+April 10, 2015
+
+If you liked it or found it useful, share it... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Historian AutoStart](https://www.plc-hmi-scadas.com/en/WWHistorian_AutoStart.php) — Jose Manuel Luque*

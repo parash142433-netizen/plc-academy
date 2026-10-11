@@ -1,0 +1,62 @@
+---
+title: "WinCC ChipCard Option"
+slug: "wincc-chipcard"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Chipcard.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC ChipCard Option"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC ChipCard Option
+
+Jose Manuel Luque
+
+WinCC ChipCard Option
+
+**WinCC ChipCard Option  
+**
+
+In the following practice, we will prepare our WinCC to work with ChipCard security. By implementing this method, we comply with the regulations.
+
+The first step is to connect the reader to a USB port; Windows 7 will automatically recognize the new device and install its driver.
+
+![](./assets/images/wincc-chipcard/WinCC_ChipCard_00.png) ![](./assets/images/wincc-chipcard/WinCC_ChipCard_01.png)
+
+The first step will be to update our controller. To do this, we go to the website http://www.hidglobal.mx/ and download the driver for our reader, depending on the operating system.
+
+![](./assets/images/wincc-chipcard/WinCC_ChipCard_02.png) ![](./assets/images/wincc-chipcard/WinCC_ChipCard_03.png)
+
+Once our driver is updated, it should appear as shown in the following image: OMNIKEY 3x21 or according to the model we are using.
+
+![](./assets/images/wincc-chipcard/WinCC_ChipCard_04.png)
+
+The next step is to install CT-API, an application also downloaded from the previous website. We proceed with the installation and will see a warning if we are going to use multiple readers.
+
+If we do not install this application, WinCC will not enable the Chip Card menu.
+
+![](./assets/images/wincc-chipcard/WinCC_ChipCard_05.png) ![](./assets/images/wincc-chipcard/WinCC_ChipCard_06.png)
+
+Once installed, we can configure the WinCC Chip Card Terminal option in the Control Panel, selecting the reader and port we will use.
+
+![](./assets/images/wincc-chipcard/WinCC_ChipCard_07.png) ![](./assets/images/wincc-chipcard/WinCC_ChipCard_08.png)
+
+With these steps, we can now open the User Manager and see that the Chip Card option is enabled. We can insert the cards and start recording users.
+
+If we are only interested in having the user log in with the ChipCard, we will select the checkbox enabled for that purpose.
+
+![](./assets/images/wincc-chipcard/WinCC_ChipCard_09.png) ![](./assets/images/wincc-chipcard/WinCC_ChipCard_10.png) ![](./assets/images/wincc-chipcard/WinCC_ChipCard_11.png)
+
+August 3, 2014
+
+If you liked it or found it useful, share it... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [WinCC ChipCard Option](https://www.plc-hmi-scadas.com/en/WinCC_Chipcard.php) — Jose Manuel Luque*

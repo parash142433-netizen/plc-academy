@@ -1,0 +1,148 @@
+---
+title: "Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM"
+slug: "blog-servidor-opc-ua-plc-siemens"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/servidor-opc-ua-plc-siemens/"
+author: "PLC-HMI-SCADAS"
+date: ""
+breadcrumbs: ["Home","PLC","Siemens"]
+tags: ["Siemens","S7-1500","OPC UA","TIA Portal V20","PLCSIM Advanced"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [Siemens](#/a/en%2Fplc-siemens) › Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM
+
+# Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM
+
+May 26, 2026
+
+Siemens S7-1500 OPC UA TIA Portal V20 PLCSIM Advanced
+
+**Objective and tools**
+
+The goal is to prepare a Siemens PLC to serve variables through **OPC UA**, simulate it with **PLCSIM Advanced** and check the connection from [**UA Expert**](https://www.unified-automation.com/products/development-tools/uaexpert.html).
+
+For this example I use a **CPU 1515-2 PN**, network interface 1 and project IP address **192.168.1.188**. The project stays deliberately simple: one DB with variables, one FC that changes the values and the PLC's own OPC UA server publishing that data.
+
+**Tools used:**
+
+*   **TIA Portal V20:** project development and configuration.
+*   **PLCSIM Advanced V7.0:** PLC simulation over Ethernet.
+*   [**UA Expert**](https://www.unified-automation.com/products/development-tools/uaexpert.html): OPC UA client used to validate the server.
+*   [**Codex**](https://openai.com/codex/): support for generating the SCL block that simulates values.
+
+**OPC UA Activation**
+
+Inside the CPU properties, enable the **OPC UA server** functionality and assign it to the network interface that will be used. Siemens provides specific documentation for [using the S7-1500 as an OPC UA server in TIA Portal](https://docs.tia.siemens.cloud/r/en-us/v20/configuring-automation-systems/using-opc-ua-communication-s7-1200-s7-1500-s7-1500t/using-the-s7-1500-as-an-opc-ua-server-s7-1500-s7-1500t). In this case the server runs through interface 1 of the CPU.
+
+![Enabling the OPC UA server on a Siemens S7-1500 CPU](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-01-activar-opc-ua.png)
+
+![Network interface configuration for OPC UA in TIA Portal](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-02-configuracion-opc-ua.png)
+
+This prepares the server entry point. Two important parts are still required before downloading: the OPC UA license and the access permissions.
+
+**OPC UA License**
+
+This functionality requires the OPC UA license that matches the CPU type. The official [Siemens OPC UA page](https://www.siemens.com/en-us/products/opc-ua/) summarizes Siemens' approach to OPC UA communications in industrial automation. In TIA Portal, the license is separated by controller size:
+
+*   **Small:** entry-level CPUs such as 1511, 1512C, 1513 and distributed ET 200SP controllers.
+*   **Medium:** mid-range CPUs such as 1515 and 1516. This is the license used in this example.
+*   **Large:** higher-performance CPUs such as 1517 and 1518.
+
+![Selecting the OPC UA license for a Siemens S7-1500 PLC](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-03-licencia-opc-ua.png)
+
+![OPC UA Medium license for a Siemens 1515 CPU](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-04-licencia-medium.png)
+
+**User Permissions**
+
+When compiling, TIA Portal may warn that user permissions are missing for OPC UA. The fix is to create a specific role, enable the matching **Runtime right** in the PLC and assign that role to the user that will access the OPC UA server.
+
+![TIA Portal compile warning related to OPC UA permissions](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-05-error-permisos.png)
+
+First, create the OPC UA role.
+
+![Creating a user role for OPC UA](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-06-rol-opc-ua.png)
+
+Then create the **Runtime right** in the PLC and make it available for that role.
+
+![Runtime right configuration for OPC UA in the PLC](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-07-runtime-right.png)
+
+Finally, assign the role to the required users. In this case we assign it to the **admin** user, so the OPC UA connection requires a **username and password** and is protected by credentials.
+
+This user must already exist with a password. That same password will be entered later in the OPC UA client when establishing the connection to the PLC.
+
+![Assigning the OPC UA role to the admin user in TIA Portal](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-08-asignar-rol-admin.png)
+
+**Simulation FC and DB**
+
+To have changing data in the OPC UA client, I create a small simulation program. The base is a DB with variables and an SCL FC that updates their values.
+
+![FC and DB used to simulate variables in TIA Portal](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-09-fc-db-simulacion.png)
+
+First, create the variables that will be simulated.
+
+![DB variables that will be published through OPC UA](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-10-variables-simuladas.png)
+
+Then enable clock memory bits to use internal pulses and change values easily.
+
+![Enabling clock memory in a Siemens CPU](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-11-clock-memory.png)
+
+The simulation FC is prepared in SCL with help from [Codex](https://openai.com/codex/), so the test behavior can be generated quickly.
+
+![Prompt used to generate an SCL FC for variable simulation](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-12-fc-scl-codex.png)
+
+![Generated SCL code for simulating PLC values](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-13-codigo-scl-generado.png)
+
+**PLC Simulation**
+
+With the program ready, enable simulation in the project and prepare the instance in **PLCSIM Advanced**.
+
+![Enabling PLC simulation from TIA Portal](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-14-habilitar-simulacion.png)
+
+In PLCSIM Advanced I use **SingleAdapter** and assign the project IP address: **192.168.1.188**. This allows the OPC UA client to connect to that address.
+
+![PLCSIM Advanced instance with SingleAdapter and IP 192.168.1.188](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-15-plcsim-singleadapter.png)
+
+**OPC UA Server Interface**
+
+Once the variables are created, configure an OPC UA server interface in the project.
+
+![Creating an OPC UA server interface in TIA Portal](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-16-interfaz-servidor.png)
+
+Then add the variables that should be served. Drag the DB or the variables into the OPC UA interface. When everything is ready, download the simulated PLC.
+
+![Variables dragged into the OPC UA server interface](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-17-variables-servidas.png)
+
+**Check with UA Expert**
+
+To validate the server I use [**UA Expert**](https://www.unified-automation.com/products/development-tools/uaexpert.html), the OPC UA client from Unified Automation. The endpoint URL for this test is:
+
+`opc.tcp://192.168.1.188:4840`
+
+In this article, the OPC UA channel security is left as **No security (None)**. In other words, we use a username and password for access, but message signing and channel encryption are not enabled yet. The authenticated connection with security policies and encryption will be covered in a dedicated article.
+
+![No security None configuration in the UA Expert OPC UA connection](./assets/images/blog-servidor-opc-ua-plc-siemens/None.png)
+
+After discovering the server and selecting the connection, UA Expert asks for credentials. Here we enter the **admin** user and the password previously configured in TIA Portal.
+
+![UA Expert with No security None policy for the OPC UA connection](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-18-uaexpert-no-security.png)
+
+![UA Expert requests the admin username and password to connect to the OPC UA server](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-18-uaexpert-credenciales.png)
+
+After connecting, open the **ServerInterfaces** folder. The DB published from TIA Portal is available there.
+
+![Published DB inside ServerInterfaces in UA Expert](./assets/images/blog-servidor-opc-ua-plc-siemens/servidor-opc-ua-plc-siemens-19-uaexpert-db.png)
+
+This validates the full path: simulated PLC, active OPC UA server, served variables and an external client reading the published structure.
+
+**Related Articles**
+
+*   [Secure OPC UA Connection Flow](#/a/en%2Fblog-flujo-de-conexion-opc-ua-segura)
+*   [Temperature Control System (III) — OPC UA](#/a/en%2Fblog-sistema-de-control-de-temperatura-iii)
+*   [Docker: OPC UA Server and Web Client](#/a/en%2Fblog-docker-servidor-opc-ua)
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](https://www.plc-hmi-scadas.com/en/blog/servidor-opc-ua-plc-siemens/) — PLC-HMI-SCADAS*

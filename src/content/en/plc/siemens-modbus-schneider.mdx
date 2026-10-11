@@ -1,0 +1,65 @@
+---
+title: "Data Exchange between Siemens and Schneider via Modbus TCP"
+slug: "siemens-modbus-schneider"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Siemens_Modbus_Schneider.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Siemens","Schneider","Modbus TCP"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Data Exchange between Siemens and Schneider via Modbus TCP
+
+Jose Manuel Luque 09 May, 2019
+
+Siemens Schneider Modbus TCP
+
+**Data Exchange between Siemens and Schneider via Modbus TCP**
+
+It has been a few years since the first article on [Modbus TCP communication with a simulator](#/a/en%2F084) was published, so I will not repeat all the steps, as that article can serve as a guide. This time the example will be more practical, as we will communicate a 1511 CPU with a Schneider PLC, using the PLC Simulator, which we have already seen supports communications, unlike SoMachine up to this point.
+
+The documentation is easy to understand; however, if we need to highlight any parameter, we will do so, because what changes regarding the MB\_CLIENT function is that in this version we need to create a variable of type TCON\_IP\_v4 for the CONNECT parameter, where the following information is included:
+
+\-ID: Must be unique and cannot be repeated.
+
+\-ConnectionType: For Modbus TCP communications, it must be 11.
+
+\-ActiveEstablished: We set it to 1 to establish the connection with the Server.
+
+\-ADDR: We define the Server's IP address, and by default, RemotePort is 502.
+
+![](./assets/images/siemens-modbus-schneider/SiemensModbusSchneider\(3\).png)
+
+The function we use is MB\_CLIENT, just like before; here we have an image of the two versions.
+
+![Claude-generated diagram: MB_CLIENT connecting to a Schneider PLC simulator](./assets/generated/modbus-mb-client.svg)
+
+And here is the Instance DB where we have all the information, and if we observe the Array, in the first 10 records starting from 1, we have the values we read from the Schneider PLC.
+
+![](./assets/images/siemens-modbus-schneider/SiemensModbusSchneider\(2\).png)
+
+Here we see that there is a connection that the simulator does not specify the name for, but which corresponds to the 1511 CPU, with IP address 192.168.1.100, and we see how we have read the value of these variables.
+
+![](./assets/images/siemens-modbus-schneider/SiemensModbusSchneider\(6\).png)
+
+However, if we now change MB\_MODE to 116, it is the function to write Holding Register; we are going to write to the Schneider PLC TSX 57.
+
+![](./assets/images/siemens-modbus-schneider/SiemensModbusSchneider\(5\).png)
+
+And once the REQ is executed, we observe how we have written the variables.
+
+![](./assets/images/siemens-modbus-schneider/SiemensModbusSchneider\(7\).png)
+
+This information belongs to the help of the function and the allowed values for the MB\_MODE parameter depending on what we are interested in (READ - WRITE HOLDING REGISTERS)
+
+![](./assets/images/siemens-modbus-schneider/SiemensModbusSchneider\(4\).png)
+
+09-05-2019
+
+---
+*Source: [Data Exchange between Siemens and Schneider via Modbus TCP](https://www.plc-hmi-scadas.com/en/Siemens_Modbus_Schneider.php) — Jose Manuel Luque*

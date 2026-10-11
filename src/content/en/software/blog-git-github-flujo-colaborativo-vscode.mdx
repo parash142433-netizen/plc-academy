@@ -1,0 +1,489 @@
+---
+title: "Git & GitHub for Teams:Interactive Guide to Collaborative Workflows with VS Code"
+slug: "blog-git-github-flujo-colaborativo-vscode"
+locale: "en"
+category: "software"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/git-github-flujo-colaborativo-vscode/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Software","CONTROL DE VERSIONES"]
+tags: ["Git","GitHub","VS Code","Collaboration","Branches"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Software](#/a/en%2Fsoftware) › [CONTROL DE VERSIONES](#/a/en%2Fgit) › Article
+
+# Git & GitHub for Teams:  
+Interactive Guide to Collaborative Workflows with VS Code
+
+Pedro Pagán Pallarés Mar 01, 2026
+
+Git GitHub VS Code Collaboration Branches
+
+![Git & GitHub - Collaborative workflow with VS Code](./assets/images/blog-git-github-flujo-colaborativo-vscode/imagenrepositorio.PNG)
+
+Choose how you want to follow this guide:
+
+  Read Article   Interactive Mode
+
+0 of 6 scenarios completed
+
+### Meet the team
+
+In this tutorial, we'll work with a team of 3 developers collaborating on a project from VS Code. Each one has their own workflow but they all share the repository on GitHub.
+
+A
+
+Ana Lead Developer
+
+B
+
+Bruno Backend Dev
+
+C
+
+Carlos Frontend Dev
+
+### 1\. Clone and set up the repository
+
+The first thing every team member does
+
+Each developer clones the GitHub repository to their local machine and configures their Git identity. In VS Code, this can be done from the integrated terminal or the graphical interface.
+
+Terminal VS Code GUI
+
+Copy \# Set up identity (first time only)  
+$ git config \--global user.name "Ana García"  
+$ git config \--global user.email "ana@company.com"  
+  
+\# Clone the repository  
+$ git clone https://github.com/team/project.git  
+$ cd project  
+$ code .
+
+**Tip:** Running `code .` opens VS Code directly in the project folder.
+
+1.  **Ctrl+Shift+P** → Type _"Git: Clone"_ and press Enter
+2.  Paste the repository URL: `https://github.com/team/project.git`
+3.  Choose the destination folder and confirm
+4.  VS Code will ask to open the repository → **Open**
+
+☁️ GitHub (remote) git clone 💻 Local (your PC) Each developer clones: 👩‍💻Ana → git clone 👨‍💻Bruno → git clone 👨‍💻Carlos → git clone
+
+✅ Got it — Next scenario
+
+### 2\. Create branches
+
+Each person works on their own branch
+
+**Golden rule:** Never work directly on `main`. Each new feature or fix is developed on an independent branch. This way one person's work doesn't interfere with anyone else's.
+
+📋
+
+Issue / Task
+
+A task is assigned in GitHub Issues
+
+🌿
+
+Create branch
+
+Branch from main with descriptive name
+
+💻
+
+Develop
+
+Code and make commits
+
+🚀
+
+Push + PR
+
+Push and open Pull Request
+
+Copy \# Ana creates a branch for the login system  
+$ git checkout \-b feature/login  
+  
+\# Bruno creates a branch for the data API  
+$ git checkout \-b feature/data-api  
+  
+\# Carlos creates a branch for the dashboard  
+$ git checkout \-b feature/dashboard
+
+**Naming convention:** Use prefixes like `feature/`, `bugfix/`, `hotfix/` to organize your branches. Example: `feature/login-oauth`, `bugfix/fix-header-overlap`.
+
+main feature/login (Ana) 👩‍💻 feature/data-api (Bruno) 👨‍💻 merge merge
+
+**In VS Code:** You can create branches from the bottom bar (click on the current branch name) or with **Ctrl+Shift+P → "Git: Create Branch"**.
+
+✅ Got it — Next scenario
+
+### 3\. Commit, Push and the daily workflow
+
+The basic Git work cycle
+
+The daily workflow with Git consists of: edit files → stage changes → commit → push to remote. In VS Code this is extremely visual and intuitive.
+
+✏️
+
+Edit
+
+Modify files
+
+📂
+
+Stage
+
+git add
+
+📸
+
+Commit
+
+git commit
+
+⬆️
+
+Push
+
+git push
+
+☁️
+
+GitHub
+
+Synchronized
+
+Terminal VS Code GUI
+
+Copy \# See which files have changed  
+$ git status  
+  
+\# Add files to the staging area  
+$ git add src/login.js  
+$ git add . \# or add ALL  
+  
+\# Create a commit with a descriptive message  
+$ git commit \-m "feat: add login form with validation"  
+  
+\# Push to remote (first time on this branch)  
+$ git push \-u origin feature/login  
+  
+\# Push subsequent changes (after the first time)  
+$ git push
+
+1.  Open the **Source Control** panel with **Ctrl+Shift+G**
+2.  Modified files appear under "Changes". Click **+** to stage them
+3.  Write the commit message in the top text field
+4.  Press **✓ Commit** (or Ctrl+Enter)
+5.  Click **Sync Changes** (or the ↑ icon) to push
+
+Working Dir Edited files Staging Area git add Local Repo git commit Remote (GitHub) git push
+
+**Commit messages:** Use [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, `refactor:`, `test:`. It helps automate changelogs and understand the history.
+
+✅ Got it — Next scenario
+
+### 4\. Pull Requests and Code Review
+
+The gateway to main
+
+When you finish your work on a branch, you do NOT merge directly. You open a **Pull Request (PR)** on GitHub so your teammates can review the code before integrating it into `main`.
+
+1.  **Push your branch** — `git push -u origin feature/login`
+2.  **Go to GitHub** — A yellow banner "Compare & pull request" appears → click it
+3.  **Fill in the PR** — Descriptive title, description of changes, screenshots if visual
+4.  **Assign reviewers** — Select teammates for review
+5.  **Code Review** — Reviewers comment, suggest changes, approve
+6.  **Merge** — If everything is approved, merge to main
+
+feature/login 🔀 Pull Request #12 "feat: login system" 👀 Code Review Bruno reviews the changes ✅ Approved → Merge main merge commit
+
+**In VS Code:** Install the **GitHub Pull Requests** extension to manage PRs directly from the editor without going to the browser.
+
+✅ Got it — Next scenario
+
+### 5\. Resolving conflicts
+
+When two people edit the same file
+
+Conflicts occur when two branches modify the **same lines** of the same file. Git can't decide which one is correct, so it asks you to resolve it manually. Don't panic! VS Code makes this very visual and easy.
+
+👩‍💻 Ana (feature/login)
+
+`// config.js   const PORT = 3000;   const HOST = 'localhost';`
+
+👨‍💻 Bruno (feature/data-api)
+
+`// config.js   const PORT = 8080;   const HOST = '0.0.0.0';`
+
+⬇️ When trying to merge, Git shows this:
+
+<<<<<<< HEAD (your branch) const PORT = 3000; const HOST = 'localhost'; \======= const PORT = 8080; const HOST = '0.0.0.0'; \>>>>>>> feature/data-api
+
+#### How to resolve in VS Code:
+
+1.  VS Code shows conflicts with **colors** and buttons: _Accept Current | Accept Incoming | Accept Both | Compare_
+2.  Choose which version to keep, or manually edit to combine both
+3.  Delete the conflict markers (`<<<`, `===`, `>>>`)
+4.  Save the file → `git add` → `git commit`
+
+Copy \# After resolving the conflicts manually:  
+$ git add config.js  
+$ git commit \-m "fix: resolve conflict in config.js (merge feature/data-api)"
+
+**Never do this:** Delete someone else's code without consulting them. Conflicts are for _negotiating_, not imposing. Talk to your teammate if you're not sure which version to keep.
+
+✅ Got it — Next scenario
+
+### 6\. Syncing with the team
+
+git pull, fetch and rebase
+
+While you work on your branch, your teammates may have merged changes to `main`. It's important to **update your branch** to avoid falling behind and minimize future conflicts.
+
+Option A: Merge Option B: Rebase
+
+Copy \# Pull changes from main and merge into your branch  
+$ git checkout feature/login  
+$ git pull origin main
+
+Creates a **merge commit** that joins both histories. The history looks "messier" but it's safer.
+
+Copy \# Rebase: rewrite your branch ON TOP of updated main  
+$ git checkout feature/login  
+$ git fetch origin  
+$ git rebase origin/main
+
+**Be careful with rebase:** It rewrites history. **Never rebase branches that are already shared with others.** Only on local or personal branches.
+
+Merge (real history) merge commit Rebase (linear history) rebased commits → Clean history, single line
+
+✅ Got it — Next scenario
+
+### Git Simulator — Practice here
+
+Type Git commands and see what happens. Try: `git init`, `git branch`, `git status`, `git log`, `help`
+
+Welcome to the interactive Git simulator.
+
+Type 'help' to see available commands.
+
+ Run
+
+### Cheat Sheet — Essential commands
+
+#### Setup
+
+git config --global user.name "Your Name" git clone <url> Configure identity and clone repositories.
+
+#### Branches
+
+git branch git checkout -b feature/new git switch main List, create and switch branches.
+
+#### Daily flow
+
+git add . git commit -m "message" git push Stage, commit and push to remote.
+
+#### Sync
+
+git pull git fetch git rebase origin/main Fetch team changes.
+
+#### Inspect
+
+git status git log --oneline --graph git diff View status, history and differences.
+
+#### Undo
+
+git restore <file> git reset HEAD~1 git stash Revert changes and save temporary work.
+
+#### 1\. Introduction
+
+If you've ever worked on a development team, you know that one of the biggest sources of chaos is **multiple people modifying the same code at once**. Without the right tool, coordination becomes impossible: overwritten files, lost versions, constant "who touched this?".
+
+**Git** is the version control system that solves all of this. Combined with **GitHub** (the cloud platform) and **Visual Studio Code** (the editor), they form the perfect trio for working in a team in an orderly, safe and efficient way.
+
+In this article you'll learn, step by step with real examples, how to use Git in a team: from cloning a repository to resolving conflicts, through branches, pull requests and best practices.
+
+#### 2\. Key Git concepts
+
+Before starting, let's establish the fundamental concepts. If you already know them, you can skip to the next section.
+
+*   **Repository (repo):** The project folder with its entire change history. It exists on your machine (local) and on GitHub (remote).
+*   **Commit:** A "snapshot" of the project state at a given moment. Each commit has a message describing what changed.
+*   **Branch:** An independent line of development. It allows working on features without affecting the main code.
+*   **Main/Master:** The main branch of the project. This is where the "stable" and validated code lives.
+*   **Merge:** Combine changes from one branch into another.
+*   **Pull Request (PR):** A request on GitHub for your changes to be reviewed and merged into main.
+*   **Clone:** Copy a remote repository to your local machine.
+*   **Push:** Send your local commits to the remote repository.
+*   **Pull:** Fetch changes from remote to your local copy.
+*   **Staging area:** An intermediate zone where you "prepare" which files will go in the next commit.
+*   **Conflict:** When Git can't merge automatically because two people modified the same lines.
+
+#### 3\. Initial setup
+
+First, configure Git on your machine. You only need to do this once.
+
+**Install Git:** Download it from [git-scm.com](https://git-scm.com/). On Windows, the installer includes Git Bash and command line tools.
+
+**Configure your identity:**
+
+$ git config \--global user.name "Your Name"  
+$ git config \--global user.email "you@email.com"
+
+**Clone a repository:** If the project already exists on GitHub, clone it with:
+
+$ git clone https://github.com/user/project.git  
+$ cd project  
+$ code .
+
+The last command opens VS Code directly in the project folder. From there you can use the integrated terminal (`` Ctrl+` ``) for all Git commands.
+
+#### 4\. Working with branches
+
+Branches are the **pillar of collaborative work** with Git. The idea is simple: each person (or feature) works on their own branch, isolated from the rest. When they finish, they integrate back into `main`.
+
+**Create a new branch:**
+
+$ git checkout \-b feature/new-feature
+
+**Branch naming conventions:**
+
+*   `feature/name` — For new features
+*   `bugfix/name` — For bug fixes
+*   `hotfix/name` — For urgent production fixes
+*   `docs/name` — For documentation changes
+*   `refactor/name` — For code restructuring
+
+**Switch between branches:**
+
+$ git switch main \# Go back to main  
+$ git switch feature/login \# Go to another branch  
+$ git branch \# List all local branches  
+$ git branch \-a \# List local + remote
+
+#### 5\. The daily workflow: add, commit, push
+
+90% of your daily interaction with Git comes down to three commands:
+
+1.  `git add` — Select which modified files you want to include in the commit.
+2.  `git commit -m "message"` — Create a checkpoint with those changes.
+3.  `git push` — Upload your commits to the remote repository on GitHub.
+
+It's like saving a game: you make a checkpoint (commit) and upload it to the cloud (push) in case your hard drive explodes.
+
+$ git status \# See modified files  
+$ git add src/login.js \# Add specific file  
+$ git add . \# Add ALL  
+$ git commit \-m "feat: add email validation in login form"  
+$ git push
+
+**Commit best practices:**
+
+*   **Small and frequent** commits. Don't make one giant commit at the end of the day.
+*   **Descriptive** messages. "various fixes" says nothing. "fix: correct header overflow on mobile" does.
+*   Use **Conventional Commits**: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`.
+
+#### 6\. Pull Requests and Code Review
+
+The Pull Request is GitHub's mechanism for proposing that your changes be integrated into `main`. It's also the opportunity for your teammates to **review the code** before it goes in.
+
+**Why is it important?**
+
+*   **Quality:** Another pair of eyes catches bugs you don't see.
+*   **Shared knowledge:** The entire team learns from each other's changes.
+*   **Traceability:** There's a record of what changed, why, and who approved it.
+
+**PR workflow:**
+
+1.  You `git push` your branch to remote.
+2.  On GitHub, you create a Pull Request: base `main` ← compare `your-branch`.
+3.  Write a clear title and description of the changes.
+4.  Assign team reviewers.
+5.  Reviewers comment, request changes, or approve.
+6.  If changes are requested, make them on your branch and push again (the PR updates automatically).
+7.  When approved, merge to `main`.
+
+#### 7\. Resolving conflicts
+
+Conflicts happen when two people modify the **same lines** of the same file on different branches. Git can't automatically choose which version is correct, so it asks for your help.
+
+**When they occur:**
+
+*   When doing `git merge`
+*   When doing `git pull` (which internally is fetch + merge)
+*   When doing `git rebase`
+
+**What they look like:** Git marks conflicting zones with special markers:
+
+<<<<<<< HEAD // Your version of the code \======= // Your teammate's version \>>>>>>> feature/other-branch
+
+**How to resolve them in VS Code:** VS Code detects conflicts and offers buttons directly in the editor:
+
+*   **Accept Current Change** — Keep your version
+*   **Accept Incoming Change** — Keep your teammate's version
+*   **Accept Both Changes** — Keep both versions
+*   **Compare Changes** — View the difference side by side
+
+After resolving, save the file, do `git add` and `git commit`. Conflict resolved!
+
+#### 8\. Synchronization: pull, fetch and rebase
+
+Keeping your branch up to date with team changes is crucial. There are three key commands:
+
+*   `git fetch` — Downloads remote changes without applying them. Only updates references.
+*   `git pull` — Equivalent to `git fetch` + `git merge`. Downloads and applies changes.
+*   `git rebase` — Rewrites your history to put your commits "on top" of the latest main changes. Cleaner history, but more dangerous.
+
+**Merge or Rebase?** For beginners, we recommend `git pull` (merge). When you're more experienced, rebase produces a cleaner history. The golden rule: **never rebase shared branches**.
+
+#### 9\. Branching models: Git Flow vs Trunk-Based
+
+There are two main models for organizing branches on a team:
+
+**Git Flow:** Uses long-lived branches (`develop`, `release`, `hotfix`) in addition to `main`. Ideal for projects with long release cycles (versions).
+
+**Trunk-Based Development:** The entire team works with short branches (1-2 days) that are frequently integrated into `main`. This is the preferred model for agile teams and is what we recommend for most projects.
+
+**Our advice:** Start with simplified **Trunk-Based**: short feature branches, pull requests, merge to main. When the project grows, evaluate if you need Git Flow.
+
+#### 10\. Git tips in VS Code
+
+*   **Source Control Panel (Ctrl+Shift+G):** View all changes, stage, commit and push without touching the terminal.
+*   **GitLens (extension):** Shows line-by-line authorship (blame), file history and version comparison.
+*   **Bottom bar:** Shows the current branch, pending sync commits, and lets you switch branches with a click.
+*   **Diff viewer:** Click on a modified file in Source Control to see changes side by side.
+*   **Timeline:** Sidebar panel showing a specific file's history.
+*   **GitHub Pull Requests (extension):** Create, review and manage PRs directly from VS Code.
+*   **Essential shortcuts:**
+    *   `Ctrl+Shift+G` — Open Source Control
+    *   `Ctrl+Shift+P → "Git:"` — See all available Git commands
+    *   `` Ctrl+` `` — Integrated terminal
+
+#### 11\. Conclusion
+
+Git and GitHub have revolutionized how teams collaborate on code. What used to be a chaos of "final\_copy\_v3\_definitive\_GOOD.zip" is now a controlled, traceable and reversible workflow.
+
+The keys to working well as a team with Git are:
+
+*   **Never work directly on main.**
+*   **Use branches with descriptive names.**
+*   **Small and frequent commits with clear messages.**
+*   **Pull Requests with code review.**
+*   **Communicate with your team before resolving conflicts.**
+*   **Sync your branch frequently.**
+
+With these practices and the tools VS Code offers, managing a project with multiple people stops being a problem and becomes an advantage.
+
+March 1st, 2026
+
+**All trademarks, software and logos are property of their respective owners.**
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Git & GitHub for Teams:Interactive Guide to Collaborative Workflows with VS Code](https://www.plc-hmi-scadas.com/en/blog/git-github-flujo-colaborativo-vscode/) — Pedro Pagán Pallarés*

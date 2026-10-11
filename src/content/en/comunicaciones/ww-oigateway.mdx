@@ -1,0 +1,55 @@
+---
+title: "Wonderware OI.Gateway.2"
+slug: "ww-oigateway"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WW_OIGateway.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["Wonderware","OI.GATEWAY"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# Wonderware OI.Gateway.2
+
+Jose Manuel Luque
+
+Wonderware OI.GATEWAY
+
+**Wonderware OI.Gateway.2**
+
+Wonderware 2017. This version features a change from the old FSGateway to a new version called OI.GATEWAY, which includes the option to create links to OPC DA Server and OPC UA Server. In our case, we will use the PLCSIM Advanced as the OPC UA Server.
+
+![](./assets/images/ww-oigateway/PLCSIMAdvanced_OPCUA_01.png)
+
+To access any OPC UA Server, it is always **opc.tcp://IPAddress:PortNumber**. In our case, as shown in the image, the address is 192.168.1.104.
+
+Since we have not configured any type of security, we leave it as none, as it appears. This should be adapted to the needs.
+
+![](./assets/images/ww-oigateway/PLCSIMAdvanced_OPCUA_02.png)
+
+If the address is correct, the server is online, and the security is properly configured, by clicking the Browse OPCUA Server button, we can access it to select the tags we are interested in.
+
+![](./assets/images/ww-oigateway/PLCSIMAdvanced_OPCUA_03.png) ![](./assets/images/ww-oigateway/PLCSIMAdvanced_OPCUA_04.png)
+
+Once the tags are selected and loaded correctly, we can observe them within the Device Items tab, we can save with its corresponding button, and the configuration is ready.
+
+![](./assets/images/ww-oigateway/PLCSIMAdvanced_OPCUA_05.png)
+
+Finally, we proceed to activate the Server to be able to run it.
+
+![](./assets/images/ww-oigateway/PLCSIMAdvanced_OPCUA_06.png)
+
+Once started, we could start Intouch or our Galaxy and create the link to check its operation. I will check it by connecting an OPC Client to the OI.GATEWAY Server as shown in the following image, and its operation is perfect!!! We can now debug our project with PLCSIM Advanced and Wonderware or another manufacturer that has OPC UA Drivers.
+
+![](./assets/images/ww-oigateway/PLCSIMAdvanced_OPCUA_08.png)
+
+January 12, 2018
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [Wonderware OI.Gateway.2](https://www.plc-hmi-scadas.com/en/WW_OIGateway.php) — Jose Manuel Luque*

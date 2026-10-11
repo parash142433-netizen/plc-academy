@@ -1,0 +1,161 @@
+---
+title: "Analyzing Modbus TCP Communications"
+slug: "blog-espiando-comunicaciones-modbus"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/espiando-comunicaciones-modbus/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","MODBUS"]
+tags: ["Cybersecurity","AI","Artificial Intelligence","Modbus TCP","NETWORKS","Wireshark"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [MODBUS](#/a/en%2Fmodbus) › Article
+
+# Analyzing Modbus TCP Communications
+
+We capture industrial traffic with Wireshark to understand which data travels across the network.
+
+Pedro Pagán Pallarés 01 Jun, 2024
+
+Cybersecurity AI Artificial Intelligence Modbus TCP NETWORKS Wireshark
+
+![Wireshark capture for analyzing Modbus TCP communications](./assets/images/blog-espiando-comunicaciones-modbus/modbus-wireshark-portada-final.png)
+
+In today’s practice, we will configure a Modbus TCP master and slave that communicate, and then proceed to "eavesdrop" on these communications using [Wireshark](https://www.wireshark.org/download.html).
+
+If you want an example using serial communications, [here](https://plc-hmi-scadas.com/058.php) Jose Manuel did it years ago.
+
+Eavesdropping on Modbus communications with Wireshark can be useful in environments where we need to connect to devices that use this protocol and may be connected to networks with more elements. This ensures that we are reading and writing to the correct device.
+
+This highlights the vulnerability of this protocol, which due to its original design did not consider **encryption** of communications or **authentication.** The following article discusses a [Modbus TCP/Secure](https://www.incibe.es/incibe-cert/blog/evolucionando-modbus-seguro), which improves and implements encryption and authentication via TLS.
+
+### Step 1: Download a Modbus Master and Slave
+
+There are many software providers for this service, most of them paid. In our case, we will use the trial version of [https://modbustools.com/](https://modbustools.com/) which is sufficient for this simple example.
+
+### Step 2: Start the communications
+
+*   **Modbus Slave:** It is the slave because it will be the one we give read or write commands to. For this, we need to configure the protocol to use, in this case Modbus TCP/IP, and the port and address of the server where we want it to run.
+
+![](./assets/images/blog-espiando-comunicaciones-modbus/image.png)
+
+We accept and it should be running now, if there was nothing serving on that port.
+
+*   **Modbus Poll:** will be responsible for making the read and write requests to the previously configured slave. Simply by opening it, as it already has port 502 and the same IP of the PC "127.0.0.1" by default, it will connect and the connection will be established.
+
+![](./assets/images/blog-espiando-comunicaciones-modbus/image-1-1024x542.png)
+
+The image shows that we are correctly communicating the values of the configured registers. All these registers can be expanded and configured, but for the example, these 10 are sufficient.
+
+* * *
+
+### Step 3: Analyze the communications with Wireshark
+
+It is time to start listening to the communication channel and capture the traffic, in this case with Wireshark.
+
+*   We select the network card through which we want to listen. In our case, as we are communicating through the same PC we are working on, we select  
+    "_Adapter for loopback traffic capture_".
+
+![](./assets/images/blog-espiando-comunicaciones-modbus/image-2.png)
+
+*   We double-click and the following window appears with the packets it is listening to, we filter by "Modbus" to see the packets related to this concept and get to the point:
+
+![](./assets/images/blog-espiando-comunicaciones-modbus/image-3-1024x549.png)
+
+*   We see that there are indeed packets exchanged. To see the values, we double-click on any of the packets and the following window appears:
+
+![](./assets/images/blog-espiando-comunicaciones-modbus/image-4-1024x806.png)
+
+*   We click on the dropdown "Modbus" and see the same values we have in our communication.
+
+![](./assets/images/blog-espiando-comunicaciones-modbus/image-5.png)
+
+![](./assets/images/blog-espiando-comunicaciones-modbus/image-6.png)
+
+* * *
+
+Thanks to the Wireshark tool, which is already prepared to interpret Modbus frames, it is very easy to decode them and see which registers are present.
+
+* * *
+
+## BONUS TRACK
+
+Once we have the Modbus data serving, it is very easy to generate a Modbus TCP master with Python, for example, to read this data. Of course, let’s save time with [AI](#/a/en%2Fai).
+
+Below is an example created with [ChatGPT](https://chatgpt.com/).
+
+Python
+
+Code
+
+```
+import tkinter as tk
+from tkinter import ttk
+from pymodbus.client import ModbusTcpClient
+from pymodbus.payload import BinaryPayloadDecoder
+
+def read_modbus_registers(host, port, unit_id, start_address, count):
+    # Create a Modbus TCP client
+    client = ModbusTcpClient(host, port=port)
+
+    # Check connection to the Modbus server
+    if not client.connect():
+        print(f"Could not connect to the Modbus server at {host}:{port}")
+        return
+
+    print(f"Connected to the Modbus server at {host}:{port}")
+
+    try:
+        # Read holding registers
+        result = client.read_holding_registers(start_address, count, unit=unit_id)
+
+        # Check if the read was successful
+        if result.isError():
+            print("Error reading registers:", result)
+        else:
+            # Process and display the read values in the GUI
+            for i, reg in enumerate(result.registers):
+                reg_label = tk.Label(root, text=f"Register {start_address + i}: {reg}")
+                reg_label.grid(row=i + 1, column=0, padx=10, pady=5)
+    except Exception as e:
+        print("An error occurred while reading registers:", str(e))
+    finally:
+        # Close the connection
+        client.close()
+        print("Connection closed")
+
+# Client configuration
+modbus_host = '127.0.0.1'  # IP address of the Modbus server (localhost for local testing)
+modbus_port = 502          # Port of the Modbus server
+slave_id = 1               # Address of the Modbus slave device
+start_address = 0          # Starting address of the registers
+count = 10                 # Number of registers to read
+
+# Create the main application window
+root = tk.Tk()
+root.title("Modbus Client")
+
+# Header label
+header_label = tk.Label(root, text="Modbus Register Reading", font=("Arial", 16))
+header_label.grid(row=0, column=0, padx=10, pady=10)
+
+# Button to start reading
+read_button = tk.Button(root, text="Read Registers", command=lambda: read_modbus_registers(modbus_host, modbus_port, slave_id, start_address, count))
+read_button.grid(row=11, column=0, padx=10, pady=10)
+
+# Start the application
+root.mainloop()
+```
+
+And here is the result, we now have a free Modbus master!!
+
+![](./assets/images/blog-espiando-comunicaciones-modbus/image-8.png)
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Analyzing Modbus TCP Communications](https://www.plc-hmi-scadas.com/en/blog/espiando-comunicaciones-modbus/) — Pedro Pagán Pallarés*

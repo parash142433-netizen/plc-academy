@@ -1,0 +1,65 @@
+---
+title: "Data Log Configuration in Factory Talk View ME"
+slug: "079"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/079.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","ROCKWELL"]
+tags: ["Data Logs","HMI","Factory Talk View ME"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [ROCKWELL](#/a/en%2Fhmi-allen-bradley) › Article
+
+# Data Log Configuration in Factory Talk View ME
+
+Jose Manuel Luque
+
+Data Logs HMI Factory Talk View ME
+
+**Data Log Configuration in Factory Talk View ME**
+
+Continuing with the practices of Factory Talk View ME, today we are going to configure a new Data Log. For this, within the Data Log directory, we create a new one, provide the description we are interested in, and configure the maximum number of Data Points.
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-01.png)
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-03.png)
+
+Before setting the "Paths" route, since I am going to run the runtime on the Computer, I create a new directory in C: where the .log file will be created.
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-02.png)
+
+We can now specify the directory. The next step is to configure how we want to acquire the data; for this example, I have configured it to periodically every minute.
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-04.png)
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-05.png)
+
+Finally, we need to configure the tags. We click on the button ... to open the Tag Browser and select the tags we are interested in. Once selected, we add them, and with these steps, it is configured.
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-06.png)
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-07.png)
+
+We save the Data Log by assigning it the name we are interested in.
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-08.png)
+
+To execute the Data Log when starting the Runtime, we will configure it in Startup, so once it runs, it will start recording every minute.
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-09.png)
+
+Once we have executed the Runtime, a \*.log file has been generated in the directory we configured.
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-30.png)
+
+To observe the Data log, we can use the RSView Enterprise File Viewer application. As can be seen, once here, we can save our file as \*.csv.
+
+![](./assets/images/079/FTView%20ME%20DataLog%20-31.png)
+
+February 17, 2013
+
+---
+*Source: [Data Log Configuration in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/079.php) — Jose Manuel Luque*

@@ -1,0 +1,162 @@
+---
+title: "WinCC WebNavigator/WebUx HTTPS Certificates"
+slug: "blog-wincc-webnavigator-webux-certificados-https"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigator-webux-certificados-https/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","SCADA","WinCC","WinCC"]
+downloads: [{"title":"WinCC Certificate Manager","url":"https://cache.industry.siemens.com/dl/files/117/109779117/att_1018477/v1/WinCCUnifiedCert_esES_es-ES.pdf"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC WebNavigator/WebUx HTTPS Certificates
+
+Jose Manuel Luque Sep 22, 2024
+
+SCADA SCADA WinCC WinCC
+
+![WinCC WebNavigator/WebUx HTTPS Certificates](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator_Client-11.png)
+
+Once we have installed the WinCC WebNavigator / WebUX, we need to configure it to create the website in the [Internet Information](https://learn.microsoft.com/en-us/IIS-Administration/)[i](https://learn.microsoft.com/en-us/IIS-Administration/)[on Services (IIS).](https://learn.microsoft.com/en-us/IIS-Administration/)  
+To do this, we follow the wizard.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-1.png)
+
+  
+Starting from WinCC version v7.4 SP1, which implemented the [WinCC Certificate Manager](https://cache.industry.siemens.com/dl/files/117/109779117/att_1018477/v1/WinCCUnifiedCert_esES_es-ES.pdf), it is recommended to specify Install certificate later, as it will make it easier to export the certificate as we will see next.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-2.png)
+
+  
+We continue with the wizard and create a new site for WebNavigator.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-3.png)
+
+  
+With the certificate, we do the same, Install certificate later, and continue with the wizard, firewall configuration, and finish.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-4.png)
+
+  
+If we have followed the steps and run the **WinCC Certificate Manager**, we will have by default the following image.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-6.png)
+
+  
+If during the configuration we created a new certificate, as in the following example, we will see the two possible scenarios.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-7.png)
+
+  
+In the **WinCC Certificate Manager**, we will see that we have installed the certificate that we installed during the configuration.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-8.png)
+
+  
+Regardless, what we are going to create is a New Certificate Authority. We enter the corresponding data and remember the password ;-)
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-9.png)
+
+  
+Once the CA is created, we will add the corresponding entity and add a new device.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-10.png)
+
+  
+We enter the name of our WinCC server and its IP address, ensuring that the connection is secure whether accessing by name or IP address; it is advisable not to change the IP address later ;-), otherwise, we will have to repeat the steps...
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-11.png)
+
+  
+Now we are going to configure the certificates we want to install for our WinCC; for the example, I have installed all of them, but add according to project needs. For WinCC WebNavigator / WebUx, we would only need that one.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-12.png)
+
+  
+Finally, we need to install them, right-click on our server (Install all certificates).
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-15.png)
+
+  
+And here we can see all the certificates we have installed.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator-16.png)
+
+  
+We can verify that it has been installed correctly in Trusted Root Certification Authorities.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/image-4.png)
+
+  
+If we now access our WinCC server, we can see that it is via https and that the certificate is trusted, and if we check the certificate information, we confirm that it is the one we created.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/image.png)
+
+  
+We have now prepared and correctly functioning our Server / Workstation with WebNavigator Server. Now we are going to prepare to access this machine from other nodes on the network :-)  
+On the Certificate we created, we are going to Export -> Certificate CA.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebServer-2.png)
+
+  
+We choose the DER format.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebServer-3.png)
+
+  
+And we save it in our directory.  
+Here we have the certificate that we will need to install on each of the stations that will access with the WinCC WebNavigator Client.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebServer-5.png)
+
+  
+We are now on our client called PCClient1.  
+If we access the Web Navigator Server, we have the warning that the connection is not private and not secure.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator_Client-1.png)
+
+  
+However, we can access, but as you can see, a picture is worth a thousand words.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator_Client-2.png)
+
+  
+We copy the certificate we created on the Server and run it.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator_Client-3.png)
+
+  
+When we run it, the following image appears, with its corresponding definition at the time of generating it.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/image-3.png)
+
+  
+Now we need to install the certificate and follow the wizard...  
+Select install for the entire Local Machine.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator_Client-5.png)
+
+  
+And as the certificate itself stated, it must be installed in **Trusted Root Certification Authorities**.
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator_Client-6.png)
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator_Client-7.png)
+
+  
+Once installed, if we restart our Web browser, it is resolved ;-)
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/WebNavigator_Client-11.png)
+
+![](./assets/images/blog-wincc-webnavigator-webux-certificados-https/image-1.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC WebNavigator/WebUx HTTPS Certificates](https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigator-webux-certificados-https/) — Jose Manuel Luque*

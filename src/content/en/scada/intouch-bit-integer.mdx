@@ -1,0 +1,42 @@
+---
+title: "Intouch"
+slug: "intouch-bit-integer"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_Bit_Integer.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Intouch
+
+Jose Manuel Luque
+
+Intouch
+
+**Working with bits of a Tag defined as Integer  
+**
+
+This time we will see a simple example of how to access the different bits of a Tag declared as Integer. Normally, an Integer Tag is used to control a valve, a motor, or any other device. Within that Tag, we assign each bit to the requirements: one bit for starting, one bit for stopping, a confirmation bit, a failure bit, etc...
+
+In the following image, we have a series of Tags defined as I/O Integer.
+
+![](./assets/images/intouch-bit-integer/WW_Intouch_bit_00.png)
+
+As a simple example, when our object activates the alarm, we will animate it with a blink. The blink function must return a boolean value; our Tag is an Integer. Here, what we need to do is assign the Tag we are interested in and then put a dot followed by the bit we are interested in, as shown in the following image.
+
+![](./assets/images/intouch-bit-integer/WW_Intouch_bit_02.png) ![](./assets/images/intouch-bit-integer/WW_Intouch_bit_03.png)
+
+Friday, February 20, 2015
+
+If you liked it or found it useful, share it ... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Intouch](https://www.plc-hmi-scadas.com/en/Intouch_Bit_Integer.php) — Jose Manuel Luque*

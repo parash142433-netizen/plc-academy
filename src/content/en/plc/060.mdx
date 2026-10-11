@@ -1,0 +1,55 @@
+---
+title: "S7-200 Modbus Master"
+slug: "060"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/060.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["S7-200","Modbus Slave","Modbus"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# S7-200 Modbus Master
+
+Jose Manuel Luque
+
+S7-200 Modbus Slave Modbus
+
+Following the [previous practice](#/a/en%2F059 "S7-200 Modbus Slave"), today we are going to configure the S7-200 as a Master in a Modbus-RTU network. For this, we will need two more functions from the Modbus library, starting from our project in Microwin and inserting the following functions from the library depending on the port to be used in the CPU.
+
+The function MBUS\_CRTL is used to initialize, enable, or disable Modbus communication. If executed correctly, the Done bit will be set to 1, which I use to enable message transfer.
+
+![](./assets/images/060/S7-200%20Master%20Modbus-16.png)
+
+**Baud** and **Parity** must be equal to the speed configured in the network and in the slaves.
+
+**Slave**, the address of the Slave for reading/writing depending on **RW**, 1 for writing and 0 for reading. **Addr** is the address where we want to write in Modbus, in this example, they are the outputs starting from Q0.0 = 0001 and so on correlatively the value of **Count.** **DataPtr**  is a pointer to the first memory address we want to write.
+
+As previously done, a memory area V must be reserved for the use of Modbus functions, in the program block -> Assign memory to library.
+
+![](./assets/images/060/S7-200%20Master%20Modbus-17.png)
+
+In this case, when we propose an address, it starts from V0, this is because we have not used any addressing in the memory area.
+
+![](./assets/images/060/S7-200%20Master%20Modbus-18.png)
+
+We start the Modbus Slave, and by default, it appears configured for slave number 1 and the register area 4, but the first thing we need to do is configure the connection, for this we go to Connection, and define the parameters.
+
+![](./assets/images/060/S7-200%20Master%20Modbus-12.png)
+
+![](./assets/images/060/S7-200%20Master%20Modbus-13.png)
+
+And as in our program function, we have set that we are going to write in the output area, we configure it the same way in Slave Definition, and automatically when connecting, the first register is set to 1. This was the output we configured with the Done bit when initializing and activating Modbus communication, and it is written in the slave because the input I0.0 has been activated, since when Firts is activated, the function MBUS\_MGS is executed. Perhaps a more practical example would be to activate a drive with the corresponding programming logic, send it the setpoint, etc...
+
+![](./assets/images/060/S7-200%20Master%20Modbus-14.png)
+
+![](./assets/images/060/S7-200%20Master%20Modbus-15.png)
+
+December 30, 2012
+
+---
+*Source: [S7-200 Modbus Master](https://www.plc-hmi-scadas.com/en/060.php) — Jose Manuel Luque*

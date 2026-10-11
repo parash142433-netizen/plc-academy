@@ -1,0 +1,78 @@
+---
+title: "WinCC Create .Net Controls"
+slug: "wincc-net"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Net.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Create .Net Controls"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Create .Net Controls
+
+Jose Manuel Luque
+
+WinCC Create .Net Controls
+
+**WinCC Create .Net Controls  
+**
+
+As in the previous practice, we have created our own ActiveX Control \*.ocx with Visual Basic, and it is now somewhat outdated, although it is still used!!! Today we are going to take that step forward and create our own .Net Control for our WinCC.
+
+One of the most important things is to work with .Net Framework 3.5 at most; controls created with .Net Framework 4 do not work!!!
+
+For the creation of this control, I used Visual Studio 2008. We start by creating a new project, and this will be of type **Windows Forms Control Library**.
+
+![](./assets/images/wincc-net/WinCC_NET_00.png)
+
+Once created, and assigned the name we gave to our Class, the image shown below clearly shows the creation of two properties, which will later interact with WinCC; it is also important to declare the properties as **Read and Write**.
+
+Below the properties are the functions, methods, and the constructor, but we will not go into those details in this first practice; if you are interested, we could create a control from scratch, providing more explanations of the VB.Net or C++ code.
+
+![](./assets/images/wincc-net/WinCC_NET_01.png)
+
+In the graphic design part, we will implement our Object; in my case, I simulated a 1Byte card; it will not be the first time that we have to create a screen in SCADA with the status of Inputs/Outputs.
+
+![](./assets/images/wincc-net/WinCC_NET_02.png)
+
+Considering that we have completed all the corresponding programming, the next step is to create our \*.dll; for this, we will go to Build --> Build ProjectName, with this we have generated our WinCC.dll.
+
+![](./assets/images/wincc-net/WinCC_NET_03.png)
+
+Once generated, it is important to know its location, to later reference it from WinCC; if we go to the project properties, in the compilation section, we can see the destination of our \*.dll.
+
+![](./assets/images/wincc-net/WinCC_NET_04.png)
+
+The next step is to open our WinCC and at the same time the Graphics Designer. We have two options when inserting a .Net / WFP Control; we can either do it as a Smart object, which is the method followed here, or from Controls, as we did with the [ActiveX Control](#/a/en%2Fwincc-activex). We insert a .Net Control on our screen, and it automatically loads all the available controls; we will use the Browse button and look for the directory where our \*.dll is located (the previous image).
+
+Here we can already see that WinCC.Tarjeta8bits appears; we accept and ...
+
+![](./assets/images/wincc-net/WinCC_NET_05.png)
+
+We now have our .Net Control ready to configure and use; in the Object properties, there are the properties of the UserControl and those we have added, which are the ones that interest us the most, as they will interact with WinCC.
+
+![](./assets/images/wincc-net/WinCC_NET_06.png)
+
+We configure our properties and their function is as follows: EstadoByte, here we will pass the Byte that interests us, and we will see which bits are active or not...
+
+At the same time, in Entradas\_Salidas, we will pass the name with which we will label that byte, assigning the first one, as can be seen in this image.
+
+![](./assets/images/wincc-net/WinCC_NET_07.png)
+
+To see its operation, instead of static properties as in the previous image, a variable of the type 8 bits unsigned has been configured, and some input/output fields have been created. We run the Runtime and observe its operation; in this case, the variable updates every 2 seconds, and we see that it works correctly.
+
+![](./assets/images/wincc-net/WinCC_NET_08.png) ![](./assets/images/wincc-net/WinCC_NET_09.png)
+
+We can now create our own .Net controls and use them in WinCC. If anyone is encouraged to create one, send it, and we will make it available for download.
+
+Next week we will do the same, but this time we will create a control with WPF.
+
+If you liked it or found it useful, share it ... :)
+
+---
+*Source: [WinCC Create .Net Controls](https://www.plc-hmi-scadas.com/en/WinCC_Net.php) — Jose Manuel Luque*

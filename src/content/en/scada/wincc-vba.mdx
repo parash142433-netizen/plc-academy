@@ -1,0 +1,67 @@
+---
+title: "Visual Basic Application Macro AddIn in Graphic Designer WinCC"
+slug: "wincc-vba"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_VBA.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC VBA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# Visual Basic Application Macro AddIn in Graphic Designer WinCC
+
+Jose Manuel Luque
+
+WinCC VBA
+
+**"Visual Basic Application" Macro AddIn in Graphic Designer WinCC  
+**
+
+This practice is a summary of the information extracted from the [Siemens Manual](https://www.google.es/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&ved=0CDEQFjAA&url=https%3A%2F%2Fsupport.automation.siemens.com%2FWW%2Fllisapi.dll%2Fcsfetch%2F73453640%2FWinCCInformationSystemScripting_en-US.pdf%3Ffunc%3Dcslib.csFetch%26nodeid%3D73426620%26forcedownload%3Dtrue&ei=SQftUsCVDafN7Aa834DIBg&usg=AFQjCNFC1eQdczQAR-g54KpPiWfpHutZhw&bvm=bv.60444564,d.ZGU), regarding the procedure to insert a new Macro AddIn in our Graphic Designer.
+
+But since there is always someone starting anew, I will briefly explain the different programming languages used in WinCC.
+
+Visual Basic Script "VBScript" and C --> They are used in the execution of our Project, that is, when the Runtime is running.
+
+Visual Basic Application "VBA" --> It is used in the development of our application and in the scope of Graphic Designer, which means that when developing our screens/images, just like in Microsoft Excel, we use Macros to automate.
+
+With that brief introduction, we proceed to the steps to follow, first of all, we run Visual Basic and create a new Addin project.
+
+![](./assets/images/wincc-vba/WinCC_VBA_AddIn_00.png)
+
+The next step is to add the WinCC Graphics Designer references to our project, for this we go to Project --> References and in the pop-up window that appears, we add it.
+
+![](./assets/images/wincc-vba/WinCC_VBA_AddIn_01.png) ![](./assets/images/wincc-vba/WinCC_VBA_AddIn_02.png)
+
+The next thing we are going to configure is the Connection, within the directory of our Project, in Designers we double-click and the following configuration screen appears, where the most important parameters are to select the application and when we are going to execute it, in this case, it will execute our program and load the AddIn we have created when starting.
+
+![](./assets/images/wincc-vba/WinCC_VBA_AddIn_05.png) ![](./assets/images/wincc-vba/WinCC_VBA_AddIn_03.png)
+
+The source code for creating the Macro can be extracted from the WinCC manual and modified according to the macro we are interested in creating, the code will go inside Designers Connect.
+
+![](./assets/images/wincc-vba/WinCC_VBA_AddIn_08.png)
+
+And assuming we have already defined what our Macro will do, we will proceed to generate our \*.dll  
+File --> Generate Name.dll
+
+![](./assets/images/wincc-vba/WinCC_VBA_AddIn_07.png)
+
+In the directory where we created our project, we already have our file "MyAddIn.dll", the next step is to copy that file to the directory C:\\Windows\\System32.
+
+![](./assets/images/wincc-vba/WinCC_VBA_AddIn_09.png) ![](./assets/images/wincc-vba/WinCC_VBA_AddIn_10.png)
+
+At this step, we can now register our \*.dll, we run the command console "cmd" and with the command regsvr32 name of the file \*.dll we register it and we can check it.
+
+![](./assets/images/wincc-vba/WinCC_VBA_AddIn_11.png) ![](./assets/images/wincc-vba/WinCC_VBA_AddIn_12.png)
+
+We start WinCC and at the same time the Graphics Designer, we go to Tools --> Macros --> AddIns and our Macro appears and is ready to use and automate tasks...
+
+![](./assets/images/wincc-vba/WinCC_VBA_AddIn_13.png)
+
+---
+*Source: [Visual Basic Application Macro AddIn in Graphic Designer WinCC](https://www.plc-hmi-scadas.com/en/WinCC_VBA.php) — Jose Manuel Luque*

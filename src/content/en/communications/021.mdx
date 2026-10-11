@@ -1,0 +1,87 @@
+---
+title: "FSGateway Configuration"
+slug: "021"
+locale: "en"
+category: "communications"
+originalUrl: "https://www.plc-hmi-scadas.com/en/021.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Communications","OPC SERVER"]
+tags: ["FSGateway","InTouch","DAServer","RSLinx OPC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Communications](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › FSGateway
+
+# FSGateway Configuration
+
+Bridge between RSLinx OPC Server and InTouch using System Management Console.
+
+Jose Manuel Luque Aug 23, 2012
+
+FSGatewayInTouchDAServerRSLinx OPC
+
+![FSGateway configuration in SMC](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-24.jpg)
+
+**Objective**
+
+FSGateway replaces the old OPCLink and allows InTouch to publish data coming from OPC servers and other DAServers/IOServers.
+
+This example uses RSLinx OPC Server, previously configured, to access the controller simulated with RSLogix Emulate 5000.
+
+**Create the OPC Object**
+
+Open SMC and navigate through DAServer > Default Group > Local > ArchestrA.FSGateway.1. Right-click and add a new OPC object.
+
+![New OPC object in FSGateway from SMC](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-24.jpg)
+
+**Configure the OPC Server**
+
+Assign a name and configure the OPC server to use. In this case RSLinx is used to reuse the RSLinx OPC Server and RSLogix Emulate 5000 practices.
+
+If the OPC server is on the same machine, Localhost can remain. If it is on another machine, DCOM must be prepared or a tunneling solution must be used.
+
+![Selecting RSLinx OPC Server from FSGateway](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-25.jpg)
+
+**Add the OPC Group**
+
+The next step is to add an OPCGroup object. The OPC object name concatenated with the group name will be the reference InTouch uses to access FSGateway.
+
+![Creating the OPC group in FSGateway](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-26.jpg)
+
+![Reference used as Access Name in InTouch](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-27.jpg)
+
+**Select OPC Items**
+
+Click Browse OPC, navigate to the required items, select them and add them with the green plus icon. Then accept to finish.
+
+Once selected, they appear in Device Items. For clarity in InTouch, only the short item name is left in the Name column.
+
+![Browsing and selecting OPC items](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-28.jpg)
+
+![Selected items in Device Items](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-29.jpg)
+
+![Clear item names](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-30.jpg)
+
+**Activate the Server**
+
+Finally, activate the server. FSGateway is now ready for InTouch to use the configured items.
+
+![FSGateway server activation](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-31.jpg)
+
+![FSGateway running with configured items](./assets/images/021/Intouch%20-%20RSLogix%20Emulate-32.jpg)
+
+_Original article published on August 23, 2012._
+
+**Related Articles**
+
+*   [RSLinx OPC Server](#/a/en%2F017)
+*   [RSLogix Emulate 5000](#/a/en%2F011)
+*   [InTouch with RSLogix Emulate 5000 through FSGateway](#/a/en%2F022)
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [FSGateway Configuration](https://www.plc-hmi-scadas.com/en/021.php) — Jose Manuel Luque*

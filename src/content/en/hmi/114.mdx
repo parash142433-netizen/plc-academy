@@ -1,0 +1,79 @@
+---
+title: "WinCC RT Advanced (Profibus)"
+slug: "114"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/114.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["WinCC RT Advanced","Profibus"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# WinCC RT Advanced (Profibus)
+
+Jose Manuel Luque
+
+WinCC RT Advanced Profibus
+
+The following practice will be reused for a later explanation, as we had started to see the services offered by the new Comfort Panels, but we will postpone it.
+
+In this one, we will configure our PC to run WinCC RT Advanced, but this time we will work with an old S7-315 2DP CPU; another requirement is that we will program it with the Simatic Manager, hence we will not integrate it into the TIA Portal.
+
+![](./assets/images/114/114-Portada.png)
+
+We run the TIA Portal, regardless of its version V.11 or V.12 and create a new project; once created, we add a new device and select WinCC RT Advanced.
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-04.png)
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-05.png)
+
+The next step will be to add our CP 5611 A2; this card will help us configure an MPI/Profibus network, in this case, it will be a Profibus communication. We have previously inserted the card into a PCI slot on the computer's motherboard and installed the drivers.
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-06.png)
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-07.png)
+
+Once inserted, we need to make the configuration we are interested in; since it is a Profibus network, we select this type of network and a unique and non-repeating address.
+
+As I have the Profibus network configured in the Simatic Manager, it is not necessary to add any here.
+
+We run from the control panel Adjust PG/PC interface to select S7ONLINE CP5611 as the Access Point; if we click on the diagnostic button, we can analyze the network.
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-13.png)
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-14.png)
+
+Once we finish configuring the hardware, we will start with the software, and the first thing is to configure a new connection with our PLC; we specify the transfer speed of 1.5MB/sec, the network profile is DP (Decentralized Periphery), and the Profibus address of our PLC; the rack and slot number are usually the default values when adding the connection.
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-12.png)
+
+In the next image, we can check that we have already configured the Profibus network and the address of our PLC.
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-08.png)
+
+Once the link is configured, we will create the necessary variables; for this test, I have added the following, as I have created a simple start/stop.
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-16.png)
+
+The image I created consists of start and stop buttons, with the events to activate and deactivate the bit when pressed and released respectively, and a circle object, adding animation to the appearance.
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-18.png)
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-21.png)
+
+We can now compile and save our project; if everything is correct, we can start the simulation; the following images show its correct operation.
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-22.png)
+
+![](./assets/images/114/WinCC-RT-Advanced-Profibus-23.png)
+
+May 19, 2013
+
+If you liked it or found the information useful, share it...
+
+---
+*Source: [WinCC RT Advanced (Profibus)](https://www.plc-hmi-scadas.com/en/114.php) — Jose Manuel Luque*

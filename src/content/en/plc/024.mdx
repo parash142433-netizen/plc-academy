@@ -1,0 +1,62 @@
+---
+title: "Configuration of the 1747 PIC-AIC+ Driver"
+slug: "024"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/024.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["1747 PIC","AIC+","RSLinx"]
+downloads: [{"title":"serenum.sys SP2","url":"https://www.plc-hmi-scadas.com/en/serenum%20SP2.rar"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# Configuration of the 1747 PIC-AIC+ Driver
+
+Jose Manuel Luque
+
+1747 PIC AIC+ RSLinx
+
+In this practice, we will configure the 1747 PIC/AIC+ driver in RSLinx, on a Windows XP Professional SP3 operating system. It is important to know if the operating system has been updated from SP2 to SP3 or if it came by default as in my case, because this can influence whether we get an error when configuring the driver. Warning: It does not work on virtual machines at the moment; the tests I have conducted have not been satisfactory, as I had already read, but I have conducted my tests to verify it.
+
+The configuration I am going to perform will be the one shown in the following figure**:  
+**
+
+![](./assets/images/024/AIC+%20-01.jpg)
+
+1.- The first step, as we have done in previous practices, is to run RSLinx and add a new driver by clicking on the cable icon.
+
+![](./assets/images/024/AIC+%20-2a.jpg)
+
+2.- When adding the desired driver, in this case the 1747 PIC/AIC+, the following error message appears.
+
+![](./assets/images/024/AIC+%20-21.jpg)
+
+3.- Searching for information on why this error occurs, in the Forum [plctalk.net](http://www.plctalk.net/qanda/ "plctalk.net Forum") I found how to solve it thanks to the help of Mr. Mickey and Dmroeder, and this is a possible solution, since with SP3 it is initially not compatible.
+
+Here you can download the [serenum.sys SP2](https://www.plc-hmi-scadas.com/en/serenum%20SP2.rar "serenum SP2")
+
+![](./assets/images/024/AIC+%20-25.jpg)
+
+4.- By following these steps, upon restarting and reconfiguring the driver, the result is satisfactory as shown below.
+
+![](./assets/images/024/AIC+%20-03.jpg)
+
+![](./assets/images/024/AIC+%20-02.jpg)
+
+5.- I can now access the PLC SLC 5/03 through the RJ-45 port (DH-485).
+
+![](./assets/images/024/AIC+%20-04.jpg)
+
+6.- And as detailed in the previous description, it is observed in the device manager how the COM port is dedicated to the AIC+.
+
+![](./assets/images/024/AIC+%20-05.jpg)
+
+6.- Another alternative is to download the application developed by Dmroeder, which you can download at the following [link](https://dl.dropbox.com/u/31084543/SP3Fix.exe) thanks to him sharing it.
+
+August 29, 2012
+
+---
+*Source: [Configuration of the 1747 PIC-AIC+ Driver](https://www.plc-hmi-scadas.com/en/024.php) — Jose Manuel Luque*

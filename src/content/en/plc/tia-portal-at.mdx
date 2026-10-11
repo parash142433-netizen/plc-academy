@@ -1,0 +1,58 @@
+---
+title: "TIA Portal \"AT\""
+slug: "tia-portal-at"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/TIA_Portal_AT.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["TIA Portal","AT"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# TIA Portal "AT"
+
+Jose Manuel Luque
+
+TIA Portal AT
+
+**TIA Portal "AT"  
+**
+
+In this practice, we will see a small example of the use of AT, this is the description provided by Siemens:
+
+With the keyword "AT", a declared variable can be overlaid with another declaration if, for example, you want to access independent bits of a Word data type variable with a binary data array (bool).
+
+For this example, we will use a FC, and the first step is that we need to change one of its properties and deselect the checkbox Optimized block access.
+
+![](./assets/images/tia-portal-at/TIA_Portal_AT01.png)
+
+Once this is done, we will declare a Date\_And\_Time variable and on this variable, which has a length of 8 bytes, we will use the reserved word AT to declare an Array from 0..8 to access the different bytes.
+
+The following image shows the example.
+
+![](./assets/images/tia-portal-at/TIA_Portal_AT02.png)
+
+And with the following images, we complement the declaration of our variable.
+
+![](./assets/images/tia-portal-at/TIA_Portal_AT03.png) ![](./assets/images/tia-portal-at/TIA_Portal_AT04.png) ![](./assets/images/tia-portal-at/TIA_Portal_AT05.png)
+
+As a complement, as we have already said that we are working on a FC, in the output parameters, we will declare 8 bytes, which correspond to the decomposition of the date and time.
+
+Here we are using this example to decompose Date and Time, but we can use it, for example, when we are working with drives and telegram words, where we need to decompose a word to know the state of the different bits...
+
+The code is very simple, we are going to read date and time and we will pass the decomposition of the bytes of our Array to the bytes we have defined as output of our FC. Here is how it works...
+
+![](./assets/images/tia-portal-at/TIA_Portal_AT07.png)
+
+April 25, 2015
+
+If you liked it or found it useful, share it ... :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [TIA Portal "AT"](https://www.plc-hmi-scadas.com/en/TIA_Portal_AT.php) — Jose Manuel Luque*

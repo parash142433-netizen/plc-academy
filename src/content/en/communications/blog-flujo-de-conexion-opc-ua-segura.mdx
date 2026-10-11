@@ -1,0 +1,88 @@
+---
+title: "Secure OPC UA Connection Flow"
+slug: "blog-flujo-de-conexion-opc-ua-segura"
+locale: "en"
+category: "communications"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/flujo-de-conexion-opc-ua-segura/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Communications","Industrial Networks"]
+tags: ["OPC UA","Basic256Sha256","SignAndEncrypt","Wireshark","IEC 62443"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](https://www.plc-hmi-scadas.com/Home/) › [Communications](https://www.plc-hmi-scadas.com/Comunicaciones-Industriales/) › [Industrial Networks](https://www.plc-hmi-scadas.com/Redes-Industriales/) › Secure OPC UA Connection Flow
+
+# Secure OPC UA Connection Flow
+
+Practical comparison between unsecured OPC UA traffic and secured OPC UA traffic, validated with Wireshark captures.
+
+Jose Manuel Luque 09 May, 2026
+
+OPC UA Basic256Sha256 SignAndEncrypt Wireshark IEC 62443
+
+![Secure OPC UA Connection Flow](./assets/images/blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-01.png)
+
+**Objective and scope**
+
+In industrial production environments, running OPC UA communication without protection directly increases the risk to process integrity and availability. This article reviews the connection and data exchange sequence using real Wireshark captures. The goal is to show, based on network evidence, the difference between an exposed communication path and a protected one using Basic256Sha256 and SignAndEncrypt mode.  
+  
+An image showing OPC UA security modes and policies.  
+Click the image to open it full screen and read the details more easily.
+
+![OPC UA security modes and policies](./assets/images/blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-01.png)
+
+**OPC UA flow without security**
+
+![OPC UA communication sequence without effective protection](./assets/images/blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-09.png)
+
+This stage shows the beginning of communication without effective protection: discovery, session negotiation, and the first client-server operations. Even if the functional flow is valid, network inspection can still expose the exchanged process data.
+
+When neither encryption nor signing is applied, an analyst with network access can reconstruct the exchange quite easily. This directly affects confidentiality and increases operational risk in production environments.
+
+![Visible values in unciphered traffic](./assets/images/blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-05.png)
+
+Here the variables and their values are clearly visible in the capture.  
+(Example: `WriteRequest`, `NodeId`, and `value`)  
+Operationally, this opens the door to unauthorized inspection and even to the preparation of process manipulation attempts.  
+
+![Additional trace showing exposed process data](./assets/images/blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-06.png)
+
+From the perspective of **IEC 62443-3-3**, this scenario can be aligned with a **Security Level 0 (SL-0)** posture, because it does not implement the minimum protections required to ensure **Confidentiality (SR 4.3)** and **Integrity (SR 4.1)** of data in transit. To reach a basic compliant security baseline, it is necessary to move to a stronger policy such as `Basic256Sha256` with `SignAndEncrypt` mode.
+
+**OPC UA flow with security**
+
+![Start of the secure OPC UA flow](./assets/images/blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-02.png)
+
+This capture shows the equivalent flow, but now with security enabled. Client and server validate certificates, agree on the security policy, and establish a signed and encrypted channel.
+
+![Secure OPC UA traffic in Wireshark](./assets/images/blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-07.png)
+
+In this capture, the difference with the previous scenario is evident. When **Basic256Sha256** is applied together with **SignAndEncrypt**, OPC UA traffic is no longer readable as plain application data. As shown in the Wireshark "Info" column, packets are identified as **UA Secure Conversation Message (encrypted)**. Critical process details such as variable names (`NodeId`) and values are transformed into encrypted payload using **AES-256-CBC**.
+
+![Final visibility comparison for OPC UA traffic](./assets/images/blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-08.png)
+
+**Technical comparison in Wireshark**
+
+These captures show the practical difference between an exposed OPC UA communication path and one protected with an effective security policy. If the tag and its value are still visible in the trace, then end-to-end encryption is not actually protecting the process payload. To reduce network exposure, the recommended baseline is to enforce **SignAndEncrypt**, validate certificates correctly, and confirm on both client and server that the active policy is really the one expected.
+
+**OPC Foundation and IEC 62443 references**
+
+Official reference for OPC UA security policies and profiles:
+
+[OPC UA Core Part 7 v1.04 - 6.6.165 (OPC Foundation)](https://reference.opcfoundation.org/Core/Part7/v104/docs/6.6.165)
+
+Relationship to industrial cybersecurity practices and IEC 62443:
+
+[OPC UA Core Part 2 v1.05 - Annex A (OPC Foundation, IEC 62443 mapping)](https://reference.opcfoundation.org/Core/Part2/v105/docs/A)
+
+**Operational conclusion**
+
+During commissioning it may be tempting to work without security for speed, but in operation a secure configuration must be applied from the beginning, together with industrial network segmentation and formal certificate management.
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Secure OPC UA Connection Flow](https://www.plc-hmi-scadas.com/en/blog/flujo-de-conexion-opc-ua-segura/) — Jose Manuel Luque*

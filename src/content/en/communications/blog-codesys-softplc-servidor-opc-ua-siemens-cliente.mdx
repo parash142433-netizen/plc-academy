@@ -1,0 +1,188 @@
+---
+title: "CODESYS SoftPLC as an OPC UA Server and Siemens S7-1500 as Client"
+slug: "blog-codesys-softplc-servidor-opc-ua-siemens-cliente"
+locale: "en"
+category: "communications"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/codesys-softplc-servidor-opc-ua-siemens-cliente/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Communications","OPC"]
+tags: ["CODESYS","Control Win","SoftPLC","OPC UA","Siemens S7-1500","TIA Portal"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Communications](#/a/en%2Fcomunicaciones-industriales) › [OPC](#/a/en%2Fopc) › CODESYS SoftPLC OPC UA server and Siemens client
+
+# CODESYS SoftPLC as an OPC UA Server and Siemens S7-1500 as Client
+
+OPC UA, the advantage of using it for communication between different manufacturers.
+
+Pedro Pagán Pallarés 02 Jul, 2026
+
+CODESYS Control Win SoftPLC OPC UA Siemens S7-1500 TIA Portal
+
+![Architecture with CODESYS Control Win as OPC UA server and Siemens S7-1500 as client](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/codesys-softplc-servidor-opc-ua-siemens-cliente-arquitectura.png)
+
+**Goal and environment**
+
+The goal of this article is to connect two different manufacturers using one common standard: **CODESYS** will act as the **OPC UA server**, and a **Siemens S7-1500 PLC** will act as the **OPC UA client**.
+
+The idea is: prepare a Windows SoftPLC, download a basic program with changing variables, publish those variables through OPC UA and read them from the Siemens PLC using OPC UA Client.
+
+Test environment:
+
+*   **CODESYS Development System 64 3.5.22.20** as the engineering IDE.
+*   **CODESYS Control Win V3 / Control Win SL** as the Windows SoftPLC runtime.
+*   **CODESYS server PC:** test IP address **192.168.1.133**.
+*   **Siemens client:** S7-1500 in TIA Portal, downloaded to PLCSIM Advanced.
+*   **OPC UA port:** `4840`, with endpoint `opc.tcp://192.168.1.133:4840`.
+*   **UA Expert:** OPC UA client used to verify that the CODESYS server is publishing correctly.
+
+![OPC UA communication architecture between CODESYS SoftPLC and Siemens S7-1500](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/codesys-softplc-servidor-opc-ua-siemens-cliente-arquitectura.png)
+
+The official [CODESYS Development System](https://store.codesys.com/en/codesys.html) page states that the setup includes the development environment and a demo version of **CODESYS Control Win SL**. CODESYS also documents that, when the communication add-on is installed, the runtime can expose an [OPC UA server](https://content.helpme-codesys.com/en/CODESYS%20Communication/_cds_runtime_opc_ua_server.html) so that a client can read the controller variable interface.
+
+**Installing CODESYS and Control Win**
+
+The first step is to install the IDE from the official [CODESYS Development System V3](https://store.codesys.com/en/codesys.html) page.
+
+Inside the installer or package manager, look for **CODESYS Control Win**. This component is the Windows SoftPLC runtime, which means it is the controller where the test application will be downloaded.
+
+![CODESYS installer showing CODESYS Control Win 64](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/01-codesys-installer-control-win.png)
+
+After installation, start the runtime. CODESYS Control Win stays running on Windows and is ready to receive the project download from the IDE.
+
+![CODESYS Control Win running as a Windows SoftPLC](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/02-codesys-control-win-running.png)
+
+One important detail: the SoftPLC uses the network interface of the PC where it is running. In this test the PC IP is **192.168.1.133**, so this is the endpoint that UA Expert and the Siemens client will use later.
+
+**Basic CODESYS program**
+
+We create global variables and change them cyclically.
+
+![CODESYS global variables to be published through OPC UA](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/03-codesys-gvl-variables-globales.png)
+
+Structured Text
+
+```iecst
+VAR_GLOBAL
+    Bool_Test : BOOL := FALSE;
+    Int_Test  : DINT := 0;
+    Real_Test : REAL := 0.0;
+END_VAR
+```
+
+In the main program, a one-second timer and an edge detector can be used to update the values in a controlled way:
+
+Structured Text
+
+```iecst
+VAR
+    T_Pulse : TON;
+    R_Pulse : R_TRIG;
+END_VAR
+
+T_Pulse(IN := NOT T_Pulse.Q, PT := T#1s);
+R_Pulse(CLK := T_Pulse.Q);
+
+IF R_Pulse.Q THEN
+    GVL_Test.Bool_Test := NOT GVL_Test.Bool_Test;
+    GVL_Test.Int_Test  := GVL_Test.Int_Test + 1;
+    GVL_Test.Real_Test := GVL_Test.Real_Test + 0.5;
+
+    IF GVL_Test.Int_Test >= 100 THEN
+        GVL_Test.Int_Test  := 0;
+        GVL_Test.Real_Test := 0.0;
+    END_IF;
+END_IF;
+```
+
+**Publishing variables through OPC UA**
+
+For the OPC UA client to see the variables, having them in the program is not enough. They must be exposed through the **symbol configuration**. In CODESYS, open the configuration, select the variables to publish and generate the configuration.
+
+In this test, **Bool\_Test**, **Int\_Test** and **Real\_Test** are published. This selection must be downloaded to the runtime together with the application, because the OPC UA server uses that published interface.
+
+![CODESYS symbol configuration for exposing variables through OPC UA](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/04-codesys-symbol-configuration-opcua.png)
+
+If your version uses an explicit OPC UA configuration object in the project tree, also review the OPC UA Server or Communication Manager object. In this test, OPC UA is used without security to simplify the lab and check communication between manufacturers directly.
+
+If we want to work without username and password for testing, we access the runtime security policies.
+
+![CODESYS Control Win runtime security policies](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/05-codesys-runtime-security-policies.png)
+
+We enable anonymous access so UA Expert and the Siemens client can connect in test mode.
+
+![Allowing anonymous access to the CODESYS runtime for OPC UA testing](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/06-codesys-anonymous-access-runtime.png)
+
+**Downloading to the SoftPLC**
+
+With the runtime started and the configuration ready, download the application to the SoftPLC. If communication between the IDE and the runtime is correct, CODESYS will detect the local device or the runtime at the configured IP address.
+
+![Downloading the CODESYS project to the Control Win SoftPLC](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/07-codesys-download-softplc.png)
+
+After the download, the program must be running. From that moment on, the OPC UA server can expose the selected variables.
+
+**Validation with UA Expert**
+
+Before moving to Siemens, validate the server with [UA Expert](https://www.unified-automation.com/products/development-tools/uaexpert.html). This avoids mixing two different problems: a CODESYS server problem and a Siemens client problem.
+
+The endpoint used in the test is:
+
+`opc.tcp://192.168.1.133:4840`
+
+If UA Expert can browse the variables and show live values, the server is ready.
+
+![UA Expert reading variables from the CODESYS OPC UA server](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/08-uaexpert-codesys-opcua-server.png)
+
+**Siemens PLC as OPC UA client**
+
+The Siemens side follows the same approach explained in [Siemens S7-1500 OPC UA Client: read and write in TIA Portal](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500), but with a different server: here the server is not another Siemens PLC, it is the CODESYS SoftPLC.
+
+Siemens documents this functionality in the STEP 7 help for [using an S7-1500 CPU as an OPC UA client](https://docs.tia.siemens.cloud/r/en-us/v20/configuring-automation-systems/using-opc-ua-communication-s7-1200-s7-1500-s7-1500t/using-the-s7-1500-cpu-as-an-opc-ua-client-s7-1500-s7-1500t?contentId=BPLyJ~rXt5W9masEdDA28A), and on its general [Siemens OPC UA](https://www.siemens.com/en-us/products/opc-ua/) page.
+
+Summary of the steps in TIA Portal:
+
+1.  Enable **OPC UA Client** functionality in the compatible CPU.
+2.  Select the OPC UA license that matches the CPU.
+3.  Create a **Client interface**.
+4.  Configure endpoint `opc.tcp://192.168.1.133:4840`.
+5.  Connect online to the CODESYS server and create a **Read list**.
+6.  Compile with **Rebuild all** so TIA Portal generates the interface DB.
+7.  Run the read operation from the user program with compact blocks, for example **OPC\_UA\_ReadList\_C**.
+
+![OPC UA read list in TIA Portal with variables from the CODESYS server](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/09-siemens-opcua-read-list-codesys.png)
+
+If Siemens also needs to write values back to CODESYS, the concept is the same: create a **Write list**, allow write permissions on the published variables and call the matching write block. This article focuses on reading because it is the minimum path to validate interoperability.
+
+**Final online test**
+
+With the client downloaded to the Siemens PLC, go online and inspect the DB generated by the client interface. The values coming from the CODESYS SoftPLC are now available inside the Siemens project.
+
+![CODESYS values recovered online in the Siemens OPC UA client DB](./assets/images/blog-codesys-softplc-servidor-opc-ua-siemens-cliente/10-siemens-values-from-codesys-softplc.png)
+
+The screenshot shows the read result:
+
+*   **Bool\_Test:** received as Boolean and changing between TRUE and FALSE.
+*   **Int\_Test:** received as DINT and updated with the CODESYS counter.
+*   **Real\_Test:** received as REAL and keeping the decimal value.
+
+This validates the complete path: CODESYS runs the program, CODESYS publishes through OPC UA, Siemens connects as a client and TIA Portal displays the recovered data.
+
+**Related articles**
+
+*   [Siemens S7-1500 OPC UA Client: read and write in TIA Portal](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500)
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [OPC UA Security: Siemens S7-1500 and UA Expert Client](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert)
+*   [Secure OPC UA Connection Flow](#/a/en%2Fblog-flujo-de-conexion-opc-ua-segura)
+*   [Docker: OPC UA Server and Web Client](#/a/en%2Fblog-docker-servidor-opc-ua)
+*   [OPC UA Server and Client + Copilot Edits](#/a/en%2Fblog-servidor-opc-flask-co-pilot)
+
+The conclusion is straightforward: OPC UA allows a CODESYS SoftPLC and a Siemens PLC to exchange data without a proprietary driver between them. For a lab we can leave the path open and quick; for a real plant, the same flow must be closed with authentication, certificates and encryption.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [CODESYS SoftPLC as an OPC UA Server and Siemens S7-1500 as Client](https://www.plc-hmi-scadas.com/en/blog/codesys-softplc-servidor-opc-ua-siemens-cliente/) — Pedro Pagán Pallarés*

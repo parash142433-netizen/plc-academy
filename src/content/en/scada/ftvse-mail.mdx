@@ -1,0 +1,50 @@
+---
+title: "Factory Talk View send e-mail"
+slug: "ftvse-mail"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/FTVSE_Mail.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["The message could not be sent to the SMTP server. The transport error code was 0x80040217. The server response was not available"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk View send e-mail
+
+Jose Manuel Luque
+
+The message could not be sent to the SMTP server. The transport error code was 0x80040217. The server response was not available
+
+**Update send e-mail with FTVSE  
+**
+
+This is an update of the practice [send email with Factory Talk View SE](#/a/en%2Ffactorytalkview-sendemail), as recently my friend Raul has had some problems and I have re-analyzed the reason for the error that he was getting when sending the mail "The message could not be sent to the SMTP server. The transport error code was 0x80040217. The server response was not available". If you are using Gmail as the SMTP server, this may be the reason.
+
+![](./assets/images/ftvse-mail/FTVSE_MailCDO_01.png)
+
+After analyzing the code over and over, changing settings and testing, I discovered that Gmail itself had blocked access to the server. I accessed the Google settings page and after changing the settings it worked perfectly.
+
+You need to go to Settings --> Security --> lesssecureapps
+
+![](./assets/images/ftvse-mail/FTVSE_MailCDO_00.png)
+
+The codes that work correctly are the following:
+
+![](./assets/images/ftvse-mail/FTVSE_MailCDO_05.png)
+
+The same code, with some modifications, but which also works perfectly. We have already removed the msgbox for the message output and instead we use the LogDiagnosticsMessage function
+
+![](./assets/images/ftvse-mail/FTVSE_MailCDO_06.png)
+
+March 26, 2015
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Factory Talk View send e-mail](https://www.plc-hmi-scadas.com/en/FTVSE_Mail.php) — Jose Manuel Luque*

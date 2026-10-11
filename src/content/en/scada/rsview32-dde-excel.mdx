@@ -1,0 +1,46 @@
+---
+title: "RSView32 DDE Server"
+slug: "rsview32-dde-excel"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/RSView32_DDE_Excel.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["RSView32 DDE Server","RTData"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# RSView32 DDE Server
+
+Jose Manuel Luque
+
+RSView32 DDE Server RTData
+
+**RSView32 DDE Server  
+**
+
+In the previous practice, we saw how to [configure RSView as a DDE Client and Microsoft Excel as a DDE Server](#/a/en%2Frsview-dde). This time we will see an example of how RSView32 acts as a DDE Server and Microsoft Excel as a DDE Client.
+
+Let’s assume this is our Image (Display); we have created DisplayNumber and DisplayString objects for the Tag System/Date, each of these objects is associated with its corresponding Tag.
+
+![](./assets/images/rsview32-dde-excel/RSView-DDE-00.png)
+
+In the properties of our Image (Display), within the behavior tab, we will execute the command FTDataServerOn at Startup as observed.
+
+![](./assets/images/rsview32-dde-excel/RSView-DDE-01.png)
+
+Within the Directory System -> Startup, we select the checkbox OPC/DDE Server, which is essentially the same as the command we have associated with the previous display.
+
+![](./assets/images/rsview32-dde-excel/RSView-DDE-02.png)
+
+Finally, we run the project or the Display, and once it is running, we open a new Microsoft Excel Workbook. To access the tags, we execute according to the methodology Application|Topic!Item, where Application is RTData, Topic is the name of the RSView32 project without extension or path, and Item is the name of the Tag. Following these steps, we observe the operation in the following image.
+
+![](./assets/images/rsview32-dde-excel/RSView-DDE-03.png)
+
+July 27, 2013
+
+---
+*Source: [RSView32 DDE Server](https://www.plc-hmi-scadas.com/en/RSView32_DDE_Excel.php) — Jose Manuel Luque*

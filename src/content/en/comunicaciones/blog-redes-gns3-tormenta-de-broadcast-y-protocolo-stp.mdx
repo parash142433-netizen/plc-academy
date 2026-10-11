@@ -1,0 +1,156 @@
+---
+title: "Networks: GNS3, Broadcast Storm and STP Protocol"
+slug: "blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/redes-gns3-tormenta-de-broadcast-y-protocolo-stp/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","REDES INDUSTRIALES"]
+tags: ["NETWORKS","NETWORKS"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [REDES INDUSTRIALES](#/a/en%2Findustrial-networks) › Article
+
+# Networks: GNS3, Broadcast Storm and STP Protocol
+
+Pedro Pagán Pallarés Jan 26, 2025
+
+NETWORKS NETWORKS
+
+![Networks: GNS3, Broadcast Storm and STP Protocol](./assets/images/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp/Arquitectura-Sin-Bucle.png)
+
+## Introduction
+
+In today\\'s article, we will learn about the **GNS3 network simulation software**. It is very useful for emulating scenarios that we may encounter in the industry, as well as for understanding how some architectures work, anticipating and solving problems that may arise.
+
+First, we will talk about the software, then we will build a basic architecture and see how it works. Later, we will force a **Layer 2 loop** and observe how it can lead to a **broadcast storm**. Finally, we will use STP to prevent the logical loop through the managed switch.
+
+## What is GNS3?
+
+[GNS3](https://www.gns3.com/) is a free network simulation tool that allows you to create and test network topologies virtually, using real or emulated devices. It is ideal for learning, testing, and developing network environments without the need for physical hardware.
+
+![](./assets/images/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp/gns3.png)
+
+Features:
+
+*   **Intuitive graphical interface**: Allows you to create and manage network topologies using drag and drop
+*   **Compatibility with real images**: Supports Cisco IOS as well as devices from other manufacturers, allowing for accurate simulation of real networks.
+*   **Integration with physical hardware**: You can connect physical devices to the simulation, facilitating testing in hybrid environments.
+*   **Scalability**: Capable of handling everything from small networks to complex topologies with multiple devices.
+*   **Integrated traffic capture**: Tools like [Wireshark](https://www.wireshark.org/) are directly integrated to analyze traffic in real time.
+*   **Free and open source**: GNS3 is accessible to anyone, making it an ideal option for both students and professionals.
+
+**Other programs**: In addition to GNS3, there are other similar programs, such as **Cisco Packet Tracer**, a **network simulation tool** developed by **Cisco** that allows you to design, configure, and test networks virtually.
+
+## Basic Architecture
+
+In the following example, we have configured two PCs with two managed switches and one unmanaged switch. In this case, I have used the free version of managed switches "Open vSwitch". Real switch images can also be used.
+
+**Note:** we do not delve into the configuration of GNS3 and the [virtual machines](https://www.gns3.com/software/download-vm), but it is important to highlight that it exists and needs to be done. The idea is that the devices must run on virtual machines or dockers. It is not complicated.
+
+![](./assets/images/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp/Arquitectura-Sin-Bucle-1024x321.png)
+
+For the configuration of the elements, it can be done through configuration or via console commands. In this case, the command console has been used. To do this, we must start the simulation with the "PLAY" button, as we are going to simulate that they are turned on and we can access them via the console.
+
+*   Assign IPs to the PCs. Command: "ip 192.168.1.11" and "ip 192.168.1.12"
+
+For the example, we have connected the PCs as seen in the image, and we have not generated any special configuration on the switches, so the PCs should see each other, acting as unmanaged switches.
+
+![](./assets/images/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp/Asignacion-IP-PCs-1024x376.png)
+
+To test the communication between them, we perform a **reciprocal infinite ping**.
+
+Code
+
+```
+PC1: ping 192.168.1.12 -t
+```
+
+Code
+
+```
+PC2: ping 192.168.1.11 -t
+```
+
+As seen in the following image, **there is communication between both.**
+
+![](./assets/images/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp/Ping-infinito-sin-bucle-1-1024x524.png)
+
+## Layer 2 loop and broadcast storm
+
+With our simulated architecture working and both PCs communicating correctly, we now create a redundant path between switches without enabling STP.
+
+It is important to separate two ideas. A **Layer 2 loop** appears when Ethernet frames have more than one possible path and the topology has no mechanism to control it. That loop can cause a **broadcast storm** and can also make other frames circulate repeatedly, because switches keep forwarding them without a Layer 3 TTL equivalent.
+
+In a modern switched Ethernet network, the real symptoms are continuous circulation and duplication of Ethernet frames, massive traffic growth, saturation of links and switches, instability of MAC tables, increased latency and loss of communication.
+
+The following link visually shows the problem:
+
+![](./assets/images/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp/image-8.png)
+
+[Link to animation](https://www.sapalomera.cat/moodlecf/RS/3/course/module2/2.1.1.3/2.1.1.3.html#:~:text=Una%20tormenta%20de%20difusi%C3%B3n%20se,para%20la%20comunicaci%C3%B3n%20de%20datos.)
+
+_As a **curiosity**, a [ring network](https://en.wikipedia.org/wiki/Ring_network) needs a control mechanism such as STP to preserve physical redundancy without leaving a Layer 2 loop active._
+
+### Generating the loop in the example
+
+We include an unmanaged switch in the network and connect it to the two managed switches. This creates a topology with physical redundancy, but without logical control of the active path.
+
+Wireshark: until the last unmanaged switch is introduced, the Ethernet frames look normal and match the timing of the reciprocal pings between the PCs. However, once the loop is created, frames begin to multiply and a massive amount of traffic is generated, quickly filling the capture history.
+
+In the PC consoles, we can also see that the IP communication used by the ping no longer responds correctly and timeout problems appear, as expected in a saturated network.
+
+![](./assets/images/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp/Bucle-ping-y-wireshark-1024x546.png)
+
+At this point we have a Layer 2 loop that keeps Ethernet frames circulating and ends up saturating the network. Next, we will see how to prevent it with STP.
+
+In reality, it is not difficult to generate this type of problems by mistakenly connecting different ports of a switch in an electrical installation.
+
+## STP Protocol
+
+To prevent the problem generated in the previous section, we can use the [Spanning Tree Protocol](https://en.wikipedia.org/wiki/Spanning_Tree_Protocol). STP does not physically remove the redundant link: it keeps the physical redundancy but calculates a loop-free logical topology.
+
+STP exchanges **BPDUs** between switches, selects an active topology and places one of the redundant ports in a state that prevents traffic forwarding. This avoids Ethernet frames circulating indefinitely around the ring or redundant path.
+
+In simple terms, STP elects a main switch or **Root Bridge**, calculates the best paths toward it and decides which ports should forward traffic and which ones should remain logically blocked. If an active link fails, STP can recalculate the topology and enable a path that was previously in reserve.
+
+Other protocols:
+
+*   **STP (Spanning Tree Protocol)** – Prevents logical loops in switched networks.
+*   **RSTP (Rapid Spanning Tree Protocol)** – Improved version of STP with faster convergence.
+*   **MSTP (Multiple Spanning Tree Protocol)** – Allows multiple instances of STP in a single network.
+
+### Example: Activating STP in Open vSwitch
+
+Command to activate in the Open vSwitch
+
+Code
+
+```
+ovs-vsctl set bridge br0 stp_enable=true
+```
+
+![](./assets/images/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp/STP-Activado-Switch-1-1024x455.png)
+
+By enabling STP on the managed switch, the protocol detects the redundancy using BPDUs and leaves one of the redundant ports without traffic forwarding. The physical connection still exists, but it is no longer used as an active path while it could cause the loop.
+
+In the previous image, the consoles return to normal and Wireshark shows that the volume of frames returns to normal behaviour. STP does not eliminate the storm directly: by breaking the logical loop, it stops the repeated circulation of frames from being maintained.
+
+## Conclusions
+
+GNS3 is a very powerful program for **anticipating real-world problems** through the simulation of communication elements.
+
+A **Layer 2 loop** is a common problem that can occur in real environments when redundant paths are connected without control. That loop can cause a broadcast storm, network saturation, switch instability and loss of communication.
+
+**STP is a protocol used by managed switches** that preserves redundant links, but calculates a loop-free logical topology and blocks forwarding through the ports that could keep Ethernet frames circulating indefinitely.
+
+Thank you Jose Manuel!
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Networks: GNS3, Broadcast Storm and STP Protocol](https://www.plc-hmi-scadas.com/en/blog/redes-gns3-tormenta-de-broadcast-y-protocolo-stp/) — Pedro Pagán Pallarés*

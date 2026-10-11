@@ -1,0 +1,238 @@
+---
+title: "Docker: OPC UA Server and Web Client"
+slug: "blog-docker-servidor-opc-ua"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/docker-servidor-opc-ua/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["Web Client","Co-Pilot","Docker","NETWORKS","Tools"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# Docker: OPC UA Server and Web Client
+
+Pedro Pagán Pallarés Apr 17, 2025
+
+Web Client Co-Pilot Docker NETWORKS Tools
+
+![Docker: OPC UA Server and Web Client](./assets/images/blog-docker-servidor-opc-ua/ChatGPT-Image-17-abr-2025-11_56_30.png)
+
+In a [previous article](#/a/en%2Fblog-servidor-opc-flask-co-pilot), we showed how to set up an OPC UA server in just minutes using Co-Pilot and Visual Code. This type of application or microservice can be interesting to isolate from the operating system and have the ability to **run them independently**.
+
+This is where [Docker](https://www.docker.com/products/docker-desktop/) technology comes in with its containers. But, what is Docker?
+
+Docker is a tool that allows you to **package an application with all its dependencies in a container,** ensuring that it runs the same in **any environment.** It's like a portable box that carries your software ready to run wherever you want.
+
+![](./assets/images/blog-docker-servidor-opc-ua/ChatGPT-Image-17-abr-2025-09_23_56-1024x683.png)
+
+  
+Next, let's look at the steps to have Docker available and see the specific example of Dockerizing the OPC UA Server from the previous article.
+
+## Installation Docker
+
+The first step is to download the [Docker Desktop](https://www.docker.com/products/docker-desktop/) application. With it, we will manage the images and containers on our machine, meaning we can run any application that has previously been embedded in a Docker. **Docker is free for personal use.**
+
+Once installed, we will see something like this:
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-1024x558.png)
+
+  
+And now we have the application ready to load in the images we want.
+
+* * *
+
+## Generating Docker Image and Container
+
+This section has a bit more substance, as this is where we are going to convert the application we have in [Visual Code](https://code.visualstudio.com/docs/containers/overview) into a Docker-compatible image.
+
+As a tip, Docker is essentially a "mini-PC," so we will need to install the dependencies or requirements it needs, depending on the functionality it will perform.
+
+**Step 1:** Create a **Dockerfile** in the root of the project. You will see the whale icon, which indicates that the name is correct.
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-2.png)
+
+  
+The content of the Dockerfile must contain the information to build the application; I suggest asking ChatGPT for help with this. The code in this case:
+
+Docker
+
+Code
+
+```
+# Updated base image
+FROM python:3.12-slim-bookworm
+
+# Prevent interactive problems
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Working directory inside the container
+WORKDIR /app
+
+# Copy and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the project code
+COPY . .
+
+# Expose the port that the OPC UA server or web server will use
+EXPOSE 4840
+EXPOSE 5000
+
+# This CMD is ignored if you use docker-compose with "command"
+CMD ["python", "opc_server.py"]
+
+```
+
+**Step 2: Create docker-compose.yml** to configure the services.
+
+Docker
+
+Code
+
+```
+version: '3.9'
+
+services:
+  opcua-server:
+    build:
+      context: .
+    container_name: opcua-server
+    ports:
+      - "4840:4840"
+    restart: unless-stopped
+    command: python opc_server.py
+
+  opcua-web:
+    build:
+      context: .
+    container_name: opcua-client-web
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    command: python opc_client_web.py
+```
+
+**Step 3:** **Docker ignore.** Using a file named ".dockerignore," we ensure that when the application is packaged, unnecessary items like the cache or others are not included.
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-7.png)
+
+Docker
+
+Code
+
+```
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+.git/
+```
+
+  
+**Step 4:** **Libraries**. Check that requirements.txt contains all the libraries used in the project. To do this, we run the following code in the terminal, which will add all the libraries to our file.
+
+Python
+
+Code
+
+```
+pip freeze > requirements.txt
+```
+
+And after running, all the libraries from my [venv](https://docs.python.org/es/3.13/tutorial/venv.html) environment will be added to my requirements.txt file.
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-3.png)
+
+**Step 5: Build the Docker image** and start the container. To do this, we open the terminal and run
+
+Code
+
+```
+docker-compose up --build
+```
+
+Once this command is executed, our application will start to be built, compiling it with all the dependencies and libraries. Additionally, it will **generate a container and start it**. With this instruction, we save more steps.
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-8.png)
+
+If everything went well, the image should now be available in Docker Desktop:
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-9-1024x75.png)
+
+  
+And the containers started, each on its port:
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-11-1024x220.png)
+
+* * *
+
+## Results
+
+Now we have the OPC UA server running, which we can check again using UA Expert:
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-10-1024x300.png)
+
+  
+And our Web client collecting values:
+
+* * *
+
+## **Export**
+
+If we want to export the image so it can be used on other devices. First, we execute a command to check what our images are
+
+Docker
+
+Code
+
+```
+docker images
+```
+
+And we will have something like this:
+
+![](./assets/images/blog-docker-servidor-opc-ua/image-12.png)
+
+  
+Then we proceed to create the **.tar** files, which are the compressed versions of our images in the format that Docker accepts.
+
+To save the images together:
+
+Docker
+
+Code
+
+```
+docker save -o full_backup.tar opcserver-opcua-server opcserver-opcua-web
+```
+
+  
+And to import it on another PC with Docker:
+
+Docker
+
+Code
+
+```
+docker load -i full_backup.tar
+```
+
+* * *
+
+## Conclusions
+
+*   Docker is a very interesting technology for packaging applications and making them independent of the operating system where we want to run them.
+*   It has a very intuitive environment and a lot of documentation, making its implementation very easy.
+*   For applications like an OPC UA server, it can be very useful in testing environments, where we need to set up a service with utility without wasting much time setting it up.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Docker: OPC UA Server and Web Client](https://www.plc-hmi-scadas.com/en/blog/docker-servidor-opc-ua/) — Pedro Pagán Pallarés*

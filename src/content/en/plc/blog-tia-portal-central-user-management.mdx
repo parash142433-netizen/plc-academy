@@ -1,0 +1,98 @@
+---
+title: "TIA Portal (Central User Management)"
+slug: "blog-tia-portal-central-user-management"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/tia-portal-central-user-management"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["PLC","SIEMENS PLC","SIEMENS PLC","UMC","WinCC Unified","WinCC Unified"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › TIA Portal (Central User Management)
+
+# TIA Portal (Central User Management)
+
+Jose Manuel Luque 23 Feb, 2025
+
+PLC SIEMENS PLC SIEMENS PLC UMC WinCC Unified WinCC Unified
+
+![TIA Portal (Central User Management)](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-14.png)
+
+Once we have [the basic configuration of the UMC](#/a/en%2Fblog-umc-user-management-control), we will proceed to configure our engineering station with **TIA Portal.**
+
+We run TIA Administrator V3 (**[TIA Portal V20](https://support.industry.siemens.com/cs/document/109963850/simatic-step-7-incl-safety-s7-plcsim-and-wincc-v20-trial-download?dti=0&lc=en-ES)**), from where we can manage several options, as you can see in the image, and the one we are interested in is **Central User Management.**
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-14.png)
+
+  
+This is where we will configure the linkage between our **UMC-SERVER** and our engineering station.
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-16.png)
+
+  
+The steps are as follows:
+
+*   We enter the name of our server and click on "**Validate**".
+*   After connecting to the server, we need to click on "**Approve**" the Server ID
+*   We enter the username and password of the administrator user of **UMC** and confirm with "**Connect**"
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-17.png)
+
+  
+If everything is correct, the message will indicate that it has connected successfully.
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-18.png)
+
+  
+We can now create a project in **TIA Portal** and from **Security settings** -> **Users and roles**  
+We will connect to our server. Here we use the credentials of the administrator user.
+
+![](./assets/images/blog-tia-portal-central-user-management/tia-portal-central-user-management-02.png)
+
+  
+If everything is correct, you will see the message indicating that it has connected and synchronized with the server successfully, and we can continue with the configuration.
+
+![](./assets/images/blog-tia-portal-central-user-management/tia-portal-central-user-management-01.png)
+
+  
+Previously, on the **UMC** server, I created a couple of groups to carry out the tests.
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-38-1024x601.png)
+
+  
+From the **TIA Portal** project, if we click on "**Add UMC groups**", these are the ones we have created and imported into our project.
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-39.png)
+
+  
+Previamente, en el servidor **UMC** he creado un par de grupos para realizar las pruebas.
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-46-1024x808.png)
+
+  
+Desde el proyecto de **TIA Portal,** si hacemos clic en "**Agregar grupos de UMC**", estos son los que tenemos creados e importamos a nuestro proyecto.
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-49.png)
+
+  
+A partir de aquí, el siguiente concepto sería los permisos y roles que vamos a definir para cada uno de los grupos.
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-31.png)
+
+  
+Hay que considerar también los roles definidos de usuarios para configurar opciones avanzadas en nuestros proyectos, según las necesidades.
+
+![](./assets/images/blog-tia-portal-central-user-management/TIAUMCSetup-30.png)
+
+  
+Y lo próximo son los pasos que hay que realizar en WinCC Unified para integrar la configuración de usuarios de UMC.
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [TIA Portal (Central User Management)](https://www.plc-hmi-scadas.com/en/blog/tia-portal-central-user-management) — Jose Manuel Luque*

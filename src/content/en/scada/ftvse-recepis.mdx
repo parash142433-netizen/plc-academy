@@ -1,0 +1,56 @@
+---
+title: "FTVSE - Load Recipes and Sort Them"
+slug: "ftvse-recepis"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/FTVSE_Recepis.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk View Recipes"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# FTVSE - Load Recipes and Sort Them
+
+Jose Manuel Luque
+
+Factory Talk View Recipes
+
+**Load Recipes into a ComboBox and Then Sort Them  
+**
+
+As the title indicates, we will see an example of how to load the recipes configured in our project into a ComboBox for subsequent selection. We start from the premise that we already have the recipes created, which will reference the corresponding variables. On our screen, we have two objects, a ComboBox and an advanced Recipe object, its name is shown in the following image, which is necessary to understand the code in VBA.
+
+![](./assets/images/ftvse-recepis/FTVSE_Recipes_00.png)
+
+Here we will see the code used to load all the recipes from our project into the ComboBox, and once selected, its name will be loaded into its object with the event ComboBoxRecetas\_Change().
+
+The ComboBox will be loaded once the screen is displayed, hence the code is in Display\_AnimationStart().
+
+![](./assets/images/ftvse-recepis/FTVSE_Recipes_02.png)
+
+If we start the display, we can already see that the recipes have been loaded correctly, and we can select the recipe that interests us, which will be loaded into the Recipe object, but we have not used any method, as each person can implement it according to their needs.
+
+![](./assets/images/ftvse-recepis/FTVSE_Recipes_01.png)
+
+The most interesting part comes next, which is the sorting of the recipes displayed in the ComboBox in alphabetical order. For this, we will use an ArrayList object, which does have the .sort method for this purpose.
+
+The code is as follows.
+
+![](./assets/images/ftvse-recepis/FTVSE_Recipes_03.png)
+
+And to finish, an image that shows us the functioning of our code.
+
+![](./assets/images/ftvse-recepis/FTVSE_Recipes_04.png)
+
+March 31, 2014
+
+If you liked or found the information useful, share it...
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [FTVSE - Load Recipes and Sort Them](https://www.plc-hmi-scadas.com/en/FTVSE_Recepis.php) — Jose Manuel Luque*

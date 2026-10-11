@@ -1,0 +1,83 @@
+---
+title: "AVEVA Intouch 2020 Widget (Wonderware)"
+slug: "intouch-2020-widget"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_2020_Widget.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch 2020 Widget"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch 2020 Widget (Wonderware)
+
+Jose Manuel Luque 05 13, 2020
+
+Intouch 2020 Widget
+
+**AVEVA Intouch 2020 Widget (Wonderware)**
+
+![](./assets/images/intouch-2020-widget/vba-logo.png) ![](./assets/images/intouch-2020-widget/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+AVEVA Intouch 2020 is now available, and these are some of the new features it includes. (Image taken from the video [AVEVA System Platform 2020 Release](https://www.youtube.com/watch?v=GUMYQixSNb4))
+
+![](./assets/images/intouch-2020-widget/Intouch%202020.png)
+
+Among the new features, we will see how the Web Widgets controls work.
+
+Once our Intouch is started, by default there is a Widgets directory within Industrial Graphic, where the Carousel Web Widget is included.
+
+We will import new controls - File --> Import --> HTML5 Widget
+
+![](./assets/images/intouch-2020-widget/Intouch_2020_Widget_2.png)
+
+The file type it is expecting is Custom Widgets Package \*.cwp.
+
+The following image shows a series of controls; we select all of them and import them.
+
+![](./assets/images/intouch-2020-widget/Intouch_2020_Widget_3.png)
+
+We can now see that they are added to our directory.
+
+If we now want to insert these objects directly onto our screen, we will not be able to do so. These Widget objects need to be inserted into a new Symbol.
+
+![](./assets/images/intouch-2020-widget/Intouch_2020_Widget_4.png)
+
+To test it, we will create a new symbol, and what we do is embed our widgets; if we navigate in the directory, we find all the ones that are created or imported.
+
+For this example, I will use the WebBrowser for its simplicity; it only has the URL property.
+
+![](./assets/images/intouch-2020-widget/Intouch_2020_Widget_6.png)
+
+Once embedded, what remains is to configure the properties to adapt it to our needs.
+
+![](./assets/images/intouch-2020-widget/Intouch_2020_Widget_7.png)
+
+Once our symbol is finalized, we can insert it into our screen and test its functionality.
+
+![](./assets/images/intouch-2020-widget/Intouch_2020_Widget_8.png)
+
+We start the Runtime and check its correct operation.
+
+![](./assets/images/intouch-2020-widget/Intouch_2020_Widget_9.png)
+
+Basic questions. How do we create these symbols?
+
+\-The widgets are based on HTML5, CSS, and JavaScript.
+
+\-These symbols were incorporated by Indusoft Web Studio, which is now also part of AVEVA, and the new version that will be released in a few days will be AVEVA Edge 2020, where one of its novelties is that it will support and have the System Platform (Industrial Graphics) graphics editor integrated.
+
+\-The easiest way to create these widgets is with its editor, where properties, events, etc., are defined, and subsequently, the HTML, CSS, and JScript files are finished editing.
+
+\-I suppose that in new versions of Intouch, it will incorporate its own editor to facilitate the task.
+
+\-The widgets that I have imported are precisely those included in Intouch Edge HMI, and it is precisely one of the objectives, among the different platforms, to share resources that we have created in various applications.
+
+05-13-2020
+
+---
+*Source: [AVEVA Intouch 2020 Widget (Wonderware)](https://www.plc-hmi-scadas.com/en/Intouch_2020_Widget.php) — Jose Manuel Luque*

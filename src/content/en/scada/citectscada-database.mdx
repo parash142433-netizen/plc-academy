@@ -1,0 +1,105 @@
+---
+title: "CitectSCADA DataBase"
+slug: "citectscada-database"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/CitectScada_DataBase.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SCHNEIDER"]
+tags: ["CitectSCADA DataBase"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SCHNEIDER](#/a/en%2Fscada-schneider) › Article
+
+# CitectSCADA DataBase
+
+Jose Manuel Luque 04 Jun, 2019
+
+CitectSCADA DataBase
+
+**CitectSCADA DataBase**
+
+![](./assets/images/citectscada-database/vba-logo.png) ![](./assets/images/citectscada-database/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+To change the Database Management System, for this article I have selected PostgreSQL, as we have seen SQL Server, MySQL, Oracle where there is a server running and we will access it remotely.
+
+The first step is to install the corresponding Open Database Connectivity (ODBC) Driver to be able to access it.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_02.png)
+
+We can now configure the new Data Source
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_03.png)
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_05.png)
+
+In the following image, the configuration of two Data Sources appears, one for the PostgreSQL database and one for MySQL. Further explanation follows.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_16.png)
+
+Consulting the documentation of CitectSCADA 2018, these are the methods we can use:
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_07.png)
+
+And very importantly, you should know that CitectSCADA has its own Cicode language for scripting and also includes CicodeVBA Visual Basic for Applications.
+
+Cicode, being a proprietary language, has functions that we can use, and for databases, these are some of its functions.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_08.png)
+
+We move on to creating a new function, and with the help of the documentation, this is how it would look. PostgreSQL has a peculiarity; in the definition of SQL statements, fields and table names are enclosed in quotes, and this is a problem in Cicode.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_09.png)
+
+This is the error message when trying to execute the code we have seen.
+
+I have tried several options, but for now, I have no solution.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_10.png)
+
+If we enable the debugger, when we execute the SQLGetRecordset function, we get the following error; this is due to the query we are passing.
+
+This was the reason for later testing with MySQL.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_11.png)
+
+And this was my surprise when I switched to MySQL and enabled the debugger; we can observe:
+
+SQLConnect := Ok!
+
+SQLGetRecordset:= Ok!
+
+SQLRowCount := Ok!
+
+SQLGetField := NoK! (Returns the string with no value)
+
+I don't know if it will be a bug or if I am doing something incorrectly; if you have the solution, please share it for an update.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_12.png)
+
+As we have already mentioned that we have CicodeVBA, now we will create the functions to connect to the Database, but with this language.
+
+These would be the functions, and the result has been perfect; it works perfectly.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_13.png)
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_14.png)
+
+We have associated the functions we have seen or procedures to several buttons to check their operation; if you are going to call CicodeVBA code, you must first use the CiVBA function.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_15.png)
+
+However, with Cicode code, the function is called directly.
+
+![](./assets/images/citectscada-database/PSQL_CitectScada_DB_17.png)
+
+**CONCLUSION**: If you are going to work with Databases, it is better to use the CicodeVBA language.
+
+[Download the Code text](https://www.plc-hmi-scadas.com/Download/CicodeVBA%20SQL.txt)
+
+04-06-2019
+
+---
+*Source: [CitectSCADA DataBase](https://www.plc-hmi-scadas.com/en/CitectScada_DataBase.php) — Jose Manuel Luque*

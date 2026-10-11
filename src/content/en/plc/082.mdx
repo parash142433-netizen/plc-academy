@@ -1,0 +1,85 @@
+---
+title: "S7 OpenModbus/TCP Simulation"
+slug: "082"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/082.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["WinAC","Modbus","S7","OpenModbus TCP"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# S7 OpenModbus/TCP Simulation
+
+Jose Manuel Luque
+
+WinAC Modbus S7 OpenModbus TCP
+
+This practice is dedicated to Raul, for involving me in a project where he has to implement a Modbus TCP network with a Simatic S7-300 with CP 343-1 Lean. For testing, I will use the WinAC software where it is possible to implement the network, although with different blocks. Siemens provides OPEN MODBUS/TCP CP for when working with a CP 343-1, however, if you work with a CPU that has DP/PN ports, the S7 OpenModbus TCP is used, which I will use in these tests, together with the Wizard that you can download from [Siemens](https://support.automation.siemens.com/WW/view/en/31535566) to create the data block with the parameters.
+
+The first thing I will show is the PLC with its IP address and what function it will perform in the network: Server or Client. It is also necessary to know the IP address of the device or devices and the port, which is usually 502 for Modbus TCP.
+
+For this example, before implementing it, I will communicate with the IP 192.168.1.101, which will be the ModRSSim simulator acting as a Server, and I want to access the holding registers 40001-40010.
+
+![](./assets/images/082/WinLCModbus12.png)
+
+![](./assets/images/082/WinLCModbus13.png)
+
+Enter your text here
+
+Once the IP and Server data are configured, we run the Wizard to create the block mentioned earlier. In the first step, we select the project we are working on and the directory of the blocks; the IP is automatically detected. We proceed to the next step, and it checks if any link is configured. Since this is not the case, we select New and next ->
+
+![](./assets/images/082/WinLCModbus01.png)
+
+![](./assets/images/082/WinLCModbus02.png)
+
+The next step is to select whether our PLC is a Server or Client; in this case, it is a Client, so we leave it as is and proceed to the next step. Here, an ID for our connection is assigned, we select the Active radio button and specify the IP of the Server and the type of S7 we have for the interface.
+
+![](./assets/images/082/WinLCModbus03.png)
+
+![](./assets/images/082/WinLCModbus05.png)
+
+We specify the port of the Modbus Server; as mentioned, by default it is 502, otherwise the manual recommends assigning one from the range 2000.
+
+![](./assets/images/082/WinLCModbus06.png)
+
+The next part is where we will configure which data we want to access. We have the option to configure from 1 as a minimum to 8; we select the type of data, the starting address, and the ending address, along with the DB associated with that data. That is, when we want to access the configured data area 1 in the FB102, being in the OB1 or OB35, where the runtime data will be executed, we will change the type of data to which we want to access. For testing, I have only configured 1 data area.
+
+![](./assets/images/082/WinLCModbus07.png)
+
+![](./assets/images/082/WinLCModbus08.png)
+
+Finally, we indicate the DB of the parameters that will be opened from the FB102.
+
+Following the wizard, we select next, and it shows us the created link, and we finish the wizard. Automatically, DB2 is generated and saved in the directory specified at the beginning of the wizard.
+
+![](./assets/images/082/WinLCModbus09.png)
+
+![](./assets/images/082/WinLCModbus10.png)
+
+The project I will use is the one Siemens has available once the library is installed. Once tested, it will be adapted according to needs. But following the manual, OB100 is used where a first call to FB102 is made, although this same one is called from OB1 or alternatively could be called from OB35. FB102 needs its instance DB DB102, and this in turn opens DB2 and calls the different FBs, since for communication with integrated Profinet, TSEND, TRCV, TCON, and TDISCON are used. OB121 is necessary if the corresponding license is not available, but for testing it works even though the CPU's error LED blinks.
+
+![](./assets/images/082/WinLCModbus14.png)
+
+In DB1, all the data is available to conduct the relevant tests. To test it, we only need to enable the bit DB1.DBX12.1, having previously parameterized which data area we want to access, type of data, starting address, and length. For holding registers, the type is 3, the starting address is 0 as configured in the Wizard, and the length is 10.
+
+![](./assets/images/082/WinLCModbus15.png)
+
+We go Online and force the values. We can now observe that the connection has been established; the Modbus status A090 indicates that we are in Demo version, and the data has been registered in DB10 as configured.
+
+![](./assets/images/082/WinLCModbus16.png)
+
+As a Modbus server, we use the ModRSSim, which you can [download here](http://www.plcsimulator.org/). The first thing we do is a ping to check the network, and these are the data I had entered.
+
+![](./assets/images/082/WinLCModbusSim00.png)
+
+![](./assets/images/082/WinLCModbusSim01.png)
+
+March 3, 2012
+
+---
+*Source: [S7 OpenModbus/TCP Simulation](https://www.plc-hmi-scadas.com/en/082.php) — Jose Manuel Luque*

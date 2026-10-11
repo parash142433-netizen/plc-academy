@@ -1,0 +1,127 @@
+---
+title: "Prosoft PLX31-EIP-SIE"
+slug: "blog-prosoft-plx31-eip-sie"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/prosoft-plx31-eip-sie/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["PLC","ROCKWELL PLC","ROCKWELL PLC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# Prosoft PLX31-EIP-SIE
+
+Jose Manuel Luque Nov 03, 2024
+
+PLC ROCKWELL PLC ROCKWELL PLC
+
+![Prosoft PLX31-EIP-SIE](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-19.png)
+
+To start, you can download the official documentation from the following [link](https://www.prosoft-technology.com/Products/Gateways/PLX3x/PLX31/EtherNet-IP-to-Siemens-Industrial-Ethernet)  
+Some concepts are not well defined in the manual, or at least they were not clear to me when I read it.
+
+The goal is to exchange data between a Siemens S7-300 and a Rockwell CompactLogix.  
+  
+In the S7-300, we do not need to program anything at the hardware level, only at the software level to be clear about the memory area we are going to share for reading/writing.
+
+In our example, we will use the DB memory area. This needs to be clear for the technical specifications of the gateway, such as the maximum number of data to be exchanged in each command.  
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft-1024x605.png)
+
+This is the image we see on the Prosoft page to understand the functional concept.  
+  
+And we are going to configure our Ethernet/IP network in the CompactLogix and the Gateway configuration.  
+Here is our project, and we are going to add a new device.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-8.png)
+
+  
+We have already registered our [EDS](#/a/en%2Fblog-rslogix-5000-studio-5000-electronic-data-sheet-eds), so if we search for Prosoft, we have all the modules and will select the one we are interested in.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-9.png)
+
+  
+Select **PLX31-EIP-SIE** and assign it a name. This will create the entire I/O structure for us. We define the IP and the most interesting part, by default it comes with one connection, and in change we edit according to our needs.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-10.png)
+
+  
+This is what is defined by default; I am going to change the data type because we are going to exchange integers, and here we observe a maximum of 8 connections. Now you will understand much better.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-11.png)
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-12.png)
+
+  
+Here it shows how our data area has been automatically generated at the controller tag level and only for one connection.
+
+Here ends the configuration in the CompactLogix; now you will have to configure your logic and your program to read the inputs that will come from the S7-300 and write to the outputs to send to the S7-300.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-13.png)
+
+  
+I have downloaded the **Prosoft Configuration Builder** from the web, and we create a new project by selecting our module, as we have already mentioned, the **PLX31-EIP-SIE**.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-15.png)
+
+  
+Here it is much clearer that the 8 connections we can define in our PLC program are the ones supported by the gateway, and those defined in the EDS. If you open it with a text editor, you can find this information.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-16.png)
+
+  
+And here are the most important details that I did not fully understand when I read the manual.
+
+_How does the gateway work?_
+
+The gateway has 2 memory areas. One that goes from address 0 - 9999, which is used for data exchange between the 2 PLCs.
+
+What we see on the screen are the addresses that are automatically generated when creating a new project. If you are going to modify them, you need to keep in mind that addresses cannot be repeated between I/O and that they do not overlap with the data length.
+
+On the other hand, we have another memory area, which is used to know the status of the commands executed with the predefined structure.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-19.png)
+
+  
+Continuing with that 2 memory area, for each **SIE Client 1-19**, there is a reserved memory area from 31100 - 31594 as shown, with a total of 25 registers. Note the information that each register has, and if you are interested in reading that information, you need to use the Mapping function in the gateway.
+
+  
+Continuing with the internal addresses of the gateway and the addresses of our PLC, the following image illustrates this. And you need to be clear about this when defining the commands.
+
+If we have defined that the outputs are at address 1000, this will be the first address of our outputs -> Gateway:01.Data\_1. Since we left the address by default, the first INT Gateway:01.Data\_1 is address 2000, and this same philosophy applies to all the connections we define.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-18.png)
+
+  
+And finally, we are going to configure the commands in the **SIE Client** section. Configure and add a new row.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-20.png)
+
+  
+Here we have defined and enabled the command to read from the S7-300 (192.168.1.29)  
+Read 10 registers from DB100.DBW0 -> DB100.DBW10 and write them to our memory area starting from address 0 as seen in the image.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-23.png)
+
+  
+And here is the write example, where our outputs from the CompactLogix will be written to the S7-300 in DB110.DBW0 -> DB110.DBW10.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-25.png)
+
+  
+Once all the configuration is defined, you can download the configuration to the gateway and set the PLC to **RUN**.
+
+![](./assets/images/blog-prosoft-plx31-eip-sie/Prosoft_PLX30-26.png)
+
+  
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Prosoft PLX31-EIP-SIE](https://www.plc-hmi-scadas.com/en/blog/prosoft-plx31-eip-sie/) — Jose Manuel Luque*

@@ -1,0 +1,70 @@
+---
+title: "Example of the READ_VAR Function"
+slug: "unity-varread"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Unity_VarRead.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SCHNEIDER"]
+tags: ["UNITY PRO","READ_VAR","WRITE_VAR"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SCHNEIDER](#/a/en%2Fplc-schneider) › Article
+
+# Example of the READ\_VAR Function
+
+Jose Manuel Luque
+
+UNITY PRO READ\_VAR WRITE\_VAR
+
+**Example of the READ\_VAR Function  
+**
+
+The following practice focuses on implementing the READ\_VAR function. This function is used to read variables from another device on the same network, and if desired, we could write with WRITE\_VAR. For this example, we have two BMX CPS 2020 CPUs, which feature an Ethernet port that has been utilized to create an Ethernet network, thanks to Stanly who has been able to verify this with his two CPUs.
+
+                        [![Get Adobe Flash Player](./assets/images/unity-varread/get_flash_player.gif)](http://www.adobe.com/go/getflash)
+
+The hardware we have is exactly the same for both devices, this is the first thing we configure in our project.
+
+![](./assets/images/unity-varread/168-Unity-Read_Var-006.png)
+
+Once the hardware has been added, we can now configure the Ethernet network. You can refer to the practice used for the [simulation](#/a/en%2F012) in case there are any doubts about creating it. An IP address has been configured, where both devices will be within the same subnet.
+
+Once this basic configuration is completed, we will consider that this PLC will serve the data to be read, so to conduct the test, we will add a new section and simply assign some values to the memory area MW100, which will be the values we intend to read.
+
+![](./assets/images/unity-varread/168-Unity-Read_Var-005.png)
+
+Now we move to the device that will be responsible for reading that data. The hardware is the same as seen previously, the Ethernet network is configured in the same way, with the difference of assigning another IP address, but still within the same subnet.
+
+We have created a new section, where regardless of the programming language, the functions we will use are ADDM, which serves to convert the input parameter into the address of the device from which we want to read the data, and the READ\_VAR function, which has the following parameters to pass:
+
+**EN**: Activation bit to execute the function.  
+**ADR**: Address of the device from which we want to read the data.  
+**OBJ**: Here we will specify which memory area we are interested in reading, passed in single quotes '%memoryArea'.  
+**NUM**: From the memory area we want to read, the starting address for reading.  
+**NB**: Number of data to read starting from the initial address.  
+**GEST**: Here we will specify a reserved memory area for managing the function, requiring 4 consecutive integers or an array of 4 elements.  
+**RECP**: Here we will specify where we will store the data read from our remote device.
+
+From the following example, we deduce the following: from the device with an IP address of 200.3.249.150, we are interested in reading 5 elements starting from MW100, and these read data will be stored in Data Reception.  
+
+![](./assets/images/unity-varread/168-Unity-Read_Var-010.png)
+
+From this moment on, we can load both programs into their respective CPUs and test the functionality, so while online, we force the variable EnableRead.
+
+![](./assets/images/unity-varread/168-Unity-Read_Var-002.png)
+
+We observe the declaration of the variables we have made and we can see that the function has done its job and we have read the 5 elements we were interested in and stored them in our DataReception.
+
+![](./assets/images/unity-varread/168-Unity-Read_Var-001.png)
+
+And these are the values that our device with IP address 200.3.249.150 was offering us.
+
+![](./assets/images/unity-varread/168-Unity-Read_Var-000.png)
+
+September 9, 2013
+
+---
+*Source: [Example of the READ_VAR Function](https://www.plc-hmi-scadas.com/en/Unity_VarRead.php) — Jose Manuel Luque*

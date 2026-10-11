@@ -1,0 +1,76 @@
+---
+title: "Alarm DB Logger Manager Configuration"
+slug: "intouch-alarms"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Intouch_Alarms.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Alarm DB Logger Manager"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Alarm DB Logger Manager Configuration
+
+Jose Manuel Luque
+
+Alarm DB Logger Manager
+
+**Alarm DB Logger Manager Configuration  
+**
+
+Before starting the configuration, a brief review of the requirements we need. If we are working with Intouch, by default it is not necessary to have a Database Management System, if we are working with Application Server, ArchestrA technology, it is already a requirement to have SQL Server, in the corresponding version. But if we are only working with Intouch, we can use the SQL Express version. Once this point is clarified, let's look at other details.
+
+Depending on the installation we have performed, the user "sa" may be disabled, for this, the first thing we do is log in with the Windows user and within Security --> Logins, we observe the users and Groups created, with the right button on the user sa, we go to its properties.
+
+![](./assets/images/intouch-alarms/WW_Intouch_Alarm_00.png)
+
+The first step will be to assign a password to the user sa, if we do not deselect the checkbox for Enforce password policy, the password must contain numbers, letters, uppercase letters, etc...
+
+![](./assets/images/intouch-alarms/WW_Intouch_Alarm_01.png) ![](./assets/images/intouch-alarms/WW_Intouch_Alarm_02.png)
+
+The next step is to go to the Status tab, to enable this user. We leave Server Roles and User Mapping by default as they are. No changes are necessary.
+
+We have now enabled the user sa and defined its password, the next step will be to modify the authentication mode for our SQL Server, for this, right-click on the Server name, in my case PCINTOUCH(SQL .) and Security, here we change the radio button to SQL Server and Windows Authentication mode.
+
+![](./assets/images/intouch-alarms/WW_Intouch_Alarm_04.png)
+
+We verify that the steps we have taken are correct by logging in again with the user sa.
+
+![](./assets/images/intouch-alarms/WW_Intouch_Alarm_07.png)
+
+Now we move on to the configuration of Alarm DB Logger Manager, we start and the first thing we do is go to the Settings button, it will automatically load the wizard.
+
+![](./assets/images/intouch-alarms/WW_Intouch_AlarmDB_00.png) ![](./assets/images/intouch-alarms/WW_Intouch_AlarmDB_01.png)
+
+By default in the Server Name, we define the name of the Server, Local, LocalHost or the name itself
+
+The default database is called WWALMDB
+
+User that we have already enabled and know the password. The user "sa" or any other SQL user with the necessary permissions, does not have to be the user "sa"
+
+And we can test the connection to verify that the connection is correct and click the create button, which will create the Database for us.
+
+A pop-up window indicates that it has been created successfully, and we then check it on the SQL Server.
+
+![](./assets/images/intouch-alarms/WW_Intouch_AlarmDB_02.png) ![](./assets/images/intouch-alarms/WW_Intouch_AlarmDB_03.png)
+
+We continue with the wizard and indicate the alarms we want to register from level x to level x and also that they are included in the Query. If we are only going to work with Intouch, we leave the query that appears by default. I have deleted it for the next example, we continue with the wizard and define how we want to run it, as a Windows service or as an application.
+
+![](./assets/images/intouch-alarms/WW_Intouch_AlarmDB_05.png) ![](./assets/images/intouch-alarms/WW_Intouch_AlarmDB_06.png)
+
+We click finish and the wizard has concluded. To start it, we click the Start button and that's it, in the next part, we will see the definition of the alarms and the control for their visualization.
+
+![](./assets/images/intouch-alarms/WW_Intouch_AlarmDB_07.png) ![](./assets/images/intouch-alarms/WW_Intouch_AlarmDB_08.png)
+
+March 6, 2015
+
+If you liked it or found it helpful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Alarm DB Logger Manager Configuration](https://www.plc-hmi-scadas.com/en/Intouch_Alarms.php) — Jose Manuel Luque*

@@ -1,0 +1,67 @@
+---
+title: "AVEVA Intouch Historical Data (Part 2)"
+slug: "blog-aveva-intouch-historical-data-parte-2"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-parte-2/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch Historical Data (Part 2)
+
+Jose Manuel Luque June 27, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch Historical Data (Part 2)](./assets/images/blog-aveva-intouch-historical-data-parte-2/WWHistory_15.png)
+
+Continuing with the [first part](#/a/en%2Fblog-aveva-intouch-historical-data), we will keep drawing conclusions and seeing how it works.  
+We already know that the **viewer** is the one who registers, how it registers and now when does it register?  
+It registers with the system variable **$HistoricalLogging**. (_Internally activates and deactivates_)
+
+Code
+
+```iecst
+IF $HistoricalLogging == 1 THEN
+     Registramos = TRUE;
+ELSE
+     Registramos = FALSE;
+ENDIF;
+```
+
+Every time we go from 1 to 0 we make a dump of all the information stored in the _buffer?_ to write in the \*.Lgh files.
+
+![](./assets/images/blog-aveva-intouch-historical-data-parte-2/WWHistory_15.png)
+
+If we open the \*.lgh files with Notepad++, apart from the fact that it is not readable ;-) we can check how it is updated with the writing of the viewer, and you can check to stop the logging and everything explained above.
+
+![](./assets/images/blog-aveva-intouch-historical-data-parte-2/WWHistory_13.png)
+
+![](./assets/images/blog-aveva-intouch-historical-data-parte-2/WWHistory_14.png)
+
+Now we are going to take a step further... we are going to corrupt the file and see how our SCADA behaves.  
+To corrupt the file is very easy, if we delete the first lines, that is where the information of the tags we are registering should be and it will be corrupted.
+
+![](./assets/images/blog-aveva-intouch-historical-data-parte-2/WWHistory_21.png)
+
+Aesthetically, in the **Historical Trend Chart** is where we can detect it because it will appear in black as shown in the image.  
+Knowing that we have corrupted it, I will set the system variable **$HistoricalLogging** to 0 and perfect, no problem.  
+When later I want to set it back to 1 to log again, it cannot be done, it remains at 0 and in the logger...
+
+![](./assets/images/blog-aveva-intouch-historical-data-parte-2/WWHistory_23.png)
+
+Drawing conclusions "_The simplest way to analyze that our daily file \*.lgh is not corrupted could be one way_."  
+To restore the situation and make everything work correctly again, you need to delete the files of the day \*.Lgh / \*.idx and restart the viewer to regenerate them and activate the Historical logging.
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch Historical Data (Part 2)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-parte-2/) — Jose Manuel Luque*

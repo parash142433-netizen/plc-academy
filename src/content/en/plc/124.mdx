@@ -1,0 +1,167 @@
+---
+title: "Introduction to RSLogix 5000"
+slug: "124"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/124.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["Rockwell","RSLogix 5000","ControlLogix","Add-On Instruction","UDT"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Introduction to RSLogix 5000
+
+# Introduction to RSLogix 5000
+
+A first look at how a Logix project is organized: controller, tags, tasks, Add-On Instructions, data types and hardware configuration.
+
+Jose Manuel Luque
+
+Rockwell RSLogix 5000 ControlLogix Add-On Instruction UDT
+
+![Structure of an RSLogix 5000 project](./assets/images/124/124-RSLogix5000-Intro-17.png)
+
+**Introduction**
+
+This should have been the first practice: a short introduction to **RSLogix 5000** and the internal organization of a project. The idea is to understand how it is structured, what each folder in the tree means and where the main elements are configured.
+
+In the original project, each directory could be clicked to display its description. In this version it is organized as a normal article so it is easier to read, extend and consult from mobile devices.
+
+**Project Structure**
+
+The project tree gives access to controller configuration, tasks, programs, Add-On Instructions, data types, trends and input/output configuration.
+
+![Main tree of an RSLogix 5000 project](./assets/images/124/124-RSLogix5000-Intro-17.png)
+
+**Controller and Controller Tags**
+
+In **Controller**, using right click and **Properties**, we access the CPU properties. This is where general controller parameters can be reviewed before programming.
+
+Inside **Controller Tags** we declare global variables. Any variable created here will be accessible from any program, task or event in the project.
+
+There are four common tag types:
+
+*   **Base:** the normal type used when creating a new tag.
+*   **Alias:** a reference to another variable, often used to name physical inputs and outputs more clearly.
+*   **Produced:** a produced variable used to exchange data with another controller.
+*   **Consumed:** a variable consumed from another controller.
+
+**Produced** and **Consumed** tags are used when we want to exchange information between two or more controllers, either in the same backplane or through networks such as ControlNet or EtherNet/IP. A related example is available in the [controller data exchange practice](#/a/en%2F117).
+
+![Controller directory in RSLogix 5000](./assets/images/124/124-RSLogix5000-Intro-18.png)
+
+![Controller tag configuration in RSLogix 5000](./assets/images/124/124-RSLogix5000-Intro-Controller-26.png)
+
+After choosing the tag type, we select the data type. We can use standard types or custom types defined in **Data Types**.
+
+If two controllers are present in the same backplane, the **Scope** field indicates which controller the variable refers to. **External Access** defines whether the variable is read-only, write-only or read/write. **Style** selects the display format: decimal, hexadecimal, etc.
+
+**Controller Fault Handler** is the directory where a program can be declared to run when a major controller fault occurs. **Power-Up Handler** allows a program to run after a power loss if the controller returns in Run mode.
+
+![Program declaration for Fault Handler and Power-Up Handler](./assets/images/124/124-RSLogix5000-Intro-Controller-29.png)
+
+After creating those programs, there is one last configuration step: open the controller properties and, in the **Advanced** tab, select the program that will run in each case.
+
+![Selecting special programs from controller properties](./assets/images/124/124-RSLogix5000-Intro-Controller-28.png)
+
+**Tasks**
+
+**Tasks** define what runs in the controller. When a new project is created, **MainTask** appears by default. It runs cyclically and contains **MainProgram**, where programming normally begins.
+
+Older controllers allowed a MainTask and several periodic or event tasks. Newer controllers increase the number of available tasks and programs, but the idea remains the same: organize code execution according to the process needs.
+
+There is also an option to use **Phase**\-based programming, related to models such as ISA S88, IEC 61512 and PackML. In short, a phase represents a part of the process and its states: Running, Holding, Stopping, Restarting, etc. Transitions and specific instructions such as PSC, POVR or PCMD are used to move from one state to another.
+
+When a new task is declared, the **Program Tags** file is generated. It contains variables local to that program. These variables are only accessible from inside that program. Two different programs can have variables with the same name without interfering with each other.
+
+Event tasks triggered by a condition are known as **processor input interrupts** (PII). Timed cyclic tasks are known as **selectable timed interrupts** (STI).
+
+![Task configuration in RSLogix 5000](./assets/images/124/124-RSLogix5000-Intro-Task-00.png)
+
+![Task types available in RSLogix 5000](./assets/images/124/124-RSLogix5000-Intro-Task-01.png)
+
+**Add-On Instruction**
+
+**Add-On Instruction** is where reusable custom instructions are created. It is a way to encapsulate specific logic so it can be used in the same project or reused in future projects.
+
+When creating an Add-On Instruction, we assign a name and its editor opens. Its definition includes general information, description, programming language, revision and parameters.
+
+![Creating an Add-On Instruction in RSLogix 5000](./assets/images/124/124-RSLogix5000-Intro-Add-On-11.png)
+
+![General configuration of an Add-On Instruction](./assets/images/124/124-RSLogix5000-Intro-Add-On-12.png)
+
+In the **Parameters** tab we define input, output or input/output parameters. Input and output parameters usually use simple data types. If we need to work with a type such as **STRING**, it can be defined as input/output.
+
+![Parameters of an Add-On Instruction](./assets/images/124/124-RSLogix5000-Intro-Add-On-13.png)
+
+The next tab is used to declare internal variables. They are local to the instruction and cannot be accessed from outside. In this example, an integer variable is declared as an index to walk through an array.
+
+![Local variables of an Add-On Instruction](./assets/images/124/124-RSLogix5000-Intro-Add-On-14.png)
+
+The **Scan Modes** tab defines how the instruction runs. By default, **EnableIn** is true and the code executes when the call conditions are met. Other modes such as Prescan, Postscan and EnableInFalse are also available.
+
+The **Signature** tab allows the instruction to be signed with a unique identifier to protect it from modifications. The remaining tabs are used for change history and instruction help.
+
+After creating the Add-On, RSLogix 5000 automatically generates a new data type inside **Data Types** with the name of the instruction.
+
+![Data type generated by an Add-On Instruction](./assets/images/124/124-RSLogix5000-Intro-Add-On-16.png)
+
+Once the instruction is defined, its code can be edited. In this example, passing an index retrieves values from an array made from a previously defined data structure.
+
+![Internal code of an Add-On Instruction](./assets/images/124/124-RSLogix5000-Intro-Add-On-15.png)
+
+To use the instruction in a program, first create a variable using the data type of the Add-On and then insert the instruction in the corresponding routine.
+
+![Variable associated with an Add-On Instruction](./assets/images/124/124-RSLogix5000-Intro-Add-On-19.png)
+
+![Calling an Add-On Instruction from the program](./assets/images/124/124-RSLogix5000-Intro-Add-On-17.png)
+
+If the data structure is correctly filled, passing the index to the function returns the expected data. It is a simple example, but it helps explain how Add-On Instructions are created and reused.
+
+![Monitoring the result of an Add-On Instruction](./assets/images/124/124-RSLogix5000-Intro-Add-On-18.png)
+
+**Data Types**
+
+**Data Types** is where we define custom types, known as **UDT** or **User Defined Data Types**.
+
+Default types such as BOOL, INT, DINT, REAL, STRING and other more complex types are already available. From them we can create structures adapted to our process. One example is a type called **Ingredient**, with name, weight and percentage.
+
+![Creating a user-defined data type in RSLogix 5000](./assets/images/124/124-RSLogix5000-Intro-DataTypes-02.png)
+
+![Fields of a UDT in RSLogix 5000](./assets/images/124/124-RSLogix5000-Intro-DataTypes-04.png)
+
+We can also create a type that contains other custom types. For example, a **Recipe** type containing three ingredients.
+
+So far we have defined data types, but not variables. If we want to store several recipes, we can create a controller-level array of 10 elements of type **Recipe**, called **Recipes**.
+
+![Creating a recipe array using a UDT](./assets/images/124/124-RSLogix5000-Intro-DataTypes-05.png)
+
+The next image shows the array defined with the data type created previously.
+
+![UDT array in RSLogix 5000](./assets/images/124/124-RSLogix5000-Intro-DataTypes-06.png)
+
+![Detail of UDT structure fields](./assets/images/124/124-RSLogix5000-Intro-DataTypes-07.png)
+
+**I/O Configuration**
+
+**I/O Configuration** is where the system hardware is configured. When creating a project, we specify the controller type, and depending on that controller, different modules will be available.
+
+A clear example is the difference between a **SoftLogix** project and a **ControlLogix** project. Hardware configuration changes depending on the platform.
+
+![Hardware configuration for a SoftLogix controller](./assets/images/124/124-RSLogix5000-Intro-IO-00.png)
+
+![Hardware configuration for a ControlLogix controller](./assets/images/124/124-RSLogix5000-Intro-IO-01.png)
+
+The configuration consists of selecting the module type and the slot number where it is installed. After that, each module has its own configuration properties.
+
+**Related articles**
+
+*   [Data exchange between Logix controllers](#/a/en%2F117)
+*   [Logix5000 - Enable Source Protection](#/a/en%2Fab-source-protection)
+*   [Simulation with RSLogix Emulate 5000](#/a/en%2F011)
+*   [RSLogix 5000 - Studio 5000 - Electronic Data Sheet (EDS)](#/a/en%2Fblog-rslogix-5000-studio-5000-electronic-data-sheet-eds)
+
+---
+*Source: [Introduction to RSLogix 5000](https://www.plc-hmi-scadas.com/en/124.php) — Jose Manuel Luque*

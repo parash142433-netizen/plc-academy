@@ -1,0 +1,57 @@
+---
+title: "SoMachine Communications Simulation"
+slug: "somachine-simulacion-comunicaciones"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/SoMachine_Simulacion_Comunicaciones.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SCHNEIDER"]
+tags: ["Simulation","Communications","SoMachine"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SCHNEIDER](#/a/en%2Fplc-schneider) › Article
+
+# SoMachine Communications Simulation
+
+Jose Manuel Luque 07 May, 2019
+
+Simulation Communications SoMachine
+
+**SoMachine Communications Simulation**
+
+To begin, we must say that with SoMachine version v4.3, the communication simulation does NOT WORK!!!
+
+We have previously seen how with Unity-Pro // Control Expert we communicated with the [Simulator and WinCC](#/a/en%2Fwincc-modbustcp), but with SoMachine it is not enabled.
+
+For this test, I have done the following: I installed CodeSys on a machine with the RTE.
+
+As can be seen in the following image, I am going to load the program onto the machine called PCBECKHOFF.
+
+![](./assets/images/somachine-simulacion-comunicaciones/SoMachineCodesys\(1\).png)
+
+Once the project is downloaded and in RUN mode, note that we are not in Simulation mode. We have a warning, which can be seen in the following image.
+
+![](./assets/images/somachine-simulacion-comunicaciones/SoMachineCodesys\(2\).png)
+
+Version with which I performed these tests.
+
+I also tested with the SoMachine Simulator and a PLC M24x - M25x etc... - With the SoftPLC Win V3 version and with all the same result, it is not enabled.
+
+![](./assets/images/somachine-simulacion-comunicaciones/SoMachineCodesys\(4\).png)
+
+![](./assets/images/somachine-simulacion-comunicaciones/SoMachineCodesys\(5\).png)
+
+On the other hand, if we make the same configuration and test with CodeSys, the ModbusTCP communications work correctly. I tested the communication with WinCC and everything is perfect. It also works perfectly with CodeSys Win V3.
+
+![](./assets/images/somachine-simulacion-comunicaciones/SoMachineCodesys\(6\).png)
+
+![](./assets/images/somachine-simulacion-comunicaciones/SoMachineCodesys\(7\).png)
+
+Conclusion, we will wait to see if the next update of SoMachine enables it just like in CodeSys, for when tests need to be conducted.
+
+07-05-2019
+
+---
+*Source: [SoMachine Communications Simulation](https://www.plc-hmi-scadas.com/en/SoMachine_Simulacion_Comunicaciones.php) — Jose Manuel Luque*

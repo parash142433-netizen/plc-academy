@@ -1,0 +1,252 @@
+---
+title: "OPC UA Server and Client + Copilot Edits"
+slug: "blog-servidor-opc-flask-co-pilot"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/servidor-opc-flask-co-pilot/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","OPC SERVER"]
+tags: ["Copilot","Edits","Artificial intelligence","OPC CLIENT","OPC SERVER","OPC UA","NETWORKS","Tools"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [OPC SERVER](#/a/en%2Fopc) › Article
+
+# OPC UA Server and Client + Copilot Edits
+
+Pedro Pagán Pallarés Mar 30, 2025
+
+Copilot Edits Artificial intelligence OPC CLIENT OPC SERVER OPC UA NETWORKS Tools
+
+![OPC UA Server and Client + Copilot Edits](./assets/images/blog-servidor-opc-flask-co-pilot/ChatGPT-Image-30-mar-2025-13_55_48.png)
+
+On many occasions we need to test certain monitoring systems, for which we need changing variables to point to. In this article, we will see how to create a simple [OPC UA](https://opcfoundation.org/about/opc-technologies/opc-ua/) server and client, and we will do it with [Copilot](https://copilot.microsoft.com/) in [Visual Code](https://code.visualstudio.com/).
+
+The idea of the article is twofold: on one hand, to provide a way to **generate an OPC UA server and client** and on the other, to see how the tools of **Copilot Edits facilitate programming**, to the point that you will feel that the copilot is really you...
+
+The world of programming has changed radically, at least for the development of microservices and applications. It is enough to have a clear idea and present it as best as possible, for Copilot Edits to work wonders.
+
+## Code Generation
+
+As seen in the image, I am using the model "_Claude 3.7 Sonnet Thinking (Preview)_" from [Anthropic](https://www.anthropic.com/). It is a model that according to my tests, is very capable and solves both the backend and the frontend of the applications I have made better.
+
+Obviously, I have [Python](https://www.python.org/downloads/) installed on my PC and the paid version of Copilot. For this example, the free model of Copilot, using **gpt 4o**, would have been enough.
+
+**[Copilot Edits](https://code.visualstudio.com/docs/copilot/copilot-edits):** is the programming assistant that **ACTS** on the system; it takes the files (or creates them) and modifies them. Unlike its predecessor, Copilot chat, which was like chatgpt, we copied and pasted. The difference is very considerable.
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-62.png)
+
+Generated code, fully functional and on the first try:
+
+Python
+
+Code
+
+```
+import time
+import math
+import random
+from datetime import datetime
+from opcua import Server, ua
+
+def main():
+    # Initialize the server
+    server = Server()
+    server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
+
+    # Configure the namespace
+    uri = "http://example.org/dynamic-opcua-server"
+    idx = server.register_namespace(uri)
+
+    # Get the Objects node
+    objects = server.get_objects_node()
+
+    # Create a custom object for our variables
+    myobj = objects.add_object(idx, "DynamicVariables")
+
+    # Create 10 variables of different types with different patterns
+    # 1. Boolean - toggles every 5 seconds
+    bool_var = myobj.add_variable(idx, "BooleanVariable", False, ua.VariantType.Boolean)
+    bool_var.set_writable()
+    
+    # 2. Integer - linear increment
+    int_var = myobj.add_variable(idx, "IntegerVariable", 0, ua.VariantType.Int32)
+    int_var.set_writable()
+    
+    # 3. Float - sinusoidal pattern
+    float_var = myobj.add_variable(idx, "FloatVariable", 0.0, ua.VariantType.Float)
+    float_var.set_writable()
+    
+    # 4. Double - exponential growth
+    double_var = myobj.add_variable(idx, "DoubleVariable", 1.0, ua.VariantType.Double)
+    double_var.set_writable()
+    
+    # 5. String - random strings
+    string_var = myobj.add_variable(idx, "StringVariable", "Initial", ua.VariantType.String)
+    string_var.set_writable()
+    
+    # 6. DateTime - current time
+    datetime_var = myobj.add_variable(idx, "DateTimeVariable", datetime.now(), ua.VariantType.DateTime)
+    datetime_var.set_writable()
+    
+    # 7. UInt16 - random values
+    uint_var = myobj.add_variable(idx, "UInt16Variable", 0, ua.VariantType.UInt16)
+    uint_var.set_writable()
+    
+    # 8. Byte - circular pattern (0-255)
+    byte_var = myobj.add_variable(idx, "ByteVariable", 0, ua.VariantType.Byte)
+    byte_var.set_writable()
+    
+    # 9. Int64 - quadratic function
+    int64_var = myobj.add_variable(idx, "Int64Variable", 0, ua.VariantType.Int64)
+    int64_var.set_writable()
+    
+    # 10. Float Array - multiple sinusoidal patterns
+    float_array_var = myobj.add_variable(idx, "FloatArrayVariable", [0.0, 0.0, 0.0, 0.0, 0.0], ua.VariantType.Float)
+    float_array_var.set_writable()
+
+    # Start the server
+    server.start()
+    print(f"Server started at {server.endpoint}")
+    
+    try:
+        # Update loop
+        count = 0
+        while True:
+            time.sleep(1)
+            count += 1
+            
+            # 1. Boolean - toggles every 5 seconds
+            if count % 5 == 0:
+                bool_val = bool_var.get_value()
+                bool_var.set_value(not bool_val)
+                
+            # 2. Integer - linear increment
+            int_var.set_value(count)
+            
+            # 3. Float - sinusoidal pattern
+            float_var.set_value(math.sin(count * 0.1) * 10)
+            
+            # 4. Double - exponential growth (resets to avoid overflow)
+            exp_value = math.exp(count % 10) / 1000
+            double_var.set_value(exp_value)
+            
+            # 5. String - random strings
+            strings = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"]
+            string_var.set_value(random.choice(strings))
+            
+            # 6. DateTime - current time
+            datetime_var.set_value(datetime.now())
+            
+            # 7. UInt16 - random values
+            uint_var.set_value(random.randint(0, 65535))
+            
+            # 8. Byte - circular pattern (0-255)
+            byte_var.set_value(count % 256)
+            
+            # 9. Int64 - quadratic function
+            int64_var.set_value((count % 20) ** 2)
+            
+            # 10. Float Array - multiple sinusoidal patterns with different phases
+            float_array = [
+                math.sin(count * 0.1) * 10,                 # Normal sinusoidal
+                math.sin(count * 0.1 + 1) * 10,            # Out of phase
+                math.cos(count * 0.1) * 10,                # Cosine
+                math.sin(count * 0.05) * 5,                # Different frequency
+                math.sin(count * 0.1) * count % 10         # Variable amplitude
+            ]
+            float_array_var.set_value(float_array)
+            
+            print(f"Variables updated, counter: {count}")
+            
+    finally:
+        # Stop the server
+        server.stop()
+
+if __name__ == "__main__":
+    main()
+```
+
+Copilot itself has generated the files and installed the requirements:
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-63.png)
+
+* * *
+
+## Starting the OPC server
+
+And now we just need to execute the file (just to do something...)
+
+Python
+
+Code
+
+```
+python opc_server.py
+```
+
+And we observe how the server starts correctly:
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-64.png)
+
+And we verify in [UA Expert](https://www.unified-automation.com/products/development-tools/uaexpert.html):
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-65-1024x298.png)
+
+It is not an exaggeration to say that this takes **less than two minutes** from the moment you think about it until you have it running.
+
+* * *
+
+## Graphical Visualization - OPC Web Client
+
+Since these 2 minutes have gone by quickly, let's ask for some **interface**. We need another web application, which through an OPC client, visualizes all the data in an aesthetic and organized way.
+
+The result **is amazing**, just one attempt and it has already created all the necessary web structure as well as the logic in Python. My prompt was very simple:
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-66.png)
+
+**Result**: all the structure generated.
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-67.png)
+
+* * *
+
+And again...
+
+Python
+
+Code
+
+```
+python opc_client_web.py
+```
+
+It seems that everything went well.
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-68.png)
+
+**Let's see the web:**
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-69-1024x638.png)
+
+![](./assets/images/blog-servidor-opc-flask-co-pilot/image-70-1024x407.png)
+
+All are **updating perfectly** and the web even looks cool.
+
+* * *
+
+## Conclusions
+
+*   We have seen how to create an **OPC** **UA server and client** in a matter of minutes with Copilot Edits and the Claude 3.7 model from Anthropic.
+*   The results are impressive, as the investment of **resources is minimal** for high-quality results.
+*   We can achieve **applications or microservices in record time**, allowing us to focus on value-added tasks.
+*   These applications are easily packageable in Docker, functioning independently of the OS. We will see this in future articles.
+*   In my experience, "thinking" models are crucial for achieving programming solutions without too many iterations. They can understand the context well if properly constrained by indicating the key files.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [OPC UA Server and Client + Copilot Edits](https://www.plc-hmi-scadas.com/en/blog/servidor-opc-flask-co-pilot/) — Pedro Pagán Pallarés*

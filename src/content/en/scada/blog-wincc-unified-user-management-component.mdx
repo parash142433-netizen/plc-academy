@@ -1,0 +1,83 @@
+---
+title: "WinCC Unified (User Management Component)"
+slug: "blog-wincc-unified-user-management-component"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-user-management-component"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","WinCC Unified","WinCC Unified"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified (User Management Component)
+
+Jose Manuel Luque Mar 02, 2025
+
+SCADA WinCC Unified WinCC Unified
+
+![WinCC Unified (User Management Component)](./assets/images/blog-wincc-unified-user-management-component/WinCCUnifiedUMC-30.png)
+
+We have prepared our [UMC](#/a/en%2Fblog-umc-user-management-control) server and the basic configuration on our engineering station, along with our [TIA Portal](#/a/en%2Fblog-tia-portal-central-user-management) project.  
+The next thing we are going to configure within our project is the security properties of our WinCC Unified Runtime.  
+**Runtime settings** \-> **Security** -> **Access control**  
+We define:  
+The **Server address** is our UMC server **https://umc-server**.  
+The **Address of identity provider** is the address of our server concatenating _/umc-sso_ -> **https://umc-server/umc-sso**
+
+![](./assets/images/blog-wincc-unified-user-management-component/image-1024x884.png)
+
+  
+To find the **Server ID**, we will locate it in the certificate we have created and installed. After all the tests performed, I recommend managing these certificates with Siemens' own tool, it simplifies the configurations.  
+We open **Internet Information Services** (IIS) and in the root we go to "**Server Certificates**".
+
+![](./assets/images/blog-wincc-unified-user-management-component/WinCCUnifiedUMC-6.png)
+
+  
+We select our certificate and go to "**View**". The following pop-up screen opens, and within the details, the **Thumbprint** is the number we are interested in. ;-)
+
+![](./assets/images/blog-wincc-unified-user-management-component/WinCCUnifiedUMC-5.png)
+
+  
+We can now compile and transfer the project to our WinCC Unified Runtime, having previously run the **WinCC Unified Configuration**, installed the certificate, and completed those prior steps.  
+As a point to highlight in the configuration of **User management**, we have selected **Select local or central user management in TIA Portal**  
+
+![](./assets/images/blog-wincc-unified-user-management-component/image-3.png)
+
+  
+We go to the properties of the **Runtime manager settings** in the gear icon.
+
+![](./assets/images/blog-wincc-unified-user-management-component/WinCCUnifiedUMC-18.png)
+
+  
+**Select configuration**, where once our project is transferred, it will be the one we select; if we have not transferred any project, we cannot perform this configuration, as it is related :-)  
+And we will be able to redefine the configuration we had made in TIA Portal.
+
+![](./assets/images/blog-wincc-unified-user-management-component/WinCCUnifiedUMC-2.png)
+
+  
+We check the connection and that's it. :-)
+
+![](./assets/images/blog-wincc-unified-user-management-component/WinCCUnifiedUMC-3.png)
+
+  
+Surely, the first time you run the runtime you will see the following warning. :-) The solution is to install the certificate from our UMC-Server.
+
+![](./assets/images/blog-wincc-unified-user-management-component/WinCCUnifiedUMC-29.png)
+
+  
+And that's it :-) . This is one of the reasons why it is much easier to create and manage certificates with Siemens' tool.
+
+![](./assets/images/blog-wincc-unified-user-management-component/WinCCUnifiedUMC-30.png)
+
+  
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC Unified (User Management Component)](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-user-management-component) — Jose Manuel Luque*

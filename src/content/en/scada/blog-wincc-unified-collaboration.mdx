@@ -1,0 +1,149 @@
+---
+title: "WinCC Unified Collaboration: sharing Screens between Runtimes"
+slug: "blog-wincc-unified-collaboration"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","Siemens WinCC"]
+tags: ["WinCC Unified","TIA Portal V20","Collaboration","Runtime","HMI"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [Siemens WinCC](#/a/en%2Fscada-siemens) › WinCC Unified Collaboration: sharing Screens between Runtimes
+
+# WinCC Unified Collaboration: sharing Screens between Runtimes
+
+Jose Manuel Luque May 24, 2026
+
+WinCC Unified TIA Portal V20 Collaboration Runtime HMI
+
+**Test Architecture**
+
+![Test architecture with TIA Portal V20, PLCSIM Advanced and two WinCC Unified Runtime stations](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-01-arquitectura.png)
+
+**Introduction**
+
+In today's article we are going to test **Collaboration**, a Siemens tool for **WinCC Unified** that allows us to share screens (**Screens**) between different Runtimes.
+
+This is very useful if we have distributed HMIs in the plant and, for example, we want to centralize all the information in a single point without duplicating the PLC connections.
+
+For this test, I have built the following architecture:
+
+*   **Virtual machine 1: Main server**
+*   **TIA Portal V20:** main engineering station.
+*   **PLCSIM Advanced V7.0**
+*   **PLC 1:** communicates with SCADA 1 and runs on **192.168.1.188**.
+*   **PLC 2:** communicates with SCADA 2 and runs on **192.168.1.190**.
+*   **WinCC Runtime 1:** runs SCADA 1 on IP **192.168.1.157**.
+*   **Virtual machine 2: Secondary server**
+*   **WinCC Runtime 2:** runs SCADA 2 on IP **192.168.1.169**.
+
+![Communication between SCADA 1, SCADA 2, PLC 1 and PLC 2](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-02-comunicaciones.png)
+
+In this way we have two SCADA systems, each one pointing to its PLC, as shown in the image. The goal is to view screens from SCADA 1 in SCADA 2 using Collaboration. Let's go.
+
+**Collaboration**
+
+First, we assume that we have generated a project with a minimal program in each PLC, and that the corresponding configurations have been made so everything communicates correctly.
+
+**Steps:**
+
+**Enable the Collaboration function:**
+
+**SCADA Runtime 1:** in the HMI project, we open **Runtime settings** and select the **Collaboration** option. Once inside, we enable it with **Enable collaboration**.
+
+*   **System ID:** we can leave it as default, or set another one.
+*   **Collaboration name:** we can leave the one generated from the HMI name. This is how we will see it when searching for its screens from other HMI/SCADA stations.
+*   **IP Address:** we enter the HMI's own IP address.
+*   **Connect actively to:** the first time this section will be empty, because this is where the connections with other HMIs appear.
+
+![Enabling Collaboration in SCADA Runtime 1](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-03-runtime1-settings.png)
+
+**SCADA Runtime 2:** we do exactly the same.
+
+![Enabling Collaboration in SCADA Runtime 2](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-04-runtime2-settings.png)
+
+**Collaboration Data:** once the previous step is done, we must select which screens we want to share in both SCADA systems. Previously we configured the Collaboration connection, but now we need to specify which screens will be shared. In our case, we will share only the Start screen.
+
+![Selecting shared screens in Collaboration Data](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-05-collaboration-data.png)
+
+**Using shared screens**
+
+**Using screens:** once the configuration is established, we can use screens from one HMI in another in several ways.
+
+Opening the other HMI screen with a button, just as we would open a local screen.
+
+![ChangeScreen button configuration to open a shared screen](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-06-change-screen.png)
+
+**Screen Windows:** instantiate a **Screen Window** object and associate it with the screen we want from the other HMI. This way, it is integrated into a Screen of HMI 2.
+
+![Screen Window object with a shared screen integrated into HMI 2](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-07-screen-window.png)
+
+**Scripting:** there are also options to activate it through scripting based on events or triggers, just like other properties.
+
+**Certificates**
+
+**Certificates:** it is important that the certificates are correctly generated and configured in **WinCC Unified Certificate Manager** for this to work properly.
+
+**Generate certificates:** certificates are generated for both SCADA systems.
+
+We add the certificate for **Web Server** and enter the information.
+
+![Creating the Web Server certificate for WinCC Unified](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-08-cert-webserver.png)
+
+![Web Server certificate data in WinCC Unified Certificate Manager](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-09-cert-webserver-details.png)
+
+We add the certificate for **Runtime Collaboration**.
+
+![Creating the Runtime Collaboration certificate](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-10-cert-runtime-collaboration.png)
+
+![Runtime Collaboration certificate details](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-11-cert-runtime-details.png)
+
+**Certificate export:** once both certificates have been generated for both SCADA systems, we should have something like this:
+
+![Certificates generated for both SCADA systems](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-12-certificates-created.png)
+
+We select **Export**:
+
+![Exporting the certificate from WinCC Unified Certificate Manager](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-13-export-certificate.png)
+
+And these files are generated:
+
+![Files generated when exporting the certificate](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-14-exported-files.png)
+
+We copy and paste them, or move them through USB. The intention is to import them on the other PC, where HMI 2 is running.
+
+In HMI 2, we open **SIMATIC Runtime Manager** and select **Settings**:
+
+![SIMATIC Runtime Manager Settings in HMI 2](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-15-runtime-manager-settings.png)
+
+We select **Import** and browse for the certificate that was previously generated and copied to this machine.
+
+![Importing the certificate in HMI 2](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-16-import-certificate.png)
+
+**Certificate installed:** now we have the certificate installed in HMI\_1 and HMI\_2.
+
+**Results**
+
+**Results:** for this example, I have shared the **Main** screen from HMI\_1 in HMI\_2 in two ways. First through a button using **ChangeScreen**, and then using the **Screen Viewer** object.
+
+**Change Screen:** we can see that each Runtime has its own IP address.
+
+![Main screens of HMI 1 and HMI 2 with their IP addresses](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-17-result-main-screens.png)
+
+By pressing the configured **Change Screen** button, we can display the HMI\_1 screen in HMI\_2, as shown in the image, each one with its own IP.
+
+![Viewing the HMI 1 screen from HMI 2 using ChangeScreen](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-18-result-change-screen.png)
+
+**Screen Viewer:** in this case the Screen Viewer object is embedded inside HMI\_2, displaying the Main screen from Screen 1.
+
+![Screen Viewer embedded in HMI 2 displaying the Main screen from HMI 1](./assets/images/blog-wincc-unified-collaboration/wincc-unified-collaboration-19-result-screen-viewer.png)
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [WinCC Unified Collaboration: sharing Screens between Runtimes](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration/) — Jose Manuel Luque*

@@ -1,0 +1,87 @@
+---
+title: "AVEVA Intouch Historical Data (Part 1)"
+slug: "blog-aveva-intouch-historical-data"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch Historical Data (Part 1)
+
+Jose Manuel Luque Jun 25, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch Historical Data (Part 1)](./assets/images/blog-aveva-intouch-historical-data/WWHistory_8.png)
+
+The following lines aim to see how the Historicals work in Intouch, Who records the data? Where? How is that information stored?  
+  
+To start answering all these and more questions, we will begin where all the configuration is in the same Intouch Stand Alone project, without dependencies on the Historian Server.
+
+_This was one of the new features of version 2020, to configure the Historian settings within the Intouch project itself, to avoid having to do this configuration externally._
+
+The first thing we did to clarify concepts was to create a project in Intouch, and without any prior configuration, run the Runtime.
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_1.png)
+
+As a result, we can see that when running the Runtime, the following applications automatically start in parallel.
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_2.png)
+
+As a first conclusion, regardless of whether we have defined any variable to log or whether we have a Historical object, the **Intouch Historical Data Server** application runs in parallel and is executed by the viewer itself.  
+The **Intouch Historical Data Server** is responsible for supplying data to the ActiveX controls that request data. Configuration based on Server - Client.  
+  
+Next, we create some variables and activate the checkbox to log, this is the **Log Data** checkbox and another parameter related to how much data we are going to log would be the **Log Deadband** property.
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_11.png)
+
+At the same time, we configure what we want to log and define the directory where the \*lgh / \*idx files will be created daily. The \*.lgh files contain the raw data and the \*.idx files contain the indices for when we make a data request to retrieve them and speed up the queries. With this, we have answered where and how the data is logged; we can also say that they are stored in Wonderware's proprietary format. To date, apart from Wonderware products, there are, as far as I know, two applications that allow us to read these files without dependencies on Intouch. These are the [LGH File Inspector](https://products.softwaretoolbox.com/lgh-file-inspector/free-trial) and the [Intouch Historical Data Exporter](https://www.wmkit.com/archives/products/intouch-historical-data-exporter).
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_12.png)
+
+If we run the runtime again, we can already verify that the aforementioned files have been created for data storage.
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_3.png)
+
+And now let's see... Who logs? Who is responsible for saving and generating the files?  
+The answer is the **viewer**. The **viewer** is responsible for logging, by default it does so in Delta mode and according to the configuration that has been made for each tag.
+
+In addition, there are a couple of parameters that we can add to the Intouch.INI regarding the Historicals to force the saving. They are as follows:
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_24.png)
+
+Code
+
+```
+ForceLogCurrentValue = 1
+ForceLogging = x (x = minutes 5 - 120)
+```
+
+The next test was to close the **Intouch Historical Data Server** application, and it can be observed that data continues to be logged and the file sizes increase.
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_6.png)
+
+And we will encounter the error when we want to visualize the data in the **Historical Trend Chart**, we have no data, but... we are still logging.
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_7.png)
+
+After a restart, we see that we have all the data. **NOTE**: We cannot run the **Intouch Historical Data Server** application outside the scope of the viewer; it forces us to restart the viewer.
+
+![](./assets/images/blog-aveva-intouch-historical-data/WWHistory_8.png)
+
+For the next... And to not extend this much more...  
+How can we verify that we are logging data? How to extract the stored data? Introduction to Histdata (**Intouch Historical Data Access**)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch Historical Data (Part 1)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data/) — Jose Manuel Luque*

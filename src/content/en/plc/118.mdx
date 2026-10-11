@@ -1,0 +1,96 @@
+---
+title: "Configuration of a Logix5000 Message"
+slug: "118"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/118.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["Configuration of a Logix5000 Message","MSG"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# Configuration of a Logix5000 Message
+
+Jose Manuel Luque
+
+Configuration of a Logix5000 Message MSG
+
+**Configuration of a Logix5000 Message  
+**
+
+In the previous practice, we saw how to [configure consumed and produced tags](#/a/en%2F117), today we will configure messages for data exchange between two Logix5000 stations. It is important to highlight that in addition to sending data between 5000 controllers, it can also be used to send data to its predecessors such as the PLC2, PLC3, PLC5, and the SLC 500, and even to reset failing modules.
+
+Here we will see the basics: a read message, a write message, and we will assume the following example: from a remote station, we are interested in knowing the total number of pieces produced.
+
+![](./assets/images/118/117-ComunicacionSoftLogix-12.png)
+
+![](./assets/images/118/118-ComunicacionSoftLogix.gif)
+
+As in the previous practice, we will start with two projects, where the only thing we have configured is the hardware: a SoftLogix controller and a Network card, where both devices are on the same subnet.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-13.png)
+
+To start, the first thing we will do is configure the Ethernet/IP network, although it should be noted that this step is optional, which is why the following animation has been created to show the process of how to do it.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-17.gif)
+
+Getting into the subject, first of all, we need to know the basic rules that must be kept in mind.
+
+The tags we create to configure the message, Source Element and Destination Element, must be global scope, meaning controller tags, just like the Message type Tag.
+
+Tags of type Message and Motion (Axes) are not allowed for these tags.
+
+Once the basics are known, we will create our Message type tag at the controller level, which is essential for creating a message.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-14.png)
+
+Once we have created our Message type Tag, we go to our main program or the subroutine where we want to insert our MSG function and look for the instruction or simply write MSG and insert it. We can now assign the Message tag and click on the ... for the message type configuration.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-29.png)
+
+A pop-up window opens for the message configuration. The first thing we must select is the type of message, in this case, the most basic, a CIP Read or Write message, in this case, Read.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-31.png)
+
+The first field, Source Element, refers to the source tag we want to read. In this case, this Tag belongs to the Remote Controller. Going back to the beginning, we have created two projects, the second of which only has a globally scoped tag called PieceCounter configured, and that is precisely the tag we are interested in.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-32.png)
+
+![](./assets/images/118/118-ComunicacionSoftLogix-30.png)
+
+The next step is the number of Elements, in this case, 1. If we were interested in reading an Array, we would have to read it completely; we cannot read part of it. For more specifications, consult the manual.
+
+Destination Element, where we will store the value read from Source Element, we create a new tag, and remember that it must be a Controller tag!
+
+![](./assets/images/118/118-ComunicacionSoftLogix-33.png)
+
+![](./assets/images/118/118-ComunicacionSoftLogix-34.png)
+
+![](./assets/images/118/117-ComunicacionSoftLogix-00%20\(2\).png)
+
+Once the configuration data has been specified, we move on to configure the communication. Here, as we had previously configured the Ethernet/IP Network, we simply have to find where we want to send our message, select our Controller, and that's it.
+
+We can now confirm and check that there are no errors.
+
+Finally, to check the operation, we insert a normally open contact, which will be the one we will force each time we want to execute the function.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-36.png)
+
+We can now compile and verify our entire project. If everything is correct, we proceed to load both programs into both controllers and check their operation.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-37.png)
+
+While online, from the Remote controller, we force a value from Monitor Tags to the PieceCounter Tag. Once this value is forced, we go to the Local controller and force the open contact to execute the MSG function and observe how our variable TotalPiecesRead updates its value with the value from our Remote controller. If possible, I hope to be able to do a practice of reading data from an SLC 500 Processor.
+
+![](./assets/images/118/118-ComunicacionSoftLogix-38.png)
+
+May 29, 2013
+
+If you liked it or found the information useful, share it...
+
+---
+*Source: [Configuration of a Logix5000 Message](https://www.plc-hmi-scadas.com/en/118.php) — Jose Manuel Luque*

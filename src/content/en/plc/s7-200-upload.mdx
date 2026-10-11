@@ -1,0 +1,43 @@
+---
+title: "Upload S7-200 Microwin"
+slug: "s7-200-upload"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/S7-200_Upload.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Master exists on the Profibus network and the current device does not support masters. Try again after selecting a multi-master device"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Upload S7-200 Microwin
+
+Jose Manuel Luque
+
+Master exists on the Profibus network and the current device does not support masters. Try again after selecting a multi-master device
+
+Upload S7-200 Microwin
+
+Perhaps what will be explained today you already know, but there is always a new generation of students, and at least here in Spain, in many educational centers, the S7-200 PLC is still used for practical exercises, not to mention those installed in the industry. Therefore, we will explain a solution to the Error: Master exists on the Profibus network and the current device does not support masters. Try again after selecting a multi-master device.
+
+This is the error I received when trying to communicate with the S7-200 to upload the project to my PC. The PLC was in RUN mode.
+
+![](./assets/images/s7-200-upload/Microwin_01.png)
+
+After making all possible changes in the PG/PC Interface configuration, the result was the same. **Solution**: Simply switch the PLC to Stop mode and it will automatically detect it without problems, as can be seen in the following image.
+
+![](./assets/images/s7-200-upload/Microwin_02.png)
+
+One of the reasons is that the port may be used for other communications, and for that reason, it does not allow it in RUN mode. Once switched to STOP, we can upload the project and make the modifications we need.
+
+![](./assets/images/s7-200-upload/Microwin_03.png)
+
+September 3, 2017
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [Upload S7-200 Microwin](https://www.plc-hmi-scadas.com/en/S7-200_Upload.php) — Jose Manuel Luque*

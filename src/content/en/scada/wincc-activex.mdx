@@ -1,0 +1,68 @@
+---
+title: "WinCC Create ActiveX Controls"
+slug: "wincc-activex"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_ActiveX.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Create ActiveX Controls"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Create ActiveX Controls
+
+Jose Manuel Luque
+
+WinCC Create ActiveX Controls
+
+**WinCC Create ActiveX Controls  
+**
+
+Taking advantage of the fact that I have the Visual Basic version installed, which I used to create the [AddIn in the previous practice](#/a/en%2Fwincc-vba), let's see another example, the creation of our own ActiveX control. Nowadays, Visual Basic is not commonly used for these purposes; a \*.dll is usually created instead of the \*.ocx using .net, but as an example, here it is...
+
+We start Visual Basic and create a new ActiveX Control project.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_00.png)
+
+We create the properties, events, and methods that correspond to our control, according to the behavior we want it to have. We will not go into these details, as it is a bit outdated, as I have mentioned.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_01.png)
+
+Once our Control is created, we can generate our \*.ocx file. To do this, we go to File --> Build.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_02.png)
+
+In the directory of our project, we already have our \*.ocx. We copy this into the Windows --> System32 directory. These steps will help us register any \*ocx / \*.dll control.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_03.png) ![](./assets/images/wincc-activex/WinCC_ActiveX_04.png)
+
+We proceed to register it. We open the console and execute regsvr32 name.ocx. If everything is correct, a pop-up window will inform us that it has been executed successfully.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_05.png)
+
+We can now start WinCC and also the Graphics Designer. We go to the ActiveX Controls Add/Remove directory and look for our Control, in this example ActiveX.PieChart.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_06.png)
+
+We have it ready to insert it into our screen, and we proceed to do so. If we check its properties, we will verify the properties that we had previously configured for that control.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_07.png)
+
+We assign some variables to their corresponding properties, which will show the percentage in our pie chart.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_08.png)
+
+We run the Runtime and check our control, which will update according to the Refresh time we have assigned or by default the one configured, the colors we are interested in, and the style. If we test the button that changes the property Style\_3D, we will see that it works correctly.
+
+![](./assets/images/wincc-activex/WinCC_ActiveX_09.png) ![](./assets/images/wincc-activex/WinCC_ActiveX_10.png)
+
+February 8, 2014
+
+If you liked it or found it useful... share it :-)
+
+---
+*Source: [WinCC Create ActiveX Controls](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX.php) — Jose Manuel Luque*

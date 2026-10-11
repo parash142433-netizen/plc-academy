@@ -1,0 +1,109 @@
+---
+title: "Simotion Project - OPC Symbols Export"
+slug: "winccflexible-simotion-opc"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["WinCC","VBScript","Simotion","OPC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Simotion Project - OPC Symbols Export
+
+Jose Manuel Luque
+
+WinCC VBScript Simotion OPC
+
+**Simotion Project - OPC Symbols Export**
+
+Today we are going to create a Step7 project where we will integrate our Simotion project. We will follow all the steps and start by creating a new project. The goal will be to later communicate WinCC with Simotion via OPC Server DA.
+
+Requirements: Step 7, Simotion Scout, WinCC Flexible
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_06.png)
+
+Once we have created our project, we will insert a new object that will be of type SIMATIC 300, and we give it a name that interests us.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_08.png)
+
+Once this is done, we will open the hardware.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_10.png)
+
+Within the Hardware, we expand and look for our Simotion equipment and drag it.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_11.png)
+
+Once the hardware is inserted, we need to configure it according to our needs. I have configured a telegram as an example, but here is where the configuration will change according to each application, etc...
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_12.png)
+
+Subsequently, we will configure an Ethernet interface. If we do not have any network created, in the properties, we create a new one and assign the IP address. We could now compile and save the Hardware.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_14.png)
+
+We can now open our Simotion project. As we mentioned, it is a requirement to have it installed together with Step 7.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_15.png)
+
+Here we have the Simotion Scout interface. I will not go into detail about the configuration of Axes and their programming, just the creation of the variables of a program, for later OPC configuration.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_17.png)
+
+We create a new program and declare the variables and the corresponding code, which we will not see here.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_19.png)
+
+Once the entire program is completed with the necessary changes, the creation of axes, programs, execution definition, and everything else, we must always check the consistency of what we have done.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_20.png)
+
+The practice could have started at this point, which is what we will need for OPC communication with Simotion, and all the previous steps are the basic steps. However, we must not forget about the new students who are joining this field or those who do not have that knowledge.
+
+Once we have our project and have checked the consistency, we can proceed.
+
+In Options --> Export OPC data
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_21.png)
+
+An assistant will appear, and the first step is to configure the version of Simatic Net.
+
+Subsequently, we leave the configuration as in the image, selecting all the checkboxes.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_22.png)
+
+Upon selecting OK, a window will appear to define the path where we want to export our files. We leave the default path that is proposed.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_23.png)
+
+If the directory does not exist, the system will create it for us.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_24.png)
+
+File generation process.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_26.png)
+
+In the last phase of export, it asks us if we want to use gateways (Routing), by default it would be no.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_27.png)
+
+We have now completed the export process.
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_28.png)
+
+We now have the files that we will need later. We will see it in the [next part](#/a/en%2Fwinccflexible-simotion-opc-2).
+
+![](./assets/images/winccflexible-simotion-opc/Simotion_S7_29.png)
+
+June 8, 2018
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [Simotion Project - OPC Symbols Export](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC.php) — Jose Manuel Luque*

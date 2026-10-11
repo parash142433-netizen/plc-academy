@@ -1,0 +1,792 @@
+---
+title: "GRAFCET: Complete Guide to Industrial Automation Design"
+slug: "blog-grafcet-guia-completa-diseno-automatizacion"
+locale: "en"
+category: "articles"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/grafcet-guia-completa-diseno-automatizacion/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Articles"]
+tags: ["GRAFCET","SFC","State Machine","PLC","IEC 61131-3","Design","Automation","GEMMA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Articles](#/a/en%2Farticles) › Article
+
+# GRAFCET: Complete Guide to Industrial Automation Design
+
+From functional diagram to PLC programming — master the universal language of sequential automation
+
+Pedro Pagán Pallarés Mar 08, 2026
+
+GRAFCET SFC State Machine PLC IEC 61131-3 Design Automation GEMMA
+
+![Complete GRAFCET diagram with steps, transitions, actions and divergences for industrial automation](./assets/images/blog-grafcet-guia-completa-diseno-automatizacion/gracetPHSarticulo.PNG)
+
+[**🛠️ Interactive workshop: Build & simulate your GRAFCET** Design step by step and test with the real-time visual simulator ↓](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+
+### Table of Contents
+
+*   [1\. What is GRAFCET?](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [2\. History and standards (IEC 60848 / IEC 61131-3)](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [3\. Fundamental elements of GRAFCET](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [3.1 Steps](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [3.2 Transitions and receptivities](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [3.3 Associated actions](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [3.4 Directed links](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [4\. The 5 evolution rules](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [5\. GRAFCET structures](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [5.1 Linear sequence](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [5.2 OR divergence (selection)](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [5.3 AND divergence (simultaneity)](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [5.4 Jump and repetition](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+    *   [5.5 Macro-steps](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [6\. GRAFCET levels](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [7\. GRAFCET vs. State Machine (FSM)](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [8\. GEMMA: Operating modes management](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [9\. Practical tutorial: Designing a GRAFCET step by step](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [10\. From GRAFCET to PLC: Implementation](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [11\. Common mistakes and best practices](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [12\. Tools and software](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [13\. 🛠️ Workshop: Build your own GRAFCET](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+*   [14\. Conclusions](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion)
+
+**1\. What is GRAFCET?**
+
+**GRAFCET** (_Graphe Fonctionnel de Commande, Étapes/Transitions_) is a **standardized graphical method** for describing the sequential behavior of an automated system. It is, in essence, the **"blueprint"** that you draw _before_ writing a single line of code in the PLC.
+
+Imagine you're about to build a house: you don't start laying bricks without having the architect's blueprint. In industrial automation, the GRAFCET is that blueprint. It defines **what the machine does**, **in what order**, and **under what conditions** it moves from one state to another.
+
+### What is it for?
+
+To describe **clearly and unambiguously** the sequential operation of a process before programming it into a PLC, HMI or SCADA. It is the bridge between the functional specification (FDS) and the code.
+
+### Who is it for?
+
+For **all project stakeholders**: the process engineer who defines the FDS, the PLC programmer, the SCADA integrator, the maintenance technician and the plant operator. It is a **universal language**.
+
+GRAFCET is **technology-independent**: it doesn't matter whether you use Siemens, Rockwell, Schneider, Omron or Beckhoff. It doesn't matter whether you program in Ladder, ST, FBD or SFC. GRAFCET is the design; the PLC language is the implementation.
+
+**Golden rule:** Never sit down to program a PLC without having designed the GRAFCET first. 80% of automation errors are prevented at the design stage, not the programming stage.
+
+**2\. History and standards (IEC 60848 / IEC 61131-3)**
+
+GRAFCET was born in **France in 1977**, created by **AFCET** (Association Française pour la Cybernétique Économique et Technique) and **ADEPA** (Agence Nationale pour le Développement de la Production Automatisée). The need was clear: automation systems were becoming increasingly complex and no standard method existed to describe them.
+
+The standards evolution has followed this path:
+
+Year
+
+Standard
+
+Description
+
+**1977**
+
+Original GRAFCET
+
+Creation of the graphical method by AFCET/ADEPA in France.
+
+**1988**
+
+IEC 60848 (1st ed.)
+
+International standardization: GRAFCET as a **specification language**.
+
+**1993**
+
+IEC 61131-3
+
+**SFC** (Sequential Function Chart) is born as a PLC **programming language**, directly inspired by GRAFCET.
+
+**2002**
+
+IEC 60848 (2nd ed.)
+
+Expanded revision: actions, forcing, macro-steps, encapsulation.
+
+**Don't confuse GRAFCET with SFC:** GRAFCET (IEC 60848) is a _specification language_ — it describes behavior. SFC (IEC 61131-3) is a _programming language_ — it implements that behavior in a PLC. They're siblings, but not the same thing.
+
+**3\. Fundamental elements of GRAFCET**
+
+A GRAFCET is built with **four basic elements** that, when combined, can describe any sequential process no matter how complex:
+
+#### Step (Étape)
+
+Represents a **stable state** of the system. Drawn as a square with an identifying number. The **initial step** has a double border. While a step is active, it executes its associated actions.
+
+#### Transition
+
+The **pass condition** between two steps. Drawn as a horizontal line crossing the vertical link. The **receptivity** is the logical condition (sensor, timer, button) that, when true, triggers the crossing.
+
+#### Action
+
+What the system **does** when a step is active. Represented as a rectangle attached to the right of the step. It can be a digital output, a motor start, a signal, etc.
+
+#### Directed link
+
+Vertical line that **connects steps and transitions** alternately. Default direction is top to bottom; if the flow goes upward (loop), an arrow is added.
+
+Let's see the graphical representation of a minimal GRAFCET with 3 steps:
+
+╔═══╗ ║ 0 ║ ← Initial step (double border) ╚═══╝ │ ──┤── t0: START button ← Transition (receptivity) │ ┌───┐ │ 1 │──▶ \[Motor ON\] ← Step 1 with action └───┘ │ ──┤── t1: Part sensor detected │ ┌───┐ │ 2 │──▶ \[Cylinder EXTEND\] ← Step 2 with action └───┘ │ ──┤── t2: Cylinder at end position │ ▼ (returns to step 0) ← Link with arrow (loop)
+
+**Fundamental rule:** Steps and transitions **always alternate**. There can never be two consecutive steps without a transition between them, nor two consecutive transitions without a step.
+
+### Types of actions associated with a step
+
+Actions are not just "turn on" and "turn off". The IEC 60848 standard defines several **action types** that allow describing complex temporal behaviors:
+
+Type
+
+Symbol
+
+Behavior
+
+Example
+
+**Continuous**
+
+—
+
+Active while the step is active
+
+Motor running
+
+**Conditional**
+
+`C`
+
+Active if the step is active **AND** an additional condition is met
+
+Motor ON if temperature < 60°C
+
+**Delayed**
+
+`D` / `t`
+
+Activates after a delay from step activation
+
+Fan ON 5s after starting
+
+**Time-limited**
+
+`L`
+
+Activates with the step but deactivates after a time
+
+Audible signal 3s on startup
+
+**Pulse**
+
+`P`
+
+One-cycle pulse on activation (P1) or deactivation (P0) of the step
+
+Increment counter on entry
+
+**Memorized (SET/RESET)**
+
+`S` / `R`
+
+Activates or deactivates and **holds** the state after step deactivation
+
+Open valve and keep it open
+
+**4\. The 5 evolution rules of GRAFCET**
+
+The dynamic behavior of GRAFCET is governed by **five fundamental rules** that define how the system evolves. They are the "physical laws" of GRAFCET:
+
+1
+
+#### Initialization
+
+The initial situation of the GRAFCET is characterized by the activation of the **initial steps** (marked with a double border). It is established when the system powers on or a reset is performed.
+
+2
+
+#### Transition crossing
+
+A transition is **crossed** (fired) if and only if: **a)** all immediately preceding steps are active, **AND b)** the associated receptivity is true.
+
+3
+
+#### Active steps evolution
+
+When a transition is crossed: the immediately **following** steps are activated and the immediately **preceding** steps are deactivated simultaneously.
+
+4
+
+#### Simultaneous crossings
+
+If multiple transitions can be crossed at the same instant, they are **all crossed simultaneously**. There is no priority between transitions that occur at the same time.
+
+5
+
+#### Simultaneous activation and deactivation
+
+If a step must be activated and deactivated at the same time (by different transitions), it **remains active**. Activation takes priority over deactivation.
+
+**5\. GRAFCET structures**
+
+Beyond the simple linear sequence, GRAFCET can express **complex processes** through branching and parallelism structures:
+
+### 5.1 Linear sequence
+
+The most basic structure: steps follow one after another in a single path. Each transition connects exactly one preceding step to one following step.
+
+╔═══╗ ║ 0 ║ ──▶ \[Idle\] ╚═══╝ │ ──┤── START button │ ┌───┐ │ 1 │ ──▶ \[Motor ON\] └───┘ │ ──┤── Limit switch │ ┌───┐ │ 2 │ ──▶ \[Cylinder EXTEND\] └───┘ │ ──┤── Timer 5s │ ┌───┐ │ 3 │ ──▶ \[Cylinder RETRACT\] └───┘ │ ──┤── Home position sensor │ ▼ (returns to 0)
+
+### 5.2 OR divergence (sequence selection)
+
+Allows **choosing a path** from several options based on conditions. Represented with a **single horizontal line**. Only **one** branch activates (receptivities must be mutually exclusive to avoid ambiguity).
+
+┌───┐ │ 1 │ └───┘ │ ──┼──────────┐ ← OR divergence (single line) │ │ ──┤── a ──┤── b ← Mutually exclusive receptivities │ │ ┌───┐ ┌───┐ │ 2 │ │ 3 │ ← Only one branch activates └───┘ └───┘ │ │ ──┤── c ──┤── d │ │ ──┼──────────┘ ← OR convergence │ ┌───┐ │ 4 │ └───┘
+
+### 5.3 AND divergence (parallelism / simultaneity)
+
+Allows activating **multiple sequences in parallel**. Represented with a **double horizontal line**. All branches activate simultaneously. The AND convergence waits for **all** branches to complete before continuing.
+
+┌───┐ │ 1 │ └───┘ │ ──┤── START │ ══╪════════════╗ ← AND divergence (double line) │ │ ┌───┐ ┌───┐ │ 2 │ │ 3 │ ← Both branches active simultaneously └───┘ └───┘ │ │ ──┤── a ──┤── b │ │ ┌───┐ ┌───┐ │ 4 │ │ 5 │ └───┘ └───┘ │ │ ══╪════════════╝ ← AND convergence (waits for all) │ ──┤── (always true) │ ┌───┐ │ 6 │ └───┘
+
+### 5.4 Step jump and repetition (loop)
+
+A **jump** allows "skipping" one or more steps when they're not needed (using an OR divergence). A **repetition** is a loop that returns to a previous step when the process needs to iterate.
+
+┌───┐ │ 1 │ ──▶ \[Process A\] └───┘ │ ──┼──────────┐ │ │ ──┤── a ──┤── ¬a ← If "a" false, skip step 2 │ │ ┌───┐ │ │ 2 │ │ (jump) └───┘ │ │ │ ──┤── b │ │ │ ──┼──────────┘ │ ┌───┐ │ 3 │ ──▶ \[Process C\] └───┘ │ ──┼──────────┐ │ │ ──┤── end ──┤── ¬end ← If not end, repeat from step 1 │ │ ┌───┐ │ │ 4 │ ◀───┘ (loop to step 1) └───┘
+
+### 5.5 Macro-steps
+
+A **macro-step** encapsulates a complete GRAFCET within a single step of the parent GRAFCET. It's the equivalent of a "function" in programming: it allows **modularizing** and **hierarchizing** complex designs.
+
+It's represented as a square with a horizontal line at the top and bottom. It has an internal **entry step** (E) and an **exit step** (S).
+
+**Practical tip:** Use macro-steps when a GRAFCET has more than 15-20 steps. Group functionalities (e.g.: "Wash cycle", "Dosing", "Evacuation") as independent macro-steps to keep the design readable.
+
+**6\. GRAFCET levels**
+
+The same process can be described at **different levels of abstraction**. This is fundamental in large projects where different professional profiles are involved:
+
+Level 1
+
+#### Functional
+
+Describes **what to do** in natural language. "Fill tank", "Heat product". Aimed at the **process engineer**.
+
+Level 2
+
+#### Technological
+
+Specifies **with what**: "Open valve EV101", "Activate heater R1". Aimed at the **automation designer**.
+
+Level 3
+
+#### Operational
+
+Defines **how**: "SET Q0.1", "Timer T5 = 3000ms". Aimed at the **PLC programmer**.
+
+The typical approach is to first design **Level 1** with the client or process engineer, then detail it at **Level 2** with technical specifications, and finally reach **Level 3** which can practically be translated line by line to PLC code.
+
+**7\. GRAFCET vs. State Machine (FSM)**
+
+GRAFCET and **Finite State Machines (FSM)** share the same mathematical foundation, but GRAFCET adds **native parallelism** (AND divergence), **hierarchy** (macro-steps and forcing) and actions that are **always associated with steps** (not transitions, as in Mealy). It is also standardized (**IEC 60848**) and directly implementable in **SFC**.
+
+**In short:** if you master FSMs, mastering GRAFCET will come naturally. Think of it as an _extended state machine_ built for industry.
+
+**8\. GEMMA: Operating Modes Management**
+
+**GEMMA** (_Guide d'Étude des Modes de Marches et d'Arrêts_) is the natural complement to GRAFCET. While the GRAFCET describes the _normal_ process sequence, the GEMMA defines **what happens when things go wrong**: emergency stops, faults, manual modes, startup, etc.
+
+**Many projects fail here.** They design a perfect GRAFCET for the normal cycle and forget about: What happens if the emergency button is pressed? How does it resume? Can it go to manual mode? GEMMA solves all of this.
+
+GEMMA organizes system states into **three families**:
+
+Family
+
+Code
+
+Description
+
+Examples
+
+**F — Operating**
+
+F1 to F6
+
+Normal production modes
+
+F1: Normal production, F4: Verification run, F6: Test run
+
+**A — Stop**
+
+A1 to A7
+
+Controlled stop modes
+
+A1: Stopped in initial state, A2: Stop requested end of cycle, A6: Return to initial state
+
+**D — Fault**
+
+D1 to D3
+
+Fault and emergency management
+
+D1: Emergency stop, D2: Fault diagnosis and/or treatment, D3: Production despite fault (degraded mode)
+
+In practice, GEMMA is implemented as a **higher-level GRAFCET** (sometimes called safety GRAFCET or master GRAFCET) that **governs** the activation and forcing of the production GRAFCETs.
+
+╔═════╗ ║ A1 ║ ──▶ \[Stopped in initial state\] ╚═════╝ │ ──┤── RUN button + Conditions OK │ ┌─────┐ │ F1 │ ──▶ \[Normal production\] → Activates production GRAFCET └─────┘ │ ──┼──────────────┐ │ │ ──┤── End cycle ──┤── EMERGENCY │ │ ┌─────┐ ┌─────┐ │ A2 │ │ D1 │ ──▶ \[Emergency stop\] └─────┘ └─────┘ → FORCES production grafcet to step 0 │ │ ──┤── Cycle ──┤── Reset + Acknowledge │ complete │ ▼ ▼ (A1) (A6 → A1)
+
+**9\. Practical tutorial: Designing a GRAFCET step by step**
+
+Let's design from scratch the GRAFCET for a **tank filling and heating system**. The process is real and typical in process industries (food, chemical, pharmaceutical).
+
+### Process description
+
+A tank must be filled with water, heated to 80°C, maintain the temperature for 5 minutes and then drain. The system has:
+
+*   **Actuators:** Fill valve (EV1), Heating element (R1), Stirrer (M1), Drain valve (EV2)
+*   **Sensors:** Low level (SN\_L), High level (SN\_H), Temperature (TT1), Tank empty sensor (SE)
+*   **Operator:** START button, STOP button, EMERGENCY mushroom
+
+1
+
+#### Step 1: Define the process (Level 1 — Functional)
+
+First we write the sequence in **natural language**, as if explaining the process to someone without technical knowledge:
+
+*   **State 0:** Idle — everything stopped, waiting for run command
+*   **State 1:** Fill the tank to high level
+*   **State 2:** Heat the water to 80°C while stirring
+*   **State 3:** Maintain temperature for 5 minutes while stirring
+*   **State 4:** Drain the tank
+*   When the tank is empty, return to idle
+
+2
+
+#### Step 2: Identify steps and transitions (Level 2 — Technological)
+
+We convert each state into a **step with concrete actions** and each pass condition into a **transition with its receptivity**:
+
+╔═══╗ ║ 0 ║ ──▶ \[Idle: all OFF\] ╚═══╝ │ ──┤── t0: START · SE · ¬SN\_H (START pressed, tank empty, level not high) │ ┌───┐ │ 1 │ ──▶ \[Open EV1 (fill)\] └───┘ │ ──┤── t1: SN\_H (high level reached) │ ┌───┐ │ 2 │ ──▶ \[Activate R1 + M1 (heat + stir)\] └───┘ │ ──┤── t2: TT1 ≥ 80°C (temperature reached) │ ┌───┐ │ 3 │ ──▶ \[Maintain R1 + M1, Timer 5min\] └───┘ │ ──┤── t3: T\_5min (timer expired) │ ┌───┐ │ 4 │ ──▶ \[Open EV2 (drain)\] └───┘ │ ──┤── t4: SE (tank empty) │ ▼ (returns to step 0)
+
+3
+
+#### Step 3: Define detailed actions
+
+For each step, specify the **action type** according to the types table:
+
+Step
+
+Action
+
+Type
+
+Detail
+
+**0**
+
+READY pilot light (green)
+
+Continuous
+
+Indicates the system is idle and ready
+
+**1**
+
+EV1 (fill)
+
+Continuous
+
+Valve open while step 1 is active
+
+**2**
+
+R1 (heating) + M1 (stirrer)
+
+Continuous
+
+Heater and motor on simultaneously
+
+**3**
+
+R1 (conditional heating) + M1
+
+C: R1 if TT1<82°C
+
+Maintains temperature via on/off control with hysteresis
+
+**4**
+
+EV2 (drain)
+
+Continuous
+
+Drain valve open
+
+4
+
+#### Step 4: Add GEMMA (operating modes)
+
+Now we think about what happens **outside the normal cycle**:
+
+*   **Emergency:** If the mushroom button is pressed, close EV1 and EV2, turn off R1 and M1. Force to step 0.
+*   **End-of-cycle stop:** If STOP is pressed during the cycle, the process continues to completion and doesn't restart.
+*   **Manual mode:** Allow actuating each device individually for maintenance.
+
+5
+
+#### Step 5: Verify the design
+
+Before touching the PLC IDE, **mentally review** these scenarios:
+
+*   What happens if START is pressed and the tank already has water? → Transition t0 requires SE (tank empty).
+*   What happens if power is lost during heating? → On return, GRAFCET starts at step 0 (rule 1).
+*   What happens if the temperature sensor fails? → The design needs a safety watchdog/timer at step 2.
+*   What happens if the emergency button is pressed during draining? → GEMMA forces GRAFCET to step 0, closing EV2.
+
+#### GRAFCET verification checklist
+
+*   Steps and transitions alternate correctly
+*   At least one initial step exists
+*   All transitions have defined receptivities
+*   No possible deadlocks
+*   OR divergence receptivities are mutually exclusive
+*   AND convergences wait for all branches
+*   All GEMMA modes have been considered
+*   Safety actions have highest priority
+*   Safety timers protect against blocked sensors
+
+**10\. From GRAFCET to PLC: Implementation**
+
+Once the GRAFCET design is complete and verified, there are **three main strategies** for implementing it in a PLC:
+
+#### A) Direct SFC
+
+Use the PLC environment's **native SFC language**: S7-Graph (Siemens), SFC in RSLogix/Studio 5000 (Rockwell), SFC in EcoStruxure (Schneider). The translation is **direct**: each GRAFCET step = one SFC Step and each transition = one SFC Transition.
+
+#### B) Ladder with step bits
+
+Classic method: one **memory bit** (M0.0, M0.1...) per step. Ladder rungs activate/deactivate bits based on conditions. Works on **any PLC** on the market, even the oldest ones.
+
+#### C) Structured Text (ST) with CASE
+
+Implement as a **code state machine**: a variable `iStep` + a `CASE iStep OF` block. Clean, readable and portable across brands. The preferred method in modern projects.
+
+### Example: Structured Text (ST) implementation
+
+Let's see how to translate our tank GRAFCET to ST with a `CASE`:
+
+Structured Text (IEC 61131-3)
+
+```iecst
+PROGRAM PRG_Tank
+VAR
+    iStep       : INT := 0;        // Active step
+    tMaintain   : TON;             // 5-minute timer
+    bStart      : BOOL;            // START button
+    bEmergency  : BOOL;            // Emergency mushroom
+    // Sensors
+    bLevelHigh  : BOOL;            // SN_H
+    bTankEmpty  : BOOL;            // SE
+    rTemp       : REAL;            // TT1 (°C)
+    // Actuators
+    bEV1        : BOOL;            // Fill valve
+    bEV2        : BOOL;            // Drain valve
+    bR1         : BOOL;            // Heater
+    bM1         : BOOL;            // Stirrer
+END_VAR
+
+// ── GEMMA: Emergency (highest priority) ──
+IF bEmergency THEN
+    iStep := 0;
+    bEV1  := FALSE;
+    bEV2  := FALSE;
+    bR1   := FALSE;
+    bM1   := FALSE;
+    RETURN;
+END_IF;
+
+// ── GRAFCET: Normal sequence ──
+CASE iStep OF
+
+    0: // ═══ IDLE ═══
+        bEV1 := FALSE;
+        bEV2 := FALSE;
+        bR1  := FALSE;
+        bM1  := FALSE;
+        IF bStart AND bTankEmpty AND NOT bLevelHigh THEN
+            iStep := 1;
+        END_IF;
+
+    1: // ═══ FILLING ═══
+        bEV1 := TRUE;
+        IF bLevelHigh THEN
+            bEV1  := FALSE;
+            iStep := 2;
+        END_IF;
+
+    2: // ═══ HEATING ═══
+        bR1 := TRUE;
+        bM1 := TRUE;
+        IF rTemp >= 80.0 THEN
+            iStep := 3;
+        END_IF;
+
+    3: // ═══ TEMPERATURE HOLD ═══
+        bM1 := TRUE;
+        bR1 := (rTemp < 82.0);    // On/off control with hysteresis
+        tMaintain(IN := TRUE, PT := T#5m);
+        IF tMaintain.Q THEN
+            tMaintain(IN := FALSE);
+            bR1 := FALSE;
+            bM1 := FALSE;
+            iStep := 4;
+        END_IF;
+
+    4: // ═══ DRAINING ═══
+        bEV2 := TRUE;
+        IF bTankEmpty THEN
+            bEV2  := FALSE;
+            iStep := 0;
+        END_IF;
+
+END_CASE;
+      
+```
+
+**Recommendation:** If your PLC supports SFC (S7-Graph, Studio 5000 SFC, Unity Pro SFC), use it — it’s the most direct GRAFCET translation. For maximum portability, use ST with CASE. The classic alternative is **Ladder with step bits** (one M bit per step + rungs for transitions), valid for any PLC on the market.
+
+**11\. Common mistakes and best practices**
+
+### Mistakes to avoid
+
+Mistake
+
+Problem
+
+Solution
+
+**Two consecutive steps without a transition**
+
+Violates step-transition alternation
+
+Always add a transition, even if `=1` (always true)
+
+**Non-exclusive OR receptivities**
+
+Ambiguity: which branch is taken?
+
+Ensure logical exclusivity or add explicit priority
+
+**Forgetting GEMMA**
+
+No emergency or mode management
+
+Always design the master GRAFCET with GEMMA
+
+**GRAFCET too large**
+
+Unmaintainable, difficult to verify
+
+Use macro-steps and hierarchy
+
+**Not considering sensor failures**
+
+System gets stuck waiting for a signal that never comes
+
+Add safety timers on every critical transition
+
+### Best practices
+
+*   **Number steps** sequentially (0, 1, 2...) and reserve gaps (0, 10, 20...) for future insertions.
+*   **Document receptivities** with meaningful names, not just PLC addresses.
+*   **One step = one main action**. If a step has 10 actions, you should probably break it down.
+*   **Use macro-steps** when the GRAFCET exceeds 15 steps.
+*   **Validate with the client** the Level 1 GRAFCET before moving to Level 2.
+*   **Version control the GRAFCET** as project documentation (not just the PLC code).
+
+**12\. Tools and software for GRAFCET design**
+
+Various tools exist for designing GRAFCETs, from paper to specialized software:
+
+Tool
+
+Type
+
+Advantages
+
+Ideal for
+
+**Pencil and paper**
+
+Analog
+
+Speed, no learning curve
+
+Initial design, brainstorming
+
+**Draw.io / diagrams.net**
+
+Free online
+
+Easy, exports to PNG/SVG/PDF, collaborative
+
+Project documentation
+
+**TIA Portal (S7-Graph)**
+
+PLC IDE
+
+Integrated design + programming
+
+Siemens projects
+
+**Studio 5000 (SFC)**
+
+PLC IDE
+
+Native SFC, integrated with Ladder and ST
+
+Rockwell projects
+
+**EcoStruxure Control Expert**
+
+PLC IDE
+
+IEC 61131-3 compliant SFC
+
+Schneider projects
+
+**13\. 🛠️ Workshop: Build your own GRAFCET**
+
+#### The challenge: Conveyor belt with sorting
+
+A conveyor belt transports parts. An optical sensor detects whether they are **large** or **small**. Large parts are diverted by a pneumatic cylinder to box A. Small parts continue to the end of the belt and fall into box B.
+
+##### Inputs
+
+*   **S1** — Presence sensor (part detected)
+*   **S2** — Size sensor (ON = large)
+*   **S3** — Cylinder retracted (home)
+*   **S4** — Cylinder extended
+*   **S5** — Part at end of belt
+*   **START** — Run button
+
+##### Outputs
+
+*   **M1** — Belt motor
+*   **CYL+** — Extend cylinder
+*   **CYL−** — Retract cylinder
+*   **LAMP** — "Running" pilot light
+
+1
+
+#### Draw the initial step
+
+30 sec
+
+Draw a square with a **double border** (initial step). Number: 0. Action: everything off, system waiting.
+
+Your diagram should look like this:
+
+╔═══╗ ║ 0 ║ ──▶ \[Idle: M1=OFF, CYL=OFF, LAMP=OFF\] ╚═══╝
+
+2
+
+#### Start the belt
+
+1 min
+
+Add a **transition** below: condition _START · S3_ (run + cylinder at home). Below that, a new **step 1**: belt motor ON + pilot light ON.
+
+Partial result:
+
+╔═══╗ ║ 0 ║ ──▶ \[Idle\] ╚═══╝ │ ──┤── START · S3 │ ┌───┐ │ 1 │ ──▶ \[M1=ON, LAMP=ON\] (belt running) └───┘
+
+3
+
+#### Detect the part and classify
+
+2 min
+
+From step 1, add transition _S1_ (part detected). Now the key part: draw an **OR divergence** (single horizontal line). Two branches:  
+**Left branch:** condition _S2_ (large part) → step 2  
+**Right branch:** condition _¬S2_ (small part) → step 3
+
+Looking like this so far:
+
+┌───┐ │ 1 │ ──▶ \[M1=ON, LAMP=ON\] └───┘ │ ──┤── S1 (part detected) │ ──┼──────────────┐ ← OR divergence │ │ ──┤── S2 ──┤── ¬S2 │(large) │(small) ┌───┐ ┌───┐ │ 2 │ │ 3 │ └───┘ └───┘
+
+4
+
+#### Complete the branches
+
+2 min
+
+**Large branch (step 2):** action CYL+ (extend cylinder) + M1=OFF (stop belt). Transition: _S4_ (cylinder extended). New step 4: CYL− (retract). Transition: _S3_ (cylinder at home).  
+  
+**Small branch (step 3):** action M1=ON (belt continues). Transition: _S5_ (part reached end).
+
+Both branches complete:
+
+── LARGE BRANCH ── ── SMALL BRANCH ── ┌───┐ ┌───┐ │ 2 │──▶\[CYL+, M1=OFF\] │ 3 │──▶\[M1=ON\] └───┘ └───┘ │ │ ──┤── S4 (extended) ──┤── S5 (end of belt) │ │ ┌───┐ │ │ 4 │──▶\[CYL−\] │ └───┘ │ │ │ ──┤── S3 (retracted) │ │ │ ──┼──────────────────────────┘ ← OR convergence
+
+5
+
+#### Close the loop
+
+30 sec
+
+After the OR convergence, draw an arrow that **returns to step 1** (loop). The belt keeps running and waits for the next part. Don't go back to step 0! Only to 0 if STOP is pressed.
+
+The loop:
+
+──┼──────────────────────────┘ ← OR convergence │ ▼ (returns to step 1) → Belt keeps running, waiting for next part
+
+6
+
+#### Add safety (GEMMA express)
+
+1 min
+
+Write on the side: **"If EMERGENCY → force to step 0, everything OFF"**. And also: **"If STOP → finish current cycle and return to step 0 instead of step 1"**. That gives you a minimal GEMMA.
+
+View complete solution
+
+╔═══╗ ║ 0 ║ ──▶ \[Idle: everything OFF\] ╚═══╝ │ ──┤── START · S3 (run + cylinder at home) │ ┌───┐ │ 1 │ ──▶ \[M1=ON, LAMP=ON\] (belt running) └───┘ │ ──┤── S1 (part detected) │ ──┼──────────────┐ ← OR divergence │ │ ──┤── S2 ──┤── ¬S2 │ │ ┌───┐ ┌───┐ │ 2 │──▶ │ 3 │──▶ \[M1=ON\] │ │\[CYL+, └───┘ (continues to end) │ │ M1=OFF\] │ └───┘ │ │ ──┤── S5 (part at end) ──┤── S4 │ │ │ ┌───┐ │ │ 4 │──▶\[CYL−\] │ └───┘ │ │ │ ──┤── S3 │ │ │ ──┼──────────────┘ ← OR convergence │ ▼ (returns to step 1) ← Loop ───────────────────────────────────────── GEMMA: EMERGENCY → Force to step 0 STOP → End cycle → step 0 ─────────────────────────────────────────
+
+**Congratulations!** You've designed a GRAFCET with linear sequence, OR divergence, convergence and loop. It has 5 steps, 6 transitions and emergency handling. Now you can translate it to ST with CASE or Ladder with step bits as shown in [section 10](#/a/en%2Fblog-grafcet-guia-completa-diseno-automatizacion).
+
+CONVEYOR BELT M1: OFF S1 S2 CYL CYL: ▲ S3 S4 S5 BOX A BOX B LAMP
+
+#### GRAFCET
+
+E0 Idle START·S3 E1 Belt ON S1 S2 E2 CYL+ S4 E4 CYL− S3 ¬S2 E3 Belt → S5 ↻ back to E1 EMERG → E0
+
+▶ START 📦 LARGE Part 📦 Small Part ⬛ STOP ↺ Reset
+
+**14\. Conclusions**
+
+**GRAFCET** is not "just another thing to learn" — it is **the fundamental design tool** in industrial automation. It's the difference between programming a PLC with method and programming it blindly.
+
+Let's recap the key points:
+
+*   GRAFCET is a **standardized specification language** (IEC 60848), independent of the PLC brand.
+*   It consists of **steps, transitions, actions and links**, governed by 5 evolution rules.
+*   It supports **sequences, selections (OR), parallelism (AND), jumps, loops and macro-steps**.
+*   It works at **three levels**: functional, technological and operational.
+*   **GEMMA** complements the GRAFCET with operating modes, stop and emergency management.
+*   It is implemented in PLCs via **direct SFC, Ladder with step bits, or ST with CASE**.
+*   It is a close cousin of the **Finite State Machine (FSM)**, but adds parallelism and hierarchy.
+
+**The best advice I can give you:** before your next automation project, draw the GRAFCET. Even on a napkin. Your future self (and the maintenance technician who will inherit the system) will thank you.
+
+**Want to keep learning?** Check our [Industrial Automation Guide: Complete Workflow](#/a/en%2Fblog-flujo-trabajo-ingeniero-automatizacion) to see how GRAFCET fits into the overall project workflow, from functional specification to commissioning.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [GRAFCET: Complete Guide to Industrial Automation Design](https://www.plc-hmi-scadas.com/en/blog/grafcet-guia-completa-diseno-automatizacion/) — Pedro Pagán Pallarés*

@@ -1,0 +1,156 @@
+---
+title: "Factory Talk View SE - SQLite"
+slug: "blog-factory-talk-view-se-sqlite"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-sqlite/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk VIEW SE","Factory Talk View SE","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk View SE - SQLite
+
+Jose Manuel Luque May 26, 2024
+
+Factory Talk VIEW SE Factory Talk View SE SCADA SCADA
+
+![Factory Talk View SE - SQLite](./assets/images/blog-factory-talk-view-se-sqlite/FactoryTalkView_SQLite-5.png)
+
+We have already seen this same example with [**AVEVA Intouch-System Platform**](#/a/en%2Fblog-aveva-intouch-sqlite) - **[WinCC](#/a/en%2Fblog-wincc-sqlite)** and now, out of sympathy, it is Factory Talk View SE's turn.  
+Just like before for Factory Talk View, we will need the same requirements as for WinCC, so copy and paste from the previous article.
+
+_**What do we need?**_
+
+*   We will need the drivers to create the connection
+
+_**Where do I download it?**_
+
+*   Here we have all the information [SQLite ODBC Driver](http://www.ch-werner.de/sqliteodbc/) that interests us and a direct link for its download
+
+Here I have already installed the 32-bit drivers, because Factory Talk View Studio, where I will perform the tests, is installed in **C:\\Program Files (x86)**, but to add something different to the article, if you are curious to know if an executable you have is x32/x64 you can try the following **PowerShell**.
+
+Moreover, Factory Talk View SE, with version 13 if I am not mistaken, incorporated the novelty of running PowerShell Scripting on the HMIServer, that is, on the Server side, not on the Client. Scripts can only be executed on the HMIServer.
+
+![](./assets/images/blog-factory-talk-view-se-sqlite/FactoryTalkView_SQLite-8-1-1024x584.png)
+
+  
+Change the path of the file you want to check, open a PowerShell console as an administrator and paste the code
+
+Code
+
+```
+
+function Get-PEHeader {
+    param (
+        [string]$Path
+    )
+
+    $buffer = New-Object byte[] 4096
+    [System.IO.File]::Open($Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read).Read($buffer, 0, $buffer.Length) | Out-Null
+
+    # Check for 'MZ' signature
+    if ($buffer[0] -ne 0x4D -or $buffer[1] -ne 0x5A) {
+        Write-Error "Not a valid PE file"
+        return
+    }
+
+    # Get PE header offset
+    $peOffset = [System.BitConverter]::ToInt32($buffer, 0x3C)
+
+    # Check for 'PE\0\0' signature
+    if ($buffer[$peOffset] -ne 0x50 -or $buffer[$peOffset+1] -ne 0x45 -or $buffer[$peOffset+2] -ne 0x00 -or $buffer[$peOffset+3] -ne 0x00) {
+        Write-Error "Not a valid PE file"
+        return
+    }
+
+    # Get Machine field
+    $machine = [System.BitConverter]::ToUInt16($buffer, $peOffset + 4)
+
+    switch ($machine) {
+        0x014C { "x86 (32-bit)" }
+        0x8664 { "x64 (64-bit)" }
+        default { "Unknown or not a PE file" }
+    }
+}
+
+$archivo = "C:\Program Files (x86)\Rockwell Software\RSView Enterprise\VStudio.exe"
+$resultado = Get-PEHeader -Path $archivo
+Write-Output "The file $archivo is of architecture: $resultado"
+```
+
+  
+Continuing with the installation of the drivers, we are ready.
+
+![](./assets/images/blog-factory-talk-view-se-sqlite/FactoryTalkView_SQLite-1.png)
+
+  
+And we move on to the code that we are going to execute. It is the same :-) , I have only modified it to see the formatting of the result in the console, but this time it runs in Visual Basic for Applications (VBA)
+
+For those who are new to Factory Talk View, we will write the code as we mentioned in VBA, but in the properties of the button, you must expose it to VBA, you have to change that property so that it is visible and accessible from VBA
+
+![](./assets/images/blog-factory-talk-view-se-sqlite/FactoryTalkView_SQLite-5-1024x525.png)
+
+  
+And if you want to try it yourself, here is the code
+
+Code
+
+```
+    Dim conn, rst, strSQL, results, i
+    Set conn = CreateObject("ADODB.Connection")
+    Set rst = CreateObject("ADODB.Recordset")
+    
+    LogDiagnosticsMessage "--> Start"
+    
+    ' OPEN CONNECTION
+    conn.Open "DRIVER=SQLite3 ODBC Driver;Database=C:\Resources\PHS.db;LongNames=0;Timeout=1000;NoTXN=0;SyncPragma=NORMAL;StepAPI=0;"
+    
+    strSQL = "SELECT * FROM Configuration"
+    
+    ' OPEN RECORDSET
+    rst.Open strSQL, conn
+    
+    ' SHOW RESULTS IN MSGBOX
+    results = ""
+    'Do Until rst.EOF
+    '    For i = 0 To rst.Fields.Count - 1
+    '        results = "   " & rst.Fields(i).Name & ": " & rst.Fields(i).Value
+    '        LogDiagnosticsMessage results
+    '    Next
+    '    rst.MoveNext
+    'Loop
+    
+    Do Until rst.EOF
+        results = "   " & rst.Fields(0).Name & ": " & rst.Fields(0).Value & " " & rst.Fields(1).Name & ": " & rst.Fields(1).Value
+        LogDiagnosticsMessage results
+        rst.MoveNext
+    Loop
+    
+    ' CLOSE RECORDSET
+    rst.Close
+
+    LogDiagnosticsMessage "--> End"
+    ' RELEASE RESOURCES
+    Set rst = Nothing
+    Set conn = Nothing	
+```
+
+  
+And here is our result.
+
+![](./assets/images/blog-factory-talk-view-se-sqlite/FactoryTalkView_SQLite-7.png)
+
+  
+**NOTE**: If you are working with a distributed architecture, remember that the Driver must be installed on all clients that will connect to the SQLite database.
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Factory Talk View SE - SQLite](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-sqlite/) — Jose Manuel Luque*

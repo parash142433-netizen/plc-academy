@@ -1,0 +1,48 @@
+---
+title: "PV550 Communication with PLC5-30 on DH+ Network"
+slug: "panelbuilder32-pv550-rslogix5-plc5"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/PanelBuilder32_PV550_RSLogix5_PLC5.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["PV550 Communication with PLC5-30 on DH+ Network"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# PV550 Communication with PLC5-30 on DH+ Network
+
+Jose Manuel Luque
+
+PV550 Communication with PLC5-30 on DH+ Network
+
+**PV550 Communication with PLC5-30 on DH+ Network  
+**
+
+We have seen the different communication protocols available in PanelBuilder32 ( [Communications Setup](#/a/en%2Fpanelbuilder-communications) ) depending on the PanelView, we have also seen how to configure the [Hardware in RSLogix5](#/a/en%2Frslogix5-configuracion-hardware) for a PLC5-30, now we will see an example of communication between a PV550 and a PLC 5/30, for this we will follow Rockwell Automation's recommendations for the DH+ network in a Point-to-Point communication. At a network speed of 57.6Kb, the resistance corresponds to 150 Ohm.
+
+![](./assets/images/panelbuilder32-pv550-rslogix5-plc5/PV550-PLC5-00.png) ![](./assets/images/panelbuilder32-pv550-rslogix5-plc5/PV550-PLC5-0.png)
+
+In RSLogix5, Channel 1B has been configured for DH+ communication, the default speed is 57.6 KBaud and the PLC is node 5 on the DH+ network, the Panel View has node 2 and the same speed.
+
+![](./assets/images/panelbuilder32-pv550-rslogix5-plc5/PV550-PLC5-2.png)
+
+In PanelBuilder32, the communication has been configured as seen previously, the necessary tags for this test have been set up, and buttons have been inserted on the screen to perform the Start/Stop function, along with a Numeric Display object for the Motor value.
+
+![](./assets/images/panelbuilder32-pv550-rslogix5-plc5/PV550-PLC5-1.png)
+
+In RSLogix5, a Start/Stop program has been created, the tags configured in PanelBuilder32 are B3:0/0 for Start and B3:0/1 for Stop, the output O:000/0 is the value that will be displayed in the Numeric Display field. The program is already loaded into the PLC and I am Online.
+
+![](./assets/images/panelbuilder32-pv550-rslogix5-plc5/PV550-PLC5-5.png)
+
+We load the program to the PanelView550 and we can now verify that there is communication and our program works. If we stop the PLC, we check the error that shows on the PanelView "_684 Required network node not found_"
+
+![](./assets/images/panelbuilder32-pv550-rslogix5-plc5/PV550-PLC5-4.png) ![](./assets/images/panelbuilder32-pv550-rslogix5-plc5/PV550-PLC5-3.png)
+
+August 5, 2013
+
+---
+*Source: [PV550 Communication with PLC5-30 on DH+ Network](https://www.plc-hmi-scadas.com/en/PanelBuilder32_PV550_RSLogix5_PLC5.php) — Jose Manuel Luque*

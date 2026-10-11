@@ -1,0 +1,55 @@
+---
+title: "OPC Server Communication with WinCC RT Professional 11"
+slug: "009"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/009.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC RT Professional 11","OPC Server","Kepserver"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# OPC Server Communication with WinCC RT Professional 11
+
+Jose Manuel Luque
+
+WinCC RT Professional 11 OPC Server Kepserver
+
+When working with WinCC, we find that there is no available driver to communicate with the S7-2xx series. Since we have the OPC driver, we will use this to access our PLC. We will take advantage of the configuration we already have set up for an OPC Server and our S7-2xx, which you can find [here](#/a/en%2F007).
+
+1.- We start from the basis that we already have our project created and we are going to configure a new link. For this, we go to connections and create a new one.
+
+![](./assets/images/009/TIA%20WinCC%20OPC%20S7-2xx-31.jpg)
+
+We give it a name and open the dropdown menu in the driver selection and select OPC. In the parameters, we set our OPC Server.
+
+![](./assets/images/009/TIA%20WinCC%20OPC%20S7-2xx-32.jpg)
+
+2.- Once our link is created, the next step will be to add the variables we want to access. We can create a new variable table to specify each link with its own table.
+
+![](./assets/images/009/TIA%20WinCC%20OPC%20S7-2xx-33.jpg)
+
+3.- Each time we create a new variable, we need to assign the data type and the address in its properties.
+
+![](./assets/images/009/TIA%20WinCC%20OPC%20S7-2xx-34.jpg)
+
+4.- We go to the address dropdown menu and a window appears as shown in the following image. Now we can access the variables we have configured in our OPC Server, assigning each created variable its corresponding address.
+
+![](./assets/images/009/TIA%20WinCC%20OPC%20S7-2xx-35.jpg)
+
+5.- To check the operation, we create some input/output fields and assign the different variables.
+
+![](./assets/images/009/TIA%20WinCC%20OPC%20S7-2xx-37.jpg)
+
+6.- Finally, we run the Simulation and check the operation. The communication is good!
+
+![](./assets/images/009/TIA%20WinCC%20OPC%20S7-2xx-39.jpg)
+
+July 29, 2012
+
+---
+*Source: [OPC Server Communication with WinCC RT Professional 11](https://www.plc-hmi-scadas.com/en/009.php) — Jose Manuel Luque*

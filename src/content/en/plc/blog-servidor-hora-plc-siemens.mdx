@@ -1,0 +1,182 @@
+---
+title: "Time server for Siemens S7-1500 PLC with NTP"
+slug: "blog-servidor-hora-plc-siemens"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/servidor-hora-plc-siemens/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","PLC","Siemens"]
+tags: ["Siemens","S7-1500","NTP","TIA Portal","Wireshark"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [Siemens](#/a/en%2Fplc-siemens) › PLC time server
+
+# Time server for Siemens S7-1500 PLC with NTP
+
+Time synchronization from a local Windows server, configured in TIA Portal and checked with Wireshark.
+
+Pedro Pagán Pallarés Aug 11, 2026
+
+Siemens S7-1500 NTP TIA Portal Wireshark
+
+![Siemens NTP server used to synchronize a PLC clock](./assets/images/blog-servidor-hora-plc-siemens/00-servidor-ntp-siemens-v2.png)
+
+The PLC clock is not a small detail. It is used in diagnostics, alarms, event logs, historical data and traceability. If each OT device has a different time, reconstructing what happened and in which order becomes painful.
+
+In this example we will create a **local Windows NTP server**, point a **Siemens S7-1500 PLC** to it from TIA Portal, and verify the traffic with Wireshark.
+
+## 1\. What the PLC clock is
+
+The PLC keeps an internal clock used as the timestamp reference for events. In TIA Portal we can set that clock from the **PG/PC**, for example when commissioning a CPU or after downloading a configuration.
+
+![PLC time taken from the PG PC in TIA Portal](./assets/images/blog-servidor-hora-plc-siemens/01-hora-pgpc.png)
+
+Setting the time once from the PG/PC is useful for startup, but it is not continuous synchronization. If the PLC does not query a time source again, its clock runs on its own.
+
+## 2\. Why it drifts over time
+
+The CPU keeps time with an internal oscillator. That oscillator is never mathematically perfect, and its frequency can vary because of manufacturing tolerance, temperature, aging and power conditions.
+
+**1.73 s/day**
+
+A small drift already matters when correlating diagnostics.
+
+**52 s/month**
+
+After one month, events can be almost one minute out of place.
+
+**10.5 min/year**
+
+Without resynchronization, the error accumulates during the life of the installation.
+
+## 3\. Synchronize with a time server
+
+The right solution is for the PLC to periodically query an **NTP time server**. This keeps the important devices in the network aligned to the same reference.
+
+Common options:
+
+*   **Internal network server**: for example, a domain controller or a central OT server. This is the usual plant approach.
+*   **Dedicated NTP/PTP device**: used when more precision or a GPS reference is required.
+*   **External Internet server**: fine for labs, but less common in isolated OT networks.
+
+In **TIA Portal V20**, the setting path is:
+
+1.  Open **Device configuration**.
+2.  Select the CPU, in this example a **CPU 1515-2 PN**.
+3.  Go to **Properties > General > Time of day**.
+4.  Under **Time-of-day synchronization**, select **Set NTP server in the project**.
+5.  Enter the NTP server IP, set the update interval, compile and download the hardware configuration.
+
+![Time of day configuration in TIA Portal for an NTP server](./assets/images/blog-servidor-hora-plc-siemens/02-time-of-day-synchronization.png)
+
+## 4\. Example: Windows as a local NTP server
+
+For a lab test we will turn a Windows PC on the network into the time server. In production, the usual choice is a central OT or domain server.
+
+### Prepare Windows
+
+Run PowerShell as administrator. First, check where the PC gets its time from:
+
+PowerShell
+
+```powershell
+w32tm /query /source
+w32tm /query /status
+```
+
+![w32tm source and status query](./assets/images/blog-servidor-hora-plc-siemens/03-w32tm-source-status.png)
+
+Enable Windows as an NTP server and announce it as a valid time source:
+
+PowerShell
+
+```powershell
+Set-ItemProperty `
+  -Path "HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpServer" `
+  -Name "Enabled" `
+  -Value 1
+
+Set-ItemProperty `
+  -Path "HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Config" `
+  -Name "AnnounceFlags" `
+  -Value 5
+```
+
+Then keep the service available, restart it and open UDP port 123 for the local subnet only:
+
+PowerShell
+
+```powershell
+sc.exe triggerinfo w32time delete
+Set-Service -Name W32Time -StartupType Automatic
+
+Stop-Service -Name W32Time -Force
+Start-Service -Name W32Time
+
+New-NetFirewallRule `
+  -DisplayName "Servidor NTP para PLC" `
+  -Direction Inbound `
+  -Protocol UDP `
+  -LocalPort 123 `
+  -RemoteAddress LocalSubnet `
+  -Action Allow
+```
+
+![Configuring Windows as an NTP server for the PLC](./assets/images/blog-servidor-hora-plc-siemens/04-configurar-windows-ntp.png)
+
+Check that the service is running:
+
+PowerShell
+
+```powershell
+Get-Service W32Time
+```
+
+![W32Time service running in Windows](./assets/images/blog-servidor-hora-plc-siemens/05-servicio-w32time.png)
+
+### Test from another PC
+
+From another machine on the same network, for example the TIA Portal machine, test against the server PC IP. In this example it is **192.168.1.134**:
+
+PowerShell
+
+```powershell
+w32tm /stripchart /computer:192.168.1.134 /samples:5 /dataonly
+```
+
+![Stripchart test against the local NTP server](./assets/images/blog-servidor-hora-plc-siemens/06-stripchart-servidor-ntp.png)
+
+### Configure the PLC
+
+Now the PLC must point to that time server. The PLC and the server must be on the same network, or routing to UDP 123 must be allowed.
+
+In this example the server is defined directly in the TIA Portal project. Depending on the installation, it could also be provided by DHCP or configured from the display.
+
+![NTP server set in the TIA Portal project](./assets/images/blog-servidor-hora-plc-siemens/07-tia-servidor-ntp-proyecto.png)
+
+![Local NTP server IP configured in TIA Portal](./assets/images/blog-servidor-hora-plc-siemens/08-ip-servidor-ntp.png)
+
+Download the configuration to the PLC. To confirm that the PLC follows the server, change the Windows server time manually and compare it with the module time in TIA Portal.
+
+![Manual time change on the Windows server and module time in TIA Portal](./assets/images/blog-servidor-hora-plc-siemens/09-cambiar-hora-servidor-plc.png)
+
+### Validate with Wireshark
+
+The final check is the traffic itself. In Wireshark, filter by `ntp` or `udp.port == 123`. You should see the PLC queries to the server and the NTP response from the PC.
+
+![Wireshark capture of NTP frames between Siemens PLC and Windows server](./assets/images/blog-servidor-hora-plc-siemens/10-wireshark-ntp-plc.png)
+
+The capture confirms that the PLC is querying the local NTP server over UDP 123.
+
+Practical summary: do not leave the PLC clock depending only on a PG/PC download. Define a common NTP source for the OT network and validate that the traffic is arriving before considering it done.
+
+## Related articles
+
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [OPC UA secure on Siemens S7-1500: certificates, UA Expert and Sign & Encrypt](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert)
+*   [SQL records with PLC S7-1500, intercepted with Wireshark](#/a/en%2Fblog-registros-en-sql-con-plc-1500-interceptados-con-wireshark)
+
+---
+*Source: [Time server for Siemens S7-1500 PLC with NTP](https://www.plc-hmi-scadas.com/en/blog/servidor-hora-plc-siemens/) — Pedro Pagán Pallarés*

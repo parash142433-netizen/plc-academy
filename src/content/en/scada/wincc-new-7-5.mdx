@@ -1,0 +1,181 @@
+---
+title: "New Features of WinCC 7.5"
+slug: "wincc-new-7-5"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_New_7_5.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC 7.5"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# New Features of WinCC 7.5
+
+Jose Manuel Luque 04 Feb, 2019
+
+WinCC 7.5
+
+**New Features of WinCC 7.5**
+
+It has been a while since the release of WinCC 7.5
+
+But let's explore some of the new features of this version. The best way to do this is to consult the manual. In each version, there is a section called Getting Started, and within it, there is a section dedicated to **What’s new in WinCC V7.???**
+
+![](./assets/images/wincc-new-7-5/WinCC75-000003.png)
+
+**System diagnostics with performance tags**
+
+Each connection we create adds a series of variables within the internal group Performance that help us analyze performance. If we change the name of the connection, the variables are updated.
+
+![](./assets/images/wincc-new-7-5/WinCC75-000008.png)
+
+Within this group of variables, we have the concepts \_PENDING, \_SECOND, \_TOTAL, and \_RESET
+
+![](./assets/images/wincc-new-7-5/WinCC75-000010.png)
+
+The description of each variable is as follows according to the manual.
+
+We already know that the variable RESET will help us disable or reset the counters
+
+![](./assets/images/wincc-new-7-5/WinCC75-000009.png)
+
+**Connection status in Runtime**
+
+Another new feature is to create status variables for each connection; for this, we have the option Create Enable/Disable Tags over the connection
+
+![](./assets/images/wincc-new-7-5/WinCC75-000011.png)
+
+Once created, we have a MessageBox that informs us that a new group of internal variables "ConnectionStates" has been created where the variables are located.
+
+![](./assets/images/wincc-new-7-5/WinCC75-000013.png)
+
+![](./assets/images/wincc-new-7-5/WinCC75-000014.png)
+
+The description of these variables and their usage is as follows:
+
+![](./assets/images/wincc-new-7-5/WinCC75-000015.png)
+
+The documentation includes a very illustrative image like the following:
+
+![](./assets/images/wincc-new-7-5/WinCC75-000016.png)
+
+**Configuration: WinCC Configuration Studio**
+
+Within the Configuration Studio editor, the following editors have been added or improved:
+
+Menus and toolbars
+
+Text and graphic lists
+
+Picture Tree
+
+WinCC Tag Simulator
+
+![](./assets/images/wincc-new-7-5/WinCC75-000017.png)
+
+**Folder structures for PDLs**
+
+New possibility to organize images within folders.
+
+![](./assets/images/wincc-new-7-5/WinCC75-000018.png)
+
+When deleting a directory, we do it from the right window; it is not enabled from the project tree.
+
+![](./assets/images/wincc-new-7-5/WinCC75-000039.png)
+
+To reference an image within any directory, we must remember that we access with Directory\\ImageName.
+
+If you have any doubts, remember that item.Parent.ObjectName is your friend... Depending on the level of nesting, it will be item.Parent.Parent... ObjectName
+
+![](./assets/images/wincc-new-7-5/WinCC75-000041.png)
+
+**Special characters and new fonts**
+
+The option to use new fonts and symbols within a text has been added; when we go to write, the Omega icon is activated, and with it, a window where we can select the symbol we are interested in
+
+![](./assets/images/wincc-new-7-5/WinCC75-000024.png)
+
+![](./assets/images/wincc-new-7-5/WinCC75-000025.png)
+
+Possibility to change the font properties directly on the object of interest
+
+![](./assets/images/wincc-new-7-5/WinCC75-000023.png)
+
+**Actions for the "Close Picture" event**
+
+The Close Image event has been added; until now, we had the Open Image event, for the While Running event, we did it with an object within the image. Now we have covered all the most important events of an image.
+
+[Example of how to implement While Running](#/a/en%2Fwincc-eventos-pdl)
+
+![](./assets/images/wincc-new-7-5/WinCC75-000026.png)
+
+If there is something to improve, it is that within the OnOpen() event, it has no arguments, and we cannot use the keyword "item" to refer to the screen.
+
+If we want to access the screen, we can use HMIRuntime.ActiveScreen...
+
+![](./assets/images/wincc-new-7-5/WinCC75-000042.png)
+
+**Graphic object "I/O Field"**
+
+Date/Time and local Date/Time formats have been added to the input/output fields
+
+![](./assets/images/wincc-new-7-5/WinCC75-000027.png)
+
+**New SVG library with extended functions**
+
+New version of SVG Graphics, which includes new properties for dynamization.
+
+![](./assets/images/wincc-new-7-5/WinCC75-000028.png)
+
+We insert an object from version 1, and within Symbol Properties, there is no property to dynamize
+
+![](./assets/images/wincc-new-7-5/WinCC75-000031.png)
+
+And with the new version, it depends on the graphic object for certain properties
+
+![](./assets/images/wincc-new-7-5/WinCC75-000032.png)
+
+**Pipette function for color selection**
+
+No more taking a screenshot, pasting it in paint, to get the RGB code of the color we are interested in; we can now select the color directly.
+
+![](./assets/images/wincc-new-7-5/WinCC75-000030.png)
+
+**New "Animation" type of dynamics**
+
+New dynamization to improve the performance of our application.
+
+![](./assets/images/wincc-new-7-5/WinCC75-000033.png)
+
+Example: We associate a variable or an expression, and with its result, we dynamize all the properties we have added
+
+![](./assets/images/wincc-new-7-5/WinCC75-000034.png)
+
+Depending on the object, we will have certain properties...
+
+![](./assets/images/wincc-new-7-5/WinCC75-000035.png)
+
+Each property we add is added in a new column, and depending on the value, we define according to our needs.
+
+![](./assets/images/wincc-new-7-5/WinCC75-000036.png)
+
+**WinCC/Cloud Connector**
+
+Possibility to upload data directly to the cloud; you know we are in the Industrial Revolution 4.0
+
+![](./assets/images/wincc-new-7-5/WinCC75-000037.png)
+
+This service is available with Amazon Web Services, Microsoft Azure, and a Generic MQTT Server; here is an [example](#/a/en%2Fwincc-mqtt)
+
+![](./assets/images/wincc-new-7-5/WinCC75-000038.png)
+
+These have been some of the new functions, but I reiterate that the best thing is to read the manual
+
+04-02-2019
+
+---
+*Source: [New Features of WinCC 7.5](https://www.plc-hmi-scadas.com/en/WinCC_New_7_5.php) — Jose Manuel Luque*

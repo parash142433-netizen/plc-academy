@@ -1,0 +1,67 @@
+---
+title: "Example FB14-15 SFB14-15 GET-PUT"
+slug: "086"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/086.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["FB14 GET","FB15 PUT","SFB14-15","GET PUT"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Example FB14-15 SFB14-15 GET-PUT
+
+Jose Manuel Luque
+
+FB14 GET FB15 PUT SFB14-15 GET PUT
+
+In response to a question from a colleague, I will carry out the following practice, which involves exchanging data between two CPU 300 with PN port, using the FB14 GET and FB15 PUT functions. Since these cannot be simulated in PLCSIM, I will replace them with SFB14-15, which serve the same purpose and can be executed in PLCSIM. We start with a project that has our two CPUs configured with an IP address in the same range and on the same subnet.
+
+![](./assets/images/086/SFB14-15%20GET-PUT-05.png)
+
+The first thing we do is run Netpro to create a new link between the two devices, which we can do by inserting -> new link.
+
+![](./assets/images/086/SFB14-15%20GET-PUT-06.png)
+
+Following the wizard, we select PLC\_2 and a link of type S7 Link, accept, and the next window shows the link between the two devices. We need to keep in mind that we will need to know the local ID for our SFB block.
+
+![](./assets/images/086/SFB14-15%20GET-PUT-07.png)
+
+![](./assets/images/086/SFB14-15%20GET-PUT-08.png)
+
+Upon confirmation, we can see that the link has been created; we just need to compile and save. Once this is done, we move on to programming.
+
+![](./assets/images/086/SFB14-15%20GET-PUT-09.png)
+
+The exercise consists of the following: PLC\_1 will read and write data in PLC\_2, specifically in DB1, which is an array of 10 of type word. Both PLC\_1 and PLC\_2 have the same DB1, but when we configure ADDR\_1 in our SFB14, it points to the first memory address of the data we want to read and its length. For this, we use pointer format as observed, and the data read from PLC\_2 is stored in DB1 of PLC\_1 starting from the memory address specified in RD\_1, and this will occur on a positive edge detected in REQ. ID refers to the ID when the link was configured, the NDR bit indicates the operation status, and any failure is recorded in the ERROR bit and its code in STATUS.
+
+The parameterization of SFB15 is exactly the same, except that in SD\_1 are the data we are going to write.
+
+![](./assets/images/086/SFB14-15%20GET-PUT-19.png)
+
+The example program would look as can be seen, except that SFB15 and DB15 are missing in PLC\_1 to write to PLC\_2.
+
+Taking advantage of the functionality of PLCSIM, we open two instances and load both programs in their respective.
+
+![](./assets/images/086/SFB14-15%20GET-PUT-20.png)
+
+![](./assets/images/086/SFB14-15%20GET-PUT-21.png)
+
+We use the variable table of PLC\_2 to change the data in our DB1 since in this PLC we do not need anything else to verify functionality.
+
+![](./assets/images/086/SFB14-15%20GET-PUT-17.png)
+
+At the same time, we have executed PLC\_1 and with PLCSIM we force the input E0.0, causing REQ to detect a positive edge and execute the GET function. To verify, we open DB1 and observe that the data has been read correctly.
+
+![](./assets/images/086/SFB14-15%20GET-PUT-18.png)
+
+![](./assets/images/086/SFB14-15%20GET-PUT-16.png)
+
+March 17, 2013
+
+---
+*Source: [Example FB14-15 SFB14-15 GET-PUT](https://www.plc-hmi-scadas.com/en/086.php) — Jose Manuel Luque*

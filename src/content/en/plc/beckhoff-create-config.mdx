@@ -1,0 +1,101 @@
+---
+title: "Online Hardware Configuration - Twincat System Manager"
+slug: "beckhoff-create-config"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Beckhoff_Create_Config.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","BECKHOFF"]
+tags: ["Upload","Twincat","System Manager"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [BECKHOFF](#/a/en%2Fplc-beckhoff) › Article
+
+# Online Hardware Configuration - Twincat System Manager
+
+Jose Manuel Luque 16 May, 2019
+
+Upload Twincat System Manager
+
+**Online Hardware Configuration - Twincat System Manager**
+
+Now we are going to create the hardware configuration of our device, to create the project and finally upload it.
+
+We can do everything completely manually, and in this other way, what we will do is read online the hardware detected on our device.
+
+We start just like before with these first common steps as when we downloaded the entire [configuration](#/a/en%2Fbeckhoff-upload-config), we will assume that we know the IP address of our PLC, for practice it is 192.168.1.250, the first step is to change our PC to that IP range and if necessary change it in TwinCAT
+
+In the TwinCAT properties is where we change it and restart the PC
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_02.png) ![](./assets/images/beckhoff-create-config/TwinCAT_Config_01.png)
+
+We open a new instance of TwinCAT System Manager, and with the shortcut F8 or in Actions "Choose Target System"
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_05.png)
+
+This new window opens to select our device, since it is not in local mode, we will search in the network, for this we click Search (Ethernet)
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_06.png)
+
+A new window opens, where after executing Broadcast, it has found our device, named CX1020, IP address, TwinCAT version, and operating system type
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_07.png)
+
+It is recommended to switch to IP Address, we do this in Address Info by changing the radio button.
+
+**INFORMATION**: If left by default on Host Name, it may happen that when you enter the password it does not connect
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_08.png)
+
+We can now click the Add Route button and a pop-up window will appear with the username and password
+
+By default, the password for a CE operating system is a space, using the space bar on the keyboard - for XP it is 1
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_10.png)
+
+If the password is correct, an X will appear by default in Connected, if it does not appear, the connection is not established and we cannot proceed. This would be the case I mentioned earlier when Host Name is selected, in the Address Info option.
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_12.png)
+
+We confirm with the OK button
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_13.png)
+
+Note how we are connected and it is in Runtime mode. When in Runtime mode, by default the Scan Devices option is disabled, which is the function we will use to read our hardware online
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_15.png)
+
+The next thing we are going to do is switch to Config Mode
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_19.png)
+
+Once we have changed the mode, it can be seen at the bottom, and the Scan Devices option is now enabled...[](#/a/en%2Fbeckhoff-upload-plc)
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_21.png)
+
+It warns us with a pop-up window that not all types of devices can be found automatically, we confirm with OK
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_22.png)
+
+And these are the devices it has found automatically, we select the ones we are interested in and confirm OK
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_23.png)
+
+The next function is the ability to scan within each device, sub-elements, we confirm with Yes
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_24.png)
+
+And finally, we have another pop-up window, if we want to activate in Free Run mode.
+
+We now have our hardware that has been detected automatically, now we just need to check that all elements and sub-elements really match.
+
+We save the project with the name we are interested in, and we are ready to create our PLC project, associate it with our hardware configuration, and activate that configuration.
+
+![](./assets/images/beckhoff-create-config/TwinCAT_Config_26.png)
+
+16-05-2019
+
+---
+*Source: [Online Hardware Configuration - Twincat System Manager](https://www.plc-hmi-scadas.com/en/Beckhoff_Create_Config.php) — Jose Manuel Luque*

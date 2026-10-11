@@ -1,0 +1,102 @@
+---
+title: "SNMP (Simple Network Management Protocol)"
+slug: "blog-snmp-simple-network-management-protocol"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/snmp-simple-network-management-protocol/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","SNMP"]
+tags: ["NETWORKS","SNMP"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [SNMP](#/a/en%2Fsnmp) › Article
+
+# SNMP (Simple Network Management Protocol)
+
+Jose Manuel Luque Nov 30, 2024
+
+NETWORKS SNMP
+
+![SNMP (Simple Network Management Protocol)](./assets/images/blog-snmp-simple-network-management-protocol/SNMP_Testing-14.png)
+
+It is a standard network protocol for managing and monitoring devices on a network, such as routers, switches, servers, printers, etc. It allows an **SNMP manager** (software) to communicate with **SNMP agents** (devices) to query information or send configurations.
+
+Fundamental concepts:
+
+*   **MIB (Management Information Base)**: It is a set of definitions that contains the description of all objects managed by SNMP, along with their OIDs. It allows understanding and managing the structure and data that the SNMP agent provides to the manager.  
+    MIBs are described in a language called **ASN.1** (Abstract Syntax Notation One).
+*   **OID (Object Identifier)**: It is a unique identifier for a managed object in an SNMP device. It represents a specific variable or attribute, such as the status of a network interface or the number of bytes received.
+*   **SNMP Agent**: A software on the device that responds to requests from the SNMP manager, by default it uses port: **161 UDP** and sends notifications (traps) about important events.
+*   **Trap**: A notification sent by the SNMP agent to the manager to inform about important events, such as hardware failure or a downed interface. By default, it uses port: **162 UDP**.
+*   **GET**: Request from the manager to the agent to read a value (OID).
+*   **SET**: Request from the manager to the agent to modify a value (OID).
+*   **Walk**: Operation that traverses all available OIDs on the device.
+
+Here we have the \*.mib file of a Scalance.
+
+![](./assets/images/blog-snmp-simple-network-management-protocol/SNMP_Testing-3.png)
+
+  
+And if we now want to know the **OID (Object Identifier)** of this Scalance, we are going to use a browser, [MIB Browser](https://www.ireasoning.com/download.shtml).
+
+![](./assets/images/blog-snmp-simple-network-management-protocol/SNMP_Testing-14-1024x938.png)
+
+  
+From here we could send commands to our switch and check the result, as I don’t have one :-( we will try it with our server.  
+  
+I have installed the **SNMP** role on a [Windows Server 2022](https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-snmp-service) and let's see how it works.  
+
+![](./assets/images/blog-snmp-simple-network-management-protocol/SNMP_Testing-11.png)
+
+  
+For our case, out of all the existing files with the installation, we will load the **HOST-RESOURCES-MIB** and check its operation.
+
+![](./assets/images/blog-snmp-simple-network-management-protocol/SNMP_Testing-16-1024x644.png)
+
+  
+Having enabled the **SNMP** server role, we will be able to query the information available in our MIB through its corresponding OID.  
+Since the browser is installed on the server itself, the address is localhost == 127.0.0.1, we search for the parameter and go ;-)
+
+![](./assets/images/blog-snmp-simple-network-management-protocol/SNMP_Testing-17-1024x645.png)
+
+  
+Now one more step... if for any reason, we need to make queries to our **SNMP** and obtain the result/value to display it in our **SCADA**, as there is no native library, we can use the following application [Net-SNMP](http://www.net-snmp.org/).  
+When we install it, we have the following tools and we will be able to generate, for a practical case, a script to obtain the result and format it as needed and link it to our SCADA system.  
+On servers like [DELL](https://www.dell.com/support/kbdoc/en-us/000177052/how-to-find-dell-management-information-base-mib-files) - [HP](https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-c04272529) you can find the MIBs if you need to know the status of the RAID, for example.
+
+![](./assets/images/blog-snmp-simple-network-management-protocol/SNMP_Testing-18.png)
+
+![](./assets/images/blog-snmp-simple-network-management-protocol/SNMP_Testing-19.png)
+
+  
+Example of a script in VBScript :-) for **WinCC**, for **Factory Talk View** with VBA or PowerShell, for **IFIX** with VBA, etc... and **AVEVA** has its own driver.
+
+Code
+
+```
+Set objShell = CreateObject("WScript.Shell")
+
+' Name
+OID_Name = "1.3.6.1.2.1.1.5.0"
+command = "C:\usr\bin\snmpget -v2c -c public 127.0.0.1 " & OID_Name
+' Uptime
+OID_Uptime = "1.3.6.1.2.1.1.3.0"
+command = "C:\usr\bin\snmpget -v2c -c public 127.0.0.1 " & OID_Uptime
+
+OID_Description = "1.3.6.1.2.1.1.1.0"
+command = "C:\usr\bin\snmpget -v2c -c public 127.0.0.1 " & OID_Description
+
+Set objExec = objShell.Exec(command)
+Do Until objExec.StdOut.AtEndOfStream
+    WScript.Echo objExec.StdOut.ReadLine()
+Loop
+```
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [SNMP (Simple Network Management Protocol)](https://www.plc-hmi-scadas.com/en/blog/snmp-simple-network-management-protocol/) — Jose Manuel Luque*

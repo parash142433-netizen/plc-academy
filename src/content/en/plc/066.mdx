@@ -1,0 +1,111 @@
+---
+title: "First Project with ABB Control Builder"
+slug: "066"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/066.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ABB"]
+tags: ["PLC","Programmable Logic Controllers","Control Builder","ABB"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ABB](#/a/en%2Fother-plcs) › Article
+
+# First Project with ABB Control Builder
+
+Jose Manuel Luque
+
+PLC Programmable Logic Controllers Control Builder ABB
+
+![](./assets/images/066/ABB%20Control%20Builder%20100.png)
+
+In today's practice, we will see how to create a project for an ABB PLC. This will be the first time I use this software, so I will detail all the steps.
+
+I couldn't start without thanking [Linkinx64](http://www402.abbext.com/ExpertProfile.aspx?username=Linkinx64) for all their recommendations for working with ABB. Thank you so much for your help and recommendation.
+
+The software we will use is PS501 Control Builder Plus, based on CodeSys.
+
+We run our program and the first thing we do is create a new project; the program interface is as follows:
+
+![](./assets/images/066/ABB%20Control%20Builder%20102.png)
+
+When creating a new project, the first thing we need to configure is the hardware of our equipment; here it will be fictitious as we will see how to use the simulator to test our programs.
+
+We select our CPU and then we will add the additional modules.
+
+![](./assets/images/066/ABB%20Control%20Builder%20104.png)
+
+In the project tree, below the CPU, we have IO\_Bus where we will select to add the different input/output modules, etc... a new window will open where we can select them.
+
+![](./assets/images/066/ABB%20Control%20Builder%20106.png)
+
+![](./assets/images/066/ABB%20Control%20Builder%20107.png)
+
+![](./assets/images/066/ABB%20Control%20Builder%20108.png)
+
+The next thing we will do is assign the corresponding symbols to the inputs and outputs; it is highly recommended to do this as when we edit with CodeSys, all of them will be imported as Global variables to be used in our program.
+
+![](./assets/images/066/ABB%20Control%20Builder%20109.png)
+
+![](./assets/images/066/ABB%20Control%20Builder%20110.png)
+
+![](./assets/images/066/ABB%20Control%20Builder%20111.png)
+
+Once all the symbols are created, and after modifying everything related to the hardware such as the IP address, we can now edit our program; to do this, we proceed as follows:
+
+![](./assets/images/066/ABB%20Control%20Builder%20112.png)
+
+At the same time, the CodeSys software opens and by default in the POUs tab, here is where we will add our subroutines, functions, etc... and from where in the PLC\_PRG (PRG) main program, we will call the different blocks created.
+
+![](./assets/images/066/ABB%20Control%20Builder%20113.png)
+
+If we switch to the Resources tab, we can see the directory of several folders containing libraries with functions already prepared to be instantiated.
+
+Within Global Variables, IO\_Bus we have all the inputs and outputs that we created, and as it is said, they are global scope variables, to be used anywhere in the program.
+
+![](./assets/images/066/ABB%20Control%20Builder%20114.png)
+
+We return to the POUs tab and add a new program and choose the programming language to be used; since it will be a small functionality test, we add the check of whether we have an input activated, we will activate an output, otherwise we will not.
+
+![](./assets/images/066/ABB%20Control%20Builder%20115.png)
+
+The next thing we will do is call our program from PLC\_PRG (PRG); we open it and to call it we can use the wizard.
+
+![](./assets/images/066/ABB%20Control%20Builder%20116.png)
+
+![](./assets/images/066/ABB%20Control%20Builder%20117.png)
+
+Once we have added it, we can compile and check the results; if we have no errors, we can proceed to simulate it or, alternatively, transfer it to our PLC.
+
+![](./assets/images/066/ABB%20Control%20Builder%20118.png)
+
+To start the Simulation mode, we go to Online and activate Simulation Mode.
+
+![](./assets/images/066/ABB%20Control%20Builder%20120.png)
+
+Once we are in simulation mode, still in Online, we log in; this is equivalent to establishing communication with the PLC.
+
+![](./assets/images/066/ABB%20Control%20Builder%20121.png)
+
+Upon logging in, we are now connected to the PLC, so we can see at the bottom that simulation mode appears and that we are Online.
+
+![](./assets/images/066/ABB%20Control%20Builder%20122.png)
+
+Finally, we execute Run to start the program, and we are now enabled to force and change our variables.
+
+![](./assets/images/066/ABB%20Control%20Builder%20123.png)
+
+To change the state of a variable, we click on it, and once the desired value is selected, we return to Online and force the assigned value.
+
+![](./assets/images/066/ABB%20Control%20Builder%20124.png)
+
+![](./assets/images/066/ABB%20Control%20Builder%20125.png)
+
+With this, we are ready to perform some function and check its operation; to exit simulation mode, we follow the same steps but in reverse, that is, first we do STOP -> LOGOUT -> and deselect the Simulation Mode option.
+
+January 25, 2013
+
+---
+*Source: [First Project with ABB Control Builder](https://www.plc-hmi-scadas.com/en/066.php) — Jose Manuel Luque*

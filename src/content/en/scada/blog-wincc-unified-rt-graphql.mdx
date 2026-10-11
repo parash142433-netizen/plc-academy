@@ -1,0 +1,177 @@
+---
+title: "WinCC Unified RT GraphQL"
+slug: "blog-wincc-unified-rt-graphql"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-rt-graphql/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","WinCC Unified","WinCC Unified"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Unified RT GraphQL
+
+Jose Manuel Luque Apr 06, 2025
+
+SCADA WinCC Unified WinCC Unified
+
+![WinCC Unified RT GraphQL](./assets/images/blog-wincc-unified-rt-graphql/image-32.png)
+
+[**GraphQL**](https://graphql.org/learn/) is a query language and a runtime environment for **APIs** (Application Programming Interfaces). It is designed to allow clients to request exactly the data they need, no more and no less, making it more efficient and flexible compared to traditional **REST APIs**.
+
+After the introduction to the language, we will explore the functionalities it offers. If you access your **IIS** (Internet Information Services) where your **WinCC Unified SCADA** is located, you will see **graphql**.
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-31.png)
+
+  
+If we explore the web, this is what you will find :-)
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-32.png)
+
+  
+We will try to connect and check the value of our tag **TagOpenPipe** and we will do it with **PowerShell** and the **POST** method.  
+
+Code
+
+```
+
+# Step 1: Obtain the authentication token
+$loginMutation = @"
+mutation {
+  login(username: "PHS", password: "Password") {
+    token
+    user {
+      id
+      fullName
+    }
+    error {
+      code
+      description
+    }
+  }
+}
+"@
+
+$headers = @{
+    "Content-Type" = "application/json"
+}
+
+$body = @{
+    query = $loginMutation
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod -Uri "https://192.168.1.201/graphql/" -Method Post -Headers $headers -Body $body
+$token = $response.data.login.token
+
+# Step 2: Execute the query to obtain the tag value
+$query = @"
+query {
+  tagValues(names: ["TagOpenPipe"]) {
+    name
+    value {
+      value
+      timestamp
+      quality {
+        quality
+        subStatus
+      }
+    }
+    error {
+      code
+      description
+    }
+  }
+}
+"@
+
+$headers = @{
+    "Content-Type" = "application/json"
+    "Authorization" = "Bearer $token"
+}
+
+$body = @{
+    query = $query
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod -Uri "https://192.168.1.201/graphql/" -Method Post -Headers $headers -Body $body
+$response | ConvertTo-Json -Depth 10
+```
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-71.png)
+
+  
+The next tool we will use to check its functionality is [Postman](https://www.postman.com/)  
+Once started, it is clear that we will select:
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-34.png)
+
+  
+By entering the **URL**, we can already observe the **Schema** of the GraphQL API. This schema is a representation of the capabilities and functionalities that the API offers. The first one we will use is Login, to obtain our **token**.
+
+*   **(Query)** The queries that can be performed.
+*   **(Mutation)** The mutations that allow modifying data.
+*   **(Subscription)** The subscriptions to receive real-time updates.
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-35.png)
+
+  
+Once the following query is executed:
+
+Code
+
+```
+mutation Login {
+    login(username: "PHS", password: "Password") {
+        token
+        expires
+    }
+}
+```
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-36.png)
+
+  
+We already have our **token** that we will use to continue performing queries and testing...  
+In the **Authorization** tab, select **Bearer Token** and copy the **token** we obtained:
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-37.png)
+
+  
+Now that we can start performing queries, let's check how many tags our project has:
+
+Code
+
+```
+query Browse {
+    browse(nameFilters: "*") {
+        name
+        displayName
+        objectType
+        dataType
+    }
+}
+```
+
+  
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-39.png)
+
+  
+The problem with **Postman** is that the subscriptions via **WebSocket** do not work correctly for me... so we change tools and according to the documentation from **SIEMENS**, we will use [apollographql](https://studio.apollographql.com/) to complete the preliminary tests ;-)  
+We log in again to obtain our token and in **Authorization** we assign it as shown.
+
+![](./assets/images/blog-wincc-unified-rt-graphql/image-40.png)
+
+  
+And if you want to see how subscriptions work, watch a few seconds of video ;-)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC Unified RT GraphQL](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-rt-graphql/) — Jose Manuel Luque*

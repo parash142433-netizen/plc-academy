@@ -1,0 +1,200 @@
+---
+title: "AVEVA ArchestrA – Write to the Logger from C#"
+slug: "blog-aveva-archestra-logger-csharp"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-archestra-logger-csharp/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["AVEVA","ArchestrA","System Platform","InTouch","C#","Script Extension"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA ArchestrA – Write to the Logger from C#
+
+Ready-to-use C# class wrapping LoggerDLL.dll to post Info, Warning, Error and Trace messages directly into the AVEVA System Platform and InTouch Logger.
+
+Jose Manuel Luque Mar 17, 2026
+
+AVEVA ArchestrA System Platform InTouch C# Script Extension
+
+![AVEVA ArchestrA – Write to the Logger from C#](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-01.png)
+
+### Índice
+
+*   [What is the ArchestrA Logger?](#/a/en%2Fblog-aveva-archestra-logger-csharp)
+*   [Create the project](#/a/en%2Fblog-aveva-archestra-logger-csharp)
+*   [The AvevaLogger class](#/a/en%2Fblog-aveva-archestra-logger-csharp)
+*   [Acknowledgements](#/a/en%2Fblog-aveva-archestra-logger-csharp)
+
+**What is the ArchestrA Logger?**
+
+The **ArchestrA Logger** is the centralised logging system of AVEVA System Platform and InTouch. All platform components (Application Server, Historian, InTouch, etc.) write here and messages can be reviewed with **ArchestrA Log Viewer**.
+
+When developing a **Script Extension** (a .NET library that extends Application Server objects) or any external component, integrating with this Logger keeps all traces in one place. That is where `LoggerDLL.dll` comes in.
+
+![ArchestrA Log Viewer with log level checkboxes enabled](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-09.png)
+
+When developing a .NET library or a new .NET component that extends functionality for the Application Server / InTouch, the cleanest approach is to integrate with this Logger instead of writing to a proprietary file. For this we use the library that already handles this for all platform components: `LoggerDLL.dll`.  
+  
+Below are the methods we will use — this will help you understand the C# class better:
+
+![Exported methods from LoggerDLL.dll: REGISTERLOGGERCLIENT, LOGINFO, LOGWARNING, LOGERROR, LOGTRACE](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-02.png)
+
+**Create the project** **Class Library (.NET Framework)**
+
+We create a **Class Library (.NET Framework)** project in Visual Studio. The framework must be compatible with the installed AVEVA version (currently .NET Framework 4.8).
+
+Below is an example of one function inside the library we are building, where the key part is the call to the class we are about to create to write to the Logger:
+
+![Selección del tipo de proyecto y framework](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-03.png)
+
+**The AvevaLogger class**
+
+Drop this class into your project, add a reference to `LoggerDLL.dll` (found at `C:\Program Files (x86)\Common Files\ArchestrA\LoggerDLL.dll`), and you get four log levels as static methods.
+
+The class self-initialises on first call (_lazy init_), registers the client using the assembly name as identity, and automatically unregisters on process exit via the `ProcessExit` event.
+
+csharp
+
+```csharp
+using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
+
+namespace PHSTraining
+{
+    internal class AvevaLogger
+    {
+        private const string LoggerDllPath = @"C:\Program Files (x86)\Common Files\ArchestrA\LoggerDLL.dll";
+        private static int _hIdentity = 0;
+        private static bool _initialized = false;
+        private static string _identityName = string.Empty;
+
+        static AvevaLogger()
+        {
+            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+        }
+
+        [DllImport(LoggerDllPath, EntryPoint = "REGISTERLOGGERCLIENT")]
+        private static extern int RegisterLoggerClient(ref int hIdentity);
+
+        [DllImport(LoggerDllPath, EntryPoint = "UNREGISTERLOGGERCLIENT")]
+        private static extern int UnregisterLoggerClient(ref int hIdentity);
+
+        [DllImport(LoggerDllPath, EntryPoint = "SETIDENTITYNAME", CharSet = CharSet.Unicode)]
+        private static extern int SetIdentityName(int hIdentity, string identityName);
+
+        [DllImport(LoggerDllPath, EntryPoint = "LOGINFO", CharSet = CharSet.Unicode)]
+        private static extern void LogInfo(int hIdentity, string message);
+
+        [DllImport(LoggerDllPath, EntryPoint = "LOGWARNING", CharSet = CharSet.Unicode)]
+        private static extern void LogWarning(int hIdentity, string message);
+
+        [DllImport(LoggerDllPath, EntryPoint = "LOGERROR", CharSet = CharSet.Unicode)]
+        private static extern void LogError(int hIdentity, string message);
+
+        [DllImport(LoggerDllPath, EntryPoint = "LOGTRACE", CharSet = CharSet.Unicode)]
+        private static extern void LogTrace(int hIdentity, string message);
+
+
+        public static void LogInfo(string message)
+        {
+            EnsureInitialized();
+            LogInfo(_hIdentity, message ?? string.Empty);
+        }
+
+        public static void LogWarning(string message)
+        {
+            EnsureInitialized();
+            LogWarning(_hIdentity, message ?? string.Empty);
+        }
+
+        public static void LogError(string message)
+        {
+            EnsureInitialized();
+            LogError(_hIdentity, message ?? string.Empty);
+        }
+
+        public static void LogTrace(string message)
+        {
+            EnsureInitialized();
+            LogTrace(_hIdentity, message ?? string.Empty);
+        }
+
+
+        private static void EnsureInitialized()
+        {
+            if (_initialized) return;
+
+            _identityName = Assembly.GetExecutingAssembly().GetName().Name;
+
+            int rc = RegisterLoggerClient(ref _hIdentity);
+            if (rc <= 0 || _hIdentity == 0)
+                throw new InvalidOperationException("REGISTERLOGGERCLIENT failed.");
+
+            rc = SetIdentityName(_hIdentity, _identityName);
+            if (rc <= 0)
+                throw new InvalidOperationException("SETIDENTITYNAME failed.");
+
+            _initialized = true;
+        }
+
+        private static void OnProcessExit(object sender, EventArgs e)
+        {
+            if (_hIdentity != 0)
+                UnregisterLoggerClient(ref _hIdentity);
+
+            _hIdentity = 0;
+            _initialized = false;
+            _identityName = string.Empty;
+        }
+    }
+}
+```
+
+After adding the class to your project, finish your library / User Control, compile it and import it into System Platform.
+
+![Referencia a LoggerDLL.dll añadida al proyecto](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-08.png)
+
+Once imported, you will see it has been copied to:  
+_**C:\\Program Files (x86)\\ArchestrA\\Framework\\FileRepository\\\[GalaxyName\]\\Vendors\\ArchestrA**_
+
+![Carpeta Vendors\\ArchestrA donde se despliega la Script Extension](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-07.png)
+
+Once imported, you can also check at the following path:  
+**_C:\\Users\\Administrator\\AppData\\Local\\Temp\\ScriptTemp_**  
+where the .aaSLIB and XML are automatically generated.
+
+![Carpeta Vendors\\ArchestrA donde se despliega la Script Extension](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-06.png)
+
+![Referencia a LoggerDLL.dll añadida al proyecto](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-05.png)
+
+Now we just need to test and implement it where appropriate. Here is the example:  
+A Script triggered with the Object Viewer.
+
+![Test script triggered from the Object Viewer](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-10.png)
+
+And the output in the Log Viewer :-)
+
+![Propiedades del proyecto: Output path apuntando a la carpeta temporal de Script Extension](./assets/images/blog-aveva-archestra-logger-csharp/aveva-archestra-logger-04.png)
+
+**Acknowledgements**
+
+Last but not least:
+
+> «Gratitude in silence serves no one.» — Gladys Berthe Stern
+
+I want to thank my colleague **Ivan Comino Martinez.** These are the paradoxes of fate:
+
+> «When I worked at Telstar (Syntegon), a big hug to everyone reading this, Ivan Comino worked at Systel, and on more than one occasion I came across code and programs they had developed — in the comments the first thing I read was "IC" — and I thought... What great work! And now I am lucky enough to have him as a colleague, to learn from him and work as a team. These are the paradoxes of fate.» — José Manuel Luque
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [AVEVA ArchestrA – Write to the Logger from C#](https://www.plc-hmi-scadas.com/en/blog/aveva-archestra-logger-csharp/) — Jose Manuel Luque*

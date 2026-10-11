@@ -1,0 +1,91 @@
+---
+title: "Automatic Screen Change"
+slug: "047"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/047.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["TIA Portal","WinCC Flexible","KTP"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# Automatic Screen Change
+
+Jose Manuel Luque
+
+TIA Portal WinCC Flexible KTP
+
+This practice is dedicated to a colleague who left me a comment on how to change images automatically every certain time, without operator intervention. I wanted to implement some lines of code that may be useful in other situations, such as creating a timed flip-flop and a shift register based on the previous time.
+
+I will start from the basis that we already have our project created in TIA Portal, both for the PLC and the HMI, and this is what it looks like.
+
+![](./assets/images/047/TIA%201-1.jpg)
+
+In this first segment, I have already included its description. We are going to load the time of 5 seconds per timer, which will give us an activation time of 10 seconds for each image, and the marker we are going to use will be MW0, which we start at 1. This segment will not repeat until the CPU is switched to Stop and Run again, unless we reset the marker M100.0.
+
+![](./assets/images/047/TIA%201-2.jpg)
+
+Now we are going to create the timed Flip-Flop. We create this with two TON timers, where the PT preset time is referenced to its corresponding DB, which can later be used to change those times from the screen.
+
+![](./assets/images/047/TIA%201-3.jpg)
+
+In the next segment, what we do is a 1-bit shift register each time the associated timer is activated in the previous segment, and when we reach bit number 7, which has a value of 128, we start the loop again.
+
+![](./assets/images/047/TIA%201-4.jpg)
+
+MW0 = 1
+
+M1.0
+
+MW0 = 2
+
+M1.1
+
+MW0 = 4
+
+M1.2
+
+MW0 = 8
+
+M1.3
+
+MW0 = 16
+
+M1.4
+
+MW0 = 32 
+
+M1.5
+
+MW0 = 64 
+
+M1.6
+
+MW0 = 128 
+
+M1.7
+
+We link the Tag\_2 to our screen and all the ones we need, but for the development of this example, this one is sufficient.
+
+![](./assets/images/047/TIA%201-5.jpg)
+
+Now comes the most interesting part, which is the creation of a Script that I call ChangeScreens, which compares the value of Tag\_2 (MW0) and checks which bit is active, and based on this bit, we activate the screen that interests us.
+
+![](./assets/images/047/TIA%201-6.jpg)
+
+Once the Script is created and we have compiled it successfully, we can now use our Procedure, and we will associate it with the event of Tag\_2 on Value change. This means that every time its value changes, we will execute the script and activate the corresponding screen.
+
+![](./assets/images/047/TIA%201-8.jpg)
+
+And to show its operation, a small demonstration video, as always any suggestions, corrections, or errors are welcome.
+
+              Adobe Flash Player [downloading here](http://www.adobe.com/go/getflashplayer).
+
+November 1, 2012
+
+---
+*Source: [Automatic Screen Change](https://www.plc-hmi-scadas.com/en/047.php) — Jose Manuel Luque*

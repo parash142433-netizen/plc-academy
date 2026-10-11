@@ -1,0 +1,119 @@
+---
+title: "WinCC MQTT Publisher"
+slug: "wincc-mqtt"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_MQTT.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC MQTT"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC MQTT Publisher
+
+Jose Manuel Luque 18 May, 2019
+
+WinCC MQTT
+
+**WinCC MQTT Publisher**
+
+![](./assets/images/wincc-mqtt/vba-logo.png) ![](./assets/images/wincc-mqtt/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+Among the new features of the latest version of WinCC 7.5, there was the Cloud Connector option, directly related to Industry 4.0. Well, today we will see an example, and this way I respond to a suggestion :-)
+
+To avoid creating an account on Amazon Web Services (MQTT) or Microsoft Azure (MQTT), I will use the other alternative, which is a Generic Broker, and one of the most mentioned or the most popular is Mosquitto.
+
+Therefore, the first thing I did was install Mosquitto, you can download it [here](https://mosquitto.org/download/).
+
+Once installed, you need to restart for the service to start.
+
+After restarting, to check the operation, we will execute the command _sc query mosquitto_, as shown in the following image.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_100.png)
+
+Our Broker is now up and running.
+
+Now let's look at the variables we are interested in publishing; for the example, I have selected these two and set the acquisition cycle to trigger every time the variable value changes.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_101.png)
+
+The next step will be the configuration in WinCC; we run the Cloud Connector.
+
+As we mentioned earlier, we will select a generic MQTT service provider. The broker address, since I installed it on the same machine, is 127.0.0.1 - Localhost or the IP address of the computer.
+
+By default, the port is 1883.
+
+Station name, we leave it as WinCC by default, and later we will see the importance of this name.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_102.png)
+
+We check the connection, and it is established correctly. We have configured the WinCC part.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_103.png)
+
+Finally, we will configure the service to start automatically with the Runtime startup (Cloud Connector).
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_104.png)
+
+We start the Runtime and will perform the first checks.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_105.png)
+
+The first thing we will review is the System variables related to the Cloud Connector, which are the following.
+
+If we observe that all variables have a quality code of 0x4C - uncertain - initial value, we need to ensure that the service is running.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_106.png)
+
+The service is the following CCCloudConnect that is running, and everything is functioning perfectly.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_107.png)
+
+Now we need a client to subscribe and observe the operation and values of the variables we are interested in.
+
+As a client, we will use a Google Chrome extension, which you can install (MQTTLens).
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_108.png)
+
+Once added, we will run it, and this is the environment we will find.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_109.png)
+
+We will create a new connection to our Broker.
+
+As parameters to define, being in local mode and without a username or password, simply defining the address and the port will be enough.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_110.png)
+
+We have created the connection and are connected; otherwise, it would be in play mode and red.
+
+Now we need to subscribe to the topic we are interested in; to define the topic, observe how it is defined:
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_113.png)
+
+A picture is worth a thousand words; I think it is quite clear.
+
+Topic = Station Name \\ WinCC Project Name \\ Variable Name
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_112.png)
+
+We subscribe now and wait, as we will not receive any notification until the variable changes.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_114.png)
+
+And once we change the value, we receive the notification.
+
+IMPORTANT: WinCC does not allow receiving values from the broker.
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_115.png)
+
+![](./assets/images/wincc-mqtt/WinCC_MQTT_116.png)
+
+18-05-2019
+
+---
+*Source: [WinCC MQTT Publisher](https://www.plc-hmi-scadas.com/en/WinCC_MQTT.php) — Jose Manuel Luque*

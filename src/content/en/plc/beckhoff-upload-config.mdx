@@ -1,0 +1,81 @@
+---
+title: "Upload TwinCAT System Manager Configuration"
+slug: "beckhoff-upload-config"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/Beckhoff_Upload_Config.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","BECKHOFF"]
+tags: ["Upload","TwinCAT","System Manager"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [BECKHOFF](#/a/en%2Fplc-beckhoff) › Article
+
+# Upload TwinCAT System Manager Configuration
+
+Jose Manuel Luque 16 May, 2019
+
+Upload TwinCAT System Manager
+
+**Upload TwinCAT System Manager Configuration**
+
+In the following practice, we will consider that we know the IP address of our PLC, for the practice it is 192.168.1.250, the first step is to change our PC to that IP range and if necessary change it in TwinCAT.
+
+In the TwinCAT properties is where we change it and restart the PC.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_02.png) ![](./assets/images/beckhoff-upload-config/TwinCAT_Config_01.png)
+
+We open a new instance of TwinCAT System Manager, and with the shortcut F8 or in Actions "Choose Target System".
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_05.png)
+
+This new window starts for selecting our device, since it is not in local mode, we will search on the network, for this we press Search Ethernet.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_06.png)
+
+A new window opens, where after executing Broadcast, it has found our device, named CX1020, IP address, TwinCAT version, and operating system type.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_07.png)
+
+It is recommended to switch to IP Address, we do this in Address Info by changing the radio button.
+
+**INFORMATION**: If left by default on Host Name, it may happen that when you enter the password it does not connect.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_08.png)
+
+We can now press the Add Route button and a pop-up window will appear with the username and password.
+
+By default, the password for a CE operating system is a space, with the space bar on the keyboard - for XP it is 1.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_10.png)
+
+If the password is correct, an X will appear in Connected by default; if it does not appear, the connection is not established and we cannot proceed. This would be the case I mentioned earlier when Host Name is selected in the Address Info option.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_12.png)
+
+We confirm with the OK button.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_13.png)
+
+Notice how we are connected and it is in Runtime mode.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_14.png)
+
+To download the entire configuration, it is as simple as selecting the open icon, but the one that is red.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_16.png)
+
+An information pop-up window will appear, we confirm with Yes.
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_17.png)
+
+And we have now downloaded all the hardware configuration in a new project, also the PLC program information, but not the PLC project, we will see that [here](#/a/en%2Fbeckhoff-upload-plc).
+
+![](./assets/images/beckhoff-upload-config/TwinCAT_Config_18.png)
+
+16-05-2019
+
+---
+*Source: [Upload TwinCAT System Manager Configuration](https://www.plc-hmi-scadas.com/en/Beckhoff_Upload_Config.php) — Jose Manuel Luque*

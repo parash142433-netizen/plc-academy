@@ -1,0 +1,42 @@
+---
+title: "VBScript Execute in WinCC Server / WebNavigator Client"
+slug: "wincc-vbs-webnavigator"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_VBS_WebNavigator.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["VBScript","WinCC Server","WebNavigator Client"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# VBScript Execute in WinCC Server / WebNavigator Client
+
+Jose Manuel Luque
+
+VBScript WinCC Server WebNavigator Client
+
+**VBScript WinCC Server / WinCC Client -WebNavigator Client  
+**
+
+Assuming we are working with the WinCC WebNavigator "Web Server" and we want to show or not a specific screen, execute certain conditions, events, etc... depending on where we are executing it from, whether it is Server or Client.
+
+When we do it by C code, we have no issues; we can use the following conditional. In the example of this button, we will show a different screen depending on whether we are on the Server or the Client.
+
+![](./assets/images/wincc-vbs-webnavigator/WinCC_WebNavigator_1.png)
+
+And well, what happens if we want to do it in VBScript, since it is not possible to mix functions between different languages, the script I propose is the following.
+
+Since the variable @ServerName will always be the same, the WinCC server, we can know if the PC from which we are executing is the Server or a Client.
+
+![](./assets/images/wincc-vbs-webnavigator/WinCC_WebNavigator_2.png)
+
+If you liked it or found it useful, share it ... :)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [VBScript Execute in WinCC Server / WebNavigator Client](https://www.plc-hmi-scadas.com/en/WinCC_VBS_WebNavigator.php) — Jose Manuel Luque*

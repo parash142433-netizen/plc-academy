@@ -1,0 +1,82 @@
+---
+title: "C++ Libraries in WinCC"
+slug: "wincc-librerias-plus-plus"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Librerias_Plus_Plus.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["C++","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# C++ Libraries in WinCC
+
+Jose Manuel Luque
+
+C++ WinCC
+
+**C++ Libraries in WinCC  
+**
+
+First of all, Happy and Prosperous New Year 2017... This will be the first practice of this year, although it was pending like others from last year, little by little I will continue updating.
+
+Since we were creating Libraries and Controls, we will continue down that path, and on this occasion we are going to create a Dynamic Library in C++ to use in WinCC, of course. I used Visual Studio 2010 for the development of this practice.
+
+![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_00.png)
+
+We are going to create a new Visual C++ project of the type Win32 Project, then we assign the name we want and continue with the wizard.
+
+![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_01.png)
+
+In the wizard, we click next to access the next screen.
+
+![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_02.png) ![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_04.png)
+
+Here is where we are going to select the type of application we are going to develop.
+
+In our case, it is a Dynamic Link Library.
+
+With this, we finish the wizard.
+
+At this point, we open the file SystemTime.cpp where we are going to implement our code.
+
+For this example, we will see how to access the date, but we will break it down into several functions, such as hour, minute, second, etc...
+
+We will not go into details of the C++ code, simply that for us to access this in WinCC we have to follow certain guidelines, but in the next image, the concept to follow is clearly seen.
+
+![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_05.png) ![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_06.png)
+
+Once we have implemented our code, we can compile and generate the library that we are going to implement, as we can see here we have our library.
+
+![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_07.png)
+
+The next step is to use it in WinCC, in this case as it is developed in C++ we will use it in ANSI C code, and to be able to use it we have to declare it as shown in the next image. We will use it in a button.
+
+I have previously copied the SystemTime.dll library into the Controls directory.
+
+We use the code #pragma code(Path of our Library)
+
+We declare the functions that we are going to use.
+
+We close #pragma code.
+
+And we can now use in our code the functions we have previously declared.
+
+![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_08.png)
+
+Finally, we compile and test it in Runtime to see its operation...
+
+As can be seen, it works correctly.
+
+![](./assets/images/wincc-librerias-plus-plus/WinCC_LibraryC++_09.png)
+
+January 14, 2017
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [C++ Libraries in WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Librerias_Plus_Plus.php) — Jose Manuel Luque*

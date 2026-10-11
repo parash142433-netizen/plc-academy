@@ -1,0 +1,58 @@
+---
+title: "Factory Talk View SE - DataLogs Configuration"
+slug: "ftvse-datalog-2"
+locale: "en"
+category: "articles"
+originalUrl: "https://www.plc-hmi-scadas.com/en/FTVSE_DataLog_2.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","Articles"]
+tags: ["Factory Talk View SE","SCADA","DataLogs","SQL Server"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Articles](#/a/en%2Farticles) › Article
+
+# Factory Talk View SE - DataLogs Configuration
+
+Jose Manuel Luque
+
+Factory Talk View SE SCADA DataLogs SQL Server
+
+**Factory Talk View SE - DataLogs Configuration  
+**
+
+To clarify a bit more the creation of a new Database in the configuration of Data Logs, for those who are not familiar with it, I will add the way to do it.
+
+For those who have accessed directly to this part, I recommend reading the [previous article](#/a/en%2Fftvse-datalog)
+
+Before creating our DataLogs, if our intention is to log into a database, and we do not have it defined, we will create it, assuming that we do not have SQL Management Studio installed, since it is very intuitive and easy to use, we will do it through **sqlcmd**, the first step is to connect to the instance that interests us, in this example we continue in the one created by default when installing Factory Talk View.
+
+We open a command console and execute the following command:
+
+![](./assets/images/ftvse-datalog-2/FTVSE_DBDataLog_01.png)
+
+We are now connected, and as we can see in the title of our window, SQLCMD appears, well the next step is the creation of our Database, for this the query we must execute is CREATE DATABASE DatabaseName; in my example the Database will be called MYDBDATALOG, we enter the statement GO and execute
+
+![](./assets/images/ftvse-datalog-2/FTVSE_DBDataLog_02.png)
+
+Initially we have created our Database and now we are going to check that this is the case, for this we execute the following Query, which will show us all the Databases that currently exist in our Instance to which we are connected.
+
+![](./assets/images/ftvse-datalog-2/FTVSE_DBDataLog_03.png) ![](./assets/images/ftvse-datalog-2/FTVSE_DBDataLog_04.png)
+
+We can see that our Database appears here and the day it was created
+
+Now if we remember the previous practice, when we were at this step, defining the Database that we are going to use, we used the default one, which is master, well, here is where we are going to switch to ours, as can be seen in the following image.
+
+Otherwise, we can continue with the procedure from the previous practice, and I hope this point has been clarified.
+
+![](./assets/images/ftvse-datalog-2/FTVSE_DataLog_08.png) ![](./assets/images/ftvse-datalog-2/FTVSE_DBDataLog_05.png)
+
+August 2, 2015
+
+If you liked it or found it useful, share it :-)
+
+“Gratitude in silence serves no one.” Gladys Bronwyn Stern
+
+---
+*Source: [Factory Talk View SE - DataLogs Configuration](https://www.plc-hmi-scadas.com/en/FTVSE_DataLog_2.php) — Jose Manuel Luque*

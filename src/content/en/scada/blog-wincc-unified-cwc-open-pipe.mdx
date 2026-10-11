@@ -1,0 +1,95 @@
+---
+title: "WinCC Unified — CWC and Open Pipe"
+slug: "blog-wincc-unified-cwc-open-pipe"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-unified-cwc-open-pipe/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC Unified","CWC","Custom Web Controls","Open Pipe","SCADA","Siemens"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › WinCC Unified — CWC and Open Pipe
+
+# WinCC Unified — CWC and Open Pipe
+
+Combining Custom Web Controls with Open Pipe to build interactive visualizations driven by external applications
+
+Jose Manuel Luque Mar 31, 2026
+
+WinCC Unified CWC Custom Web Controls Open Pipe SCADA Siemens
+
+![WinCC Unified — CWC and Open Pipe](./assets/images/blog-wincc-unified-cwc-open-pipe/Unified_CWC_OpenPipe.png)
+
+### Índice
+
+*   [Introduction](#/a/en%2Fblog-wincc-unified-cwc-open-pipe)
+*   [What is a Custom Web Control (CWC)?](#/a/en%2Fblog-wincc-unified-cwc-open-pipe)
+*   [What is Open Pipe?](#/a/en%2Fblog-wincc-unified-cwc-open-pipe)
+*   [The Integration: CWC + Open Pipe + Node.js](#/a/en%2Fblog-wincc-unified-cwc-open-pipe)
+*   [Demo — CWC with Open Pipe](#/a/en%2Fblog-wincc-unified-cwc-open-pipe)
+
+**Introduction**
+
+In previous articles we have separately covered two very powerful technologies in **WinCC Unified**: **Custom Web Controls (CWC)** and the **Open Pipe** interface. Today we combine them together with a **Node.js** application to achieve something genuinely practical: exporting data stored in the WinCC Unified **SQLite** database to **SQL Server**, with a custom visualization of the process directly in the operator Runtime.
+
+The result is a real integration architecture where the **visualization layer** (the CWC embedded in the WinCC Unified Runtime), the **communication layer** (Open Pipe) and the **data integration layer** (Node.js exporting from SQLite to SQL Server) all work together in coordination.
+
+**What is a Custom Web Control (CWC)?**
+
+A **Custom Web Control** is a custom control based on standard web technologies (HTML5, CSS3 and JavaScript) that integrates into the **TIA Portal** graphic editor and runs inside the WinCC Unified Runtime.
+
+It appears in the **"My Controls"** panel of the TIA Portal Toolbox and can be dragged onto any screen just like a native control. Its great advantage is that the developer has full control over its appearance and behavior — dashboards, charts, industrial gauges, custom animations… anything achievable with HTML/JS.
+
+*   Developed with an external web editor (VS Code, WebStorm, etc.)
+*   Packaged and installed in TIA Portal as a `.zip` file
+*   Exposes properties that can be bound to **WinCC Unified tags** via the scripting API
+*   Communicates with the Runtime through events and the WinCC scripting API
+
+For more details on CWC development, see the article: [WinCC Unified Custom Web Controls](#/a/en%2Fwincc-unified-custom-web-controls).
+
+**What is Open Pipe?**
+
+**Open Pipe** is a Windows named pipe interface that allows external applications to connect to the **WinCC Unified Runtime**. Communication happens over the pipe `\\.\pipe\HmiRuntime` by sending and receiving **JSON** messages.
+
+With Open Pipe it is possible to, among other things:
+
+*   Read and **write Runtime tag values**
+*   Subscribe to tag value changes
+*   Subscribe to and manage **alarms**
+*   Trigger Runtime script actions
+
+It can be implemented in any language that supports named pipes: **Node.js, Python, C#, PowerShell**, etc.
+
+For more details, see the article: [WinCC Unified Open Pipe](#/a/en%2Fblog-wincc-unified-open-pipe).
+
+**The Integration: CWC + Open Pipe + Node.js**
+
+The project idea is simple yet very powerful. The key element is a **Node.js application** that acts as a bridge between the process database and the WinCC Unified Runtime:
+
+1.  WinCC Unified stores process records in its local **SQLite database**.
+2.  The **Node.js** application reads those records from SQLite and **exports them to SQL Server**, enabling historical analysis or integration with MES/ERP systems.
+3.  At the same time, the Node.js application communicates with the WinCC Unified Runtime through **Open Pipe** (named pipe `\\.\pipe\HmiRuntime`), writing tags with the export status or results.
+4.  The **Custom Web Control (CWC)**, embedded in the operator screen, reflects the data transfer status in real time through its custom HTML/JS interface.
+
+The result is a real integration architecture: **SQLite → Node.js → SQL Server**, with real-time visualization through **CWC + Open Pipe** in WinCC Unified.
+
+**Demo — CWC with Open Pipe**
+
+The video shows the complete integration in action: the **Node.js application** exporting data from the WinCC Unified **SQLite** database to **SQL Server**, while the **CWC** displays the operation status in real time inside the Runtime.
+
+The demonstrated flow is:
+
+*   The **Node.js** application reads records from the WinCC Unified **SQLite** database
+*   Data is transferred and written to the **SQL Server** database
+*   Through **Open Pipe**, the application updates Runtime tags with the export status
+*   The **CWC** reflects that status in its HTML/JS interface on the operator screen
+
+#### Jose Manuel Luque
+
+Técnico en Automatización Industrial.
+
+---
+*Source: [WinCC Unified — CWC and Open Pipe](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-cwc-open-pipe/) — Jose Manuel Luque*

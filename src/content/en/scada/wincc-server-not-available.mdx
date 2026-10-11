@@ -1,0 +1,45 @@
+---
+title: "WinCC Server not available"
+slug: "wincc-server-not-available"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Server_Not_available.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC Server not available
+
+Jose Manuel Luque
+
+WinCC
+
+WinCC Server not available
+
+We are going to see a possible error, I say possible because there are more reasons that can cause this same warning message to appear when opening WinCC and our project, we get the message WinCC Explorer - Server not available, as can be seen in the following image.
+
+![](./assets/images/wincc-server-not-available/WinCCServerNotAvailable_01.png)
+
+The first thing we need to do, and the easiest, is to check that the SQL Server (WINCC) service is running. By default, when the installation is done, it is configured to do so, but if you use the same PC for the installation of other programs, or for other reasons, this may happen.
+
+![](./assets/images/wincc-server-not-available/WinCCServerNotAvailable_02.png)
+
+If the startup type is set to Manual, we change it to Automatic. We go to the properties of SQL Server and in the Service tab, we change the Start Mode from Manual to Automatic. We restart the PC.
+
+![](./assets/images/wincc-server-not-available/WinCCServerNotAvailable_03.png)
+
+And it's fixed, WinCC and the project we are using now open correctly.
+
+![](./assets/images/wincc-server-not-available/WinCCServerNotAvailable_04.png)
+
+September 3, 2017
+
+"Gratitude in silence serves no one." Gladys Bronwyn Stern
+
+---
+*Source: [WinCC Server not available](https://www.plc-hmi-scadas.com/en/WinCC_Server_Not_available.php) — Jose Manuel Luque*

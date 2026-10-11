@@ -1,0 +1,127 @@
+---
+title: "WinCC - SQLite"
+slug: "blog-wincc-sqlite"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-sqlite/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","SCADA","WinCC","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC - SQLite
+
+Jose Manuel Luque May 26, 2024
+
+SCADA SCADA WinCC WinCC
+
+![WinCC - SQLite](./assets/images/blog-wincc-sqlite/WinCC_SQLite-5.png)
+
+We have just seen how to work in [Intouch / System Platform](#/a/en%2Fblog-aveva-intouch-sqlite) with an SQLite database, now we will extrapolate that functionality to WinCC.
+
+_**What do we need?**_
+
+*   We will need the drivers to create the connection
+
+_**Where do I download it?**_
+
+*   Here we have all the information [SQLite ODBC Driver](http://www.ch-werner.de/sqliteodbc/) that interests us and a direct link for its download
+
+For those who are new to **WinCC**, it is worth developing the entire process, but if you have already worked with WinCC, you will know that everything we want to execute in scripting must be based on **x32** architecture. And now we will see what happens. I have installed the drivers for **Windows 64** bits  
+
+![](./assets/images/blog-wincc-sqlite/WinCC_SQLite-1-3.png)
+
+  
+If we access ODBC from our system, we can check that we have the driver installed, and in our case, the one that interests us is **SQLite3 Datasource**
+
+![](./assets/images/blog-wincc-sqlite/WinCC_SQLite-2-2.png)
+
+  
+We open our Graphics Designer, and this is the code that we will execute when pressing the button.
+
+![](./assets/images/blog-wincc-sqlite/WinCC_SQLite-5-1024x880.png)
+
+  
+Here is the code in case you want to copy and paste ;-)
+
+Code
+
+```
+	Dim conn, rst , strSQL , results , i
+	Set conn = CreateObject("ADODB.Connection")
+	Set rst = CreateObject("ADODB.Recordset")
+	
+	HMIRuntime.trace "--> Start" & vbCrLf
+	' OPEN CONNECTION
+	conn.Open "DRIVER=SQLite3 ODBC Driver;Database=C:\Resources\PHS.db;LongNames=0;Timeout=1000;NoTXN=0;SyncPragma=NORMAL;StepAPI=0;"
+	
+	strSQL = "SELECT * FROM Configuration"
+	
+	' OPEN RECORDSET
+	rst.Open strSQL, conn
+	
+	' SHOW RESULTS IN MSGBOX
+	results = ""
+	Do Until rst.EOF
+	For i = 0 To rst.Fields.Count - 1
+		results = results & rst.Fields(i).Name & ": " & rst.Fields(i).Value & vbCrLf
+	Next
+	results = results & vbCrLf
+	rst.MoveNext
+	Loop
+	HMIRuntime.trace results
+	
+	' CLOSE RECORDSET
+	rst.Close
+	HMIRuntime.trace "--> End" & vbCrLf
+	' RELEASE RESOURCES
+	Set rst = Nothing
+	Set conn = Nothing
+```
+
+  
+If we run the Runtime and test our button, we find the following surprise ...  
+As I mentioned earlier, the problem is that WinCC works with 32 bits
+
+![](./assets/images/blog-wincc-sqlite/WinCC_SQLite-6.png)
+
+  
+In the following link, there is the library I developed for WinCC with a small video where I don't speak ;-) but you can see what we are talking about x86/x64.
+
+[![](./assets/images/blog-wincc-sqlite/image-37.png)](https://support.industry.siemens.com/forum/gb/en/posts/library-vb-net-c-com-vbscript-wincc/187312/?page=0&pageSize=10#!#post774662)
+
+  
+Let's continue with what we were doing ... if we repeat the process and now install the 32-bit driver
+
+![](./assets/images/blog-wincc-sqlite/WinCC_SQLite-7.png)
+
+  
+We run the same code again, there is no need to change anything ... and perfect!!! Here we have the same results
+
+![](./assets/images/blog-wincc-sqlite/WinCC_SQLite-11.png)
+
+  
+And to add a little literature for new WinCC users or new readers, currently in our operating system coexist x32 & x64 programs
+
+When you want to try scripting for WinCC, you can do so by running the command console but from the following directory which are the x32-bit programs  
+**C:\\Windows\\SysWOW64**  
+And remember that normally when you type _**cmd**_ the command console that runs is the x64-bit one  
+**C:\\WINDOWS\\system32**
+
+![](./assets/images/blog-wincc-sqlite/WinCC_SQLite-12.png)
+
+  
+**NOTE:** If you are working with a distributed architecture or a multi-project, remember that the Driver must be installed on all clients that will connect to the SQLite database.  
+  
+And since we are getting our hands dirty, let's see the same for **[Factory Talk View SE](#/a/en%2Fblog-factory-talk-view-se-sqlite)**
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC - SQLite](https://www.plc-hmi-scadas.com/en/blog/wincc-sqlite/) — Jose Manuel Luque*

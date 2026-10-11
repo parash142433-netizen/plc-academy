@@ -1,0 +1,59 @@
+---
+title: "RSLinx DF1"
+slug: "094"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/094.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","ROCKWELL"]
+tags: ["RSLinx","DF1"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [ROCKWELL](#/a/en%2Fplc-allen-bradley) › Article
+
+# RSLinx DF1
+
+Jose Manuel Luque
+
+RSLinx DF1
+
+Configuration of the DF1 Driver in RSLinx, this driver is for serial communication, point to point, and will serve us to establish communication with both the PLC and a Panel View. The first thing is to know which COM port our cable is connected to, which we can check in the Device Manager.
+
+![](./assets/images/094/RSLinx-DF1-11.png)
+
+![](./assets/images/094/RSLinx-DF1-000.png)
+
+We run RSLinx, and click on the cable icon, here we will add the driver that interests us according to the interface we are going to use, as we have done in previous cases:
+
+[Configuration of the Ethernet Devices Driver](#/a/en%2F027 "Configuration Ethernet Devices in RSLinx")
+
+[Configuration of the 1747 PIC-AIC+ Driver](#/a/en%2F024 "Configuration 1747 PIC/AIC+")
+
+[Configuration of the Remote Device Linx Gateway Driver](#/a/en%2F075 "Configuration of the Remote Device Linx Gateway driver")
+
+We add the RS-232 DF1 Devices Driver and assign it the name that interests us
+
+![](./assets/images/094/RSLinx-DF1-12.png)
+
+![](./assets/images/094/RSLinx-DF1-13.png)
+
+When adding the driver, a pop-up window opens where we will configure it, once the COM port we are going to use is selected, the easiest thing is to click the Auto-Configure button, which will automatically adjust the parameters.
+
+![](./assets/images/094/RSLinx-DF1-14.png)
+
+![](./assets/images/094/RSLinx-DF1-15.png)
+
+Once the auto-configuration has been successful, we click OK and we can see that it is running
+
+![](./assets/images/094/RSLinx-DF1-16.png)
+
+It can now be seen how the PLC, a ControlLogix 5561 and its modules have been detected. It is now ready to run RSLogix 5000 or Studio 5000, the latest version available to upload/download the program, or as was the case, to update the firmware
+
+![](./assets/images/094/RSLinx-DF1-17.png)
+
+April 3, 2013
+
+---
+*Source: [RSLinx DF1](https://www.plc-hmi-scadas.com/en/094.php) — Jose Manuel Luque*

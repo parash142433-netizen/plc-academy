@@ -1,0 +1,126 @@
+---
+title: "PLC scan cycle: when milliseconds become distance"
+slug: "blog-ciclo-scan-plc"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/ciclo-scan-plc/"
+author: ""
+date: ""
+breadcrumbs: ["Home","PLC","Siemens"]
+tags: ["PLC","Siemens","TIA Portal","PLCSIM Advanced","Factory IO","Trace"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [Siemens](#/a/en%2Fplc-siemens) › PLC scan cycle
+
+# PLC scan cycle: when milliseconds become distance
+
+A practical explanation of the scan cycle, the watchdog and the real effect cycle time can have on a machine with motion.
+
+June 14, 2026
+
+PLC Siemens TIA Portal PLCSIM Advanced Factory IO Trace
+
+![Watchdog and maximum cycle time configuration in a Siemens PLC](./assets/images/blog-ciclo-scan-plc/ciclo-scan-plc-watchdog.png)
+
+**Article objective**
+
+The **scan cycle** is the time the PLC takes to read inputs, execute the program, update outputs and start again. That process runs continuously, usually so quickly that it feels instant.
+
+The problem appears when cycle time grows. On a stopped machine it may look like only a diagnostic value, but on a machine with motion a few milliseconds can become centimeters travelled after a stop order.
+
+In this article we will put the full idea in order: what the scan cycle is, how the watchdog supervises it, why it affects machine behavior and how we can measure, simulate and design around it.
+
+**What the scan cycle is**
+
+A PLC works in cycles. In simplified terms, each scan follows this sequence:
+
+1.  Read the state of the inputs.
+2.  Execute the user program.
+3.  Update the outputs.
+4.  Start the next cycle.
+
+If the program is small, scan time will be low. If we add many blocks, heavy calculations, communications, repetitive instructions or poorly sized loops, cycle time can increase.
+
+That increase is not always dramatic by itself. The important point is whether the additional time affects a critical decision: stopping a conveyor, activating a reject, closing a valve or reacting to a sensor.
+
+**Watchdog and maximum cycle time**
+
+To prevent the scan cycle from growing uncontrollably, PLCs include a **watchdog**. Its job is to supervise that the maximum cycle time does not exceed a configured value.
+
+If that time is exceeded, the PLC may go to STOP or execute the reaction configured for the platform and project. On an S7-1500, for example, the maximum cycle time is configured in the CPU properties.
+
+![Maximum cycle time configured in the watchdog of a Siemens PLC](./assets/images/blog-ciclo-scan-plc/ciclo-scan-plc-watchdog.png)
+
+**Key idea:** the watchdog protects against excessive cycles, but it does not automatically make a machine precise. The fact that the PLC does not fail by watchdog does not mean the scan time is suitable for the required motion accuracy.
+
+**When scan time becomes distance**
+
+On a machine with motion, scan time is not only a diagnostic value. It is part of the time the system needs to react.
+
+If the sensor changes state just after the PLC has read the inputs, the decision will not be executed until the next cycle. During that time, the conveyor, axis or actuator keeps moving.
+
+The important idea is simple: **additional distance = machine speed × reaction time**. That is why a scan time that is fine for slow logic may be too high for an accurate stop.
+
+When position matters, it is not enough to check that the PLC does not fail by watchdog. You need to measure the real cycle and decide whether high-speed inputs, interrupts, motion technology, drives, servos or dedicated safety are required.
+
+**Demonstration with PLCSIM Advanced and Factory IO**
+
+To visualize it, we built a simple example: a conveyor moves a pallet and must stop when a sensor detects it. The PLC is simulated with **PLCSIM Advanced** and the physical environment is represented with [**Factory IO**](https://factoryio.com/).
+
+There are two important parts in the PLC: one function that intentionally increases the scan cycle in a controlled way, and another segment where the conveyor is started or stopped.
+
+We test three situations to show the effect progressively:
+
+*   **Case A: low scan cycle, 1 ms.** The reaction looks almost immediate and the stop occurs close to the expected point.
+*   **Case B: high scan cycle, 200 ms.** The conveyor keeps moving visibly after the sensor has detected the pallet.
+*   **Case C: very high scan cycle, 2000 ms.** This is intentionally exaggerated so the effect is obvious: the distance travelled after the order can no longer be ignored.
+
+ Your browser does not support HTML5 video.
+
+Demonstration: scan cycle effect on the stop of a simulated conveyor.
+
+**Measuring the effect with Trace**
+
+To measure these times accurately, we can use **Trace** in TIA Portal. Trace records PLC signals during execution and shows the exact instant when they change.
+
+In this capture we can measure the time difference between the order and the observed reaction. It is a practical way to move from intuition to measurable data.
+
+![TIA Portal Trace measuring the time between signals during the demonstration](./assets/images/blog-ciclo-scan-plc/ciclo-scan-plc-trace-tiempo.png)
+
+To go deeper into this tool, you can also read [Trace in TIA Portal: how to find a phantom fault](#/a/en%2Fblog-trace-tia-portal-plc-siemens).
+
+**Scan cycle and motion simulator**
+
+To get a feel for how scan time becomes distance, here is a simple simulator. The example represents a motor with a gearbox and a conversion to linear motion. By changing rpm, gear ratio, pulley diameter and scan time, you can see how the distance travelled after the stop order changes.
+
+It will not always be exactly the same distance in a real machine, because it depends on where in the cycle the condition is detected. But the simulator helps explain the basic relationship: **speed multiplied by reaction time equals additional distance**.
+
+**Good design practices**
+
+When cycle time can affect the machine, it should be treated as a design variable, not as a diagnostic curiosity.
+
+*   Measure the real cycle time under normal load and under heavy load.
+*   Avoid long loops or unnecessary calculations in the main cycle.
+*   Separate fast and slow tasks when the platform allows it.
+*   Use high-speed inputs, interrupts, motion hardware or dedicated technology when accuracy requires it.
+*   Design the stop based on admissible distance, not only on average scan time.
+*   Validate with Trace, real tests or simulation before accepting a critical reaction.
+
+**Conclusion**
+
+The scan cycle does not only affect PLC performance. In machines with motion, it can directly affect system reaction.
+
+If the PLC takes longer to process a stop condition, the conveyor keeps moving. That extra movement can become position error, loss of accuracy or process failure.
+
+That is why it is worth measuring the cycle, understanding how it grows and designing the stop according to the accuracy the machine needs. Scan cycle is controlled by optimizing the program; stopping accuracy is achieved by designing motion properly.
+
+**Related articles**
+
+*   [Trace in TIA Portal: how to find a phantom fault](#/a/en%2Fblog-trace-tia-portal-plc-siemens)
+*   [Simulation with PLCSIM Advanced](#/a/en%2Ftia-plcsimadvanced)
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [Temperature Control System (I)](#/a/en%2Fblog-simulador-de-temperatura)
+
+---
+*Source: [PLC scan cycle: when milliseconds become distance](https://www.plc-hmi-scadas.com/en/blog/ciclo-scan-plc/)*

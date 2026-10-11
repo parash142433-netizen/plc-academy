@@ -1,0 +1,81 @@
+---
+title: "Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500"
+slug: "intouchedgehmi"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/IntouchEdgeHMI.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Intouch Edge HMI","Intouch","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500
+
+Jose Manuel Luque
+
+Intouch Edge HMI Intouch SCADA
+
+**Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500**
+
+Once we have seen that all the mentioned software are part of InduSoft Web Studio, we will see how to configure the communication with a Siemens S7-1500, but I have chosen Intouch Edge HMI.
+
+![](./assets/images/intouchedgehmi/IntouchEdge01.png)
+
+Within the graphical interface, we have four main tabs (Global - Graphics - Tasks - Comm).
+
+It is clear that we are going to the Comm tab.
+
+![](./assets/images/intouchedgehmi/IntouchEdge02.png)
+
+And we are going to add a new Driver.
+
+![](./assets/images/intouchedgehmi/IntouchEdge03.png)
+
+We have a pop-up window where all available drivers appear; there are more than 200 available drivers. If you need to download one, it can be done from the [Indusoft](http://www.indusoft.com/products-downloads/drivers) website.
+
+Since we are going to communicate with an S7-1500, we will use the SITIA Driver.
+
+![](./assets/images/intouchedgehmi/IntouchEdge04.png)
+
+Once the Driver is added, the Driver Data Sheet is automatically created, where we will configure our variables. The process is very easy, and there are several ways to do it.
+
+We have the Tag Name column, which is where we will define the Intouch variable. If it is not created, it can be created from here, as can be seen in the following image.
+
+![](./assets/images/intouchedgehmi/IntouchEdge05.png)
+
+Next to the Tag Name column is the Station column; here we will define the IP address of our PLC.
+
+Now we need to link the Tag we created (Tag Name) from the PLC (Station) with the I/O Address variable. In this column, we will define the name of the Tag we assigned in our TIA Portal project.
+
+With this, we have finished configuring the communication.
+
+![](./assets/images/intouchedgehmi/IntouchEdge06.png)
+
+To test its operation, I created a display where we will link our Tags, a Start button, and a Stop button with their corresponding associated events to write and reset the tag. In short, the example of a Stop/Start.
+
+![](./assets/images/intouchedgehmi/IntouchEdge07.png)
+
+Before starting the Runtime, we will enable in Log the options for Field Read Commands and Field Write Commands; this will help us check the communications.
+
+![](./assets/images/intouchedgehmi/IntouchEdge08.png)
+
+We start the Runtime, and as can be seen, the communication is perfect.
+
+![](./assets/images/intouchedgehmi/IntouchEdge09.png)
+
+And if we write a Tag, it is confirmed in the Log that the read/write is OK!
+
+![](./assets/images/intouchedgehmi/IntouchEdge10.png)
+
+As additional information, it is advisable that the Driver Runtime service is configured as Automatic, and when the Runtime starts, the Service automatically starts and functions...
+
+![](./assets/images/intouchedgehmi/IntouchEdge11.png)
+
+January 29, 2019
+
+---
+*Source: [Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500](https://www.plc-hmi-scadas.com/en/IntouchEdgeHMI.php) — Jose Manuel Luque*

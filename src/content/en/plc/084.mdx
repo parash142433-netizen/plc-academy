@@ -1,0 +1,67 @@
+---
+title: "Simatic 1200 ModbusTCP Client"
+slug: "084"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/084.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["Simatic 1200","ModbusTCP"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Simatic 1200 ModbusTCP Client
+
+Jose Manuel Luque
+
+Simatic 1200 ModbusTCP
+
+Following the practices we have carried out with Modbus TCP, this time we will configure the S7-1200 as a Modbus TCP client and we will use the Simulator as the server. Once its operation has been verified, we will configure an S7-300 as a Server and the 1200 as a client in the next setup.
+
+We create a new project in TIA Portal and the first thing we configure is the IP address of the PLC.
+
+![](./assets/images/084/1200-Modbus-Slave-01.png)
+
+Next, we will enable the clock mark, which will make each bit of the byte we have configured blink at a specific frequency for each bit, and we will enable the system byte, in which we have one bit that is always TRUE and one bit that is always FALSE among others.
+
+![](./assets/images/084/1200-Modbus-Slave-22.png)
+
+![](./assets/images/084/1200-Modbus-Slave-23.png)
+
+Once these steps, which are optional, are completed, the reason for this is that we will use a clock bit to make the request to the Server. We open our OB1 and within the instructions, we go to Communication, within this directory to Modbus TCP and insert the MB\_CLIENT. When we insert it, it automatically asks us to associate a DB, and by default, we select the one it shows us.
+
+![](./assets/images/084/1200-Modbus-Slave-02.png)
+
+![](./assets/images/084/1200-Modbus-Slave-21.png)
+
+In the parameterization of the Block, we will configure REQ, every time this bit changes, it will make a request to the Server. Here is where we have used the clock bit that we previously enabled. We leave DISCONNECT at 0, FALSE because we are going to use the IP address and port we have configured to establish communication. DONNECT\_ID must be a unique and unrepeatable identifier. Next, we have to specify the IP address in its four octets IP\_OCTET, the IP\_PORT, as we have already mentioned, is by default port 502. MB\_MODE 0 allows us to access holding registers, input registers, input bits, and output bits, so since we want to access the holding registers, this is the mode we are interested in, followed by MB\_DATA\_ADDR, which is the starting address of the registers we are interested in, and in MB\_DATA\_LEN the length of data, in this case, 10, means we will read from register 40001-40010. The data we read will be stored in the next memory area configured in MB\_DATA\_PTR, we configure it in pointer format, pointing to the first address and the length of data. The DONE bit will be TRUE when it has been read correctly, just as BUSY will be true when there is an operation in progress, the ERROR bit will indicate that there is an error, and in STATUS, we will obtain the error code.
+
+![](./assets/images/084/1200-Modbus-Slave-19.png)
+
+Now we are going to create the variables where we will store the data read from the Modbus Server, and as we have specified, it will be in the word Mw100 followed by 9 more registers.
+
+![](./assets/images/084/1200-Modbus-Slave-06.png)
+
+Once these steps are completed, we can transfer to our PLC, but previously we have started the simulator. It can be observed that there are no clients connected; we can now transfer.
+
+![](./assets/images/084/1200-ModbusSlave-100.png)
+
+Once the project is transferred and the CPU is set to RUN, we connect Online to visualize the operation, and we can already see that we have a client connected to the simulator.
+
+![](./assets/images/084/1200-Modbus-Slave-15.png)
+
+![](./assets/images/084/1200-ModbusSlave-101.png)
+
+Now we can visualize the tags and see that we have recorded the values. If we change the values in the simulator, we will observe that the values in the registers are updated.
+
+![](./assets/images/084/1200-Modbus-Slave-14.png)
+
+![](./assets/images/084/1200-ModbusSlave-104.png)
+
+March 10, 2013
+
+---
+*Source: [Simatic 1200 ModbusTCP Client](https://www.plc-hmi-scadas.com/en/084.php) — Jose Manuel Luque*

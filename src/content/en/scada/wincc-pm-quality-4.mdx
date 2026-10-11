@@ -1,0 +1,69 @@
+---
+title: "WinCC - PM Quality (Reports)"
+slug: "wincc-pm-quality-4"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_4.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC - PM Quality"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC - PM Quality (Reports)
+
+Jose Manuel Luque 18 May, 2020
+
+WinCC - PM Quality
+
+**WinCC - PM Quality (Reports)**
+
+![](./assets/images/wincc-pm-quality-4/vba-logo.png) ![](./assets/images/wincc-pm-quality-4/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+In the [previous article](#/a/en%2Fwincc-pm-quality-3), we left off with the report of the Batch that we had produced missing.
+
+We open the PM-Quality Report Editor, and what we already know is that we will extract the data from the PMQUALITY\_RUNTIME database, which is where it connects. This means that we can connect to a database that we have exported to generate the reports.
+
+![](./assets/images/wincc-pm-quality-4/PM_Report_1.png)
+
+We create a new report, and following the same philosophy in the left tree we have the components that we can insert into our Layout for the generation of the Report
+
+![](./assets/images/wincc-pm-quality-4/PM_Report_2.png)
+
+Honestly, now it’s about testing the different components to see how they behave and how we can adapt them to our needs.
+
+![](./assets/images/wincc-pm-quality-4/PM_Report_3.png)
+
+The FreeText component displays our entire topology, where we will be able to select the information that interests us.
+
+![](./assets/images/wincc-pm-quality-4/PM_Report_5.png)
+
+We insert Graph objects and just like in WinCC, we select the curves that interest us, time axes, colors, etc...
+
+![](./assets/images/wincc-pm-quality-4/PM_Report_6.png)
+
+All the objects / Components that we insert have their properties that we can modify, and a preview of how the object will look. It also includes a preview of the overall report, simply by changing the tab.
+
+Just like this template, we generate all the reports that interest us and save them.
+
+![](./assets/images/wincc-pm-quality-4/PM_Report_8.png)
+
+If we now return to the PM-Quality Data View, it will automatically connect to the PMQUALITY\_RUNTIME database if we have not selected any other and will load all the Jobs and Batches that depend on it.
+
+Either with the right button or with the icon, we can display the report
+
+![](./assets/images/wincc-pm-quality-4/PM_Report_10.png)
+
+If there is only one report, it will automatically load this one; if there is more than one, it will give the option to select the one of interest and we can view it and print it later if needed.
+
+At a minimum, we now have a more global concept of this Add-On.
+
+![](./assets/images/wincc-pm-quality-4/PM_Report_11.png)
+
+18-05-2020
+
+---
+*Source: [WinCC - PM Quality (Reports)](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_4.php) — Jose Manuel Luque*

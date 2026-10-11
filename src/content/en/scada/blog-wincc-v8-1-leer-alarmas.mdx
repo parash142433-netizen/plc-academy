@@ -1,0 +1,173 @@
+---
+title: "WinCC v8.1 Read Alarms"
+slug: "blog-wincc-v8-1-leer-alarmas"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-v8-1-leer-alarmas/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","SCADA","WinCC","WinCC"]
+downloads: [{"title":"Download PHSSpeechSynth","url":"https://plc-hmi-scadas.com/Download/PHSSpeechSynth.zip"}]
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC v8.1 Read Alarms
+
+Jose Manuel Luque Apr 20, 2025
+
+SCADA SCADA WinCC WinCC
+
+![WinCC v8.1 Read Alarms](./assets/images/blog-wincc-v8-1-leer-alarmas/WinCCLeerAlarmas.png)
+
+The objective is to be able to hear the message of certain alarms classified as critical from the control room
+
+By default **WinCC** does not have this functionality, and that is what we are going to add, we are going to create a library in **C++** to provide this functionality.
+
+The code of our function is as follows, and if you want to create your own library, here I wrote an [article](https://plc-hmi-scadas.com/WinCC_Librerias_Plus_Plus.php) a few years ago ;-)
+
+Cpp
+
+Code
+
+```
+#include <sapi.h>
+#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <codecvt>
+
+extern "C"
+{
+    __declspec(dllexport) void SpeakText(char* input);
+}
+
+__declspec(dllexport) void SpeakText(char* input)
+{
+    // Initialize COM
+    HRESULT hr = ::CoInitialize(NULL);
+    if (FAILED(hr)) return;
+
+    ISpVoice* pVoice = NULL;
+
+    // Create voice instance
+    hr = CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, (void**)&pVoice);
+    if (SUCCEEDED(hr)) {
+        // Convert char* to std::wstring
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        std::wstring wtext = converter.from_bytes(input);
+
+        // Speak the text
+        pVoice->Speak(wtext.c_str(), SPF_IS_XML, NULL);
+        pVoice->Release();
+    }
+
+    ::CoUninitialize();
+}
+```
+
+  
+Once we have our library compiled, we will adapt the **GMsgFunct** function with the following code
+
+Cpp
+
+Code
+
+```
+BOOL GMsgFunction( char* pszMsgData)
+{
+
+#pragma code("C:/Controls/PHSSpeechSynth.dll")
+void SpeakText(char* input);
+#pragma code()
+
+BOOL bOK;
+WORD wTextBlock = 0;
+DWORD dwTextNr = 34 ;
+MSG_TEXT_STRUCT scMsgText;
+CMN_ERROR scError;
+MSG_CSDATA_STRUCT sM; 
+CMN_ERROR pError;
+
+MSG_RTDATA_STRUCT mRT;
+memset( &mRT, 0, sizeof( MSG_RTDATA_STRUCT ) );
+
+if( pszMsgData != NULL )
+  {
+     printf( "Message : %s 
+", pszMsgData );
+
+    // Read message data
+     sscanf( pszMsgData,  "%ld,%ld,%04d.%02d.%02d,%02d:%02d:%02d:%03d,%ld, %ld, %ld, %d,%d",
+	&mRT.dwMsgNr, 			// Message number
+	&mRT.dwMsgState,  			// Status MSG_STATE_COME, .._GO, .._QUIT, .._QUIT_SYSTEM
+	&mRT.stMsgTime.wYear, 		// Year
+	&mRT.stMsgTime.wMonth, 		// Month
+	&mRT.stMsgTime.wDay,		// Day
+	&mRT.stMsgTime.wHour, 		// Hour
+	&mRT.stMsgTime.wMinute,		// Minute
+	&mRT.stMsgTime.wSecond, 		// Second
+	&mRT.stMsgTime.wMilliseconds,	// Millisecond
+	&mRT.dwTimeDiff,			// Duration of the pending message
+	&mRT.dwCounter,			// Internal message counter
+	&mRT.dwFlags,			// Flags (internal)
+	&mRT.wPValueUsed,
+	&mRT.wTextValueUsed );
+ 
+      // Read process values, if desired
+    } 
+
+  printf("Nr : %d, St: %x, %d-%d-%d %d:%d:%d.%d, Dur: %d, Cnt %d, Fl %d
+" , 
+  mRT.dwMsgNr, mRT.dwMsgState, mRT.stMsgTime.wDay, mRT.stMsgTime.wMonth, mRT.stMsgTime.wYear, 
+  mRT.stMsgTime.wHour, mRT.stMsgTime.wMinute, mRT.stMsgTime.wSecond, mRT.stMsgTime.wMilliseconds, mRT.dwTimeDiff,
+  mRT.dwCounter, mRT.dwFlags ) ;
+
+// Add this function to get information
+  MSRTGetMsgCSData(mRT.dwMsgNr, &sM, &pError); 
+  printf ("MSRTGetMsgCSData() - szText=\"%i\"
+", sM.dwTextID[0]);
+
+  // Retrieve the message text
+  bOK = MSRTGetMsgText(wTextBlock, sM.dwTextID[0], &scMsgText, &scError );
+  if (bOK)
+  {
+  	printf ("MSRTGetMsgText() - szText=\"%s\"
+", scMsgText.szText);
+	SpeakText(scMsgText.szText);
+  }
+
+  return( TRUE );
+}
+```
+
+  
+The most important part is the declaration of the function from our library
+
+![](./assets/images/blog-wincc-v8-1-leer-alarmas/image-13.png)
+
+![](./assets/images/blog-wincc-v8-1-leer-alarmas/image-16.png)
+
+  
+The next step is to enable **Triggers action,** **Loop in Alarm** for the alarms that interest us with the function we have defined
+
+![](./assets/images/blog-wincc-v8-1-leer-alarmas/image-17.png)
+
+  
+And now activate the speakers to check their operation... ;-)
+
+Dedicated to my good colleague **Rafael Hernández Martínez** for the lessons on **DCS** particularly **DeltaV**.
+
+> When you work as a team and share, the only thing that can happen is that you benefit ;-)
+
+### Download the library
+
+[Download PHSSpeechSynth](https://plc-hmi-scadas.com/Download/PHSSpeechSynth.zip)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC v8.1 Read Alarms](https://www.plc-hmi-scadas.com/en/blog/wincc-v8-1-leer-alarmas/) — Jose Manuel Luque*

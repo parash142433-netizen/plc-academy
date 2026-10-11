@@ -1,0 +1,169 @@
+---
+title: "Optimizing Industry: Version Control and TIA Portal (Part 3)"
+slug: "blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/"
+author: "Jhon Chuquimarca Castillo"
+date: ""
+breadcrumbs: ["Home","PLC","SIEMENS"]
+tags: ["GIT","PLC","PLC","SIEMENS PLC","SIEMENS PLC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [SIEMENS](#/a/en%2Fplc-siemens) › Article
+
+# Optimizing Industry: Version Control and TIA Portal (Part 3)
+
+Jhon Chuquimarca Castillo Jun 25, 2024
+
+GIT PLC PLC SIEMENS PLC SIEMENS PLC
+
+![Optimizing Industry: Version Control and TIA Portal (Part 3)](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/yancy-min-842ofHC6MaI-unsplash-scaled.jpg)
+
+## Recovering and restoring old projects.
+
+After explaining in the [first](#/a/en%2Fblog-gittialportal) **post, the installation**, in the [second](#/a/en%2Fblog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2) **post, the creation of a remote repository and the export of data**. In this post and last one, we will see how to restore versions of previous projects and compare them with each other.  
+  
+Before we start, I would like to clarify that this is version control for software (FBs, FCs, Variables, etc.). Currently, there is no tracking for hardware.  
+  
+GIT is a very broad version control system.
+
+**.\*I will explain the most used Git commands, but you can continue to expand your information; the most basic ones can be found, for example, [here.](https://gist.github.com/dasdo/9ff71c5c0efa037441b6)**
+
+## Identification of previous versions
+
+This part is one of the most common in GIT; if we have been making commits (at our discretion), we will have a list of commits (restore points).  
+With the following command in the console
+
+Code
+
+```
+git log
+```
+
+Or alternatively in the graphical interface (as can be seen in the following image).
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-30.png)
+
+  
+This will show us the commits that have been made for this file; we have all the records with an identifying number of the commit, its date, the author, and our description. We will use this later to know to which point we want to return.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-33.png)
+
+## Comparison of commits.
+
+### Restoration of previous version
+
+Here we need to switch from the graphical interface to the Windows terminal (Powershell or Git Bash).  
+Imagine that we want to see how the project was four weeks ago, before making some important modifications, or we want to see commit by commit to know what has been changed between one commit and another. For this, there is also another command.
+
+Code
+
+```
+git diff
+```
+
+For this and many reasons, we might need to return to a previous state (**THE REPOSITORY**), and for this, in our case, we will use the following command.
+
+Code
+
+```
+git checkout specific-commit-id
+```
+
+This command will transport our main branch (HEAD) to a previous version (it's like taking a trip back in time and seeing the project as it was on the day of the commit).
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-64-1024x590.png)
+
+In the following image, you can see that after analyzing the commits we have, we have decided to move "temporarily" to commit 2fb0e1f.  
+**Therefore, our right side of the WorkStation is now a previous version of the project, without affecting our project in any way.**  
+On the left side, we will have our current project, and on the right side, our programming from the commit we have returned to. This will help us make better comparisons with our project later.
+
+To return to the main branch and our current state/image (latest version of the project), we will use one of the following commands:
+
+Powershell
+
+Code
+
+```
+git checkout master 
+or
+git checkout main
+```
+
+### Installation of Automation Compare Tool.
+
+After making several changes or executing the command
+
+Code
+
+```
+git checkout commit
+```
+
+  
+We might need to compare our project with the version we have in git.  
+  
+To do this, we will install the following tool -> [Automation Compare Tool](https://support.industry.siemens.com/cs/document/109797235/simatic-automation-compare-tool-?dti=0&lc=en-DO).
+
+\***This tool is an Add-in, and we will need to install it in TIA PORTAL.**  
+  
+After installation, it will generate a folder with the program at the following path:  
+`"C:\Program Files\Siemens Automation\SIMATIC Automation Compare Tool"`  
+After installing it, we will go to TIA PORTAL and in the top menu:  
+**Options > Settings > Version Control Interface > Comparison**
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-21-1024x576.png)
+
+There we will create a new external program, give it a name, and in the program path, we will paste the path of the executable we just installed earlier.  
+`"C:\Program Files\Siemens Automation\SIMATIC Automation Compare Tool"`
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-22.png)
+
+After that, we will be ready to use it in our TIA PORTAL.
+
+### Comparison of versions with Automation Compare Tool.
+
+Now let's see its use.  
+We have a program or program block git-ted in our Workspace, after that we make our modifications. If we go to our Workspace, we will see that we have differences; if we click on a block with differences, we will get the option to compare with our workspace.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-25.png)
+
+If we click on CompareTool, we will see an interface like the following that will show us the changes we have made; in our case, we have deleted a temporary variable from the main block and added a new object (FB) of a valve.
+
+![](./assets/images/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-26-1024x553.png)
+
+It is very similar to the online/offline object comparison that it has, and it makes project version comparisons very simple and intuitive.
+
+We may also be interested in deleting or reverting to a previous version more permanently, and for that, the following commands are available.
+
+Code
+
+```
+git reset
+or
+git revert
+```
+
+Although both commands allow undoing previous commits, the way they do it and their consequences differ significantly.
+
+**Git reset** is more aggressive and can be used to delete commits that we will no longer need (forever!!)  
+**Git revert** (which I recommend) leaves the commits intact and creates a new commit referencing an old commit.
+
+## Conclusions
+
+On one hand, there is GIT. Although it is not yet widely used in the industry, it is an extremely valuable tool. Learning to use GIT can be very beneficial for the future. It is a very comprehensive tool that would require a lot of time and knowledge to explain in its entirety, but I encourage you to explore it and discover the benefits of working with GIT.
+
+On the other hand, we have TIA PORTAL, with its official tools. I believe it represents a great advance in approaching another type of programming, where the ways of working are much simpler and more developed.
+
+I invite you to delve into both tools and experience their benefits daily.
+
+Thank you very much, and I hope this is helpful :D.
+
+#### Jhon Chuquimarca Castillo
+
+Industrial Automation Technician.
+
+---
+*Source: [Optimizing Industry: Version Control and TIA Portal (Part 3)](https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/) — Jhon Chuquimarca Castillo*

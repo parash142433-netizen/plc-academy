@@ -1,0 +1,48 @@
+---
+title: "Script Conversion S5Time format (Milliseconds) to H_M_S"
+slug: "tia-portal-conversion-tiempos-2"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/TIA_Portal_Conversion_Tiempos_2.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["S5Time Script (Milliseconds)"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# Script Conversion S5Time format (Milliseconds) to H\_M\_S
+
+Jose Manuel Luque
+
+S5Time Script (Milliseconds)
+
+**Extract Hours/Minutes/Seconds from S5TIME Format - II  
+**
+
+In the [previous practice](#/a/en%2Ftia-portal-conversion-tiempos) we dealt with this same example, but after converting BCD\_I, this time we will deal directly with the variable assigned to DEZ. When we configure it in the variable table of our Screen, we will assign it the data type S5Time.
+
+The only drawback is that the time is shown in milliseconds, so we need to convert the milliseconds to Seconds, Minutes, and Hours.
+
+We have the same example:
+
+![](./assets/images/tia-portal-conversion-tiempos-2/Step7_S5Time_12.png)
+
+The Script is as follows, the line HmiRuntime.Trace is not applicable just like ShowSystemAlarm, it needs to be commented out...
+
+What we are going to do is first divide the milliseconds by 1000 to get the seconds, and from the seconds, we will perform a series of divisions to extract all the information.
+
+![](./assets/images/tia-portal-conversion-tiempos-2/Step7_S5Time_II_00.png)
+
+And finally, we will check the operation. The result is satisfactory, it works perfectly.
+
+A detail that I overlooked is that the Script will be executed every time the value of our variable changes, we go to the properties of our variable and in the events, on value change, we execute the Script.
+
+![](./assets/images/tia-portal-conversion-tiempos-2/Step7_S5Time_II_01.png) ![](./assets/images/tia-portal-conversion-tiempos-2/Step7_S5Time_II_02.png)
+
+January 26, 2014
+
+---
+*Source: [Script Conversion S5Time format (Milliseconds) to H_M_S](https://www.plc-hmi-scadas.com/en/TIA_Portal_Conversion_Tiempos_2.php) — Jose Manuel Luque*

@@ -1,0 +1,69 @@
+---
+title: "Send Emails from Vijeo Citect"
+slug: "034"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/034.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SCHNEIDER"]
+tags: ["CitectScada","Cicode","Scada"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SCHNEIDER](#/a/en%2Fscada-schneider) › Article
+
+# Send Emails from Vijeo Citect
+
+Jose Manuel Luque
+
+CitectScada Cicode Scada
+
+**Send Emails from CitectScada**
+
+In this practice, we will send emails from Citect Scada. On the PC where Citect will run, I have made some prior configurations. First of all, configure an email account in Outlook Express; this email account can be any account we have in Gmail, Hotmail, etc., that supports POP. For this example, I have used a Gmail account, and in the following link, you can find a detailed guide on how to [configure Outlook Express for a Gmail account](https://support.google.com/mail/bin/answer.py?hl=es&answer=76147).
+
+In the Gmail settings, I have enabled POP as can be seen.
+
+Run Internet Explorer -> Tools -> Internet Options, and set Outlook Express as the default email program.
+
+Once Outlook Express is configured, go to Tools -> Options and uncheck the option to Notify me when others ...
+
+These are the prerequisites before configuring a function in Citect.
+
+![](./assets/images/034/Citect%20Email-01.jpg)
+
+![](./assets/images/034/Citect%20Email-00.jpg)
+
+![](./assets/images/034/Citect%20Email-02.jpg)
+
+Once our Citect project is open, what I am going to do is create a function that encompasses several predefined functions in Cicode. We click on the icon and open the Cicode editor, create a new one, and a pop-up window appears to select the programming language; we select Cicode.
+
+![](./assets/images/034/Citect%20Email-03.jpg)
+
+![](./assets/images/034/Citect%20Email-04.jpg)
+
+The function I am going to implement does the following: first log in, send the email and attachments if applicable, and then log out. In case you want to send large attachments, it is advisable to intersperse the Sleep(5) function before logging out.
+
+![](./assets/images/034/Citect%20Email-13.jpg)
+
+![](./assets/images/034/Citect%20Email-14.jpg)
+
+To check that the function executes correctly, I will create a button that, when pressed, sends the email. I create a new page using a predefined template and insert a button, look for the function created earlier, and that's it; the project can now be compiled and executed. Start the Runtime and press the button.
+
+![](./assets/images/034/Citect%20Email-07.jpg)
+
+![](./assets/images/034/Citect%20Email-08.jpg)
+
+![](./assets/images/034/Citect%20Email-10.jpg)
+
+The email has been sent successfully. On my PC, I check the email, and as can be seen, a new message has arrived with the configuration that was made earlier.
+
+![](./assets/images/034/Citect%20e-mail%20-00.jpg)
+
+![](./assets/images/034/Citect%20e-mail%20-01.jpg)
+
+September 8, 2012
+
+---
+*Source: [Send Emails from Vijeo Citect](https://www.plc-hmi-scadas.com/en/034.php) — Jose Manuel Luque*

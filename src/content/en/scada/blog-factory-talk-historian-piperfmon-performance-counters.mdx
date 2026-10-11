@@ -1,0 +1,58 @@
+---
+title: "Factory Talk Historian - PIPerfMon (Performance Counters)"
+slug: "blog-factory-talk-historian-piperfmon-performance-counters"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-piperfmon-performance-counters/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk Historian","Factory Talk VIEW SE","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk Historian - PIPerfMon (Performance Counters)
+
+Jose Manuel Luque Mar 28, 2024
+
+Factory Talk Historian Factory Talk VIEW SE SCADA SCADA
+
+![Factory Talk Historian - PIPerfMon (Performance Counters)](./assets/images/blog-factory-talk-historian-piperfmon-performance-counters/FTHistorian_PerfMonTags-7.png)
+
+To extend the information a bit more, we have already seen how to configure the [PIPerfMon](#/a/en%2Fblog-factory-talk-historin-piperfmon) interface that comes by default with the 140 licensed tags.
+
+![](./assets/images/blog-factory-talk-historian-piperfmon-performance-counters/FTHistorian_PerfMonTags-11-1024x650.png)
+
+But we have the option to change the tags that interest us; for that, we are going to delete the ones we are not going to use. For this example, I will delete the following.
+
+![](./assets/images/blog-factory-talk-historian-piperfmon-performance-counters/FTHistorian_PerfMonTags-10-1024x728.png)
+
+If we check in **Operation** -> **Licensing** -> **Point Source Limit #**, we see that we have 140 and we have used 129; I have deleted those 11 that are missing.
+
+![](./assets/images/blog-factory-talk-historian-piperfmon-performance-counters/FTHistorian_PerfMonTags-9-1024x443.png)
+
+Now we are going to create other tags that may be more interesting for our application.  
+To create them, we navigate to **IT Points** -> **Performance Counters** -> and select the configured interface PIPerfMon1, in the **Tag Settings** tab.
+
+![](./assets/images/blog-factory-talk-historian-piperfmon-performance-counters/FTHistorian_PerfMonTags-8-1024x526.png)
+
+Later, in the **Build Tags** tab, we have the option to load some default templates or select the ones that interest us from all the components of the Operating System; we can also save templates, create a CSV file of the tags to be created.
+
+![](./assets/images/blog-factory-talk-historian-piperfmon-performance-counters/FTHistorian_PerfMonTags-7-1024x525.png)
+
+For this example, I will select the size used of all the databases in my system; it can also be selected from each of the databases. Since it is SQL Express and the size is limited to 10GB, this information could be useful, just to give an example. And to create another, I will select the size of the Logs as shown in the following image.
+
+![](./assets/images/blog-factory-talk-historian-piperfmon-performance-counters/FTHistorian_PerfMonTags-3-1024x495.png)
+
+We have now created our Tags, and we check how the license information has been updated. From here, you know that you can change the default configuration and add other tags that may interest you much more...
+
+![](./assets/images/blog-factory-talk-historian-piperfmon-performance-counters/FTHistorian_PerfMonTags-2-1024x452.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Factory Talk Historian - PIPerfMon (Performance Counters)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-piperfmon-performance-counters/) — Jose Manuel Luque*

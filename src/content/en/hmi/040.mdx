@@ -1,0 +1,63 @@
+---
+title: "Recipes in TIA WinCC Runtime Professional"
+slug: "040"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/040.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["Recipes","TIA","WinCC RT Advanced"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# Recipes in TIA WinCC Runtime Professional
+
+Jose Manuel Luque
+
+Recipes TIA WinCC RT Advanced
+
+In this practice, I will configure the Recipes in WinCC Advanced V.11, and this configuration is applicable to WinCC Flexible and is practically identical to the previous practice with [WinCC RT Professional](#/a/en%2F039 "Recipes in WinCC Runtime Professional").
+
+The recipe would be Milk\_Production, each recipe contains the elements that would be equivalent to the ingredients, and each recipe has its records that would correspond to the variations of the ingredients in the production of the product, such as whole milk, semi-skimmed milk, and skimmed milk, where in each of these records, each element or ingredient varies in its proportions.
+
+1.- We open our project in the TIA Portal, where we have our PLC, in this example an S7-300, but it could be any other, there is no variation in the configuration of the recipes and our WinCC RT Advanced application, we navigate to Recipes and open its window, and the appearance it shows is as follows:
+
+![](./assets/images/040/WCAdvanced%20Recipes-00.jpg)
+
+2.- Our Recipe will be called Milk\_Production and we add the elements or ingredients that will compose the production of Milk.
+
+![](./assets/images/040/WCAdvanced%20Recipes-01.jpg)
+
+3.- We will add the elements that correspond to the ingredients that make up our Recipe, and in the Variable column, we navigate to the data that it will refer to in our PLC program, in the example I have created a DB Recipes, where I have the ingredients.
+
+![](./assets/images/040/WCAdvanced%20Recipes-02.jpg)
+
+![](./assets/images/040/WCAdvanced%20Recipes-03.jpg)
+
+4.- Once all the elements, ingredients, have been added, we just need to configure in the Records tab the different proportions of the elements, ingredients that would correspond to the product to be manufactured, and in the different columns, the elements created previously appear.
+
+![](./assets/images/040/WCAdvanced%20Recipes-04.jpg)
+
+5.- Now we need to configure a screen to display the recipes, modify them, add some, and transfer them to the PLC or read from the PLC, for this we create a new screen and within the Controls window, we select Recipe Viewer and drag it to our image; here is the difference between the recipe viewer in WinCC Advanced and WinCC Professional.
+
+![](./assets/images/040/WCAdvanced%20Recipes-05.jpg)
+
+![](./assets/images/040/WCAdvanced%20Recipes-06.jpg)
+
+6.- Within the Properties, we will adjust the display of our Recipe viewer as needed, we navigate through its different properties and modify them; once this is done, we can proceed to run the Runtime.
+
+![](./assets/images/040/WCAdvanced%20Recipes-07.jpg)
+
+7.- I run the Runtime and this is the screen of my Recipes, I can now modify, add, delete, and transfer the recipe that interests me to the program in the PLC.
+
+![](./assets/images/040/WCAdvanced%20Recipes-09.jpg)
+
+![](./assets/images/040/WCAdvanced%20Recipes-08.jpg)
+
+September 20, 2012
+
+---
+*Source: [Recipes in TIA WinCC Runtime Professional](https://www.plc-hmi-scadas.com/en/040.php) — Jose Manuel Luque*

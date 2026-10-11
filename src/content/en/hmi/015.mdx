@@ -1,0 +1,83 @@
+---
+title: "Transfer Project to a Runtime PC"
+slug: "015"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/015.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["WinCC Flexible PC Runtime","WinCC Flexible","ProSafe"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# Transfer Project to a Runtime PC
+
+Jose Manuel Luque
+
+WinCC Flexible PC Runtime WinCC Flexible ProSafe
+
+In this practice, we will see how to transfer a project to a PC where WinCC Flexible PC Runtime is installed. We will treat the PC as if it were a normal screen where only the Runtime is installed.
+
+The project will be created from our PC/PG and we will transfer it to the other PC. We will create a new project and immediately make a modification of the same with its transfer.
+
+1.- We run our WinCC Flexible and create a new Project.
+
+![](./assets/images/015/WCF%20Transfer-00.jpg)
+
+2.- We create all the screens and their corresponding configuration. In this practice, we will not go into those details, and in the next image, we assume that it is the initial screen of our project.
+
+![](./assets/images/015/WCF%20Transfer-01.jpg)
+
+3.- Once the project is finished, we need to compile it, and if there are no errors, we can start our transfer. We have selected Ethernet as the transfer mode.
+
+In the PC name or IP address, we specify the IP address of the PC to which we will transfer the project.
+
+![](./assets/images/015/WCF%20Transfer%2021.jpg)
+
+4.- If we do not know the IP address of the device, we use the IPCONFIG command, and it will show us. This address is what we will use for the transfer.
+
+![](./assets/images/015/WCF%20Transfer-15.jpg)
+
+We will also ensure that we are on the same network and check that there is communication between the two devices. We run the ping command to verify this, and in the next image, we check our IP address and that there is communication between the two devices.
+
+![](./assets/images/015/WCF%20Transfer-25.jpg)
+
+Once the IP address is known, we will run the WinCC Flexible Loader to configure the selected mode for the transfer and the directory where our project will be located. For this, we select Settings.
+
+![](./assets/images/015/WCF%20Transfer-16.jpg)
+
+We select the Channel and Directories.
+
+![](./assets/images/015/WCF%20Transfer-17.jpg)
+
+We accept the changes and click the transfer button. Once the project is transferred, the Runtime will execute after 10 seconds.
+
+![](./assets/images/015/WCF%20Transfer-18.jpg)
+
+We click the transfer button, and some pop-up windows will appear that we will confirm according to our needs. The project has been transferred, and it will execute in 10 seconds.
+
+![](./assets/images/015/WCF%20Transfer-26.jpg)
+
+![](./assets/images/015/WCF%20Transfer-09.jpg)
+
+![](./assets/images/015/WCF%20Transfer-12.jpg)
+
+Here you can see how the Runtime automatically starts.
+
+![](./assets/images/015/WCF%20Transfer-19.jpg)
+
+![](./assets/images/015/WCF%20Transfer-20.jpg)
+
+If we need to make a modification, we first make it in our WinCC Flexible project, recompile, and perform a new transfer.
+
+![](./assets/images/015/WCF%20Transfer-22.jpg)
+
+![](./assets/images/015/WCF%20Transfer-24.jpg)
+
+August 11, 2012
+
+---
+*Source: [Transfer Project to a Runtime PC](https://www.plc-hmi-scadas.com/en/015.php) — Jose Manuel Luque*

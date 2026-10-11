@@ -1,0 +1,57 @@
+---
+title: "ProTool PC Runtime Link with MicroLogix"
+slug: "033"
+locale: "en"
+category: "hmi"
+originalUrl: "https://www.plc-hmi-scadas.com/en/033.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","HMI","SIEMENS"]
+tags: ["ProTool","MicroLogix","PC Runtime"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [HMI](#/a/en%2Fhmi) › [SIEMENS](#/a/en%2Fhmi-siemens) › Article
+
+# ProTool PC Runtime Link with MicroLogix
+
+Jose Manuel Luque
+
+ProTool MicroLogix PC Runtime
+
+This practice is intended to provide some support to a colleague, and we are going to configure a PC with ProTool PC Runtime as HMI and link it with an Allen Bradley PLC, a MicroLogix.
+
+We create a new project in ProTool and following the wizard, we select within Windows-based systems -> PC, adjusting the resolution to that of our PC.
+
+![](./assets/images/033/ProTool%20AB%20-00.jpg)
+
+Continuing with the wizard, the next step is to enter the name of the driver we are going to use and reference it to the PLC; in this case, we select Allen Bradley DF1, SLC 500, since this driver will work for the MicroLogix.
+
+![](./assets/images/033/ProTool%20AB%20-01.jpg)
+
+The next step is to adjust the parameters of the selected driver; since the PC has a COM port, we will use this port to communicate with the PLC.
+
+![](./assets/images/033/ProTool%20AB%20-02.jpg)
+
+We finish the wizard and a new project is created, in which if we click on controls, we can see the configured link and modify it if necessary.
+
+![](./assets/images/033/ProTool%20AB%20-04.jpg)
+
+![](./assets/images/033/ProTool%20AB%20-06.jpg)
+
+The next thing I will do is configure the variables that I will use on the screen; we click on variable and start adding them, specifying the name we assign to that variable, the control which is the previously configured PLC, the data type, and its address.
+
+![](./assets/images/033/ProTool%20AB%20-07.jpg)
+
+We create the necessary images and specify which will be the initial image in its properties, and we assign the variables to the objects we will be inserting and using.
+
+Once finished, we generate the project to check for errors, and we can now proceed with its transfer. To perform the transfer, we can follow the same steps used in the practice [Transfer Project to WinCC Flexible PC Runtime](#/a/en%2F015 "Transfer Project to WinCC Flexible PC Runtime"), as these are inherited from ProTool.
+
+![](./assets/images/033/ProTool%20AB%20-11.jpg)
+
+![](./assets/images/033/ProTool%20AB%20-12.jpg)
+
+September 7, 2012
+
+---
+*Source: [ProTool PC Runtime Link with MicroLogix](https://www.plc-hmi-scadas.com/en/033.php) — Jose Manuel Luque*

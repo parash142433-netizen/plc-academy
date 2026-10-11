@@ -1,0 +1,76 @@
+---
+title: "Application Server - Distributed Application"
+slug: "archestra-aplicacion-distribuida"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/ArchestrA_Aplicacion_Distribuida.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Application Server - Distributed Application","Remote Node´s UserId/Password don´t match GR Node´s."]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# Application Server - Distributed Application
+
+Jose Manuel Luque
+
+Application Server - Distributed Application Remote Node´s UserId/Password don´t match GR Node´s.
+
+**Application Server - Distributed Application  
+**
+
+In the previous practices of the Application Server 1st, 2nd, 3rd, we saw how to develop an application that runs locally on a single PC. Based on the same example of the Galaxy already created, we will add a new PC for process visualization.
+
+As we saw, for visualization, 3 Objects are needed: PCWinPlatform, ViewEngine, and an instance of IntouchViewApp. From the previous objects, we can create a new Instance or a new Template. As can be observed, I have created a new Derived Template, where the most important thing is to configure in the PCWinPlatform the name of the node where the application will run, in this case, on the PC named PCVIEWINTOUCH.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-05.png) ![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-06.png)
+
+Next, we can instantiate our new objects within our Area and also in the Deployment order hierarchically as can be seen. If interested, we could have created a new Intouch application, but in this case, we will visualize the same application on both PCs.
+
+First of all, we need to deploy the main PC (GRNode), which is recognized because it is yellow.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-07.png)
+
+Once we have deployed and it has finished successfully, we can now deploy the new instances of our new Visualization PC.
+
+If the process ends correctly, the application has just been created on our PCVIEWINTOUCH to be put in Runtime.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-09.png) ![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-08.png)
+
+This is the Server, where our Galaxy is. Since it is in Deploy, we can observe that our application is available in the Intouch projects, but only for execution; editing must be done from the Application Server.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-10.png)
+
+If we put it in Runtime, we can observe our application.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-12.png)
+
+On the other hand, on the Visualization PC, all we need is to have installed the Intouch Runtime; automatically with this, the Bootstrap of the Application Server is installed. These are the minimum requirements.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-18.png) ![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-17.png)
+
+Here we can see that on the PCVIEWINTOUCH, with our application in Deploy, we observe that the project is ready to be put in Runtime.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-15.png)
+
+If we run it, we verify that we have the same project and it works correctly.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-14.png)
+
+IMPORTANT: In the first test I performed, when deploying the PCVIEWINTOUCH, I encountered the following error: Remote Node´s UserId/Password don´t match GR Node´s.
+
+The problem, as can be seen, is a security issue, and it is due to the fact that when I installed the Intouch Runtime on the Visualization PC, it always asks for the username, password, and a checkbox to create a new user during installation, and at the time of deploying, I was not logged into the System as that user.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-16.png)
+
+In a Windows 7 Operating System, the Administrator account is created by default, although it is disabled. Once I enabled it and logged in as Administrator, the problem was solved. In any case, there is the Change Network Account application that we can use to change the user and grant permissions.
+
+![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-19.png) ![](./assets/images/archestra-aplicacion-distribuida/AplicationServer-Galaxy-20.png)
+
+August 5, 2013
+
+---
+*Source: [Application Server - Distributed Application](https://www.plc-hmi-scadas.com/en/ArchestrA_Aplicacion_Distribuida.php) — Jose Manuel Luque*

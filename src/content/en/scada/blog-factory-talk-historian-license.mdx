@@ -1,0 +1,60 @@
+---
+title: "Factory Talk Historian - License"
+slug: "blog-factory-talk-historian-license"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-license/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk Historian","Factory Talk VIEW SE","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk Historian - License
+
+Jose Manuel Luque Mar 29, 2024
+
+Factory Talk Historian Factory Talk VIEW SE SCADA SCADA
+
+![Factory Talk Historian - License](./assets/images/blog-factory-talk-historian-license/FTHistorian_Licence-9.png)
+
+Some basic concepts for licensing Factory Talk Historian.
+
+Once the link for our FTHistorian is created, if we access the properties with a right-click, the following window opens, where in the **Licensing** tab the licenses are displayed, and we need to assign them since by default it is set to 0.
+
+![](./assets/images/blog-factory-talk-historian-license/FTHistorian_Licence-9.png)
+
+And if we check in **Point Sources**, we see that we have a license for 1000 tags of which we have created 39 for the **FTLD** (Factory Talk Live Data) interface. It is important to have this clear to later understand the rest.
+
+![](./assets/images/blog-factory-talk-historian-license/FTHistorian_Licence-8.png)
+
+Now we are going to verify this information in our Historian management console (**PI System Management Tools**) Operation -> Licensing  
+Inside resources, we will search as we have seen Point Sources Limit. **FTLD** and observe that we have the license for 1000 with the 39 Points created.
+
+![](./assets/images/blog-factory-talk-historian-license/FTHistorian_Licence-7.png)
+
+If we now check the FTMS or FTSS interface, we can see that we do not have a license.
+
+![](./assets/images/blog-factory-talk-historian-license/FTHistorian_Licence-6.png)
+
+To understand the rest of the licenses, we need to have the following table clear, which is directly related to the tags.
+
+![](./assets/images/blog-factory-talk-historian-license/FTHistorian_Licence-5.png)
+
+Now I am going to create a Tag of the PIPing type, where the interface is reference **J** as shown in the table.
+
+![](./assets/images/blog-factory-talk-historian-license/FTHistorian_Licence-1.png)
+
+If we now check the licenses, we can see that of the 10 tags that can be created of this type, we have already consumed one.
+
+![](./assets/images/blog-factory-talk-historian-license/FTHistorian_Licence-2.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [Factory Talk Historian - License](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-license/) — Jose Manuel Luque*

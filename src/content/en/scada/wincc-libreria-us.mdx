@@ -1,0 +1,339 @@
+---
+title: "VBScript Library WinCC"
+slug: "wincc-libreria-us"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_Libreria_US.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC","VBScript"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# VBScript Library WinCC
+
+Jose Manuel Luque 26 Jul, 2018
+
+WinCC VBScript
+
+**VBScript Library WinCC**
+
+I’m creating an external Library built with C# to extend the options for WinCC and used with VBScript. Additional functions to make the code easier for the user.
+
+Currently, all the functions are available for WinCC and WinCC RT Professional (Tia Portal).
+
+If you are interested, you can download the library from the Siemens forum, where I will update the different versions.
+
+[https://support.industry.siemens.com/tf/ww/en/posts/library-vb-net-c-com-vbscript-wincc/187312/?page=0&pageSize=10](https://support.industry.siemens.com/tf/ww/en/posts/library-vb-net-c-com-vbscript-wincc/187312/?page=0&pageSize=10)
+
+string :**GetUserGroup** (string DataSourceRT, string CurrentUser)  
+
+Dim CurrentUser, DatasourceNameRT, Obj, return  
+Set CurrentUser = HMIRuntime.Tags(""@CurrentUser")  
+Set DatasourceNameRT = HMIRuntime.Tags(""@DatasourceNameRT")  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetUserGroup(DatasourceNameRT.Read, CurrentUser.Read)  
+HMIRuntime.Trace ""User Group: "" & return & vbNewline
+
+string :**GetUserGroupLogon**(string DataSourceRT, string CurrentUser)  
+
+Dim CurrentUser, DatasourceNameRT, Obj, return  
+Set CurrentUser = HMIRuntime.Tags(""@CurrentUser")  
+Set DatasourceNameRT = HMIRuntime.Tags(""@DatasourceNameRT")  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetUserGroupLogon(DatasourceNameRT.Read, CurrentUser.Read)  
+HMIRuntime.Trace ""User Group: "" & return & vbNewline
+
+string :**GetMaxLimitTag** (string DataSourceRT, string TagName)  
+
+Dim Obj, return, DatasourceNameRT  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Set DatasourceNameRT = HMIRuntime.Tags(""@DatasourceNameRT")  
+return = Obj.GetMaxLimitTag(DatasourceNameRT.Read, ""TagName"")  
+HMIRuntime.Trace ""Max Limit: "" & return & vbNewline
+
+string :**GetMinLimitTag** (string DataSourceRT, string TagName)  
+
+Dim Obj, return, DatasourceNameRT  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Set DatasourceNameRT = HMIRuntime.Tags(""@DatasourceNameRT")  
+return = Obj.GetMinLimitTag(DatasourceNameRT.Read, ""TagName"")  
+HMIRuntime.Trace ""Min Limit: "" & return & vbNewline
+
+string :**GetDateTime**() 'With Milliseconds  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetDateTime()  
+HMIRuntime.Trace ""System Date: "" & return & vbNewline
+
+string :**GetDateTimeFormat**(string format) '(HH:mm:ss.fff) ; (MMMM dd, yyyy) ; (yyyyMMddHHmmss)  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetDateTimeFormat(""HH:mm:ss.fff")  
+HMIRuntime.Trace ""System Date: "" & return & vbNewline
+
+int :**Sleep**(int Milliseconds) 'Return 1 when the time is finished  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+HMIRuntime.Trace ""System Date: "" & Obj.GetDateTime() & vbNewline  
+Obj.Sleep(500)  
+HMIRuntime.Trace ""System Date: "" & Obj.GetDateTime() & vbNewline
+
+int :**GetRandom**()' By default 0-100  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetRandom()  
+HMIRuntime.Trace ""Random Number: "" & return & vbNewline
+
+int :**GetRandomNumber**(int MinNumber, int MaxNumber)  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetRandom(10,1000)  
+HMIRuntime.Trace ""Random Number: "" & return & vbNewline
+
+float :**GetRandomFloat**(int MinNumber, int MaxNumber)  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetRandom(10,1000)  
+HMIRuntime.Trace ""Random Number: "" & return & vbNewline
+
+int :**StartProgram**(string PathProgram, out string Message)  
+
+Dim Obj, msg  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.StartProgram(""C:\\\\xxx\\\\MyExportFile.csv",msg)  
+If return = -1 Then  
+HMIRuntime.Trace msg & vbNewline  
+End If
+
+int :**CloseProgram**(string Program, out string Message) 'Program = Name of the process  
+
+Dim Obj, msg  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.CloseProgram(""firefox",msg)  
+If return = -1 Then  
+HMIRuntime.Trace msg & vbNewline  
+End If
+
+void :**Login**()  
+
+Dim Obj  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.Login()
+
+void :**Logout**()  
+
+Dim Obj  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.Logout()
+
+void :**SilentLogin**(string login, string password)  
+
+Dim Obj  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.SilentLogin(""User"", ""Passwords"")
+
+bool :**LoggedInByCard**()  
+
+Dim Obj, ret  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+ret = Obj.LoggedInByCard()
+
+void :**GetCursorPosition**(out int x, out int y)  
+
+Dim Obj, x, y  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.GetCursorPosition x, y  
+HMIRuntime.Trace ""X: "" & x & vbNewline  
+HMIRuntime.Trace ""Y: "" & y & vbNewline
+
+void : **NormalWinCC**()  
+
+Dim Obj  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.NormalWinCC()
+
+void : **MinimizeWinCC**()  
+
+Dim Obj  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.MinimizeWinCC() 
+
+void : **MaximizeWinCC**()  
+
+Dim Obj  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.MaximizeWinCC()
+
+Thanks to WkHtmlToPdf I have created these functions. If you want to try it, you need to install WkHtmlToPdf. You can download it from [https://wkhtmltopdf.org/downloads.html](https://wkhtmltopdf.org/downloads.html)
+
+With these functions, you will be able to convert a website to pdf or convert an html file to pdf.
+
+int **PrintHtmlToPdf**(String Source, String Path, String msg)  
+
+Dim Obj, msg, ret  
+item.Enabled = False  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+HMIRuntime.Trace ""Start: "" & Obj.GetDateTime() & vbNewline  
+ret = Obj.PrintHtmlToPdf(""https://wkhtmltopdf.org",""C:\\\\PDF\\\\wkhtmltopdf.pdf",msg)  
+If ret = -1 Then  
+HMIRuntime.Trace ""Error: "" & msg & vbNewline  
+End If  
+HMIRuntime.Trace ""Finished: "" & Obj.GetDateTime() & vbNewline  
+item.Enabled = True
+
+Dim Obj, msg, ret  
+item.Enabled = False  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+HMIRuntime.Trace ""Start: "" & Obj.GetDateTime() & vbNewline  
+ret = Obj.PrintHtmlToPdf(""file:///C:/PDF/wkhtmltopdf.htm",""C:\\\\PDF\\\\wkhtmltopdf2.pdf",msg)  
+If ret = -1 Then  
+HMIRuntime.Trace ""Error: "" & msg & vbNewline  
+End If  
+HMIRuntime.Trace ""Finished: "" & Obj.GetDateTime() & vbNewline  
+item.Enabled = True
+
+Thanks to HtmlRenderer.PdfSharp I have created these functions. With this, you don’t need to install anything.
+
+With these functions, you will be able to create a pdf from html code, and you can include css style and images.  
+  
+int **GeneratePdf**(String Source, String Path, String msg)  
+
+Dim Obj, pdf, msg, ret  
+item.Enabled = False  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+HMIRuntime.Trace ""Start: "" & Obj.GetDateTime() & vbNewline  
+  
+pdf = "<html> " \_  
+& "<body>" \_  
+& "<h1>My First Heading</h1>" \_  
+& "<p>My first paragraph.</p>" \_  
+& "<p><h1>Hello World</h1>This is html rendered text</p>" \_  
+& "<table width:100%">" \_  
+& "<tr>" \_  
+& "<th>Firstname</th>" \_  
+& "<th>Lastname</th>" \_  
+& "<th>Age</th>" \_  
+& "</tr>" \_  
+& "<tr>" \_  
+& "<td>Jill</td>" \_  
+& "<td>Smith</td>" \_  
+& "<td>50</td>" \_  
+& "</tr>" \_  
+& "<tr>" \_  
+& "<td>Eve</td>" \_  
+& "<td>Jackson</td>" \_  
+& "<td>94</td>" \_  
+& "</tr>" \_  
+& "</table>" \_  
+& "</body>" \_  
+& "</html>"  
+  
+ret = Obj.GeneratePdf(pdf, ""C:\\\\PDF\\\\CodeHTML2PDF.pdf",msg)  
+If ret = -1 Then  
+     HMIRuntime.Trace ""Error: "" & msg & vbNewline  
+End If  
+HMIRuntime.Trace ""Finished: "" & Obj.GetDateTime() & vbNewline  
+item.Enabled = True
+
+Dim Obj, pdf, msg, ret  
+item.Enabled = False  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+HMIRuntime.Trace ""Start: "" & Obj.GetDateTime() & vbNewline  
+  
+pdf = "<head><style>.test { background-color: linen;color: maroon;}</style></head>" \_  
+& "<body Class="test"><p><h1>Hello PLC HMI SCADAS</h1>This is html generated with HtmlRenderer.PdfSharp and rendered text with css and image.</p>" \_  
+& "<p><img src="/images/header1280.gif" height="100%" width="100%"></p>" \_  
+& "</body>"  
+  
+ret = Obj.GeneratePdf(pdf, ""C:\\\\PDF\\\\CodeHTML2PDF\_2.pdf",msg)  
+If ret = -1 Then  
+HMIRuntime.Trace ""Error: "" & msg & vbNewline  
+End If  
+HMIRuntime.Trace ""Finished: "" & Obj.GetDateTime() & vbNewline  
+item.Enabled = True
+
+Update: If you download the latest version, there are some changes with several functions as of 26-07-2018.
+
+string :**GetUserGroup**()  
+string :**GetUserGroupLogon**()  
+string :**GetMaxLimitTag** (string TagName)  
+string :**GetMinLimitTag** (string TagName)  
+
+  
+
+string : **GetRuntimeProject**()  
+
+Dim Obj, ret  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+ret = Obj.GetRuntimeProject()
+
+void : **ShowTaskbar**()  
+
+Dim Obj  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.ShowTaskbar()
+
+void : **HideTaskbar**()  
+
+Dim Obj  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+Obj.HideTaskbar()
+
+string :**GetUserGroup**()  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetUserGroup()  
+HMIRuntime.Trace ""User Group: "" & return & vbNewline
+
+string :**GetUserGroupLogon**()  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetUserGroupLogon()  
+HMIRuntime.Trace ""User Group: "" & return & vbNewline
+
+string :**GetMaxLimitTag** (string TagName)  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetMaxLimitTag(""TagName"")  
+HMIRuntime.Trace ""Max Limit: "" & return & vbNewline
+
+string :**GetMinLimitTag** (string TagName)  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.GetMinLimitTag(""TagName"")  
+HMIRuntime.Trace ""Min Limit: "" & return & vbNewline
+
+int :**PrintReport** (string JobName)  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.PrintReport(JobName)  
+
+int :**PreviewReport** (string JobName)  
+
+Dim Obj, return  
+Set Obj = CreateObject(""VBScriptLibraryWinCC.dll")  
+return = Obj.PreviewReport(JobName)  
+
+  
+
+March 8, 2017
+
+"Silent gratitude isn’t much use to anyone." Gladys Bronwyn Stern
+
+---
+*Source: [VBScript Library WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Libreria_US.php) — Jose Manuel Luque*

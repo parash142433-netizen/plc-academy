@@ -1,0 +1,80 @@
+---
+title: "DataGrid Control"
+slug: "archestra-datagrid"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/ArchestrA_DataGrid.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["ArchestrA DataGrid"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# DataGrid Control
+
+Jose Manuel Luque
+
+ArchestrA DataGrid
+
+**SQLDataGrid Configuration  
+**
+
+Within ArchestrA Graphics, we have the SQLDataGrid object, this object is used to visualize a view, a table, or a query from a Database. It has 54 properties for its configuration and today we will look at the minimum properties for its configuration.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-00.png)
+
+We start from the base that we have created a Database in our SQL Server Database Management System, the authentication we will use by default is Windows, as can be seen.
+
+In this example, I only have one table with some records for visualization.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-05.png) ![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-06.png)
+
+The first thing we are going to do is insert our object into Intouch, we navigate in the Objects directory to the one we are interested in, in this case SQLDataGrid, and we give it the desired size.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-02.png)
+
+Once we have it positioned and assigned the size, we will edit its properties to perform its configuration, right-click -> ArchestrA Graphic "..." -> Edit Custom Properties
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-04.png)
+
+The first property we are going to configure is Autentication\_dg, this property accepts two values, Windows or SQLServer, depending on the authentication mode, in this case Windows.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-07.png)
+
+Once we have defined how we are going to authenticate, we define in the property ConfiguredUser\_dg the name of the User, in my case the user Administrator
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-08.png)
+
+And the user password in the property ConfiguredPassword\_dg
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-09.png)
+
+On the other hand, we need to define the name of the Host where SQL Server is installed, in my case it is called SERVERWW, so we have already configured the property ConfiguredServer\_dg.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-10.png)
+
+ConfiguredDatabase\_dg is the property to assign the name of the Database we want to connect to.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-11.png)
+
+And in the property SQLQuery\_dg, we will define the query we want to perform on the Database (SQLDataGrid), hosted on the Server (SERVERWW) with the user (Administrator) and its password (\*\*\*) with authentication (Windows). Finally, the result of the Query will be displayed in our Object
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-12.png)
+
+Among all the properties, we can also set the property CmdTestConnection\_dg to True to show if the connection is successfully established.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-13.png)
+
+Once in Runtime, the Test button connects to the Database, where it can be observed that the connection has been successfully established.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-14.png)
+
+Now, we can press the Retrieve button to get the results of the query we assigned in the property SQLQuery\_dg or insert the name of the Table, view, or new Query and we will obtain the results.
+
+![](./assets/images/archestra-datagrid/ArchestrA-DataGrid-15.png)
+
+---
+*Source: [DataGrid Control](https://www.plc-hmi-scadas.com/en/ArchestrA_DataGrid.php) — Jose Manuel Luque*

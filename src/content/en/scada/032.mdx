@@ -1,0 +1,81 @@
+---
+title: "Channel Configuration in RSView32"
+slug: "032"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/032.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["RSView32","DH-485","RSLogix Emulate 500","Direct Driver"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › RSView32 Channels
+
+# Channel Configuration in RSView32
+
+Direct DH-485 link between RSView32 and RSLogix Emulate 500.
+
+Jose Manuel Luque Sep 06, 2012
+
+RSView32DH-485RSLogix Emulate 500Direct Driver
+
+![RSView32 Channel configuration](./assets/images/032/RSView32-D-1.jpg)
+
+**Objective**
+
+In the previous practice, RSView32 was linked to an OPC server. This one configures a direct link from RSView32.
+
+RSView32 has four configurable channels. Since RSLogix Emulate 500 simulates a DH-485 network, that channel type is used for the test.
+
+**Select the Channel**
+
+Select Channel and choose the network type to use.
+
+Since RSLogix Emulate 500 simulates a DH-485 network, select DH-485.
+
+![Selecting Channel in RSView32](./assets/images/032/RSView32-D-1.jpg)
+
+![Selecting DH-485 network for RSLogix Emulate 500](./assets/images/032/RSView32-D-2.jpg)
+
+**Configure the Node**
+
+Select Direct Driver and then choose the link name, the configured channel, the node number visible in RSLinx and the processor type.
+
+![Node configuration with Direct Driver](./assets/images/032/RSView32-D-3.jpg)
+
+**Verify Channel and Node**
+
+The link is now configured. It can be reviewed from System > Node and also from Channel to check the first channel.
+
+![Node configured in RSView32](./assets/images/032/RSView32-D-4.jpg)
+
+![Configured DH-485 channel](./assets/images/032/RSView32-D-5.jpg)
+
+**Add Tags and Test**
+
+Add tags in Tag Database, as done previously. To avoid repeating the full process, one tag is shown with its matching address.
+
+Tag Monitor is used to confirm that the tag is valid and that it changes state when the variable changes.
+
+![Tag created in Tag Database](./assets/images/032/RSView32-D%20-30.jpg)
+
+![Tag checked in Tag Monitor](./assets/images/032/RSView32-D%20-31.jpg)
+
+![State change shown in Tag Monitor](./assets/images/032/RSView32-D%20-32.jpg)
+
+_Original article published on September 6, 2012._
+
+**Related Articles**
+
+*   [RSLogix Emulate 500 configuration](#/a/en%2F023)
+*   [RSLinx OPC Server](#/a/en%2F017)
+*   [RSView32 with OPC server](#/a/en%2F031)
+
+#### Jose Manuel Luque
+
+Industrial automation technician and original author of this practice.
+
+---
+*Source: [Channel Configuration in RSView32](https://www.plc-hmi-scadas.com/en/032.php) — Jose Manuel Luque*

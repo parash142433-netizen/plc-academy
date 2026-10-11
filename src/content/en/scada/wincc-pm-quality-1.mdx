@@ -1,0 +1,120 @@
+---
+title: "WinCC - PM Quality (Introduction)."
+slug: "wincc-pm-quality-1"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_1.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["WinCC - PM Quality"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC - PM Quality (Introduction).
+
+Jose Manuel Luque 16 May, 2020
+
+WinCC - PM Quality
+
+**WinCC - PM Quality (Introduction).**
+
+![](./assets/images/wincc-pm-quality-1/vba-logo.png) ![](./assets/images/wincc-pm-quality-1/vba-logo.png) ![](/user_images/vba-logo.png) ![](/user_images/vba-logo.png)
+
+Before we start, THANK YOU in capital letters to my friend Cesar Fernandez, who, in the face of the possibility of collaborating on a project with PM-Quality and having no knowledge, here I am with my first steps.
+
+I am starting from scratch; there may be some errors, so if you see that this is not the most correct way or there is a better alternative, feel free to send your comments.
+
+And first of all, here is a description of this Add-On, extracted from the Official Siemens website, which you can find [here](https://new.siemens.com/global/en/products/automation/industry-software/automation-software/scada/simatic-wincc-add-ons.html)
+
+_The acquisition, processing and archiving of batch-/job-oriented data like trends, alarms, set points and production set points and current values, Audit Trails and laboratory values as part of a comprehensive quality management system are the primary application domain of PM-QUALITY.  
+Data from various sources ranging from WinCC, PCS7, WinCC flexible, WinCC (TIA Portal) over OPC/DA and text import can be combined into meaningful reports and long term archived._
+
+_Whether seamlessly integrated into the WinCC operator screens or as a standalone office application, PM-QUALITY provides the required transparency.  
+The trends display that can also show data from several batches in comparison is combined with the overlay of additional information like alarms, event triggered readings, process phase transitions and annotations forming a full blown analysis tool with perfect usability.  
+Reports are always available at a glance when needed. The integrated report layout editor allows the creation of multiple different views over archived information that can be easily adapted to existing design guides.  
+The integrated, centralized engineering library PM-LIBRARY allows the exchange and reuse of already configured components in multiple projects.  
+The processing of readings with graphical calculation rules, the integration of day, week, month and shift protocols with the integrated shift calendar as well as the new reporting capabilities using Microsoft Excel are consequent and continuous extensions of the proven functionality of PM-QUALITY._
+
+And the compliance statement can be found [here](https://support.industry.siemens.com/cs/document/109779024/%C2%BFre%C3%BAne-el-add-on-pm-quality-v10-los-requisitos-funcionales-para-los-registros-electr%C3%B3nicos-y-las-firmas-electr%C3%B3nicas-?dti=0&lc=es-DO) and part of that information is as follows:
+
+_In the life sciences industry, important decisions are made based on records that are subject to legal regulations and are increasingly generated, processed, and stored electronically. Checks and disclosures of this data are also carried out electronically. For this reason, proper management of electronic records and signatures has become an important issue for the life sciences industry._
+
+_Consequently, supervisory authorities have established criteria for electronic records and electronic signatures to be considered as reliable and trustworthy as paper records and handwritten signatures on paper. These requirements were established by the "Food and Drug Administration" (FDA) of the USA in regulations 21 CFR Part 11 (21 CFR Part 11 Electronic Records; Electronic Signatures, US FDA, 1997; abbreviated: Part 11) and accepted by the European Commission in Annex 11 of the EU-GMP guidelines (EU guidelines on good manufacturing practices, volume 4, annex 11: Computerised Systems, European Commission, 2011; abbreviated: Annex 11).  
+Since the requirements for electronic records and signatures always presume a validated computer system, both sets of regulations also contain provisions regarding the validation and lifecycle of the computer system._
+
+_The application of Part 11 and Annex 11 (or their respective implementation in national legislation) is mandatory when electronic records and signatures are used. However, these provisions will only be applied within their scope.  
+The validity scope of both sets of regulations is defined by the regional market in which the finished pharmaceutical product is sold and by the fact that computer systems and electronic records are used as part of activities related to good manufacturing practices (see Part 11.1 and Annex 11, Fundamentals)._
+
+Once we have read part of the official documentation, we can summarize it greatly and say that the main task is the generation and extraction of data from the batches produced and their corresponding reports with all the necessary information to generate the accreditation documentation.
+
+To begin with, and before performing the installation, we need to be clear about which architecture we are going to use, and I will base it on a Standalone architecture. All components on the same PC / Server. In a WinCC Single-User project.
+
+And with the following illustration, we observe that the Add-On we are going to use consists of:
+
+*   \-PM Agent
+*   \-PM Server
+*   \-PM Quality
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_4.png)
+
+An extraction from the documentation of the modules that make up PM-Quality.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_3.png)
+
+We move to action and create a new project of the Single-User type as we mentioned and observe just as we described earlier.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_5.png)
+
+The steps to create the PM-Quality project within our WinCC project are as follows.
+
+\-Configuration of the PM-Server.
+
+Just like the WinCC project is based on a Database in the SQLServer Engine, a PM-Server project uses the same philosophy. Within our WinCC project, there is a PM directory, which is where its project is located, redundancy intended.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_19.png)
+
+We already know that when we start WinCC, the Configuration and Runtime databases are loaded, and when we open the project, the PM-Server databases are also loaded.
+
+Subsequently, when everything is configured, the PM-Quality services and processes connect as clients to the PM-Server.
+
+If you ever encounter the error that the connection could not be established, the best way to check is to open the PM-Server, and if it hangs its project, the databases are loaded in SQL Server or you open the Management Studio and check that the databases are loaded.
+
+Database PMSERVER: The name is quite clear; here is where the configuration we are making in the PM-Server is stored, redundancy intended.
+
+Database PMQUALITY\_TOPOLOGIE: Here is stored all the configuration of our topology or will be stored.
+
+Database PMQUALITY\_RUNTIME: Here all the Runtime information of the data defined in our topology is registered for subsequent analysis with the Report.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_21.png)
+
+An image illustrating what we are talking about Project:PMSERVER, is the configuration we are discussing, which at this moment is an empty project, just like when we create a project in normal WinCC.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_8.png)
+
+And out of curiosity, if we start opening the different components of PM-Quality -> Topology
+
+The project is empty and we still have not defined any topology. The topology will be based on the architecture of the main tree, having at least one plant from which at least one production unit will derive and at most 100, with the rest of the components we have defined.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_9.png)
+
+Report Editor, but we have not created any yet. This editor is launched independently from PM-Quality or from the topology because what we have there will be all the information we can document in the reports, and we will have as many as required.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_10.png)
+
+The visualization of the batches with the most relevant data, for subsequent report generation, data export, printing, etc... We do not have data to visualize at the moment.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_11.png)
+
+And we cannot open the Data Logging because there is no project created and it is not running; this component will take care of recording the information we have configured in our topology, and it is recorded in the database for later consultation and report generation.
+
+![](./assets/images/wincc-pm-quality-1/PM_QUALITY_Start_12.png)
+
+Now we are going to configure the PM-Server project; we will continue in the next [article](#/a/en%2Fwincc-pm-quality-2).
+
+16-05-2020
+
+---
+*Source: [WinCC - PM Quality (Introduction).](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_1.php) — Jose Manuel Luque*

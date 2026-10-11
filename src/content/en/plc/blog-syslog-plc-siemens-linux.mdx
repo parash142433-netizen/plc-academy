@@ -1,0 +1,229 @@
+---
+title: "Syslog in Siemens PLCs: traceability and cybersecurity from the controller"
+slug: "blog-syslog-plc-siemens-linux"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/syslog-plc-siemens-linux/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","Siemens"]
+tags: ["Siemens","Syslog","TIA Portal","OT Cybersecurity","RFC 5424"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [Siemens](#/a/en%2Fplc-siemens) › Syslog in Siemens PLCs
+
+# Syslog in Siemens PLCs: traceability and cybersecurity from the controller
+
+How to send Siemens PLC events to a Linux server to centralize logs, detect changes and prepare a more auditable OT architecture.
+
+June 26, 2026
+
+Siemens Syslog TIA Portal OT Cybersecurity RFC 5424
+
+![Syslog architecture with Siemens PLCs sending events to a Linux server](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-02-arquitectura-buena.png)
+
+**Introduction**
+
+With new industrial cybersecurity and OT audit requirements reaching the plant floor, manufacturers such as **Siemens** have incorporated security and traceability mechanisms into their controllers: device access security, communication encryption and tools such as **Syslog** for event logging and centralization.
+
+This fits especially well with approaches based on [IEC 62443](https://www.isa.org/standards-and-publications/isa-standards/isa-iec-62443-series-of-standards), where recording events, access and relevant changes is essential for diagnostics, traceability and centralized monitoring.
+
+Until now, the most common way to view system-level events in a PLC was to connect online with **TIA Portal** and review the diagnostic events. It is still useful, but it is limited when a plant has more devices and needs orderly auditing.
+
+Traditional example of online diagnostic events:
+
+![Online diagnostic events in TIA Portal for a Siemens PLC](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-03-tia-portal-buffer.png)
+
+In this article we are going to prepare a demonstration solution using the **Syslog** functionality configured from **TIA Portal** in compatible Siemens CPUs, intended to align with good practices and audit requirements in plants where it is useful to centralize what happens in the controllers.
+
+**What Syslog is**
+
+[Syslog](https://en.wikipedia.org/wiki/Syslog) is a standard mechanism for sending log messages from equipment, operating systems and network devices to a central server. In industrial automation, it allows a PLC to send system events, state changes or user actions to a common log infrastructure.
+
+The solution consists of two PLCs that send events via [UDP](https://en.wikipedia.org/wiki/User_Datagram_Protocol) to a server running in a Linux [LXC](https://linuxcontainers.org/lxc/introduction/) container. In that same environment we also mount a dashboard that shows the events in real time so they can be analyzed, filtered and exported.
+
+In future articles we will see how to move this communication into a secure scenario using the mechanisms Siemens provides.
+
+**Architecture**
+
+*   **Linux server:** LXC container in Proxmox.
+*   **Siemens PLCs:** example reused from the [OPC UA client/server](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500) communications project.
+*   **Client PLC:** 192.168.1.191.
+*   **OPC UA server PLC:** 192.168.1.192.
+*   **Dashboard:** hosted on the same Linux LXC machine to display PLC events in real time.
+*   **Communication:** UDP, without encryption in this example.
+
+![Architecture of Siemens PLCs sending Syslog events via UDP to a Linux server with dashboard](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-02-arquitectura-buena.png)
+
+**Linux server: rsyslog for collection**
+
+To host the event data we are going to use a server in a Linux container with [rsyslog](https://www.rsyslog.com/). In a real infrastructure, this service could be hosted on an OT server and dedicated to collecting events from the whole plant.
+
+**rsyslog** is a widely used log server and processing engine in Linux. It can receive Syslog messages from different devices, apply filtering rules and store or forward those events to other systems.
+
+Container data:
+
+*   **Name:** lxc-syslog-plc.
+*   **System:** Debian 12.
+*   **IP:** 192.168.1.116/24.
+*   **Bridge:** vmbr0.
+*   **RAM:** 1 GB.
+*   **Disk:** 8 GB.
+
+The server configuration steps are as follows.
+
+**Step 1: enter the LXC**
+
+Enter the Linux container that will act as the Syslog server. In this lab it is the **lxc-syslog-plc** LXC, with IP address **192.168.1.116**.
+
+![Access to the LXC container used as the Syslog server](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-07-lxc-login.png)
+
+**Step 2: install basic tools**
+
+Update packages and install the tools needed to receive, edit and check the events:
+
+```
+sudo apt update
+sudo apt install rsyslog tcpdump nano iproute2 net-tools curl -y
+```
+
+*   **rsyslog:** receives and processes Syslog messages.
+*   **tcpdump:** checks whether UDP packets reach the server.
+*   **nano:** simple editor for configuration files.
+*   **iproute2** and **net-tools:** network tools to inspect interfaces and ports.
+*   **curl:** useful for quick console tests.
+
+**Step 3: configure UDP reception**
+
+Create a dedicated file for the Siemens PLC Syslog input:
+
+```
+sudo nano /etc/rsyslog.d/10-plc-siemens-udp.conf
+```
+
+In this file we define the UDP input and the rules that split events by PLC. This gives us one general file and one specific file for each controller.
+
+![UDP rsyslog configuration to receive Siemens PLC events](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-08-rsyslog-udp-config.png)
+
+**Step 4: create log files**
+
+Create the files where rsyslog will write the received events:
+
+```
+sudo touch /var/log/plc-siemens.log
+sudo touch /var/log/plc-siemens-191.log
+sudo touch /var/log/plc-siemens-192.log
+sudo chmod 644 /var/log/plc-siemens*.log
+```
+
+![Log files created for Siemens PLC Syslog events](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-09-log-files.png)
+
+**Step 5: validate the configuration**
+
+Before restarting the service, validate that the rsyslog configuration has no errors:
+
+```
+sudo rsyslogd -N1
+```
+
+![rsyslog configuration validation without errors](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-10-rsyslog-validate.png)
+
+**Step 6: start rsyslog**
+
+Enable the service, restart it and check its status:
+
+```
+sudo systemctl enable rsyslog
+sudo systemctl restart rsyslog
+sudo systemctl status rsyslog --no-pager
+```
+
+![rsyslog service active after restart](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-11-rsyslog-status.png)
+
+**Step 7: check that the server is listening**
+
+Check that the server is listening on the configured Syslog ports:
+
+```
+ss -lunp | grep -E ':514|:6514'
+```
+
+![Checking UDP ports 514 and 6514 listening on Linux](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-12-port-listening.png)
+
+To verify packet arrival before checking the dashboard, leave a **tcpdump** capture open and generate events from each PLC. In this test, a **STOP** and a **START** were performed on each controller, confirming that the messages arrive at the server.
+
+```
+sudo tcpdump -n -i any "udp port 514 or udp port 6514"
+```
+
+![tcpdump showing UDP events sent by Siemens PLCs](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-13-tcpdump-plc-events.png)
+
+**Siemens PLC: configuration and event sending**
+
+The PLC configuration to send data to the rsyslog server is simple. To illustrate how it works we will use the [OPC UA client and server](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500) project and make those PLCs send information to our dashboard.
+
+**Note:** Siemens includes this capability in compatible CPUs from **firmware V3.1**, configurable from **TIA Portal V19**, allowing CPU events to be sent to an external Syslog server.
+
+Since this is an initial lab setup, the flow is direct:
+
+1.  Open the PLC properties in TIA Portal.
+2.  Go to the **Syslog** section.
+3.  Enable event sending.
+4.  Select **UDP** as the transport.
+5.  Enter the Linux server IP address and reception port.
+
+In this case, IP **192.168.1.116** and port **6514** are the address where the rsyslog server expects to receive the events.
+
+This point is worth clarifying: although port **6514** is usually associated with secure Syslog, the transport configured here is **UDP**. Therefore, the messages are not encrypted and this setup should be understood as a lab test to validate events and analyze them with Wireshark. To truly talk about secure Syslog, TLS should be configured, normally over TCP, with certificates and server validation. We will cover that in a following article.
+
+![Syslog configuration in TIA Portal to send Siemens PLC events via UDP](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-03-configuracion-tia-portal.png)
+
+**Results**
+
+Through the dashboard we access the file hosted in the Linux LXC where the events generated by the PLCs were configured to be stored. In this case we have extracted the packets and organized the information both as plain text and in table format. From here to a standard database there is only one more step.
+
+To generate test events, we can connect online with TIA Portal, change the controller mode or download a modification. If everything is configured correctly, those events appear in the server file and in the dashboard.
+
+As you can see, the information is very powerful. It shows:
+
+*   **Date and time** of the event.
+*   **PLC IP address** that originated the event.
+*   **Category** of the event.
+*   **Event** itself: online connection from TIA Portal, PLC mode change, program changes, etc.
+*   **Status** if there has been a state change in the controller.
+*   **User** who performs the action.
+
+![Dashboard with Siemens PLC Syslog events received on a Linux server](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-04-dashboard-resultados.png)
+
+This information is already very valuable for tracing what has happened in the PLCs. If we also insert it into a larger database and cross it with SCADA Audit Trail, variable histories, CMMS, ERP or a [SIEM](https://en.wikipedia.org/wiki/Security_information_and_event_management), we get a much more powerful view of the operation.
+
+**Data packets with Wireshark and RFC 5424 standard**
+
+Filtering by the PLC and server IP addresses in [Wireshark](https://www.wireshark.org/), we can see the UDP packets that transport the events.
+
+![UDP Syslog packet capture in Wireshark between Siemens PLC and Linux server](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-05-wireshark-udp.png)
+
+The message we see has this form:
+
+![Syslog message generated by Siemens PLC with an RFC 5424 compatible structure](./assets/images/blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-06-rfc5424-mensaje.png)
+
+This means Siemens converts the information to the [RFC 5424](https://www.rfc-editor.org/rfc/rfc5424) standard, defined by the [IETF](https://www.ietf.org/). This standard describes how a Syslog message must be formed so different equipment and systems can interpret it consistently.
+
+The general structure of these messages is:
+
+```
+<PRI>VERSION TIMESTAMP HOSTNAME APP-NAME PROCID MSGID STRUCTURED-DATA MESSAGE
+```
+
+Thanks to this structure, a Siemens PLC can send events with date, origin, severity and structured data, and a server such as rsyslog can interpret, filter, store or forward them to a dashboard or SIEM platform.
+
+**Related articles**
+
+*   [Siemens S7-1500 OPC UA Client: reading and writing in TIA Portal](#/a/en%2Fblog-cliente-opc-ua-plc-s7-1500)
+*   [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](#/a/en%2Fblog-servidor-opc-ua-plc-siemens)
+*   [Secure Siemens PLC Communication with HMI and PC/PG](#/a/en%2Fblog-comunicacion-plc-hmi-pc-pg-segura)
+*   [Secure OPC UA in Siemens S7-1500: certificates, UA Expert and Sign & Encrypt](#/a/en%2Fblog-certificados-opc-ua-plc-siemens-uaexpert)
+
+---
+*Source: [Syslog in Siemens PLCs: traceability and cybersecurity from the controller](https://www.plc-hmi-scadas.com/en/blog/syslog-plc-siemens-linux/) — Jose Manuel Luque*

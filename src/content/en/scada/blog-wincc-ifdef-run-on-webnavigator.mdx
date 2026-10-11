@@ -1,0 +1,91 @@
+---
+title: "WinCC #ifdef RUN_ON_WEBNAVIGATOR"
+slug: "blog-wincc-ifdef-run-on-webnavigator"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/wincc-ifdef-run_on_webnavigator/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","SIEMENS"]
+tags: ["SCADA","SCADA","WinCC","WinCC"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [SIEMENS](#/a/en%2Fscada-siemens) › Article
+
+# WinCC #ifdef RUN\_ON\_WEBNAVIGATOR
+
+Jose Manuel Luque 22 Sep, 2024
+
+SCADA SCADA WinCC WinCC
+
+![WinCC #ifdef RUN\_ON\_WEBNAVIGATOR](./assets/images/blog-wincc-ifdef-run-on-webnavigator/WebNavitagorScript-7.png)
+
+Normally, we will use this code when we want to take advantage of the same synoptic/function in WinCC and WebNavigator, but for some reason, there is an exception to use this function.  
+I will propose the following example, a button that will serve to log into our system and at the same time this button, if we are in WebNavigator, will serve to log out.  
+  
+This is the testing synoptic with its button and its code
+
+![](./assets/images/blog-wincc-ifdef-run-on-webnavigator/WebNavitagorScript-1-1024x713.png)
+
+  
+In our button, we will implement the described code and as in each conditional a different function is executed
+
+![](./assets/images/blog-wincc-ifdef-run-on-webnavigator/WebNavitagorScript-3.png)
+
+  
+Here is the code to copy ;-) and adapt according to needs
+
+Code
+
+```
+#ifdef RUN_ON_WEBNAVIGATOR
+
+	#pragma code ()
+	#include "PWRT_api.h"
+	#pragma code();
+	PWRTLogout();
+
+#else
+
+	#pragma code("useadmin.dll")
+	#include "PWRT_api.h"
+	#pragma code()
+	PWRTLogin('c');
+
+#endif
+```
+
+  
+If we run the runtime and test our button, we invoke the login function and here is the screen
+
+![](./assets/images/blog-wincc-ifdef-run-on-webnavigator/WebNavitagorScript-4.png)
+
+  
+If, on the contrary, we have run the WinCCViewerRT, by default we are already logged in, so if we press the button...
+
+![](./assets/images/blog-wincc-ifdef-run-on-webnavigator/WebNavitagorScript-6.png)
+
+  
+We log out and we can log back in with the same user or a different one. However, the configuration file must be without a default user ;-)
+
+![](./assets/images/blog-wincc-ifdef-run-on-webnavigator/WebNavitagorScript-7.png)
+
+And if we talk about programming in VBScript, we have the function **IsWebNavigator** that will serve the same purpose.
+
+Code
+
+```
+If IsWebNavigator() Then
+	Msgbox("I am in Web Navigator")
+Else
+	Msgbox("I am NOT in Web Navigator")
+End If
+```
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [WinCC #ifdef RUN_ON_WEBNAVIGATOR](https://www.plc-hmi-scadas.com/en/blog/wincc-ifdef-run_on_webnavigator/) — Jose Manuel Luque*

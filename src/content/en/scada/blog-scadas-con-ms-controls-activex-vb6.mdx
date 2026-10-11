@@ -1,0 +1,187 @@
+---
+title: "SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)"
+slug: "blog-scadas-con-ms-controls-activex-vb6"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/scadas-con-ms-controls-activex-vb6/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk VIEW SE","Factory Talk View SE","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)
+
+Jose Manuel Luque June 18, 2024
+
+Factory Talk VIEW SE Factory Talk View SE SCADA SCADA
+
+![SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)](./assets/images/blog-scadas-con-ms-controls-activex-vb6/ActiveX_Rockwell_FactoryTalk.webp)
+
+Today we will see how to migrate our application which has integrated several **ActiveX** controls. For this article, I have selected **Factory Talk View SE**, but it is applicable to any SCADA that used the **ActiveX** controls from Visual Basic :-) and here it is with [WinCC](#/a/en%2Fblog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8)  
+  
+Nine years ago when it was still easy to install Visual Basic 6.0, a procedure that could be used was [the following](https://plc-hmi-scadas.com/WinCC_Instalacion_ActiveX.php).  
+  
+If we want to directly insert a control into our Display
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-2.png)
+
+  
+This will be the first message ...
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-4.png)
+
+  
+Followed by this other and we cannot continue...
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-5.png)
+
+  
+The first thing we are going to do is update all the controls that come by default. To do this, we will download [KB3096896](https://www.microsoft.com/en-us/download/details.aspx?id=50722) and if you read a bit of literature on the page, you will see that it cannot be installed unless you have the VB6 IDE, but you can try to run it and this is what will happen.
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-7.png)
+
+  
+We will proceed as follows, we will extract the content of the \*.msi. I used 7zip to extract it and this is what we have.
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-6.png)
+
+  
+Knowing that these controls belong to x86 (32 bits), I copied them directly along with the dependencies of the \*.dll that come in the same package to the directory:
+
+> C:\\WINDOWS\\SysWOW64
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-8.png)
+
+  
+Now I have prepared a PowerShell with my helper ;-) to re-register all the controls.  
+If you examine a little more, within all the \*.cab there is another \*.ini file that is taken into consideration because it has additional information
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-10.png)
+
+  
+Here you have all the complete code:
+
+Powershell
+
+Code
+
+```
+function Register-ActiveXFromCab {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$directoryPath
+    )
+
+    # Check if the provided directory exists
+    if (-Not (Test-Path -Path $directoryPath)) {
+        Write-Error "The specified directory does not exist."
+        return
+    }
+
+    # Create a temporary directory for extracting CAB files
+    $tempExtractPath = [System.IO.Path]::Combine($env:TEMP, "CabExtract")
+    if (-Not (Test-Path -Path $tempExtractPath)) {
+        New-Item -Path $tempExtractPath -ItemType Directory | Out-Null
+    }
+
+    # Path to x86 version of regsvr32
+    $regsvr32Path = "$env:SystemRoot\SysWOW64\regsvr32.exe"
+
+    # Get all CAB files in the directory
+    $cabFiles = Get-ChildItem -Path $directoryPath -Filter *.cab
+
+    foreach ($cabFile in $cabFiles) {
+        # Extract the CAB file to the temporary directory using expand.exe
+        $expandCommand = "expand.exe -F:* `"$($cabFile.FullName)`" `"$tempExtractPath`""
+        Invoke-Expression $expandCommand
+
+        # Find the INF file in the extracted content
+        $infFiles = Get-ChildItem -Path $tempExtractPath -Filter *.inf
+
+        foreach ($infFile in $infFiles) {
+            try {
+                # Read the INF file content
+                $infContent = Get-Content -Path $infFile.FullName
+                $registerFilesSection = $false
+                $filesToRegister = @()
+
+                foreach ($line in $infContent) {
+                    # Check if the line indicates the start of the [RegisterFiles] section
+                    if ($line -match "^\[RegisterFiles\]") {
+                        $registerFilesSection = $true
+                        continue
+                    }
+                    # Exit the section once another section starts
+                    if ($registerFilesSection -and $line -match "^\[.*\]") {
+                        $registerFilesSection = $false
+                    }
+                    # If in the [RegisterFiles] section, add the file to the list
+                    if ($registerFilesSection) {
+                        $filesToRegister += $line.Trim()
+                    }
+                }
+
+                # Register each file listed in the [RegisterFiles] section
+                foreach ($file in $filesToRegister) {
+                    # Resolve the %11% placeholder to the System32 directory
+                    $filePath = $file -replace "%11%", "$env:SystemRoot\SysWOW64"
+                    Write-Output "Registering ActiveX control: $filePath"
+                    Start-Process $regsvr32Path -ArgumentList "/s `"$filePath`"" -NoNewWindow -Wait
+                }
+            } catch {
+                Write-Error "Failed to register ActiveX controls from: $($infFile.FullName)"
+            }
+        }
+
+        # Clean up the temporary extraction directory
+        Remove-Item -Path $tempExtractPath\* -Recurse -Force
+    }
+
+    # Remove the temporary extraction directory
+    Remove-Item -Path $tempExtractPath -Recurse -Force
+
+    Write-Output "ActiveX registration completed."
+}
+
+# Example usage
+Register-ActiveXFromCab -directoryPath "C:\Users\Administrator\Desktop\VB60SP6-KB3096896-x86-ENU CodeProject"
+```
+
+  
+The execution of the script is perfect and we have just one more step before finishing the process.
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-9.png)
+
+  
+We will need to license all the controls, and now is when you have to retrieve from the installation CD the famous file called vb6controls.reg. I don't remember exactly until which version this file was included.  
+If you simply want to try it, here is the [complete list](https://github.com/qinyong99/SuperCxHMI/blob/master/other/bin/VB6%20Controls/vb6controls.reg)
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-12.png)
+
+  
+We add the list to the registry and ...
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-13.png)
+
+  
+We can now finish migrating our application with the ActiveX controls. Remember that it is always better to update the version and move to .Net controls
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-14.png)
+
+  
+If you compare the controls you had at the beginning with the ones you have now, you will see that you have the latest version of the controls \[SP6\]
+
+![](./assets/images/blog-scadas-con-ms-controls-activex-vb6/Retrofit_ActiveX-15.png)
+
+And it is completely functional in the latest Windows 11 Professional, Windows Server 2022 Standard systems.
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)](https://www.plc-hmi-scadas.com/en/blog/scadas-con-ms-controls-activex-vb6/) — Jose Manuel Luque*

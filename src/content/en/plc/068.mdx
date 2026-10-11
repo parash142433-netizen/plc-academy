@@ -1,0 +1,89 @@
+---
+title: "Create Backup of a GE 90-30 PLC with VersaPro"
+slug: "068"
+locale: "en"
+category: "plc"
+originalUrl: "https://www.plc-hmi-scadas.com/en/068.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","PLC","GE FANUC"]
+tags: ["PLC","Programmable Logic Controllers","GE Fanuc","GE 90-30","VersaPro"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [PLC](#/a/en%2Fplc) › [GE FANUC](#/a/en%2Fother-plcs) › Article
+
+# Create Backup of a GE 90-30 PLC with VersaPro
+
+Jose Manuel Luque
+
+PLC Programmable Logic Controllers GE Fanuc GE 90-30 VersaPro
+
+Before explaining the following practice, I must thank Raul, as without his collaboration this practice would be incomplete. It involves making a backup of the program that is loaded in a GE 90-30 PLC. For this, the software we are going to use is Versa Pro, although it is also possible to use Logic Master based on MS-DOS.
+
+![](./assets/images/068/Versa%20Pro%20-01.png)
+
+The first step will be to create a New Folder, equivalent to a new project, since projects in VersaPro are organized within them, so we assign the name that interests us.
+
+![](./assets/images/068/Versa%20Pro%20-02.png)
+
+![](./assets/images/068/Versa%20Pro%20-03.png)
+
+Following the wizard, we select the desired option, in this case an empty folder, which is the default value and is the one we are interested in.
+
+![](./assets/images/068/Versa%20Pro%20-04.png)
+
+A blank project is created for us, and the interface displayed is the one that can be observed.
+
+![](./assets/images/068/Versa%20Pro%20-05.png)
+
+Once we have created the project, we go to the PLC tab, and once the communication cable is connected to the PLC, we select Connect.
+
+![](./assets/images/068/Versa%20Pro%20-06.png)
+
+A configuration pop-up window for the port and communication protocol opens, and we select the corresponding port.
+
+![](./assets/images/068/Versa%20Pro%20-08.png)
+
+In this case, the communication port is COM2 with the default configuration parameters.
+
+![](./assets/images/068/Versa%20Pro%20-09.png)
+
+![](./assets/images/068/Versa%20Pro%20-10.png)
+
+Next, a warning appears, indicating that the type of CPU configured in the project does not match the one in communication.
+
+![](./assets/images/068/Versa%20Pro%20-11.png)
+
+Once the warning is confirmed, we click Load to load the PLC configuration into our project. A pop-up window opens to confirm what we want to load from the PLC.
+
+![](./assets/images/068/Versa%20Pro%20-13.png)
+
+In the next pop-up window, we select whether we want to load the hardware and the program; in this case, we are interested in loading the hardware if we have not configured it beforehand.
+
+![](./assets/images/068/Versa%20Pro%20-14.png)
+
+ Upon confirmation, another warning appears, indicating that the new hardware configuration will be loaded and overwrite the current one, which is our unconfigured project, so we confirm that we do.
+
+![](./assets/images/068/Versa%20Pro%20-15.png)
+
+Once confirmed, communication is established and the program and hardware configuration are downloaded.
+
+![](./assets/images/068/Versa%20Pro%20-16.png)
+
+With this, we already have a backup of our project, and we can obviously go online for monitoring or necessary modifications.
+
+![](./assets/images/068/Versa%20Pro%20-17.png)
+
+The following image belongs to the hardware configuration we have downloaded.
+
+![](./assets/images/068/Versa%20Pro%20-18.png)
+
+And this is the image of the PLC. Thank you, Raul!!!
+
+![](./assets/images/068/Versa%20Pro%20-21.png)
+
+January 30, 2013
+
+---
+*Source: [Create Backup of a GE 90-30 PLC with VersaPro](https://www.plc-hmi-scadas.com/en/068.php) — Jose Manuel Luque*

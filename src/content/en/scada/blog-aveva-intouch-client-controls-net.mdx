@@ -1,0 +1,75 @@
+---
+title: "AVEVA Intouch Client Controls"
+slug: "blog-aveva-intouch-client-controls-net"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-client-controls-net/"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","INTOUCH"]
+tags: ["Aveva","AVEVA Intouch","Intouch","SCADA","SCADA"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [INTOUCH](#/a/en%2Fscada-intouch) › Article
+
+# AVEVA Intouch Client Controls
+
+Jose Manuel Luque 17 Jul, 2023
+
+Aveva AVEVA Intouch Intouch SCADA SCADA
+
+![AVEVA Intouch Client Controls](./assets/images/blog-aveva-intouch-client-controls-net/WW-000021-1.png)
+
+Once we have created our control, we can now use it. If you missed it, check out the following post **[AVEVA Intouch Control .Net](#/a/en%2Fblog-aveva-intouch-control-net)**  
+First, once the Windows Maker is open and the Windows Viewer is closed, we will import a Client Control.
+
+Code
+
+```
+File -> Imports -> Clients Control
+```
+
+![](./assets/images/blog-aveva-intouch-client-controls-net/WW-000019-1024x663.png)
+
+We will have it in the ArchestrA Graphic Toolbox tree, in green, which means that to use it we need to embed it in an ArchestrA Graphic.  
+We create a new object, which I have named PHSPictureBox\_
+
+![](./assets/images/blog-aveva-intouch-client-controls-net/WW-000020-1024x659.png)
+
+  
+And now we insert the PHSPictureBox object
+
+![](./assets/images/blog-aveva-intouch-client-controls-net/WW-000021-1024x664.png)
+
+  
+If we analyze the properties of our object, they will be the ones we defined during its creation.
+
+![](./assets/images/blog-aveva-intouch-client-controls-net/WW-000022.png)
+
+  
+Now we are going to create the same properties in our object to link them and pass them to our .net control.
+
+![](./assets/images/blog-aveva-intouch-client-controls-net/WW-000024-1024x665.png)
+
+  
+The next step is obvious, to map the created properties to those of the control itself.
+
+![](./assets/images/blog-aveva-intouch-client-controls-net/WW-000025.png)
+
+  
+We can now instantiate our object...
+
+![](./assets/images/blog-aveva-intouch-client-controls-net/WW-000027.png)
+
+  
+And if we test it at runtime ... ;-)
+
+![](./assets/images/blog-aveva-intouch-client-controls-net/WW-000026.png)
+
+#### Jose Manuel Luque
+
+Industrial Automation Technician.
+
+---
+*Source: [AVEVA Intouch Client Controls](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-client-controls-net/) — Jose Manuel Luque*

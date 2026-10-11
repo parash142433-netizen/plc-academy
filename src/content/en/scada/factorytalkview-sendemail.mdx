@@ -1,0 +1,54 @@
+---
+title: "Factory Talk View Send Email"
+slug: "factorytalkview-sendemail"
+locale: "en"
+category: "scada"
+originalUrl: "https://www.plc-hmi-scadas.com/en/FactoryTalkView_SendEmail.php"
+author: "Jose Manuel Luque"
+date: ""
+breadcrumbs: ["Home","SCADA","ROCKWELL"]
+tags: ["Factory Talk View Send Email"]
+downloads: []
+credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mirrored offline for personal study; see originalUrl."
+---
+[Home](#/a/en%2Fhome) › [SCADA](#/a/en%2Fscada) › [ROCKWELL](#/a/en%2Fscada-allen-bradley) › Article
+
+# Factory Talk View Send Email
+
+Jose Manuel Luque
+
+Factory Talk View Send Email
+
+**Factory Talk View Send Email  
+**
+
+In this practice, we will see how easily we can send an email from our SCADA in Factory Talk View. This is possible due to the use of VBA (Visual Basic for Applications). The goal is to send an email when a specific alarm occurs in the system. We will consider the alarm to be the level of a tank and will use the structure of the definition of a digital alarm as we saw in the [previous practice](#/a/en%2Flogix5000-almd).
+
+We have inserted an object of the type Numeric Display, which can be hidden. What we do beforehand is associate it with the active alarm bit.
+
+![](./assets/images/factorytalkview-sendemail/FTView-Alarm-SendMail-26.png)
+
+Once this is defined, we right-click to open the VBA Code editor, and what we are going to create is a function to send the email. However, first, we need to add a reference to the Microsoft CDO for Windows 2000 Library object, which we do from Tools -> References and add it.
+
+![](./assets/images/factorytalkview-sendemail/FTView-Alarm-SendMail-17.png)
+
+The function in question is as follows: we declare a variable of type CDO.Message, and once declared and initialized, we pass the parameters of the SMTP server, in this case, Gmail, and the arguments we use when sending an email.
+
+![](./assets/images/factorytalkview-sendemail/FTView-Alarm-SendMail-23.png)
+
+We have defined our function; now we need to call it, and we will do this when the value of our alarm changes to 1, which means it has been activated. We select the object NumericDisplay1 and choose the Change event, which is the one we are interested in. The code we write is as follows: the internal variable of the Email function could be an internal variable of the SCADA and can also be configured as an alarm in case of an error when sending the email...
+
+![](./assets/images/factorytalkview-sendemail/FTView-Alarm-SendMail-24.png)
+
+Now we are going to test that it works correctly and we will force our alarm. When it changes to 1, the Change event of numericDisplay1 is triggered, which in turn calls the email function.
+
+![](./assets/images/factorytalkview-sendemail/FTView-Alarm-SendMail-22.png)
+
+And if we check the email, here it is...
+
+![](./assets/images/factorytalkview-sendemail/FTView-Alarm-SendMail-25.png)
+
+Update 26-3-2015 "If you get an error when sending the email and you are using Gmail, check the following [link](#/a/en%2Fftvse-mail)"
+
+---
+*Source: [Factory Talk View Send Email](https://www.plc-hmi-scadas.com/en/FactoryTalkView_SendEmail.php) — Jose Manuel Luque*

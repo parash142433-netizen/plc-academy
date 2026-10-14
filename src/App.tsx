@@ -1,3 +1,4 @@
+import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Fuse from "fuse.js";
 import { articles, render, type Article } from "./content";
@@ -17,6 +18,22 @@ const useHash = () => {
   return h;
 };
 
+const GROUP_ORDER = ["PLC", "HMI", "SCADA", "Communications", "Software", "AI", "Articles", "Tools", "Other"];
+const byGroupOrder = (a: string, b: string) => (GROUP_ORDER.indexOf(a) + 1 || 99) - (GROUP_ORDER.indexOf(b) + 1 || 99) || a.localeCompare(b);
+
+const KEEP_UPPER = new Set(["ABB", "OPC", "AI", "GE", "IFIX", "FIX32", "MQTT", "SNMP", "PLC", "HMI", "SCADA", "CODESYS", "B&R", "COPA-DATA"]);
+const SPECIAL: Record<string, string> = {
+  INTOUCH: "InTouch", "OPC SERVER": "OPC servers", OTHERS: "Other", GENERAL: "General", "ZENON COPA-DATA": "zenon (COPA-DATA)",
+  "BASES DE DATOS": "Databases", "AI GENERATED CODE": "AI-generated code", "VERSION CONTROL": "Version control",
+  "INDUSTRIAL AI": "Industrial AI", "INDUSTRIAL NETWORKS": "Industrial networks", "GE FANUC": "GE Fanuc", "B&R AUTOMATION": "B&R Automation",
+};
+export const platformName = (s: string) =>
+  SPECIAL[s] ?? s.split(" ").map((w) => (KEEP_UPPER.has(w) ? w : w.charAt(0) + w.slice(1).toLowerCase())).join(" ");
+
+const minutes = (a: Article) => Math.max(1, Math.round(a.words / 220));
+const href = (a: Article) => `#/a/${encodeURIComponent(a.key)}`;
+const groupHref = (g: string) => `#/g/${encodeURIComponent(g)}`;
+
 export default function App() {
   const hash = useHash();
   const [locale, setLocale] = useStore("locale", "en");
@@ -24,122 +41,427 @@ export default function App() {
   const [marks, setMarks] = useStore<string[]>("bookmarks", []);
   const [recent, setRecent] = useStore<string[]>("recent", []);
   const [q, setQ] = useState("");
+  const [treeOpen, setTreeOpen] = useState(false);
   const search = useRef<HTMLInputElement>(null);
+
+  const locales = useMemo(() => [...new Set(articles.map((a) => a.locale))], []);
   const list = useMemo(() => articles.filter((a) => a.locale === locale), [locale]);
-  const fuse = useMemo(() => new Fuse(list, { keys: ["title", "tags", "group", "sub", "body"], threshold: 0.3, ignoreLocation: true }), [list]);
-  const hits = q ? fuse.search(q).slice(0, 30).map((r) => r.item) : [];
+  const fuse = useMemo(() => new Fuse(list, { keys: [{ name: "title", weight: 3 }, "tags", "group", "sub", "body"], threshold: 0.3, ignoreLocation: true }), [list]);
+  const hits = q.trim() ? fuse.search(q.trim()).slice(0, 40).map((r) => r.item) : [];
 
   useEffect(() => {
-    const f = (e: KeyboardEvent) => { if ((e.ctrlKey || e.metaKey) && e.key === "k") { e.preventDefault(); search.current?.focus(); } };
+    const f = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); search.current?.focus(); search.current?.select(); }
+      if (e.key === "Escape" && document.activeElement === search.current) { setQ(""); search.current?.blur(); }
+    };
     addEventListener("keydown", f); return () => removeEventListener("keydown", f);
   }, []);
 
   const article = hash.startsWith("/a/") ? articles.find((a) => a.key === decodeURIComponent(hash.slice(3))) : undefined;
+  const group = hash.startsWith("/g/") ? decodeURIComponent(hash.slice(3)) : undefined;
+
+  useEffect(() => { setTreeOpen(false); setQ(""); window.scrollTo({ top: 0 }); }, [hash]);
   useEffect(() => { if (article) setRecent((r) => [article.key, ...r.filter((x) => x !== article.key)].slice(0, 8)); }, [article?.key]);
+  useEffect(() => {
+    document.title = article ? `${article.title} | PLC Academy` : group ? `${group} | PLC Academy` : hash === "/sims" ? "Simulators | PLC Academy" : "PLC Academy";
+  }, [article, group, hash]);
+
   const toggle = (arr: string[], set: (v: string[]) => void, k: string) => set(arr.includes(k) ? arr.filter((x) => x !== k) : [...arr, k]);
+  const section = hash === "/sims" ? "sims" : "library";
+
+  let main: React.ReactElement;
+  if (q.trim()) main = <Results q={q.trim()} hits={hits} />;
+  else if (hash === "/" ) main = <Home list={list} done={done} recent={recent} marks={marks} />;
+  else if (hash === "/sims") main = <Sims />;
+  else if (group && list.some((a) => a.group === group)) main = <GroupPage group={group} list={list} done={done} />;
+  else if (article) main = (
+    <div className="reader-layout">
+      <Tree list={list} done={done} current={article} open={treeOpen} />
+      <Reader a={article} list={list} done={done.includes(article.key)} marked={marks.includes(article.key)}
+        onDone={() => toggle(done, setDone, article.key)} onMark={() => toggle(marks, setMarks, article.key)} />
+      <Toc a={article} />
+    </div>
+  );
+  else main = <NotFound />;
 
   return (
     <>
-      <header>
-        <a href="#/"><b>PLC Academy</b></a>
-        <a href="#/sims">Simulators</a>
-        <input ref={search} placeholder="Search (Ctrl+K)" value={q} onChange={(e) => setQ(e.target.value)} />
-        <select value={locale} onChange={(e) => setLocale(e.target.value)}><option value="en">EN</option><option value="es">ES</option></select>
+      <a className="skip-link" href="#main" onClick={(e) => { e.preventDefault(); document.getElementById("main")?.focus(); }}>Skip to content</a>
+      <header className="topbar">
+        <a className="brand" href="#/" aria-label="PLC Academy home"><Mark /><span>PLC Academy</span></a>
+        <nav className="topnav" aria-label="Main">
+          <a className="lib-link" href="#/" aria-current={section === "library" && !q ? "page" : undefined}>Library</a>
+          <a href="#/sims" aria-current={section === "sims" && !q ? "page" : undefined}>Simulators</a>
+        </nav>
+        <div className="search" role="search">
+          <label className="visually-hidden" htmlFor="q">Search articles</label>
+          <input id="q" ref={search} type="search" placeholder="Search S7-1500, Modbus, WinCC…" value={q} onChange={(e) => setQ(e.target.value)} autoComplete="off" />
+          <kbd>Ctrl K</kbd>
+        </div>
+        {locales.length > 1 && (
+          <select className="locale" aria-label="Language" value={locale} onChange={(e) => setLocale(e.target.value)}>
+            {locales.map((l) => <option key={l} value={l}>{l.toUpperCase()}</option>)}
+          </select>
+        )}
+        {article && !q && (
+          <button className="drawer-toggle" aria-expanded={treeOpen} aria-controls="library-tree" onClick={() => setTreeOpen((o) => !o)}>
+            {treeOpen ? "Close" : "Contents"}
+          </button>
+        )}
       </header>
-      {q ? (
-        <div className="layout" style={{ gridTemplateColumns: "1fr" }}>
-          <div>{hits.length === 0 && <p>No results.</p>}{hits.map((a) => (
-            <div className="card" key={a.key}><a href={`#/a/${encodeURIComponent(a.key)}`} onClick={() => setQ("")}>{a.title}</a> <small>{a.group} · {a.sub}</small></div>))}</div>
-        </div>
-      ) : hash === "/sims" ? (
-        <div className="layout" style={{ gridTemplateColumns: "1fr" }}>
-          <GrafSim /><ThermalPID /><ColorBatch />
-        </div>
-      ) : (
-        <div className="layout">
-          <Tree list={list} done={done} current={article?.key} />
-          {article ? <Reader a={article} done={done.includes(article.key)} marked={marks.includes(article.key)}
-            onDone={() => toggle(done, setDone, article.key)} onMark={() => toggle(marks, setMarks, article.key)} />
-            : <Dashboard list={list} done={done} marks={marks} recent={recent} />}
-          {article && <Toc a={article} />}
-        </div>
-      )}
+      <main id="main" tabIndex={-1}>{main}</main>
     </>
   );
 }
 
-function Tree({ list, done, current }: { list: Article[]; done: string[]; current?: string }) {
-  const groups = [...new Set(list.map((a) => a.group))];
+function Mark() {
+  // A ladder rung: rails, a normally-open contact and a coil.
   return (
-    <nav className="tree">
-      {groups.map((g) => {
-        const items = list.filter((a) => a.group === g);
-        const subs = [...new Set(items.map((a) => a.sub))];
-        return (
-          <details key={g} open={items.some((a) => a.key === current)}>
-            <summary>{g} ({items.length})</summary>
-            {subs.map((s) => {
-              const sa = items.filter((a) => a.sub === s);
-              return (
-                <details key={s} style={{ marginLeft: 8 }} open={sa.some((a) => a.key === current)}>
-                  <summary style={{ fontWeight: 500 }}>{s} ({sa.length})</summary>
-                  {sa.map((a) => <a key={a.key} className={a.key === current ? "on" : ""} href={`#/a/${encodeURIComponent(a.key)}`}>{done.includes(a.key) ? "✓ " : ""}{a.title}</a>)}
-                </details>);
-            })}
-          </details>);
-      })}
-      {!list.length && <p>No content yet. Run <code>npm run scrape</code>.</p>}
-    </nav>
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M2 3v20M24 3v20" />
+      <path d="M2 13h5M10 13h4M19.5 13h4.5" />
+      <path d="M7 8v10M10 8v10" />
+      <path d="M15.5 8.5a5 5 0 0 0 0 9M18 8.5a5 5 0 0 1 0 9" />
+    </svg>
   );
 }
 
-function Dashboard({ list, done, marks, recent }: { list: Article[]; done: string[]; marks: string[]; recent: string[] }) {
-  const cats = [...new Set(list.map((a) => a.group))];
-  const link = (k: string) => { const a = articles.find((x) => x.key === k); return a && <div key={k}><a href={`#/a/${encodeURIComponent(k)}`}>{a.title}</a></div>; };
+/* ---------------- home ---------------- */
+
+type Layer = { depth: number; level: string; name: string; groups: string[] };
+const LAYERS: Layer[] = [
+  { depth: 0, level: "IT side", name: "Data and code", groups: ["Software", "AI"] },
+  { depth: 1, level: "ISA-95 level 2", name: "Supervision", groups: ["SCADA", "HMI"] },
+  { depth: 2, level: "ISA-95 level 1", name: "Control", groups: ["PLC"] },
+];
+
+function Home({ list, done, recent, marks }: { list: Article[]; done: string[]; recent: string[]; marks: string[] }) {
+  const stats = (g: string) => {
+    const items = list.filter((a) => a.group === g);
+    const subs = Object.entries(items.reduce<Record<string, number>>((m, a) => ((m[a.sub] = (m[a.sub] || 0) + 1), m), {}))
+      .filter(([s]) => s !== "General").sort((a, b) => b[1] - a[1]).slice(0, 3).map(([s]) => platformName(s));
+    return { n: items.length, read: items.filter((a) => done.includes(a.key)).length, subs };
+  };
+  const unit = (g: string, i: number) => {
+    const s = stats(g);
+    if (!s.n) return null;
+    return (
+      <a key={g} className="unit" href={groupHref(g)} style={{ ["--i" as string]: i }}>
+        <span className="unit-top"><span className="unit-name">{g}</span><span className="unit-count">{s.n} articles</span></span>
+        {s.subs.length > 0 && <span className="unit-note">{s.subs.join(", ")}</span>}
+        <span className="meter" title={`${s.read} of ${s.n} read`}><i style={{ width: `${(s.read / s.n) * 100}%` }} /></span>
+      </a>
+    );
+  };
+  const comms = stats("Communications");
+  const extra = ["Articles", "Tools", "Other"].filter((g) => list.some((a) => a.group === g));
+  const recentArticles = recent.map((k) => articles.find((a) => a.key === k)).filter(Boolean) as Article[];
+  const marked = marks.map((k) => articles.find((a) => a.key === k)).filter(Boolean) as Article[];
+  let idx = 0;
+
   return (
-    <div>
-      <h1>Dashboard</h1>
-      {cats.map((c) => { const t = list.filter((a) => a.group === c), d = t.filter((a) => done.includes(a.key)).length;
-        return <div className="card" key={c}>{c}: {d}/{t.length}<div className="bar"><i style={{ width: `${(d / t.length) * 100}%` }} /></div></div>; })}
-      <h3>Recently read</h3>{recent.map(link)}<h3>Bookmarks</h3>{marks.map(link)}
+    <div className="page">
+      <section className="home-intro" aria-labelledby="home-title">
+        <div>
+          <h1 id="home-title">PLC, HMI and SCADA, layer by layer</h1>
+          {list.length ? (
+            <p className="lede">{list.length} tutorials you can read offline, sorted by where they sit in the plant, plus three process simulators to practise on.</p>
+          ) : (
+            <p className="lede">No articles yet. Run <code>npm run scrape</code> to build the library, then reload.</p>
+          )}
+          <div className="home-actions">
+            {list.some((a) => a.group === "PLC") && <a className="btn" href={groupHref("PLC")}>Browse PLC tutorials</a>}
+            <a className="btn quiet" href="#/sims">Open the simulators</a>
+          </div>
+          <p className="credit-line" style={{ marginTop: 28 }}>
+            Articles are mirrored from <a href="https://www.plc-hmi-scadas.com/" target="_blank" rel="noreferrer">plc-hmi-scadas.com</a>; every page credits its author and links to the original.
+          </p>
+        </div>
+
+        <div className="plant" role="group" aria-label="Library by plant layer">
+          <div className="plant-levels">
+            {LAYERS.map((l) => (
+              <div className="level" data-depth={l.depth} key={l.name}>
+                <div className="level-name"><b>{l.name}</b>{l.level}</div>
+                <div className="level-row">{l.groups.map((g) => unit(g, idx++))}</div>
+              </div>
+            ))}
+          </div>
+          {comms.n > 0 && (
+            <a className="bus" href={groupHref("Communications")} title="Networks and protocols that connect every layer">
+              <small>{comms.n}</small>
+              <span>Communications</span>
+              <small aria-hidden="true" />
+            </a>
+          )}
+          {extra.length > 0 && (
+            <div className="plant-foot">
+              {extra.map((g) => <a key={g} href={groupHref(g)}>{g === "Other" ? "Other pages" : g} ({list.filter((a) => a.group === g).length})</a>)}
+            </div>
+          )}
+          <p className="plant-caption">Layers follow the ISA-95 model. The green line under each section is your reading progress, stored in this browser.</p>
+        </div>
+      </section>
+
+      <div className="home-lower">
+        <section aria-labelledby="continue-title">
+          <h2 id="continue-title">Continue reading</h2>
+          {recentArticles.length ? <ReadingList items={recentArticles.slice(0, 6)} done={done} /> : (
+            <p className="empty">Nothing read yet. Pick a layer on the map, or press <kbd>Ctrl K</kbd> and search for a part number like S7-1200.</p>
+          )}
+          {marked.length > 0 && (<><h2 style={{ marginTop: 32 }}>Bookmarks</h2><ReadingList items={marked} done={done} /></>)}
+        </section>
+        <section aria-labelledby="sim-title">
+          <h2 id="sim-title">Practise on a process</h2>
+          <div className="faceplate-links">
+            <a className="faceplate-link" href="#/sims"><span className="tag">SFC-101</span><p><b>Sequence chart</b>Step a five-stage tank batch through its GRAFCET transitions.</p></a>
+            <a className="faceplate-link" href="#/sims"><span className="tag">TIC-201</span><p><b>Temperature loop</b>Tune a PID controller on a heated tank and inject disturbances.</p></a>
+            <a className="faceplate-link" href="#/sims"><span className="tag">WIC-301</span><p><b>Batch dosing</b>Run an ISA-88 recipe that weighs three pigments into one tank.</p></a>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
 
-function Reader({ a, done, marked, onDone, onMark }: { a: Article; done: boolean; marked: boolean; onDone(): void; onMark(): void }) {
-  const html = useMemo(() => render(a.body).replace(/<h([23])>(.*?)<\/h\1>/g, (_m, l, t) => `<h${l} id="${slug(t)}">${t}</h${l}>`), [a]);
+function ReadingList({ items, done }: { items: Article[]; done: string[] }) {
+  return (
+    <ul className="reading-list">
+      {items.map((a) => (
+        <li key={a.key}><a href={href(a)}>
+          <span className="rl-title">{done.includes(a.key) && <span className="check" aria-label="Completed">✓ </span>}{a.title}</span>
+          <span className="rl-path">{a.group} / {platformName(a.sub)}</span>
+        </a></li>
+      ))}
+    </ul>
+  );
+}
+
+/* ---------------- group ---------------- */
+
+function GroupPage({ group, list, done }: { group: string; list: Article[]; done: string[] }) {
+  const items = list.filter((a) => a.group === group);
+  const subs = [...new Set(items.map((a) => a.sub))].sort((a, b) => (a === "General" ? 1 : b === "General" ? -1 : items.filter((x) => x.sub === b).length - items.filter((x) => x.sub === a).length));
+  const read = items.filter((a) => done.includes(a.key)).length;
+  return (
+    <div className="page">
+      <nav className="crumbs" aria-label="Breadcrumb"><a href="#/">Library</a><span aria-hidden="true">/</span><span>{group}</span></nav>
+      <header className="group-head">
+        <h1>{group}</h1>
+        <p>{items.length} articles across {subs.length} {subs.length === 1 ? "platform" : "platforms"}. You have read {read}.</p>
+      </header>
+      <div className="platforms">
+        {subs.map((s) => {
+          const sa = items.filter((a) => a.sub === s);
+          return (
+            <section className="platform" key={s} aria-label={platformName(s)}>
+              <h2>{platformName(s)} <small>{sa.length}</small></h2>
+              <ul className="article-list">
+                {sa.map((a) => (
+                  <li key={a.key}><a href={href(a)}>
+                    <span className="check" aria-label={done.includes(a.key) ? "Completed" : undefined}>{done.includes(a.key) ? "✓" : ""}</span>
+                    <span>{a.title}</span>
+                    <span className="mins">{minutes(a)} min</span>
+                  </a></li>
+                ))}
+              </ul>
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- reader ---------------- */
+
+function Tree({ list, done, current, open }: { list: Article[]; done: string[]; current: Article; open: boolean }) {
+  const groups = [...new Set(list.map((a) => a.group))].sort(byGroupOrder);
+  return (
+    <nav className={"tree" + (open ? " open" : "")} id="library-tree" aria-label="Library contents">
+      <h2>Library</h2>
+      {groups.map((g) => {
+        const items = list.filter((a) => a.group === g);
+        const subs = [...new Set(items.map((a) => a.sub))];
+        return (
+          <details key={g} open={g === current.group}>
+            <summary><span>{g}</span><small>{items.length}</small></summary>
+            {subs.map((s) => {
+              const sa = items.filter((a) => a.sub === s);
+              return (
+                <details key={s} open={g === current.group && s === current.sub}>
+                  <summary><span>{platformName(s)}</span><small>{sa.length}</small></summary>
+                  {sa.map((a) => (
+                    <a key={a.key} href={href(a)} aria-current={a.key === current.key ? "page" : undefined}>
+                      {done.includes(a.key) && <span className="check" aria-label="Completed">✓</span>}{a.title}
+                    </a>
+                  ))}
+                </details>
+              );
+            })}
+          </details>
+        );
+      })}
+    </nav>
+  );
+}
+
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+/** The mirrored body repeats the breadcrumb, title, author and tags that the page header already shows. */
+function cleanBody(a: Article) {
+  let b = a.body.replace(/^\s*\[Home\][^\n]*\n+/, "").replace(/^\s*#\s+[^\n]*\n+/, "");
+  if (a.author) b = b.replace(new RegExp("^\\s*" + escapeRe(a.author) + "[^\\n]*\\n+"), "");
+  if (a.tags.length) b = b.replace(new RegExp("^\\s*" + escapeRe(a.tags.join(" ")) + "\\s*\\n+"), "");
+  return b;
+}
+const slug = (t: string) => t.replace(/<[^>]+>/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+function Reader({ a, list, done, marked, onDone, onMark }: { a: Article; list: Article[]; done: boolean; marked: boolean; onDone(): void; onMark(): void }) {
+  const body = useMemo(() => cleanBody(a), [a]);
+  const html = useMemo(() => render(body).replace(/<h([23])>(.*?)<\/h\1>/g, (_m, l, t) => `<h${l} id="${slug(t)}">${t}</h${l}>`), [body]);
   const ref = useRef<HTMLDivElement>(null);
+  const [copied, setCopied] = useState(false);
   useEffect(() => {
     ref.current?.querySelectorAll("pre").forEach((pre) => {
-      if (pre.querySelector("button")) return;
-      const b = document.createElement("button"); b.textContent = "Copy"; b.className = "btn ghost"; b.style.cssText = "position:absolute;top:6px;right:6px";
-      b.onclick = () => navigator.clipboard.writeText(pre.textContent?.replace(/^Copy/, "") || ""); pre.appendChild(b);
+      if (pre.querySelector(".copy")) return;
+      const b = document.createElement("button");
+      b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+      b.onclick = () => {
+        navigator.clipboard.writeText(pre.querySelector("code")?.textContent ?? pre.textContent ?? "").then(() => {
+          b.textContent = "Copied"; setTimeout(() => (b.textContent = "Copy"), 1500);
+        });
+      };
+      pre.appendChild(b);
     });
   }, [html]);
   const exportMd = () => {
-    const blob = new Blob([`# ${a.title}\n\n> ${a.credit}\n> Source: ${a.originalUrl}\n\n${a.body}`], { type: "text/markdown" });
+    const blob = new Blob([`# ${a.title}\n\n> ${a.credit}\n> Source: ${a.originalUrl}\n\n${body}`], { type: "text/markdown" });
     const l = document.createElement("a"); l.href = URL.createObjectURL(blob); l.download = `${a.slug}.md`; l.click();
+    setCopied(true); setTimeout(() => setCopied(false), 1800);
   };
+  const siblings = list.filter((x) => x.group === a.group && x.sub === a.sub);
+  const i = siblings.findIndex((x) => x.key === a.key);
+  const prev = siblings[i - 1], next = siblings[i + 1];
+
   return (
-    <article className="doc">
-      <h1>{a.title}</h1>
-      <div className="credit">{a.author && <>By {a.author}. </>}{a.date}<br />{a.credit} <a href={a.originalUrl} target="_blank" rel="noreferrer">Original</a></div>
-      <div className="row">
-        <button className="btn" onClick={onDone}>{done ? "✓ Completed" : "Mark as completed"}</button>
-        <button className="btn ghost" onClick={onMark}>{marked ? "★ Bookmarked" : "☆ Bookmark"}</button>
-        <button className="btn ghost" onClick={exportMd}>Export .md</button>
-        <button className="btn ghost" onClick={() => print()}>Print / PDF</button>
-        <span>~{Math.max(1, Math.round(a.words / 200))} min</span>
-      </div>
-      {a.downloads.length > 0 && <div className="card"><b>Downloads</b>{a.downloads.map((d) => <div key={d.url}><a href={d.url}>{d.title}</a></div>)}</div>}
-      <div ref={ref} dangerouslySetInnerHTML={{ __html: html }} />
+    <article className="doc" aria-labelledby="doc-title">
+      <header className="doc-head">
+        <nav className="crumbs" aria-label="Breadcrumb">
+          <a href="#/">Library</a><span aria-hidden="true">/</span>
+          <a href={groupHref(a.group)}>{a.group}</a><span aria-hidden="true">/</span>
+          <span>{platformName(a.sub)}</span>
+        </nav>
+        <h1 id="doc-title">{a.title}</h1>
+        <div className="doc-meta">
+          {a.author && <span>By {a.author}</span>}
+          {a.date && <span>{a.date}</span>}
+          <span>{minutes(a)} min read</span>
+          {a.tags.length > 0 && <span>{a.tags.slice(0, 4).join(", ")}</span>}
+        </div>
+        <div className="doc-actions">
+          <button className={"btn" + (done ? " done" : "")} onClick={onDone} aria-pressed={done}>{done ? "✓ Completed" : "Mark as completed"}</button>
+          <button className="btn quiet" onClick={onMark} aria-pressed={marked}>{marked ? "Bookmarked" : "Bookmark"}</button>
+          <span className="spacer" />
+          <button className="linkbtn" onClick={exportMd}>{copied ? "Saved .md file" : "Save as Markdown"}</button>
+          <button className="linkbtn" onClick={() => print()}>Print or save PDF</button>
+        </div>
+      </header>
+
+      <dl className="source-plate">
+        <dt>Source</dt><dd><a href={a.originalUrl} target="_blank" rel="noreferrer">{a.originalUrl.replace(/^https?:\/\/(www\.)?/, "")}</a></dd>
+        {a.author && (<><dt>Author</dt><dd>{a.author}</dd></>)}
+        <dt>Note</dt><dd>Mirrored for offline study. Read and cite the original where you can.</dd>
+      </dl>
+
+      {a.downloads.length > 0 && (
+        <aside className="downloads" aria-label="Downloads">
+          <h2>Project files</h2>
+          {a.downloads.map((d) => <div key={d.url}><a href={d.url}>{d.title}</a></div>)}
+        </aside>
+      )}
+
+      <div className="prose" ref={ref} dangerouslySetInnerHTML={{ __html: html }} />
+
+      {(prev || next) && (
+        <nav className="pager" aria-label={`More in ${platformName(a.sub)}`}>
+          {prev && <a href={href(prev)}><small>Previous in {platformName(a.sub)}</small>{prev.title}</a>}
+          {next && <a className="next" href={href(next)}><small>Next in {platformName(a.sub)}</small>{next.title}</a>}
+        </nav>
+      )}
     </article>
   );
 }
 
-const slug = (t: string) => t.replace(/<[^>]+>/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
 function Toc({ a }: { a: Article }) {
-  const items = [...a.body.matchAll(/^(#{2,3})\s+(.+)$/gm)];
-  return <aside className="toc"><b>On this page</b>{items.map((m, i) => <a key={i} style={{ paddingLeft: (m[1].length - 2) * 12 }} href={`#/a/${encodeURIComponent(a.key)}`}
-    onClick={(e) => { e.preventDefault(); document.getElementById(slug(m[2]))?.scrollIntoView({ behavior: "smooth" }); }}>{m[2]}</a>)}</aside>;
+  const items = useMemo(() => [...cleanBody(a).matchAll(/^(#{2,3})\s+(.+)$/gm)], [a]);
+  if (items.length < 2) return <div />;
+  return (
+    <aside className="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      {items.map((m, i) => {
+        const text = m[2].replace(/[*_`]/g, "");
+        return (
+          <a key={i} className={m[1].length === 3 ? "sub" : undefined} href={href(a)}
+            onClick={(e) => { e.preventDefault(); document.getElementById(slug(render(m[2]).replace(/<\/?p>\n?/g, "")))?.scrollIntoView(); }}>{text}</a>
+        );
+      })}
+    </aside>
+  );
+}
+
+/* ---------------- search ---------------- */
+
+function snippet(body: string, q: string) {
+  const plain = body.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`|]/g, "").replace(/\s+/g, " ");
+  const i = plain.toLowerCase().indexOf(q.toLowerCase());
+  if (i < 0) return { pre: plain.slice(0, 150), hit: "", post: "" };
+  const start = Math.max(0, i - 70);
+  return { pre: (start ? "…" : "") + plain.slice(start, i), hit: plain.slice(i, i + q.length), post: plain.slice(i + q.length, i + q.length + 90) + "…" };
+}
+
+function Results({ q, hits }: { q: string; hits: Article[] }) {
+  return (
+    <div className="page">
+      <h1 style={{ fontSize: 30 }}>{hits.length ? `${hits.length === 40 ? "Top 40" : hits.length} results for “${q}”` : `No articles match “${q}”`}</h1>
+      {!hits.length && <p className="empty">Try a model or protocol name, such as S7-1500, Modbus or InTouch. Press Esc to clear the search.</p>}
+      <ul className="results">
+        {hits.map((a) => {
+          const s = snippet(a.body, q);
+          return (
+            <li key={a.key}><a href={href(a)}>
+              <span className="r-title">{a.title}</span>
+              <span className="r-path">{a.group} / {platformName(a.sub)}</span>
+              <span className="r-snip">{s.pre}{s.hit && <mark>{s.hit}</mark>}{s.post}</span>
+            </a></li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
+/* ---------------- simulators ---------------- */
+
+function Sims() {
+  return (
+    <div className="page">
+      <header className="sims-head">
+        <h1>Simulators</h1>
+        <p>Three small processes drawn as operator faceplates. Each one runs in your browser; nothing is saved between visits.</p>
+      </header>
+      <GrafSim />
+      <ThermalPID />
+      <ColorBatch />
+    </div>
+  );
+}
+
+function NotFound() {
+  return (
+    <div className="page notfound">
+      <h1>That page isn't in the library</h1>
+      <p className="muted">The link may point to an article that wasn't mirrored. Search for its title, or go back to the library map.</p>
+      <a className="btn" href="#/">Back to the library</a>
+    </div>
+  );
 }

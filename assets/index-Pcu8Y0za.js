@@ -1,4 +1,4 @@
-var mw=Object.defineProperty;var gw=(e,n,t)=>n in e?mw(e,n,{enumerable:!0,configurable:!0,writable:!0,value:t}):e[n]=t;var Z=(e,n,t)=>gw(e,typeof n!="symbol"?n+"":n,t);(function(){const n=document.createElement("link").relList;if(n&&n.supports&&n.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))a(i);new MutationObserver(i=>{for(const o of i)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&a(s)}).observe(document,{childList:!0,subtree:!0});function t(i){const o={};return i.integrity&&(o.integrity=i.integrity),i.referrerPolicy&&(o.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?o.credentials="include":i.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function a(i){if(i.ep)return;i.ep=!0;const o=t(i);fetch(i.href,o)}})();var Wu={exports:{}},Fs={};/**
+var Pw=Object.defineProperty;var Tw=(e,n,t)=>n in e?Pw(e,n,{enumerable:!0,configurable:!0,writable:!0,value:t}):e[n]=t;var ee=(e,n,t)=>Tw(e,typeof n!="symbol"?n+"":n,t);(function(){const n=document.createElement("link").relList;if(n&&n.supports&&n.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))a(i);new MutationObserver(i=>{for(const o of i)if(o.type==="childList")for(const s of o.addedNodes)s.tagName==="LINK"&&s.rel==="modulepreload"&&a(s)}).observe(document,{childList:!0,subtree:!0});function t(i){const o={};return i.integrity&&(o.integrity=i.integrity),i.referrerPolicy&&(o.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?o.credentials="include":i.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function a(i){if(i.ep)return;i.ep=!0;const o=t(i);fetch(i.href,o)}})();var Nu={exports:{}},Hs={};/**
  * @license React
  * react-jsx-runtime.production.js
  *
@@ -6,7 +6,7 @@ var mw=Object.defineProperty;var gw=(e,n,t)=>n in e?mw(e,n,{enumerable:!0,config
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var pw=Symbol.for("react.transitional.element"),ww=Symbol.for("react.fragment");function ku(e,n,t){var a=null;if(t!==void 0&&(a=""+t),n.key!==void 0&&(a=""+n.key),"key"in n){t={};for(var i in n)i!=="key"&&(t[i]=n[i])}else t=n;return n=t.ref,{$$typeof:pw,type:e,key:a,ref:n!==void 0?n:null,props:t}}Fs.Fragment=ww;Fs.jsx=ku;Fs.jsxs=ku;Wu.exports=Fs;var y=Wu.exports,Eu={exports:{}},Rs={},Du={exports:{}},Ou={};/**
+ */var Iw=Symbol.for("react.transitional.element"),_w=Symbol.for("react.fragment");function Vu(e,n,t){var a=null;if(t!==void 0&&(a=""+t),n.key!==void 0&&(a=""+n.key),"key"in n){t={};for(var i in n)i!=="key"&&(t[i]=n[i])}else t=n;return n=t.ref,{$$typeof:Iw,type:e,key:a,ref:n!==void 0?n:null,props:t}}Hs.Fragment=_w;Hs.jsx=Vu;Hs.jsxs=Vu;Nu.exports=Hs;var h=Nu.exports,ju={exports:{}},qs={},Bu={exports:{}},Hu={};/**
  * @license React
  * scheduler.production.js
  *
@@ -14,7 +14,7 @@ var mw=Object.defineProperty;var gw=(e,n,t)=>n in e?mw(e,n,{enumerable:!0,config
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */(function(e){function n(I,D){var R=I.length;I.push(D);e:for(;0<R;){var le=R-1>>>1,Ce=I[le];if(0<i(Ce,D))I[le]=D,I[R]=Ce,R=le;else break e}}function t(I){return I.length===0?null:I[0]}function a(I){if(I.length===0)return null;var D=I[0],R=I.pop();if(R!==D){I[0]=R;e:for(var le=0,Ce=I.length,ro=Ce>>>1;le<ro;){var co=2*(le+1)-1,or=I[co],kt=co+1,lo=I[kt];if(0>i(or,R))kt<Ce&&0>i(lo,or)?(I[le]=lo,I[kt]=R,le=kt):(I[le]=or,I[co]=R,le=co);else if(kt<Ce&&0>i(lo,R))I[le]=lo,I[kt]=R,le=kt;else break e}}return D}function i(I,D){var R=I.sortIndex-D.sortIndex;return R!==0?R:I.id-D.id}if(e.unstable_now=void 0,typeof performance=="object"&&typeof performance.now=="function"){var o=performance;e.unstable_now=function(){return o.now()}}else{var s=Date,r=s.now();e.unstable_now=function(){return s.now()-r}}var c=[],l=[],h=1,p=null,d=3,m=!1,f=!1,b=!1,P=!1,g=typeof setTimeout=="function"?setTimeout:null,u=typeof clearTimeout=="function"?clearTimeout:null,w=typeof setImmediate<"u"?setImmediate:null;function C(I){for(var D=t(l);D!==null;){if(D.callback===null)a(l);else if(D.startTime<=I)a(l),D.sortIndex=D.expirationTime,n(c,D);else break;D=t(l)}}function S(I){if(b=!1,C(I),!f)if(t(c)!==null)f=!0,_||(_=!0,ge());else{var D=t(l);D!==null&&Ae(S,D.startTime-I)}}var _=!1,T=-1,A=5,W=-1;function M(){return P?!0:!(e.unstable_now()-W<A)}function q(){if(P=!1,_){var I=e.unstable_now();W=I;var D=!0;try{e:{f=!1,b&&(b=!1,u(T),T=-1),m=!0;var R=d;try{n:{for(C(I),p=t(c);p!==null&&!(p.expirationTime>I&&M());){var le=p.callback;if(typeof le=="function"){p.callback=null,d=p.priorityLevel;var Ce=le(p.expirationTime<=I);if(I=e.unstable_now(),typeof Ce=="function"){p.callback=Ce,C(I),D=!0;break n}p===t(c)&&a(c),C(I)}else a(c);p=t(c)}if(p!==null)D=!0;else{var ro=t(l);ro!==null&&Ae(S,ro.startTime-I),D=!1}}break e}finally{p=null,d=R,m=!1}D=void 0}}finally{D?ge():_=!1}}}var ge;if(typeof w=="function")ge=function(){w(q)};else if(typeof MessageChannel<"u"){var $n=new MessageChannel,Je=$n.port2;$n.port1.onmessage=q,ge=function(){Je.postMessage(null)}}else ge=function(){g(q,0)};function Ae(I,D){T=g(function(){I(e.unstable_now())},D)}e.unstable_IdlePriority=5,e.unstable_ImmediatePriority=1,e.unstable_LowPriority=4,e.unstable_NormalPriority=3,e.unstable_Profiling=null,e.unstable_UserBlockingPriority=2,e.unstable_cancelCallback=function(I){I.callback=null},e.unstable_forceFrameRate=function(I){0>I||125<I?console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"):A=0<I?Math.floor(1e3/I):5},e.unstable_getCurrentPriorityLevel=function(){return d},e.unstable_next=function(I){switch(d){case 1:case 2:case 3:var D=3;break;default:D=d}var R=d;d=D;try{return I()}finally{d=R}},e.unstable_requestPaint=function(){P=!0},e.unstable_runWithPriority=function(I,D){switch(I){case 1:case 2:case 3:case 4:case 5:break;default:I=3}var R=d;d=I;try{return D()}finally{d=R}},e.unstable_scheduleCallback=function(I,D,R){var le=e.unstable_now();switch(typeof R=="object"&&R!==null?(R=R.delay,R=typeof R=="number"&&0<R?le+R:le):R=le,I){case 1:var Ce=-1;break;case 2:Ce=250;break;case 5:Ce=1073741823;break;case 4:Ce=1e4;break;default:Ce=5e3}return Ce=R+Ce,I={id:h++,callback:D,priorityLevel:I,startTime:R,expirationTime:Ce,sortIndex:-1},R>le?(I.sortIndex=R,n(l,I),t(c)===null&&I===t(l)&&(b?(u(T),T=-1):b=!0,Ae(S,R-le))):(I.sortIndex=Ce,n(c,I),f||m||(f=!0,_||(_=!0,ge()))),I},e.unstable_shouldYield=M,e.unstable_wrapCallback=function(I){var D=d;return function(){var R=d;d=D;try{return I.apply(this,arguments)}finally{d=R}}}})(Ou);Du.exports=Ou;var fw=Du.exports,Fu={exports:{}},k={};/**
+ */(function(e){function n(I,L){var O=I.length;I.push(L);e:for(;0<O;){var ae=O-1>>>1,me=I[ae];if(0<i(me,L))I[ae]=L,I[O]=me,O=ae;else break e}}function t(I){return I.length===0?null:I[0]}function a(I){if(I.length===0)return null;var L=I[0],O=I.pop();if(O!==L){I[0]=O;e:for(var ae=0,me=I.length,Vn=me>>>1;ae<Vn;){var Dt=2*(ae+1)-1,ur=I[Dt],Ot=Dt+1,wo=I[Ot];if(0>i(ur,O))Ot<me&&0>i(wo,ur)?(I[ae]=wo,I[Ot]=O,ae=Ot):(I[ae]=ur,I[Dt]=O,ae=Dt);else if(Ot<me&&0>i(wo,O))I[ae]=wo,I[Ot]=O,ae=Ot;else break e}}return L}function i(I,L){var O=I.sortIndex-L.sortIndex;return O!==0?O:I.id-L.id}if(e.unstable_now=void 0,typeof performance=="object"&&typeof performance.now=="function"){var o=performance;e.unstable_now=function(){return o.now()}}else{var s=Date,r=s.now();e.unstable_now=function(){return s.now()-r}}var c=[],l=[],d=1,m=null,u=3,p=!1,C=!1,v=!1,A=!1,w=typeof setTimeout=="function"?setTimeout:null,g=typeof clearTimeout=="function"?clearTimeout:null,f=typeof setImmediate<"u"?setImmediate:null;function b(I){for(var L=t(l);L!==null;){if(L.callback===null)a(l);else if(L.startTime<=I)a(l),L.sortIndex=L.expirationTime,n(c,L);else break;L=t(l)}}function T(I){if(v=!1,b(I),!C)if(t(c)!==null)C=!0,x||(x=!0,$());else{var L=t(l);L!==null&&R(T,L.startTime-I)}}var x=!1,y=-1,P=5,M=-1;function _(){return A?!0:!(e.unstable_now()-M<P)}function j(){if(A=!1,x){var I=e.unstable_now();M=I;var L=!0;try{e:{C=!1,v&&(v=!1,g(y),y=-1),p=!0;var O=u;try{n:{for(b(I),m=t(c);m!==null&&!(m.expirationTime>I&&_());){var ae=m.callback;if(typeof ae=="function"){m.callback=null,u=m.priorityLevel;var me=ae(m.expirationTime<=I);if(I=e.unstable_now(),typeof me=="function"){m.callback=me,b(I),L=!0;break n}m===t(c)&&a(c),b(I)}else a(c);m=t(c)}if(m!==null)L=!0;else{var Vn=t(l);Vn!==null&&R(T,Vn.startTime-I),L=!1}}break e}finally{m=null,u=O,p=!1}L=void 0}}finally{L?$():x=!1}}}var $;if(typeof f=="function")$=function(){f(j)};else if(typeof MessageChannel<"u"){var Pe=new MessageChannel,Ve=Pe.port2;Pe.port1.onmessage=j,$=function(){Ve.postMessage(null)}}else $=function(){w(j,0)};function R(I,L){y=w(function(){I(e.unstable_now())},L)}e.unstable_IdlePriority=5,e.unstable_ImmediatePriority=1,e.unstable_LowPriority=4,e.unstable_NormalPriority=3,e.unstable_Profiling=null,e.unstable_UserBlockingPriority=2,e.unstable_cancelCallback=function(I){I.callback=null},e.unstable_forceFrameRate=function(I){0>I||125<I?console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"):P=0<I?Math.floor(1e3/I):5},e.unstable_getCurrentPriorityLevel=function(){return u},e.unstable_next=function(I){switch(u){case 1:case 2:case 3:var L=3;break;default:L=u}var O=u;u=L;try{return I()}finally{u=O}},e.unstable_requestPaint=function(){A=!0},e.unstable_runWithPriority=function(I,L){switch(I){case 1:case 2:case 3:case 4:case 5:break;default:I=3}var O=u;u=I;try{return L()}finally{u=O}},e.unstable_scheduleCallback=function(I,L,O){var ae=e.unstable_now();switch(typeof O=="object"&&O!==null?(O=O.delay,O=typeof O=="number"&&0<O?ae+O:ae):O=ae,I){case 1:var me=-1;break;case 2:me=250;break;case 5:me=1073741823;break;case 4:me=1e4;break;default:me=5e3}return me=O+me,I={id:d++,callback:L,priorityLevel:I,startTime:O,expirationTime:me,sortIndex:-1},O>ae?(I.sortIndex=O,n(l,I),t(c)===null&&I===t(l)&&(v?(g(y),y=-1):v=!0,R(T,O-ae))):(I.sortIndex=me,n(c,I),C||p||(C=!0,x||(x=!0,$()))),I},e.unstable_shouldYield=_,e.unstable_wrapCallback=function(I){var L=u;return function(){var O=u;u=L;try{return I.apply(this,arguments)}finally{u=O}}}})(Hu);Bu.exports=Hu;var xw=Bu.exports,qu={exports:{}},D={};/**
  * @license React
  * react.production.js
  *
@@ -22,7 +22,7 @@ var mw=Object.defineProperty;var gw=(e,n,t)=>n in e?mw(e,n,{enumerable:!0,config
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var ml=Symbol.for("react.transitional.element"),Cw=Symbol.for("react.portal"),bw=Symbol.for("react.fragment"),vw=Symbol.for("react.strict_mode"),yw=Symbol.for("react.profiler"),Sw=Symbol.for("react.consumer"),Aw=Symbol.for("react.context"),Pw=Symbol.for("react.forward_ref"),Tw=Symbol.for("react.suspense"),Iw=Symbol.for("react.memo"),Ru=Symbol.for("react.lazy"),_w=Symbol.for("react.activity"),Mw=Symbol.for("react.view_transition"),xh=Symbol.iterator;function xw(e){return e===null||typeof e!="object"?null:(e=xh&&e[xh]||e["@@iterator"],typeof e=="function"?e:null)}var Uu={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},Nu=Object.assign,Vu={};function za(e,n,t){this.props=e,this.context=n,this.refs=Vu,this.updater=t||Uu}za.prototype.isReactComponent={};za.prototype.setState=function(e,n){if(typeof e!="object"&&typeof e!="function"&&e!=null)throw Error("takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,e,n,"setState")};za.prototype.forceUpdate=function(e){this.updater.enqueueForceUpdate(this,e,"forceUpdate")};function Bu(){}Bu.prototype=za.prototype;function gl(e,n,t){this.props=e,this.context=n,this.refs=Vu,this.updater=t||Uu}var pl=gl.prototype=new Bu;pl.constructor=gl;Nu(pl,za.prototype);pl.isPureReactComponent=!0;var Lh=Array.isArray;function Gr(){}var ae={H:null,A:null,T:null,S:null},Hu=Object.prototype.hasOwnProperty;function wl(e,n,t){var a=t.ref;return{$$typeof:ml,type:e,key:n,ref:a!==void 0?a:null,props:t}}function Lw(e,n){return wl(e.type,n,e.props)}function fl(e){return typeof e=="object"&&e!==null&&e.$$typeof===ml}function Ww(e){var n={"=":"=0",":":"=2"};return"$"+e.replace(/[=:]/g,function(t){return n[t]})}var Wh=/\/+/g;function sr(e,n){return typeof e=="object"&&e!==null&&e.key!=null?Ww(""+e.key):n.toString(36)}function kw(e){switch(e.status){case"fulfilled":return e.value;case"rejected":throw e.reason;default:switch(typeof e.status=="string"?e.then(Gr,Gr):(e.status="pending",e.then(function(n){e.status==="pending"&&(e.status="fulfilled",e.value=n)},function(n){e.status==="pending"&&(e.status="rejected",e.reason=n)})),e.status){case"fulfilled":return e.value;case"rejected":throw e.reason}}throw e}function ca(e,n,t,a,i){var o=typeof e;(o==="undefined"||o==="boolean")&&(e=null);var s=!1;if(e===null)s=!0;else switch(o){case"bigint":case"string":case"number":s=!0;break;case"object":switch(e.$$typeof){case ml:case Cw:s=!0;break;case Ru:return s=e._init,ca(s(e._payload),n,t,a,i)}}if(s)return i=i(e),s=a===""?"."+sr(e,0):a,Lh(i)?(t="",s!=null&&(t=s.replace(Wh,"$&/")+"/"),ca(i,n,t,"",function(l){return l})):i!=null&&(fl(i)&&(i=Lw(i,t+(i.key==null||e&&e.key===i.key?"":(""+i.key).replace(Wh,"$&/")+"/")+s)),n.push(i)),1;s=0;var r=a===""?".":a+":";if(Lh(e))for(var c=0;c<e.length;c++)a=e[c],o=r+sr(a,c),s+=ca(a,n,t,o,i);else if(c=xw(e),typeof c=="function")for(e=c.call(e),c=0;!(a=e.next()).done;)a=a.value,o=r+sr(a,c++),s+=ca(a,n,t,o,i);else if(o==="object"){if(typeof e.then=="function")return ca(kw(e),n,t,a,i);throw n=String(e),Error("Objects are not valid as a React child (found: "+(n==="[object Object]"?"object with keys {"+Object.keys(e).join(", ")+"}":n)+"). If you meant to render a collection of children, use an array instead.")}return s}function ho(e,n,t){if(e==null)return e;var a=[],i=0;return ca(e,a,"","",function(o){return n.call(t,o,i++)}),a}function Ew(e){if(e._status===-1){var n=e._result,t=n();t.then(function(a){(e._status===0||e._status===-1)&&(e._status=1,e._result=a,t.status===void 0&&(t.status="fulfilled",t.value=a))},function(a){(e._status===0||e._status===-1)&&(e._status=2,e._result=a,t.status===void 0&&(t.status="rejected",t.reason=a))}),e._status===-1&&(e._status=0,e._result=t)}if(e._status===1)return e._result.default;throw e._result}var kh=typeof reportError=="function"?reportError:function(e){if(typeof window=="object"&&typeof window.ErrorEvent=="function"){var n=new window.ErrorEvent("error",{bubbles:!0,cancelable:!0,message:typeof e=="object"&&e!==null&&typeof e.message=="string"?String(e.message):String(e),error:e});if(!window.dispatchEvent(n))return}else if(typeof process=="object"&&typeof process.emit=="function"){process.emit("uncaughtException",e);return}console.error(e)};function ju(e){var n=ae.T,t={};t.types=n!==null?n.types:null,ae.T=t;try{var a=e(),i=ae.S;i!==null&&i(t,a),typeof a=="object"&&a!==null&&typeof a.then=="function"&&a.then(Gr,kh)}catch(o){kh(o)}finally{n!==null&&t.types!==null&&(n.types=t.types),ae.T=n}}function qu(e){var n=ae.T;if(n!==null){var t=n.types;t===null?n.types=[e]:t.indexOf(e)===-1&&t.push(e)}else ju(qu.bind(null,e))}var Dw={map:ho,forEach:function(e,n,t){ho(e,function(){n.apply(this,arguments)},t)},count:function(e){var n=0;return ho(e,function(){n++}),n},toArray:function(e){return ho(e,function(n){return n})||[]},only:function(e){if(!fl(e))throw Error("React.Children.only expected to receive a single React element child.");return e}};k.Activity=_w;k.Children=Dw;k.Component=za;k.Fragment=bw;k.Profiler=yw;k.PureComponent=gl;k.StrictMode=vw;k.Suspense=Tw;k.ViewTransition=Mw;k.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=ae;k.__COMPILER_RUNTIME={__proto__:null,c:function(e){return ae.H.useMemoCache(e)}};k.addTransitionType=qu;k.cache=function(e){return function(){return e.apply(null,arguments)}};k.cacheSignal=function(){return null};k.cloneElement=function(e,n,t){if(e==null)throw Error("The argument must be a React element, but you passed "+e+".");var a=Nu({},e.props),i=e.key;if(n!=null)for(o in n.key!==void 0&&(i=""+n.key),n)!Hu.call(n,o)||o==="key"||o==="__self"||o==="__source"||o==="ref"&&n.ref===void 0||(a[o]=n[o]);var o=arguments.length-2;if(o===1)a.children=t;else if(1<o){for(var s=Array(o),r=0;r<o;r++)s[r]=arguments[r+2];a.children=s}return wl(e.type,i,a)};k.createContext=function(e){return e={$$typeof:Aw,_currentValue:e,_currentValue2:e,_threadCount:0,Provider:null,Consumer:null},e.Provider=e,e.Consumer={$$typeof:Sw,_context:e},e};k.createElement=function(e,n,t){var a,i={},o=null;if(n!=null)for(a in n.key!==void 0&&(o=""+n.key),n)Hu.call(n,a)&&a!=="key"&&a!=="__self"&&a!=="__source"&&(i[a]=n[a]);var s=arguments.length-2;if(s===1)i.children=t;else if(1<s){for(var r=Array(s),c=0;c<s;c++)r[c]=arguments[c+2];i.children=r}if(e&&e.defaultProps)for(a in s=e.defaultProps,s)i[a]===void 0&&(i[a]=s[a]);return wl(e,o,i)};k.createRef=function(){return{current:null}};k.forwardRef=function(e){return{$$typeof:Pw,render:e}};k.isValidElement=fl;k.lazy=function(e){return{$$typeof:Ru,_payload:{_status:-1,_result:e},_init:Ew}};k.memo=function(e,n){return{$$typeof:Iw,type:e,compare:n===void 0?null:n}};k.startTransition=ju;k.unstable_useCacheRefresh=function(){return ae.H.useCacheRefresh()};k.use=function(e){return ae.H.use(e)};k.useActionState=function(e,n,t){return ae.H.useActionState(e,n,t)};k.useCallback=function(e,n){return ae.H.useCallback(e,n)};k.useContext=function(e){return ae.H.useContext(e)};k.useDebugValue=function(){};k.useDeferredValue=function(e,n){return ae.H.useDeferredValue(e,n)};k.useEffect=function(e,n){return ae.H.useEffect(e,n)};k.useEffectEvent=function(e){return ae.H.useEffectEvent(e)};k.useId=function(){return ae.H.useId()};k.useImperativeHandle=function(e,n,t){return ae.H.useImperativeHandle(e,n,t)};k.useInsertionEffect=function(e,n){return ae.H.useInsertionEffect(e,n)};k.useLayoutEffect=function(e,n){return ae.H.useLayoutEffect(e,n)};k.useMemo=function(e,n){return ae.H.useMemo(e,n)};k.useOptimistic=function(e,n){return ae.H.useOptimistic(e,n)};k.useReducer=function(e,n,t){return ae.H.useReducer(e,n,t)};k.useRef=function(e){return ae.H.useRef(e)};k.useState=function(e){return ae.H.useState(e)};k.useSyncExternalStore=function(e,n,t){return ae.H.useSyncExternalStore(e,n,t)};k.useTransition=function(){return ae.H.useTransition()};k.version="19.3.0";Fu.exports=k;var O=Fu.exports,Gu={exports:{}},Ee={};/**
+ */var Cl=Symbol.for("react.transitional.element"),Mw=Symbol.for("react.portal"),Lw=Symbol.for("react.fragment"),Ww=Symbol.for("react.strict_mode"),kw=Symbol.for("react.profiler"),Ew=Symbol.for("react.consumer"),Dw=Symbol.for("react.context"),Ow=Symbol.for("react.forward_ref"),Fw=Symbol.for("react.suspense"),Rw=Symbol.for("react.memo"),Gu=Symbol.for("react.lazy"),Uw=Symbol.for("react.activity"),Nw=Symbol.for("react.view_transition"),Dh=Symbol.iterator;function Vw(e){return e===null||typeof e!="object"?null:(e=Dh&&e[Dh]||e["@@iterator"],typeof e=="function"?e:null)}var Ju={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},zu=Object.assign,Xu={};function Za(e,n,t){this.props=e,this.context=n,this.refs=Xu,this.updater=t||Ju}Za.prototype.isReactComponent={};Za.prototype.setState=function(e,n){if(typeof e!="object"&&typeof e!="function"&&e!=null)throw Error("takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,e,n,"setState")};Za.prototype.forceUpdate=function(e){this.updater.enqueueForceUpdate(this,e,"forceUpdate")};function Qu(){}Qu.prototype=Za.prototype;function bl(e,n,t){this.props=e,this.context=n,this.refs=Xu,this.updater=t||Ju}var vl=bl.prototype=new Qu;vl.constructor=bl;zu(vl,Za.prototype);vl.isPureReactComponent=!0;var Oh=Array.isArray;function Yr(){}var se={H:null,A:null,T:null,S:null},Ku=Object.prototype.hasOwnProperty;function yl(e,n,t){var a=t.ref;return{$$typeof:Cl,type:e,key:n,ref:a!==void 0?a:null,props:t}}function jw(e,n){return yl(e.type,n,e.props)}function Sl(e){return typeof e=="object"&&e!==null&&e.$$typeof===Cl}function Bw(e){var n={"=":"=0",":":"=2"};return"$"+e.replace(/[=:]/g,function(t){return n[t]})}var Fh=/\/+/g;function mr(e,n){return typeof e=="object"&&e!==null&&e.key!=null?Bw(""+e.key):n.toString(36)}function Hw(e){switch(e.status){case"fulfilled":return e.value;case"rejected":throw e.reason;default:switch(typeof e.status=="string"?e.then(Yr,Yr):(e.status="pending",e.then(function(n){e.status==="pending"&&(e.status="fulfilled",e.value=n)},function(n){e.status==="pending"&&(e.status="rejected",e.reason=n)})),e.status){case"fulfilled":return e.value;case"rejected":throw e.reason}}throw e}function ma(e,n,t,a,i){var o=typeof e;(o==="undefined"||o==="boolean")&&(e=null);var s=!1;if(e===null)s=!0;else switch(o){case"bigint":case"string":case"number":s=!0;break;case"object":switch(e.$$typeof){case Cl:case Mw:s=!0;break;case Gu:return s=e._init,ma(s(e._payload),n,t,a,i)}}if(s)return i=i(e),s=a===""?"."+mr(e,0):a,Oh(i)?(t="",s!=null&&(t=s.replace(Fh,"$&/")+"/"),ma(i,n,t,"",function(l){return l})):i!=null&&(Sl(i)&&(i=jw(i,t+(i.key==null||e&&e.key===i.key?"":(""+i.key).replace(Fh,"$&/")+"/")+s)),n.push(i)),1;s=0;var r=a===""?".":a+":";if(Oh(e))for(var c=0;c<e.length;c++)a=e[c],o=r+mr(a,c),s+=ma(a,n,t,o,i);else if(c=Vw(e),typeof c=="function")for(e=c.call(e),c=0;!(a=e.next()).done;)a=a.value,o=r+mr(a,c++),s+=ma(a,n,t,o,i);else if(o==="object"){if(typeof e.then=="function")return ma(Hw(e),n,t,a,i);throw n=String(e),Error("Objects are not valid as a React child (found: "+(n==="[object Object]"?"object with keys {"+Object.keys(e).join(", ")+"}":n)+"). If you meant to render a collection of children, use an array instead.")}return s}function fo(e,n,t){if(e==null)return e;var a=[],i=0;return ma(e,a,"","",function(o){return n.call(t,o,i++)}),a}function qw(e){if(e._status===-1){var n=e._result,t=n();t.then(function(a){(e._status===0||e._status===-1)&&(e._status=1,e._result=a,t.status===void 0&&(t.status="fulfilled",t.value=a))},function(a){(e._status===0||e._status===-1)&&(e._status=2,e._result=a,t.status===void 0&&(t.status="rejected",t.reason=a))}),e._status===-1&&(e._status=0,e._result=t)}if(e._status===1)return e._result.default;throw e._result}var Rh=typeof reportError=="function"?reportError:function(e){if(typeof window=="object"&&typeof window.ErrorEvent=="function"){var n=new window.ErrorEvent("error",{bubbles:!0,cancelable:!0,message:typeof e=="object"&&e!==null&&typeof e.message=="string"?String(e.message):String(e),error:e});if(!window.dispatchEvent(n))return}else if(typeof process=="object"&&typeof process.emit=="function"){process.emit("uncaughtException",e);return}console.error(e)};function Yu(e){var n=se.T,t={};t.types=n!==null?n.types:null,se.T=t;try{var a=e(),i=se.S;i!==null&&i(t,a),typeof a=="object"&&a!==null&&typeof a.then=="function"&&a.then(Yr,Rh)}catch(o){Rh(o)}finally{n!==null&&t.types!==null&&(n.types=t.types),se.T=n}}function Zu(e){var n=se.T;if(n!==null){var t=n.types;t===null?n.types=[e]:t.indexOf(e)===-1&&t.push(e)}else Yu(Zu.bind(null,e))}var Gw={map:fo,forEach:function(e,n,t){fo(e,function(){n.apply(this,arguments)},t)},count:function(e){var n=0;return fo(e,function(){n++}),n},toArray:function(e){return fo(e,function(n){return n})||[]},only:function(e){if(!Sl(e))throw Error("React.Children.only expected to receive a single React element child.");return e}};D.Activity=Uw;D.Children=Gw;D.Component=Za;D.Fragment=Lw;D.Profiler=kw;D.PureComponent=bl;D.StrictMode=Ww;D.Suspense=Fw;D.ViewTransition=Nw;D.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=se;D.__COMPILER_RUNTIME={__proto__:null,c:function(e){return se.H.useMemoCache(e)}};D.addTransitionType=Zu;D.cache=function(e){return function(){return e.apply(null,arguments)}};D.cacheSignal=function(){return null};D.cloneElement=function(e,n,t){if(e==null)throw Error("The argument must be a React element, but you passed "+e+".");var a=zu({},e.props),i=e.key;if(n!=null)for(o in n.key!==void 0&&(i=""+n.key),n)!Ku.call(n,o)||o==="key"||o==="__self"||o==="__source"||o==="ref"&&n.ref===void 0||(a[o]=n[o]);var o=arguments.length-2;if(o===1)a.children=t;else if(1<o){for(var s=Array(o),r=0;r<o;r++)s[r]=arguments[r+2];a.children=s}return yl(e.type,i,a)};D.createContext=function(e){return e={$$typeof:Dw,_currentValue:e,_currentValue2:e,_threadCount:0,Provider:null,Consumer:null},e.Provider=e,e.Consumer={$$typeof:Ew,_context:e},e};D.createElement=function(e,n,t){var a,i={},o=null;if(n!=null)for(a in n.key!==void 0&&(o=""+n.key),n)Ku.call(n,a)&&a!=="key"&&a!=="__self"&&a!=="__source"&&(i[a]=n[a]);var s=arguments.length-2;if(s===1)i.children=t;else if(1<s){for(var r=Array(s),c=0;c<s;c++)r[c]=arguments[c+2];i.children=r}if(e&&e.defaultProps)for(a in s=e.defaultProps,s)i[a]===void 0&&(i[a]=s[a]);return yl(e,o,i)};D.createRef=function(){return{current:null}};D.forwardRef=function(e){return{$$typeof:Ow,render:e}};D.isValidElement=Sl;D.lazy=function(e){return{$$typeof:Gu,_payload:{_status:-1,_result:e},_init:qw}};D.memo=function(e,n){return{$$typeof:Rw,type:e,compare:n===void 0?null:n}};D.startTransition=Yu;D.unstable_useCacheRefresh=function(){return se.H.useCacheRefresh()};D.use=function(e){return se.H.use(e)};D.useActionState=function(e,n,t){return se.H.useActionState(e,n,t)};D.useCallback=function(e,n){return se.H.useCallback(e,n)};D.useContext=function(e){return se.H.useContext(e)};D.useDebugValue=function(){};D.useDeferredValue=function(e,n){return se.H.useDeferredValue(e,n)};D.useEffect=function(e,n){return se.H.useEffect(e,n)};D.useEffectEvent=function(e){return se.H.useEffectEvent(e)};D.useId=function(){return se.H.useId()};D.useImperativeHandle=function(e,n,t){return se.H.useImperativeHandle(e,n,t)};D.useInsertionEffect=function(e,n){return se.H.useInsertionEffect(e,n)};D.useLayoutEffect=function(e,n){return se.H.useLayoutEffect(e,n)};D.useMemo=function(e,n){return se.H.useMemo(e,n)};D.useOptimistic=function(e,n){return se.H.useOptimistic(e,n)};D.useReducer=function(e,n,t){return se.H.useReducer(e,n,t)};D.useRef=function(e){return se.H.useRef(e)};D.useState=function(e){return se.H.useState(e)};D.useSyncExternalStore=function(e,n,t){return se.H.useSyncExternalStore(e,n,t)};D.useTransition=function(){return se.H.useTransition()};D.version="19.3.0";qu.exports=D;var W=qu.exports,$u={exports:{}},De={};/**
  * @license React
  * react-dom.production.js
  *
@@ -30,7 +30,7 @@ var mw=Object.defineProperty;var gw=(e,n,t)=>n in e?mw(e,n,{enumerable:!0,config
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var Ow=O;function Ju(e){var n="https://react.dev/errors/"+e;if(1<arguments.length){n+="?args[]="+encodeURIComponent(arguments[1]);for(var t=2;t<arguments.length;t++)n+="&args[]="+encodeURIComponent(arguments[t])}return"Minified React error #"+e+"; visit "+n+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function et(){}var Re={d:{f:et,r:function(){throw Error(Ju(522))},D:et,C:et,L:et,m:et,X:et,S:et,M:et},p:0,findDOMNode:null},Fw=Symbol.for("react.portal"),Rw=Symbol.for("react.recoverable"),Eh=Symbol.for("react.optimistic_key");function Uw(e,n,t){var a=3<arguments.length&&arguments[3]!==void 0?arguments[3]:null;return{$$typeof:Fw,key:a==null?null:a===Eh?Eh:""+a,children:e,containerInfo:n,implementation:t}}var gi=Ow.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;function Us(e,n){if(e==="font")return"";if(typeof n=="string")return n==="use-credentials"?n:""}Ee.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=Re;Ee.browser=function(e){return{$$typeof:Rw,_reason:e}};Ee.createPortal=function(e,n){var t=2<arguments.length&&arguments[2]!==void 0?arguments[2]:null;if(!n||n.nodeType!==1&&n.nodeType!==9&&n.nodeType!==11)throw Error(Ju(299));return Uw(e,n,null,t)};Ee.flushSync=function(e){var n=gi.T,t=Re.p;try{if(gi.T=null,Re.p=2,e)return e()}finally{gi.T=n,Re.p=t,Re.d.f()}};Ee.preconnect=function(e,n){typeof e=="string"&&(n?(n=n.crossOrigin,n=typeof n=="string"?n==="use-credentials"?n:"":void 0):n=null,Re.d.C(e,n))};Ee.prefetchDNS=function(e){typeof e=="string"&&Re.d.D(e)};Ee.preinit=function(e,n){if(typeof e=="string"&&n&&typeof n.as=="string"){var t=n.as,a=Us(t,n.crossOrigin),i=typeof n.integrity=="string"?n.integrity:void 0,o=typeof n.fetchPriority=="string"?n.fetchPriority:void 0;t==="style"?Re.d.S(e,typeof n.precedence=="string"?n.precedence:void 0,{crossOrigin:a,integrity:i,fetchPriority:o}):t==="script"&&Re.d.X(e,{crossOrigin:a,integrity:i,fetchPriority:o,nonce:typeof n.nonce=="string"?n.nonce:void 0})}};Ee.preinitModule=function(e,n){if(typeof e=="string")if(typeof n=="object"&&n!==null){if(n.as==null||n.as==="script"){var t=Us(n.as,n.crossOrigin);Re.d.M(e,{crossOrigin:t,integrity:typeof n.integrity=="string"?n.integrity:void 0,nonce:typeof n.nonce=="string"?n.nonce:void 0,fetchPriority:typeof n.fetchPriority=="string"?n.fetchPriority:void 0})}}else n==null&&Re.d.M(e)};Ee.preload=function(e,n){if(typeof e=="string"&&typeof n=="object"&&n!==null&&typeof n.as=="string"){var t=n.as,a=Us(t,n.crossOrigin);Re.d.L(e,t,{crossOrigin:a,integrity:typeof n.integrity=="string"?n.integrity:void 0,nonce:typeof n.nonce=="string"?n.nonce:void 0,type:typeof n.type=="string"?n.type:void 0,fetchPriority:typeof n.fetchPriority=="string"?n.fetchPriority:void 0,referrerPolicy:typeof n.referrerPolicy=="string"?n.referrerPolicy:void 0,imageSrcSet:typeof n.imageSrcSet=="string"?n.imageSrcSet:void 0,imageSizes:typeof n.imageSizes=="string"?n.imageSizes:void 0,media:typeof n.media=="string"?n.media:void 0})}};Ee.preloadModule=function(e,n){if(typeof e=="string")if(n){var t=Us(n.as,n.crossOrigin);Re.d.m(e,{as:typeof n.as=="string"&&n.as!=="script"?n.as:void 0,crossOrigin:t,integrity:typeof n.integrity=="string"?n.integrity:void 0,nonce:typeof n.nonce=="string"?n.nonce:void 0,fetchPriority:typeof n.fetchPriority=="string"?n.fetchPriority:void 0})}else Re.d.m(e)};Ee.requestFormReset=function(e){Re.d.r(e)};Ee.unstable_batchedUpdates=function(e,n){return e(n)};Ee.useFormState=function(e,n,t){return gi.H.useFormState(e,n,t)};Ee.useFormStatus=function(){return gi.H.useHostTransitionStatus()};Ee.version="19.3.0";function zu(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(zu)}catch(e){console.error(e)}}zu(),Gu.exports=Ee;var Nw=Gu.exports;/**
+ */var Jw=W;function em(e){var n="https://react.dev/errors/"+e;if(1<arguments.length){n+="?args[]="+encodeURIComponent(arguments[1]);for(var t=2;t<arguments.length;t++)n+="&args[]="+encodeURIComponent(arguments[t])}return"Minified React error #"+e+"; visit "+n+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function tt(){}var Ue={d:{f:tt,r:function(){throw Error(em(522))},D:tt,C:tt,L:tt,m:tt,X:tt,S:tt,M:tt},p:0,findDOMNode:null},zw=Symbol.for("react.portal"),Xw=Symbol.for("react.recoverable"),Uh=Symbol.for("react.optimistic_key");function Qw(e,n,t){var a=3<arguments.length&&arguments[3]!==void 0?arguments[3]:null;return{$$typeof:zw,key:a==null?null:a===Uh?Uh:""+a,children:e,containerInfo:n,implementation:t}}var yi=Jw.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;function Gs(e,n){if(e==="font")return"";if(typeof n=="string")return n==="use-credentials"?n:""}De.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=Ue;De.browser=function(e){return{$$typeof:Xw,_reason:e}};De.createPortal=function(e,n){var t=2<arguments.length&&arguments[2]!==void 0?arguments[2]:null;if(!n||n.nodeType!==1&&n.nodeType!==9&&n.nodeType!==11)throw Error(em(299));return Qw(e,n,null,t)};De.flushSync=function(e){var n=yi.T,t=Ue.p;try{if(yi.T=null,Ue.p=2,e)return e()}finally{yi.T=n,Ue.p=t,Ue.d.f()}};De.preconnect=function(e,n){typeof e=="string"&&(n?(n=n.crossOrigin,n=typeof n=="string"?n==="use-credentials"?n:"":void 0):n=null,Ue.d.C(e,n))};De.prefetchDNS=function(e){typeof e=="string"&&Ue.d.D(e)};De.preinit=function(e,n){if(typeof e=="string"&&n&&typeof n.as=="string"){var t=n.as,a=Gs(t,n.crossOrigin),i=typeof n.integrity=="string"?n.integrity:void 0,o=typeof n.fetchPriority=="string"?n.fetchPriority:void 0;t==="style"?Ue.d.S(e,typeof n.precedence=="string"?n.precedence:void 0,{crossOrigin:a,integrity:i,fetchPriority:o}):t==="script"&&Ue.d.X(e,{crossOrigin:a,integrity:i,fetchPriority:o,nonce:typeof n.nonce=="string"?n.nonce:void 0})}};De.preinitModule=function(e,n){if(typeof e=="string")if(typeof n=="object"&&n!==null){if(n.as==null||n.as==="script"){var t=Gs(n.as,n.crossOrigin);Ue.d.M(e,{crossOrigin:t,integrity:typeof n.integrity=="string"?n.integrity:void 0,nonce:typeof n.nonce=="string"?n.nonce:void 0,fetchPriority:typeof n.fetchPriority=="string"?n.fetchPriority:void 0})}}else n==null&&Ue.d.M(e)};De.preload=function(e,n){if(typeof e=="string"&&typeof n=="object"&&n!==null&&typeof n.as=="string"){var t=n.as,a=Gs(t,n.crossOrigin);Ue.d.L(e,t,{crossOrigin:a,integrity:typeof n.integrity=="string"?n.integrity:void 0,nonce:typeof n.nonce=="string"?n.nonce:void 0,type:typeof n.type=="string"?n.type:void 0,fetchPriority:typeof n.fetchPriority=="string"?n.fetchPriority:void 0,referrerPolicy:typeof n.referrerPolicy=="string"?n.referrerPolicy:void 0,imageSrcSet:typeof n.imageSrcSet=="string"?n.imageSrcSet:void 0,imageSizes:typeof n.imageSizes=="string"?n.imageSizes:void 0,media:typeof n.media=="string"?n.media:void 0})}};De.preloadModule=function(e,n){if(typeof e=="string")if(n){var t=Gs(n.as,n.crossOrigin);Ue.d.m(e,{as:typeof n.as=="string"&&n.as!=="script"?n.as:void 0,crossOrigin:t,integrity:typeof n.integrity=="string"?n.integrity:void 0,nonce:typeof n.nonce=="string"?n.nonce:void 0,fetchPriority:typeof n.fetchPriority=="string"?n.fetchPriority:void 0})}else Ue.d.m(e)};De.requestFormReset=function(e){Ue.d.r(e)};De.unstable_batchedUpdates=function(e,n){return e(n)};De.useFormState=function(e,n,t){return yi.H.useFormState(e,n,t)};De.useFormStatus=function(){return yi.H.useHostTransitionStatus()};De.version="19.3.0";function nm(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(nm)}catch(e){console.error(e)}}nm(),$u.exports=De;var Kw=$u.exports;/**
  * @license React
  * react-dom-client.production.js
  *
@@ -38,15 +38,15 @@ var mw=Object.defineProperty;var gw=(e,n,t)=>n in e?mw(e,n,{enumerable:!0,config
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var fe=fw,Xu=O,Vw=Nw;function v(e){var n="https://react.dev/errors/"+e;if(1<arguments.length){n+="?args[]="+encodeURIComponent(arguments[1]);for(var t=2;t<arguments.length;t++)n+="&args[]="+encodeURIComponent(arguments[t])}return"Minified React error #"+e+"; visit "+n+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function Qu(e){return!(!e||e.nodeType!==1&&e.nodeType!==9&&e.nodeType!==11)}function zi(e){for(var n=e,t=n;t&&!t.alternate;)n=t,n.flags&4098&&(e=n.return),t=n.return;for(;n.return;)n=n.return;return n.tag===3?e:null}function Ku(e){if(e.tag===13){var n=e.memoizedState;if(n===null&&(e=e.alternate,e!==null&&(n=e.memoizedState)),n!==null)return n.dehydrated}return null}function Yu(e){if(e.tag===31){var n=e.memoizedState;if(n===null&&(e=e.alternate,e!==null&&(n=e.memoizedState)),n!==null)return n.dehydrated}return null}function Dh(e){if(zi(e)!==e)throw Error(v(188))}function Bw(e){var n=e.alternate;if(!n){if(n=zi(e),n===null)throw Error(v(188));return n!==e?null:e}for(var t=e,a=n;;){var i=t.return;if(i===null)break;var o=i.alternate;if(o===null){if(a=i.return,a!==null){t=a;continue}break}if(i.child===o.child){for(o=i.child;o;){if(o===t)return Dh(i),e;if(o===a)return Dh(i),n;o=o.sibling}throw Error(v(188))}if(t.return!==a.return)t=i,a=o;else{for(var s=!1,r=i.child;r;){if(r===t){s=!0,t=i,a=o;break}if(r===a){s=!0,a=i,t=o;break}r=r.sibling}if(!s){for(r=o.child;r;){if(r===t){s=!0,t=o,a=i;break}if(r===a){s=!0,a=o,t=i;break}r=r.sibling}if(!s)throw Error(v(189))}}if(t.alternate!==a)throw Error(v(190))}if(t.tag!==3)throw Error(v(188));return t.stateNode.current===t?e:n}function Zu(e){var n=e.tag;if(n===5||n===26||n===27||n===6)return e;for(e=e.child;e!==null;){if(n=Zu(e),n!==null)return n;e=e.sibling}return null}function qe(e,n,t,a,i,o){for(;e!==null;){if((e.tag===5||e.tag===27||e.tag===6)&&t(e,a,i,o)||(e.tag!==22||e.memoizedState===null)&&(n||e.tag!==5&&e.tag!==27)&&qe(e.child,n,t,a,i,o))return!0;e=e.sibling}return!1}function ea(e){for(e=e.return;e!==null;){if(e.tag===3||e.tag===5||e.tag===27)return e;e=e.return}return null}function Oh(e){var n=!1;for(e=e.return;e!==null&&(e.tag===4&&(n=!0),!(e.tag===3||e.tag===5||e.tag===27));)e=e.return;return n}function $u(e){var n=[null,null],t=ea(e);return t===null||em(n,e,t.child,{foundSelf:!1}),n}function em(e,n,t,a){for(;t!==null;){if(t===n)a.foundSelf=!0;else if(t.tag===5||t.tag===27||t.tag===6){if(a.foundSelf)return e[1]=t,!0;e[0]=t}else if((t.tag!==22||t.memoizedState===null)&&em(e,n,t.child,a))return!0;t=t.sibling}return!1}function we(e){switch(e.tag){case 5:case 27:case 6:return e.stateNode;case 3:return e.stateNode.containerInfo;default:throw Error(v(559))}}var ua=null,Jr=null;function Hw(e,n,t){return e===t?!0:e===n?(ua=e,!0):!1}function jw(e,n,t){return e===t?(Jr=e,!1):e===n?(Jr!==null&&(ua=e),!0):!1}function Fh(e){if(e===null)return null;do e=e===null?null:e.return;while(e&&e.tag!==5&&e.tag!==27&&e.tag!==3);return e||null}function zr(e,n,t){for(var a=0,i=e;i;i=t(i))a++;i=0;for(var o=n;o;o=t(o))i++;for(;0<a-i;)e=t(e),a--;for(;0<i-a;)n=t(n),i--;for(;a--;){if(e===n||n!==null&&e===n.alternate)return e;e=t(e),n=t(n)}return null}var ee=Object.assign,qw=Symbol.for("react.element"),uo=Symbol.for("react.transitional.element"),li=Symbol.for("react.portal"),ma=Symbol.for("react.fragment"),nm=Symbol.for("react.strict_mode"),Xr=Symbol.for("react.profiler"),tm=Symbol.for("react.consumer"),xn=Symbol.for("react.context"),Cl=Symbol.for("react.forward_ref"),Qr=Symbol.for("react.suspense"),Kr=Symbol.for("react.suspense_list"),bl=Symbol.for("react.memo"),it=Symbol.for("react.lazy"),Yr=Symbol.for("react.activity"),Gw=Symbol.for("react.legacy_hidden"),Jw=Symbol.for("react.memo_cache_sentinel"),Zr=Symbol.for("react.view_transition"),zw=Symbol.for("react.recoverable"),Rh=Symbol.iterator;function ni(e){return e===null||typeof e!="object"?null:(e=Rh&&e[Rh]||e["@@iterator"],typeof e=="function"?e:null)}var Xw=Symbol.for("react.client.reference");function $r(e){if(e==null)return null;if(typeof e=="function")return e.$$typeof===Xw?null:e.displayName||e.name||null;if(typeof e=="string")return e;switch(e){case ma:return"Fragment";case Xr:return"Profiler";case nm:return"StrictMode";case Qr:return"Suspense";case Kr:return"SuspenseList";case Yr:return"Activity";case Zr:return"ViewTransition"}if(typeof e=="object")switch(e.$$typeof){case li:return"Portal";case xn:return e.displayName||"Context";case tm:return(e._context.displayName||"Context")+".Consumer";case Cl:var n=e.render;return e=e.displayName,e||(e=n.displayName||n.name||"",e=e!==""?"ForwardRef("+e+")":"ForwardRef"),e;case bl:return n=e.displayName||null,n!==null?n:$r(e.type)||"Memo";case it:n=e._payload,e=e._init;try{return $r(e(n))}catch{}}return null}var hi=Array.isArray,L=Xu.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,j=Vw.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,Vt={pending:!1,data:null,method:null,action:null},ec=[],ga=-1;function Fn(e){return{current:e}}function _e(e){0>ga||(e.current=ec[ga],ec[ga]=null,ga--)}function ie(e,n){ga++,ec[ga]=e.current,e.current=n}var En=Fn(null),Li=Fn(null),mt=Fn(null),ts=Fn(null);function as(e,n){switch(ie(mt,n),ie(Li,e),ie(En,null),n.nodeType){case 9:case 11:e=(e=n.documentElement)&&(e=e.namespaceURI)?Kd(e):0;break;default:if(e=n.tagName,n=n.namespaceURI)n=Kd(n),e=Pp(n,e);else switch(e){case"svg":e=1;break;case"math":e=2;break;default:e=0}}_e(En),ie(En,e)}function Da(){_e(En),_e(Li),_e(mt)}function nc(e){var n=e.memoizedState;n!==null&&(qa._currentValue=n.memoizedState,ie(ts,e)),n=En.current;var t=Pp(n,e.type);n!==t&&(ie(Li,e),ie(En,t))}function is(e){Li.current===e&&(_e(En),_e(Li)),ts.current===e&&(_e(ts),qa._currentValue=Vt)}var rr,Uh;function tt(e){if(rr===void 0)try{throw Error()}catch(t){var n=t.stack.trim().match(/\n( *(at )?)/);rr=n&&n[1]||"",Uh=-1<t.stack.indexOf(`
+ */var be=xw,tm=W,Yw=Kw;function S(e){var n="https://react.dev/errors/"+e;if(1<arguments.length){n+="?args[]="+encodeURIComponent(arguments[1]);for(var t=2;t<arguments.length;t++)n+="&args[]="+encodeURIComponent(arguments[t])}return"Minified React error #"+e+"; visit "+n+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function am(e){return!(!e||e.nodeType!==1&&e.nodeType!==9&&e.nodeType!==11)}function no(e){for(var n=e,t=n;t&&!t.alternate;)n=t,n.flags&4098&&(e=n.return),t=n.return;for(;n.return;)n=n.return;return n.tag===3?e:null}function im(e){if(e.tag===13){var n=e.memoizedState;if(n===null&&(e=e.alternate,e!==null&&(n=e.memoizedState)),n!==null)return n.dehydrated}return null}function om(e){if(e.tag===31){var n=e.memoizedState;if(n===null&&(e=e.alternate,e!==null&&(n=e.memoizedState)),n!==null)return n.dehydrated}return null}function Nh(e){if(no(e)!==e)throw Error(S(188))}function Zw(e){var n=e.alternate;if(!n){if(n=no(e),n===null)throw Error(S(188));return n!==e?null:e}for(var t=e,a=n;;){var i=t.return;if(i===null)break;var o=i.alternate;if(o===null){if(a=i.return,a!==null){t=a;continue}break}if(i.child===o.child){for(o=i.child;o;){if(o===t)return Nh(i),e;if(o===a)return Nh(i),n;o=o.sibling}throw Error(S(188))}if(t.return!==a.return)t=i,a=o;else{for(var s=!1,r=i.child;r;){if(r===t){s=!0,t=i,a=o;break}if(r===a){s=!0,a=i,t=o;break}r=r.sibling}if(!s){for(r=o.child;r;){if(r===t){s=!0,t=o,a=i;break}if(r===a){s=!0,a=o,t=i;break}r=r.sibling}if(!s)throw Error(S(189))}}if(t.alternate!==a)throw Error(S(190))}if(t.tag!==3)throw Error(S(188));return t.stateNode.current===t?e:n}function sm(e){var n=e.tag;if(n===5||n===26||n===27||n===6)return e;for(e=e.child;e!==null;){if(n=sm(e),n!==null)return n;e=e.sibling}return null}function Je(e,n,t,a,i,o){for(;e!==null;){if((e.tag===5||e.tag===27||e.tag===6)&&t(e,a,i,o)||(e.tag!==22||e.memoizedState===null)&&(n||e.tag!==5&&e.tag!==27)&&Je(e.child,n,t,a,i,o))return!0;e=e.sibling}return!1}function oa(e){for(e=e.return;e!==null;){if(e.tag===3||e.tag===5||e.tag===27)return e;e=e.return}return null}function Vh(e){var n=!1;for(e=e.return;e!==null&&(e.tag===4&&(n=!0),!(e.tag===3||e.tag===5||e.tag===27));)e=e.return;return n}function rm(e){var n=[null,null],t=oa(e);return t===null||cm(n,e,t.child,{foundSelf:!1}),n}function cm(e,n,t,a){for(;t!==null;){if(t===n)a.foundSelf=!0;else if(t.tag===5||t.tag===27||t.tag===6){if(a.foundSelf)return e[1]=t,!0;e[0]=t}else if((t.tag!==22||t.memoizedState===null)&&cm(e,n,t.child,a))return!0;t=t.sibling}return!1}function Ce(e){switch(e.tag){case 5:case 27:case 6:return e.stateNode;case 3:return e.stateNode.containerInfo;default:throw Error(S(559))}}var fa=null,Zr=null;function $w(e,n,t){return e===t?!0:e===n?(fa=e,!0):!1}function ef(e,n,t){return e===t?(Zr=e,!1):e===n?(Zr!==null&&(fa=e),!0):!1}function jh(e){if(e===null)return null;do e=e===null?null:e.return;while(e&&e.tag!==5&&e.tag!==27&&e.tag!==3);return e||null}function $r(e,n,t){for(var a=0,i=e;i;i=t(i))a++;i=0;for(var o=n;o;o=t(o))i++;for(;0<a-i;)e=t(e),a--;for(;0<i-a;)n=t(n),i--;for(;a--;){if(e===n||n!==null&&e===n.alternate)return e;e=t(e),n=t(n)}return null}var te=Object.assign,nf=Symbol.for("react.element"),Co=Symbol.for("react.transitional.element"),pi=Symbol.for("react.portal"),Ca=Symbol.for("react.fragment"),lm=Symbol.for("react.strict_mode"),ec=Symbol.for("react.profiler"),hm=Symbol.for("react.consumer"),Ln=Symbol.for("react.context"),Al=Symbol.for("react.forward_ref"),nc=Symbol.for("react.suspense"),tc=Symbol.for("react.suspense_list"),Pl=Symbol.for("react.memo"),st=Symbol.for("react.lazy"),ac=Symbol.for("react.activity"),tf=Symbol.for("react.legacy_hidden"),af=Symbol.for("react.memo_cache_sentinel"),ic=Symbol.for("react.view_transition"),of=Symbol.for("react.recoverable"),Bh=Symbol.iterator;function si(e){return e===null||typeof e!="object"?null:(e=Bh&&e[Bh]||e["@@iterator"],typeof e=="function"?e:null)}var sf=Symbol.for("react.client.reference");function oc(e){if(e==null)return null;if(typeof e=="function")return e.$$typeof===sf?null:e.displayName||e.name||null;if(typeof e=="string")return e;switch(e){case Ca:return"Fragment";case ec:return"Profiler";case lm:return"StrictMode";case nc:return"Suspense";case tc:return"SuspenseList";case ac:return"Activity";case ic:return"ViewTransition"}if(typeof e=="object")switch(e.$$typeof){case pi:return"Portal";case Ln:return e.displayName||"Context";case hm:return(e._context.displayName||"Context")+".Consumer";case Al:var n=e.render;return e=e.displayName,e||(e=n.displayName||n.name||"",e=e!==""?"ForwardRef("+e+")":"ForwardRef"),e;case Pl:return n=e.displayName||null,n!==null?n:oc(e.type)||"Memo";case st:n=e._payload,e=e._init;try{return oc(e(n))}catch{}}return null}var wi=Array.isArray,E=tm.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,G=Yw.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,qt={pending:!1,data:null,method:null,action:null},sc=[],ba=-1;function Un(e){return{current:e}}function xe(e){0>ba||(e.current=sc[ba],sc[ba]=null,ba--)}function re(e,n){ba++,sc[ba]=e.current,e.current=n}var On=Un(null),Ui=Un(null),pt=Un(null),ls=Un(null);function hs(e,n){switch(re(pt,n),re(Ui,e),re(On,null),n.nodeType){case 9:case 11:e=(e=n.documentElement)&&(e=e.namespaceURI)?nu(e):0;break;default:if(e=n.tagName,n=n.namespaceURI)n=nu(n),e=kp(n,e);else switch(e){case"svg":e=1;break;case"math":e=2;break;default:e=0}}xe(On),re(On,e)}function Na(){xe(On),xe(Ui),xe(pt)}function rc(e){var n=e.memoizedState;n!==null&&(Qa._currentValue=n.memoizedState,re(ls,e)),n=On.current;var t=kp(n,e.type);n!==t&&(re(Ui,e),re(On,t))}function ds(e){Ui.current===e&&(xe(On),xe(Ui)),ls.current===e&&(xe(ls),Qa._currentValue=qt)}var gr,Hh;function it(e){if(gr===void 0)try{throw Error()}catch(t){var n=t.stack.trim().match(/\n( *(at )?)/);gr=n&&n[1]||"",Hh=-1<t.stack.indexOf(`
     at`)?" (<anonymous>)":-1<t.stack.indexOf("@")?"@unknown:0:0":""}return`
-`+rr+e+Uh}var cr=!1;function lr(e,n){if(!e||cr)return"";cr=!0;var t=Error.prepareStackTrace;Error.prepareStackTrace=void 0;try{var a={DetermineComponentFrameRoot:function(){try{if(n){var p=function(){throw Error()};if(Object.defineProperty(p.prototype,"props",{set:function(){throw Error()}}),typeof Reflect=="object"&&Reflect.construct){try{Reflect.construct(p,[])}catch(f){var d=f}Reflect.construct(e,[],p)}else{try{p.call()}catch(f){d=f}p=!1;try{var m=Object.getOwnPropertyDescriptor(e.prototype,"props");Object.defineProperty(e.prototype,"props",{configurable:!0,set:function(){throw Error()}}),p=!0,new e}finally{p&&(m!==void 0?Object.defineProperty(e.prototype,"props",m):delete e.prototype.props)}}}else{try{throw Error()}catch(f){d=f}(p=e())&&typeof p.catch=="function"&&p.catch(function(){})}}catch(f){if(f&&d&&typeof f.stack=="string")return[f.stack,d.stack]}return[null,null]}};a.DetermineComponentFrameRoot.displayName="DetermineComponentFrameRoot";var i=Object.getOwnPropertyDescriptor(a.DetermineComponentFrameRoot,"name");i&&i.configurable&&Object.defineProperty(a.DetermineComponentFrameRoot,"name",{value:"DetermineComponentFrameRoot"});var o=a.DetermineComponentFrameRoot(),s=o[0],r=o[1];if(s&&r){var c=s.split(`
+`+gr+e+Hh}var pr=!1;function wr(e,n){if(!e||pr)return"";pr=!0;var t=Error.prepareStackTrace;Error.prepareStackTrace=void 0;try{var a={DetermineComponentFrameRoot:function(){try{if(n){var m=function(){throw Error()};if(Object.defineProperty(m.prototype,"props",{set:function(){throw Error()}}),typeof Reflect=="object"&&Reflect.construct){try{Reflect.construct(m,[])}catch(C){var u=C}Reflect.construct(e,[],m)}else{try{m.call()}catch(C){u=C}m=!1;try{var p=Object.getOwnPropertyDescriptor(e.prototype,"props");Object.defineProperty(e.prototype,"props",{configurable:!0,set:function(){throw Error()}}),m=!0,new e}finally{m&&(p!==void 0?Object.defineProperty(e.prototype,"props",p):delete e.prototype.props)}}}else{try{throw Error()}catch(C){u=C}(m=e())&&typeof m.catch=="function"&&m.catch(function(){})}}catch(C){if(C&&u&&typeof C.stack=="string")return[C.stack,u.stack]}return[null,null]}};a.DetermineComponentFrameRoot.displayName="DetermineComponentFrameRoot";var i=Object.getOwnPropertyDescriptor(a.DetermineComponentFrameRoot,"name");i&&i.configurable&&Object.defineProperty(a.DetermineComponentFrameRoot,"name",{value:"DetermineComponentFrameRoot"});var o=a.DetermineComponentFrameRoot(),s=o[0],r=o[1];if(s&&r){var c=s.split(`
 `),l=r.split(`
-`);for(i=a=0;a<c.length&&!c[a].includes("DetermineComponentFrameRoot");)a++;for(;i<l.length&&!l[i].includes("DetermineComponentFrameRoot");)i++;if(a===c.length||i===l.length)for(a=c.length-1,i=l.length-1;1<=a&&0<=i&&c[a]!==l[i];)i--;for(;1<=a&&0<=i;a--,i--)if(c[a]!==l[i]){if(a!==1||i!==1)do if(a--,i--,0>i||c[a]!==l[i]){var h=`
-`+c[a].replace(" at new "," at ");return e.displayName&&h.includes("<anonymous>")&&(h=h.replace("<anonymous>",e.displayName)),h}while(1<=a&&0<=i);break}}}finally{cr=!1,Error.prepareStackTrace=t}return(t=e?e.displayName||e.name:"")?tt(t):""}function Qw(e,n){switch(e.tag){case 26:case 27:case 5:return tt(e.type);case 16:return tt("Lazy");case 13:return e.child!==n&&n!==null?tt("Suspense Fallback"):tt("Suspense");case 19:return tt("SuspenseList");case 0:case 15:return lr(e.type,!1);case 11:return lr(e.type.render,!1);case 1:return lr(e.type,!0);case 31:return tt("Activity");case 30:return tt("ViewTransition");default:return""}}function Nh(e){try{var n="",t=null;do n+=Qw(e,t),t=e,e=e.return;while(e);return n}catch(a){return`
+`);for(i=a=0;a<c.length&&!c[a].includes("DetermineComponentFrameRoot");)a++;for(;i<l.length&&!l[i].includes("DetermineComponentFrameRoot");)i++;if(a===c.length||i===l.length)for(a=c.length-1,i=l.length-1;1<=a&&0<=i&&c[a]!==l[i];)i--;for(;1<=a&&0<=i;a--,i--)if(c[a]!==l[i]){if(a!==1||i!==1)do if(a--,i--,0>i||c[a]!==l[i]){var d=`
+`+c[a].replace(" at new "," at ");return e.displayName&&d.includes("<anonymous>")&&(d=d.replace("<anonymous>",e.displayName)),d}while(1<=a&&0<=i);break}}}finally{pr=!1,Error.prepareStackTrace=t}return(t=e?e.displayName||e.name:"")?it(t):""}function rf(e,n){switch(e.tag){case 26:case 27:case 5:return it(e.type);case 16:return it("Lazy");case 13:return e.child!==n&&n!==null?it("Suspense Fallback"):it("Suspense");case 19:return it("SuspenseList");case 0:case 15:return wr(e.type,!1);case 11:return wr(e.type.render,!1);case 1:return wr(e.type,!0);case 31:return it("Activity");case 30:return it("ViewTransition");default:return""}}function qh(e){try{var n="",t=null;do n+=rf(e,t),t=e,e=e.return;while(e);return n}catch(a){return`
 Error generating stack: `+a.message+`
-`+a.stack}}var tc=Object.prototype.hasOwnProperty,vl=fe.unstable_scheduleCallback,hr=fe.unstable_cancelCallback,Kw=fe.unstable_shouldYield,Yw=fe.unstable_requestPaint,en=fe.unstable_now,Zw=fe.unstable_getCurrentPriorityLevel,am=fe.unstable_ImmediatePriority,im=fe.unstable_UserBlockingPriority,os=fe.unstable_NormalPriority,$w=fe.unstable_LowPriority,om=fe.unstable_IdlePriority,ef=fe.log,nf=fe.unstable_setDisableYieldValue,Xi=null,nn=null;function rt(e){if(typeof ef=="function"&&nf(e),nn&&typeof nn.setStrictMode=="function")try{nn.setStrictMode(Xi,e)}catch{}}var tn=Math.clz32?Math.clz32:of,tf=Math.log,af=Math.LN2;function of(e){return e>>>=0,e===0?32:31-(tf(e)/af|0)|0}var mo=256,go=262144,po=4194304;function Ot(e){var n=e&42;if(n!==0)return n;switch(e&-e){case 1:return 1;case 2:return 2;case 4:return 4;case 8:return 8;case 16:return 16;case 32:return 32;case 64:return 64;case 128:return 128;case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:return e&-e;case 262144:case 524288:case 1048576:case 2097152:return e&3932160;case 4194304:case 8388608:case 16777216:case 33554432:return e&62914560;case 67108864:return 67108864;case 134217728:return 134217728;case 268435456:return 268435456;case 536870912:return 536870912;case 1073741824:return 0;default:return e}}function Ns(e,n,t){var a=e.pendingLanes;if(a===0)return 0;var i=0,o=e.suspendedLanes,s=e.pingedLanes;e=e.warmLanes;var r=a&134217727;return r!==0?(a=r&~o,a!==0?i=Ot(a):(s&=r,s!==0?i=Ot(s):t||(t=r&~e,t!==0&&(i=Ot(t))))):(r=a&~o,r!==0?i=Ot(r):s!==0?i=Ot(s):t||(t=a&~e,t!==0&&(i=Ot(t)))),i===0?0:n!==0&&n!==i&&!(n&o)&&(o=i&-i,t=n&-n,o>=t||o===32&&(t&4194048)!==0)?n:i}function Qi(e,n){return(e.pendingLanes&~(e.suspendedLanes&~e.pingedLanes)&n)===0}function sm(e,n){n&8&&(n|=n&32);var t=e.entangledLanes;if(t!==0)for(e=e.entanglements,t&=n;0<t;){var a=31-tn(t),i=1<<a;n|=e[a],t&=~i}return n}function sf(e,n){switch(e){case 1:case 2:case 4:case 8:case 64:return n+250;case 16:case 32:case 128:case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:return n+5e3;case 4194304:case 8388608:case 16777216:case 33554432:return-1;case 67108864:case 134217728:case 268435456:case 536870912:case 1073741824:return-1;default:return-1}}function rm(){var e=po;return po<<=1,!(po&62914560)&&(po=4194304),e}function dr(e){for(var n=[],t=0;31>t;t++)n.push(e);return n}function Ki(e,n){e.pendingLanes|=n,n!==268435456&&(e.suspendedLanes=0,e.pingedLanes=0,e.warmLanes=0)}function rf(e,n,t,a,i,o){var s=e.pendingLanes;e.pendingLanes=t,e.suspendedLanes=0,e.pingedLanes=0,e.warmLanes=0,e.expiredLanes&=t,e.entangledLanes&=t,e.errorRecoveryDisabledLanes&=t,e.shellSuspendCounter=0;var r=e.entanglements,c=e.expirationTimes,l=e.hiddenUpdates;for(t=s&~t;0<t;){var h=31-tn(t),p=1<<h;r[h]=0,c[h]=-1;var d=l[h];if(d!==null)for(l[h]=null,h=0;h<d.length;h++){var m=d[h];m!==null&&(m.lane&=-536870913)}t&=~p}a!==0&&cm(e,a,0),o!==0&&i===0&&e.tag!==0&&(e.suspendedLanes|=o&~(s&~n))}function cm(e,n,t){e.pendingLanes|=n,e.suspendedLanes&=~n;var a=31-tn(n);e.entangledLanes|=n,e.entanglements[a]=e.entanglements[a]|1073741824|t&261930}function lm(e,n){var t=e.entangledLanes|=n;for(e=e.entanglements;t;){var a=31-tn(t),i=1<<a;i&n|e[a]&n&&(e[a]|=n),t&=~i}}function hm(e,n){var t=n&-n;return t=t&42?1:yl(t),t&(e.suspendedLanes|n)?0:t}function yl(e){switch(e){case 2:e=1;break;case 8:e=4;break;case 32:e=16;break;case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:case 4194304:case 8388608:case 16777216:case 33554432:e=128;break;case 268435456:e=134217728;break;default:e=0}return e}function Sl(e){return e&=-e,2<e?8<e?e&134217727?32:268435456:8:2}function dm(){var e=j.p;return e!==0?e:(e=window.event,e===void 0?32:Gp(e.type))}function Vh(e,n){var t=j.p;try{return j.p=e,n()}finally{j.p=t}}var Kn=Math.random().toString(36).slice(2),Te="__reactFiber$"+Kn,Ge="__reactProps$"+Kn,Xa="__reactContainer$"+Kn,Bh="__reactEvents$"+Kn,cf="__reactListeners$"+Kn,lf="__reactHandles$"+Kn,Hh="__reactResources$"+Kn,Yi="__reactMarker$"+Kn,ss="__reactLoad$"+Kn;function Vs(e){delete e[Te],delete e[Ge],delete e[cf],delete e[lf]}function Ut(e){var n;if(n=e[Te])return n;for(var t=e.parentNode;t;){if(n=t[Xa]||t[Te]){if(t=n.alternate,n.child!==null||t!==null&&t.child!==null)for(e=iu(e);e!==null;){if(t=e[Te])return t;e=iu(e)}return n}e=t,t=e.parentNode}return null}function Qa(e){if(e=e[Te]||e[Xa]){var n=e.tag;if(n===5||n===6||n===13||n===31||n===26||n===27||n===3)return e}return null}function di(e){var n=e.tag;if(n===5||n===26||n===27||n===6)return e.stateNode;throw Error(v(33))}function Pa(e){var n=e[Hh];return n||(n=e[Hh]={hoistableStyles:new Map,hoistableScripts:new Map}),n}function ye(e){e[Yi]=!0}function um(e){e[ss]=void 0}var mm=new Set,gm={};function na(e,n){Oa(e,n),Oa(e+"Capture",n)}function Oa(e,n){for(gm[e]=n,e=0;e<n.length;e++)mm.add(n[e])}var hf=RegExp("^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"),jh={},qh={};function df(e){return tc.call(qh,e)?!0:tc.call(jh,e)?!1:hf.test(e)?qh[e]=!0:(jh[e]=!0,!1)}var B=!1;function Gh(){var e=B;return B=!1,e}function Oo(e,n,t){if(df(n))if(t===null)e.removeAttribute(n);else{switch(typeof t){case"undefined":case"function":case"symbol":e.removeAttribute(n);return;case"boolean":var a=n.toLowerCase().slice(0,5);if(a!=="data-"&&a!=="aria-"){e.removeAttribute(n);return}}e.setAttribute(n,t)}}function wo(e,n,t){if(t===null)e.removeAttribute(n);else{switch(typeof t){case"undefined":case"function":case"symbol":case"boolean":e.removeAttribute(n);return}e.setAttribute(n,t)}}function Un(e,n,t,a){if(a===null)e.removeAttribute(t);else{switch(typeof a){case"undefined":case"function":case"symbol":case"boolean":e.removeAttribute(t);return}e.setAttributeNS(n,t,a)}}function Xe(e){switch(typeof e){case"bigint":case"boolean":case"number":case"string":case"undefined":return e;case"object":return e;default:return""}}function pm(e){var n=e.type;return(e=e.nodeName)&&e.toLowerCase()==="input"&&(n==="checkbox"||n==="radio")}function uf(e,n,t){var a=Object.getOwnPropertyDescriptor(e.constructor.prototype,n);if(!e.hasOwnProperty(n)&&typeof a<"u"&&typeof a.get=="function"&&typeof a.set=="function"){var i=a.get,o=a.set;return Object.defineProperty(e,n,{configurable:!0,get:function(){return i.call(this)},set:function(s){t=""+s,o.call(this,s)}}),Object.defineProperty(e,n,{enumerable:a.enumerable}),{getValue:function(){return t},setValue:function(s){t=""+s},stopTracking:function(){e._valueTracker=null,delete e[n]}}}}function ac(e){if(!e._valueTracker){var n=pm(e)?"checked":"value";e._valueTracker=uf(e,n,""+e[n])}}function wm(e){if(!e)return!1;var n=e._valueTracker;if(!n)return!0;var t=n.getValue(),a="";return e&&(a=pm(e)?e.checked?"true":"false":e.value),e=a,e!==t?(n.setValue(e),!0):!1}var mf=/[\n"\\]/g;function dn(e){return e.replace(mf,function(n){return"\\"+n.charCodeAt(0).toString(16)+" "})}function ic(e,n,t,a,i,o,s,r){e.name="",s!=null&&typeof s!="function"&&typeof s!="symbol"&&typeof s!="boolean"?e.type=s:e.removeAttribute("type"),n!=null?s==="number"?(n===0&&e.value===""||e.value!=n)&&(e.value=""+Xe(n)):e.value!==""+Xe(n)&&(e.value=""+Xe(n)):s!=="submit"&&s!=="reset"||e.removeAttribute("value"),n!=null?s==="number"&&e.value==n?ur(e,Xe(e.value)):ur(e,Xe(n)):t!=null?ur(e,Xe(t)):a!=null&&e.removeAttribute("value"),i==null&&o!=null&&(e.defaultChecked=!!o),i!=null&&(e.checked=i&&typeof i!="function"&&typeof i!="symbol"),r!=null&&typeof r!="function"&&typeof r!="symbol"&&typeof r!="boolean"?e.name=""+Xe(r):e.removeAttribute("name")}function fm(e,n,t,a,i,o,s,r){if(o!=null&&typeof o!="function"&&typeof o!="symbol"&&typeof o!="boolean"&&(e.type=o),n!=null||t!=null){if(!(o!=="submit"&&o!=="reset"||n!=null)){ac(e);return}t=t!=null?""+Xe(t):"",n=n!=null?""+Xe(n):t,r||n===e.value||(e.value=n),e.defaultValue=n}a=a??i,a=typeof a!="function"&&typeof a!="symbol"&&!!a,e.checked=r?e.checked:!!a,e.defaultChecked=!!a,s!=null&&typeof s!="function"&&typeof s!="symbol"&&typeof s!="boolean"&&(e.name=s),ac(e)}function ur(e,n){e.defaultValue!==""+n&&(e.defaultValue=""+n)}function Ta(e,n,t,a){if(e=e.options,n){n={};for(var i=0;i<t.length;i++)n["$"+t[i]]=!0;for(t=0;t<e.length;t++)i=n.hasOwnProperty("$"+e[t].value),e[t].selected!==i&&(e[t].selected=i),i&&a&&(e[t].defaultSelected=!0)}else{for(t=""+Xe(t),n=null,i=0;i<e.length;i++){if(e[i].value===t){e[i].selected=!0,a&&(e[i].defaultSelected=!0);return}n!==null||e[i].disabled||(n=e[i])}n!==null&&(n.selected=!0)}}function Cm(e,n,t){if(n!=null&&(n=""+Xe(n),n!==e.value&&(e.value=n),t==null)){e.defaultValue!==n&&(e.defaultValue=n);return}e.defaultValue=t!=null?""+Xe(t):""}function bm(e,n,t,a){if(n==null){if(a!=null){if(t!=null)throw Error(v(92));if(hi(a)){if(1<a.length)throw Error(v(93));a=a[0]}t=a}t==null&&(t=""),n=t}t=Xe(n),e.defaultValue=t,a=e.textContent,a===t&&a!==""&&a!==null&&(e.value=a),ac(e)}function Fa(e,n){if(n){var t=e.firstChild;if(t&&t===e.lastChild&&t.nodeType===3){t.nodeValue=n;return}}e.textContent=n}var gf=new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));function Jh(e,n,t){var a=n.indexOf("--")===0;t==null||typeof t=="boolean"||t===""?a?e.setProperty(n,""):n==="float"?e.cssFloat="":e[n]="":a?e.setProperty(n,t):typeof t!="number"||t===0||gf.has(n)?n==="float"?e.cssFloat=t:e[n]=(""+t).trim():e[n]=t+"px"}function vm(e,n,t){if(n!=null&&typeof n!="object")throw Error(v(62));if(e=e.style,t!=null){for(var a in t)!t.hasOwnProperty(a)||n!=null&&n.hasOwnProperty(a)||(a.indexOf("--")===0?e.setProperty(a,""):a==="float"?e.cssFloat="":e[a]="",B=!0);for(var i in n)a=n[i],n.hasOwnProperty(i)&&t[i]!==a&&(Jh(e,i,a),B=!0)}else for(var o in n)n.hasOwnProperty(o)&&Jh(e,o,n[o])}function Al(e){if(e.indexOf("-")===-1)return!1;switch(e){case"annotation-xml":case"color-profile":case"font-face":case"font-face-src":case"font-face-uri":case"font-face-format":case"font-face-name":case"missing-glyph":return!1;default:return!0}}var pf=new Map([["acceptCharset","accept-charset"],["htmlFor","for"],["httpEquiv","http-equiv"],["crossOrigin","crossorigin"],["accentHeight","accent-height"],["alignmentBaseline","alignment-baseline"],["arabicForm","arabic-form"],["baselineShift","baseline-shift"],["capHeight","cap-height"],["clipPath","clip-path"],["clipRule","clip-rule"],["colorInterpolation","color-interpolation"],["colorInterpolationFilters","color-interpolation-filters"],["colorProfile","color-profile"],["colorRendering","color-rendering"],["dominantBaseline","dominant-baseline"],["enableBackground","enable-background"],["fillOpacity","fill-opacity"],["fillRule","fill-rule"],["floodColor","flood-color"],["floodOpacity","flood-opacity"],["fontFamily","font-family"],["fontSize","font-size"],["fontSizeAdjust","font-size-adjust"],["fontStretch","font-stretch"],["fontStyle","font-style"],["fontVariant","font-variant"],["fontWeight","font-weight"],["glyphName","glyph-name"],["glyphOrientationHorizontal","glyph-orientation-horizontal"],["glyphOrientationVertical","glyph-orientation-vertical"],["horizAdvX","horiz-adv-x"],["horizOriginX","horiz-origin-x"],["imageRendering","image-rendering"],["letterSpacing","letter-spacing"],["lightingColor","lighting-color"],["markerEnd","marker-end"],["markerMid","marker-mid"],["markerStart","marker-start"],["maskType","mask-type"],["overlinePosition","overline-position"],["overlineThickness","overline-thickness"],["paintOrder","paint-order"],["panose-1","panose-1"],["pointerEvents","pointer-events"],["renderingIntent","rendering-intent"],["shapeRendering","shape-rendering"],["stopColor","stop-color"],["stopOpacity","stop-opacity"],["strikethroughPosition","strikethrough-position"],["strikethroughThickness","strikethrough-thickness"],["strokeDasharray","stroke-dasharray"],["strokeDashoffset","stroke-dashoffset"],["strokeLinecap","stroke-linecap"],["strokeLinejoin","stroke-linejoin"],["strokeMiterlimit","stroke-miterlimit"],["strokeOpacity","stroke-opacity"],["strokeWidth","stroke-width"],["textAnchor","text-anchor"],["textDecoration","text-decoration"],["textRendering","text-rendering"],["transformOrigin","transform-origin"],["underlinePosition","underline-position"],["underlineThickness","underline-thickness"],["unicodeBidi","unicode-bidi"],["unicodeRange","unicode-range"],["unitsPerEm","units-per-em"],["vAlphabetic","v-alphabetic"],["vHanging","v-hanging"],["vIdeographic","v-ideographic"],["vMathematical","v-mathematical"],["vectorEffect","vector-effect"],["vertAdvY","vert-adv-y"],["vertOriginX","vert-origin-x"],["vertOriginY","vert-origin-y"],["wordSpacing","word-spacing"],["writingMode","writing-mode"],["xmlnsXlink","xmlns:xlink"],["xHeight","x-height"]]),wf=/^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i;function Fo(e){return wf.test(""+e)?"javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')":e}function Ln(){}var oc=null;function Pl(e){return e=e.target||e.srcElement||window,e.correspondingUseElement&&(e=e.correspondingUseElement),e.nodeType===3?e.parentNode:e}var pa=null,Ia=null;function zh(e){var n=Qa(e);if(n&&(e=n.stateNode)){var t=e[Ge]||null;e:switch(e=n.stateNode,n.type){case"input":if(ic(e,t.value,t.defaultValue,t.defaultValue,t.checked,t.defaultChecked,t.type,t.name),n=t.name,t.type==="radio"&&n!=null){for(t=e;t.parentNode;)t=t.parentNode;for(t=t.querySelectorAll('input[name="'+dn(""+n)+'"][type="radio"]'),n=0;n<t.length;n++){var a=t[n];if(a!==e&&a.form===e.form){var i=a[Ge]||null;if(!i)throw Error(v(90));ic(a,i.value,i.defaultValue,i.defaultValue,i.checked,i.defaultChecked,i.type,i.name)}}for(n=0;n<t.length;n++)a=t[n],a.form===e.form&&wm(a)}break e;case"textarea":Cm(e,t.value,t.defaultValue);break e;case"select":n=t.value,n!=null&&Ta(e,!!t.multiple,n,!1)}}}var mr=!1;function ym(e,n,t){if(mr)return e(n,t);mr=!0;try{var a=e(n);return a}finally{if(mr=!1,(pa!==null||Ia!==null)&&(er(),pa&&(n=pa,e=Ia,Ia=pa=null,zh(n),e)))for(n=0;n<e.length;n++)zh(e[n])}}function Wi(e,n){var t=e.stateNode;if(t===null)return null;var a=t[Ge]||null;if(a===null)return null;t=a[n];e:switch(n){case"onClick":case"onClickCapture":case"onDoubleClick":case"onDoubleClickCapture":case"onMouseDown":case"onMouseDownCapture":case"onMouseMove":case"onMouseMoveCapture":case"onMouseUp":case"onMouseUpCapture":case"onMouseEnter":(a=!a.disabled)||(e=e.type,a=!(e==="button"||e==="input"||e==="select"||e==="textarea")),e=!a;break e;default:e=!1}if(e)return null;if(t&&typeof t!="function")throw Error(v(231,n,typeof t));return t}var qn=!(typeof window>"u"||typeof window.document>"u"||typeof window.document.createElement>"u"),sc=!1;if(qn)try{var ti={};Object.defineProperty(ti,"passive",{get:function(){sc=!0}}),window.addEventListener("test",ti,ti),window.removeEventListener("test",ti,ti)}catch{sc=!1}var ct=null,Tl=null,Ro=null;function Sm(){if(Ro)return Ro;var e,n=Tl,t=n.length,a,i="value"in ct?ct.value:ct.textContent,o=i.length;for(e=0;e<t&&n[e]===i[e];e++);var s=t-e;for(a=1;a<=s&&n[t-a]===i[o-a];a++);return Ro=i.slice(e,1<a?1-a:void 0)}function Uo(e){var n=e.keyCode;return"charCode"in e?(e=e.charCode,e===0&&n===13&&(e=13)):e=n,e===10&&(e=13),32<=e||e===13?e:0}function fo(){return!0}function Xh(){return!1}function Ue(e){function n(t,a,i,o,s){this._reactName=t,this._targetInst=i,this.type=a,this.nativeEvent=o,this.target=s,this.currentTarget=null;for(var r in e)e.hasOwnProperty(r)&&(t=e[r],this[r]=t?t(o):o[r]);return this.isDefaultPrevented=(o.defaultPrevented!=null?o.defaultPrevented:o.returnValue===!1)?fo:Xh,this.isPropagationStopped=Xh,this}return ee(n.prototype,{preventDefault:function(){this.defaultPrevented=!0;var t=this.nativeEvent;t&&(t.preventDefault?t.preventDefault():typeof t.returnValue!="unknown"&&(t.returnValue=!1),this.isDefaultPrevented=fo)},stopPropagation:function(){var t=this.nativeEvent;t&&(t.stopPropagation?t.stopPropagation():typeof t.cancelBubble!="unknown"&&(t.cancelBubble=!0),this.isPropagationStopped=fo)},persist:function(){},isPersistent:fo}),n}var Mt={eventPhase:0,bubbles:0,cancelable:0,timeStamp:function(e){return e.timeStamp||Date.now()},defaultPrevented:0,isTrusted:0},Bs=Ue(Mt),Zi=ee({},Mt,{view:0,detail:0}),ff=Ue(Zi),gr,pr,ai,Hs=ee({},Zi,{screenX:0,screenY:0,clientX:0,clientY:0,pageX:0,pageY:0,ctrlKey:0,shiftKey:0,altKey:0,metaKey:0,getModifierState:Il,button:0,buttons:0,relatedTarget:function(e){return e.relatedTarget===void 0?e.fromElement===e.srcElement?e.toElement:e.fromElement:e.relatedTarget},movementX:function(e){return"movementX"in e?e.movementX:(e!==ai&&(ai&&e.type==="mousemove"?(gr=e.screenX-ai.screenX,pr=e.screenY-ai.screenY):pr=gr=0,ai=e),gr)},movementY:function(e){return"movementY"in e?e.movementY:pr}}),Qh=Ue(Hs),Cf=ee({},Hs,{dataTransfer:0}),bf=Ue(Cf),vf=ee({},Zi,{relatedTarget:0}),wr=Ue(vf),yf=ee({},Mt,{animationName:0,elapsedTime:0,pseudoElement:0}),Sf=Ue(yf),Af=ee({},Mt,{clipboardData:function(e){return"clipboardData"in e?e.clipboardData:window.clipboardData}}),Pf=Ue(Af),Tf=ee({},Mt,{data:0}),Kh=Ue(Tf),If={Esc:"Escape",Spacebar:" ",Left:"ArrowLeft",Up:"ArrowUp",Right:"ArrowRight",Down:"ArrowDown",Del:"Delete",Win:"OS",Menu:"ContextMenu",Apps:"ContextMenu",Scroll:"ScrollLock",MozPrintableKey:"Unidentified"},_f={8:"Backspace",9:"Tab",12:"Clear",13:"Enter",16:"Shift",17:"Control",18:"Alt",19:"Pause",20:"CapsLock",27:"Escape",32:" ",33:"PageUp",34:"PageDown",35:"End",36:"Home",37:"ArrowLeft",38:"ArrowUp",39:"ArrowRight",40:"ArrowDown",45:"Insert",46:"Delete",112:"F1",113:"F2",114:"F3",115:"F4",116:"F5",117:"F6",118:"F7",119:"F8",120:"F9",121:"F10",122:"F11",123:"F12",144:"NumLock",145:"ScrollLock",224:"Meta"},Mf={Alt:"altKey",Control:"ctrlKey",Meta:"metaKey",Shift:"shiftKey"};function xf(e){var n=this.nativeEvent;return n.getModifierState?n.getModifierState(e):(e=Mf[e])?!!n[e]:!1}function Il(){return xf}var Lf=ee({},Zi,{key:function(e){if(e.key){var n=If[e.key]||e.key;if(n!=="Unidentified")return n}return e.type==="keypress"?(e=Uo(e),e===13?"Enter":String.fromCharCode(e)):e.type==="keydown"||e.type==="keyup"?_f[e.keyCode]||"Unidentified":""},code:0,location:0,ctrlKey:0,shiftKey:0,altKey:0,metaKey:0,repeat:0,locale:0,getModifierState:Il,charCode:function(e){return e.type==="keypress"?Uo(e):0},keyCode:function(e){return e.type==="keydown"||e.type==="keyup"?e.keyCode:0},which:function(e){return e.type==="keypress"?Uo(e):e.type==="keydown"||e.type==="keyup"?e.keyCode:0}}),Wf=Ue(Lf),kf=ee({},Hs,{pointerId:0,width:0,height:0,pressure:0,tangentialPressure:0,tiltX:0,tiltY:0,twist:0,pointerType:0,isPrimary:0}),Yh=Ue(kf),Ef=ee({},Mt,{submitter:0}),Df=Ue(Ef),Of=ee({},Zi,{touches:0,targetTouches:0,changedTouches:0,altKey:0,metaKey:0,ctrlKey:0,shiftKey:0,getModifierState:Il}),Ff=Ue(Of),Rf=ee({},Mt,{propertyName:0,elapsedTime:0,pseudoElement:0}),Uf=Ue(Rf),Nf=ee({},Hs,{deltaX:function(e){return"deltaX"in e?e.deltaX:"wheelDeltaX"in e?-e.wheelDeltaX:0},deltaY:function(e){return"deltaY"in e?e.deltaY:"wheelDeltaY"in e?-e.wheelDeltaY:"wheelDelta"in e?-e.wheelDelta:0},deltaZ:0,deltaMode:0}),Vf=Ue(Nf),Bf=ee({},Mt,{newState:0,oldState:0,source:0}),Hf=Ue(Bf),jf=[9,13,27,32],_l=qn&&"CompositionEvent"in window,pi=null;qn&&"documentMode"in document&&(pi=document.documentMode);var qf=qn&&"TextEvent"in window&&!pi,Am=qn&&(!_l||pi&&8<pi&&11>=pi),Zh=" ",$h=!1;function Pm(e,n){switch(e){case"keyup":return jf.indexOf(n.keyCode)!==-1;case"keydown":return n.keyCode!==229;case"keypress":case"mousedown":case"focusout":return!0;default:return!1}}function Tm(e){return e=e.detail,typeof e=="object"&&"data"in e?e.data:null}var wa=!1;function Gf(e,n){switch(e){case"compositionend":return Tm(n);case"keypress":return n.which!==32?null:($h=!0,Zh);case"textInput":return e=n.data,e===Zh&&$h?null:e;default:return null}}function Jf(e,n){if(wa)return e==="compositionend"||!_l&&Pm(e,n)?(e=Sm(),Ro=Tl=ct=null,wa=!1,e):null;switch(e){case"paste":return null;case"keypress":if(!(n.ctrlKey||n.altKey||n.metaKey)||n.ctrlKey&&n.altKey){if(n.char&&1<n.char.length)return n.char;if(n.which)return String.fromCharCode(n.which)}return null;case"compositionend":return Am&&n.locale!=="ko"?null:n.data;default:return null}}var zf={color:!0,date:!0,datetime:!0,"datetime-local":!0,email:!0,month:!0,number:!0,password:!0,range:!0,search:!0,tel:!0,text:!0,time:!0,url:!0,week:!0};function ed(e){var n=e&&e.nodeName&&e.nodeName.toLowerCase();return n==="input"?!!zf[e.type]:n==="textarea"}function Im(e,n,t,a){pa?Ia?Ia.push(a):Ia=[a]:pa=a,n=Ms(n,"onChange"),0<n.length&&(t=new Bs("onChange","change",null,t,a),e.push({event:t,listeners:n}))}var wi=null,ki=null;function Xf(e){yp(e,0)}function js(e){var n=di(e);if(wm(n))return e}function nd(e,n){if(e==="change")return n}var _m=!1;if(qn){var fr;if(qn){var Cr="oninput"in document;if(!Cr){var td=document.createElement("div");td.setAttribute("oninput","return;"),Cr=typeof td.oninput=="function"}fr=Cr}else fr=!1;_m=fr&&(!document.documentMode||9<document.documentMode)}function ad(){wi&&(wi.detachEvent("onpropertychange",Mm),ki=wi=null)}function Mm(e){if(e.propertyName==="value"&&js(ki)){var n=[];Im(n,ki,e,Pl(e)),ym(Xf,n)}}function Qf(e,n,t){e==="focusin"?(ad(),wi=n,ki=t,wi.attachEvent("onpropertychange",Mm)):e==="focusout"&&ad()}function Kf(e){if(e==="selectionchange"||e==="keyup"||e==="keydown")return js(ki)}function Yf(e,n){if(e==="click")return js(n)}function Zf(e,n){if(e==="input"||e==="change")return js(n)}function $f(e,n){return e===n&&(e!==0||1/e===1/n)||e!==e&&n!==n}var on=typeof Object.is=="function"?Object.is:$f;function Ei(e,n){if(on(e,n))return!0;if(typeof e!="object"||e===null||typeof n!="object"||n===null)return!1;var t=Object.keys(e),a=Object.keys(n);if(t.length!==a.length)return!1;for(a=0;a<t.length;a++){var i=t[a];if(!tc.call(n,i)||!on(e[i],n[i]))return!1}return!0}function rc(e){if(e=e||(typeof document<"u"?document:void 0),typeof e>"u")return null;try{return e.activeElement||e.body}catch{return e.body}}function id(e){for(;e&&e.firstChild;)e=e.firstChild;return e}function od(e,n){var t=id(e);e=0;for(var a;t;){if(t.nodeType===3){if(a=e+t.textContent.length,e<=n&&a>=n)return{node:t,offset:n-e};e=a}e:{for(;t;){if(t.nextSibling){t=t.nextSibling;break e}t=t.parentNode}t=void 0}t=id(t)}}function xm(e,n){return e&&n?e===n?!0:e&&e.nodeType===3?!1:n&&n.nodeType===3?xm(e,n.parentNode):"contains"in e?e.contains(n):e.compareDocumentPosition?!!(e.compareDocumentPosition(n)&16):!1:!1}function Lm(e){e=e!=null&&e.ownerDocument!=null&&e.ownerDocument.defaultView!=null?e.ownerDocument.defaultView:window;for(var n=rc(e.document);n instanceof e.HTMLIFrameElement;){try{var t=typeof n.contentWindow.location.href=="string"}catch{t=!1}if(t)e=n.contentWindow;else break;n=rc(e.document)}return n}function Ml(e){var n=e&&e.nodeName&&e.nodeName.toLowerCase();return n&&(n==="input"&&(e.type==="text"||e.type==="search"||e.type==="tel"||e.type==="url"||e.type==="password")||n==="textarea"||e.contentEditable==="true")}var eC=qn&&"documentMode"in document&&11>=document.documentMode,fa=null,cc=null,fi=null,lc=!1;function sd(e,n,t){var a=t.window===t?t.document:t.nodeType===9?t:t.ownerDocument;lc||fa==null||fa!==rc(a)||(a=fa,"selectionStart"in a&&Ml(a)?a={start:a.selectionStart,end:a.selectionEnd}:(a=(a.ownerDocument&&a.ownerDocument.defaultView||window).getSelection(),a={anchorNode:a.anchorNode,anchorOffset:a.anchorOffset,focusNode:a.focusNode,focusOffset:a.focusOffset}),fi&&Ei(fi,a)||(fi=a,a=Ms(cc,"onSelect"),0<a.length&&(n=new Bs("onSelect","select",null,n,t),e.push({event:n,listeners:a}),n.target=fa)))}function Et(e,n){var t={};return t[e.toLowerCase()]=n.toLowerCase(),t["Webkit"+e]="webkit"+n,t["Moz"+e]="moz"+n,t}var Ca={animationend:Et("Animation","AnimationEnd"),animationiteration:Et("Animation","AnimationIteration"),animationstart:Et("Animation","AnimationStart"),transitionrun:Et("Transition","TransitionRun"),transitionstart:Et("Transition","TransitionStart"),transitioncancel:Et("Transition","TransitionCancel"),transitionend:Et("Transition","TransitionEnd")},br={},Wm={};qn&&(Wm=document.createElement("div").style,"AnimationEvent"in window||(delete Ca.animationend.animation,delete Ca.animationiteration.animation,delete Ca.animationstart.animation),"TransitionEvent"in window||delete Ca.transitionend.transition);function ta(e){if(br[e])return br[e];if(!Ca[e])return e;var n=Ca[e],t;for(t in n)if(n.hasOwnProperty(t)&&t in Wm)return br[e]=n[t];return e}var km=ta("animationend"),Em=ta("animationiteration"),Dm=ta("animationstart"),nC=ta("transitionrun"),tC=ta("transitionstart"),aC=ta("transitioncancel"),Om=ta("transitionend"),Fm=new Map,hc="abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error fullscreenChange fullscreenError gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");hc.push("scrollEnd");function An(e,n){Fm.set(e,n),na(n,[e])}var iC=0;function Gn(e,n){if(e.name!=null&&e.name!=="auto")return e.name;if(n.autoName!==null)return n.autoName;e=Sn.identifierPrefix;var t=iC++;return e="_"+e+"t_"+t.toString(32)+"_",n.autoName=e}function rd(e){if(e==null||typeof e=="string")return e;var n=null,t=Ea;if(t!==null)for(var a=0;a<t.length;a++){var i=e[t[a]];if(i!=null){if(i==="none")return"none";n=n==null?i:n+(" "+i)}}return n??e.default}function Yn(e,n){return e=rd(e),n=rd(n),n==null?e==="auto"?null:e:n==="auto"?null:n}var rs=typeof reportError=="function"?reportError:function(e){if(typeof window=="object"&&typeof window.ErrorEvent=="function"){var n=new window.ErrorEvent("error",{bubbles:!0,cancelable:!0,message:typeof e=="object"&&e!==null&&typeof e.message=="string"?String(e.message):String(e),error:e});if(!window.dispatchEvent(n))return}else if(typeof process=="object"&&typeof process.emit=="function"){process.emit("uncaughtException",e);return}console.error(e)},cn=[],ba=0,xl=0;function qs(){for(var e=ba,n=xl=ba=0;n<e;){var t=cn[n];cn[n++]=null;var a=cn[n];cn[n++]=null;var i=cn[n];cn[n++]=null;var o=cn[n];if(cn[n++]=null,a!==null&&i!==null){var s=a.pending;s===null?i.next=i:(i.next=s.next,s.next=i),a.pending=i}o!==0&&Rm(t,i,o)}}function Gs(e,n,t,a){cn[ba++]=e,cn[ba++]=n,cn[ba++]=t,cn[ba++]=a,xl|=a,e.lanes|=a,e=e.alternate,e!==null&&(e.lanes|=a)}function Ll(e,n,t,a){return Gs(e,n,t,a),cs(e)}function aa(e,n){return Gs(e,null,null,n),cs(e)}function Rm(e,n,t){e.lanes|=t;var a=e.alternate;a!==null&&(a.lanes|=t);for(var i=!1,o=e.return;o!==null;)o.childLanes|=t,a=o.alternate,a!==null&&(a.childLanes|=t),o.tag===22&&(e=o.stateNode,e===null||e._visibility&1||(i=!0)),e=o,o=o.return;return e.tag===3?(o=e.stateNode,i&&n!==null&&(i=31-tn(t),e=o.hiddenUpdates,a=e[i],a===null?e[i]=[n]:a.push(n),n.lane=t|536870912),o):null}function cs(e){if(50<_i)throw _i=0,Xo=null,Error(v(185));for(var n=e.return;n!==null;)e=n,n=e.return;return e.tag===3?e.stateNode:null}var va={};function oC(e,n,t,a){this.tag=e,this.key=t,this.sibling=this.child=this.return=this.stateNode=this.type=this.elementType=null,this.index=0,this.refCleanup=this.ref=null,this.pendingProps=n,this.dependencies=this.memoizedState=this.updateQueue=this.memoizedProps=null,this.mode=a,this.subtreeFlags=this.flags=0,this.deletions=null,this.childLanes=this.lanes=0,this.alternate=null}function He(e,n,t,a){return new oC(e,n,t,a)}function Wl(e){return e=e.prototype,!(!e||!e.isReactComponent)}function Hn(e,n){var t=e.alternate;return t===null?(t=He(e.tag,n,e.key,e.mode),t.elementType=e.elementType,t.type=e.type,t.stateNode=e.stateNode,t.alternate=e,e.alternate=t):(t.pendingProps=n,t.type=e.type,t.flags=0,t.subtreeFlags=0,t.deletions=null),t.flags=e.flags&1206910976,t.childLanes=e.childLanes,t.lanes=e.lanes,t.child=e.child,t.memoizedProps=e.memoizedProps,t.memoizedState=e.memoizedState,t.updateQueue=e.updateQueue,n=e.dependencies,t.dependencies=n===null?null:{lanes:n.lanes,firstContext:n.firstContext},t.sibling=e.sibling,t.index=e.index,t.ref=e.ref,t.refCleanup=e.refCleanup,t}function Um(e,n){e.flags&=1206910978;var t=e.alternate;return t===null?(e.childLanes=0,e.lanes=n,e.child=null,e.subtreeFlags=0,e.memoizedProps=null,e.memoizedState=null,e.updateQueue=null,e.dependencies=null,e.stateNode=null):(e.childLanes=t.childLanes,e.lanes=t.lanes,e.child=t.child,e.subtreeFlags=0,e.deletions=null,e.memoizedProps=t.memoizedProps,e.memoizedState=t.memoizedState,e.updateQueue=t.updateQueue,e.type=t.type,n=t.dependencies,e.dependencies=n===null?null:{lanes:n.lanes,firstContext:n.firstContext}),e}function No(e,n,t,a,i,o){var s=0;if(a=e,typeof a=="function")Wl(a)&&(s=1);else if(typeof a=="string")s=Eb(e,t,En.current)?26:e==="html"||e==="head"||e==="body"?27:5;else e:switch(a){case Yr:return e=He(31,t,n,i),e.elementType=Yr,e.lanes=o,e;case ma:return Bt(t.children,i,o,n);case nm:s=8,i|=24;break;case Xr:return e=He(12,t,n,i|2),e.elementType=Xr,e.lanes=o,e;case Qr:return e=He(13,t,n,i),e.elementType=Qr,e.lanes=o,e;case Kr:return e=He(19,t,n,i),e.elementType=Kr,e.lanes=o,e;case Gw:case Zr:return e=i|32,e=He(30,t,n,e),e.elementType=Zr,e.lanes=o,e.stateNode={autoName:null,paired:null,clones:null,ref:null},e;default:if(typeof a=="object"&&a!==null)switch(a.$$typeof){case xn:s=10;break e;case tm:s=9;break e;case Cl:s=11;break e;case bl:s=14;break e;case it:s=16,a=null;break e}s=29,t=Error(v(130,e===null?"null":typeof e,"")),a=null}return n=He(s,t,n,i),n.elementType=e,n.type=a,n.lanes=o,n}function Bt(e,n,t,a){return e=He(7,e,a,n),e.lanes=t,e}function vr(e,n,t){return e=He(6,e,null,n),e.lanes=t,e}function Nm(e){var n=He(18,null,null,0);return n.stateNode=e,n}function yr(e,n,t){return n=He(4,e.children!==null?e.children:[],e.key,n),n.lanes=t,n.stateNode={containerInfo:e.containerInfo,pendingChildren:null,implementation:e.implementation},n}var cd=new WeakMap;function un(e,n){if(typeof e=="object"&&e!==null){var t=cd.get(e);return t!==void 0?t:(n={value:e,source:n,stack:Nh(n)},cd.set(e,n),n)}return{value:e,source:n,stack:Nh(n)}}var ya=[],Sa=0,ls=null,Di=0,ln=[],hn=0,At=null,Wn=1,kn="";function Vn(e,n){ya[Sa++]=Di,ya[Sa++]=ls,ls=e,Di=n}function Vm(e,n,t){ln[hn++]=Wn,ln[hn++]=kn,ln[hn++]=At,At=e;var a=Wn;e=kn;var i=32-tn(a)-1;a&=~(1<<i),t+=1;var o=32-tn(n)+i;if(30<o){var s=i-i%5;o=(a&(1<<s)-1).toString(32),a>>=s,i-=s,Wn=1<<32-tn(n)+i|t<<i|a,kn=o+e}else Wn=1<<o|t<<i|a,kn=e}function Js(e){e.return!==null&&(Vn(e,1),Vm(e,1,0))}function kl(e){for(;e===ls;)ls=ya[--Sa],ya[Sa]=null,Di=ya[--Sa],ya[Sa]=null;for(;e===At;)At=ln[--hn],ln[hn]=null,kn=ln[--hn],ln[hn]=null,Wn=ln[--hn],ln[hn]=null}function Bm(e,n){ln[hn++]=Wn,ln[hn++]=kn,ln[hn++]=At,Wn=n.id,kn=n.overflow,At=e}var Se=null,te=null,F=!1,gt=null,mn=!1,dc=Error(v(519));function Pt(e){var n=Error(v(418,1<arguments.length&&arguments[1]!==void 0&&arguments[1]?"text":"HTML",""));throw Oi(un(n,e)),dc}function ld(e){var n=e.stateNode,t=e.type,a=e.memoizedProps;switch(n[Te]=e,n[Ge]=a,t){case"dialog":U("cancel",n),U("close",n);break;case"iframe":case"object":case"embed":U("load",n);break;case"video":case"audio":for(t=0;t<Ni.length;t++)U(Ni[t],n);break;case"source":U("error",n);break;case"img":case"image":case"link":U("error",n),U("load",n);break;case"details":U("toggle",n);break;case"input":U("invalid",n),fm(n,a.value,a.defaultValue,a.checked,a.defaultChecked,a.type,a.name,!0);break;case"select":U("invalid",n);break;case"textarea":U("invalid",n),bm(n,a.value,a.defaultValue,a.children)}t=a.children,typeof t!="string"&&typeof t!="number"&&typeof t!="bigint"||n.textContent===""+t||a.suppressHydrationWarning===!0||Ap(n.textContent,t)?(a.popover!=null&&(U("beforetoggle",n),U("toggle",n)),a.onScroll!=null&&U("scroll",n),a.onScrollEnd!=null&&U("scrollend",n),a.onClick!=null&&(n.onclick=Ln),n=!0):n=!1,n||Pt(e,!0)}function hs(e){for(Se=e.return;Se;)switch(Se.tag){case 5:case 31:case 13:mn=!1;return;case 27:case 3:mn=!0;return;default:Se=Se.return}}function sa(e){if(e!==Se)return!1;if(!F)return hs(e),F=!0,!1;var n=e.tag,t;if((t=n!==3&&n!==27)&&((t=n===5)&&(t=e.type,t=!(t!=="form"&&t!=="button")||Qc(e.type,e.memoizedProps)),t=!t),t&&te&&Pt(e),hs(e),n===13){if(e=e.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(v(317));te=au(e)}else if(n===31){if(e=e.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(v(317));te=au(e)}else n===27?(n=te,xt(e.type)?(e=$c,$c=null,te=e):te=n):te=Se?wn(e.stateNode.nextSibling):null;return!0}function Gt(){te=Se=null,F=!1}function Sr(){var e=gt;return e!==null&&(Ve===null?Ve=e:Ve.push.apply(Ve,e),gt=null),e}function Oi(e){gt===null?gt=[e]:gt.push(e)}var uc=Fn(null),ia=null,Bn=null;function lt(e,n,t){ie(uc,n._currentValue),n._currentValue=t}function jn(e){e._currentValue=uc.current,_e(uc)}function Vo(e,n,t){for(;e!==null;){var a=e.alternate;if((e.childLanes&n)!==n?(e.childLanes|=n,a!==null&&(a.childLanes|=n)):a!==null&&(a.childLanes&n)!==n&&(a.childLanes|=n),e===t)break;e=e.return}}function mc(e,n,t,a){var i=e.child;for(i!==null&&(i.return=e);i!==null;){var o=i.dependencies;if(o!==null){var s=i.child;o=o.firstContext;e:for(;o!==null;){var r=o;o=i;for(var c=0;c<n.length;c++)if(r.context===n[c]){o.lanes|=t,r=o.alternate,r!==null&&(r.lanes|=t),Vo(o.return,t,e),a||(s=null);break e}o=r.next}}else if(i.tag===18){if(s=i.return,s===null)throw Error(v(341));s.lanes|=t,o=s.alternate,o!==null&&(o.lanes|=t),Vo(s,t,e),s=null}else i.tag===13&&i.memoizedState!==null&&i.memoizedState.dehydrated===null?(i.lanes|=t,s=i.alternate,s!==null&&(s.lanes|=t),Vo(i.return,t,e),s=i.child,s=s!==null?s.sibling:null):s=i.child;if(s!==null)s.return=i;else for(s=i;s!==null;){if(s===e){s=null;break}if(i=s.sibling,i!==null){i.return=s.return,s=i;break}s=s.return}i=s}}function Jt(e,n,t,a){e=null;for(var i=n,o=!1;i!==null;){if(!o){if(i.flags&524288)o=!0;else if(i.flags&262144)break}if(i.tag===10){var s=i.alternate;if(s===null)throw Error(v(387));if(s=s.memoizedProps,s!==null){var r=i.type;on(i.pendingProps.value,s.value)||(e!==null?e.push(r):e=[r])}}else if(i===ts.current){if(s=i.alternate,s===null)throw Error(v(387));s.memoizedState.memoizedState!==i.memoizedState.memoizedState&&(e!==null?e.push(qa):e=[qa])}i=i.return}return e!==null&&mc(n,e,t,a),n.flags|=262144,e!==null}function ds(e){for(e=e.firstContext;e!==null;){if(!on(e.context._currentValue,e.memoizedValue))return!0;e=e.next}return!1}function zt(e){ia=e,Bn=null,e=e.dependencies,e!==null&&(e.firstContext=null)}function Ie(e){return Hm(ia,e)}function Co(e,n){return ia===null&&zt(e),Hm(e,n)}function Hm(e,n){var t=n._currentValue;if(n={context:n,memoizedValue:t,next:null},Bn===null){if(e===null)throw Error(v(308));Bn=n,e.dependencies={lanes:0,firstContext:n},e.flags|=524288}else Bn=Bn.next=n;return t}var sC=typeof AbortController<"u"?AbortController:function(){var e=[],n=this.signal={aborted:!1,addEventListener:function(t,a){e.push(a)}};this.abort=function(){n.aborted=!0,e.forEach(function(t){return t()})}},rC=fe.unstable_scheduleCallback,cC=fe.unstable_NormalPriority,ue={$$typeof:xn,Consumer:null,Provider:null,_currentValue:null,_currentValue2:null,_threadCount:0};function El(){return{controller:new sC,data:new Map,refCount:0}}function $i(e){e.refCount--,e.refCount===0&&rC(cC,function(){e.controller.abort()})}function hd(e,n){if(e.pendingLanes&4194048){var t=e.transitionTypes;for(t===null&&(t=e.transitionTypes=[]),e=0;e<n.length;e++){var a=n[e];t.indexOf(a)===-1&&t.push(a)}}}var ui=null;function lC(e){var n=e.transitionTypes;return e.transitionTypes=null,n}var Ci=null,gc=0,Xt=0,_a=null;function hC(e,n){if(Ci===null){var t=Ci=[];gc=0,Xt=rh(),_a={status:"pending",value:void 0,then:function(a){t.push(a)}}}return gc++,n.then(dd,dd),n}function dd(){if(--gc===0&&(ui=null,Ci!==null)){_a!==null&&(_a.status="fulfilled");var e=Ci;Ci=null,Xt=0,_a=null;for(var n=0;n<e.length;n++)(0,e[n])()}}function dC(e,n){var t=[],a={status:"pending",value:null,reason:null,then:function(i){t.push(i)}};return e.then(function(){a.status="fulfilled",a.value=n;for(var i=0;i<t.length;i++)(0,t[i])(n)},function(i){for(a.status="rejected",a.reason=i,i=0;i<t.length;i++)(0,t[i])(void 0)}),a}var ud=L.S;L.S=function(e,n){if(sp=en(),typeof n=="object"&&n!==null&&typeof n.then=="function"&&hC(e,n),ui!==null)for(var t=Ba;t!==null;)hd(t,ui),t=t.next;if(t=e.types,t!==null){for(var a=Ba;a!==null;)hd(a,t),a=a.next;if(Xt!==0){a=ui,a===null&&(a=ui=[]);for(var i=0;i<t.length;i++){var o=t[i];a.indexOf(o)===-1&&a.push(o)}}}ud!==null&&ud(e,n)};var Ht=Fn(null);function Dl(){var e=Ht.current;return e!==null?e:$.pooledCache}function Bo(e,n){n===null?ie(Ht,Ht.current):ie(Ht,n.pool)}function jm(){var e=Dl();return e===null?null:{parent:ue._currentValue,pool:e}}var Ka=Error(v(460)),Ol=Error(v(474)),zs=Error(v(542)),us={then:function(){}};function md(e){return e=e.status,e==="fulfilled"||e==="rejected"}function qm(e,n,t){switch(t=e[t],t===void 0?e.push(n):t!==n&&(n.then(Ln,Ln),n=t),n.status){case"fulfilled":return n.value;case"rejected":throw e=n.reason,pd(e),e===void 0&&!("reason"in n)?Error(v(600)):e;default:if(typeof n.status=="string")n.then(Ln,Ln);else{if(e=$,e!==null&&100<e.shellSuspendCounter)throw Error(v(482));e=n,e.status="pending",e.then(function(a){if(n.status==="pending"){var i=n;i.status="fulfilled",i.value=a}},function(a){if(n.status==="pending"){var i=n;i.status="rejected",i.reason=a}})}switch(n.status){case"fulfilled":return n.value;case"rejected":throw e=n.reason,pd(e),e}throw jt=n,Ka}}function Ft(e){try{var n=e._init;return n(e._payload)}catch(t){throw t!==null&&typeof t=="object"&&typeof t.then=="function"?(jt=t,Ka):t}}var jt=null;function gd(){if(jt===null)throw Error(v(459));var e=jt;return jt=null,e}function pd(e){if(e===Ka||e===zs)throw Error(v(483))}var Ma=null,Fi=0;function bo(e){var n=Fi;return Fi+=1,Ma===null&&(Ma=[]),qm(Ma,e,n)}function nt(e,n){n=n.props.ref,e.ref=n!==void 0?n:null}function vo(e,n){throw n.$$typeof===qw?Error(v(525)):(e=Object.prototype.toString.call(n),Error(v(31,e==="[object Object]"?"object with keys {"+Object.keys(n).join(", ")+"}":e)))}function Gm(e){function n(g,u){if(e){var w=g.deletions;w===null?(g.deletions=[u],g.flags|=16):w.push(u)}}function t(g,u){if(!e)return null;for(;u!==null;)n(g,u),u=u.sibling;return null}function a(g){for(var u=new Map;g!==null;)g.key===null?u.set(g.index,g):u.set(g.key,g),g=g.sibling;return u}function i(g,u){return g=Hn(g,u),g.index=0,g.sibling=null,g}function o(g,u,w){return g.index=w,e?(w=g.alternate,w!==null?(w=w.index,w<u?(g.flags|=2,u):w):(g.flags|=134217730,u)):(g.flags|=1048576,u)}function s(g){return e&&g.alternate===null&&(g.flags|=134217730),g}function r(g,u,w,C){return u===null||u.tag!==6?(u=vr(w,g.mode,C),u.return=g,u):(u=i(u,w),u.return=g,u)}function c(g,u,w,C){var S=w.type;return S===ma?(g=h(g,u,w.props.children,C,w.key),nt(g,w),g):u!==null&&(u.elementType===S||typeof S=="object"&&S!==null&&S.$$typeof===it&&Ft(S)===u.type)?(u=i(u,w.props),nt(u,w),u.return=g,u):(u=No(w.type,w.key,w.props,null,g.mode,C),nt(u,w),u.return=g,u)}function l(g,u,w,C){return u===null||u.tag!==4||u.stateNode.containerInfo!==w.containerInfo||u.stateNode.implementation!==w.implementation?(u=yr(w,g.mode,C),u.return=g,u):(u=i(u,w.children||[]),u.return=g,u)}function h(g,u,w,C,S){return u===null||u.tag!==7?(u=Bt(w,g.mode,C,S),u.return=g,u):(u=i(u,w),u.return=g,u)}function p(g,u,w){if(typeof u=="string"&&u!==""||typeof u=="number"||typeof u=="bigint")return u=vr(""+u,g.mode,w),u.return=g,u;if(typeof u=="object"&&u!==null){switch(u.$$typeof){case uo:return w=No(u.type,u.key,u.props,null,g.mode,w),nt(w,u),w.return=g,w;case li:return u=yr(u,g.mode,w),u.return=g,u;case it:return u=Ft(u),p(g,u,w)}if(hi(u)||ni(u))return u=Bt(u,g.mode,w,null),u.return=g,u;if(typeof u.then=="function")return p(g,bo(u),w);if(u.$$typeof===xn)return p(g,Co(g,u),w);vo(g,u)}return null}function d(g,u,w,C){var S=u!==null?u.key:null;if(typeof w=="string"&&w!==""||typeof w=="number"||typeof w=="bigint")return S!==null?null:r(g,u,""+w,C);if(typeof w=="object"&&w!==null){switch(w.$$typeof){case uo:return w.key===S?c(g,u,w,C):null;case li:return w.key===S?l(g,u,w,C):null;case it:return w=Ft(w),d(g,u,w,C)}if(hi(w)||ni(w))return S!==null?null:h(g,u,w,C,null);if(typeof w.then=="function")return d(g,u,bo(w),C);if(w.$$typeof===xn)return d(g,u,Co(g,w),C);vo(g,w)}return null}function m(g,u,w,C,S){if(typeof C=="string"&&C!==""||typeof C=="number"||typeof C=="bigint")return g=g.get(w)||null,r(u,g,""+C,S);if(typeof C=="object"&&C!==null){switch(C.$$typeof){case uo:return g=g.get(C.key===null?w:C.key)||null,c(u,g,C,S);case li:return g=g.get(C.key===null?w:C.key)||null,l(u,g,C,S);case it:return C=Ft(C),m(g,u,w,C,S)}if(hi(C)||ni(C))return g=g.get(w)||null,h(u,g,C,S,null);if(typeof C.then=="function")return m(g,u,w,bo(C),S);if(C.$$typeof===xn)return m(g,u,w,Co(u,C),S);vo(u,C)}return null}function f(g,u,w,C){for(var S=null,_=null,T=u,A=u=0,W=null;T!==null&&A<w.length;A++){T.index>A?(W=T,T=null):W=T.sibling;var M=d(g,T,w[A],C);if(M===null){T===null&&(T=W);break}e&&T&&M.alternate===null&&n(g,T),u=o(M,u,A),_===null?S=M:_.sibling=M,_=M,T=W}if(A===w.length)return t(g,T),F&&Vn(g,A),S;if(T===null){for(;A<w.length;A++)T=p(g,w[A],C),T!==null&&(u=o(T,u,A),_===null?S=T:_.sibling=T,_=T);return F&&Vn(g,A),S}for(T=a(T);A<w.length;A++)W=m(T,g,A,w[A],C),W!==null&&(e&&(M=W.alternate,M!==null&&T.delete(M.key===null?A:M.key)),u=o(W,u,A),_===null?S=W:_.sibling=W,_=W);return e&&T.forEach(function(q){return n(g,q)}),F&&Vn(g,A),S}function b(g,u,w,C){if(w==null)throw Error(v(151));for(var S=null,_=null,T=u,A=u=0,W=null,M=w.next();T!==null&&!M.done;A++,M=w.next()){T.index>A?(W=T,T=null):W=T.sibling;var q=d(g,T,M.value,C);if(q===null){T===null&&(T=W);break}e&&T&&q.alternate===null&&n(g,T),u=o(q,u,A),_===null?S=q:_.sibling=q,_=q,T=W}if(M.done)return t(g,T),F&&Vn(g,A),S;if(T===null){for(;!M.done;A++,M=w.next())M=p(g,M.value,C),M!==null&&(u=o(M,u,A),_===null?S=M:_.sibling=M,_=M);return F&&Vn(g,A),S}for(T=a(T);!M.done;A++,M=w.next())M=m(T,g,A,M.value,C),M!==null&&(e&&(W=M.alternate,W!==null&&T.delete(W.key===null?A:W.key)),u=o(M,u,A),_===null?S=M:_.sibling=M,_=M);return e&&T.forEach(function(ge){return n(g,ge)}),F&&Vn(g,A),S}function P(g,u,w,C){if(typeof w=="object"&&w!==null&&w.type===ma&&w.key===null&&w.props.ref===void 0&&(w=w.props.children),typeof w=="object"&&w!==null){switch(w.$$typeof){case uo:e:{for(var S=w.key;u!==null;){if(u.key===S){if(S=w.type,S===ma){if(u.tag===7){t(g,u.sibling),C=i(u,w.props.children),nt(C,w),C.return=g,g=C;break e}}else if(u.elementType===S||typeof S=="object"&&S!==null&&S.$$typeof===it&&Ft(S)===u.type){t(g,u.sibling),C=i(u,w.props),nt(C,w),C.return=g,g=C;break e}t(g,u);break}else n(g,u);u=u.sibling}w.type===ma?(C=Bt(w.props.children,g.mode,C,w.key),nt(C,w),C.return=g,g=C):(C=No(w.type,w.key,w.props,null,g.mode,C),nt(C,w),C.return=g,g=C)}return s(g);case li:e:{for(S=w.key;u!==null;){if(u.key===S)if(u.tag===4&&u.stateNode.containerInfo===w.containerInfo&&u.stateNode.implementation===w.implementation){t(g,u.sibling),C=i(u,w.children||[]),C.return=g,g=C;break e}else{t(g,u);break}else n(g,u);u=u.sibling}C=yr(w,g.mode,C),C.return=g,g=C}return s(g);case it:return w=Ft(w),P(g,u,w,C)}if(hi(w))return f(g,u,w,C);if(ni(w)){if(S=ni(w),typeof S!="function")throw Error(v(150));return w=S.call(w),b(g,u,w,C)}if(typeof w.then=="function")return P(g,u,bo(w),C);if(w.$$typeof===xn)return P(g,u,Co(g,w),C);vo(g,w)}return typeof w=="string"&&w!==""||typeof w=="number"||typeof w=="bigint"?(w=""+w,u!==null&&u.tag===6?(t(g,u.sibling),C=i(u,w),C.return=g,g=C):(t(g,u),C=vr(w,g.mode,C),C.return=g,g=C),s(g)):t(g,u)}return function(g,u,w,C){try{Fi=0;var S=P(g,u,w,C);return Ma=null,S}catch(T){if(T===Ka||T===zs)throw T;var _=He(29,T,null,g.mode);return _.lanes=C,_.return=g,_}finally{}}}var Qt=Gm(!0),Jm=Gm(!1),ot=!1;function Fl(e){e.updateQueue={baseState:e.memoizedState,firstBaseUpdate:null,lastBaseUpdate:null,shared:{pending:null,lanes:0,hiddenCallbacks:null},callbacks:null}}function pc(e,n){e=e.updateQueue,n.updateQueue===e&&(n.updateQueue={baseState:e.baseState,firstBaseUpdate:e.firstBaseUpdate,lastBaseUpdate:e.lastBaseUpdate,shared:e.shared,callbacks:null})}function pt(e){return{lane:e,tag:0,payload:null,callback:null,next:null}}function wt(e,n,t){var a=e.updateQueue;if(a===null)return null;if(a=a.shared,H&2){var i=a.pending;return i===null?n.next=n:(n.next=i.next,i.next=n),a.pending=n,n=cs(e),Rm(e,null,t),n}return Gs(e,a,n,t),cs(e)}function bi(e,n,t){if(n=n.updateQueue,n!==null&&(n=n.shared,(t&4194048)!==0)){var a=n.lanes;a&=e.pendingLanes,t|=a,n.lanes=t,lm(e,t)}}function Ar(e,n){var t=e.updateQueue,a=e.alternate;if(a!==null&&(a=a.updateQueue,t===a)){var i=null,o=null;if(t=t.firstBaseUpdate,t!==null){do{var s={lane:t.lane,tag:t.tag,payload:t.payload,callback:null,next:null};o===null?i=o=s:o=o.next=s,t=t.next}while(t!==null);o===null?i=o=n:o=o.next=n}else i=o=n;t={baseState:a.baseState,firstBaseUpdate:i,lastBaseUpdate:o,shared:a.shared,callbacks:a.callbacks},e.updateQueue=t;return}e=t.lastBaseUpdate,e===null?t.firstBaseUpdate=n:e.next=n,t.lastBaseUpdate=n}var wc=!1;function vi(){if(wc){var e=_a;if(e!==null)throw e}}function yi(e,n,t,a){wc=!1;var i=e.updateQueue;ot=!1;var o=i.firstBaseUpdate,s=i.lastBaseUpdate,r=i.shared.pending;if(r!==null){i.shared.pending=null;var c=r,l=c.next;c.next=null,s===null?o=l:s.next=l,s=c;var h=e.alternate;h!==null&&(h=h.updateQueue,r=h.lastBaseUpdate,r!==s&&(r===null?h.firstBaseUpdate=l:r.next=l,h.lastBaseUpdate=c))}if(o!==null){var p=i.baseState;s=0,h=l=c=null,r=o;do{var d=r.lane&-536870913,m=d!==r.lane;if(m?(V&d)===d:(a&d)===d){d!==0&&d===Xt&&(wc=!0),h!==null&&(h=h.next={lane:0,tag:r.tag,payload:r.payload,callback:null,next:null});e:{var f=e,b=r;d=n;var P=t;switch(b.tag){case 1:if(f=b.payload,typeof f=="function"){p=f.call(P,p,d);break e}p=f;break e;case 3:f.flags=f.flags&-65537|128;case 0:if(f=b.payload,d=typeof f=="function"?f.call(P,p,d):f,d==null)break e;p=ee({},p,d);break e;case 2:ot=!0}}d=r.callback,d!==null&&(e.flags|=64,m&&(e.flags|=8192),m=i.callbacks,m===null?i.callbacks=[d]:m.push(d))}else m={lane:d,tag:r.tag,payload:r.payload,callback:r.callback,next:null},h===null?(l=h=m,c=p):h=h.next=m,s|=d;if(r=r.next,r===null){if(r=i.shared.pending,r===null)break;m=r,r=m.next,m.next=null,i.lastBaseUpdate=m,i.shared.pending=null}}while(!0);h===null&&(c=p),i.baseState=c,i.firstBaseUpdate=l,i.lastBaseUpdate=h,o===null&&(i.shared.lanes=0),_t|=s,e.lanes=s,e.memoizedState=p}}function zm(e,n){if(typeof e!="function")throw Error(v(191,e));e.call(n)}function Xm(e,n){var t=e.callbacks;if(t!==null)for(e.callbacks=null,e=0;e<t.length;e++)zm(t[e],n)}var Tt=Fn(null),ms=Fn(0);function wd(e,n){e=Qn,ie(ms,e),ie(Tt,n),Qn=e|n.baseLanes}function fc(){ie(ms,Qn),ie(Tt,Tt.current)}function Rl(){Qn=ms.current,_e(Tt),_e(ms)}var Le=Fn(null),ke=null;function ft(e){var n=e.alternate;ie(Me,Me.current&1),ie(Le,e),ke===null&&(n===null||Tt.current!==null||n.memoizedState!==null)&&(ke=e)}function Cc(e){ie(Me,Me.current),ie(Le,e),ke===null&&(ke=e)}function Qm(e){e.tag===22?(ie(Me,Me.current),ie(Le,e),ke===null&&(ke=e)):Ct()}function Ct(){ie(Me,Me.current),ie(Le,Le.current)}function Ke(e){_e(Le),ke===e&&(ke=null),_e(Me)}var Me=Fn(0);function Ri(e,n){ie(Le,Le.current),ie(Me,n)}function Ul(e){_e(Me),_e(Le),ke===e&&(ke=null)}function gs(e){for(var n=e;n!==null;){if(n.tag===13){var t=n.memoizedState;if(t!==null&&(t=t.dehydrated,t===null||Zc(t)||dh(t)))return n}else if(n.tag===19&&n.memoizedProps.revealOrder!=="independent"){if(n.flags&128)return n}else if(n.child!==null){n.child.return=n,n=n.child;continue}if(n===e)break;for(;n.sibling===null;){if(n.return===null||n.return===e)return null;n=n.return}n.sibling.return=n.return,n=n.sibling}return null}var Jn=0,E=null,K=null,de=null,ps=!1,xa=!1,Kt=!1,ws=0,Ui=0,La=null,uC=0;function re(){throw Error(v(321))}function Nl(e,n){if(n===null)return!1;for(var t=0;t<n.length&&t<e.length;t++)if(!on(e[t],n[t]))return!1;return!0}function Vl(e,n,t,a,i,o){return Jn=o,E=n,n.memoizedState=null,n.updateQueue=null,n.lanes=0,L.H=e===null||e.memoizedState===null?Ig:_g,Kt=!1,o=t(a,i),Kt=!1,xa&&(o=Ym(n,t,a,i)),Km(e),o}function Km(e){L.H=fs;var n=K!==null&&K.next!==null;if(Jn=0,de=K=E=null,ps=!1,Ui=0,La=null,n)throw Error(v(300));e===null||me||(e=e.dependencies,e!==null&&ds(e)&&(me=!0))}function Ym(e,n,t,a){E=e;var i=0;do{if(xa&&(La=null),Ui=0,xa=!1,25<=i)throw Error(v(301));if(i+=1,de=K=null,e.updateQueue!=null){var o=e.updateQueue;o.lastEffect=null,o.events=null,o.stores=null,o.memoCache!=null&&(o.memoCache.index=0)}L.H=vC,o=n(t,a)}while(xa);return o}function mC(){var e=L.H,n=e.useState()[0];return n=typeof n.then=="function"?eo(n):n,e=e.useState()[0],(K!==null?K.memoizedState:null)!==e&&(E.flags|=1024),n}function Bl(){var e=ws!==0;return ws=0,e}function Hl(e,n,t){n.updateQueue=e.updateQueue,n.flags&=-2053,e.lanes&=~t}function jl(e){if(ps){for(e=e.memoizedState;e!==null;){var n=e.queue;n!==null&&(n.pending=null),e=e.next}ps=!1}Jn=0,de=K=E=null,xa=!1,Ui=ws=0,La=null}function Fe(){var e={memoizedState:null,baseState:null,baseQueue:null,queue:null,next:null};return de===null?E.memoizedState=de=e:de=de.next=e,de}function he(){if(K===null){var e=E.alternate;e=e!==null?e.memoizedState:null}else e=K.next;var n=de===null?E.memoizedState:de.next;if(n!==null)de=n,K=e;else{if(e===null)throw E.alternate===null?Error(v(467)):Error(v(310));K=e,e={memoizedState:K.memoizedState,baseState:K.baseState,baseQueue:K.baseQueue,queue:K.queue,next:null},de===null?E.memoizedState=de=e:de=de.next=e}return de}function Xs(){return{lastEffect:null,events:null,stores:null,memoCache:null}}function eo(e){var n=Ui;return Ui+=1,La===null&&(La=[]),e=qm(La,e,n),n=E,(de===null?n.memoizedState:de.next)===null&&(n=n.alternate,L.H=n===null||n.memoizedState===null?Ig:_g),e}function Qs(e){if(e!==null&&typeof e=="object"){if(typeof e.then=="function")return eo(e);if(e.$$typeof===zw)return;if(e.$$typeof===xn)return Ie(e)}throw Error(v(438,String(e)))}function ql(e){var n=null,t=E.updateQueue;if(t!==null&&(n=t.memoCache),n==null){var a=E.alternate;a!==null&&(a=a.updateQueue,a!==null&&(a=a.memoCache,a!=null&&(n={data:a.data.map(function(i){return i.slice()}),index:0})))}if(n==null&&(n={data:[],index:0}),t===null&&(t=Xs(),E.updateQueue=t),t.memoCache=n,t=n.data[n.index],t===void 0)for(t=n.data[n.index]=Array(e),a=0;a<e;a++)t[a]=Jw;return n.index++,t}function zn(e,n){return typeof n=="function"?n(e):n}function Ho(e){var n=he();return Gl(n,K,e)}function Gl(e,n,t){var a=e.queue;if(a===null)throw Error(v(311));a.lastRenderedReducer=t;var i=e.baseQueue,o=a.pending;if(o!==null){if(i!==null){var s=i.next;i.next=o.next,o.next=s}n.baseQueue=i=o,a.pending=null}if(o=e.baseState,i===null)e.memoizedState=o;else{n=i.next;var r=s=null,c=null,l=n,h=!1;do{var p=l.lane&-536870913;if(p!==l.lane?(V&p)===p:(Jn&p)===p){var d=l.revertLane;if(d===0)c!==null&&(c=c.next={lane:0,revertLane:0,gesture:null,action:l.action,hasEagerState:l.hasEagerState,eagerState:l.eagerState,next:null}),p===Xt&&(h=!0);else if((Jn&d)===d){l=l.next,d===Xt&&(h=!0);continue}else p={lane:0,revertLane:l.revertLane,gesture:null,action:l.action,hasEagerState:l.hasEagerState,eagerState:l.eagerState,next:null},c===null?(r=c=p,s=o):c=c.next=p,E.lanes|=d,_t|=d;p=l.action,Kt&&t(o,p),o=l.hasEagerState?l.eagerState:t(o,p)}else d={lane:p,revertLane:l.revertLane,gesture:l.gesture,action:l.action,hasEagerState:l.hasEagerState,eagerState:l.eagerState,next:null},c===null?(r=c=d,s=o):c=c.next=d,E.lanes|=p,_t|=p;l=l.next}while(l!==null&&l!==n);if(c===null?s=o:c.next=r,!on(o,e.memoizedState)&&(me=!0,h&&(t=_a,t!==null)))throw t;e.memoizedState=o,e.baseState=s,e.baseQueue=c,a.lastRenderedState=o}return i===null&&(a.lanes=0),[e.memoizedState,a.dispatch]}function Pr(e){var n=he(),t=n.queue;if(t===null)throw Error(v(311));t.lastRenderedReducer=e;var a=t.dispatch,i=t.pending,o=n.memoizedState;if(i!==null){t.pending=null;var s=i=i.next;do o=e(o,s.action),s=s.next;while(s!==i);on(o,n.memoizedState)||(me=!0),n.memoizedState=o,n.baseQueue===null&&(n.baseState=o),t.lastRenderedState=o}return[o,a]}function Zm(e,n,t){var a=E,i=he(),o=F;if(o){if(t===void 0)throw Error(v(407));t=t()}else t=n();var s=!on((K||i).memoizedState,t);if(s&&(i.memoizedState=t,me=!0),i=i.queue,Jl(ng.bind(null,a,i,e),[e]),e=i.getSnapshot!==n||s||de!==null&&(de.memoizedState.tag&1)!==0,Ra(e?9:8,{destroy:void 0},eg.bind(null,a,i,t,n),null),e){if(a.flags|=2048,$===null)throw Error(v(349));o||Jn&127||$m(a,n,t)}return t}function $m(e,n,t){e.flags|=16384,e={getSnapshot:n,value:t},n=E.updateQueue,n===null?(n=Xs(),E.updateQueue=n,n.stores=[e]):(t=n.stores,t===null?n.stores=[e]:t.push(e))}function eg(e,n,t,a){n.value=t,n.getSnapshot=a,tg(n)&&ag(e)}function ng(e,n,t){return t(function(){tg(n)&&ag(e)})}function tg(e){var n=e.getSnapshot;e=e.value;try{var t=n();return!on(e,t)}catch{return!0}}function ag(e){var n=aa(e,2);n!==null&&je(n,e,2)}function bc(e){var n=Fe();if(typeof e=="function"){var t=e;if(e=t(),Kt){rt(!0);try{t()}finally{rt(!1)}}}return n.memoizedState=n.baseState=e,n.queue={pending:null,lanes:0,dispatch:null,lastRenderedReducer:zn,lastRenderedState:e},n}function ig(e,n,t,a){return e.baseState=t,Gl(e,K,typeof a=="function"?a:zn)}function gC(e,n,t,a,i){if(Ys(e))throw Error(v(485));if(e=n.action,e!==null){var o={payload:i,action:e,next:null,isTransition:!0,status:"pending",value:null,reason:null,listeners:[],then:function(s){o.listeners.push(s)}};L.T!==null?t(!0):o.isTransition=!1,a(o),t=n.pending,t===null?(o.next=n.pending=o,og(n,o)):(o.next=t.next,n.pending=t.next=o)}}function og(e,n){var t=n.action,a=n.payload,i=e.state;if(n.isTransition){var o=L.T,s={};s.types=o!==null?o.types:null,L.T=s;try{var r=t(i,a),c=L.S;c!==null&&c(s,r),fd(e,n,r)}catch(l){vc(e,n,l)}finally{o!==null&&s.types!==null&&(o.types=s.types),L.T=o}}else try{o=t(i,a),fd(e,n,o)}catch(l){vc(e,n,l)}}function fd(e,n,t){t!==null&&typeof t=="object"&&typeof t.then=="function"?t.then(function(a){Cd(e,n,a)},function(a){return vc(e,n,a)}):Cd(e,n,t)}function Cd(e,n,t){n.status="fulfilled",n.value=t,sg(n),e.state=t,n=e.pending,n!==null&&(t=n.next,t===n?e.pending=null:(t=t.next,n.next=t,og(e,t)))}function vc(e,n,t){var a=e.pending;if(e.pending=null,a!==null){a=a.next;do n.status="rejected",n.reason=t,sg(n),n=n.next;while(n!==a)}e.action=null}function sg(e){e=e.listeners;for(var n=0;n<e.length;n++)(0,e[n])()}function rg(e,n){return n}function bd(e,n){if(F){var t=$.formState;if(t!==null){e:{var a=E;if(F){if(te){n:{for(var i=te,o=mn;i.nodeType!==8;){if(!o){i=null;break n}if(i=wn(i.nextSibling),i===null){i=null;break n}}o=i.data,i=o==="F!"||o==="F"?i:null}if(i){te=wn(i.nextSibling),a=i.data==="F!";break e}}Pt(a)}a=!1}a&&(n=t[0])}}return t=Fe(),t.memoizedState=t.baseState=n,a={pending:null,lanes:0,dispatch:null,lastRenderedReducer:rg,lastRenderedState:n},t.queue=a,t=Ag.bind(null,E,a),a.dispatch=t,a=bc(!1),o=Kl.bind(null,E,!1,a.queue),a=Fe(),i={state:n,dispatch:null,action:e,pending:null},a.queue=i,t=gC.bind(null,E,i,o,t),i.dispatch=t,a.memoizedState=e,[n,t,!1]}function vd(e){var n=he();return cg(n,K,e)}function cg(e,n,t){if(n=Gl(e,n,rg)[0],e=Ho(zn)[0],typeof n=="object"&&n!==null&&typeof n.then=="function")try{var a=eo(n)}catch(s){throw s===Ka?zs:s}else a=n;n=he();var i=n.queue,o=i.dispatch;return t!==n.memoizedState&&(E.flags|=2048,Ra(9,{destroy:void 0},pC.bind(null,i,t),null)),[a,o,e]}function pC(e,n){e.action=n}function yd(e){var n=he(),t=K;if(t!==null)return cg(n,t,e);he(),n=n.memoizedState,t=he();var a=t.queue.dispatch;return t.memoizedState=e,[n,a,!1]}function Ra(e,n,t,a){return e={tag:e,create:t,deps:a,inst:n,next:null},n=E.updateQueue,n===null&&(n=Xs(),E.updateQueue=n),t=n.lastEffect,t===null?n.lastEffect=e.next=e:(a=t.next,t.next=e,e.next=a,n.lastEffect=e),e}function lg(){return he().memoizedState}function jo(e,n,t,a){var i=Fe();E.flags|=e,i.memoizedState=Ra(1|n,{destroy:void 0},t,a===void 0?null:a)}function Ks(e,n,t,a){var i=he();a=a===void 0?null:a;var o=i.memoizedState.inst;K!==null&&a!==null&&Nl(a,K.memoizedState.deps)?i.memoizedState=Ra(n,o,t,a):(E.flags|=e,i.memoizedState=Ra(1|n,o,t,a))}function Sd(e,n){jo(8390656,8,e,n)}function Jl(e,n){Ks(2048,8,e,n)}function wC(e){E.flags|=4;var n=E.updateQueue;if(n===null)n=Xs(),E.updateQueue=n,n.events=[e];else{var t=n.events;t===null?n.events=[e]:t.push(e)}}function hg(e){var n=he().memoizedState;return wC({ref:n,nextImpl:e}),function(){if(H&2)throw Error(v(440));return n.impl.apply(void 0,arguments)}}function dg(e,n){return Ks(4,2,e,n)}function ug(e,n){return Ks(4,4,e,n)}function mg(e,n){if(typeof n=="function"){e=e();var t=n(e);return function(){typeof t=="function"?t():n(null)}}if(n!=null)return e=e(),n.current=e,function(){n.current=null}}function gg(e,n,t){t=t!=null?t.concat([e]):null,Ks(4,4,mg.bind(null,n,e),t)}function zl(){}function pg(e,n){var t=he();n=n===void 0?null:n;var a=t.memoizedState;return n!==null&&Nl(n,a[1])?a[0]:(t.memoizedState=[e,n],e)}function wg(e,n){var t=he();n=n===void 0?null:n;var a=t.memoizedState;if(n!==null&&Nl(n,a[1]))return a[0];if(a=e(),Kt){rt(!0);try{e()}finally{rt(!1)}}return t.memoizedState=[a,n],a}function Xl(e,n,t){return t===void 0||Jn&1073741824&&!(V&261930)?e.memoizedState=n:(e.memoizedState=t,e=cp(),E.lanes|=e,_t|=e,t)}function fg(e,n,t,a){return on(t,n)?t:Tt.current!==null?(e=Xl(e,t,a),on(e,n)||(me=!0),e):!(Jn&106)||Jn&1073741824&&!(V&261930)?(me=!0,e.memoizedState=t):(e=cp(),E.lanes|=e,_t|=e,n)}function Cg(e,n,t,a,i){var o=j.p;j.p=o!==0&&8>o?o:8;var s=L.T,r={};r.types=s!==null?s.types:null,L.T=r,Kl(e,!1,n,t);try{var c=i(),l=L.S;if(l!==null&&l(r,c),c!==null&&typeof c=="object"&&typeof c.then=="function"){var h=dC(c,a);Si(e,n,h,an(e))}else Si(e,n,a,an(e))}catch(p){Si(e,n,{then:function(){},status:"rejected",reason:p},an())}finally{j.p=o,s!==null&&r.types!==null&&(s.types=r.types),L.T=s}}function fC(){}function yc(e,n,t,a){if(e.tag!==5)throw Error(v(476));var i=bg(e).queue;Cg(e,i,n,Vt,t===null?fC:function(){return vg(e),t(a)})}function bg(e){var n=e.memoizedState;if(n!==null)return n;n={memoizedState:Vt,baseState:Vt,baseQueue:null,queue:{pending:null,lanes:0,dispatch:null,lastRenderedReducer:zn,lastRenderedState:Vt},next:null};var t={};return n.next={memoizedState:t,baseState:t,baseQueue:null,queue:{pending:null,lanes:0,dispatch:null,lastRenderedReducer:zn,lastRenderedState:t},next:null},e.memoizedState=n,e=e.alternate,e!==null&&(e.memoizedState=n),n}function vg(e){var n=bg(e);n.next===null&&(n=e.alternate.memoizedState),Si(e,n.next.queue,{},an())}function Ql(){return Ie(qa)}function yg(){return he().memoizedState}function Sg(){return he().memoizedState}function CC(e){for(var n=e.return;n!==null;){switch(n.tag){case 24:case 3:var t=an();e=pt(t);var a=wt(n,e,t);a!==null&&(je(a,n,t),bi(a,n,t)),n={cache:El()},e.payload=n;return}n=n.return}}function bC(e,n,t){var a=an();t={lane:a,revertLane:0,gesture:null,action:t,hasEagerState:!1,eagerState:null,next:null},Ys(e)?Pg(n,t):(t=Ll(e,n,t,a),t!==null&&(je(t,e,a),Tg(t,n,a)))}function Ag(e,n,t){var a=an();Si(e,n,t,a)}function Si(e,n,t,a){var i={lane:a,revertLane:0,gesture:null,action:t,hasEagerState:!1,eagerState:null,next:null};if(Ys(e))Pg(n,i);else{var o=e.alternate;if(e.lanes===0&&(o===null||o.lanes===0)&&(o=n.lastRenderedReducer,o!==null))try{var s=n.lastRenderedState,r=o(s,t);if(i.hasEagerState=!0,i.eagerState=r,on(r,s))return Gs(e,n,i,0),$===null&&qs(),!1}catch{}finally{}if(t=Ll(e,n,i,a),t!==null)return je(t,e,a),Tg(t,n,a),!0}return!1}function Kl(e,n,t,a){if(a={lane:2,revertLane:rh(),gesture:null,action:a,hasEagerState:!1,eagerState:null,next:null},Ys(e)){if(n)throw Error(v(479))}else n=Ll(e,t,a,2),n!==null&&je(n,e,2)}function Ys(e){var n=e.alternate;return e===E||n!==null&&n===E}function Pg(e,n){xa=ps=!0;var t=e.pending;t===null?n.next=n:(n.next=t.next,t.next=n),e.pending=n}function Tg(e,n,t){if(t&4194048){var a=n.lanes;a&=e.pendingLanes,t|=a,n.lanes=t,lm(e,t)}}var fs={readContext:Ie,use:Qs,useCallback:re,useContext:re,useEffect:re,useImperativeHandle:re,useLayoutEffect:re,useInsertionEffect:re,useMemo:re,useReducer:re,useRef:re,useState:re,useDebugValue:re,useDeferredValue:re,useTransition:re,useSyncExternalStore:re,useId:re,useHostTransitionStatus:re,useFormState:re,useActionState:re,useOptimistic:re,useMemoCache:re,useCacheRefresh:re,useEffectEvent:re},Ig={readContext:Ie,use:Qs,useCallback:function(e,n){return Fe().memoizedState=[e,n===void 0?null:n],e},useContext:Ie,useEffect:Sd,useImperativeHandle:function(e,n,t){t=t!=null?t.concat([e]):null,jo(4194308,4,mg.bind(null,n,e),t)},useLayoutEffect:function(e,n){return jo(4194308,4,e,n)},useInsertionEffect:function(e,n){jo(4,2,e,n)},useMemo:function(e,n){var t=Fe();n=n===void 0?null:n;var a=e();if(Kt){rt(!0);try{e()}finally{rt(!1)}}return t.memoizedState=[a,n],a},useReducer:function(e,n,t){var a=Fe();if(t!==void 0){var i=t(n);if(Kt){rt(!0);try{t(n)}finally{rt(!1)}}}else i=n;return a.memoizedState=a.baseState=i,e={pending:null,lanes:0,dispatch:null,lastRenderedReducer:e,lastRenderedState:i},a.queue=e,e=e.dispatch=bC.bind(null,E,e),[a.memoizedState,e]},useRef:function(e){var n=Fe();return e={current:e},n.memoizedState=e},useState:function(e){e=bc(e);var n=e.queue,t=Ag.bind(null,E,n);return n.dispatch=t,[e.memoizedState,t]},useDebugValue:zl,useDeferredValue:function(e,n){var t=Fe();return Xl(t,e,n)},useTransition:function(){var e=bc(!1);return e=Cg.bind(null,E,e.queue,!0,!1),Fe().memoizedState=e,[!1,e]},useSyncExternalStore:function(e,n,t){var a=E,i=Fe();if(F){if(t===void 0)throw Error(v(407));t=t()}else{if(t=n(),$===null)throw Error(v(349));V&127||$m(a,n,t)}i.memoizedState=t;var o={value:t,getSnapshot:n};return i.queue=o,Sd(ng.bind(null,a,o,e),[e]),a.flags|=2048,Ra(9,{destroy:void 0},eg.bind(null,a,o,t,n),null),t},useId:function(){var e=Fe(),n=$.identifierPrefix;if(F){var t=kn,a=Wn;t=(a&~(1<<32-tn(a)-1)).toString(32)+t,n="_"+n+"R_"+t,t=ws++,0<t&&(n+="H"+t.toString(32)),n+="_"}else t=uC++,n="_"+n+"r_"+t.toString(32)+"_";return e.memoizedState=n},useHostTransitionStatus:Ql,useFormState:bd,useActionState:bd,useOptimistic:function(e){var n=Fe();n.memoizedState=n.baseState=e;var t={pending:null,lanes:0,dispatch:null,lastRenderedReducer:null,lastRenderedState:null};return n.queue=t,n=Kl.bind(null,E,!0,t),t.dispatch=n,[e,n]},useMemoCache:ql,useCacheRefresh:function(){return Fe().memoizedState=CC.bind(null,E)},useEffectEvent:function(e){var n=Fe(),t={impl:e};return n.memoizedState=t,function(){if(H&2)throw Error(v(440));return t.impl.apply(void 0,arguments)}}},_g={readContext:Ie,use:Qs,useCallback:pg,useContext:Ie,useEffect:Jl,useImperativeHandle:gg,useInsertionEffect:dg,useLayoutEffect:ug,useMemo:wg,useReducer:Ho,useRef:lg,useState:function(){return Ho(zn)},useDebugValue:zl,useDeferredValue:function(e,n){var t=he();return fg(t,K.memoizedState,e,n)},useTransition:function(){var e=Ho(zn)[0],n=he().memoizedState;return[typeof e=="boolean"?e:eo(e),n]},useSyncExternalStore:Zm,useId:yg,useHostTransitionStatus:Ql,useFormState:vd,useActionState:vd,useOptimistic:function(e,n){var t=he();return ig(t,K,e,n)},useMemoCache:ql,useCacheRefresh:Sg,useEffectEvent:hg},vC={readContext:Ie,use:Qs,useCallback:pg,useContext:Ie,useEffect:Jl,useImperativeHandle:gg,useInsertionEffect:dg,useLayoutEffect:ug,useMemo:wg,useReducer:Pr,useRef:lg,useState:function(){return Pr(zn)},useDebugValue:zl,useDeferredValue:function(e,n){var t=he();return K===null?Xl(t,e,n):fg(t,K.memoizedState,e,n)},useTransition:function(){var e=Pr(zn)[0],n=he().memoizedState;return[typeof e=="boolean"?e:eo(e),n]},useSyncExternalStore:Zm,useId:yg,useHostTransitionStatus:Ql,useFormState:yd,useActionState:yd,useOptimistic:function(e,n){var t=he();return K!==null?ig(t,K,e,n):(t.baseState=e,[e,t.queue.dispatch])},useMemoCache:ql,useCacheRefresh:Sg,useEffectEvent:hg};function Tr(e,n,t,a){n=e.memoizedState,t=t(a,n),t=t==null?n:ee({},n,t),e.memoizedState=t,e.lanes===0&&(e.updateQueue.baseState=t)}var Sc={enqueueSetState:function(e,n,t){e=e._reactInternals;var a=an(),i=pt(a);i.payload=n,t!=null&&(i.callback=t),n=wt(e,i,a),n!==null&&(je(n,e,a),bi(n,e,a))},enqueueReplaceState:function(e,n,t){e=e._reactInternals;var a=an(),i=pt(a);i.tag=1,i.payload=n,t!=null&&(i.callback=t),n=wt(e,i,a),n!==null&&(je(n,e,a),bi(n,e,a))},enqueueForceUpdate:function(e,n){e=e._reactInternals;var t=an(),a=pt(t);a.tag=2,n!=null&&(a.callback=n),n=wt(e,a,t),n!==null&&(je(n,e,t),bi(n,e,t))}};function Ad(e,n,t,a,i,o,s){return e=e.stateNode,typeof e.shouldComponentUpdate=="function"?e.shouldComponentUpdate(a,o,s):n.prototype&&n.prototype.isPureReactComponent?!Ei(t,a)||!Ei(i,o):!0}function Pd(e,n,t,a){e=n.state,typeof n.componentWillReceiveProps=="function"&&n.componentWillReceiveProps(t,a),typeof n.UNSAFE_componentWillReceiveProps=="function"&&n.UNSAFE_componentWillReceiveProps(t,a),n.state!==e&&Sc.enqueueReplaceState(n,n.state,null)}function Yt(e,n){var t=n;if("ref"in n){t={};for(var a in n)a!=="ref"&&(t[a]=n[a])}if(e=e.defaultProps){t===n&&(t=ee({},t));for(var i in e)t[i]===void 0&&(t[i]=e[i])}return t}function Mg(e){rs(e)}function xg(e){console.error(e)}function Lg(e){rs(e)}function Cs(e,n){try{var t=e.onUncaughtError;t(n.value,{componentStack:n.stack})}catch(a){setTimeout(function(){throw a})}}function Td(e,n,t){try{var a=e.onCaughtError;a(t.value,{componentStack:t.stack,errorBoundary:n.tag===1?n.stateNode:null})}catch(i){setTimeout(function(){throw i})}}function Ac(e,n,t){return t=pt(t),t.tag=3,t.payload={element:null},t.callback=function(){Cs(e,n)},t}function Wg(e){return e=pt(e),e.tag=3,e}function kg(e,n,t,a){var i=t.type.getDerivedStateFromError;if(typeof i=="function"){var o=a.value;e.payload=function(){return i(o)},e.callback=function(){Td(n,t,a)}}var s=t.stateNode;s!==null&&typeof s.componentDidCatch=="function"&&(e.callback=function(){Td(n,t,a),typeof i!="function"&&(bt===null?bt=new Set([this]):bt.add(this));var r=a.stack;this.componentDidCatch(a.value,{componentStack:r!==null?r:""})})}function yC(e,n,t,a,i){if(t.flags|=32768,a!==null&&typeof a=="object"&&typeof a.then=="function"){if(n=t.alternate,n!==null&&Jt(n,t,i,!0),t=Le.current,t!==null){switch(t.tag){case 31:case 13:case 19:return ke===null?Is():t.alternate===null&&ce===0&&(ce=3),t.flags&=-257,t.flags|=65536,t.lanes=i,a===us?t.flags|=16384:(n=t.updateQueue,n===null?t.updateQueue=new Set([a]):n.add(a),kr(e,a,i)),!1;case 22:return t.flags|=65536,a===us?t.flags|=16384:(n=t.updateQueue,n===null?(n={transitions:null,markerInstances:null,retryQueue:new Set([a])},t.updateQueue=n):(t=n.retryQueue,t===null?n.retryQueue=new Set([a]):t.add(a)),kr(e,a,i)),!1}throw Error(v(435,t.tag))}return kr(e,a,i),Is(),!1}if(F)return n=Le.current,n!==null?(!(n.flags&65536)&&(n.flags|=256),n.flags|=65536,n.lanes=i,a!==dc&&(e=Error(v(422),{cause:a}),Oi(un(e,t)))):(a!==dc&&(n=Error(v(423),{cause:a}),Oi(un(n,t))),e=e.current.alternate,e.flags|=65536,i&=-i,e.lanes|=i,a=un(a,t),i=Ac(e.stateNode,a,i),Ar(e,i),ce!==4&&(ce=2)),!1;var o=Error(v(520),{cause:a});if(o=un(o,t),Ii===null?Ii=[o]:Ii.push(o),ce!==4&&(ce=2),n===null)return!0;a=un(a,t),t=n;do{switch(t.tag){case 3:return t.flags|=65536,e=i&-i,t.lanes|=e,e=Ac(t.stateNode,a,e),Ar(t,e),!1;case 1:if(n=t.type,o=t.stateNode,!(t.flags&128)&&(typeof n.getDerivedStateFromError=="function"||o!==null&&typeof o.componentDidCatch=="function"&&(bt===null||!bt.has(o))))return t.flags|=65536,i&=-i,t.lanes|=i,i=Wg(i),kg(i,e,t,a),Ar(t,i),!1;break;case 22:if(t.memoizedState!==null)return t.flags|=65536,!1}t=t.return}while(t!==null);return!1}var Yl=Error(v(461)),me=!1;function pe(e,n,t,a){n.child=e===null?Jm(n,null,t,a):Qt(n,e.child,t,a)}function Id(e,n,t,a,i){t=t.render;var o=n.ref;if("ref"in a){var s={};for(var r in a)r!=="ref"&&(s[r]=a[r])}else s=a;return zt(n),a=Vl(e,n,t,s,o,i),r=Bl(),e!==null&&!me?(Hl(e,n,i),Xn(e,n,i)):(F&&r&&Js(n),n.flags|=1,pe(e,n,a,i),n.child)}function _d(e,n,t,a,i){if(e===null){var o=t.type;return typeof o=="function"&&!Wl(o)&&o.defaultProps===void 0&&t.compare===null?(n.tag=15,n.type=o,Eg(e,n,o,a,i)):(e=No(t.type,null,a,n,n.mode,i),e.ref=n.ref,e.return=n,n.child=e)}if(o=e.child,!$l(e,i)){var s=o.memoizedProps;if(t=t.compare,t=t!==null?t:Ei,t(s,a)&&e.ref===n.ref)return Xn(e,n,i)}return n.flags|=1,e=Hn(o,a),e.ref=n.ref,e.return=n,n.child=e}function Eg(e,n,t,a,i){if(e!==null){var o=e.memoizedProps;if(Ei(o,a)&&e.ref===n.ref)if(me=!1,n.pendingProps=a=o,$l(e,i))e.flags&131072&&(me=!0);else return n.lanes=e.lanes,Xn(e,n,i)}return Pc(e,n,t,a,i)}function Dg(e,n,t,a){var i=a.children,o=e!==null?e.memoizedState:null;if(e===null&&n.stateNode===null&&(n.stateNode={_visibility:1,_pendingMarkers:null,_retryCache:null,_transitions:null}),a.mode==="hidden"){if(n.flags&128){if(o=o!==null?o.baseLanes|t:t,e!==null){for(a=n.child=e.child,i=0;a!==null;)i=i|a.lanes|a.childLanes,a=a.sibling;a=i&~o}else a=0,n.child=null;return Md(e,n,o,t,a)}if(t&536870912)n.memoizedState={baseLanes:0,cachePool:null},e!==null&&Bo(n,o!==null?o.cachePool:null),o!==null?wd(n,o):fc(),Qm(n);else return a=n.lanes=536870912,Md(e,n,o!==null?o.baseLanes|t:t,t,a)}else o!==null?(Bo(n,o.cachePool),wd(n,o),Ct(),n.memoizedState=null):(e!==null&&Bo(n,null),fc(),Ct());return pe(e,n,i,t),n.child}function Ai(e,n){return e!==null&&e.tag===22||n.stateNode!==null||(n.stateNode={_visibility:1,_pendingMarkers:null,_retryCache:null,_transitions:null}),n.sibling}function Md(e,n,t,a,i){var o=Dl();return o=o===null?null:{parent:ue._currentValue,pool:o},n.memoizedState={baseLanes:t,cachePool:o},e!==null&&Bo(n,null),fc(),Qm(n),e!==null&&Jt(e,n,a,!0),n.childLanes=i,null}function qo(e,n){return n=Zs({mode:n.mode,children:n.children},e.mode),n.ref=e.ref,e.child=n,n.return=e,n}function xd(e,n,t){return Qt(n,e.child,null,t),e=qo(n,n.pendingProps),e.flags|=2,Ke(n),n.memoizedState=null,e}function SC(e,n,t){var a=n.pendingProps,i=(n.flags&128)!==0;if(n.flags&=-129,e===null){if(F){if(a.mode==="hidden")return e=qo(n,a),n.lanes=536870912,e.memoizedState={baseLanes:0,cachePool:null},Ai(null,e);if(Cc(n),(e=te)?(e=Ep(e,mn),e=e!==null&&e.data==="&"?e:null,e!==null&&(n.memoizedState={dehydrated:e,treeContext:At!==null?{id:Wn,overflow:kn}:null,retryLane:536870912,hydrationErrors:null},t=Nm(e),t.return=n,n.child=t,Se=n,te=null)):e=null,e===null)throw Pt(n);return n.lanes=536870912,null}return qo(n,a)}var o=e.memoizedState;if(o!==null){var s=o.dehydrated;if(Cc(n),i)if(n.flags&256)n.flags&=-257,n=xd(e,n,t);else if(n.memoizedState!==null)n.child=e.child,n.flags|=128,n=null;else throw Error(v(558));else if(me||Jt(e,n,t,!1),i=(t&e.childLanes)!==0,me||i){if(Tt.current===null){if(a=$,a!==null&&(s=hm(a,t),s!==0&&s!==o.retryLane))throw o.retryLane=s,aa(e,s),je(a,e,s),Yl;Is()}n=xd(e,n,t)}else e=o.treeContext,te=wn(s.nextSibling),Se=n,F=!0,gt=null,mn=!1,e!==null&&Bm(n,e),n=qo(n,a),n.flags|=134221824;return n}return e=Hn(e.child,{mode:a.mode,children:a.children}),e.ref=n.ref,n.child=e,e.return=n,e}function la(e,n){var t=n.ref;if(t===null)e!==null&&e.ref!==null&&(n.flags|=4194816);else{if(typeof t!="function"&&typeof t!="object")throw Error(v(284));(e===null||e.ref!==t)&&(n.flags|=4194816)}}function Pc(e,n,t,a,i){return zt(n),t=Vl(e,n,t,a,void 0,i),a=Bl(),e!==null&&!me?(Hl(e,n,i),Xn(e,n,i)):(F&&a&&Js(n),n.flags|=1,pe(e,n,t,i),n.child)}function Ld(e,n,t,a,i,o){return zt(n),n.updateQueue=null,t=Ym(n,a,t,i),Km(e),a=Bl(),e!==null&&!me?(Hl(e,n,o),Xn(e,n,o)):(F&&a&&Js(n),n.flags|=1,pe(e,n,t,o),n.child)}function Wd(e,n,t,a,i){if(zt(n),n.stateNode===null){var o=va,s=t.contextType;typeof s=="object"&&s!==null&&(o=Ie(s)),o=new t(a,o),n.memoizedState=o.state!==null&&o.state!==void 0?o.state:null,o.updater=Sc,n.stateNode=o,o._reactInternals=n,o=n.stateNode,o.props=a,o.state=n.memoizedState,o.refs={},Fl(n),s=t.contextType,o.context=typeof s=="object"&&s!==null?Ie(s):va,o.state=n.memoizedState,s=t.getDerivedStateFromProps,typeof s=="function"&&(Tr(n,t,s,a),o.state=n.memoizedState),typeof t.getDerivedStateFromProps=="function"||typeof o.getSnapshotBeforeUpdate=="function"||typeof o.UNSAFE_componentWillMount!="function"&&typeof o.componentWillMount!="function"||(s=o.state,typeof o.componentWillMount=="function"&&o.componentWillMount(),typeof o.UNSAFE_componentWillMount=="function"&&o.UNSAFE_componentWillMount(),s!==o.state&&Sc.enqueueReplaceState(o,o.state,null),yi(n,a,o,i),vi(),o.state=n.memoizedState),typeof o.componentDidMount=="function"&&(n.flags|=4194308),a=!0}else if(e===null){o=n.stateNode;var r=n.memoizedProps,c=Yt(t,r);o.props=c;var l=o.context,h=t.contextType;s=va,typeof h=="object"&&h!==null&&(s=Ie(h));var p=t.getDerivedStateFromProps;h=typeof p=="function"||typeof o.getSnapshotBeforeUpdate=="function",r=n.pendingProps!==r,h||typeof o.UNSAFE_componentWillReceiveProps!="function"&&typeof o.componentWillReceiveProps!="function"||(r||l!==s)&&Pd(n,o,a,s),ot=!1;var d=n.memoizedState;o.state=d,yi(n,a,o,i),vi(),l=n.memoizedState,r||d!==l||ot?(typeof p=="function"&&(Tr(n,t,p,a),l=n.memoizedState),(c=ot||Ad(n,t,c,a,d,l,s))?(h||typeof o.UNSAFE_componentWillMount!="function"&&typeof o.componentWillMount!="function"||(typeof o.componentWillMount=="function"&&o.componentWillMount(),typeof o.UNSAFE_componentWillMount=="function"&&o.UNSAFE_componentWillMount()),typeof o.componentDidMount=="function"&&(n.flags|=4194308)):(typeof o.componentDidMount=="function"&&(n.flags|=4194308),n.memoizedProps=a,n.memoizedState=l),o.props=a,o.state=l,o.context=s,a=c):(typeof o.componentDidMount=="function"&&(n.flags|=4194308),a=!1)}else{o=n.stateNode,pc(e,n),s=n.memoizedProps,h=Yt(t,s),o.props=h,p=n.pendingProps,d=o.context,l=t.contextType,c=va,typeof l=="object"&&l!==null&&(c=Ie(l)),r=t.getDerivedStateFromProps,(l=typeof r=="function"||typeof o.getSnapshotBeforeUpdate=="function")||typeof o.UNSAFE_componentWillReceiveProps!="function"&&typeof o.componentWillReceiveProps!="function"||(s!==p||d!==c)&&Pd(n,o,a,c),ot=!1,d=n.memoizedState,o.state=d,yi(n,a,o,i),vi();var m=n.memoizedState;s!==p||d!==m||ot||e!==null&&e.dependencies!==null&&ds(e.dependencies)?(typeof r=="function"&&(Tr(n,t,r,a),m=n.memoizedState),(h=ot||Ad(n,t,h,a,d,m,c)||e!==null&&e.dependencies!==null&&ds(e.dependencies))?(l||typeof o.UNSAFE_componentWillUpdate!="function"&&typeof o.componentWillUpdate!="function"||(typeof o.componentWillUpdate=="function"&&o.componentWillUpdate(a,m,c),typeof o.UNSAFE_componentWillUpdate=="function"&&o.UNSAFE_componentWillUpdate(a,m,c)),typeof o.componentDidUpdate=="function"&&(n.flags|=4),typeof o.getSnapshotBeforeUpdate=="function"&&(n.flags|=1024)):(typeof o.componentDidUpdate!="function"||s===e.memoizedProps&&d===e.memoizedState||(n.flags|=4),typeof o.getSnapshotBeforeUpdate!="function"||s===e.memoizedProps&&d===e.memoizedState||(n.flags|=1024),n.memoizedProps=a,n.memoizedState=m),o.props=a,o.state=m,o.context=c,a=h):(typeof o.componentDidUpdate!="function"||s===e.memoizedProps&&d===e.memoizedState||(n.flags|=4),typeof o.getSnapshotBeforeUpdate!="function"||s===e.memoizedProps&&d===e.memoizedState||(n.flags|=1024),a=!1)}return o=a,la(e,n),a=(n.flags&128)!==0,o||a?(o=n.stateNode,t=a&&typeof t.getDerivedStateFromError!="function"?null:o.render(),n.flags|=1,e!==null&&a?(n.child=Qt(n,e.child,null,i),n.child=Qt(n,null,t,i)):pe(e,n,t,i),n.memoizedState=o.state,e=n.child):e=Xn(e,n,i),e}function kd(e,n,t,a){return Gt(),n.flags|=256,pe(e,n,t,a),n.child}var Tc={dehydrated:null,treeContext:null,retryLane:0,hydrationErrors:null};function Ic(e){return{baseLanes:e,cachePool:jm()}}function _c(e,n,t){return e=e!==null?e.childLanes&~t:0,n&&(e|=$e),e}function Og(e,n,t){var a=n.pendingProps,i=!1,o=(n.flags&128)!==0,s;if((s=o)||(s=e!==null&&e.memoizedState===null?!1:(Me.current&2)!==0),s&&(i=!0,n.flags&=-129),s=(n.flags&32)!==0,n.flags&=-33,e===null){if(F){if(i?ft(n):Ct(),(e=te)?(e=Ep(e,mn),e=e!==null&&e.data!=="&"?e:null,e!==null&&(n.memoizedState={dehydrated:e,treeContext:At!==null?{id:Wn,overflow:kn}:null,retryLane:536870912,hydrationErrors:null},t=Nm(e),t.return=n,n.child=t,Se=n,te=null)):e=null,e===null)throw Pt(n);return dh(e)?n.lanes=32:n.lanes=536870912,null}return o=a.children,a=a.fallback,i?(Ct(),i=n.mode,o=Zs({mode:"hidden",children:o},i),a=Bt(a,i,t,null),o.return=n,a.return=n,o.sibling=a,n.child=o,a=n.child,a.memoizedState=Ic(t),a.childLanes=_c(e,s,t),n.memoizedState=Tc,Ai(null,a)):(ft(n),Zl(n,o))}var r=e.memoizedState;if(r!==null){var c=r.dehydrated;if(c!==null)return AC(e,n,o,s,a,c,r,t)}return i?(Ct(),i=a.fallback,o=n.mode,r=e.child,c=r.sibling,a=Hn(r,{mode:"hidden",children:a.children}),a.subtreeFlags=r.subtreeFlags&1206910976,c!==null?i=Hn(c,i):(i=Bt(i,o,t,null),i.flags|=2),i.return=n,a.return=n,a.sibling=i,n.child=a,Ai(null,a),a=n.child,i=e.child.memoizedState,i===null?i=Ic(t):(o=i.cachePool,o!==null?(r=ue._currentValue,o=o.parent!==r?{parent:r,pool:r}:o):o=jm(),i={baseLanes:i.baseLanes|t,cachePool:o}),a.memoizedState=i,a.childLanes=_c(e,s,t),n.memoizedState=Tc,Ai(e.child,a)):(ft(n),t=e.child,e=t.sibling,t=Hn(t,{mode:"visible",children:a.children}),t.return=n,t.sibling=null,e!==null&&(s=n.deletions,s===null?(n.deletions=[e],n.flags|=16):s.push(e)),n.child=t,n.memoizedState=null,t)}function Zl(e,n){return n=Zs({mode:"visible",children:n},e.mode),n.return=e,e.child=n}function Zs(e,n){return e=He(22,e,null,n),e.lanes=0,e}function yo(e,n,t){return Qt(n,e.child,null,t),e=Zl(n,n.pendingProps.children),e.flags|=2,n.memoizedState=null,e}function AC(e,n,t,a,i,o,s,r){if(t)return n.flags&256?(ft(n),n.flags&=-257,yo(e,n,r)):n.memoizedState!==null?(Ct(),n.child=e.child,n.flags|=128,null):(Ct(),o=i.fallback,s=n.mode,i=Zs({mode:"visible",children:i.children},s),o=Bt(o,s,r,null),o.flags|=2,i.return=n,o.return=n,i.sibling=o,n.child=i,Qt(n,e.child,null,r),i=n.child,i.memoizedState=Ic(r),i.childLanes=_c(e,a,r),n.memoizedState=Tc,Ai(null,i));if(ft(n),dh(o)){if(a=o.nextSibling&&o.nextSibling.dataset,a)var c=a.dgst;return a=c,a!==""&&(i=Error(v(419)),i.stack="",i.digest=a,Oi({value:i,source:null,stack:null})),yo(e,n,r)}if(me||Jt(e,n,r,!1),a=(r&e.childLanes)!==0,me||a){if(Tt.current!==null)return yo(e,n,r);if(a=$,a!==null&&(i=hm(a,r),i!==0&&i!==s.retryLane))throw s.retryLane=i,aa(e,i),je(a,e,i),Yl;return Zc(o)||Is(),yo(e,n,r)}return Zc(o)?(n.flags|=192,n.child=e.child,null):(e=s.treeContext,te=wn(o.nextSibling),Se=n,F=!0,gt=null,mn=!1,e!==null&&Bm(n,e),n=Zl(n,i.children),n.flags|=134221824,n)}function Ed(e,n,t){e.lanes|=n;var a=e.alternate;a!==null&&(a.lanes|=n),Vo(e.return,n,t)}function Dd(e){for(var n=null;e!==null;){var t=e.alternate;t!==null&&gs(t)===null&&(n=e),e=e.sibling}return n}function So(e,n,t,a,i,o){var s=e.memoizedState;s===null?e.memoizedState={isBackwards:n,rendering:null,renderingStartTime:0,last:a,tail:t,tailMode:i,treeForkCount:o}:(s.isBackwards=n,s.rendering=null,s.renderingStartTime=0,s.last=a,s.tail=t,s.tailMode=i,s.treeForkCount=o)}function Ir(e){var n=e.child;for(e.child=null;n!==null;){var t=n.sibling;n.sibling=e.child,e.child=n,n=t}}function Mc(e,n,t){var a=n.pendingProps,i=a.revealOrder,o=a.tail;a=a.children;var s=Me.current;if(n.flags&128)return Ri(n,s),null;var r=(s&2)!==0;if(r?(s=s&1|2,n.flags|=128):s&=1,Ri(n,s),i==="backwards"&&e!==null?(Ir(e),pe(e,n,a,t),Ir(e)):pe(e,n,a,t),a=F?Di:0,!r&&e!==null&&e.flags&128)e:for(e=n.child;e!==null;){if(e.tag===13)e.memoizedState!==null&&Ed(e,t,n);else if(e.tag===19)Ed(e,t,n);else if(e.child!==null){e.child.return=e,e=e.child;continue}if(e===n)break e;for(;e.sibling===null;){if(e.return===null||e.return===n)break e;e=e.return}e.sibling.return=e.return,e=e.sibling}switch(i){case"backwards":t=Dd(n.child),t===null?(i=n.child,n.child=null):(i=t.sibling,t.sibling=null,Ir(n)),So(n,!0,i,null,o,a);break;case"unstable_legacy-backwards":for(t=null,i=n.child,n.child=null;i!==null;){if(e=i.alternate,e!==null&&gs(e)===null){n.child=i;break}e=i.sibling,i.sibling=t,t=i,i=e}So(n,!0,t,null,o,a);break;case"together":So(n,!1,null,null,void 0,a);break;case"independent":n.memoizedState=null;break;default:t=Dd(n.child),t===null?(i=n.child,n.child=null):(i=t.sibling,t.sibling=null),So(n,!1,i,t,o,a)}return n.child}function Od(e,n,t){var a=n.pendingProps;return lt(n,n.type,a.value),pe(e,n,a.children,t),n.child}function Xn(e,n,t){if(e!==null&&(n.dependencies=e.dependencies),_t|=n.lanes,!(t&n.childLanes))if(e!==null){if(Jt(e,n,t,!1),(t&n.childLanes)===0)return null}else return null;if(e!==null&&n.child!==e.child)throw Error(v(153));if(n.child!==null){for(e=n.child,t=Hn(e,e.pendingProps),n.child=t,t.return=n;e.sibling!==null;)e=e.sibling,t=t.sibling=Hn(e,e.pendingProps),t.return=n;t.sibling=null}return n.child}function $l(e,n){return e.lanes&n?!0:(e=e.dependencies,!!(e!==null&&ds(e)))}function PC(e,n,t){switch(n.tag){case 3:as(n,n.stateNode.containerInfo),lt(n,ue,e.memoizedState.cache),Gt();break;case 27:case 5:nc(n);break;case 4:as(n,n.stateNode.containerInfo);break;case 10:lt(n,n.type,n.memoizedProps.value);break;case 31:if(n.memoizedState!==null)return n.flags|=128,Cc(n),null;break;case 13:var a=n.memoizedState;if(a!==null){if(a.dehydrated!==null)return ft(n),n.flags|=128,null;a=Jt(e,n,t,!1);var i=n.child.childLanes;return a||t&i?Og(e,n,t):(ft(n),e=Xn(e,n,t),e!==null?e.sibling:null)}ft(n);break;case 19:if(n.flags&128)return Mc(e,n,t);if(i=(e.flags&128)!==0,a=(t&n.childLanes)!==0,a||(Jt(e,n,t,!1),a=(t&n.childLanes)!==0),i){if(a)return Mc(e,n,t);n.flags|=128}if(i=n.memoizedState,i!==null&&(i.rendering=null,i.tail=null,i.lastEffect=null),Ri(n,Me.current),a)break;return null;case 22:return n.lanes=0,Dg(e,n,t,n.pendingProps);case 24:lt(n,ue,e.memoizedState.cache)}return Xn(e,n,t)}function Fg(e,n,t){if(e!==null)if(e.memoizedProps!==n.pendingProps)me=!0;else{if(!$l(e,t)&&!(n.flags&128))return me=!1,PC(e,n,t);me=!!(e.flags&131072)}else me=!1,F&&n.flags&1048576&&Vm(n,Di,n.index);switch(n.lanes=0,n.tag){case 16:e:{var a=n.pendingProps;if(e=Ft(n.elementType),n.type=e,typeof e=="function")Wl(e)?(a=Yt(e,a),n.tag=1,n=Wd(null,n,e,a,t)):(n.tag=0,n=Pc(null,n,e,a,t));else{if(e!=null){var i=e.$$typeof;if(i===Cl){n.tag=11,n=Id(null,n,e,a,t);break e}else if(i===bl){n.tag=14,n=_d(null,n,e,a,t);break e}else if(i===xn){n.tag=10,n.type=e,n=Od(null,n,t);break e}}throw n=$r(e)||e,Error(v(306,n,""))}}return n;case 0:return Pc(e,n,n.type,n.pendingProps,t);case 1:return a=n.type,i=Yt(a,n.pendingProps),Wd(e,n,a,i,t);case 3:e:{if(as(n,n.stateNode.containerInfo),e===null)throw Error(v(387));a=n.pendingProps;var o=n.memoizedState;i=o.element,pc(e,n),yi(n,a,null,t);var s=n.memoizedState;if(a=s.cache,lt(n,ue,a),a!==o.cache&&mc(n,[ue],t,!0),vi(),a=s.element,o.isDehydrated)if(o={element:a,isDehydrated:!1,cache:s.cache},n.updateQueue.baseState=o,n.memoizedState=o,n.flags&256){n=kd(e,n,a,t);break e}else if(a!==i){i=un(Error(v(424)),n),Oi(i),n=kd(e,n,a,t);break e}else{switch(e=n.stateNode.containerInfo,e.nodeType){case 9:e=e.body;break;default:e=e.nodeName==="HTML"?e.ownerDocument.body:e}for(te=wn(e.firstChild),Se=n,F=!0,gt=null,mn=!0,t=Jm(n,null,a,t),n.child=t;t;)t.flags=t.flags&-3|134221824,t=t.sibling}else{if(Gt(),a===i){n=Xn(e,n,t);break e}pe(e,n,a,t)}n=n.child}return n;case 26:return la(e,n),e===null?(t=su(n.type,null,n.pendingProps,null))?n.memoizedState=t:F||(n.stateNode=Tp(n.type,n.pendingProps,mt.current,n)):n.memoizedState=su(n.type,e.memoizedProps,n.pendingProps,e.memoizedState),null;case 27:return nc(n),e===null&&F&&(a=n.stateNode=Dp(n.type,n.pendingProps,mt.current),Se=n,mn=!0,i=te,xt(n.type)?($c=i,te=wn(a.firstChild)):te=i),pe(e,n,n.pendingProps.children,t),la(e,n),e===null&&(n.flags|=4194304),n.child;case 5:return e===null&&F&&((i=a=te)&&(a=Cb(a,n.type,n.pendingProps,mn),a!==null?(n.stateNode=a,Se=n,te=wn(a.firstChild),mn=!1,i=!0):i=!1),i||Pt(n)),nc(n),i=n.type,o=n.pendingProps,s=e!==null?e.memoizedProps:null,a=o.children,Qc(i,o)?a=null:s!==null&&Qc(i,s)&&(n.flags|=32),n.memoizedState!==null&&(i=Vl(e,n,mC,null,null,t),qa._currentValue=i),la(e,n),pe(e,n,a,t),n.child;case 6:return e===null&&F&&((e=t=te)&&(t=bb(t,n.pendingProps,mn),t!==null?(n.stateNode=t,Se=n,te=null,e=!0):e=!1),e||Pt(n)),null;case 13:return Og(e,n,t);case 4:return as(n,n.stateNode.containerInfo),a=n.pendingProps,e===null?n.child=Qt(n,null,a,t):pe(e,n,a,t),n.child;case 11:return Id(e,n,n.type,n.pendingProps,t);case 7:return a=n.pendingProps,la(e,n),pe(e,n,a,t),n.child;case 8:return pe(e,n,n.pendingProps.children,t),n.child;case 12:return pe(e,n,n.pendingProps.children,t),n.child;case 10:return Od(e,n,t);case 9:return i=n.type._context,a=n.pendingProps.children,zt(n),i=Ie(i),a=a(i),n.flags|=1,pe(e,n,a,t),n.child;case 14:return _d(e,n,n.type,n.pendingProps,t);case 15:return Eg(e,n,n.type,n.pendingProps,t);case 19:return Mc(e,n,t);case 31:return SC(e,n,t);case 22:return Dg(e,n,t,n.pendingProps);case 24:return zt(n),a=Ie(ue),e===null?(i=Dl(),i===null&&(i=$,o=El(),i.pooledCache=o,o.refCount++,o!==null&&(i.pooledCacheLanes|=t),i=o),n.memoizedState={parent:a,cache:i},Fl(n),lt(n,ue,i)):(e.lanes&t&&(pc(e,n),yi(n,null,null,t),vi()),i=e.memoizedState,o=n.memoizedState,i.parent!==a?(i={parent:a,cache:a},n.memoizedState=i,n.lanes===0&&(n.memoizedState=n.updateQueue.baseState=i),lt(n,ue,a)):(a=o.cache,lt(n,ue,a),a!==i.cache&&mc(n,[ue],t,!0))),pe(e,n,n.pendingProps.children,t),n.child;case 30:return n.stateNode===null&&(n.stateNode={autoName:null,paired:null,clones:null,ref:null}),a=n.pendingProps,a.name!=null&&a.name!=="auto"?n.flags|=e===null?18882560:18874368:F&&Js(n),e!==null&&e.memoizedProps.name!==a.name?n.flags|=4194816:la(e,n),pe(e,n,a.children,t),n.child;case 29:throw n.pendingProps}throw Error(v(156,n.tag))}function Nn(e){e.flags|=4}function _r(e,n,t,a,i){var o;if((o=(e.mode&32)!==0)&&(o=t===null?lu(n,a):lu(n,a)&&(a.src!==t.src||a.srcSet!==t.srcSet)),o){if(e.flags|=16777216,(i&335544128)===i)if(e.stateNode.complete)e.flags|=8192;else if(dp())e.flags|=8192;else throw jt=us,Ol}else e.flags&=-16777217}function Fd(e,n){if(n.type!=="stylesheet"||n.state.loading&4)e.flags&=-16777217;else if(e.flags|=16777216,!Up(n))if(dp())e.flags|=8192;else throw jt=us,Ol}function Ao(e,n){n!==null&&(e.flags|=4),e.flags&16384&&(n=e.tag!==22?rm():536870912,e.lanes|=n,Ua|=n)}function ii(e,n){if(!F)switch(e.tailMode){case"visible":break;case"collapsed":for(var t=e.tail,a=null;t!==null;)t.alternate!==null&&(a=t),t=t.sibling;a===null?n||e.tail===null?e.tail=null:e.tail.sibling=null:a.sibling=null;break;default:for(n=e.tail,t=null;n!==null;)n.alternate!==null&&(t=n),n=n.sibling;t===null?e.tail=null:t.sibling=null}}function ne(e){var n=e.alternate!==null&&e.alternate.child===e.child,t=0,a=0;if(n)for(var i=e.child;i!==null;)t|=i.lanes|i.childLanes,a|=i.subtreeFlags&1206910976,a|=i.flags&1206910976,i.return=e,i=i.sibling;else for(i=e.child;i!==null;)t|=i.lanes|i.childLanes,a|=i.subtreeFlags,a|=i.flags,i.return=e,i=i.sibling;return e.subtreeFlags|=a,e.childLanes=t,n}function TC(e,n,t){var a=n.pendingProps;switch(kl(n),n.tag){case 16:case 15:case 0:case 11:case 7:case 8:case 12:case 9:case 14:return ne(n),null;case 1:return ne(n),null;case 3:return t=n.stateNode,a=null,e!==null&&(a=e.memoizedState.cache),n.memoizedState.cache!==a&&(n.flags|=2048),jn(ue),Da(),t.pendingContext&&(t.context=t.pendingContext,t.pendingContext=null),(e===null||e.child===null)&&(sa(n)?Nn(n):e===null||e.memoizedState.isDehydrated&&!(n.flags&256)||(n.flags|=1024,Sr())),ne(n),null;case 26:var i=n.type,o=n.memoizedState;return e===null?(Nn(n),o!==null?(ne(n),Fd(n,o)):(ne(n),_r(n,i,null,a,t))):o?o!==e.memoizedState?(Nn(n),ne(n),Fd(n,o)):(ne(n),n.flags&=-16777217):(e=e.memoizedProps,e!==a&&Nn(n),ne(n),_r(n,i,e,a,t)),null;case 27:if(is(n),t=mt.current,i=n.type,e!==null&&n.stateNode!=null)e.memoizedProps!==a&&Nn(n);else{if(!a){if(n.stateNode===null)throw Error(v(166));return ne(n),n.subtreeFlags&=-33554433,null}e=En.current,sa(n)?ld(n):(e=Dp(i,a,t),n.stateNode=e,Nn(n))}return ne(n),n.subtreeFlags&=-33554433,null;case 5:if(is(n),i=n.type,e!==null&&n.stateNode!=null)e.memoizedProps!==a&&Nn(n);else{if(!a){if(n.stateNode===null)throw Error(v(166));return ne(n),n.subtreeFlags&=-33554433,null}if(o=En.current,sa(n))ld(n);else{var s=Bi(mt.current);switch(o){case 1:o=s.createElementNS("http://www.w3.org/2000/svg",i);break;case 2:o=s.createElementNS("http://www.w3.org/1998/Math/MathML",i);break;default:switch(i){case"svg":o=s.createElementNS("http://www.w3.org/2000/svg",i);break;case"math":o=s.createElementNS("http://www.w3.org/1998/Math/MathML",i);break;case"script":o=s.createElement("div"),o.innerHTML="<script><\/script>",o=o.removeChild(o.firstChild);break;case"select":o=typeof a.is=="string"?s.createElement("select",{is:a.is}):s.createElement("select"),a.multiple?o.multiple=!0:a.size&&(o.size=a.size);break;default:o=typeof a.is=="string"?s.createElement(i,{is:a.is}):s.createElement(i)}}o[Te]=n,o[Ge]=a;e:for(s=n.child;s!==null;){if(s.tag===5||s.tag===6)o.appendChild(s.stateNode);else if(s.tag!==4&&s.tag!==27&&s.child!==null){s.child.return=s,s=s.child;continue}if(s===n)break e;for(;s.sibling===null;){if(s.return===null||s.return===n)break e;s=s.return}s.sibling.return=s.return,s=s.sibling}n.stateNode=o;e:switch(xe(o,i,a),i){case"button":case"input":case"select":case"textarea":a=!!a.autoFocus;break e;case"img":a=!0;break e;default:a=!1}a&&Nn(n)}}return ne(n),n.subtreeFlags&=-33554433,_r(n,n.type,e===null?null:e.memoizedProps,n.pendingProps,t),null;case 6:if(e&&n.stateNode!=null)e.memoizedProps!==a&&Nn(n);else{if(typeof a!="string"&&n.stateNode===null)throw Error(v(166));if(e=mt.current,sa(n)){if(e=n.stateNode,t=n.memoizedProps,a=null,i=Se,i!==null)switch(i.tag){case 27:case 5:a=i.memoizedProps}e[Te]=n,e=!!(e.nodeValue===t||a!==null&&a.suppressHydrationWarning===!0||Ap(e.nodeValue,t)),e||Pt(n,!0)}else e=Bi(e).createTextNode(a),e[Te]=n,n.stateNode=e}return ne(n),null;case 31:if(t=n.memoizedState,e===null||e.memoizedState!==null){if(a=sa(n),t!==null){if(e===null){if(!a)throw Error(v(318));if(e=n.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(v(557));e[Te]=n}else Gt(),!(n.flags&128)&&(n.memoizedState=null),n.flags|=4;ne(n),e=!1}else t=Sr(),e!==null&&e.memoizedState!==null&&(e.memoizedState.hydrationErrors=t),e=!0;if(!e)return n.flags&256?(Ke(n),n):(Ke(n),null);if(n.flags&128)throw Error(v(558))}return ne(n),null;case 13:if(a=n.memoizedState,e===null||e.memoizedState!==null&&e.memoizedState.dehydrated!==null){if(i=sa(n),a!==null&&a.dehydrated!==null){if(e===null){if(!i)throw Error(v(318));if(i=n.memoizedState,i=i!==null?i.dehydrated:null,!i)throw Error(v(317));i[Te]=n}else Gt(),!(n.flags&128)&&(n.memoizedState=null),n.flags|=4;ne(n),i=!1}else i=Sr(),e!==null&&e.memoizedState!==null&&(e.memoizedState.hydrationErrors=i),i=!0;if(!i)return n.flags&256?(Ke(n),n):(Ke(n),null)}return Ke(n),n.flags&128?(n.lanes=t,n):(t=a!==null,e=e!==null&&e.memoizedState!==null,t&&(a=n.child,i=null,a.alternate!==null&&a.alternate.memoizedState!==null&&a.alternate.memoizedState.cachePool!==null&&(i=a.alternate.memoizedState.cachePool.pool),o=null,a.memoizedState!==null&&a.memoizedState.cachePool!==null&&(o=a.memoizedState.cachePool.pool),o!==i&&(a.flags|=2048)),t!==e&&t&&(n.child.flags|=8192),Ao(n,n.updateQueue),ne(n),null);case 4:return Da(),e===null&&ch(n.stateNode.containerInfo),n.flags|=67108864,ne(n),null;case 10:return jn(n.type),ne(n),null;case 19:if(Ul(n),a=n.memoizedState,a===null)return ne(n),null;if(i=(n.flags&128)!==0,o=a.rendering,o===null)if(i)ii(a,!1);else{if(ce!==0||e!==null&&e.flags&128)for(e=n.child;e!==null;){if(o=gs(e),o!==null){for(n.flags|=128,ii(a,!1),e=o.updateQueue,n.updateQueue=e,Ao(n,e),n.subtreeFlags=0,e=t,t=n.child;t!==null;)Um(t,e),t=t.sibling;return Ri(n,Me.current&1|2),F&&Vn(n,a.treeForkCount),n.child}e=e.sibling}a.tail!==null&&en()>Ps&&(n.flags|=128,i=!0,ii(a,!1),n.lanes=4194304)}else{if(!i)if(e=gs(o),e!==null){if(n.flags|=128,i=!0,e=e.updateQueue,n.updateQueue=e,Ao(n,e),ii(a,!0),a.tail===null&&a.tailMode!=="collapsed"&&a.tailMode!=="visible"&&!o.alternate&&!F)return ne(n),null}else 2*en()-a.renderingStartTime>Ps&&t!==536870912&&(n.flags|=128,i=!0,ii(a,!1),n.lanes=4194304);a.isBackwards?(o.sibling=n.child,n.child=o):(e=a.last,e!==null?e.sibling=o:n.child=o,a.last=o)}if(a.tail!==null){e=a.tail;e:{for(t=e;t!==null;){if(t.alternate!==null){t=!1;break e}t=t.sibling}t=!0}return a.rendering=e,a.tail=e.sibling,a.renderingStartTime=en(),e.sibling=null,o=Me.current,o=i?o&1|2:o&1,a.tailMode==="visible"||a.tailMode==="collapsed"||!t||F?Ri(n,o):(t=o,ie(Le,n),ie(Me,t),ke===null&&(ke=n)),F&&Vn(n,a.treeForkCount),e}return ne(n),null;case 22:case 23:return Ke(n),Rl(),a=n.memoizedState!==null,e!==null?e.memoizedState!==null!==a&&(n.flags|=8192):a&&(n.flags|=8192),a?t&536870912&&!(n.flags&128)&&(ne(n),n.subtreeFlags&6&&(n.flags|=8192)):ne(n),t=n.updateQueue,t!==null&&Ao(n,t.retryQueue),t=null,e!==null&&e.memoizedState!==null&&e.memoizedState.cachePool!==null&&(t=e.memoizedState.cachePool.pool),a=null,n.memoizedState!==null&&n.memoizedState.cachePool!==null&&(a=n.memoizedState.cachePool.pool),a!==t&&(n.flags|=2048),e!==null&&_e(Ht),null;case 24:return t=null,e!==null&&(t=e.memoizedState.cache),n.memoizedState.cache!==t&&(n.flags|=2048),jn(ue),ne(n),null;case 25:return null;case 30:return n.flags|=33554432,ne(n),null}throw Error(v(156,n.tag))}function IC(e,n){switch(kl(n),n.tag){case 1:return e=n.flags,e&65536?(n.flags=e&-65537|128,n):null;case 3:return jn(ue),Da(),e=n.flags,e&65536&&!(e&128)?(n.flags=e&-65537|128,n):null;case 26:case 27:case 5:return is(n),null;case 31:if(n.memoizedState!==null){if(Ke(n),n.alternate===null)throw Error(v(340));Gt()}return e=n.flags,e&65536?(n.flags=e&-65537|128,n):null;case 13:if(Ke(n),e=n.memoizedState,e!==null&&e.dehydrated!==null){if(n.alternate===null)throw Error(v(340));Gt()}return e=n.flags,e&65536?(n.flags=e&-65537|128,n):null;case 19:return Ul(n),e=n.flags,e&65536?(n.flags=e&-65537|128,e=n.memoizedState,e!==null&&(e.rendering=null,e.tail=null),n.flags|=4,n):null;case 4:return Da(),null;case 10:return jn(n.type),null;case 22:case 23:return Ke(n),Rl(),e!==null&&_e(Ht),e=n.flags,e&65536?(n.flags=e&-65537|128,n):null;case 24:return jn(ue),null;case 25:return null;default:return null}}function Rg(e,n){switch(kl(n),n.tag){case 3:jn(ue),Da();break;case 26:case 27:case 5:is(n);break;case 4:Da();break;case 31:n.memoizedState!==null&&Ke(n);break;case 13:Ke(n);break;case 19:Ul(n);break;case 10:jn(n.type);break;case 22:case 23:Ke(n),Rl(),e!==null&&_e(Ht);break;case 24:jn(ue)}}function no(e,n){try{var t=n.updateQueue,a=t!==null?t.lastEffect:null;if(a!==null){var i=a.next;t=i;do{if((t.tag&e)===e){a=void 0;var o=t.create,s=t.inst;a=o(),s.destroy=a}t=t.next}while(t!==i)}}catch(r){Q(n,n.return,r)}}function It(e,n,t){try{var a=n.updateQueue,i=a!==null?a.lastEffect:null;if(i!==null){var o=i.next;a=o;do{if((a.tag&e)===e){var s=a.inst,r=s.destroy;if(r!==void 0){s.destroy=void 0,i=n;var c=t,l=r;try{l()}catch(h){Q(i,c,h)}}}a=a.next}while(a!==o)}}catch(h){Q(n,n.return,h)}}function Ug(e){var n=e.updateQueue;if(n!==null){var t=e.stateNode;try{Xm(n,t)}catch(a){Q(e,e.return,a)}}}function Ng(e,n,t){t.props=Yt(e.type,e.memoizedProps),t.state=e.memoizedState;try{t.componentWillUnmount()}catch(a){Q(e,n,a)}}function _n(e,n){try{var t=e.ref;if(t!==null){switch(e.tag){case 26:case 27:case 5:var a=e.stateNode;break;case 30:var i=e.stateNode,o=Gn(e.memoizedProps,i);(i.ref===null||i.ref.name!==o)&&(i.ref=Mp(o)),a=i.ref;break;case 7:if(e.stateNode===null){var s=new sn(e);qe(e.child,!1,wb,s,void 0,void 0),e.stateNode=s}a=e.stateNode;break;default:a=e.stateNode}typeof t=="function"?e.refCleanup=t(a):t.current=a}}catch(r){Q(e,n,r)}}function Pe(e,n){var t=e.ref,a=e.refCleanup;if(t!==null)if(typeof a=="function")try{a()}catch(i){Q(e,n,i)}finally{e.refCleanup=null,e=e.alternate,e!=null&&(e.refCleanup=null)}else if(typeof t=="function")try{t(null)}catch(i){Q(e,n,i)}else t.current=null}function bs(e,n){if((e.tag===5||e.tag===27||e.tag===6)&&e.alternate===null&&n!==null)for(var t=0;t<n.length;t++)kp(e.stateNode,n[t])}function Rd(e){for(var n=e.return;n!==null&&(nh(n)&&kp(e.stateNode,n.stateNode),!eh(n));)n=n.return}function Pi(e){for(var n=e.return;n!==null&&(nh(n)&&fb(e.stateNode,n.stateNode),!eh(n));)n=n.return}function eh(e){return e.tag===5||e.tag===3||e.tag===27}function nh(e){return e&&e.tag===7&&e.stateNode!==null}function xc(e){var n=e.type,t=e.memoizedProps,a=e.stateNode;try{e:switch(n){case"button":case"input":case"select":case"textarea":t.autoFocus&&a.focus();break e;case"img":t.src?a.src=t.src:t.srcSet&&(a.srcset=t.srcSet)}}catch(i){Q(e,e.return,i)}}function Mr(e,n,t){try{var a=e.stateNode;ZC(a,e.type,t,n),a[Ge]=n}catch(i){Q(e,e.return,i)}}function Vg(e){return e.tag===5||e.tag===3||e.tag===26||e.tag===27&&xt(e.type)||e.tag===4}function xr(e){e:for(;;){for(;e.sibling===null;){if(e.return===null||Vg(e.return))return null;e=e.return}for(e.sibling.return=e.return,e=e.sibling;e.tag!==5&&e.tag!==6&&e.tag!==18;){if(e.tag===27&&xt(e.type)||e.flags&2||e.child===null||e.tag===4)continue e;e.child.return=e,e=e.child}if(!(e.flags&2))return e.stateNode}}function Lc(e,n,t,a){var i=e.tag;if(i===5||i===6)i=e.stateNode,n?(t.nodeType===9?t.body:t.nodeName==="HTML"?t.ownerDocument.body:t).insertBefore(i,n):(n=t.nodeType===9?t.body:t.nodeName==="HTML"?t.ownerDocument.body:t,n.appendChild(i),t=t._reactRootContainer,t!=null||n.onclick!==null||(n.onclick=Ln)),bs(e,a),B=!0;else if(i!==4&&(i===27&&(bs(e,a),a=null,xt(e.type)&&(t=e.stateNode,n=null)),e=e.child,e!==null))for(Lc(e,n,t,a),e=e.sibling;e!==null;)Lc(e,n,t,a),e=e.sibling}function vs(e,n,t,a){var i=e.tag;if(i===5||i===6)i=e.stateNode,n?t.insertBefore(i,n):t.appendChild(i),bs(e,a),B=!0;else if(i!==4&&(i===27&&(bs(e,a),a=null,xt(e.type)&&(t=e.stateNode)),e=e.child,e!==null))for(vs(e,n,t,a),e=e.sibling;e!==null;)vs(e,n,t,a),e=e.sibling}function Bg(e){var n=e.stateNode,t=e.memoizedProps;try{for(var a=e.type,i=n.attributes;i.length;)n.removeAttributeNode(i[0]);xe(n,a,t),n[Te]=e,n[Ge]=t}catch(o){Q(e,e.return,o)}}var ys=!1,Ze=null;function Ud(e){(e.tag===30||e.subtreeFlags&33554432)&&(ys=!0)}var Mn=null;function Nd(){var e=Mn;return Mn=null,e}var Be=0;function Ya(e,n,t,a,i){return Be=0,Hg(e.child,n,t,a,i)}function Hg(e,n,t,a,i){for(var o=!1;e!==null;){if(e.tag===5){var s=e.stateNode;if(a!==null){var r=Kc(s);a.push(r),r.view&&(o=!0)}else o||Kc(s).view&&(o=!0);ys=!0,Ip(s,Be===0?n:n+"_"+Be,t),Be++}else(e.tag!==22||e.memoizedState===null)&&(e.tag===30&&i||Hg(e.child,n,t,a,i)&&(o=!0));e=e.sibling}return o}function On(e,n){for(;e!==null;)e.tag===5?_p(e.stateNode,e.memoizedProps):(e.tag!==22||e.memoizedState===null)&&(e.tag===30&&n||On(e.child,n)),e=e.sibling}function Go(e){if(e.subtreeFlags&18874368)for(e=e.child;e!==null;){if((e.tag!==22||e.memoizedState===null)&&(Go(e),e.tag===30&&(e.flags&18874368)!==0&&e.stateNode.paired)){var n=e.memoizedProps;if(n.name==null||n.name==="auto")throw Error(v(544));var t=n.name;n=Yn(n.default,n.share),n!=="none"&&(Ya(e,t,n,null,!1)||On(e.child,!1))}e=e.sibling}}function Wc(e,n){if(e.tag===30){var t=e.stateNode,a=e.memoizedProps,i=Gn(a,t),o=Yn(a.default,t.paired?a.share:a.enter);o!=="none"?Ya(e,i,o,null,!1)?(Go(e),t.paired||n||Na(e,a.onEnter)):On(e.child,!1):Go(e)}else if(e.subtreeFlags&33554432)for(e=e.child;e!==null;)Wc(e,n),e=e.sibling;else Go(e)}function kc(e){if(Ze!==null&&Ze.size!==0){var n=Ze;if(e.subtreeFlags&18874368)for(e=e.child;e!==null;){if(e.tag!==22||e.memoizedState===null){if(e.tag===30&&e.flags&18874368){var t=e.memoizedProps,a=t.name;if(a!=null&&a!=="auto"){var i=n.get(a);if(i!==void 0){var o=Yn(t.default,t.share);if(o!=="none"&&(Ya(e,a,o,null,!1)?(o=e.stateNode,i.paired=o,o.paired=i,Na(e,t.onShare)):On(e.child,!1)),n.delete(a),n.size===0)break}}}kc(e)}e=e.sibling}}}function Ec(e){if(e.tag===30){var n=e.memoizedProps,t=Gn(n,e.stateNode),a=Ze!==null?Ze.get(t):void 0,i=Yn(n.default,a!==void 0?n.share:n.exit);i!=="none"&&(Ya(e,t,i,null,!1)?a!==void 0?(i=e.stateNode,a.paired=i,i.paired=a,Ze.delete(t),Na(e,n.onShare)):Na(e,n.onExit):On(e.child,!1)),Ze!==null&&kc(e)}else if(e.subtreeFlags&33554432)for(e=e.child;e!==null;)Ec(e),e=e.sibling;else Ze!==null&&kc(e)}function jg(e){for(e=e.child;e!==null;){if(e.tag===30){var n=e.memoizedProps,t=Gn(n,e.stateNode);n=Yn(n.default,n.update),e.flags&=-5,n!=="none"&&Ya(e,t,n,e.memoizedState=[],!1)}else e.subtreeFlags&33554432&&jg(e);e=e.sibling}}function Dc(e){if(e.subtreeFlags&18874368)for(e=e.child;e!==null;){if(e.tag!==22||e.memoizedState===null){if(e.tag===30&&e.flags&18874368){var n=e.stateNode;n.paired!==null&&(n.paired=null,On(e.child,!1))}Dc(e)}e=e.sibling}}function Jo(e){if(e.tag===30)e.stateNode.paired=null,On(e.child,!1),Dc(e);else if(e.subtreeFlags&33554432)for(e=e.child;e!==null;)Jo(e),e=e.sibling;else Dc(e)}function qg(e){for(e=e.child;e!==null;)e.tag===30?On(e.child,!1):e.subtreeFlags&33554432&&qg(e),e=e.sibling}function th(e,n,t,a,i,o,s){for(var r=!1;n!==null;){if(n.tag===5){var c=n.stateNode;if(o!==null&&Be<o.length){var l=o[Be],h=Kc(c);(l.view||h.view)&&(r=!0);var p;if(p=(e.flags&4)===0)if(h.clip)p=!0;else{p=l.rect;var d=h.rect;p=p.y!==d.y||p.x!==d.x||p.height!==d.height||p.width!==d.width}p&&(e.flags|=4),h.abs?h=!l.abs:(l=l.rect,h=h.rect,h=l.height!==h.height||l.width!==h.width),h&&(e.flags|=32)}else e.flags|=32;e.flags&4&&Ip(c,Be===0?t:t+"_"+Be,i),r&&e.flags&4||(Mn===null&&(Mn=[]),Mn.push(c,Be===0?a:a+"_"+Be,n.memoizedProps)),Be++}else(n.tag!==22||n.memoizedState===null)&&(n.tag===30&&s?e.flags|=n.flags&32:th(e,n.child,t,a,i,o,s)&&(r=!0));n=n.sibling}return r}function Gg(e,n){for(e=e.child;e!==null;){if(e.tag===30){var t=e.memoizedProps,a=e.stateNode,i=Gn(t,a),o=Yn(t.default,t.update),s;s=e.memoizedState,e.memoizedState=null,a=e;var r=e.child;Be=0,i=th(a,r,i,i,o,s,!1),e.flags&4&&i&&Na(e,t.onUpdate)}else e.subtreeFlags&33554432&&Gg(e);e=e.sibling}}var be=!1,G=!1,Pn=!1,Lr=!1,Vd=typeof WeakSet=="function"?WeakSet:Set,ve=null,Tn=!1,mi=!1,Ss=!1,Oc=!1;function _C(e,n,t){if(e=e.containerInfo,zc=Ga,e=Lm(e),Ml(e)){if("selectionStart"in e)var a={start:e.selectionStart,end:e.selectionEnd};else e:{a=(a=e.ownerDocument)&&a.defaultView||window;var i=a.getSelection&&a.getSelection();if(i&&i.rangeCount!==0){a=i.anchorNode;var o=i.anchorOffset,s=i.focusNode;i=i.focusOffset;try{a.nodeType,s.nodeType}catch{a=null;break e}var r=0,c=-1,l=-1,h=0,p=0,d=e,m=null;n:for(;;){for(var f;d!==a||o!==0&&d.nodeType!==3||(c=r+o),d!==s||i!==0&&d.nodeType!==3||(l=r+i),d.nodeType===3&&(r+=d.nodeValue.length),(f=d.firstChild)!==null;)m=d,d=f;for(;;){if(d===e)break n;if(m===a&&++h===o&&(c=r),m===s&&++p===i&&(l=r),(f=d.nextSibling)!==null)break;d=m,m=d.parentNode}d=f}a=c===-1||l===-1?null:{start:c,end:l}}else a=null}a=a||{start:0,end:0}}else a=null;for(Xc={focusedElem:e,selectionRange:a},Ga=!1,t=(t&335544064)===t,ve=n,n=t?9270:1024;ve!==null;){if(e=ve,t&&(a=e.deletions,a!==null))for(o=0;o<a.length;o++)t&&Ec(a[o]);if(e.alternate===null&&e.flags&2)t&&Ud(e),Po(t);else{if(e.tag===22){if(a=e.alternate,e.memoizedState!==null){a!==null&&a.memoizedState===null&&t&&Ec(a),Po(t);continue}else if(a!==null&&a.memoizedState!==null){t&&Ud(e),Po(t);continue}}a=e.child,e.subtreeFlags&n&&a!==null?(a.return=e,ve=a):(t&&jg(e),Po(t))}}Ze=null}function Po(e){for(;ve!==null;){var n=ve,t=e,a=n.alternate,i=n.flags;switch(n.tag){case 0:case 11:case 15:break;case 1:if(i&1024&&a!==null){t=void 0,i=a.memoizedProps,a=a.memoizedState;var o=n.stateNode;try{var s=Yt(n.type,i);t=o.getSnapshotBeforeUpdate(s,a),o.__reactInternalSnapshotBeforeUpdate=t}catch(r){Q(n,n.return,r)}}break;case 3:if(i&1024){if(a=n.stateNode.containerInfo,t=a.nodeType,t===9)Yc(a);else if(t===1)switch(a.nodeName){case"HEAD":case"HTML":case"BODY":Yc(a);break;default:a.textContent=""}}break;case 5:case 26:case 27:case 6:case 4:case 17:break;case 30:t&&a!==null&&(t=Gn(a.memoizedProps,a.stateNode),i=n.memoizedProps,i=Yn(i.default,i.update),i!=="none"&&Ya(a,t,i,a.memoizedState=[],!0));break;default:if(i&1024)throw Error(v(163))}if(a=n.sibling,a!==null){a.return=n.return,ve=a;break}ve=n.return}}function Jg(e,n,t){var a=t.flags;switch(t.tag){case 0:case 11:case 15:In(e,t),a&4&&no(5,t);break;case 1:if(In(e,t),a&4)if(e=t.stateNode,n===null)try{e.componentDidMount()}catch(s){Q(t,t.return,s)}else{var i=Yt(t.type,n.memoizedProps);n=n.memoizedState;try{e.componentDidUpdate(i,n,e.__reactInternalSnapshotBeforeUpdate)}catch(s){Q(t,t.return,s)}}a&64&&Ug(t),a&512&&_n(t,t.return);break;case 3:if(In(e,t),a&64&&(e=t.updateQueue,e!==null)){if(n=null,t.child!==null)switch(t.child.tag){case 27:case 5:n=t.child.stateNode;break;case 1:n=t.child.stateNode}try{Xm(e,n)}catch(s){Q(t,t.return,s)}}break;case 27:n===null&&a&4&&Bg(t);case 26:case 5:In(e,t),n===null&&a&4&&xc(t),a&512&&_n(t,t.return);break;case 12:In(e,t);break;case 31:In(e,t),a&4&&Kg(e,t);break;case 13:In(e,t),a&4&&Yg(e,t),a&64&&(e=t.memoizedState,e!==null&&(e=e.dehydrated,e!==null&&(t=NC.bind(null,t),vb(e,t))));break;case 22:if(a=t.memoizedState!==null||be,!a){var o=n!==null&&n.memoizedState!==null||G;n=be,i=G,be=a,(G=o)&&!i?(a=2,t.subtreeFlags&8772&&(a|=1),bn(e,t,a)):In(e,t),be=n,G=i}break;case 30:In(e,t),a&512&&_n(t,t.return);break;case 7:a&512&&_n(t,t.return);default:In(e,t)}}function Fc(e,n){for(e=e.child;e!==null;)zg(e,n),e=e.sibling}function zg(e,n){switch(e.tag){case 5:case 26:try{var t=e.stateNode;if(n){var a=t.style;typeof a.setProperty=="function"?a.setProperty("display","none","important"):a.display="none"}else{var i=e.stateNode,o=e.memoizedProps.style,s=o!=null&&o.hasOwnProperty("display")?o.display:null;i.style.display=s==null||typeof s=="boolean"?"":(""+s).trim()}}catch(c){Q(e,e.return,c)}Rc(e,n);break;case 6:try{e.stateNode.nodeValue=n?"":e.memoizedProps,B=!0}catch(c){Q(e,e.return,c)}break;case 18:try{var r=e.stateNode;n?eu(r,!0):eu(e.stateNode,!1)}catch(c){Q(e,e.return,c)}break;case 22:case 23:e.memoizedState===null&&Fc(e,n);break;default:Fc(e,n)}}function Rc(e,n){if(e.subtreeFlags&67108864)for(e=e.child;e!==null;){e:{var t=e,a=n;switch(t.tag){case 4:zg(t,a);break e;case 22:t.memoizedState===null&&Rc(t,a);break e;default:Rc(t,a)}}e=e.sibling}}function Xg(e){var n=e.alternate;n!==null&&(e.alternate=null,Xg(n)),e.child=null,e.deletions=null,e.sibling=null,e.tag===5&&(n=e.stateNode,n!==null&&Vs(n)),e.stateNode=null,e.return=null,e.dependencies=null,e.memoizedProps=null,e.memoizedState=null,e.pendingProps=null,e.stateNode=null,e.updateQueue=null}var oe=null,Ne=!1;function Cn(e,n,t){for(t=t.child;t!==null;)Qg(e,n,t),t=t.sibling}function Qg(e,n,t){if(nn&&typeof nn.onCommitFiberUnmount=="function")try{nn.onCommitFiberUnmount(Xi,t)}catch{}switch(t.tag){case 26:G||Pe(t,n),Cn(e,n,t),t.memoizedState?t.memoizedState.count--:t.stateNode&&!G&&(t=t.stateNode,t.parentNode.removeChild(t));break;case 27:G||Pe(t,n),Pi(t);var a=oe,i=Ne;xt(t.type)&&(oe=t.stateNode,Ne=!1),Cn(e,n,t),Op(t.stateNode,t.type,t.memoizedProps),oe=a,Ne=i;break;case 5:G||Pe(t,n),Pi(t);case 6:if(t.tag===6&&Pi(t),a=oe,i=Ne,oe=null,Cn(e,n,t),oe=a,Ne=i,oe!==null)if(Ne)try{(oe.nodeType===9?oe.body:oe.nodeName==="HTML"?oe.ownerDocument.body:oe).removeChild(t.stateNode),B=!0}catch(o){Q(t,n,o)}else try{oe.removeChild(t.stateNode),B=!0}catch(o){Q(t,n,o)}break;case 18:oe!==null&&(Ne?(e=oe,$d(e.nodeType===9?e.body:e.nodeName==="HTML"?e.ownerDocument.body:e,t.stateNode),Ja(e)):$d(oe,t.stateNode));break;case 4:a=oe,i=Ne,oe=t.stateNode.containerInfo,Ne=!0,Cn(e,n,t),oe=a,Ne=i;break;case 0:case 11:case 14:case 15:It(2,t,n),G||It(4,t,n),Cn(e,n,t);break;case 1:G||(Pe(t,n),a=t.stateNode,typeof a.componentWillUnmount=="function"&&Ng(t,n,a)),Cn(e,n,t);break;case 21:Cn(e,n,t);break;case 22:G=(a=G)||t.memoizedState!==null,Cn(e,n,t),G=a;break;case 30:Pe(t,n),Cn(e,n,t);break;case 7:G||Pe(t,n),Cn(e,n,t);break;default:Cn(e,n,t)}}function Kg(e,n){if(n.memoizedState===null&&(e=n.alternate,e!==null&&(e=e.memoizedState,e!==null))){e=e.dehydrated;try{Ja(e)}catch(t){Q(n,n.return,t)}}}function Yg(e,n){if(n.memoizedState===null&&(e=n.alternate,e!==null&&(e=e.memoizedState,e!==null&&(e=e.dehydrated,e!==null))))try{Ja(e)}catch(t){Q(n,n.return,t)}}function MC(e){switch(e.tag){case 31:case 13:case 19:var n=e.stateNode;return n===null&&(n=e.stateNode=new Vd),n;case 22:return e=e.stateNode,n=e._retryCache,n===null&&(n=e._retryCache=new Vd),n;default:throw Error(v(435,e.tag))}}function To(e,n){var t=MC(e);n.forEach(function(a){if(!t.has(a)){t.add(a);var i=VC.bind(null,e,a);a.then(i,i)}})}function De(e,n,t){var a=n.deletions;if(a!==null)for(var i=0;i<a.length;i++){var o=a[i],s=e,r=n,c=r;e:for(;c!==null;){switch(c.tag){case 27:if(xt(c.type)){oe=c.stateNode,Ne=!1;break e}break;case 5:oe=c.stateNode,Ne=!1;break e;case 3:case 4:oe=c.stateNode.containerInfo,Ne=!0;break e}c=c.return}if(oe===null)throw Error(v(160));Qg(s,r,o),oe=null,Ne=!1,s=o.alternate,s!==null&&(s.return=null),o.return=null}if(n.subtreeFlags&13886)for(n=n.child;n!==null;)Zg(n,e,t),n=n.sibling}var vn=null;function Zg(e,n,t){var a=e.alternate,i=e.flags;switch(e.tag){case 0:case 11:case 14:case 15:if(i&4&&(a=e.updateQueue,a=a!==null?a.events:null,a!==null))for(var o=0;o<a.length;o++){var s=a[o];s.ref.impl=s.nextImpl}De(n,e,t),Oe(e),i&4&&(It(3,e,e.return),no(3,e),It(5,e,e.return));break;case 1:De(n,e,t),Oe(e),i&512&&(G||a===null||Pe(a,a.return)),i&64&&be&&(e=e.updateQueue,e!==null&&(n=e.callbacks,n!==null&&(t=e.shared.hiddenCallbacks,e.shared.hiddenCallbacks=t===null?n:t.concat(n))));break;case 26:if(o=vn,De(n,e,t),Oe(e),i&512&&(G||a===null||Pe(a,a.return)),i&4)if(i=a!==null?a.memoizedState:null,t=e.memoizedState,a===null)if(t===null)if(e.stateNode===null)if(be)e.stateNode=Tp(e.type,e.memoizedProps,n.containerInfo,e);else{e:{n=e.type,t=e.memoizedProps,i=o.ownerDocument||o;n:switch(n){case"title":a=i.getElementsByTagName("title")[0],(!a||a[Yi]||a[Te]||a.namespaceURI==="http://www.w3.org/2000/svg"||a.hasAttribute("itemprop"))&&(a=i.createElement(n),i.head.insertBefore(a,i.querySelector("head > title"))),xe(a,n,t),a[Te]=e,ye(a),n=a;break e;case"link":if(o=cu("link","href",i).get(n+(t.href||""))){for(s=0;s<o.length;s++)if(a=o[s],a.getAttribute("href")===(t.href==null||t.href===""?null:t.href)&&a.getAttribute("rel")===(t.rel==null?null:t.rel)&&a.getAttribute("title")===(t.title==null?null:t.title)&&a.getAttribute("crossorigin")===(t.crossOrigin==null?null:t.crossOrigin)){o.splice(s,1);break n}}a=i.createElement(n),xe(a,n,t),i.head.appendChild(a);break;case"meta":if(o=cu("meta","content",i).get(n+(t.content||""))){for(s=0;s<o.length;s++)if(a=o[s],a.getAttribute("content")===(t.content==null?null:""+t.content)&&a.getAttribute("name")===(t.name==null?null:t.name)&&a.getAttribute("property")===(t.property==null?null:t.property)&&a.getAttribute("http-equiv")===(t.httpEquiv==null?null:t.httpEquiv)&&a.getAttribute("charset")===(t.charSet==null?null:t.charSet)){o.splice(s,1);break n}}a=i.createElement(n),xe(a,n,t),i.head.appendChild(a);break;default:throw Error(v(468,n))}a[Te]=e,ye(a),n=a}e.stateNode=n}else be||el(o,e.type,e.stateNode);else e.stateNode=ru(o,t,e.memoizedProps);else i!==t?(i===null?(n=a.stateNode,n===null||G||n.parentNode.removeChild(n)):i.count--,t===null?be||el(o,e.type,e.stateNode):ru(o,t,e.memoizedProps)):t===null&&e.stateNode!==null&&Mr(e,e.memoizedProps,a.memoizedProps);break;case 27:De(n,e,t),Oe(e),i&512&&(G||a===null||Pe(a,a.return)),a!==null&&i&4&&Mr(e,e.memoizedProps,a.memoizedProps);break;case 5:if(o=Pn,Pn=!1,De(n,e,t),Pn=o,Oe(e),i&512&&(G||a===null||Pe(a,a.return)),e.flags&32){n=e.stateNode;try{Fa(n,""),B=!0}catch(h){Q(e,e.return,h)}}i&4&&e.stateNode!=null&&(n=e.memoizedProps,Mr(e,n,a!==null?a.memoizedProps:n)),i&1024&&(Lr=!0);break;case 6:if(De(n,e,t),Oe(e),i&4){if(e.stateNode===null)throw Error(v(162));n=e.memoizedProps,t=e.stateNode;try{t.nodeValue=n,B=!0}catch(h){Q(e,e.return,h)}}break;case 3:if(B=!1,Ko=null,o=vn,vn=Hi(n.containerInfo),De(n,e,t),vn=o,Oe(e),i&4&&a!==null&&a.memoizedState.isDehydrated)try{Ja(n.containerInfo)}catch(h){Q(e,e.return,h)}Lr&&(Lr=!1,$g(e)),B=!1;break;case 4:i=Pn,Pn=be,a=Gh(),o=vn,vn=Hi(e.stateNode.containerInfo),De(n,e,t),Oe(e),vn=o,B&&mi&&(Ss=!0),B=a,Pn=i;break;case 12:De(n,e,t),Oe(e);break;case 31:De(n,e,t),Oe(e),i&4&&(n=e.updateQueue,n!==null&&(e.updateQueue=null,To(e,n)));break;case 13:De(n,e,t),Oe(e),e.child.flags&8192&&e.memoizedState!==null!=(a!==null&&a.memoizedState!==null)&&($s=en()),i&4&&(n=e.updateQueue,n!==null&&(e.updateQueue=null,To(e,n)));break;case 22:o=e.memoizedState!==null,s=a!==null&&a.memoizedState!==null;var r=be,c=G,l=Pn;be=r||o,Pn=l||o,G=c||s,De(n,e,t),G=c,Pn=l,be=r,Oe(e),i&8192&&(n=e.stateNode,n._visibility=o?n._visibility&-2:n._visibility|1,!o||a===null||s||be||G||(n=s||G,t=be,a=G,be=o||be,G=n,at(e,2),be=t,G=a),!o&&Pn||Fc(e,o)),i&4&&(n=e.updateQueue,n!==null&&(t=n.retryQueue,t!==null&&(n.retryQueue=null,To(e,t))));break;case 19:De(n,e,t),Oe(e),i&4&&(n=e.updateQueue,n!==null&&(e.updateQueue=null,To(e,n)));break;case 30:i&512&&(G||a===null||Pe(a,a.return)),i=Gh(),o=mi,s=(t&335544064)===t,r=e.memoizedProps,mi=s&&Yn(r.default,r.update)!=="none",De(n,e,t),Oe(e),s&&a!==null&&B&&(e.flags|=4),mi=o,B=i;break;case 21:break;case 7:i&512&&(G||a===null||Pe(a,a.return)),a&&a.stateNode!==null&&(a.stateNode._fragmentFiber=e);default:De(n,e,t),Oe(e)}}function Oe(e){var n=e.flags;if(n&2){try{for(var t,a=e.return;a!==null;){if(Vg(a)){t=a;break}a=a.return}a=null;for(var i=e.return;i!==null;){if(nh(i)){var o=i.stateNode;a===null?a=[o]:a.push(o)}if(eh(i))break;i=i.return}var s=a;if(t==null)throw Error(v(160));switch(t.tag){case 27:var r=t.stateNode,c=xr(e);vs(e,c,r,s);break;case 5:var l=t.stateNode;t.flags&32&&(Fa(l,""),t.flags&=-33);var h=xr(e);vs(e,h,l,s);break;case 3:case 4:var p=t.stateNode.containerInfo,d=xr(e);Lc(e,d,p,s);break;default:throw Error(v(161))}}catch(m){Q(e,e.return,m)}e.flags&=-3}n&4096&&(e.flags&=-4097)}function $g(e){if(e.subtreeFlags&1024)for(e=e.child;e!==null;){var n=e;$g(n),n.tag===5&&n.flags&1024&&(n=n.stateNode,Ga=!0,n.reset(),Ga=!1),e=e.sibling}}function ra(e,n){if(n.subtreeFlags&9270)for(n=n.child;n!==null;)ep(n,e),n=n.sibling;else Gg(n)}function ep(e,n){var t=e.alternate;if(t===null)Wc(e,!1);else switch(e.tag){case 3:if(Oc=Tn=!1,Nd(),ra(n,e),!Tn&&!Ss){if(e=Mn,e!==null)for(var a=0;a<e.length;a+=3){t=e[a];var i=e[a+1];_p(t,e[a+2]),t=t.ownerDocument.documentElement,t!==null&&t.animate({opacity:[0,0],pointerEvents:["none","none"]},{duration:0,fill:"forwards",pseudoElement:"::view-transition-group("+i+")"})}e=n.containerInfo,e=e.nodeType===9?e.documentElement:e.ownerDocument.documentElement,e!==null&&e.style.viewTransitionName===""&&(e.style.viewTransitionName="none",e.animate({opacity:[0,0],pointerEvents:["none","none"]},{duration:0,fill:"forwards",pseudoElement:"::view-transition-group(root)"}),e.animate({width:[0,0],height:[0,0]},{duration:0,fill:"forwards",pseudoElement:"::view-transition"})),Oc=!0}Mn=null;break;case 5:ra(n,e);break;case 4:a=Tn,Tn=!1,ra(n,e),Tn&&(Ss=!0),Tn=a;break;case 22:e.memoizedState===null&&(t.memoizedState!==null?Wc(e,!1):ra(n,e));break;case 30:a=Tn,i=Nd(),Tn=!1,ra(n,e),Tn&&(e.flags|=4);var o=e.memoizedProps,s=e.stateNode;n=Gn(o,s),s=Gn(t.memoizedProps,s);var r=Yn(o.default,o.update);r==="none"?n=!1:(o=t.memoizedState,t.memoizedState=null,t=e.child,Be=0,n=th(e,t,n,s,r,o,!0),Be!==(o===null?0:o.length)&&(e.flags|=32)),e.flags&4&&n?(Na(e,e.memoizedProps.onUpdate),Mn=i):i!==null&&(i.push.apply(i,Mn),Mn=i),Tn=e.flags&32?!0:a;break;default:ra(n,e)}}function In(e,n){if(n.subtreeFlags&8772)for(n=n.child;n!==null;)Jg(e,n.alternate,n),n=n.sibling}function at(e,n){for(e=e.child;e!==null;){var t=e,a=n;switch(t.tag){case 0:case 11:case 14:case 15:It(4,t,t.return),at(t,a);break;case 1:Pe(t,t.return);var i=t.stateNode;typeof i.componentWillUnmount=="function"&&Ng(t,t.return,i),at(t,a);break;case 27:a&2&&Op(t.stateNode,t.type,t.memoizedProps);case 5:Pe(t,t.return),t.tag!==5&&t.tag!==27||Pi(t),at(t,a);break;case 6:Pi(t);break;case 26:Pe(t,t.return),i=t.stateNode,t.memoizedState!==null||i===null||G||i.parentNode.removeChild(i),at(t,a);break;case 22:t.memoizedState===null&&at(t,a);break;case 30:Pe(t,t.return),at(t,a);break;case 7:Pe(t,t.return);default:at(t,a)}e=e.sibling}}function bn(e,n,t){for(t=n.subtreeFlags&8772?t:t&-2,n=n.child;n!==null;){var a=n.alternate,i=e,o=n,s=o.flags,r=(t&1)!==0;switch(o.tag){case 0:case 11:case 15:bn(i,o,t),no(4,o);break;case 1:if(bn(i,o,t),a=o,i=a.stateNode,typeof i.componentDidMount=="function")try{i.componentDidMount()}catch(h){Q(a,a.return,h)}if(a=o,i=a.updateQueue,i!==null){var c=a.stateNode;try{var l=i.shared.hiddenCallbacks;if(l!==null)for(i.shared.hiddenCallbacks=null,i=0;i<l.length;i++)zm(l[i],c)}catch(h){Q(a,a.return,h)}}r&&s&64&&Ug(o),_n(o,o.return);break;case 27:t&2&&Bg(o);case 5:o.tag!==5&&o.tag!==27||Rd(o),bn(i,o,t),r&&a===null&&s&4&&xc(o),_n(o,o.return);break;case 6:Rd(o);break;case 26:c=o.stateNode,o.memoizedState!==null||c===null||be||el(Hi(c.ownerDocument),o.type,c),bn(i,o,t),r&&a===null&&s&4&&xc(o),_n(o,o.return);break;case 12:bn(i,o,t);break;case 31:bn(i,o,t),r&&s&4&&Kg(i,o);break;case 13:bn(i,o,t),r&&s&4&&Yg(i,o);break;case 22:o.memoizedState===null&&bn(i,o,t),_n(o,o.return);break;case 30:bn(i,o,t),_n(o,o.return);break;case 7:_n(o,o.return);default:bn(i,o,t)}n=n.sibling}}function ah(e,n){var t=null;e!==null&&e.memoizedState!==null&&e.memoizedState.cachePool!==null&&(t=e.memoizedState.cachePool.pool),e=null,n.memoizedState!==null&&n.memoizedState.cachePool!==null&&(e=n.memoizedState.cachePool.pool),e!==t&&(e!=null&&e.refCount++,t!=null&&$i(t))}function ih(e,n){e=null,n.alternate!==null&&(e=n.alternate.memoizedState.cache),n=n.memoizedState.cache,n!==e&&(n.refCount++,e!=null&&$i(e))}function rn(e,n,t,a){var i=(t&335544064)===t;if(n.subtreeFlags&(i?10262:10256))for(n=n.child;n!==null;)np(e,n,t,a),n=n.sibling;else i&&qg(n)}function np(e,n,t,a){var i=(t&335544064)===t;i&&n.alternate===null&&n.return!==null&&n.return.alternate!==null&&Jo(n);var o=n.flags;switch(n.tag){case 0:case 11:case 15:rn(e,n,t,a),o&2048&&no(9,n);break;case 1:rn(e,n,t,a);break;case 3:rn(e,n,t,a),i&&Oc&&(e=e.containerInfo,e=e.nodeType===9?e.body:e.nodeName==="HTML"?e.ownerDocument.body:e,e.style.viewTransitionName==="root"&&(e.style.viewTransitionName=""),e=e.ownerDocument.documentElement,e!==null&&e.style.viewTransitionName==="none"&&(e.style.viewTransitionName="")),o&2048&&(o=null,n.alternate!==null&&(o=n.alternate.memoizedState.cache),n=n.memoizedState.cache,n!==o&&(n.refCount++,o!=null&&$i(o)));break;case 12:if(o&2048){rn(e,n,t,a),o=n.stateNode;try{var s=n.memoizedProps,r=s.id,c=s.onPostCommit;typeof c=="function"&&c(r,n.alternate===null?"mount":"update",o.passiveEffectDuration,-0)}catch(l){Q(n,n.return,l)}}else rn(e,n,t,a);break;case 31:rn(e,n,t,a);break;case 13:rn(e,n,t,a);break;case 23:break;case 22:s=n.stateNode,r=n.alternate,n.memoizedState!==null?(i&&r!==null&&r.memoizedState===null&&Jo(r),s._visibility&2?rn(e,n,t,a):Ti(e,n)):(i&&r!==null&&r.memoizedState!==null&&Jo(n),s._visibility&2?rn(e,n,t,a):(s._visibility|=2,ha(e,n,t,a,(n.subtreeFlags&10256)!==0||!1))),o&2048&&ah(r,n);break;case 24:rn(e,n,t,a),o&2048&&ih(n.alternate,n);break;case 30:i&&(o=n.alternate,o!==null&&(On(o.child,!0),On(n.child,!0))),rn(e,n,t,a);break;default:rn(e,n,t,a)}}function ha(e,n,t,a,i){for(i=i&&((n.subtreeFlags&10256)!==0||!1),n=n.child;n!==null;){var o=e,s=n,r=t,c=a,l=s.flags;switch(s.tag){case 0:case 11:case 15:ha(o,s,r,c,i),no(8,s);break;case 23:break;case 22:var h=s.stateNode;s.memoizedState!==null?h._visibility&2?ha(o,s,r,c,i):Ti(o,s):(h._visibility|=2,ha(o,s,r,c,i)),i&&l&2048&&ah(s.alternate,s);break;case 24:ha(o,s,r,c,i),i&&l&2048&&ih(s.alternate,s);break;default:ha(o,s,r,c,i)}n=n.sibling}}function Ti(e,n){if(n.subtreeFlags&10256)for(n=n.child;n!==null;){var t=e,a=n,i=a.flags;switch(a.tag){case 22:Ti(t,a),i&2048&&ah(a.alternate,a);break;case 24:Ti(t,a),i&2048&&ih(a.alternate,a);break;default:Ti(t,a)}n=n.sibling}}var Rt=8192;function Dt(e,n,t){if(e.subtreeFlags&Rt)for(e=e.child;e!==null;)tp(e,n,t),e=e.sibling}function tp(e,n,t){switch(e.tag){case 26:Dt(e,n,t),e.flags&Rt&&(e.memoizedState!==null?Db(t,vn,e.memoizedState,e.memoizedProps):(e=e.stateNode,(n&335544128)===n&&hu(t,e)));break;case 5:Dt(e,n,t),e.flags&Rt&&(e=e.stateNode,(n&335544128)===n&&hu(t,e));break;case 3:case 4:var a=vn;vn=Hi(e.stateNode.containerInfo),Dt(e,n,t),vn=a;break;case 22:e.memoizedState===null&&(a=e.alternate,a!==null&&a.memoizedState!==null?(a=Rt,Rt=16777216,Dt(e,n,t),Rt=a):Dt(e,n,t));break;case 30:if(e.flags&Rt&&(a=e.memoizedProps.name,a!=null&&a!=="auto")){var i=e.stateNode;i.paired=null,Ze===null&&(Ze=new Map),Ze.set(a,i)}Dt(e,n,t);break;default:Dt(e,n,t)}}function ap(e){var n=e.alternate;if(n!==null&&(e=n.child,e!==null)){n.child=null;do n=e.sibling,e.sibling=null,e=n;while(e!==null)}}function oi(e){var n=e.deletions;if(e.flags&16){if(n!==null)for(var t=0;t<n.length;t++){var a=n[t];ve=a,op(a,e)}ap(e)}if(e.subtreeFlags&10256)for(e=e.child;e!==null;)ip(e),e=e.sibling}function ip(e){switch(e.tag){case 0:case 11:case 15:oi(e),e.flags&2048&&It(9,e,e.return);break;case 3:oi(e);break;case 12:oi(e);break;case 22:var n=e.stateNode;e.memoizedState!==null&&n._visibility&2&&(e.return===null||e.return.tag!==13)?(n._visibility&=-3,zo(e)):oi(e);break;default:oi(e)}}function zo(e){var n=e.deletions;if(e.flags&16){if(n!==null)for(var t=0;t<n.length;t++){var a=n[t];ve=a,op(a,e)}ap(e)}for(e=e.child;e!==null;){switch(n=e,n.tag){case 0:case 11:case 15:It(8,n,n.return),zo(n);break;case 22:t=n.stateNode,t._visibility&2&&(t._visibility&=-3,zo(n));break;default:zo(n)}e=e.sibling}}function op(e,n){for(;ve!==null;){var t=ve;switch(t.tag){case 0:case 11:case 15:It(8,t,n);break;case 23:case 22:if(t.memoizedState!==null&&t.memoizedState.cachePool!==null){var a=t.memoizedState.cachePool.pool;a!=null&&a.refCount++}break;case 24:$i(t.memoizedState.cache)}if(a=t.child,a!==null)a.return=t,ve=a;else e:for(t=e;ve!==null;){a=ve;var i=a.sibling,o=a.return;if(Xg(a),a===t){ve=null;break e}if(i!==null){i.return=o,ve=i;break e}ve=o}}}var xC={getCacheForType:function(e){var n=Ie(ue),t=n.data.get(e);return t===void 0&&(t=e(),n.data.set(e,t)),t},cacheSignal:function(){return Ie(ue).controller.signal}},LC=typeof WeakMap=="function"?WeakMap:Map,H=0,$=null,N=null,V=0,J=0,ze=null,ht=!1,Za=!1,oh=!1,Qn=0,ce=0,_t=0,qt=0,As=0,$e=0,Ua=0,Ii=null,Ve=null,Uc=!1,$s=0,sp=0,Ps=1/0,Ts=null,bt=null,se=0,Sn=null,Zt=null,Dn=0,Nc=0,Vc=null,rp=null,Wa=null,ka=null,Ea=null,_i=0,Xo=null;function an(){return H&2&&V!==0?V&-V:L.T!==null?rh():dm()}function cp(){if($e===0)if(!(V&536870912)||F){var e=go;go<<=1,!(go&3932160)&&(go=262144),$e=e}else $e=536870912;return e=Le.current,e!==null&&(e.flags|=32),$e}function Na(e,n){if(n!=null){var t=e.stateNode,a=t.ref;a===null&&(a=t.ref=Mp(Gn(e.memoizedProps,t))),ka===null&&(ka=[]),ka.push(n.bind(null,a))}}function je(e,n,t){(e===$&&(J===2||J===9)||e.cancelPendingCommit!==null)&&(Va(e,0),dt(e,V,$e,!1)),Ki(e,t),(!(H&2)||e!==$)&&(e===$&&(!(H&2)&&(qt|=t),ce===4&&dt(e,V,$e,!1)),Rn(e))}function lp(e,n,t){if(H&6)throw Error(v(327));var a=!t&&(n&127)===0&&(n&e.expiredLanes)===0||Qi(e,n),i=a?EC(e,n):Wr(e,n,!0),o=a;do{if(i===0){Za&&!a&&dt(e,n,0,!1);break}else{if(t=e.current.alternate,o&&!WC(t)){i=Wr(e,n,!1),o=!1;continue}if(i===2){if(o=n,e.errorRecoveryDisabledLanes&o)var s=0;else s=e.pendingLanes&-536870913,s=s!==0?s:s&536870912?536870912:0;if(s!==0){n=s;e:{var r=e;i=Ii;var c=r.current.memoizedState.isDehydrated;if(c&&(Va(r,s).flags|=256),s=Wr(r,s,!1),s!==2&&s!==6){if(oh&&!c){r.errorRecoveryDisabledLanes|=o,qt|=o,i=4;break e}o=Ve,Ve=i,o!==null&&(Ve===null?Ve=o:Ve.push.apply(Ve,o))}i=s}if(o=!1,i!==2)continue}}if(i===1){Va(e,0),dt(e,n,0,!0);break}e:{switch(a=e,o=i,o){case 0:case 1:throw Error(v(345));case 4:if((n&4194048)!==n&&(n&62914560)!==n)break;case 6:dt(a,n,$e,!ht);break e;case 2:Ve=null;break;case 3:case 5:break;default:throw Error(v(329))}if((n&62914560)===n&&(i=$s+300-en(),10<i)){if(dt(a,n,$e,!ht),Ns(a,0,!0)!==0)break e;Dn=n,a.timeoutHandle=lh(Bd.bind(null,a,t,Ve,Ts,Uc,n,$e,qt,Ua,ht,o,"Throttled",-0,0),i);break e}Bd(a,t,Ve,Ts,Uc,n,$e,qt,Ua,ht,o,null,-0,0)}}break}while(!0);Rn(e)}function Bd(e,n,t,a,i,o,s,r,c,l,h,p,d,m){e.timeoutHandle=-1;var f=n.subtreeFlags,b=(o&335544064)===o;if(p=null,(b||f&8192||(f&16785408)===16785408)&&(p={stylesheets:null,count:0,imgCount:0,imgBytes:0,suspenseyImages:[],waitingForImages:!0,waitingForViewTransition:!1,unsuspend:Ln},Ze=null,tp(n,o,p),b&&(f=p,b=e.containerInfo,b=(b.nodeType===9?b:b.ownerDocument).__reactViewTransition,b!=null&&(f.count++,f.waitingForViewTransition=!0,f=ji.bind(f),b.finished.then(f,f))),f=(o&62914560)===o?$s-en():(o&4194048)===o?sp-en():0,f=Ob(p,f),f!==null)){Dn=o,e.cancelPendingCommit=f(jd.bind(null,e,n,o,t,a,i,s,r,c,l,h,p,null,d,m)),dt(e,o,s,!l);return}jd(e,n,o,t,a,i,s,r,c,l,h,p)}function WC(e){for(var n=e;;){var t=n.tag;if((t===0||t===11||t===15)&&n.flags&16384&&(t=n.updateQueue,t!==null&&(t=t.stores,t!==null)))for(var a=0;a<t.length;a++){var i=t[a],o=i.getSnapshot;i=i.value;try{if(!on(o(),i))return!1}catch{return!1}}if(t=n.child,n.subtreeFlags&16384&&t!==null)t.return=n,n=t;else{if(n===e)break;for(;n.sibling===null;){if(n.return===null||n.return===e)return!0;n=n.return}n.sibling.return=n.return,n=n.sibling}}return!0}function dt(e,n,t,a){n=sm(e,n),n&=~As,n&=~qt,e.suspendedLanes|=n,e.pingedLanes&=~n,a&&(e.warmLanes|=n),a=e.expirationTimes;for(var i=n;0<i;){var o=31-tn(i),s=1<<o;a[o]=-1,i&=~s}t!==0&&cm(e,t,n)}function er(){return H&6?!0:(to(0),!1)}function sh(){if(N!==null){if(J===0)var e=N.return;else e=N,Bn=ia=null,jl(e),Ma=null,Fi=0,e=N;for(;e!==null;)Rg(e.alternate,e),e=e.return;N=null}}function Va(e,n){var t=e.timeoutHandle;return t!==-1&&(e.timeoutHandle=-1,nb(t)),t=e.cancelPendingCommit,t!==null&&(e.cancelPendingCommit=null,t()),Dn=0,sh(),$=e,N=t=Hn(e.current,null),V=n,J=0,ze=null,ht=!1,Za=Qi(e,n),oh=!1,Ua=$e=As=qt=_t=ce=0,Ve=Ii=null,Uc=!1,Qn=sm(e,n),qs(),t}function hp(e,n){E=null,L.H=fs,n===Ka||n===zs?(n=gd(),J=3):n===Ol?(n=gd(),J=4):J=n===Yl?8:n!==null&&typeof n=="object"&&typeof n.then=="function"?6:1,ze=n,N===null&&(ce=1,Cs(e,un(n,e.current)))}function dp(){var e=Le.current;return e===null?!0:(V&4194048)===V?ke===null:(V&62914560)===V||V&536870912?e===ke:!1}function up(){var e=L.H;return L.H=fs,e===null?fs:e}function mp(){var e=L.A;return L.A=xC,e}function Is(){ce=4,ht||(V&4194048)!==V&&Le.current!==null||(Za=!0),!(_t&134217727)&&!(qt&134217727)||$===null||dt($,V,$e,!1)}function Wr(e,n,t){var a=H;H|=2;var i=up(),o=mp();($!==e||V!==n)&&(Ts=null,Va(e,n)),n=!1;var s=ce;e:do try{if(J!==0&&N!==null){var r=N,c=ze;switch(J){case 8:sh(),s=6;break e;case 3:case 2:case 9:case 6:Le.current===null&&(n=!0);var l=J;if(J=0,ze=null,Aa(e,r,c,l),t&&Za){s=0;break e}break;default:l=J,J=0,ze=null,Aa(e,r,c,l)}}kC(),s=ce;break}catch(h){hp(e,h)}while(!0);return n&&e.shellSuspendCounter++,Bn=ia=null,H=a,L.H=i,L.A=o,N===null&&($=null,V=0,qs()),s}function kC(){for(;N!==null;)gp(N)}function EC(e,n){var t=H;H|=2;var a=up(),i=mp();$!==e||V!==n?(Ts=null,Ps=en()+500,Va(e,n)):Za=Qi(e,n);e:do try{if(J!==0&&N!==null){n=N;var o=ze;n:switch(J){case 1:J=0,ze=null,Aa(e,n,o,1);break;case 2:case 9:if(md(o)){J=0,ze=null,Hd(n);break}n=function(){J!==2&&J!==9||$!==e||(J=7),Rn(e)},o.then(n,n);break e;case 3:J=7;break e;case 4:J=5;break e;case 7:md(o)?(J=0,ze=null,Hd(n)):(J=0,ze=null,Aa(e,n,o,7));break;case 5:var s=null;switch(N.tag){case 26:s=N.memoizedState;case 5:case 27:var r=N;if(s?Up(s):r.stateNode.complete){J=0,ze=null;var c=r.sibling;if(c!==null)N=c;else{var l=r.return;l!==null?(N=l,nr(l)):N=null}break n}}J=0,ze=null,Aa(e,n,o,5);break;case 6:J=0,ze=null,Aa(e,n,o,6);break;case 8:sh(),ce=6;break e;default:throw Error(v(462))}}DC();break}catch(h){hp(e,h)}while(!0);return Bn=ia=null,L.H=a,L.A=i,H=t,N!==null?0:($=null,V=0,qs(),ce)}function DC(){for(;N!==null&&!Kw();)gp(N)}function gp(e){var n=Fg(e.alternate,e,Qn);e.memoizedProps=e.pendingProps,n===null?nr(e):N=n}function Hd(e){var n=e,t=n.alternate;switch(n.tag){case 15:case 0:n=Ld(t,n,n.pendingProps,n.type,void 0,V);break;case 11:n=Ld(t,n,n.pendingProps,n.type.render,n.ref,V);break;case 5:jl(n);var a=n;a===Se&&(F?(hs(a),a.tag===5&&a.stateNode!=null&&(te=a.stateNode)):(hs(a),F=!0));default:Rg(t,n),n=N=Um(n,Qn),n=Fg(t,n,Qn)}e.memoizedProps=e.pendingProps,n===null?nr(e):N=n}function Aa(e,n,t,a){Bn=ia=null,jl(n),Ma=null,Fi=0;var i=n.return;try{if(yC(e,i,n,t,V)){ce=1,Cs(e,un(t,e.current)),N=null;return}}catch(o){if(i!==null)throw N=i,o;ce=1,Cs(e,un(t,e.current)),N=null;return}n.flags&32768?(F||a===1?e=!0:Za||V&536870912?e=!1:(ht=e=!0,(a===2||a===9||a===3||a===6)&&(a=Le.current,a!==null&&a.tag===13&&(a.flags|=16384))),pp(n,e)):nr(n)}function nr(e){var n=e;do{if(n.flags&32768){pp(n,ht);return}e=n.return;var t=TC(n.alternate,n,Qn);if(t!==null){N=t;return}if(n=n.sibling,n!==null){N=n;return}N=n=e}while(n!==null);ce===0&&(ce=5)}function pp(e,n){do{var t=IC(e.alternate,e);if(t!==null){t.flags&=32767,N=t;return}if(t=e.return,t!==null&&(t.flags|=32768,t.subtreeFlags=0,t.deletions=null),!n&&(e=e.sibling,e!==null)){N=e;return}N=e=t}while(e!==null);ce=6,N=null}function jd(e,n,t,a,i,o,s,r,c,l,h,p){e.cancelPendingCommit=null;do tr();while(se!==0);if(H&6)throw Error(v(327));if(n!==null){if(n===e.current)throw Error(v(177));e===$&&(N=$=null,V=0),Zt=n,Sn=e,Dn=t,Vc=i,rp=a,OC(e,n,t,s,r,c,p)}}function OC(e,n,t,a,i,o,s){var r=n.lanes|n.childLanes;if(Nc=r,r|=xl,rf(e,t,r,a,i,o),ka=null,(t&335544064)===t?(Ea=lC(e),a=10262):(Ea=null,a=10256),n.subtreeFlags&a||n.flags&a?(e.callbackNode=null,e.callbackPriority=0,BC(os,function(){return qc(),null})):(e.callbackNode=null,e.callbackPriority=0),ys=!1,a=(n.flags&13878)!==0,n.subtreeFlags&13878||a){a=L.T,L.T=null,i=j.p,j.p=2,o=H,H|=4;try{_C(e,n,t)}finally{H=o,j.p=i,L.T=a}}se=1,ys?Wa=rb(s,e.containerInfo,Ea,Bc,Hc,RC,jc,qc,FC):(Bc(),Hc(),jc())}function FC(e){if(se!==0){var n=Sn.onRecoverableError;n(e,{componentStack:null})}}function RC(){se===3&&(se=0,ep(Zt,Sn),se=4)}function Bc(){if(se===1){se=0;var e=Sn,n=Zt,t=Dn,a=(n.flags&13878)!==0;if(n.subtreeFlags&13878||a){a=L.T,L.T=null;var i=j.p;j.p=2;var o=H;H|=4;try{mi=Ss=!1,Zg(n,e,t),t=Xc;var s=Lm(e.containerInfo),r=t.focusedElem,c=t.selectionRange;if(s!==r&&r&&r.ownerDocument&&xm(r.ownerDocument.documentElement,r)){if(c!==null&&Ml(r)){var l=c.start,h=c.end;if(h===void 0&&(h=l),"selectionStart"in r)r.selectionStart=l,r.selectionEnd=Math.min(h,r.value.length);else{var p=r.ownerDocument||document,d=p&&p.defaultView||window;if(d.getSelection){var m=d.getSelection(),f=r.textContent.length,b=Math.min(c.start,f),P=c.end===void 0?b:Math.min(c.end,f);!m.extend&&b>P&&(s=P,P=b,b=s);var g=od(r,b),u=od(r,P);if(g&&u&&(m.rangeCount!==1||m.anchorNode!==g.node||m.anchorOffset!==g.offset||m.focusNode!==u.node||m.focusOffset!==u.offset)){var w=p.createRange();w.setStart(g.node,g.offset),m.removeAllRanges(),b>P?(m.addRange(w),m.extend(u.node,u.offset)):(w.setEnd(u.node,u.offset),m.addRange(w))}}}}for(p=[],m=r;m=m.parentNode;)m.nodeType===1&&p.push({element:m,left:m.scrollLeft,top:m.scrollTop});for(typeof r.focus=="function"&&r.focus(),r=0;r<p.length;r++){var C=p[r];C.element.scrollLeft=C.left,C.element.scrollTop=C.top}}Ga=!!zc,Xc=zc=null}finally{H=o,j.p=i,L.T=a}}e.current=n,se=2}}function Hc(){if(se===2){se=0;var e=Sn,n=Zt,t=(n.flags&8772)!==0;if(n.subtreeFlags&8772||t){t=L.T,L.T=null;var a=j.p;j.p=2;var i=H;H|=4;try{Jg(e,n.alternate,n)}finally{H=i,j.p=a,L.T=t}}se=3}}function jc(){if(se===4||se===3){se=0;var e=Wa;Wa=null,Yw();var n=Sn,t=Zt,a=Dn,i=rp,o=(a&335544064)===a?10262:10256;if(t.subtreeFlags&o||t.flags&o?se=5:(se=0,Zt=Sn=null,wp(n,n.pendingLanes)),o=n.pendingLanes,o===0&&(bt=null),Sl(a),t=t.stateNode,nn&&typeof nn.onCommitFiberRoot=="function")try{nn.onCommitFiberRoot(Xi,t,void 0,(t.current.flags&128)===128)}catch{}if(i!==null){t=L.T,o=j.p,j.p=2,L.T=null;try{for(var s=n.onRecoverableError,r=0;r<i.length;r++){var c=i[r];s(c.value,{componentStack:c.stack})}}finally{L.T=t,j.p=o}}if(i=ka,s=Ea,Ea=null,i!==null&&(ka=null,s===null&&(s=[]),e!==null))for(c=0;c<i.length;c++)t=(0,i[c])(s),t!==void 0&&e.finished.finally(t);Dn&3&&tr(),Rn(n),o=n.pendingLanes,a&261930&&o&42?n===Xo?_i++:(_i=0,Xo=n):(_i=0,Xo=null),to(0)}}function wp(e,n){(e.pooledCacheLanes&=n)===0&&(n=e.pooledCache,n!=null&&(e.pooledCache=null,$i(n)))}function tr(){return Wa!==null&&(Wa.skipTransition(),Wa=null),Bc(),Hc(),jc(),qc()}function qc(){if(se!==5)return!1;var e=Sn,n=Nc;Nc=0;var t=Sl(Dn),a=L.T,i=j.p;try{j.p=32>t?32:t,L.T=null,t=Vc,Vc=null;var o=Sn,s=Dn;if(se=0,Zt=Sn=null,Dn=0,H&6)throw Error(v(331));var r=H;if(H|=4,ip(o.current),np(o,o.current,s,t),H=r,to(0,!1),nn&&typeof nn.onPostCommitFiberRoot=="function")try{nn.onPostCommitFiberRoot(Xi,o)}catch{}return!0}finally{j.p=i,L.T=a,wp(e,n)}}function qd(e,n,t){n=un(t,n),n=Ac(e.stateNode,n,2),e=wt(e,n,2),e!==null&&(Ki(e,2),Rn(e))}function Q(e,n,t){if(e.tag===3)qd(e,e,t);else for(;n!==null;){if(n.tag===3){qd(n,e,t);break}else if(n.tag===1){var a=n.stateNode;if(typeof n.type.getDerivedStateFromError=="function"||typeof a.componentDidCatch=="function"&&(bt===null||!bt.has(a))){e=un(t,e),t=Wg(2),a=wt(n,t,2),a!==null&&(kg(t,a,n,e),Ki(a,2),Rn(a));break}}n=n.return}}function kr(e,n,t){var a=e.pingCache;if(a===null){a=e.pingCache=new LC;var i=new Set;a.set(n,i)}else i=a.get(n),i===void 0&&(i=new Set,a.set(n,i));i.has(t)||(oh=!0,i.add(t),e=UC.bind(null,e,n,t),n.then(e,e))}function UC(e,n,t){var a=e.pingCache;a!==null&&a.delete(n),e.pingedLanes|=e.suspendedLanes&t,e.warmLanes&=~t,$===e&&(V&t)===t&&(ce===4||ce===3&&(V&62914560)===V&&300>en()-$s?H&2?As|=t:Va(e,0):As|=t,Ua===V&&(Ua=0)),Rn(e)}function fp(e,n){n===0&&(n=rm()),e=aa(e,n),e!==null&&(Ki(e,n),Rn(e))}function NC(e){var n=e.memoizedState,t=0;n!==null&&(t=n.retryLane),fp(e,t)}function VC(e,n){var t=0;switch(e.tag){case 31:case 13:var a=e.stateNode,i=e.memoizedState;i!==null&&(t=i.retryLane);break;case 19:a=e.stateNode;break;case 22:a=e.stateNode._retryCache;break;default:throw Error(v(314))}a!==null&&a.delete(n),fp(e,t)}function BC(e,n){return vl(e,n)}var Ba=null,da=null,Gc=!1,_s=!1,Er=!1,ut=0;function Rn(e){e!==da&&e.next===null&&(da===null?Ba=da=e:da=da.next=e),_s=!0,Gc||(Gc=!0,jC())}function to(e,n){if(!Er&&_s){Er=!0;do for(var t=!1,a=Ba;a!==null;){if(e!==0){var i=a.pendingLanes;if(i===0)var o=0;else{var s=a.suspendedLanes,r=a.pingedLanes;o=(1<<31-tn(42|e)+1)-1,o&=i&~(s&~r),o=o&201326741?o&201326741|1:o?o|2:0}o!==0&&(t=!0,Gd(a,o))}else o=V,o=Ns(a,a===$?o:0,a.cancelPendingCommit!==null||a.timeoutHandle!==-1),!(o&3)||Qi(a,o)||(t=!0,Gd(a,o));a=a.next}while(t);Er=!1}}function HC(){Cp()}function Cp(){_s=Gc=!1;var e=0;ut!==0&&eb()&&(e=ut);for(var n=en(),t=null,a=Ba;a!==null;){var i=a.next,o=bp(a,n);o===0?(a.next=null,t===null?Ba=i:t.next=i,i===null&&(da=t)):(t=a,(e!==0||o&3)&&(_s=!0)),a=i}se!==0&&se!==5||to(e),ut!==0&&(ut=0)}function bp(e,n){for(var t=e.suspendedLanes,a=e.pingedLanes,i=e.expirationTimes,o=e.pendingLanes&-62914561;0<o;){var s=31-tn(o),r=1<<s,c=i[s];c===-1?(!(r&t)||r&a)&&(i[s]=sf(r,n)):c<=n&&(e.expiredLanes|=r),o&=~r}if(n=$,t=V,t=Ns(e,e===n?t:0,e.cancelPendingCommit!==null||e.timeoutHandle!==-1),a=e.callbackNode,t===0||e===n&&(J===2||J===9)||e.cancelPendingCommit!==null)return a!==null&&a!==null&&hr(a),e.callbackNode=null,e.callbackPriority=0;if(!(t&3)||Qi(e,t)){if(n=t&-t,n===e.callbackPriority)return n;switch(a!==null&&hr(a),Sl(t)){case 2:case 8:t=im;break;case 32:t=os;break;case 268435456:t=om;break;default:t=os}return a=vp.bind(null,e),t=vl(t,a),e.callbackPriority=n,e.callbackNode=t,n}return a!==null&&a!==null&&hr(a),e.callbackPriority=2,e.callbackNode=null,2}function vp(e,n){if(se!==0&&se!==5)return e.callbackNode=null,e.callbackPriority=0,null;var t=e.callbackNode;if(tr()&&e.callbackNode!==t)return null;var a=V;return a=Ns(e,e===$?a:0,e.cancelPendingCommit!==null||e.timeoutHandle!==-1),a===0?null:(lp(e,a,n),bp(e,en()),e.callbackNode!=null&&e.callbackNode===t?vp.bind(null,e):null)}function Gd(e,n){if(tr())return null;lp(e,n,!0)}function jC(){tb(function(){H&6?vl(am,HC):Cp()})}function rh(){if(ut===0){var e=Xt;e===0&&(e=mo,mo<<=1,!(mo&261888)&&(mo=256)),ut=e}return ut}function Jd(e){return e==null||typeof e=="symbol"||typeof e=="boolean"?null:typeof e=="function"?e:Fo(e)}function qC(e,n,t,a,i){if(n==="submit"&&t&&t.stateNode===i){var o=Jd((i[Ge]||null).action),s=a.submitter;s&&(n=(n=s[Ge]||null)?Jd(n.formAction):s.getAttribute("formAction"),n!==null&&(o=n,s=null));var r=new Bs("action","action",null,a,i);e.push({event:r,listeners:[{instance:null,listener:function(){if(a.defaultPrevented){if(ut!==0){var c=new FormData(i,s);yc(t,{pending:!0,data:c,method:i.method,action:o},null,c)}}else typeof o=="function"&&(r.preventDefault(),c=new FormData(i,s),yc(t,{pending:!0,data:c,method:i.method,action:o},o,c))},currentTarget:i}]})}}for(var Dr=0;Dr<hc.length;Dr++){var Or=hc[Dr],GC=Or.toLowerCase(),JC=Or[0].toUpperCase()+Or.slice(1);An(GC,"on"+JC)}An(km,"onAnimationEnd");An(Em,"onAnimationIteration");An(Dm,"onAnimationStart");An("dblclick","onDoubleClick");An("focusin","onFocus");An("focusout","onBlur");An(nC,"onTransitionRun");An(tC,"onTransitionStart");An(aC,"onTransitionCancel");An(Om,"onTransitionEnd");Oa("onMouseEnter",["mouseout","mouseover"]);Oa("onMouseLeave",["mouseout","mouseover"]);Oa("onPointerEnter",["pointerout","pointerover"]);Oa("onPointerLeave",["pointerout","pointerover"]);na("onChange","change click focusin focusout input keydown keyup selectionchange".split(" "));na("onSelect","focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" "));na("onBeforeInput",["compositionend","keypress","textInput","paste"]);na("onCompositionEnd","compositionend focusout keydown keypress keyup mousedown".split(" "));na("onCompositionStart","compositionstart focusout keydown keypress keyup mousedown".split(" "));na("onCompositionUpdate","compositionupdate focusout keydown keypress keyup mousedown".split(" "));var Ni="abort canplay canplaythrough durationchange emptied encrypted ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange resize seeked seeking stalled suspend timeupdate volumechange waiting".split(" "),zC=new Set("beforetoggle cancel close invalid load scroll scrollend toggle".split(" ").concat(Ni));function yp(e,n){n=(n&4)!==0;for(var t=0;t<e.length;t++){var a=e[t],i=a.event;a=a.listeners;e:{var o=void 0;if(n)for(var s=a.length-1;0<=s;s--){var r=a[s],c=r.instance,l=r.currentTarget;if(r=r.listener,c!==o&&i.isPropagationStopped())break e;o=r,i.currentTarget=l;try{o(i)}catch(h){rs(h)}i.currentTarget=null,o=c}else for(s=0;s<a.length;s++){if(r=a[s],c=r.instance,l=r.currentTarget,r=r.listener,c!==o&&i.isPropagationStopped())break e;o=r,i.currentTarget=l;try{o(i)}catch(h){rs(h)}i.currentTarget=null,o=c}}}}function U(e,n){var t=n[Bh];t===void 0&&(t=n[Bh]=new Set);var a=e+"__bubble";t.has(a)||(Sp(n,e,2,!1),t.add(a))}function Fr(e,n,t){var a=0;n&&(a|=4),Sp(t,e,a,n)}var Io="_reactListening"+Math.random().toString(36).slice(2);function ch(e){if(!e[Io]){e[Io]=!0,mm.forEach(function(t){t!=="selectionchange"&&(zC.has(t)||Fr(t,!1,e),Fr(t,!0,e))});var n=e.nodeType===9?e:e.ownerDocument;n===null||n[Io]||(n[Io]=!0,Fr("selectionchange",!1,n))}}function Sp(e,n,t,a){switch(Gp(n)){case 2:var i=Nb;break;case 8:i=Vb;break;default:i=ph}t=i.bind(null,n,t,e),i=void 0,!sc||n!=="touchstart"&&n!=="touchmove"&&n!=="wheel"||(i=!0),a?i!==void 0?e.addEventListener(n,t,{capture:!0,passive:i}):e.addEventListener(n,t,!0):i!==void 0?e.addEventListener(n,t,{passive:i}):e.addEventListener(n,t,!1)}function Rr(e,n,t,a,i){var o=a;if(!(n&1)&&!(n&2)&&a!==null)e:for(;;){if(a===null)return;var s=a.tag;if(s===3||s===4){var r=a.stateNode.containerInfo;if(r===i)break;if(s===4)for(s=a.return;s!==null;){var c=s.tag;if((c===3||c===4)&&s.stateNode.containerInfo===i)return;s=s.return}for(;r!==null;){if(s=Ut(r),s===null)return;if(c=s.tag,c===5||c===6||c===26||c===27){a=o=s;continue e}r=r.parentNode}}a=a.return}ym(function(){var l=o,h=Pl(t),p=[];e:{var d=Fm.get(e);if(d!==void 0){var m=Bs,f=e;switch(e){case"keypress":if(Uo(t)===0)break e;case"keydown":case"keyup":m=Wf;break;case"focusin":f="focus",m=wr;break;case"focusout":f="blur",m=wr;break;case"beforeblur":case"afterblur":m=wr;break;case"click":if(t.button===2)break e;case"auxclick":case"dblclick":case"mousedown":case"mousemove":case"mouseup":case"mouseout":case"mouseover":case"contextmenu":m=Qh;break;case"drag":case"dragend":case"dragenter":case"dragexit":case"dragleave":case"dragover":case"dragstart":case"drop":m=bf;break;case"touchcancel":case"touchend":case"touchmove":case"touchstart":m=Ff;break;case km:case Em:case Dm:m=Sf;break;case Om:m=Uf;break;case"scroll":case"scrollend":m=ff;break;case"wheel":m=Vf;break;case"copy":case"cut":case"paste":m=Pf;break;case"gotpointercapture":case"lostpointercapture":case"pointercancel":case"pointerdown":case"pointermove":case"pointerout":case"pointerover":case"pointerup":m=Yh;break;case"submit":m=Df;break;case"toggle":case"beforetoggle":m=Hf}var b=(n&4)!==0,P=!b&&(e==="scroll"||e==="scrollend"),g=b?d!==null?d+"Capture":null:d;b=[];for(var u=l,w;u!==null;){var C=u;if(w=C.stateNode,C=C.tag,C!==5&&C!==26&&C!==27||w===null||g===null||(C=Wi(u,g),C!=null&&b.push(Vi(u,C,w))),P)break;u=u.return}0<b.length&&(d=new m(d,f,null,t,h),p.push({event:d,listeners:b}))}}if(!(n&7)){e:{if(m=e==="mouseover"||e==="pointerover",d=e==="mouseout"||e==="pointerout",m&&t!==oc&&(f=t.relatedTarget||t.fromElement)&&(Ut(f)||f[Xa]))break e;(d||m)&&(f=h.window===h?h:(m=h.ownerDocument)?m.defaultView||m.parentWindow:window,d?(m=t.relatedTarget||t.toElement,d=l,m=m?Ut(m):null,m!==null&&(P=zi(m),b=m.tag,m!==P||b!==5&&b!==27&&b!==6)&&(m=null)):(d=null,m=l),d!==m&&(b=Qh,C="onMouseLeave",g="onMouseEnter",u="mouse",(e==="pointerout"||e==="pointerover")&&(b=Yh,C="onPointerLeave",g="onPointerEnter",u="pointer"),P=d==null?f:di(d),w=m==null?f:di(m),f=new b(C,u+"leave",d,t,h),f.target=P,f.relatedTarget=w,C=null,Ut(h)===l&&(b=new b(g,u+"enter",m,t,h),b.target=w,b.relatedTarget=P,C=b),P=C,b=d&&m?zr(d,m,XC):null,d!==null&&zd(p,f,d,b,!1),m!==null&&P!==null&&zd(p,P,m,b,!0)))}e:{if(d=l?di(l):window,m=d.nodeName&&d.nodeName.toLowerCase(),m==="select"||m==="input"&&d.type==="file")var S=nd;else if(ed(d))if(_m)S=Zf;else{S=Kf;var _=Qf}else m=d.nodeName,!m||m.toLowerCase()!=="input"||d.type!=="checkbox"&&d.type!=="radio"?l&&Al(l.elementType)&&(S=nd):S=Yf;if(S&&(S=S(e,l))){Im(p,S,t,h);break e}_&&_(e,d,l)}switch(_=l?di(l):window,e){case"focusin":(ed(_)||_.contentEditable==="true")&&(fa=_,cc=l,fi=null);break;case"focusout":fi=cc=fa=null;break;case"mousedown":lc=!0;break;case"contextmenu":case"mouseup":case"dragend":lc=!1,sd(p,t,h);break;case"selectionchange":if(eC)break;case"keydown":case"keyup":sd(p,t,h)}var T;if(_l)e:{switch(e){case"compositionstart":var A="onCompositionStart";break e;case"compositionend":A="onCompositionEnd";break e;case"compositionupdate":A="onCompositionUpdate";break e}A=void 0}else wa?Pm(e,t)&&(A="onCompositionEnd"):e==="keydown"&&t.keyCode===229&&(A="onCompositionStart");A&&(Am&&t.locale!=="ko"&&(wa||A!=="onCompositionStart"?A==="onCompositionEnd"&&wa&&(T=Sm()):(ct=h,Tl="value"in ct?ct.value:ct.textContent,wa=!0)),_=Ms(l,A),0<_.length&&(A=new Kh(A,e,null,t,h),p.push({event:A,listeners:_}),T?A.data=T:(T=Tm(t),T!==null&&(A.data=T)))),(T=qf?Gf(e,t):Jf(e,t))&&(A=Ms(l,"onBeforeInput"),0<A.length&&(_=new Kh("onBeforeInput","beforeinput",null,t,h),p.push({event:_,listeners:A}),_.data=T)),qC(p,e,l,t,h)}yp(p,n)})}function Vi(e,n,t){return{instance:e,listener:n,currentTarget:t}}function Ms(e,n){for(var t=n+"Capture",a=[];e!==null;){var i=e,o=i.stateNode;if(i=i.tag,i!==5&&i!==26&&i!==27||o===null||(i=Wi(e,t),i!=null&&a.unshift(Vi(e,i,o)),i=Wi(e,n),i!=null&&a.push(Vi(e,i,o))),e.tag===3)return a;e=e.return}return[]}function XC(e){if(e===null)return null;do e=e.return;while(e&&e.tag!==5&&e.tag!==27);return e||null}function zd(e,n,t,a,i){for(var o=n._reactName,s=[];t!==null&&t!==a;){var r=t,c=r.alternate,l=r.stateNode;if(r=r.tag,c!==null&&c===a)break;r!==5&&r!==26&&r!==27||l===null||(c=l,i?(l=Wi(t,o),l!=null&&s.unshift(Vi(t,l,c))):i||(l=Wi(t,o),l!=null&&s.push(Vi(t,l,c)))),t=t.return}s.length!==0&&e.push({event:n,listeners:s})}var QC=/\r\n?/g,KC=/\u0000|\uFFFD/g;function Xd(e){return(typeof e=="string"?e:""+e).replace(QC,`
-`).replace(KC,"")}function Ap(e,n){return n=Xd(n),Xd(e)===n}function z(e,n,t,a,i,o){switch(t){case"children":if(typeof a=="string")n==="body"||n==="textarea"&&a===""||Fa(e,a);else if(typeof a=="number"||typeof a=="bigint")n!=="body"&&Fa(e,""+a);else return;break;case"className":wo(e,"class",a);break;case"tabIndex":wo(e,"tabindex",a);break;case"dir":case"role":case"viewBox":case"width":case"height":wo(e,t,a);break;case"style":vm(e,a,o);return;case"data":if(n!=="object"){wo(e,"data",a);break}case"src":case"href":if(a===""&&(n!=="a"||t!=="href")){e.removeAttribute(t);break}if(a==null||typeof a=="function"||typeof a=="symbol"||typeof a=="boolean"){e.removeAttribute(t);break}a=Fo(a),e.setAttribute(t,a);break;case"action":case"formAction":if(typeof a=="function"){e.setAttribute(t,"javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')");break}else typeof o=="function"&&(t==="formAction"?(n!=="input"&&z(e,n,"name",i.name,i,null),z(e,n,"formEncType",i.formEncType,i,null),z(e,n,"formMethod",i.formMethod,i,null),z(e,n,"formTarget",i.formTarget,i,null)):(z(e,n,"encType",i.encType,i,null),z(e,n,"method",i.method,i,null),z(e,n,"target",i.target,i,null)));if(a==null||typeof a=="symbol"||typeof a=="boolean"){e.removeAttribute(t);break}a=Fo(a),e.setAttribute(t,a);break;case"onClick":a!=null&&(e.onclick=Ln);return;case"onScroll":a!=null&&U("scroll",e);return;case"onScrollEnd":a!=null&&U("scrollend",e);return;case"dangerouslySetInnerHTML":if(a!=null){if(typeof a!="object"||!("__html"in a))throw Error(v(61));if(t=a.__html,t!=null){if(i.children!=null)throw Error(v(60));(o!=null?o.__html:void 0)!==t&&(e.innerHTML=t)}}break;case"multiple":e.multiple=a&&typeof a!="function"&&typeof a!="symbol";break;case"muted":e.muted=a&&typeof a!="function"&&typeof a!="symbol";break;case"suppressContentEditableWarning":case"suppressHydrationWarning":case"defaultValue":case"defaultChecked":case"innerHTML":case"ref":break;case"autoFocus":break;case"xlinkHref":if(a==null||typeof a=="function"||typeof a=="boolean"||typeof a=="symbol"){e.removeAttribute("xlink:href");break}t=Fo(a),e.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",t);break;case"contentEditable":case"spellCheck":case"draggable":case"value":case"autoReverse":case"externalResourcesRequired":case"focusable":case"preserveAlpha":a!=null&&typeof a!="function"&&typeof a!="symbol"?e.setAttribute(t,a):e.removeAttribute(t);break;case"inert":case"allowFullScreen":case"async":case"autoPlay":case"controls":case"credentialless":case"default":case"defer":case"disabled":case"disablePictureInPicture":case"disableRemotePlayback":case"formNoValidate":case"hidden":case"loop":case"noModule":case"noValidate":case"open":case"playsInline":case"readOnly":case"required":case"reversed":case"scoped":case"seamless":case"itemScope":a&&typeof a!="function"&&typeof a!="symbol"?e.setAttribute(t,""):e.removeAttribute(t);break;case"capture":case"download":a===!0?e.setAttribute(t,""):a!==!1&&a!=null&&typeof a!="function"&&typeof a!="symbol"?e.setAttribute(t,a):e.removeAttribute(t);break;case"cols":case"rows":case"size":case"span":a!=null&&typeof a!="function"&&typeof a!="symbol"&&!isNaN(a)&&1<=a?e.setAttribute(t,a):e.removeAttribute(t);break;case"rowSpan":case"start":a==null||typeof a=="function"||typeof a=="symbol"||isNaN(a)?e.removeAttribute(t):e.setAttribute(t,a);break;case"popover":U("beforetoggle",e),U("toggle",e),Oo(e,"popover",a);break;case"xlinkActuate":Un(e,"http://www.w3.org/1999/xlink","xlink:actuate",a);break;case"xlinkArcrole":Un(e,"http://www.w3.org/1999/xlink","xlink:arcrole",a);break;case"xlinkRole":Un(e,"http://www.w3.org/1999/xlink","xlink:role",a);break;case"xlinkShow":Un(e,"http://www.w3.org/1999/xlink","xlink:show",a);break;case"xlinkTitle":Un(e,"http://www.w3.org/1999/xlink","xlink:title",a);break;case"xlinkType":Un(e,"http://www.w3.org/1999/xlink","xlink:type",a);break;case"xmlBase":Un(e,"http://www.w3.org/XML/1998/namespace","xml:base",a);break;case"xmlLang":Un(e,"http://www.w3.org/XML/1998/namespace","xml:lang",a);break;case"xmlSpace":Un(e,"http://www.w3.org/XML/1998/namespace","xml:space",a);break;case"is":Oo(e,"is",a);break;case"innerText":case"textContent":return;default:if(!(2<t.length)||t[0]!=="o"&&t[0]!=="O"||t[1]!=="n"&&t[1]!=="N")t=pf.get(t)||t,Oo(e,t,a);else return}B=!0}function Jc(e,n,t,a,i,o){switch(t){case"style":vm(e,a,o);return;case"dangerouslySetInnerHTML":if(a!=null){if(typeof a!="object"||!("__html"in a))throw Error(v(61));if(t=a.__html,t!=null){if(i.children!=null)throw Error(v(60));(o!=null?o.__html:void 0)!==t&&(e.innerHTML=t)}}break;case"children":if(typeof a=="string")Fa(e,a);else if(typeof a=="number"||typeof a=="bigint")Fa(e,""+a);else return;break;case"onScroll":a!=null&&U("scroll",e);return;case"onScrollEnd":a!=null&&U("scrollend",e);return;case"onClick":a!=null&&(e.onclick=Ln);return;case"suppressContentEditableWarning":case"suppressHydrationWarning":case"innerHTML":case"ref":return;case"innerText":case"textContent":return;default:if(!gm.hasOwnProperty(t))e:{if(t[0]==="o"&&t[1]==="n"&&(i=t.endsWith("Capture"),o=t.slice(2,i?t.length-7:void 0),n=e[Ge]||null,n=n!=null?n[t]:null,typeof n=="function"&&e.removeEventListener(o,n,i),typeof a=="function")){typeof n!="function"&&n!==null&&(t in e?e[t]=null:e.hasAttribute(t)&&e.removeAttribute(t)),e.addEventListener(o,a,i);break e}B=!0,t in e?e[t]=a:a===!0?e.setAttribute(t,""):Oo(e,t,a)}return}B=!0}function xe(e,n,t){switch(n){case"div":case"span":case"svg":case"path":case"a":case"g":case"p":case"li":break;case"img":U("error",e),U("load",e);var a=!1,i=!1,o;for(o in t)if(t.hasOwnProperty(o)){var s=t[o];if(s!=null)switch(o){case"src":a=!0;break;case"srcSet":i=!0;break;case"children":case"dangerouslySetInnerHTML":throw Error(v(137,n));default:z(e,n,o,s,t,null)}}i&&z(e,n,"srcSet",t.srcSet,t,null),a&&z(e,n,"src",t.src,t,null);return;case"input":U("invalid",e);var r=o=s=i=null,c=null,l=null;for(a in t)if(t.hasOwnProperty(a)){var h=t[a];if(h!=null)switch(a){case"name":i=h;break;case"type":s=h;break;case"checked":c=h;break;case"defaultChecked":l=h;break;case"value":o=h;break;case"defaultValue":r=h;break;case"children":case"dangerouslySetInnerHTML":if(h!=null)throw Error(v(137,n));break;default:z(e,n,a,h,t,null)}}fm(e,o,r,c,l,s,i,!1);return;case"select":U("invalid",e),a=s=o=null;for(i in t)if(t.hasOwnProperty(i)&&(r=t[i],r!=null))switch(i){case"value":o=r;break;case"defaultValue":s=r;break;case"multiple":a=r;default:z(e,n,i,r,t,null)}n=o,t=s,e.multiple=!!a,n!=null?Ta(e,!!a,n,!1):t!=null&&Ta(e,!!a,t,!0);return;case"textarea":U("invalid",e),o=i=a=null;for(s in t)if(t.hasOwnProperty(s)&&(r=t[s],r!=null))switch(s){case"value":a=r;break;case"defaultValue":i=r;break;case"children":o=r;break;case"dangerouslySetInnerHTML":if(r!=null)throw Error(v(91));break;default:z(e,n,s,r,t,null)}bm(e,a,i,o);return;case"option":for(c in t)if(t.hasOwnProperty(c)&&(a=t[c],a!=null))switch(c){case"selected":e.selected=a&&typeof a!="function"&&typeof a!="symbol";break;default:z(e,n,c,a,t,null)}return;case"dialog":U("beforetoggle",e),U("toggle",e),U("cancel",e),U("close",e);break;case"iframe":case"object":U("load",e);break;case"video":case"audio":for(a=0;a<Ni.length;a++)U(Ni[a],e);break;case"image":U("error",e),U("load",e);break;case"details":U("toggle",e);break;case"embed":case"source":case"link":U("error",e),U("load",e);case"area":case"base":case"br":case"col":case"hr":case"keygen":case"meta":case"param":case"track":case"wbr":case"menuitem":for(l in t)if(t.hasOwnProperty(l)&&(a=t[l],a!=null))switch(l){case"children":case"dangerouslySetInnerHTML":throw Error(v(137,n));default:z(e,n,l,a,t,null)}return;default:if(Al(n)){for(h in t)t.hasOwnProperty(h)&&(a=t[h],a!==void 0&&Jc(e,n,h,a,t,void 0));return}}for(r in t)t.hasOwnProperty(r)&&(a=t[r],a!=null&&z(e,n,r,a,t,null))}var YC={};function ZC(e,n,t,a){switch(n){case"div":case"span":case"svg":case"path":case"a":case"g":case"p":case"li":break;case"input":var i=null,o=null,s=null,r=null,c=null,l=null,h=null;for(m in t){var p=t[m];if(t.hasOwnProperty(m)&&p!=null)switch(m){case"checked":break;case"value":break;case"defaultValue":c=p;default:a.hasOwnProperty(m)||z(e,n,m,null,a,p)}}for(var d in a){var m=a[d];if(p=t[d],a.hasOwnProperty(d)&&(m!=null||p!=null))switch(d){case"type":m!==p&&(B=!0),o=m;break;case"name":m!==p&&(B=!0),i=m;break;case"checked":m!==p&&(B=!0),l=m;break;case"defaultChecked":m!==p&&(B=!0),h=m;break;case"value":m!==p&&(B=!0),s=m;break;case"defaultValue":m!==p&&(B=!0),r=m;break;case"children":case"dangerouslySetInnerHTML":if(m!=null)throw Error(v(137,n));break;default:m!==p&&z(e,n,d,m,a,p)}}ic(e,s,r,c,l,h,o,i);return;case"select":m=s=r=d=null;for(o in t)if(c=t[o],t.hasOwnProperty(o)&&c!=null)switch(o){case"value":break;case"multiple":m=c;default:a.hasOwnProperty(o)||z(e,n,o,null,a,c)}for(i in a)if(o=a[i],c=t[i],a.hasOwnProperty(i)&&(o!=null||c!=null))switch(i){case"value":o!==c&&(B=!0),d=o;break;case"defaultValue":o!==c&&(B=!0),r=o;break;case"multiple":o!==c&&(B=!0),s=o;default:o!==c&&z(e,n,i,o,a,c)}n=r,t=s,a=m,d!=null?Ta(e,!!t,d,!1):!!a!=!!t&&(n!=null?Ta(e,!!t,n,!0):Ta(e,!!t,t?[]:"",!1));return;case"textarea":m=d=null;for(r in t)if(i=t[r],t.hasOwnProperty(r)&&i!=null&&!a.hasOwnProperty(r))switch(r){case"value":break;case"children":break;default:z(e,n,r,null,a,i)}for(s in a)if(i=a[s],o=t[s],a.hasOwnProperty(s)&&(i!=null||o!=null))switch(s){case"value":i!==o&&(B=!0),d=i;break;case"defaultValue":i!==o&&(B=!0),m=i;break;case"children":break;case"dangerouslySetInnerHTML":if(i!=null)throw Error(v(91));break;default:i!==o&&z(e,n,s,i,a,o)}Cm(e,d,m);return;case"option":for(var f in t)if(d=t[f],t.hasOwnProperty(f)&&d!=null&&!a.hasOwnProperty(f))switch(f){case"selected":e.selected=!1;break;default:z(e,n,f,null,a,d)}for(c in a)if(d=a[c],m=t[c],a.hasOwnProperty(c)&&d!==m&&(d!=null||m!=null))switch(c){case"selected":d!==m&&(B=!0),e.selected=d&&typeof d!="function"&&typeof d!="symbol";break;default:z(e,n,c,d,a,m)}return;case"img":case"link":case"area":case"base":case"br":case"col":case"embed":case"hr":case"keygen":case"meta":case"param":case"source":case"track":case"wbr":case"menuitem":for(var b in t)d=t[b],t.hasOwnProperty(b)&&d!=null&&!a.hasOwnProperty(b)&&z(e,n,b,null,a,d);for(l in a)if(d=a[l],m=t[l],a.hasOwnProperty(l)&&d!==m&&(d!=null||m!=null))switch(l){case"children":case"dangerouslySetInnerHTML":if(d!=null)throw Error(v(137,n));break;default:z(e,n,l,d,a,m)}return;default:if(Al(n)){for(var P in t)d=t[P],t.hasOwnProperty(P)&&d!==void 0&&!a.hasOwnProperty(P)&&Jc(e,n,P,void 0,a,d);for(h in a)d=a[h],m=t[h],!a.hasOwnProperty(h)||d===m||d===void 0&&m===void 0||Jc(e,n,h,d,a,m);return}}for(var g in t)d=t[g],t.hasOwnProperty(g)&&d!=null&&!a.hasOwnProperty(g)&&z(e,n,g,null,a,d);for(p in a)d=a[p],m=t[p],!a.hasOwnProperty(p)||d===m||d==null&&m==null||z(e,n,p,d,a,m)}function Qd(e){switch(e){case"css":case"script":case"font":case"img":case"image":case"input":case"link":return!0;default:return!1}}function $C(){if(typeof performance.getEntriesByType=="function"){for(var e=0,n=0,t=performance.getEntriesByType("resource"),a=0;a<t.length;a++){var i=t[a],o=i.transferSize,s=i.initiatorType,r=i.duration;if(o&&r&&Qd(s)){for(s=0,r=i.responseEnd,a+=1;a<t.length;a++){var c=t[a],l=c.startTime;if(l>r)break;var h=c.transferSize,p=c.initiatorType;h&&Qd(p)&&(c=c.responseEnd,s+=h*(c<r?1:(r-l)/(c-l)))}if(--a,n+=8*(o+s)/(i.duration/1e3),e++,10<e)break}}if(0<e)return n/e/1e6}return navigator.connection&&(e=navigator.connection.downlink,typeof e=="number")?e:5}var zc=null,Xc=null;function Bi(e){return e.nodeType===9?e:e.ownerDocument}function Kd(e){switch(e){case"http://www.w3.org/2000/svg":return 1;case"http://www.w3.org/1998/Math/MathML":return 2;default:return 0}}function Pp(e,n){if(e===0)switch(n){case"svg":return 1;case"math":return 2;default:return 0}return e===1&&n==="foreignObject"?0:e}function Tp(e,n,t,a){return t=Bi(t).createElement(e),t[Te]=a,t[Ge]=n,xe(t,e,n),ye(t),t}function Qc(e,n){return e==="textarea"||e==="noscript"||typeof n.children=="string"||typeof n.children=="number"||typeof n.children=="bigint"||typeof n.dangerouslySetInnerHTML=="object"&&n.dangerouslySetInnerHTML!==null&&n.dangerouslySetInnerHTML.__html!=null}var Ur=null;function eb(){var e=window.event;return e&&e.type==="popstate"?e===Ur?!1:(Ur=e,!0):(Ur=null,!1)}var lh=typeof setTimeout=="function"?setTimeout:void 0,nb=typeof clearTimeout=="function"?clearTimeout:void 0,Yd=typeof Promise=="function"?Promise:void 0,Zd=typeof requestAnimationFrame=="function"?requestAnimationFrame:lh,tb=typeof queueMicrotask=="function"?queueMicrotask:typeof Yd<"u"?function(e){return Yd.resolve(null).then(e).catch(ab)}:lh;function ab(e){setTimeout(function(){throw e})}function xt(e){return e==="head"}function $d(e,n){var t=n,a=0;do{var i=t.nextSibling;if(e.removeChild(t),i&&i.nodeType===8)if(t=i.data,t==="/$"||t==="/&"){if(a===0){e.removeChild(i),Ja(n);return}a--}else if(t==="$"||t==="$?"||t==="$~"||t==="$!"||t==="&")a++;else if(t==="html")Vr(e.ownerDocument.documentElement);else if(t==="head"){t=e.ownerDocument.head,Vr(t);for(var o=t.firstChild;o;){var s=o.nextSibling,r=o.nodeName;o[Yi]||r==="SCRIPT"||r==="STYLE"||r==="LINK"&&o.rel.toLowerCase()==="stylesheet"||t.removeChild(o),o=s}}else t==="body"&&Vr(e.ownerDocument.body);t=i}while(t);Ja(n)}function eu(e,n){var t=e;e=0;do{var a=t.nextSibling;if(t.nodeType===1?n?(t._stashedDisplay=t.style.display,t.style.display="none"):(t.style.display=t._stashedDisplay||"",t.getAttribute("style")===""&&t.removeAttribute("style")):t.nodeType===3&&(n?(t._stashedText=t.nodeValue,t.nodeValue=""):t.nodeValue=t._stashedText||""),a&&a.nodeType===8)if(t=a.data,t==="/$"){if(e===0)break;e--}else t!=="$"&&t!=="$?"&&t!=="$~"&&t!=="$!"||e++;t=a}while(t)}function Ip(e,n,t){if(n=CSS.escape(n)!==n?"r-"+btoa(n).replace(/=/g,""):n,e.style.viewTransitionName=n,t!=null&&(e.style.viewTransitionClass=t),t=getComputedStyle(e),t.display==="inline"){if(n=e.getClientRects(),n.length===1)var a=1;else for(var i=a=0;i<n.length;i++){var o=n[i];0<o.width&&0<o.height&&a++}a===1&&(e=e.style,e.display=n.length===1?"inline-block":"block",e.marginTop="-"+t.paddingTop,e.marginBottom="-"+t.paddingBottom)}}function _p(e,n){e=e.style,n=n.style;var t=n!=null?n.hasOwnProperty("viewTransitionName")?n.viewTransitionName:n.hasOwnProperty("view-transition-name")?n["view-transition-name"]:null:null;e.viewTransitionName=t==null||typeof t=="boolean"?"":(""+t).trim(),t=n!=null?n.hasOwnProperty("viewTransitionClass")?n.viewTransitionClass:n.hasOwnProperty("view-transition-class")?n["view-transition-class"]:null:null,e.viewTransitionClass=t==null||typeof t=="boolean"?"":(""+t).trim(),e.display==="inline-block"&&(n==null?e.display=e.margin="":(t=n.display,e.display=t==null||typeof t=="boolean"?"":t,t=n.margin,t!=null?e.margin=t:(t=n.hasOwnProperty("marginTop")?n.marginTop:n["margin-top"],e.marginTop=t==null||typeof t=="boolean"?"":t,n=n.hasOwnProperty("marginBottom")?n.marginBottom:n["margin-bottom"],e.marginBottom=n==null||typeof n=="boolean"?"":n)))}function ib(e,n,t){return t=t.ownerDocument.defaultView,{rect:e,abs:n.position==="absolute"||n.position==="fixed",clip:n.clipPath!=="none"||n.overflow!=="visible"||n.filter!=="none"||n.mask!=="none"||n.mask!=="none"||n.borderRadius!=="0px",view:0<=e.bottom&&0<=e.right&&e.top<=t.innerHeight&&e.left<=t.innerWidth}}function Kc(e){var n=e.getBoundingClientRect(),t=getComputedStyle(e);return ib(n,t,e)}function ob(e){return e.documentElement.clientHeight}function sb(e){this.addEventListener("load",e),this.addEventListener("error",e)}function rb(e,n,t,a,i,o,s,r,c){var l=n.nodeType===9?n:n.ownerDocument;try{var h=l.startViewTransition({update:function(){var d=l.defaultView,m=d.navigation&&d.navigation.transition,f=l.fonts.status;a();var b=[];if(f==="loaded"&&(ob(l),l.fonts.status==="loading"&&b.push(l.fonts.ready)),f=b.length,e!==null)for(var P=e.suspenseyImages,g=0,u=0;u<P.length;u++){var w=P[u];if(!w.complete){var C=w.getBoundingClientRect();if(0<C.bottom&&0<C.right&&C.top<d.innerHeight&&C.left<d.innerWidth){if(g+=Np(w),g>Yo){b.length=f;break}w=new Promise(sb.bind(w)),b.push(w)}}}if(0<b.length)return d=Promise.race([Promise.all(b),new Promise(function(S){return setTimeout(S,500)})]).then(i,i),(m?Promise.allSettled([m.finished,d]):d).then(o,o);if(i(),m)return m.finished.then(o,o);o()},types:t});l.__reactViewTransition=h;var p=[];return h.ready.then(function(){for(var d=l.documentElement.getAnimations({subtree:!0}),m=0;m<d.length;m++){var f=d[m],b=f.effect,P=b.pseudoElement;if(P!=null&&P.startsWith("::view-transition")){p.push(f),f=b.getKeyframes();for(var g=P=void 0,u=!0,w=0;w<f.length;w++){var C=f[w],S=C.width;if(P===void 0)P=S;else if(P!==S){u=!1;break}if(S=C.height,g===void 0)g=S;else if(g!==S){u=!1;break}delete C.width,delete C.height,C.transform==="none"&&delete C.transform}u&&P!==void 0&&g!==void 0&&(b.setKeyframes(f),u=getComputedStyle(b.target,b.pseudoElement),u.width!==P||u.height!==g)&&(u=f[0],u.width=P,u.height=g,u=f[f.length-1],u.width=P,u.height=g,b.setKeyframes(f))}}s()},function(d){l.__reactViewTransition===h&&(l.__reactViewTransition=null);try{if(typeof d=="object"&&d!==null)switch(d.name){case"InvalidStateError":(d.message==="View transition was skipped because document visibility state is hidden."||d.message==="Skipping view transition because document visibility state has become hidden."||d.message==="Skipping view transition because viewport size changed."||d.message==="Transition was aborted because of invalid state")&&(d=null)}d!==null&&c(d)}finally{a(),i(),s()}}),h.finished.finally(function(){for(var d=0;d<p.length;d++)p[d].cancel();l.__reactViewTransition===h&&(l.__reactViewTransition=null),r()}),h}catch{return a(),i(),s(),null}}function Nt(e,n){this._scope=document.documentElement,this._selector="::view-transition-"+e+"("+n+")"}Nt.prototype.animate=function(e,n){return n=typeof n=="number"?{duration:n}:ee({},n),n.pseudoElement=this._selector,this._scope.animate(e,n)};Nt.prototype.getAnimations=function(){for(var e=this._scope,n=this._selector,t=e.getAnimations({subtree:!0}),a=[],i=0;i<t.length;i++){var o=t[i].effect;o!==null&&o.target===e&&o.pseudoElement===n&&a.push(t[i])}return a};Nt.prototype.getComputedStyle=function(){return getComputedStyle(this._scope,this._selector)};function Mp(e){return{name:e,group:new Nt("group",e),imagePair:new Nt("image-pair",e),old:new Nt("old",e),new:new Nt("new",e)}}function sn(e){this._fragmentFiber=e,this._observers=this._eventListeners=null}sn.prototype.addEventListener=function(e,n,t){var a=null,i=null;if(!(t!=null&&typeof t!="boolean"&&(a=t.signal||null,a!==null&&a.aborted))){this._eventListeners===null&&(this._eventListeners=[]);var o=this._eventListeners;if(xp(o,e,n,t)===-1){var s=this,r=n;t!=null&&typeof t!="boolean"&&t.once===!0&&(r=function(c){s.removeEventListener(e,n,t),typeof n=="function"?n.call(this,c):n.handleEvent(c)}),a!==null&&(i=s.removeEventListener.bind(s,e,n,t),a.addEventListener("abort",i,{once:!0}),i=a.removeEventListener.bind(a,"abort",i)),a=Ha(t),o.push({type:e,listener:n,optionsOrUseCapture:t,attachedListener:r,cleanup:i}),qe(this._fragmentFiber.child,!1,cb,e,r,a)}this._eventListeners=o}};function cb(e,n,t,a){return we(e).addEventListener(n,t,a),!1}sn.prototype.removeEventListener=function(e,n,t){var a=this._eventListeners;if(a!==null&&(n=xp(a,e,n,t),n!==-1)){var i=a[n];t=i.attachedListener;var o=i.cleanup;i=Ha(i.optionsOrUseCapture),qe(this._fragmentFiber.child,!1,lb,e,t,i),a.splice(n,1),o!==null&&o()}};function lb(e,n,t,a){return we(e).removeEventListener(n,t,a),!1}function Ha(e){return e!=null&&typeof e!="boolean"&&(e.once===!0||e.signal instanceof AbortSignal)?{capture:e.capture,passive:e.passive}:e}function nu(e){return e==null?"c=0":typeof e=="boolean"?"c="+(e?"1":"0"):"c="+(e.capture?"1":"0")}function xp(e,n,t,a){if(e.length===0)return-1;a=nu(a);for(var i=0;i<e.length;i++){var o=e[i];if(o.type===n&&o.listener===t&&nu(o.optionsOrUseCapture)===a)return i}return-1}sn.prototype.dispatchEvent=function(e){var n=ea(this._fragmentFiber);if(n===null)return!0;n=we(n);var t=this._eventListeners;if(t!==null&&0<t.length||!e.bubbles){var a=n.nodeType===9?n.createComment(""):document.createTextNode("");if(t)for(var i=0;i<t.length;i++){var o=t[i];a.addEventListener(o.type,o.attachedListener,Ha(o.optionsOrUseCapture))}if(n.appendChild(a),e=a.dispatchEvent(e),t)for(i=0;i<t.length;i++)o=t[i],a.removeEventListener(o.type,o.attachedListener,Ha(o.optionsOrUseCapture));return n.removeChild(a),e}return n.dispatchEvent(e)};sn.prototype.focus=function(e){qe(this._fragmentFiber.child,!0,Lp,e,void 0,void 0)};function Lp(e,n){return e.tag===6?!1:(e=we(e),yb(e,n))}sn.prototype.focusLast=function(e){var n=[];qe(this._fragmentFiber.child,!0,hh,n,void 0,void 0);for(var t=n.length-1;0<=t&&!Lp(n[t],e);t--);};function hh(e,n){return n.push(e),!1}sn.prototype.blur=function(){var e=ea(this._fragmentFiber);e!==null&&(e=we(e),e=Bi(e).activeElement,e!==null&&qe(this._fragmentFiber.child,!1,hb,e,void 0,void 0))};function hb(e,n){return e.tag===6?!1:(e=we(e),e===n||e.contains(n)?(n.blur(),!0):!1)}sn.prototype.observeUsing=function(e){this._observers===null&&(this._observers=new Set),this._observers.add(e),qe(this._fragmentFiber.child,!1,db,e,void 0,void 0)};function db(e,n){return e.tag===6||(e=we(e),n.observe(e)),!1}sn.prototype.unobserveUsing=function(e){var n=this._observers;if(n!==null&&n.has(e)){n.delete(e),qe(this._fragmentFiber.child,!1,ub,e,void 0,void 0);for(var t=n=0;t<yn.length;t++){var a=yn[t];a.fragmentInstance===this&&a.observer===e?e.unobserve(a.instance):yn[n++]=a}yn.length=n}};function ub(e,n){return e.tag===6||(e=we(e),n.unobserve(e)),!1}var yn=[],Nr=!1;function mb(e,n,t){yn.push({fragmentInstance:e,observer:n,instance:t}),Nr||(Nr=!0,Sb(function(){Nr=!1;var a=yn;yn=[];for(var i=0;i<a.length;i++){var o=a[i];o.observer.unobserve(o.instance)}}))}sn.prototype.getClientRects=function(){var e=[];return qe(this._fragmentFiber.child,!1,gb,e,void 0,void 0),e};function gb(e,n){if(e.tag===6){e=e.stateNode;var t=e.ownerDocument.createRange();t.selectNodeContents(e),n.push.apply(n,t.getClientRects())}else e=we(e),n.push.apply(n,e.getClientRects());return!1}sn.prototype.getRootNode=function(e){var n=ea(this._fragmentFiber);return n===null?this:we(n).getRootNode(e)};sn.prototype.compareDocumentPosition=function(e){var n=ea(this._fragmentFiber);if(n===null)return Node.DOCUMENT_POSITION_DISCONNECTED;var t=[];qe(this._fragmentFiber.child,!1,hh,t,void 0,void 0);var a=we(n);if(t.length===0){if(t=a,Oh(this._fragmentFiber)){e:{for(n=this._fragmentFiber.return;n!==null;){if(n.tag===4){n=n.stateNode.containerInfo;break e}if(n.tag===3||n.tag===5||n.tag===27)break;n=n.return}n=null}n!=null&&(t=n)}n=this._fragmentFiber;var i=a=t.compareDocumentPosition(e);return t===e?i=Node.DOCUMENT_POSITION_CONTAINS:a&Node.DOCUMENT_POSITION_CONTAINED_BY&&(t=$u(n)[1],t===null?i=Node.DOCUMENT_POSITION_PRECEDING:(e=we(t).compareDocumentPosition(e),i=e===0||e&Node.DOCUMENT_POSITION_FOLLOWING?Node.DOCUMENT_POSITION_FOLLOWING:Node.DOCUMENT_POSITION_PRECEDING)),i|=Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC}n=we(t[0]),i=we(t[t.length-1]);var o=Oh(this._fragmentFiber)?n.parentElement:a;if(o==null)return Node.DOCUMENT_POSITION_DISCONNECTED;a=o.compareDocumentPosition(n)&Node.DOCUMENT_POSITION_CONTAINED_BY,o=o.compareDocumentPosition(i)&Node.DOCUMENT_POSITION_CONTAINED_BY;var s=n.compareDocumentPosition(e),r=i.compareDocumentPosition(e),c=s&Node.DOCUMENT_POSITION_CONTAINED_BY||r&Node.DOCUMENT_POSITION_CONTAINED_BY;return r=a&&o&&s&Node.DOCUMENT_POSITION_FOLLOWING&&r&Node.DOCUMENT_POSITION_PRECEDING,n=a&&n===e||o&&i===e||c||r?Node.DOCUMENT_POSITION_CONTAINED_BY:!a&&n===e||!o&&i===e?Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC:s,n&Node.DOCUMENT_POSITION_DISCONNECTED||n&Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC||pb(n,this._fragmentFiber,t[0],t[t.length-1],e)?n:Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC};function pb(e,n,t,a,i){var o=Ut(i);if(e&Node.DOCUMENT_POSITION_CONTAINED_BY){if(t=!!o)e:{for(;o!==null;){if(o.tag===7&&(o===n||o.alternate===n)){t=!0;break e}o=o.return}t=!1}return t}if(e&Node.DOCUMENT_POSITION_CONTAINS){if(o===null)return o=i.ownerDocument,i===o||i===o.documentElement||i===o.body;e:{for(o=n,n=ea(n);o!==null;){if(!(o.tag!==5&&o.tag!==3&&o.tag!==27||o!==n&&o.alternate!==n)){o=!0;break e}o=o.return}o=!1}return o}return e&Node.DOCUMENT_POSITION_PRECEDING?((n=!!o)&&!(n=o===t)&&(n=zr(t,o,Fh),n===null?n=!1:(qe(n,!0,Hw,o,t),o=ua,ua=null,n=o!==null)),n):e&Node.DOCUMENT_POSITION_FOLLOWING?((n=!!o)&&!(n=o===a)&&(n=zr(a,o,Fh),n===null?n=!1:(qe(n,!0,jw,o,a),o=ua,Jr=ua=null,n=o!==null)),n):!1}function tu(e,n){var t=e.ownerDocument.createRange();t.selectNodeContents(e),e=t.getBoundingClientRect(),window.scrollTo(window.scrollX+e.left,n?window.scrollY+e.top:window.scrollY+e.bottom-window.innerHeight)}sn.prototype.scrollIntoView=function(e){if(typeof e=="object")throw Error(v(566));var n=[];qe(this._fragmentFiber.child,!1,hh,n,void 0,void 0);var t=e!==!1;if(n.length===0){var a=$u(this._fragmentFiber);if(a=t?a[1]||a[0]||ea(this._fragmentFiber):a[0]||a[1],a===null)return;if(a.tag===6){e=we(a),tu(e,t);return}if(a=we(a),a.nodeType!==9){if(a.nodeType===11){t="host"in a?a.host:null,t!==null&&t.scrollIntoView(e);return}a.scrollIntoView(e)}}for(a=t?n.length-1:0;a!==(t?-1:n.length);){var i=n[a];i.tag===6?(i=we(i),tu(i,t)):we(i).scrollIntoView(e),a+=t?-1:1}};function wb(e,n){return e=we(e),Wp(e,n),!1}function Wp(e,n){e.reactFragments==null&&(e.reactFragments=new Set),e.reactFragments.add(n)}function kp(e,n){var t=n._eventListeners;if(t!==null)for(var a=0;a<t.length;a++){var i=t[a];e.addEventListener(i.type,i.attachedListener,Ha(i.optionsOrUseCapture))}e.nodeType!==3&&(t=n._observers,t!==null&&t.forEach(function(o){for(var s=0,r=0;r<yn.length;r++){var c=yn[r];(c.fragmentInstance!==n||c.observer!==o||c.instance!==e)&&(yn[s++]=c)}yn.length=s,o.observe(e)}),Wp(e,n))}function fb(e,n){var t=n._eventListeners;if(t!==null)for(var a=0;a<t.length;a++){var i=t[a];e.removeEventListener(i.type,i.attachedListener,Ha(i.optionsOrUseCapture))}e.nodeType!==3&&(t=n._observers,t!==null&&t.forEach(function(o){typeof o.rootMargin=="string"?mb(n,o,e):o.unobserve(e)}),e.reactFragments!=null&&e.reactFragments.delete(n))}function Yc(e){var n=e.firstChild;for(n&&n.nodeType===10&&(n=n.nextSibling);n;){var t=n;switch(n=n.nextSibling,t.nodeName){case"HTML":case"HEAD":case"BODY":Yc(t),Vs(t);continue;case"SCRIPT":case"STYLE":continue;case"LINK":if(t.rel.toLowerCase()==="stylesheet")continue}e.removeChild(t)}}function Cb(e,n,t,a){for(;e.nodeType===1;){var i=t;if(e.nodeName.toLowerCase()!==n.toLowerCase()){if(!a&&(e.nodeName!=="INPUT"||e.type!=="hidden"))break}else if(a){if(!e[Yi])switch(n){case"meta":if(!e.hasAttribute("itemprop"))break;return e;case"link":if(o=e.getAttribute("rel"),o==="stylesheet"&&e.hasAttribute("data-precedence"))break;if(o!==i.rel||e.getAttribute("href")!==(i.href==null||i.href===""?null:i.href)||e.getAttribute("crossorigin")!==(i.crossOrigin==null?null:i.crossOrigin)||e.getAttribute("title")!==(i.title==null?null:i.title))break;return e;case"style":if(e.hasAttribute("data-precedence"))break;return e;case"script":if(o=e.getAttribute("src"),(o!==(i.src==null?null:i.src)||e.getAttribute("type")!==(i.type==null?null:i.type)||e.getAttribute("crossorigin")!==(i.crossOrigin==null?null:i.crossOrigin))&&o&&e.hasAttribute("async")&&!e.hasAttribute("itemprop"))break;return e;default:return e}}else if(n==="input"&&e.type==="hidden"){var o=i.name==null?null:""+i.name;if(i.type==="hidden"&&e.getAttribute("name")===o)return e}else return e;if(e=wn(e.nextSibling),e===null)break}return null}function bb(e,n,t){if(n==="")return null;for(;e.nodeType!==3;)if((e.nodeType!==1||e.nodeName!=="INPUT"||e.type!=="hidden")&&!t||(e=wn(e.nextSibling),e===null))return null;return e}function Ep(e,n){for(;e.nodeType!==8;)if((e.nodeType!==1||e.nodeName!=="INPUT"||e.type!=="hidden")&&!n||(e=wn(e.nextSibling),e===null))return null;return e}function Zc(e){return e.data==="$?"||e.data==="$~"}function dh(e){return e.data==="$!"||e.data==="$?"&&e.ownerDocument.readyState!=="loading"}function vb(e,n){var t=e.ownerDocument;if(e.data==="$~")e._reactRetry=n;else if(e.data!=="$?"||t.readyState!=="loading")n();else{var a=function(){n(),t.removeEventListener("DOMContentLoaded",a)};t.addEventListener("DOMContentLoaded",a),e._reactRetry=a}}function wn(e){for(;e!=null;e=e.nextSibling){var n=e.nodeType;if(n===1||n===3)break;if(n===8){if(n=e.data,n==="$"||n==="$!"||n==="$?"||n==="$~"||n==="&"||n==="F!"||n==="F")break;if(n==="/$"||n==="/&")return null}}return e}var $c=null;function au(e){e=e.nextSibling;for(var n=0;e;){if(e.nodeType===8){var t=e.data;if(t==="/$"||t==="/&"){if(n===0)return wn(e.nextSibling);n--}else t!=="$"&&t!=="$!"&&t!=="$?"&&t!=="$~"&&t!=="&"||n++}e=e.nextSibling}return null}function iu(e){e=e.previousSibling;for(var n=0;e;){if(e.nodeType===8){var t=e.data;if(t==="$"||t==="$!"||t==="$?"||t==="$~"||t==="&"){if(n===0)return e;n--}else t!=="/$"&&t!=="/&"||n++}e=e.previousSibling}return null}function yb(e,n){function t(){a=!0}if(e.ownerDocument.activeElement===e)return!0;var a=!1;try{e.ownerDocument.addEventListener("focus",t,!0),(e.focus||HTMLElement.prototype.focus).call(e,n)}finally{e.ownerDocument.removeEventListener("focus",t,!0)}return a}function Sb(e){Zd(function(){Zd(function(n){return e(n)})})}function Dp(e,n,t){switch(n=Bi(t),e){case"html":if(e=n.documentElement,!e)throw Error(v(452));return e;case"head":if(e=n.head,!e)throw Error(v(453));return e;case"body":if(e=n.body,!e)throw Error(v(454));return e;default:throw Error(v(451))}}function Op(e,n,t){for(var a in t){var i=t[a];t.hasOwnProperty(a)&&i!=null&&z(e,n,a,null,YC,i)}t.dangerouslySetInnerHTML!=null&&(e.textContent=""),e.onclick===Ln&&(e.onclick=null),Vs(e)}function Vr(e){for(var n=e.attributes;n.length;)e.removeAttributeNode(n[0]);Vs(e)}var fn=new Map,ou=new Set;function Hi(e){if(typeof e.getRootNode=="function"){var n=e.getRootNode();if(n.nodeType===9||n.nodeType===11)return n}return e.nodeType===9?e:e.ownerDocument}var Zn=j.d;j.d={f:Ab,r:Pb,D:Tb,C:Ib,L:_b,m:Mb,X:Lb,S:xb,M:Wb};function Ab(){var e=Zn.f(),n=er();return e||n}function Pb(e){var n=Qa(e);n!==null&&n.tag===5&&n.type==="form"?vg(n):Zn.r(e)}var $a=typeof document>"u"?null:document;function Fp(e,n,t){var a=$a;if(a&&typeof n=="string"&&n){var i=dn(n);i='link[rel="'+e+'"][href="'+i+'"]',typeof t=="string"&&(i+='[crossorigin="'+t+'"]'),ou.has(i)||(ou.add(i),e={rel:e,crossOrigin:t,href:n},a.querySelector(i)===null&&(n=a.createElement("link"),xe(n,"link",e),ye(n),a.head.appendChild(n)))}}function Tb(e){Zn.D(e),Fp("dns-prefetch",e,null)}function Ib(e,n){Zn.C(e,n),Fp("preconnect",e,n)}function _b(e,n,t){Zn.L(e,n,t);var a=$a;if(a&&e&&n){var i='link[rel="preload"][as="'+dn(n)+'"]';n==="image"&&t&&t.imageSrcSet?(i+='[imagesrcset="'+dn(t.imageSrcSet)+'"]',typeof t.imageSizes=="string"&&(i+='[imagesizes="'+dn(t.imageSizes)+'"]')):i+='[href="'+dn(e)+'"]';var o=i;switch(n){case"style":o=ja(e);break;case"script":o=ei(e)}if(!(fn.has(o)||(e=ee({rel:"preload",href:n==="image"&&t&&t.imageSrcSet?void 0:e,as:n},t),fn.set(o,e),a.querySelector(i)!==null||n==="style"&&a.querySelector(ao(o))||n==="script"&&a.querySelector(io(o))))){var s=a.createElement("link");xe(s,"link",e),n==="style"&&(s[ss]=!0,s.onload=s.onerror=function(){um(s)}),ye(s),a.head.appendChild(s)}}}function Mb(e,n){Zn.m(e,n);var t=$a;if(t&&e){var a=n&&typeof n.as=="string"?n.as:"script",i='link[rel="modulepreload"][as="'+dn(a)+'"][href="'+dn(e)+'"]',o=i;switch(a){case"audioworklet":case"paintworklet":case"serviceworker":case"sharedworker":case"worker":case"script":o=ei(e)}if(!fn.has(o)&&(e=ee({rel:"modulepreload",href:e},n),fn.set(o,e),t.querySelector(i)===null)){switch(a){case"audioworklet":case"paintworklet":case"serviceworker":case"sharedworker":case"worker":case"script":if(t.querySelector(io(o)))return}a=t.createElement("link"),xe(a,"link",e),ye(a),t.head.appendChild(a)}}}function xb(e,n,t){Zn.S(e,n,t);var a=$a;if(a&&e){var i=Pa(a).hoistableStyles,o=ja(e);n=n||"default";var s=i.get(o);if(!s){var r={loading:0,preload:null};if(s=a.querySelector(ao(o)))r.loading=5;else{e=ee({rel:"stylesheet",href:e,"data-precedence":n},t),(t=fn.get(o))&&uh(e,t);var c=s=a.createElement("link");ye(c),xe(c,"link",e),c._p=new Promise(function(l,h){c.onload=l,c.onerror=h}),c.addEventListener("load",function(){r.loading|=1}),c.addEventListener("error",function(){r.loading|=2}),r.loading|=4,Qo(s,n,a)}s={type:"stylesheet",instance:s,count:1,state:r},i.set(o,s)}}}function Lb(e,n){Zn.X(e,n);var t=$a;if(t&&e){var a=Pa(t).hoistableScripts,i=ei(e),o=a.get(i);o||(o=t.querySelector(io(i)),o||(e=ee({src:e,async:!0},n),(n=fn.get(i))&&mh(e,n),o=t.createElement("script"),ye(o),xe(o,"link",e),t.head.appendChild(o)),o={type:"script",instance:o,count:1,state:null},a.set(i,o))}}function Wb(e,n){Zn.M(e,n);var t=$a;if(t&&e){var a=Pa(t).hoistableScripts,i=ei(e),o=a.get(i);o||(o=t.querySelector(io(i)),o||(e=ee({src:e,async:!0,type:"module"},n),(n=fn.get(i))&&mh(e,n),o=t.createElement("script"),ye(o),xe(o,"link",e),t.head.appendChild(o)),o={type:"script",instance:o,count:1,state:null},a.set(i,o))}}function su(e,n,t,a){var i=(i=mt.current)?Hi(i):null;if(!i)throw Error(v(446));switch(e){case"meta":case"title":return null;case"style":return typeof t.precedence=="string"&&typeof t.href=="string"?(t=ja(t.href),n=Pa(i).hoistableStyles,a=n.get(t),a||(a={type:"style",instance:null,count:0,state:null},n.set(t,a)),a):{type:"void",instance:null,count:0,state:null};case"link":if(t.rel==="stylesheet"&&typeof t.href=="string"&&typeof t.precedence=="string"){e=ja(t.href);var o=Pa(i).hoistableStyles,s=o.get(e);if(s||(i=i.ownerDocument||i,s={type:"stylesheet",instance:null,count:0,state:{loading:0,preload:null}},o.set(e,s),(o=i.querySelector(ao(e)))?o._p||(s.instance=o,s.state.loading=5):(o=fn.get(e),o||(o={rel:"preload",as:"style",href:t.href,crossOrigin:t.crossOrigin,integrity:t.integrity,media:t.media,hrefLang:t.hrefLang,referrerPolicy:t.referrerPolicy},fn.set(e,o)),kb(i,e,o,s.state))),n&&a===null)throw Error(v(528,""));return s}if(n&&a!==null)throw Error(v(529,""));return null;case"script":return n=t.async,t=t.src,typeof t=="string"&&n&&typeof n!="function"&&typeof n!="symbol"?(t=ei(t),n=Pa(i).hoistableScripts,a=n.get(t),a||(a={type:"script",instance:null,count:0,state:null},n.set(t,a)),a):{type:"void",instance:null,count:0,state:null};default:throw Error(v(444,e))}}function ja(e){return'href="'+dn(e)+'"'}function ao(e){return'link[rel="stylesheet"]['+e+"]"}function Rp(e){return ee({},e,{"data-precedence":e.precedence,precedence:null})}function kb(e,n,t,a){if(n=e.querySelector('link[rel="preload"][as="style"]['+n+"]")){if(n[ss]!==!0){a.loading=1;return}}else n=e.createElement("link"),n[ss]=!0,n.onload=n.onerror=um.bind(null,n),xe(n,"link",t),ye(n),e.head.appendChild(n);a.preload=n,n.addEventListener("load",function(){return a.loading|=1}),n.addEventListener("error",function(){return a.loading|=2})}function ei(e){return'[src="'+dn(e)+'"]'}function io(e){return"script[async]"+e}function ru(e,n,t){if(n.count++,n.instance===null)switch(n.type){case"style":var a=e.querySelector('style[data-href~="'+dn(t.href)+'"]');if(a)return n.instance=a,ye(a),a;var i=ee({},t,{"data-href":t.href,"data-precedence":t.precedence,href:null,precedence:null});return a=(e.ownerDocument||e).createElement("style"),ye(a),xe(a,"style",i),Qo(a,t.precedence,e),n.instance=a;case"stylesheet":i=ja(t.href);var o=e.querySelector(ao(i));if(o)return n.state.loading|=4,n.instance=o,ye(o),o;a=Rp(t),(i=fn.get(i))&&uh(a,i),o=(e.ownerDocument||e).createElement("link"),ye(o);var s=o;return s._p=new Promise(function(r,c){s.onload=r,s.onerror=c}),xe(o,"link",a),n.state.loading|=4,Qo(o,t.precedence,e),n.instance=o;case"script":return o=ei(t.src),(i=e.querySelector(io(o)))?(n.instance=i,ye(i),i):(a=t,(i=fn.get(o))&&(a=ee({},t),mh(a,i)),e=e.ownerDocument||e,i=e.createElement("script"),ye(i),xe(i,"link",a),e.head.appendChild(i),n.instance=i);case"void":return null;default:throw Error(v(443,n.type))}else n.type==="stylesheet"&&!(n.state.loading&4)&&(a=n.instance,n.state.loading|=4,Qo(a,t.precedence,e));return n.instance}function Qo(e,n,t){for(var a=t.querySelectorAll('link[rel="stylesheet"][data-precedence],style[data-precedence]'),i=a.length?a[a.length-1]:null,o=i,s=0;s<a.length;s++){var r=a[s];if(r.dataset.precedence===n)o=r;else if(o!==i)break}o?o.parentNode.insertBefore(e,o.nextSibling):(n=t.nodeType===9?t.head:t,n.insertBefore(e,n.firstChild))}function uh(e,n){e.crossOrigin==null&&(e.crossOrigin=n.crossOrigin),e.referrerPolicy==null&&(e.referrerPolicy=n.referrerPolicy),e.title==null&&(e.title=n.title)}function mh(e,n){e.crossOrigin==null&&(e.crossOrigin=n.crossOrigin),e.referrerPolicy==null&&(e.referrerPolicy=n.referrerPolicy),e.integrity==null&&(e.integrity=n.integrity)}var Ko=null;function cu(e,n,t){if(Ko===null){var a=new Map,i=Ko=new Map;i.set(t,a)}else i=Ko,a=i.get(t),a||(a=new Map,i.set(t,a));if(a.has(e))return a;for(a.set(e,null),t=t.getElementsByTagName(e),i=0;i<t.length;i++){var o=t[i];if(!(o[Yi]||o[Te]||e==="link"&&o.getAttribute("rel")==="stylesheet")&&o.namespaceURI!=="http://www.w3.org/2000/svg"){var s=o.getAttribute(n)||"";s=e+s;var r=a.get(s);r?r.push(o):a.set(s,[o])}}return a}function el(e,n,t){e=e.ownerDocument||e,e.head.insertBefore(t,n==="title"?e.querySelector("head > title"):null)}function Eb(e,n,t){if(t===1||n.itemProp!=null)return!1;switch(e){case"meta":case"title":return!0;case"style":if(typeof n.precedence!="string"||typeof n.href!="string"||n.href==="")break;return!0;case"link":if(typeof n.rel!="string"||typeof n.href!="string"||n.href===""||n.onLoad||n.onError)break;switch(n.rel){case"stylesheet":return e=n.disabled,typeof n.precedence=="string"&&e==null;default:return!0}case"script":if(n.async&&typeof n.async!="function"&&typeof n.async!="symbol"&&!n.onLoad&&!n.onError&&n.src&&typeof n.src=="string")return!0}return!1}function lu(e,n){return e==="img"&&n.src!=null&&n.src!==""&&n.onLoad==null&&n.loading!=="lazy"}function Up(e){return!(e.type==="stylesheet"&&!(e.state.loading&3))}function Np(e){return(e.width||100)*(e.height||100)*(typeof devicePixelRatio=="number"?devicePixelRatio:1)*.25}function hu(e,n){typeof n.decode=="function"&&(e.imgCount++,n.complete||(e.imgBytes+=Np(n),e.suspenseyImages.push(n)),e=Fb.bind(e),n.decode().then(e,e))}function Db(e,n,t,a){if(t.type==="stylesheet"&&(typeof a.media!="string"||matchMedia(a.media).matches!==!1)&&!(t.state.loading&4)){if(t.instance===null){var i=ja(a.href),o=n.querySelector(ao(i));if(o){n=o._p,n!==null&&typeof n=="object"&&typeof n.then=="function"&&(e.count++,e=ji.bind(e),n.then(e,e)),t.state.loading|=4,t.instance=o,ye(o);return}o=n.ownerDocument||n,a=Rp(a),(i=fn.get(i))&&uh(a,i),o=o.createElement("link"),ye(o);var s=o;s._p=new Promise(function(r,c){s.onload=r,s.onerror=c}),xe(o,"link",a),t.instance=o}e.stylesheets===null&&(e.stylesheets=new Map),e.stylesheets.set(t,n),(n=t.state.preload)&&!(t.state.loading&3)&&(e.count++,t=ji.bind(e),n.addEventListener("load",t),n.addEventListener("error",t))}}var Yo=0;function Ob(e,n){return e.stylesheets&&e.count===0&&Zo(e,e.stylesheets),0<e.count||0<e.imgCount?function(t){var a=setTimeout(function(){if(e.stylesheets&&Zo(e,e.stylesheets),e.unsuspend){var o=e.unsuspend;e.unsuspend=null,o()}},6e4+n);0<e.imgBytes&&Yo===0&&(Yo=62500*$C());var i=setTimeout(function(){if(e.waitingForImages=!1,e.count===0&&(e.stylesheets&&Zo(e,e.stylesheets),e.unsuspend)){var o=e.unsuspend;e.unsuspend=null,o()}},(e.imgBytes>Yo?50:800)+n);return e.unsuspend=t,function(){e.unsuspend=null,clearTimeout(a),clearTimeout(i)}}:null}function Vp(e){if(e.count===0&&(e.imgCount===0||!e.waitingForImages)){if(e.stylesheets)Zo(e,e.stylesheets);else if(e.unsuspend){var n=e.unsuspend;e.unsuspend=null,n()}}}function ji(){this.count--,Vp(this)}function Fb(){this.imgCount--,Vp(this)}var xs=null;function Zo(e,n){e.stylesheets=null,e.unsuspend!==null&&(e.count++,xs=new Map,n.forEach(Rb,e),xs=null,ji.call(e))}function Rb(e,n){if(!(n.state.loading&4)){var t=xs.get(e);if(t)var a=t.get(null);else{t=new Map,xs.set(e,t);for(var i=e.querySelectorAll("link[data-precedence],style[data-precedence]"),o=0;o<i.length;o++){var s=i[o];(s.nodeName==="LINK"||s.getAttribute("media")!=="not all")&&(t.set(s.dataset.precedence,s),a=s)}a&&t.set(null,a)}i=n.instance,s=i.getAttribute("data-precedence"),o=t.get(s)||a,o===a&&t.set(null,i),t.set(s,i),this.count++,a=ji.bind(this),i.addEventListener("load",a),i.addEventListener("error",a),o?o.parentNode.insertBefore(i,o.nextSibling):(e=e.nodeType===9?e.head:e,e.insertBefore(i,e.firstChild)),n.state.loading|=4}}var qa={$$typeof:xn,Provider:null,Consumer:null,_currentValue:Vt,_currentValue2:Vt,_threadCount:0};function Ub(e,n,t,a,i,o,s,r,c){this.tag=1,this.containerInfo=e,this.pingCache=this.current=this.pendingChildren=null,this.timeoutHandle=-1,this.callbackNode=this.next=this.pendingContext=this.context=this.cancelPendingCommit=null,this.callbackPriority=0,this.expirationTimes=dr(-1),this.entangledLanes=this.shellSuspendCounter=this.errorRecoveryDisabledLanes=this.expiredLanes=this.warmLanes=this.pingedLanes=this.suspendedLanes=this.pendingLanes=0,this.entanglements=dr(0),this.hiddenUpdates=dr(null),this.identifierPrefix=a,this.onUncaughtError=i,this.onCaughtError=o,this.onRecoverableError=s,this.pooledCache=null,this.pooledCacheLanes=0,this.formState=c,this.transitionTypes=null,this.incompleteTransitions=new Map}function Bp(e,n,t,a,i,o,s,r,c,l,h,p){return e=new Ub(e,n,t,s,c,l,h,p,r),n=1,o===!0&&(n|=24),o=He(3,null,null,n),e.current=o,o.stateNode=e,n=El(),n.refCount++,e.pooledCache=n,n.refCount++,o.memoizedState={element:a,isDehydrated:t,cache:n},Fl(o),e}function Hp(e){return e?(e=va,e):va}function jp(e,n,t,a,i,o){i=Hp(i),a.context===null?a.context=i:a.pendingContext=i,a=pt(n),a.payload={element:t},o=o===void 0?null:o,o!==null&&(a.callback=o),t=wt(e,a,n),t!==null&&(je(t,e,n),bi(t,e,n))}function du(e,n){if(e=e.memoizedState,e!==null&&e.dehydrated!==null){var t=e.retryLane;e.retryLane=t!==0&&t<n?t:n}}function gh(e,n){du(e,n),(e=e.alternate)&&du(e,n)}function qp(e){if(e.tag===13||e.tag===31){var n=aa(e,67108864);n!==null&&je(n,e,67108864),gh(e,67108864)}}function uu(e){if(e.tag===13||e.tag===31){var n=an();n=yl(n);var t=aa(e,n);t!==null&&je(t,e,n),gh(e,n)}}var Ga=!0;function Nb(e,n,t,a){var i=L.T;L.T=null;var o=j.p;try{j.p=2,ph(e,n,t,a)}finally{j.p=o,L.T=i}}function Vb(e,n,t,a){var i=L.T;L.T=null;var o=j.p;try{j.p=8,ph(e,n,t,a)}finally{j.p=o,L.T=i}}function ph(e,n,t,a){if(Ga){var i=nl(a);if(i===null)Rr(e,n,a,Ls,t),mu(e,a);else if(Hb(i,e,n,t,a))a.stopPropagation();else if(mu(e,a),n&4&&-1<Bb.indexOf(e)){for(;i!==null;){var o=Qa(i);if(o!==null)switch(o.tag){case 3:if(o=o.stateNode,o.current.memoizedState.isDehydrated){var s=Ot(o.pendingLanes);if(s!==0){var r=o;for(r.pendingLanes|=2,r.entangledLanes|=2;s;){var c=1<<31-tn(s);r.entanglements[1]|=c,s&=~c}Rn(o),!(H&6)&&(Ps=en()+500,to(0))}}break;case 31:case 13:r=aa(o,2),r!==null&&je(r,o,2),er(),gh(o,2)}if(o=nl(a),o===null&&Rr(e,n,a,Ls,t),o===i)break;i=o}i!==null&&a.stopPropagation()}else Rr(e,n,a,null,t)}}function nl(e){return e=Pl(e),wh(e)}var Ls=null;function wh(e){if(Ls=null,e=Ut(e),e!==null){var n=zi(e);if(n===null)e=null;else{var t=n.tag;if(t===13){if(e=Ku(n),e!==null)return e;e=null}else if(t===31){if(e=Yu(n),e!==null)return e;e=null}else if(t===3){if(n.stateNode.current.memoizedState.isDehydrated)return n.tag===3?n.stateNode.containerInfo:null;e=null}else n!==e&&(e=null)}}return Ls=e,null}function Gp(e){switch(e){case"beforetoggle":case"cancel":case"click":case"close":case"contextmenu":case"copy":case"cut":case"auxclick":case"dblclick":case"dragend":case"dragstart":case"drop":case"focusin":case"focusout":case"input":case"invalid":case"keydown":case"keypress":case"keyup":case"mousedown":case"mouseup":case"paste":case"pause":case"play":case"pointercancel":case"pointerdown":case"pointerup":case"ratechange":case"reset":case"seeked":case"submit":case"toggle":case"touchcancel":case"touchend":case"touchstart":case"volumechange":case"change":case"selectionchange":case"textInput":case"compositionstart":case"compositionend":case"compositionupdate":case"beforeblur":case"afterblur":case"beforeinput":case"blur":case"fullscreenchange":case"fullscreenerror":case"focus":case"hashchange":case"popstate":case"select":case"selectstart":return 2;case"drag":case"dragenter":case"dragexit":case"dragleave":case"dragover":case"mousemove":case"mouseout":case"mouseover":case"pointermove":case"pointerout":case"pointerover":case"resize":case"scroll":case"touchmove":case"wheel":case"mouseenter":case"mouseleave":case"pointerenter":case"pointerleave":return 8;case"message":switch(Zw()){case am:return 2;case im:return 8;case os:case $w:return 32;case om:return 268435456;default:return 32}default:return 32}}var tl=!1,vt=null,yt=null,St=null,qi=new Map,Gi=new Map,st=[],Bb="mousedown mouseup touchcancel touchend touchstart auxclick dblclick pointercancel pointerdown pointerup dragend dragstart drop compositionend compositionstart keydown keypress keyup input textInput copy cut paste click change contextmenu reset".split(" ");function mu(e,n){switch(e){case"focusin":case"focusout":vt=null;break;case"dragenter":case"dragleave":yt=null;break;case"mouseover":case"mouseout":St=null;break;case"pointerover":case"pointerout":qi.delete(n.pointerId);break;case"gotpointercapture":case"lostpointercapture":Gi.delete(n.pointerId)}}function si(e,n,t,a,i,o){return e===null||e.nativeEvent!==o?(e={blockedOn:n,domEventName:t,eventSystemFlags:a,nativeEvent:o,targetContainers:[i]},n!==null&&(n=Qa(n),n!==null&&qp(n)),e):(e.eventSystemFlags|=a,n=e.targetContainers,i!==null&&n.indexOf(i)===-1&&n.push(i),e)}function Hb(e,n,t,a,i){switch(n){case"focusin":return vt=si(vt,e,n,t,a,i),!0;case"dragenter":return yt=si(yt,e,n,t,a,i),!0;case"mouseover":return St=si(St,e,n,t,a,i),!0;case"pointerover":var o=i.pointerId;return qi.set(o,si(qi.get(o)||null,e,n,t,a,i)),!0;case"gotpointercapture":return o=i.pointerId,Gi.set(o,si(Gi.get(o)||null,e,n,t,a,i)),!0}return!1}function Jp(e){var n=Ut(e.target);if(n!==null){var t=zi(n);if(t!==null){if(n=t.tag,n===13){if(n=Ku(t),n!==null){e.blockedOn=n,Vh(e.priority,function(){uu(t)});return}}else if(n===31){if(n=Yu(t),n!==null){e.blockedOn=n,Vh(e.priority,function(){uu(t)});return}}else if(n===3&&t.stateNode.current.memoizedState.isDehydrated){e.blockedOn=t.tag===3?t.stateNode.containerInfo:null;return}}}e.blockedOn=null}function $o(e){if(e.blockedOn!==null)return!1;for(var n=e.targetContainers;0<n.length;){var t=nl(e.nativeEvent);if(t===null){t=e.nativeEvent;var a=new t.constructor(t.type,t);oc=a,t.target.dispatchEvent(a),oc=null}else return n=Qa(t),n!==null&&qp(n),e.blockedOn=t,!1;n.shift()}return!0}function gu(e,n,t){$o(e)&&t.delete(n)}function jb(){tl=!1,vt!==null&&$o(vt)&&(vt=null),yt!==null&&$o(yt)&&(yt=null),St!==null&&$o(St)&&(St=null),qi.forEach(gu),Gi.forEach(gu)}function _o(e,n){e.blockedOn===n&&(e.blockedOn=null,tl||(tl=!0,fe.unstable_scheduleCallback(fe.unstable_NormalPriority,jb)))}var Mo=null;function pu(e){Mo!==e&&(Mo=e,fe.unstable_scheduleCallback(fe.unstable_NormalPriority,function(){Mo===e&&(Mo=null);for(var n=0;n<e.length;n+=3){var t=e[n],a=e[n+1],i=e[n+2];if(typeof a!="function"){if(wh(a||t)===null)continue;break}var o=Qa(t);o!==null&&(e.splice(n,3),n-=3,yc(o,{pending:!0,data:i,method:t.method,action:a},a,i))}}))}function Ja(e){function n(c){return _o(c,e)}vt!==null&&_o(vt,e),yt!==null&&_o(yt,e),St!==null&&_o(St,e),qi.forEach(n),Gi.forEach(n);for(var t=0;t<st.length;t++){var a=st[t];a.blockedOn===e&&(a.blockedOn=null)}for(;0<st.length&&(t=st[0],t.blockedOn===null);)Jp(t),t.blockedOn===null&&st.shift();if(t=(e.ownerDocument||e).$$reactFormReplay,t!=null)for(a=0;a<t.length;a+=3){var i=t[a],o=t[a+1],s=i[Ge]||null;if(typeof o=="function")s||pu(t);else if(s){var r=null;if(o&&o.hasAttribute("formAction")){if(i=o,s=o[Ge]||null)r=s.formAction;else if(wh(i)!==null)continue}else r=s.action;typeof r=="function"?t[a+1]=r:(t.splice(a,3),a-=3),pu(t)}}}function zp(){function e(o){o.canIntercept&&o.info==="react-transition"&&o.intercept({handler:function(){return new Promise(function(s){return i=s})},focusReset:"manual",scroll:"manual"})}function n(){i!==null&&(i(),i=null),a||setTimeout(t,20)}function t(){if(!a&&!navigation.transition){var o=navigation.currentEntry;o&&o.url!=null&&navigation.navigate(o.url,{state:o.getState(),info:"react-transition",history:"replace"})}}if(typeof navigation=="object"){var a=!1,i=null;return navigation.addEventListener("navigate",e),navigation.addEventListener("navigatesuccess",n),navigation.addEventListener("navigateerror",n),setTimeout(t,100),function(){a=!0,navigation.removeEventListener("navigate",e),navigation.removeEventListener("navigatesuccess",n),navigation.removeEventListener("navigateerror",n),i!==null&&(i(),i=null)}}}function fh(e){this._internalRoot=e}ar.prototype.render=fh.prototype.render=function(e){var n=this._internalRoot;if(n===null)throw Error(v(409));var t=n.current,a=an();jp(t,a,e,n,null,null)};ar.prototype.unmount=fh.prototype.unmount=function(){var e=this._internalRoot;if(e!==null){this._internalRoot=null;var n=e.containerInfo;jp(e.current,2,null,e,null,null),er(),n[Xa]=null}};function ar(e){this._internalRoot=e}ar.prototype.unstable_scheduleHydration=function(e){if(e){var n=dm();e={blockedOn:null,target:e,priority:n};for(var t=0;t<st.length&&n!==0&&n<st[t].priority;t++);st.splice(t,0,e),t===0&&Jp(e)}};var wu=Xu.version;if(wu!=="19.3.0")throw Error(v(527,wu,"19.3.0"));j.findDOMNode=function(e){var n=e._reactInternals;if(n===void 0)throw typeof e.render=="function"?Error(v(188)):(e=Object.keys(e).join(","),Error(v(268,e)));return e=Bw(n),e=e!==null?Zu(e):null,e=e===null?null:e.stateNode,e};var qb={bundleType:0,version:"19.3.0",rendererPackageName:"react-dom",currentDispatcherRef:L,reconcilerVersion:"19.3.0"};if(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__<"u"){var xo=__REACT_DEVTOOLS_GLOBAL_HOOK__;if(!xo.isDisabled&&xo.supportsFiber)try{Xi=xo.inject(qb),nn=xo}catch{}}Rs.createRoot=function(e,n){if(!Qu(e))throw Error(v(299));var t=!1,a="",i=Mg,o=xg,s=Lg;return n!=null&&(n.unstable_strictMode===!0&&(t=!0),n.identifierPrefix!==void 0&&(a=n.identifierPrefix),n.onUncaughtError!==void 0&&(i=n.onUncaughtError),n.onCaughtError!==void 0&&(o=n.onCaughtError),n.onRecoverableError!==void 0&&(s=n.onRecoverableError)),n=Bp(e,1,!1,null,null,t,a,null,i,o,s,zp),e[Xa]=n.current,ch(e),new fh(n)};Rs.hydrateRoot=function(e,n,t){if(!Qu(e))throw Error(v(299));var a=!1,i="",o=Mg,s=xg,r=Lg,c=null;return t!=null&&(t.unstable_strictMode===!0&&(a=!0),t.identifierPrefix!==void 0&&(i=t.identifierPrefix),t.onUncaughtError!==void 0&&(o=t.onUncaughtError),t.onCaughtError!==void 0&&(s=t.onCaughtError),t.onRecoverableError!==void 0&&(r=t.onRecoverableError),t.formState!==void 0&&(c=t.formState)),n=Bp(e,1,!0,n,t??null,a,i,c,o,s,r,zp),n.context=Hp(null),t=n.current,a=an(),a=yl(a),i=pt(a),i.callback=null,wt(t,i,a),t=a,n.current.lanes=t,Ki(n,t),Rn(n),e[Xa]=n.current,ch(e),new ar(n)};Rs.version="19.3.0";function Xp(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(Xp)}catch(e){console.error(e)}}Xp(),Eu.exports=Rs;var Gb=Eu.exports;function Lt(e){return Array.isArray?Array.isArray(e):Kp(e)==="[object Array]"}function Jb(e){if(typeof e=="string")return e;if(typeof e=="bigint")return e.toString();const n=e+"";return n=="0"&&1/e==-1/0?"-0":n}function al(e){return e==null?"":Jb(e)}function We(e){return typeof e=="string"}function es(e){return typeof e=="number"}function zb(e){return e===!0||e===!1||Xb(e)&&Kp(e)=="[object Boolean]"}function Qp(e){return typeof e=="object"}function Xb(e){return Qp(e)&&e!==null}function Ye(e){return e!=null}function Lo(e){return!e.trim().length}function Kp(e){return e==null?e===void 0?"[object Undefined]":"[object Null]":Object.prototype.toString.call(e)}const Qb="Incorrect 'index' type",il="Invalid doc index: must be a non-negative integer within the bounds of the docs array",Kb=e=>`Invalid value for key ${e}`,Yb=e=>`Pattern length exceeds max of ${e}.`,Zb=e=>`Missing ${e} property in key`,$b=e=>`Property 'weight' in key '${e}' must be a positive integer`,ev="Fuse.match does not support useTokenSearch: token search requires corpus-level statistics (df, fieldCount) that a one-off string comparison does not have. Use new Fuse(...).search(...) instead.",fu=Object.prototype.hasOwnProperty;var nv=class{constructor(e){this._keys=[],this._keyMap={};let n=0;e.forEach(t=>{const a=Yp(t);this._keys.push(a),this._keyMap[a.id]=a,n+=a.weight}),this._keys.forEach(t=>{t.weight/=n})}get(e){return this._keyMap[e]}keys(){return this._keys}toJSON(){return JSON.stringify(this._keys)}};function Yp(e){let n=null,t=null,a=null,i=1,o=null;if(We(e)||Lt(e))a=e,n=Cu(e),t=ns(e);else{if(!fu.call(e,"name"))throw new Error(Zb("name"));const s=e.name;if(a=s,fu.call(e,"weight")&&e.weight!==void 0&&(i=e.weight,i<=0))throw new Error($b(ns(s)));n=Cu(s),t=ns(s),o=e.getFn??null}return{path:n,id:t,weight:i,src:a,getFn:o}}function Cu(e){return Lt(e)?e:e.split(".")}function ns(e){return Lt(e)?e.join("."):e}function tv(e,n){const t=[];let a=!1;const i=(o,s,r,c)=>{if(Ye(o))if(!s[r])t.push(c!==void 0?{v:o,i:c}:o);else{const l=o[s[r]];if(!Ye(l))return;if(r===s.length-1&&(We(l)||es(l)||zb(l)||typeof l=="bigint"))t.push(c!==void 0?{v:al(l),i:c}:al(l));else if(Lt(l)){a=!0;for(let h=0,p=l.length;h<p;h+=1)i(l[h],s,r+1,h)}else s.length&&i(l,s,r+1,c)}};return i(e,We(n)?n.split("."):n,0),a?t:t[0]}const av={includeMatches:!1,findAllMatches:!1,minMatchCharLength:1},iv={isCaseSensitive:!1,ignoreDiacritics:!1,includeScore:!1,keys:[],shouldSort:!0,sortFn:(e,n)=>e.score===n.score?e.idx<n.idx?-1:1:e.score<n.score?-1:1},ov={location:0,threshold:.6,distance:100},sv={useExtendedSearch:!1,useTokenSearch:!1,tokenize:void 0,tokenMatch:"any",getFn:tv,ignoreLocation:!1,ignoreFieldNorm:!1,fieldNormWeight:1},x=Object.freeze({...iv,...av,...ov,...sv});function rv(e){return e>=9&&e<=13||e===32||e===160}function cv(e=1,n=3){const t=new Map,a=Math.pow(10,n);return{get(i){let o=0,s=!1;for(let c=0;c<i.length;c++)rv(i.charCodeAt(c))?s=!1:s||(o++,s=!0);if(o===0&&(o=1),t.has(o))return t.get(o);const r=Math.round(a/Math.pow(o,.5*e))/a;return t.set(o,r),r},clear(){t.clear()}}}var Ch=class{constructor({getFn:e=x.getFn,fieldNormWeight:n=x.fieldNormWeight}={}){this.norm=cv(n,3),this.getFn=e,this.isCreated=!1,this.docs=[],this.keys=[],this._keysMap={},this.setIndexRecords()}setSources(e=[]){this.docs=e}setIndexRecords(e=[]){this.records=e}setKeys(e=[]){this.keys=e,this._keysMap={},e.forEach((n,t)=>{this._keysMap[n.id]=t})}create(){if(this.isCreated||!this.docs.length)return;this.isCreated=!0;const e=this.docs.length;this.records=new Array(e);let n=0;if(We(this.docs[0]))for(let t=0;t<e;t++){const a=this._createStringRecord(this.docs[t],t);a&&(this.records[n++]=a)}else for(let t=0;t<e;t++)this.records[n++]=this._createObjectRecord(this.docs[t],t);this.records.length=n,this.norm.clear()}add(e,n){if(!Number.isInteger(n)||n<0)throw new Error(il);if(We(e)){const a=this._createStringRecord(e,n);return a&&this.records.push(a),a}const t=this._createObjectRecord(e,n);return this.records.push(t),t}removeAt(e){if(!Number.isInteger(e)||e<0)throw new Error(il);for(let n=0,t=this.records.length;n<t;n+=1)if(this.records[n].i===e){this.records.splice(n,1);break}for(let n=0,t=this.records.length;n<t;n+=1)this.records[n].i>e&&(this.records[n].i-=1)}removeAll(e){const n=new Set;for(const a of e)Number.isInteger(a)&&a>=0&&n.add(a);if(n.size===0)return;this.records=this.records.filter(a=>!n.has(a.i));const t=Array.from(n).sort((a,i)=>a-i);for(const a of this.records){let i=0,o=t.length;for(;i<o;){const s=i+o>>>1;t[s]<a.i?i=s+1:o=s}a.i-=i}}getValueForItemAtKeyId(e,n){return e[this._keysMap[n]]}size(){return this.records.length}_createStringRecord(e,n){return!Ye(e)||Lo(e)?null:{v:e,i:n,n:this.norm.get(e)}}_createObjectRecord(e,n){const t={i:n,$:{}};for(let a=0,i=this.keys.length;a<i;a++){const o=this.keys[a],s=o.getFn?o.getFn(e):this.getFn(e,o.path);if(Ye(s)){if(Lt(s)){const r=[];for(let c=0,l=s.length;c<l;c+=1){const h=s[c];if(Ye(h)){if(We(h)){if(!Lo(h)){const p={v:h,i:c,n:this.norm.get(h)};r.push(p)}}else if(Ye(h.v)){const p=We(h.v)?h.v:al(h.v);if(!Lo(p)){const d={v:p,i:h.i,n:this.norm.get(p)};r.push(d)}}}}t.$[a]=r}else if(We(s)&&!Lo(s)){const r={v:s,n:this.norm.get(s)};t.$[a]=r}}}return t}toJSON(){return{keys:this.keys.map(({getFn:e,...n})=>n),records:this.records}}};function Zp(e,n,{getFn:t=x.getFn,fieldNormWeight:a=x.fieldNormWeight}={}){const i=new Ch({getFn:t,fieldNormWeight:a});return i.setKeys(e.map(Yp)),i.setSources(n),i.create(),i}function lv(e,{getFn:n=x.getFn,fieldNormWeight:t=x.fieldNormWeight}={}){const{keys:a,records:i}=e,o=new Ch({getFn:n,fieldNormWeight:t});return o.setKeys(a),o.setIndexRecords(i),o}function hv(e=[],n=x.minMatchCharLength){const t=[];let a=-1,i=-1,o=0;for(let s=e.length;o<s;o+=1){const r=e[o];r&&a===-1?a=o:!r&&a!==-1&&(i=o-1,i-a+1>=n&&t.push([a,i]),a=-1)}return e[o-1]&&o-a>=n&&t.push([a,o-1]),t}function dv(e,n,t,{location:a=x.location,distance:i=x.distance,threshold:o=x.threshold,findAllMatches:s=x.findAllMatches,minMatchCharLength:r=x.minMatchCharLength,includeMatches:c=x.includeMatches,ignoreLocation:l=x.ignoreLocation}={}){if(n.length>32)throw new Error(Yb(32));const h=n.length,p=e.length,d=Math.max(0,Math.min(a,p));let m=o,f=d;const b=(W,M)=>{const q=W/h;if(l)return q;const ge=Math.abs(d-M);return i?q+ge/i:ge?1:q},P=r>1||c,g=P?Array(p):[];let u;for(;(u=e.indexOf(n,f))>-1;){const W=b(0,u);if(m=Math.min(W,m),f=u+h,P){let M=0;for(;M<h;)g[u+M]=1,M+=1}}f=-1;let w=[],C=1,S=0,_=h+p;const T=1<<h-1;for(let W=0;W<h;W+=1){let M=0,q=_;for(;M<q;)b(W,d+q)<=m?M=q:_=q,q=Math.floor((_-M)/2+M);_=q;let ge=Math.max(1,d-q+1);const $n=s?p:Math.min(d+q,p)+h,Je=Array($n+2);Je[$n+1]=(1<<W)-1;for(let Ae=$n;Ae>=ge;Ae-=1){const I=Ae-1,D=t[e[I]];if(Je[Ae]=(Je[Ae+1]<<1|1)&D,W&&(Je[Ae]|=(w[Ae+1]|w[Ae])<<1|1|w[Ae+1]),Je[Ae]&T&&(C=b(W,I),C<=m)){if(m=C,f=I,S=W,f<=d)break;ge=Math.max(1,2*d-f)}}if(b(W+1,d)>m)break;w=Je}if(P&&f>=0){const W=Math.min(p-1,f+h-1+S);for(let M=f;M<=W;M+=1)t[e[M]]&&(g[M]=1)}const A={isMatch:f>=0,score:Math.max(.001,C)};if(P){const W=hv(g,r);W.length?c&&(A.indices=W):A.isMatch=!1}return A}function uv(e){const n={};for(let t=0,a=e.length;t<a;t+=1){const i=e.charAt(t);n[i]=(n[i]||0)|1<<a-t-1}return n}function bh(e){if(e.length<=1)return e;e.sort((t,a)=>t[0]-a[0]||t[1]-a[1]);const n=[e[0]];for(let t=1,a=e.length;t<a;t+=1){const i=n[n.length-1],o=e[t];o[0]<=i[1]+1?i[1]=Math.max(i[1],o[1]):n.push(o)}return n}const $p={ł:"l",Ł:"L",đ:"d",Đ:"D",ø:"o",Ø:"O",ħ:"h",Ħ:"H",ŧ:"t",Ŧ:"T",ı:"i",ß:"ss"},mv=new RegExp("["+Object.keys($p).join("")+"]","g"),Ji=typeof String.prototype.normalize=="function"?e=>e.normalize("NFD").replace(/[\u0300-\u036F\u0483-\u0489\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED\u0711\u0730-\u074A\u07A6-\u07B0\u07EB-\u07F3\u07FD\u0816-\u0819\u081B-\u0823\u0825-\u0827\u0829-\u082D\u0859-\u085B\u08D3-\u08E1\u08E3-\u0903\u093A-\u093C\u093E-\u094F\u0951-\u0957\u0962\u0963\u0981-\u0983\u09BC\u09BE-\u09C4\u09C7\u09C8\u09CB-\u09CD\u09D7\u09E2\u09E3\u09FE\u0A01-\u0A03\u0A3C\u0A3E-\u0A42\u0A47\u0A48\u0A4B-\u0A4D\u0A51\u0A70\u0A71\u0A75\u0A81-\u0A83\u0ABC\u0ABE-\u0AC5\u0AC7-\u0AC9\u0ACB-\u0ACD\u0AE2\u0AE3\u0AFA-\u0AFF\u0B01-\u0B03\u0B3C\u0B3E-\u0B44\u0B47\u0B48\u0B4B-\u0B4D\u0B56\u0B57\u0B62\u0B63\u0B82\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD7\u0C00-\u0C04\u0C3E-\u0C44\u0C46-\u0C48\u0C4A-\u0C4D\u0C55\u0C56\u0C62\u0C63\u0C81-\u0C83\u0CBC\u0CBE-\u0CC4\u0CC6-\u0CC8\u0CCA-\u0CCD\u0CD5\u0CD6\u0CE2\u0CE3\u0D00-\u0D03\u0D3B\u0D3C\u0D3E-\u0D44\u0D46-\u0D48\u0D4A-\u0D4D\u0D57\u0D62\u0D63\u0D82\u0D83\u0DCA\u0DCF-\u0DD4\u0DD6\u0DD8-\u0DDF\u0DF2\u0DF3\u0E31\u0E34-\u0E3A\u0E47-\u0E4E\u0EB1\u0EB4-\u0EB9\u0EBB\u0EBC\u0EC8-\u0ECD\u0F18\u0F19\u0F35\u0F37\u0F39\u0F3E\u0F3F\u0F71-\u0F84\u0F86\u0F87\u0F8D-\u0F97\u0F99-\u0FBC\u0FC6\u102B-\u103E\u1056-\u1059\u105E-\u1060\u1062-\u1064\u1067-\u106D\u1071-\u1074\u1082-\u108D\u108F\u109A-\u109D\u135D-\u135F\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17B4-\u17D3\u17DD\u180B-\u180D\u1885\u1886\u18A9\u1920-\u192B\u1930-\u193B\u1A17-\u1A1B\u1A55-\u1A5E\u1A60-\u1A7C\u1A7F\u1AB0-\u1ABE\u1B00-\u1B04\u1B34-\u1B44\u1B6B-\u1B73\u1B80-\u1B82\u1BA1-\u1BAD\u1BE6-\u1BF3\u1C24-\u1C37\u1CD0-\u1CD2\u1CD4-\u1CE8\u1CED\u1CF2-\u1CF4\u1CF7-\u1CF9\u1DC0-\u1DF9\u1DFB-\u1DFF\u20D0-\u20F0\u2CEF-\u2CF1\u2D7F\u2DE0-\u2DFF\u302A-\u302F\u3099\u309A\uA66F-\uA672\uA674-\uA67D\uA69E\uA69F\uA6F0\uA6F1\uA802\uA806\uA80B\uA823-\uA827\uA880\uA881\uA8B4-\uA8C5\uA8E0-\uA8F1\uA8FF\uA926-\uA92D\uA947-\uA953\uA980-\uA983\uA9B3-\uA9C0\uA9E5\uAA29-\uAA36\uAA43\uAA4C\uAA4D\uAA7B-\uAA7D\uAAB0\uAAB2-\uAAB4\uAAB7\uAAB8\uAABE\uAABF\uAAC1\uAAEB-\uAAEF\uAAF5\uAAF6\uABE3-\uABEA\uABEC\uABED\uFB1E\uFE00-\uFE0F\uFE20-\uFE2F]/g,"").replace(mv,n=>$p[n]):e=>e;var vh=class{constructor(e,{location:n=x.location,threshold:t=x.threshold,distance:a=x.distance,includeMatches:i=x.includeMatches,findAllMatches:o=x.findAllMatches,minMatchCharLength:s=x.minMatchCharLength,isCaseSensitive:r=x.isCaseSensitive,ignoreDiacritics:c=x.ignoreDiacritics,ignoreLocation:l=x.ignoreLocation}={}){if(this.options={location:n,threshold:t,distance:a,includeMatches:i,findAllMatches:o,minMatchCharLength:s,isCaseSensitive:r,ignoreDiacritics:c,ignoreLocation:l},e=r?e:e.toLowerCase(),e=c?Ji(e):e,this.pattern=e,this.chunks=[],!this.pattern.length)return;const h=(d,m)=>{this.chunks.push({pattern:d,alphabet:uv(d),startIndex:m})},p=this.pattern.length;if(p>32){let d=0;const m=p%32,f=p-m;for(;d<f;)h(this.pattern.substr(d,32),d),d+=32;if(m){const b=p-32;h(this.pattern.substr(b),b)}}else h(this.pattern,0)}searchIn(e){const{isCaseSensitive:n,ignoreDiacritics:t,includeMatches:a}=this.options;if(e=n?e:e.toLowerCase(),e=t?Ji(e):e,this.pattern===e){if(e.length<this.options.minMatchCharLength)return{isMatch:!1,score:1};const f={isMatch:!0,score:0};return a&&(f.indices=[[0,e.length-1]]),f}const{location:i,distance:o,threshold:s,findAllMatches:r,minMatchCharLength:c,ignoreLocation:l}=this.options,h=[];let p=0,d=!1;this.chunks.forEach(({pattern:f,alphabet:b,startIndex:P})=>{const{isMatch:g,score:u,indices:w}=dv(e,f,b,{location:i+P,distance:o,threshold:s,findAllMatches:r,minMatchCharLength:c,includeMatches:a,ignoreLocation:l});g&&(d=!0),p+=u,g&&w&&h.push(...w)});const m={isMatch:d,score:d?p/this.chunks.length:1};return d&&a&&(m.indices=bh(h)),m}};const gv=new Set(["fuzzy","include"]);function pv(e){return e.startsWith("inverse")}const ol=[{type:"exact",multiRegex:/^="(.*)"$/,singleRegex:/^=(.*)$/,create:e=>({type:"exact",search(n){const t=n===e;return{isMatch:t,score:t?0:1,indices:[0,e.length-1]}}})},{type:"include",multiRegex:/^'"(.*)"$/,singleRegex:/^'(.*)$/,create:e=>({type:"include",search(n){let t=0,a;const i=[],o=e.length;for(;(a=n.indexOf(e,t))>-1;)t=a+o,i.push([a,t-1]);const s=!!i.length;return{isMatch:s,score:s?0:1,indices:i}}})},{type:"prefix-exact",multiRegex:/^\^"(.*)"$/,singleRegex:/^\^(.*)$/,create:e=>({type:"prefix-exact",search(n){const t=n.startsWith(e);return{isMatch:t,score:t?0:1,indices:[0,e.length-1]}}})},{type:"inverse-prefix-exact",multiRegex:/^!\^"(.*)"$/,singleRegex:/^!\^(.*)$/,create:e=>({type:"inverse-prefix-exact",search(n){const t=!n.startsWith(e);return{isMatch:t,score:t?0:1,indices:[0,n.length-1]}}})},{type:"inverse-suffix-exact",multiRegex:/^!"(.*)"\$$/,singleRegex:/^!(.*)\$$/,create:e=>({type:"inverse-suffix-exact",search(n){const t=!n.endsWith(e);return{isMatch:t,score:t?0:1,indices:[0,n.length-1]}}})},{type:"suffix-exact",multiRegex:/^"(.*)"\$$/,singleRegex:/^(.*)\$$/,create:e=>({type:"suffix-exact",search(n){const t=n.endsWith(e);return{isMatch:t,score:t?0:1,indices:[n.length-e.length,n.length-1]}}})},{type:"inverse-exact",multiRegex:/^!"(.*)"$/,singleRegex:/^!(.*)$/,create:e=>({type:"inverse-exact",search(n){const t=n.indexOf(e)===-1;return{isMatch:t,score:t?0:1,indices:[0,n.length-1]}}})},{type:"fuzzy",multiRegex:/^"(.*)"$/,singleRegex:/^(.*)$/,create:(e,n={})=>{const t=new vh(e,{location:n.location??x.location,threshold:n.threshold??x.threshold,distance:n.distance??x.distance,includeMatches:n.includeMatches??x.includeMatches,findAllMatches:n.findAllMatches??x.findAllMatches,minMatchCharLength:n.minMatchCharLength??x.minMatchCharLength,isCaseSensitive:n.isCaseSensitive??x.isCaseSensitive,ignoreDiacritics:n.ignoreDiacritics??x.ignoreDiacritics,ignoreLocation:n.ignoreLocation??x.ignoreLocation});return{type:"fuzzy",search(a){return t.searchIn(a)}}}}],bu=ol.length,wv="\0",fv="|";function Cv(e){const n=[],t=e.length;let a=0;for(;a<t;){for(;a<t&&e[a]===" ";)a++;if(a>=t)break;let i=a;for(;i<t&&e[i]!==" "&&e[i]!=='"';)i++;if(i<t&&e[i]==='"'){for(i++;i<t;){if(e[i]==='"'){const o=i+1;if(o>=t||e[o]===" "){i++;break}if(e[o]==="$"&&(o+1>=t||e[o+1]===" ")){i+=2;break}}i++}n.push(e.substring(a,i)),a=i}else{for(;i<t&&e[i]!==" ";)i++;n.push(e.substring(a,i)),a=i}}return n}function vu(e,n){const t=e.match(n);return t?t[1]:null}function bv(e,n={}){return e.replace(/\\\|/g,wv).split(fv).map(t=>{const a=Cv(t.replace(/\u0000/g,"|").trim()).filter(o=>o&&!!o.trim()),i=[];for(let o=0,s=a.length;o<s;o+=1){const r=a[o];let c=!1,l=-1;for(;!c&&++l<bu;){const h=ol[l],p=vu(r,h.multiRegex);p&&(i.push(h.create(p,n)),c=!0)}if(!c)for(l=-1;++l<bu;){const h=ol[l],p=vu(r,h.singleRegex);if(p){i.push(h.create(p,n));break}}}return i})}var vv=class{constructor(e,{isCaseSensitive:n=x.isCaseSensitive,ignoreDiacritics:t=x.ignoreDiacritics,includeMatches:a=x.includeMatches,minMatchCharLength:i=x.minMatchCharLength,ignoreLocation:o=x.ignoreLocation,findAllMatches:s=x.findAllMatches,location:r=x.location,threshold:c=x.threshold,distance:l=x.distance}={}){this.query=null,this.options={isCaseSensitive:n,ignoreDiacritics:t,includeMatches:a,minMatchCharLength:i,findAllMatches:s,ignoreLocation:o,location:r,threshold:c,distance:l},e=n?e:e.toLowerCase(),e=t?Ji(e):e,this.pattern=e,this.query=bv(this.pattern,this.options)}static condition(e,n){return n.useExtendedSearch}searchIn(e){const n=this.query;if(!n)return{isMatch:!1,score:1};const{includeMatches:t,isCaseSensitive:a,ignoreDiacritics:i}=this.options;e=a?e:e.toLowerCase(),e=i?Ji(e):e;let o=0;const s=[];let r=0,c=!1;for(let l=0,h=n.length;l<h;l+=1){const p=n[l];s.length=0,o=0,c=!1;for(let d=0,m=p.length;d<m;d+=1){const f=p[d],{isMatch:b,indices:P,score:g}=f.search(e);if(b)o+=1,r+=g,pv(f.type)&&(c=!0),t&&(gv.has(f.type)?s.push(...P):s.push(P));else{r=0,o=0,s.length=0,c=!1;break}}if(o){const d={isMatch:!0,score:r/o};return c&&(d.hasInverse=!0),t&&(d.indices=bh(s)),d}}return{isMatch:!1,score:1}}};const sl=[];function yh(...e){sl.push(...e)}function Ws(e,n){for(let t=0,a=sl.length;t<a;t+=1){const i=sl[t];if(i.condition(e,n))return new i(e,n)}return new vh(e,n)}const ks={AND:"$and",OR:"$or"},rl={PATH:"$path",PATTERN:"$val"},cl=e=>!!(e[ks.AND]||e[ks.OR]),yv=e=>!!e[rl.PATH],Sv=e=>!Lt(e)&&Qp(e)&&!cl(e),yu=e=>({[ks.AND]:Object.keys(e).map(n=>({[n]:e[n]}))});function ew(e,n,{auto:t=!0}={}){const a=i=>{if(We(i)){const c={keyId:null,pattern:i};return t&&(c.searcher=Ws(i,n)),c}const o=Object.keys(i),s=yv(i);if(!s&&o.length>1&&!cl(i))return a(yu(i));if(Sv(i)){const c=s?i[rl.PATH]:o[0],l=s?i[rl.PATTERN]:i[c];if(!We(l))throw new Error(Kb(c));const h={keyId:ns(c),pattern:l};return t&&(h.searcher=Ws(l,n)),h}const r={children:[],operator:o[0]};return o.forEach(c=>{const l=i[c];Lt(l)&&l.forEach(h=>{r.children.push(a(h))})}),r};return cl(e)||(e=yu(e)),a(e)}function ll(e,{ignoreFieldNorm:n=x.ignoreFieldNorm}){let t=1;return e.forEach(({key:a,norm:i,score:o})=>{const s=a?a.weight:null;t*=Math.pow(o===0&&s?Number.EPSILON:o,(s||1)*(n?1:i))}),t}function Av(e,{ignoreFieldNorm:n=x.ignoreFieldNorm}){e.forEach(t=>{t.score=ll(t.matches,{ignoreFieldNorm:n})})}var Pv=class{constructor(e,n){this.limit=e,this.heap=[],this.comparator=n}get size(){return this.heap.length}insert(e){this.size<this.limit?(this.heap.push(e),this._bubbleUp(this.size-1)):this.comparator(e,this.heap[0])<0&&(this.heap[0]=e,this._sinkDown(0))}extractSorted(){return this.heap.sort(this.comparator)}_bubbleUp(e){const n=this.heap;for(;e>0;){const t=e-1>>1;if(this.comparator(n[e],n[t])<=0)break;const a=n[e];n[e]=n[t],n[t]=a,e=t}}_sinkDown(e){const n=this.heap,t=n.length;let a=e;do{e=a;const i=2*e+1,o=2*e+2;if(i<t&&this.comparator(n[i],n[a])>0&&(a=i),o<t&&this.comparator(n[o],n[a])>0&&(a=o),a!==e){const s=n[e];n[e]=n[a],n[a]=s}}while(a!==e)}};function Tv(e){const n=[];return e.matches.forEach(t=>{if(!Ye(t.indices)||!t.indices.length)return;const a={indices:t.indices,value:t.value};t.key&&(a.key=t.key.id),t.idx>-1&&(a.refIndex=t.idx),n.push(a)}),n}function Iv(e,n,{includeMatches:t=x.includeMatches,includeScore:a=x.includeScore}={}){return e.map(i=>{const{idx:o}=i,s={item:n[o],refIndex:o};return t&&(s.matches=Tv(i)),a&&(s.score=i.score),s})}const _v=/[\p{L}\p{M}\p{N}_]+/gu,Su=new WeakSet;function Mv(e){Su.has(e)||(Su.add(e),console.warn(`[Fuse] tokenize regex ${e} lacks the global flag; only the first match per text will be returned. Add the 'g' flag.`))}function xv(e){if(typeof e=="function"){let n=!1;return t=>{const a=e(t);if(!n&&(n=!0,!Array.isArray(a)||a.some(i=>typeof i!="string")))throw new Error(`[Fuse] tokenize function must return string[]; received ${Array.isArray(a)?"array containing non-strings":typeof a}.`);return a}}return e instanceof RegExp?(e.global||Mv(e),n=>n.match(e)||[]):n=>n.match(_v)||[]}function hl({isCaseSensitive:e=!1,ignoreDiacritics:n=!1,tokenize:t}={}){const a=xv(t);return{tokenize(i){return e||(i=i.toLowerCase()),n&&(i=Ji(i)),a(i)}}}var Lv=class{static condition(e,n){return n.useTokenSearch}constructor(e,n){this.options=n,this.analyzer=hl({isCaseSensitive:n.isCaseSensitive,ignoreDiacritics:n.ignoreDiacritics,tokenize:n.tokenize});const t=this.analyzer.tokenize(e),{df:a,fieldCount:i}=n._invertedIndex;this.termSearchers=[],this.idfWeights=[];for(const o of t){this.termSearchers.push(new vh(o,{location:n.location,threshold:n.threshold,distance:n.distance,includeMatches:n.includeMatches,findAllMatches:n.findAllMatches,minMatchCharLength:n.minMatchCharLength,isCaseSensitive:n.isCaseSensitive,ignoreDiacritics:n.ignoreDiacritics,ignoreLocation:!0}));const s=a.get(o)||0,r=Math.log(1+(i-s+.5)/(s+.5));this.idfWeights.push(r)}this.combineAll=n.tokenMatch==="all",this.numTerms=this.termSearchers.length,this.useMask=this.numTerms<=31}searchIn(e){if(!this.termSearchers.length)return{isMatch:!1,score:1};const n=[];let t=0,a=0,i=0,o=0;const s=this.combineAll&&!this.useMask?new Set:null;for(let l=0;l<this.termSearchers.length;l++){const h=this.termSearchers[l].searchIn(e),p=this.idfWeights[l];a+=p,h.isMatch&&(i++,t+=p*(1-h.score),h.indices&&n.push(...h.indices),this.combineAll&&(this.useMask?o|=1<<l:s.add(l)))}if(i===0)return{isMatch:!1,score:1};const r=a>0?1-t/a:0,c={isMatch:!0,score:Math.max(.001,r)};return this.options.includeMatches&&n.length&&(c.indices=bh(n)),this.combineAll&&(this.useMask?c.matchedMask=o:c.matchedTerms=s,c.termCount=this.numTerms),c}};function Br(e,n,t,a){const i=a.tokenize(n);if(!i.length)return;e.fieldCount++,e.docFieldCount.set(t,(e.docFieldCount.get(t)||0)+1);const o=new Set(i);let s=e.docTermFieldHits.get(t);s||(s=new Map,e.docTermFieldHits.set(t,s));for(const r of o)s.set(r,(s.get(r)||0)+1),e.df.set(r,(e.df.get(r)||0)+1)}function nw(e,n,t,a){const{i,v:o,$:s}=n;if(o!==void 0){Br(e,o,i,a);return}if(s)for(let r=0;r<t;r++){const c=s[r];if(c)if(Array.isArray(c))for(const l of c)Br(e,l.v,i,a);else Br(e,c.v,i,a)}}function Wv(e,n,t){const a={fieldCount:0,df:new Map,docFieldCount:new Map,docTermFieldHits:new Map};for(const i of e)nw(a,i,n,t);return a}function kv(e,n,t,a){nw(e,n,t,a)}function Ev(e,n){const t=e.docFieldCount.get(n);if(t===void 0)return;e.fieldCount-=t,e.docFieldCount.delete(n);const a=e.docTermFieldHits.get(n);if(a){for(const[i,o]of a){const s=(e.df.get(i)||0)-o;s<=0?e.df.delete(i):e.df.set(i,s)}e.docTermFieldHits.delete(n)}}function Au(e,n){if(n.length===0)return;const t=Array.from(new Set(n)).sort((r,c)=>r-c);for(const r of t)Ev(e,r);const a=r=>{let c=0,l=t.length;for(;c<l;){const h=c+l>>>1;t[h]<r?c=h+1:l=h}return r-c},i=t[0],o=new Map;for(const[r,c]of e.docFieldCount)o.set(r>i?a(r):r,c);e.docFieldCount=o;const s=new Map;for(const[r,c]of e.docTermFieldHits)s.set(r>i?a(r):r,c);e.docTermFieldHits=s}var Wt=class{constructor(e,n,t){this.options={...x,...n},this.options.useExtendedSearch,this.options.useTokenSearch,this._keyStore=new nv(this.options.keys),this._docs=e,this._myIndex=null,this._invertedIndex=null,this.setCollection(e,t),this._lastQuery=null,this._lastSearcher=null}_getSearcher(e){if(this._lastQuery===e)return this._lastSearcher;const n=Ws(e,this._invertedIndex?{...this.options,_invertedIndex:this._invertedIndex}:this.options);return this._lastQuery=e,this._lastSearcher=n,n}setCollection(e,n){if(this._docs=e,n&&!(n instanceof Ch))throw new Error(Qb);if(this._myIndex=n||Zp(this.options.keys,this._docs,{getFn:this.options.getFn,fieldNormWeight:this.options.fieldNormWeight}),this.options.useTokenSearch){const t=hl({isCaseSensitive:this.options.isCaseSensitive,ignoreDiacritics:this.options.ignoreDiacritics,tokenize:this.options.tokenize});this._invertedIndex=Wv(this._myIndex.records,this._myIndex.keys.length,t)}this._invalidateSearcherCache()}add(e){if(!Ye(e))return;this._docs.push(e);const n=this._myIndex.add(e,this._docs.length-1);if(this._invertedIndex&&n){const t=hl({isCaseSensitive:this.options.isCaseSensitive,ignoreDiacritics:this.options.ignoreDiacritics,tokenize:this.options.tokenize});kv(this._invertedIndex,n,this._myIndex.keys.length,t)}this._invalidateSearcherCache()}remove(e=()=>!1){const n=[],t=[];for(let a=0,i=this._docs.length;a<i;a+=1)e(this._docs[a],a)&&(n.push(this._docs[a]),t.push(a));if(t.length){this._invertedIndex&&Au(this._invertedIndex,t);const a=new Set(t);this._docs=this._docs.filter((i,o)=>!a.has(o)),this._myIndex.removeAll(t),this._invalidateSearcherCache()}return n}removeAt(e){if(!Number.isInteger(e)||e<0||e>=this._docs.length)throw new Error(il);this._invertedIndex&&Au(this._invertedIndex,[e]);const n=this._docs.splice(e,1)[0];return this._myIndex.removeAt(e),this._invalidateSearcherCache(),n}_invalidateSearcherCache(){this._lastQuery=null,this._lastSearcher=null}getIndex(){return this._myIndex}_normalizedKeys(){return this._myIndex.keys.map(e=>this._keyStore.get(e.id)||e)}search(e,n){const{limit:t=-1}=n||{},{includeMatches:a,includeScore:i,shouldSort:o,sortFn:s,ignoreFieldNorm:r}=this.options;if(We(e)&&!e.trim()){let d=this._docs.map((m,f)=>({item:m,refIndex:f}));return es(t)&&t>-1&&(d=d.slice(0,t)),d}const c=o&&es(t)&&t>0&&We(e),l=s,h=(d,m)=>l(d,m)||d.idx-m.idx;let p;if(c){const d=new Pv(t,h);We(this._docs[0])?this._searchStringList(e,{heap:d,ignoreFieldNorm:r}):this._searchObjectList(e,{heap:d,ignoreFieldNorm:r}),p=d.extractSorted()}else p=We(e)?We(this._docs[0])?this._searchStringList(e):this._searchObjectList(e):this._searchLogical(e),Av(p,{ignoreFieldNorm:r}),o&&p.sort(We(e)?h:l),es(t)&&t>-1&&(p=p.slice(0,t));return Iv(p,this._docs,{includeMatches:a,includeScore:i})}_searchStringList(e,{heap:n,ignoreFieldNorm:t}={}){const a=this._getSearcher(e),i=this.options.useTokenSearch&&this.options.tokenMatch==="all",{records:o}=this._myIndex,s=n?null:[];return o.forEach(({v:r,i:c,n:l})=>{if(!Ye(r))return;const h=a.searchIn(r);if(h.isMatch){const p={score:h.score,value:r,norm:l,indices:h.indices};i&&(p.matchedMask=h.matchedMask,p.matchedTerms=h.matchedTerms,p.termCount=h.termCount);const d=[p];if(!i||this._coversAllTokens(d)){const m={item:r,idx:c,matches:d};n?(m.score=ll(m.matches,{ignoreFieldNorm:t}),n.insert(m)):s.push(m)}}}),s}_searchLogical(e){const n=ew(e,this.options),t=this._normalizedKeys(),a=(r,c,l)=>{if(!("children"in r)){const{keyId:m,searcher:f}=r;let b;return m===null?(b=[],t.forEach((P,g)=>{b.push(...this._findMatches({key:P,value:c[g],searcher:f}))})):b=this._findMatches({key:this._keyStore.get(m),value:this._myIndex.getValueForItemAtKeyId(c,m),searcher:f}),b&&b.length?[{idx:l,item:c,matches:b}]:[]}const{children:h,operator:p}=r,d=[];for(let m=0,f=h.length;m<f;m+=1){const b=h[m],P=a(b,c,l);if(P.length)d.push(...P);else if(p===ks.AND)return[]}return d},i=this._myIndex.records,o=new Map,s=[];return i.forEach(({$:r,i:c})=>{if(Ye(r)){const l=a(n,r,c);l.length&&(o.has(c)||(o.set(c,{idx:c,item:r,matches:[]}),s.push(o.get(c))),l.forEach(({matches:h})=>{o.get(c).matches.push(...h)}))}}),s}_searchObjectList(e,{heap:n,ignoreFieldNorm:t}={}){const a=this._getSearcher(e),i=this.options.useTokenSearch&&this.options.tokenMatch==="all",{records:o}=this._myIndex,s=this._normalizedKeys(),r=n?null:[];return o.forEach(({$:c,i:l})=>{if(!Ye(c))return;const h=[];let p=!1,d=!1;if(s.forEach((m,f)=>{const b=this._findMatches({key:m,value:c[f],searcher:a});b.length?(h.push(...b),b[0].hasInverse&&(d=!0)):p=!0}),!(d&&p)&&h.length&&(!i||this._coversAllTokens(h))){const m={idx:l,item:c,matches:h};n?(m.score=ll(m.matches,{ignoreFieldNorm:t}),n.insert(m)):r.push(m)}}),r}_findMatches({key:e,value:n,searcher:t}){if(!Ye(n))return[];const a=[];if(Lt(n))n.forEach(({v:i,i:o,n:s})=>{if(!Ye(i))return;const r=t.searchIn(i);if(r.isMatch){const c={score:r.score,key:e,value:i,idx:o,norm:s,indices:r.indices,hasInverse:r.hasInverse};r.termCount!==void 0&&(c.matchedMask=r.matchedMask,c.matchedTerms=r.matchedTerms,c.termCount=r.termCount),a.push(c)}});else{const{v:i,n:o}=n,s=t.searchIn(i);if(s.isMatch){const r={score:s.score,key:e,value:i,norm:o,indices:s.indices,hasInverse:s.hasInverse};s.termCount!==void 0&&(r.matchedMask=s.matchedMask,r.matchedTerms=s.matchedTerms,r.termCount=s.termCount),a.push(r)}}return a}_coversAllTokens(e){const n=e.length?e[0].termCount:void 0;if(n===void 0)return!0;if(n<=31){let a=0;for(let i=0;i<e.length;i++)a|=e[i].matchedMask||0;return a===2**n-1}const t=new Set;for(let a=0;a<e.length;a++){const i=e[a].matchedTerms;if(i)for(const o of i)t.add(o)}return t.size===n}};Wt.version="7.5.0";Wt.createIndex=Zp;Wt.parseIndex=lv;Wt.config=x;Wt.match=function(e,n,t){if(t&&t.useTokenSearch)throw new Error(ev);return Ws(e,{...x,...t}).searchIn(n)};Wt.parseQuery=ew;yh(vv);yh(Lv);Wt.use=function(...e){e.forEach(n=>yh(n))};var Dv=Wt;const Ov=`---
+`+a.stack}}var cc=Object.prototype.hasOwnProperty,Tl=be.unstable_scheduleCallback,fr=be.unstable_cancelCallback,cf=be.unstable_shouldYield,lf=be.unstable_requestPaint,nn=be.unstable_now,hf=be.unstable_getCurrentPriorityLevel,dm=be.unstable_ImmediatePriority,um=be.unstable_UserBlockingPriority,us=be.unstable_NormalPriority,df=be.unstable_LowPriority,mm=be.unstable_IdlePriority,uf=be.log,mf=be.unstable_setDisableYieldValue,to=null,tn=null;function lt(e){if(typeof uf=="function"&&mf(e),tn&&typeof tn.setStrictMode=="function")try{tn.setStrictMode(to,e)}catch{}}var an=Math.clz32?Math.clz32:wf,gf=Math.log,pf=Math.LN2;function wf(e){return e>>>=0,e===0?32:31-(gf(e)/pf|0)|0}var bo=256,vo=262144,yo=4194304;function Nt(e){var n=e&42;if(n!==0)return n;switch(e&-e){case 1:return 1;case 2:return 2;case 4:return 4;case 8:return 8;case 16:return 16;case 32:return 32;case 64:return 64;case 128:return 128;case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:return e&-e;case 262144:case 524288:case 1048576:case 2097152:return e&3932160;case 4194304:case 8388608:case 16777216:case 33554432:return e&62914560;case 67108864:return 67108864;case 134217728:return 134217728;case 268435456:return 268435456;case 536870912:return 536870912;case 1073741824:return 0;default:return e}}function Js(e,n,t){var a=e.pendingLanes;if(a===0)return 0;var i=0,o=e.suspendedLanes,s=e.pingedLanes;e=e.warmLanes;var r=a&134217727;return r!==0?(a=r&~o,a!==0?i=Nt(a):(s&=r,s!==0?i=Nt(s):t||(t=r&~e,t!==0&&(i=Nt(t))))):(r=a&~o,r!==0?i=Nt(r):s!==0?i=Nt(s):t||(t=a&~e,t!==0&&(i=Nt(t)))),i===0?0:n!==0&&n!==i&&!(n&o)&&(o=i&-i,t=n&-n,o>=t||o===32&&(t&4194048)!==0)?n:i}function ao(e,n){return(e.pendingLanes&~(e.suspendedLanes&~e.pingedLanes)&n)===0}function gm(e,n){n&8&&(n|=n&32);var t=e.entangledLanes;if(t!==0)for(e=e.entanglements,t&=n;0<t;){var a=31-an(t),i=1<<a;n|=e[a],t&=~i}return n}function ff(e,n){switch(e){case 1:case 2:case 4:case 8:case 64:return n+250;case 16:case 32:case 128:case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:return n+5e3;case 4194304:case 8388608:case 16777216:case 33554432:return-1;case 67108864:case 134217728:case 268435456:case 536870912:case 1073741824:return-1;default:return-1}}function pm(){var e=yo;return yo<<=1,!(yo&62914560)&&(yo=4194304),e}function Cr(e){for(var n=[],t=0;31>t;t++)n.push(e);return n}function io(e,n){e.pendingLanes|=n,n!==268435456&&(e.suspendedLanes=0,e.pingedLanes=0,e.warmLanes=0)}function Cf(e,n,t,a,i,o){var s=e.pendingLanes;e.pendingLanes=t,e.suspendedLanes=0,e.pingedLanes=0,e.warmLanes=0,e.expiredLanes&=t,e.entangledLanes&=t,e.errorRecoveryDisabledLanes&=t,e.shellSuspendCounter=0;var r=e.entanglements,c=e.expirationTimes,l=e.hiddenUpdates;for(t=s&~t;0<t;){var d=31-an(t),m=1<<d;r[d]=0,c[d]=-1;var u=l[d];if(u!==null)for(l[d]=null,d=0;d<u.length;d++){var p=u[d];p!==null&&(p.lane&=-536870913)}t&=~m}a!==0&&wm(e,a,0),o!==0&&i===0&&e.tag!==0&&(e.suspendedLanes|=o&~(s&~n))}function wm(e,n,t){e.pendingLanes|=n,e.suspendedLanes&=~n;var a=31-an(n);e.entangledLanes|=n,e.entanglements[a]=e.entanglements[a]|1073741824|t&261930}function fm(e,n){var t=e.entangledLanes|=n;for(e=e.entanglements;t;){var a=31-an(t),i=1<<a;i&n|e[a]&n&&(e[a]|=n),t&=~i}}function Cm(e,n){var t=n&-n;return t=t&42?1:Il(t),t&(e.suspendedLanes|n)?0:t}function Il(e){switch(e){case 2:e=1;break;case 8:e=4;break;case 32:e=16;break;case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:case 4194304:case 8388608:case 16777216:case 33554432:e=128;break;case 268435456:e=134217728;break;default:e=0}return e}function _l(e){return e&=-e,2<e?8<e?e&134217727?32:268435456:8:2}function bm(){var e=G.p;return e!==0?e:(e=window.event,e===void 0?32:$p(e.type))}function Gh(e,n){var t=G.p;try{return G.p=e,n()}finally{G.p=t}}var $n=Math.random().toString(36).slice(2),Ie="__reactFiber$"+$n,ze="__reactProps$"+$n,$a="__reactContainer$"+$n,Jh="__reactEvents$"+$n,bf="__reactListeners$"+$n,vf="__reactHandles$"+$n,zh="__reactResources$"+$n,oo="__reactMarker$"+$n,ms="__reactLoad$"+$n;function zs(e){delete e[Ie],delete e[ze],delete e[bf],delete e[vf]}function Bt(e){var n;if(n=e[Ie])return n;for(var t=e.parentNode;t;){if(n=t[$a]||t[Ie]){if(t=n.alternate,n.child!==null||t!==null&&t.child!==null)for(e=lu(e);e!==null;){if(t=e[Ie])return t;e=lu(e)}return n}e=t,t=e.parentNode}return null}function ei(e){if(e=e[Ie]||e[$a]){var n=e.tag;if(n===5||n===6||n===13||n===31||n===26||n===27||n===3)return e}return null}function fi(e){var n=e.tag;if(n===5||n===26||n===27||n===6)return e.stateNode;throw Error(S(33))}function Ma(e){var n=e[zh];return n||(n=e[zh]={hoistableStyles:new Map,hoistableScripts:new Map}),n}function Se(e){e[oo]=!0}function vm(e){e[ms]=void 0}var ym=new Set,Sm={};function sa(e,n){Va(e,n),Va(e+"Capture",n)}function Va(e,n){for(Sm[e]=n,e=0;e<n.length;e++)ym.add(n[e])}var yf=RegExp("^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"),Xh={},Qh={};function Sf(e){return cc.call(Qh,e)?!0:cc.call(Xh,e)?!1:yf.test(e)?Qh[e]=!0:(Xh[e]=!0,!1)}var H=!1;function Kh(){var e=H;return H=!1,e}function Bo(e,n,t){if(Sf(n))if(t===null)e.removeAttribute(n);else{switch(typeof t){case"undefined":case"function":case"symbol":e.removeAttribute(n);return;case"boolean":var a=n.toLowerCase().slice(0,5);if(a!=="data-"&&a!=="aria-"){e.removeAttribute(n);return}}e.setAttribute(n,t)}}function So(e,n,t){if(t===null)e.removeAttribute(n);else{switch(typeof t){case"undefined":case"function":case"symbol":case"boolean":e.removeAttribute(n);return}e.setAttribute(n,t)}}function jn(e,n,t,a){if(a===null)e.removeAttribute(t);else{switch(typeof a){case"undefined":case"function":case"symbol":case"boolean":e.removeAttribute(t);return}e.setAttributeNS(n,t,a)}}function Qe(e){switch(typeof e){case"bigint":case"boolean":case"number":case"string":case"undefined":return e;case"object":return e;default:return""}}function Am(e){var n=e.type;return(e=e.nodeName)&&e.toLowerCase()==="input"&&(n==="checkbox"||n==="radio")}function Af(e,n,t){var a=Object.getOwnPropertyDescriptor(e.constructor.prototype,n);if(!e.hasOwnProperty(n)&&typeof a<"u"&&typeof a.get=="function"&&typeof a.set=="function"){var i=a.get,o=a.set;return Object.defineProperty(e,n,{configurable:!0,get:function(){return i.call(this)},set:function(s){t=""+s,o.call(this,s)}}),Object.defineProperty(e,n,{enumerable:a.enumerable}),{getValue:function(){return t},setValue:function(s){t=""+s},stopTracking:function(){e._valueTracker=null,delete e[n]}}}}function lc(e){if(!e._valueTracker){var n=Am(e)?"checked":"value";e._valueTracker=Af(e,n,""+e[n])}}function Pm(e){if(!e)return!1;var n=e._valueTracker;if(!n)return!0;var t=n.getValue(),a="";return e&&(a=Am(e)?e.checked?"true":"false":e.value),e=a,e!==t?(n.setValue(e),!0):!1}var Pf=/[\n"\\]/g;function un(e){return e.replace(Pf,function(n){return"\\"+n.charCodeAt(0).toString(16)+" "})}function hc(e,n,t,a,i,o,s,r){e.name="",s!=null&&typeof s!="function"&&typeof s!="symbol"&&typeof s!="boolean"?e.type=s:e.removeAttribute("type"),n!=null?s==="number"?(n===0&&e.value===""||e.value!=n)&&(e.value=""+Qe(n)):e.value!==""+Qe(n)&&(e.value=""+Qe(n)):s!=="submit"&&s!=="reset"||e.removeAttribute("value"),n!=null?s==="number"&&e.value==n?br(e,Qe(e.value)):br(e,Qe(n)):t!=null?br(e,Qe(t)):a!=null&&e.removeAttribute("value"),i==null&&o!=null&&(e.defaultChecked=!!o),i!=null&&(e.checked=i&&typeof i!="function"&&typeof i!="symbol"),r!=null&&typeof r!="function"&&typeof r!="symbol"&&typeof r!="boolean"?e.name=""+Qe(r):e.removeAttribute("name")}function Tm(e,n,t,a,i,o,s,r){if(o!=null&&typeof o!="function"&&typeof o!="symbol"&&typeof o!="boolean"&&(e.type=o),n!=null||t!=null){if(!(o!=="submit"&&o!=="reset"||n!=null)){lc(e);return}t=t!=null?""+Qe(t):"",n=n!=null?""+Qe(n):t,r||n===e.value||(e.value=n),e.defaultValue=n}a=a??i,a=typeof a!="function"&&typeof a!="symbol"&&!!a,e.checked=r?e.checked:!!a,e.defaultChecked=!!a,s!=null&&typeof s!="function"&&typeof s!="symbol"&&typeof s!="boolean"&&(e.name=s),lc(e)}function br(e,n){e.defaultValue!==""+n&&(e.defaultValue=""+n)}function La(e,n,t,a){if(e=e.options,n){n={};for(var i=0;i<t.length;i++)n["$"+t[i]]=!0;for(t=0;t<e.length;t++)i=n.hasOwnProperty("$"+e[t].value),e[t].selected!==i&&(e[t].selected=i),i&&a&&(e[t].defaultSelected=!0)}else{for(t=""+Qe(t),n=null,i=0;i<e.length;i++){if(e[i].value===t){e[i].selected=!0,a&&(e[i].defaultSelected=!0);return}n!==null||e[i].disabled||(n=e[i])}n!==null&&(n.selected=!0)}}function Im(e,n,t){if(n!=null&&(n=""+Qe(n),n!==e.value&&(e.value=n),t==null)){e.defaultValue!==n&&(e.defaultValue=n);return}e.defaultValue=t!=null?""+Qe(t):""}function _m(e,n,t,a){if(n==null){if(a!=null){if(t!=null)throw Error(S(92));if(wi(a)){if(1<a.length)throw Error(S(93));a=a[0]}t=a}t==null&&(t=""),n=t}t=Qe(n),e.defaultValue=t,a=e.textContent,a===t&&a!==""&&a!==null&&(e.value=a),lc(e)}function ja(e,n){if(n){var t=e.firstChild;if(t&&t===e.lastChild&&t.nodeType===3){t.nodeValue=n;return}}e.textContent=n}var Tf=new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));function Yh(e,n,t){var a=n.indexOf("--")===0;t==null||typeof t=="boolean"||t===""?a?e.setProperty(n,""):n==="float"?e.cssFloat="":e[n]="":a?e.setProperty(n,t):typeof t!="number"||t===0||Tf.has(n)?n==="float"?e.cssFloat=t:e[n]=(""+t).trim():e[n]=t+"px"}function xm(e,n,t){if(n!=null&&typeof n!="object")throw Error(S(62));if(e=e.style,t!=null){for(var a in t)!t.hasOwnProperty(a)||n!=null&&n.hasOwnProperty(a)||(a.indexOf("--")===0?e.setProperty(a,""):a==="float"?e.cssFloat="":e[a]="",H=!0);for(var i in n)a=n[i],n.hasOwnProperty(i)&&t[i]!==a&&(Yh(e,i,a),H=!0)}else for(var o in n)n.hasOwnProperty(o)&&Yh(e,o,n[o])}function xl(e){if(e.indexOf("-")===-1)return!1;switch(e){case"annotation-xml":case"color-profile":case"font-face":case"font-face-src":case"font-face-uri":case"font-face-format":case"font-face-name":case"missing-glyph":return!1;default:return!0}}var If=new Map([["acceptCharset","accept-charset"],["htmlFor","for"],["httpEquiv","http-equiv"],["crossOrigin","crossorigin"],["accentHeight","accent-height"],["alignmentBaseline","alignment-baseline"],["arabicForm","arabic-form"],["baselineShift","baseline-shift"],["capHeight","cap-height"],["clipPath","clip-path"],["clipRule","clip-rule"],["colorInterpolation","color-interpolation"],["colorInterpolationFilters","color-interpolation-filters"],["colorProfile","color-profile"],["colorRendering","color-rendering"],["dominantBaseline","dominant-baseline"],["enableBackground","enable-background"],["fillOpacity","fill-opacity"],["fillRule","fill-rule"],["floodColor","flood-color"],["floodOpacity","flood-opacity"],["fontFamily","font-family"],["fontSize","font-size"],["fontSizeAdjust","font-size-adjust"],["fontStretch","font-stretch"],["fontStyle","font-style"],["fontVariant","font-variant"],["fontWeight","font-weight"],["glyphName","glyph-name"],["glyphOrientationHorizontal","glyph-orientation-horizontal"],["glyphOrientationVertical","glyph-orientation-vertical"],["horizAdvX","horiz-adv-x"],["horizOriginX","horiz-origin-x"],["imageRendering","image-rendering"],["letterSpacing","letter-spacing"],["lightingColor","lighting-color"],["markerEnd","marker-end"],["markerMid","marker-mid"],["markerStart","marker-start"],["maskType","mask-type"],["overlinePosition","overline-position"],["overlineThickness","overline-thickness"],["paintOrder","paint-order"],["panose-1","panose-1"],["pointerEvents","pointer-events"],["renderingIntent","rendering-intent"],["shapeRendering","shape-rendering"],["stopColor","stop-color"],["stopOpacity","stop-opacity"],["strikethroughPosition","strikethrough-position"],["strikethroughThickness","strikethrough-thickness"],["strokeDasharray","stroke-dasharray"],["strokeDashoffset","stroke-dashoffset"],["strokeLinecap","stroke-linecap"],["strokeLinejoin","stroke-linejoin"],["strokeMiterlimit","stroke-miterlimit"],["strokeOpacity","stroke-opacity"],["strokeWidth","stroke-width"],["textAnchor","text-anchor"],["textDecoration","text-decoration"],["textRendering","text-rendering"],["transformOrigin","transform-origin"],["underlinePosition","underline-position"],["underlineThickness","underline-thickness"],["unicodeBidi","unicode-bidi"],["unicodeRange","unicode-range"],["unitsPerEm","units-per-em"],["vAlphabetic","v-alphabetic"],["vHanging","v-hanging"],["vIdeographic","v-ideographic"],["vMathematical","v-mathematical"],["vectorEffect","vector-effect"],["vertAdvY","vert-adv-y"],["vertOriginX","vert-origin-x"],["vertOriginY","vert-origin-y"],["wordSpacing","word-spacing"],["writingMode","writing-mode"],["xmlnsXlink","xmlns:xlink"],["xHeight","x-height"]]),_f=/^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i;function Ho(e){return _f.test(""+e)?"javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')":e}function Wn(){}var dc=null;function Ml(e){return e=e.target||e.srcElement||window,e.correspondingUseElement&&(e=e.correspondingUseElement),e.nodeType===3?e.parentNode:e}var va=null,Wa=null;function Zh(e){var n=ei(e);if(n&&(e=n.stateNode)){var t=e[ze]||null;e:switch(e=n.stateNode,n.type){case"input":if(hc(e,t.value,t.defaultValue,t.defaultValue,t.checked,t.defaultChecked,t.type,t.name),n=t.name,t.type==="radio"&&n!=null){for(t=e;t.parentNode;)t=t.parentNode;for(t=t.querySelectorAll('input[name="'+un(""+n)+'"][type="radio"]'),n=0;n<t.length;n++){var a=t[n];if(a!==e&&a.form===e.form){var i=a[ze]||null;if(!i)throw Error(S(90));hc(a,i.value,i.defaultValue,i.defaultValue,i.checked,i.defaultChecked,i.type,i.name)}}for(n=0;n<t.length;n++)a=t[n],a.form===e.form&&Pm(a)}break e;case"textarea":Im(e,t.value,t.defaultValue);break e;case"select":n=t.value,n!=null&&La(e,!!t.multiple,n,!1)}}}var vr=!1;function Mm(e,n,t){if(vr)return e(n,t);vr=!0;try{var a=e(n);return a}finally{if(vr=!1,(va!==null||Wa!==null)&&(rr(),va&&(n=va,e=Wa,Wa=va=null,Zh(n),e)))for(n=0;n<e.length;n++)Zh(e[n])}}function Ni(e,n){var t=e.stateNode;if(t===null)return null;var a=t[ze]||null;if(a===null)return null;t=a[n];e:switch(n){case"onClick":case"onClickCapture":case"onDoubleClick":case"onDoubleClickCapture":case"onMouseDown":case"onMouseDownCapture":case"onMouseMove":case"onMouseMoveCapture":case"onMouseUp":case"onMouseUpCapture":case"onMouseEnter":(a=!a.disabled)||(e=e.type,a=!(e==="button"||e==="input"||e==="select"||e==="textarea")),e=!a;break e;default:e=!1}if(e)return null;if(t&&typeof t!="function")throw Error(S(231,n,typeof t));return t}var zn=!(typeof window>"u"||typeof window.document>"u"||typeof window.document.createElement>"u"),uc=!1;if(zn)try{var ri={};Object.defineProperty(ri,"passive",{get:function(){uc=!0}}),window.addEventListener("test",ri,ri),window.removeEventListener("test",ri,ri)}catch{uc=!1}var ht=null,Ll=null,qo=null;function Lm(){if(qo)return qo;var e,n=Ll,t=n.length,a,i="value"in ht?ht.value:ht.textContent,o=i.length;for(e=0;e<t&&n[e]===i[e];e++);var s=t-e;for(a=1;a<=s&&n[t-a]===i[o-a];a++);return qo=i.slice(e,1<a?1-a:void 0)}function Go(e){var n=e.keyCode;return"charCode"in e?(e=e.charCode,e===0&&n===13&&(e=13)):e=n,e===10&&(e=13),32<=e||e===13?e:0}function Ao(){return!0}function $h(){return!1}function Ne(e){function n(t,a,i,o,s){this._reactName=t,this._targetInst=i,this.type=a,this.nativeEvent=o,this.target=s,this.currentTarget=null;for(var r in e)e.hasOwnProperty(r)&&(t=e[r],this[r]=t?t(o):o[r]);return this.isDefaultPrevented=(o.defaultPrevented!=null?o.defaultPrevented:o.returnValue===!1)?Ao:$h,this.isPropagationStopped=$h,this}return te(n.prototype,{preventDefault:function(){this.defaultPrevented=!0;var t=this.nativeEvent;t&&(t.preventDefault?t.preventDefault():typeof t.returnValue!="unknown"&&(t.returnValue=!1),this.isDefaultPrevented=Ao)},stopPropagation:function(){var t=this.nativeEvent;t&&(t.stopPropagation?t.stopPropagation():typeof t.cancelBubble!="unknown"&&(t.cancelBubble=!0),this.isPropagationStopped=Ao)},persist:function(){},isPersistent:Ao}),n}var Lt={eventPhase:0,bubbles:0,cancelable:0,timeStamp:function(e){return e.timeStamp||Date.now()},defaultPrevented:0,isTrusted:0},Xs=Ne(Lt),so=te({},Lt,{view:0,detail:0}),xf=Ne(so),yr,Sr,ci,Qs=te({},so,{screenX:0,screenY:0,clientX:0,clientY:0,pageX:0,pageY:0,ctrlKey:0,shiftKey:0,altKey:0,metaKey:0,getModifierState:Wl,button:0,buttons:0,relatedTarget:function(e){return e.relatedTarget===void 0?e.fromElement===e.srcElement?e.toElement:e.fromElement:e.relatedTarget},movementX:function(e){return"movementX"in e?e.movementX:(e!==ci&&(ci&&e.type==="mousemove"?(yr=e.screenX-ci.screenX,Sr=e.screenY-ci.screenY):Sr=yr=0,ci=e),yr)},movementY:function(e){return"movementY"in e?e.movementY:Sr}}),ed=Ne(Qs),Mf=te({},Qs,{dataTransfer:0}),Lf=Ne(Mf),Wf=te({},so,{relatedTarget:0}),Ar=Ne(Wf),kf=te({},Lt,{animationName:0,elapsedTime:0,pseudoElement:0}),Ef=Ne(kf),Df=te({},Lt,{clipboardData:function(e){return"clipboardData"in e?e.clipboardData:window.clipboardData}}),Of=Ne(Df),Ff=te({},Lt,{data:0}),nd=Ne(Ff),Rf={Esc:"Escape",Spacebar:" ",Left:"ArrowLeft",Up:"ArrowUp",Right:"ArrowRight",Down:"ArrowDown",Del:"Delete",Win:"OS",Menu:"ContextMenu",Apps:"ContextMenu",Scroll:"ScrollLock",MozPrintableKey:"Unidentified"},Uf={8:"Backspace",9:"Tab",12:"Clear",13:"Enter",16:"Shift",17:"Control",18:"Alt",19:"Pause",20:"CapsLock",27:"Escape",32:" ",33:"PageUp",34:"PageDown",35:"End",36:"Home",37:"ArrowLeft",38:"ArrowUp",39:"ArrowRight",40:"ArrowDown",45:"Insert",46:"Delete",112:"F1",113:"F2",114:"F3",115:"F4",116:"F5",117:"F6",118:"F7",119:"F8",120:"F9",121:"F10",122:"F11",123:"F12",144:"NumLock",145:"ScrollLock",224:"Meta"},Nf={Alt:"altKey",Control:"ctrlKey",Meta:"metaKey",Shift:"shiftKey"};function Vf(e){var n=this.nativeEvent;return n.getModifierState?n.getModifierState(e):(e=Nf[e])?!!n[e]:!1}function Wl(){return Vf}var jf=te({},so,{key:function(e){if(e.key){var n=Rf[e.key]||e.key;if(n!=="Unidentified")return n}return e.type==="keypress"?(e=Go(e),e===13?"Enter":String.fromCharCode(e)):e.type==="keydown"||e.type==="keyup"?Uf[e.keyCode]||"Unidentified":""},code:0,location:0,ctrlKey:0,shiftKey:0,altKey:0,metaKey:0,repeat:0,locale:0,getModifierState:Wl,charCode:function(e){return e.type==="keypress"?Go(e):0},keyCode:function(e){return e.type==="keydown"||e.type==="keyup"?e.keyCode:0},which:function(e){return e.type==="keypress"?Go(e):e.type==="keydown"||e.type==="keyup"?e.keyCode:0}}),Bf=Ne(jf),Hf=te({},Qs,{pointerId:0,width:0,height:0,pressure:0,tangentialPressure:0,tiltX:0,tiltY:0,twist:0,pointerType:0,isPrimary:0}),td=Ne(Hf),qf=te({},Lt,{submitter:0}),Gf=Ne(qf),Jf=te({},so,{touches:0,targetTouches:0,changedTouches:0,altKey:0,metaKey:0,ctrlKey:0,shiftKey:0,getModifierState:Wl}),zf=Ne(Jf),Xf=te({},Lt,{propertyName:0,elapsedTime:0,pseudoElement:0}),Qf=Ne(Xf),Kf=te({},Qs,{deltaX:function(e){return"deltaX"in e?e.deltaX:"wheelDeltaX"in e?-e.wheelDeltaX:0},deltaY:function(e){return"deltaY"in e?e.deltaY:"wheelDeltaY"in e?-e.wheelDeltaY:"wheelDelta"in e?-e.wheelDelta:0},deltaZ:0,deltaMode:0}),Yf=Ne(Kf),Zf=te({},Lt,{newState:0,oldState:0,source:0}),$f=Ne(Zf),eC=[9,13,27,32],kl=zn&&"CompositionEvent"in window,Si=null;zn&&"documentMode"in document&&(Si=document.documentMode);var nC=zn&&"TextEvent"in window&&!Si,Wm=zn&&(!kl||Si&&8<Si&&11>=Si),ad=" ",id=!1;function km(e,n){switch(e){case"keyup":return eC.indexOf(n.keyCode)!==-1;case"keydown":return n.keyCode!==229;case"keypress":case"mousedown":case"focusout":return!0;default:return!1}}function Em(e){return e=e.detail,typeof e=="object"&&"data"in e?e.data:null}var ya=!1;function tC(e,n){switch(e){case"compositionend":return Em(n);case"keypress":return n.which!==32?null:(id=!0,ad);case"textInput":return e=n.data,e===ad&&id?null:e;default:return null}}function aC(e,n){if(ya)return e==="compositionend"||!kl&&km(e,n)?(e=Lm(),qo=Ll=ht=null,ya=!1,e):null;switch(e){case"paste":return null;case"keypress":if(!(n.ctrlKey||n.altKey||n.metaKey)||n.ctrlKey&&n.altKey){if(n.char&&1<n.char.length)return n.char;if(n.which)return String.fromCharCode(n.which)}return null;case"compositionend":return Wm&&n.locale!=="ko"?null:n.data;default:return null}}var iC={color:!0,date:!0,datetime:!0,"datetime-local":!0,email:!0,month:!0,number:!0,password:!0,range:!0,search:!0,tel:!0,text:!0,time:!0,url:!0,week:!0};function od(e){var n=e&&e.nodeName&&e.nodeName.toLowerCase();return n==="input"?!!iC[e.type]:n==="textarea"}function Dm(e,n,t,a){va?Wa?Wa.push(a):Wa=[a]:va=a,n=Os(n,"onChange"),0<n.length&&(t=new Xs("onChange","change",null,t,a),e.push({event:t,listeners:n}))}var Ai=null,Vi=null;function oC(e){Mp(e,0)}function Ks(e){var n=fi(e);if(Pm(n))return e}function sd(e,n){if(e==="change")return n}var Om=!1;if(zn){var Pr;if(zn){var Tr="oninput"in document;if(!Tr){var rd=document.createElement("div");rd.setAttribute("oninput","return;"),Tr=typeof rd.oninput=="function"}Pr=Tr}else Pr=!1;Om=Pr&&(!document.documentMode||9<document.documentMode)}function cd(){Ai&&(Ai.detachEvent("onpropertychange",Fm),Vi=Ai=null)}function Fm(e){if(e.propertyName==="value"&&Ks(Vi)){var n=[];Dm(n,Vi,e,Ml(e)),Mm(oC,n)}}function sC(e,n,t){e==="focusin"?(cd(),Ai=n,Vi=t,Ai.attachEvent("onpropertychange",Fm)):e==="focusout"&&cd()}function rC(e){if(e==="selectionchange"||e==="keyup"||e==="keydown")return Ks(Vi)}function cC(e,n){if(e==="click")return Ks(n)}function lC(e,n){if(e==="input"||e==="change")return Ks(n)}function hC(e,n){return e===n&&(e!==0||1/e===1/n)||e!==e&&n!==n}var sn=typeof Object.is=="function"?Object.is:hC;function ji(e,n){if(sn(e,n))return!0;if(typeof e!="object"||e===null||typeof n!="object"||n===null)return!1;var t=Object.keys(e),a=Object.keys(n);if(t.length!==a.length)return!1;for(a=0;a<t.length;a++){var i=t[a];if(!cc.call(n,i)||!sn(e[i],n[i]))return!1}return!0}function mc(e){if(e=e||(typeof document<"u"?document:void 0),typeof e>"u")return null;try{return e.activeElement||e.body}catch{return e.body}}function ld(e){for(;e&&e.firstChild;)e=e.firstChild;return e}function hd(e,n){var t=ld(e);e=0;for(var a;t;){if(t.nodeType===3){if(a=e+t.textContent.length,e<=n&&a>=n)return{node:t,offset:n-e};e=a}e:{for(;t;){if(t.nextSibling){t=t.nextSibling;break e}t=t.parentNode}t=void 0}t=ld(t)}}function Rm(e,n){return e&&n?e===n?!0:e&&e.nodeType===3?!1:n&&n.nodeType===3?Rm(e,n.parentNode):"contains"in e?e.contains(n):e.compareDocumentPosition?!!(e.compareDocumentPosition(n)&16):!1:!1}function Um(e){e=e!=null&&e.ownerDocument!=null&&e.ownerDocument.defaultView!=null?e.ownerDocument.defaultView:window;for(var n=mc(e.document);n instanceof e.HTMLIFrameElement;){try{var t=typeof n.contentWindow.location.href=="string"}catch{t=!1}if(t)e=n.contentWindow;else break;n=mc(e.document)}return n}function El(e){var n=e&&e.nodeName&&e.nodeName.toLowerCase();return n&&(n==="input"&&(e.type==="text"||e.type==="search"||e.type==="tel"||e.type==="url"||e.type==="password")||n==="textarea"||e.contentEditable==="true")}var dC=zn&&"documentMode"in document&&11>=document.documentMode,Sa=null,gc=null,Pi=null,pc=!1;function dd(e,n,t){var a=t.window===t?t.document:t.nodeType===9?t:t.ownerDocument;pc||Sa==null||Sa!==mc(a)||(a=Sa,"selectionStart"in a&&El(a)?a={start:a.selectionStart,end:a.selectionEnd}:(a=(a.ownerDocument&&a.ownerDocument.defaultView||window).getSelection(),a={anchorNode:a.anchorNode,anchorOffset:a.anchorOffset,focusNode:a.focusNode,focusOffset:a.focusOffset}),Pi&&ji(Pi,a)||(Pi=a,a=Os(gc,"onSelect"),0<a.length&&(n=new Xs("onSelect","select",null,n,t),e.push({event:n,listeners:a}),n.target=Sa)))}function Ft(e,n){var t={};return t[e.toLowerCase()]=n.toLowerCase(),t["Webkit"+e]="webkit"+n,t["Moz"+e]="moz"+n,t}var Aa={animationend:Ft("Animation","AnimationEnd"),animationiteration:Ft("Animation","AnimationIteration"),animationstart:Ft("Animation","AnimationStart"),transitionrun:Ft("Transition","TransitionRun"),transitionstart:Ft("Transition","TransitionStart"),transitioncancel:Ft("Transition","TransitionCancel"),transitionend:Ft("Transition","TransitionEnd")},Ir={},Nm={};zn&&(Nm=document.createElement("div").style,"AnimationEvent"in window||(delete Aa.animationend.animation,delete Aa.animationiteration.animation,delete Aa.animationstart.animation),"TransitionEvent"in window||delete Aa.transitionend.transition);function ra(e){if(Ir[e])return Ir[e];if(!Aa[e])return e;var n=Aa[e],t;for(t in n)if(n.hasOwnProperty(t)&&t in Nm)return Ir[e]=n[t];return e}var Vm=ra("animationend"),jm=ra("animationiteration"),Bm=ra("animationstart"),uC=ra("transitionrun"),mC=ra("transitionstart"),gC=ra("transitioncancel"),Hm=ra("transitionend"),qm=new Map,wc="abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error fullscreenChange fullscreenError gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");wc.push("scrollEnd");function Pn(e,n){qm.set(e,n),sa(n,[e])}var pC=0;function Xn(e,n){if(e.name!=null&&e.name!=="auto")return e.name;if(n.autoName!==null)return n.autoName;e=An.identifierPrefix;var t=pC++;return e="_"+e+"t_"+t.toString(32)+"_",n.autoName=e}function ud(e){if(e==null||typeof e=="string")return e;var n=null,t=Ua;if(t!==null)for(var a=0;a<t.length;a++){var i=e[t[a]];if(i!=null){if(i==="none")return"none";n=n==null?i:n+(" "+i)}}return n??e.default}function et(e,n){return e=ud(e),n=ud(n),n==null?e==="auto"?null:e:n==="auto"?null:n}var gs=typeof reportError=="function"?reportError:function(e){if(typeof window=="object"&&typeof window.ErrorEvent=="function"){var n=new window.ErrorEvent("error",{bubbles:!0,cancelable:!0,message:typeof e=="object"&&e!==null&&typeof e.message=="string"?String(e.message):String(e),error:e});if(!window.dispatchEvent(n))return}else if(typeof process=="object"&&typeof process.emit=="function"){process.emit("uncaughtException",e);return}console.error(e)},ln=[],Pa=0,Dl=0;function Ys(){for(var e=Pa,n=Dl=Pa=0;n<e;){var t=ln[n];ln[n++]=null;var a=ln[n];ln[n++]=null;var i=ln[n];ln[n++]=null;var o=ln[n];if(ln[n++]=null,a!==null&&i!==null){var s=a.pending;s===null?i.next=i:(i.next=s.next,s.next=i),a.pending=i}o!==0&&Gm(t,i,o)}}function Zs(e,n,t,a){ln[Pa++]=e,ln[Pa++]=n,ln[Pa++]=t,ln[Pa++]=a,Dl|=a,e.lanes|=a,e=e.alternate,e!==null&&(e.lanes|=a)}function Ol(e,n,t,a){return Zs(e,n,t,a),ps(e)}function ca(e,n){return Zs(e,null,null,n),ps(e)}function Gm(e,n,t){e.lanes|=t;var a=e.alternate;a!==null&&(a.lanes|=t);for(var i=!1,o=e.return;o!==null;)o.childLanes|=t,a=o.alternate,a!==null&&(a.childLanes|=t),o.tag===22&&(e=o.stateNode,e===null||e._visibility&1||(i=!0)),e=o,o=o.return;return e.tag===3?(o=e.stateNode,i&&n!==null&&(i=31-an(t),e=o.hiddenUpdates,a=e[i],a===null?e[i]=[n]:a.push(n),n.lane=t|536870912),o):null}function ps(e){if(50<Di)throw Di=0,ns=null,Error(S(185));for(var n=e.return;n!==null;)e=n,n=e.return;return e.tag===3?e.stateNode:null}var Ta={};function wC(e,n,t,a){this.tag=e,this.key=t,this.sibling=this.child=this.return=this.stateNode=this.type=this.elementType=null,this.index=0,this.refCleanup=this.ref=null,this.pendingProps=n,this.dependencies=this.memoizedState=this.updateQueue=this.memoizedProps=null,this.mode=a,this.subtreeFlags=this.flags=0,this.deletions=null,this.childLanes=this.lanes=0,this.alternate=null}function qe(e,n,t,a){return new wC(e,n,t,a)}function Fl(e){return e=e.prototype,!(!e||!e.isReactComponent)}function Gn(e,n){var t=e.alternate;return t===null?(t=qe(e.tag,n,e.key,e.mode),t.elementType=e.elementType,t.type=e.type,t.stateNode=e.stateNode,t.alternate=e,e.alternate=t):(t.pendingProps=n,t.type=e.type,t.flags=0,t.subtreeFlags=0,t.deletions=null),t.flags=e.flags&1206910976,t.childLanes=e.childLanes,t.lanes=e.lanes,t.child=e.child,t.memoizedProps=e.memoizedProps,t.memoizedState=e.memoizedState,t.updateQueue=e.updateQueue,n=e.dependencies,t.dependencies=n===null?null:{lanes:n.lanes,firstContext:n.firstContext},t.sibling=e.sibling,t.index=e.index,t.ref=e.ref,t.refCleanup=e.refCleanup,t}function Jm(e,n){e.flags&=1206910978;var t=e.alternate;return t===null?(e.childLanes=0,e.lanes=n,e.child=null,e.subtreeFlags=0,e.memoizedProps=null,e.memoizedState=null,e.updateQueue=null,e.dependencies=null,e.stateNode=null):(e.childLanes=t.childLanes,e.lanes=t.lanes,e.child=t.child,e.subtreeFlags=0,e.deletions=null,e.memoizedProps=t.memoizedProps,e.memoizedState=t.memoizedState,e.updateQueue=t.updateQueue,e.type=t.type,n=t.dependencies,e.dependencies=n===null?null:{lanes:n.lanes,firstContext:n.firstContext}),e}function Jo(e,n,t,a,i,o){var s=0;if(a=e,typeof a=="function")Fl(a)&&(s=1);else if(typeof a=="string")s=qb(e,t,On.current)?26:e==="html"||e==="head"||e==="body"?27:5;else e:switch(a){case ac:return e=qe(31,t,n,i),e.elementType=ac,e.lanes=o,e;case Ca:return Gt(t.children,i,o,n);case lm:s=8,i|=24;break;case ec:return e=qe(12,t,n,i|2),e.elementType=ec,e.lanes=o,e;case nc:return e=qe(13,t,n,i),e.elementType=nc,e.lanes=o,e;case tc:return e=qe(19,t,n,i),e.elementType=tc,e.lanes=o,e;case tf:case ic:return e=i|32,e=qe(30,t,n,e),e.elementType=ic,e.lanes=o,e.stateNode={autoName:null,paired:null,clones:null,ref:null},e;default:if(typeof a=="object"&&a!==null)switch(a.$$typeof){case Ln:s=10;break e;case hm:s=9;break e;case Al:s=11;break e;case Pl:s=14;break e;case st:s=16,a=null;break e}s=29,t=Error(S(130,e===null?"null":typeof e,"")),a=null}return n=qe(s,t,n,i),n.elementType=e,n.type=a,n.lanes=o,n}function Gt(e,n,t,a){return e=qe(7,e,a,n),e.lanes=t,e}function _r(e,n,t){return e=qe(6,e,null,n),e.lanes=t,e}function zm(e){var n=qe(18,null,null,0);return n.stateNode=e,n}function xr(e,n,t){return n=qe(4,e.children!==null?e.children:[],e.key,n),n.lanes=t,n.stateNode={containerInfo:e.containerInfo,pendingChildren:null,implementation:e.implementation},n}var md=new WeakMap;function mn(e,n){if(typeof e=="object"&&e!==null){var t=md.get(e);return t!==void 0?t:(n={value:e,source:n,stack:qh(n)},md.set(e,n),n)}return{value:e,source:n,stack:qh(n)}}var Ia=[],_a=0,ws=null,Bi=0,hn=[],dn=0,Tt=null,kn=1,En="";function Hn(e,n){Ia[_a++]=Bi,Ia[_a++]=ws,ws=e,Bi=n}function Xm(e,n,t){hn[dn++]=kn,hn[dn++]=En,hn[dn++]=Tt,Tt=e;var a=kn;e=En;var i=32-an(a)-1;a&=~(1<<i),t+=1;var o=32-an(n)+i;if(30<o){var s=i-i%5;o=(a&(1<<s)-1).toString(32),a>>=s,i-=s,kn=1<<32-an(n)+i|t<<i|a,En=o+e}else kn=1<<o|t<<i|a,En=e}function $s(e){e.return!==null&&(Hn(e,1),Xm(e,1,0))}function Rl(e){for(;e===ws;)ws=Ia[--_a],Ia[_a]=null,Bi=Ia[--_a],Ia[_a]=null;for(;e===Tt;)Tt=hn[--dn],hn[dn]=null,En=hn[--dn],hn[dn]=null,kn=hn[--dn],hn[dn]=null}function Qm(e,n){hn[dn++]=kn,hn[dn++]=En,hn[dn++]=Tt,kn=n.id,En=n.overflow,Tt=e}var Ae=null,oe=null,U=!1,wt=null,gn=!1,fc=Error(S(519));function It(e){var n=Error(S(418,1<arguments.length&&arguments[1]!==void 0&&arguments[1]?"text":"HTML",""));throw Hi(mn(n,e)),fc}function gd(e){var n=e.stateNode,t=e.type,a=e.memoizedProps;switch(n[Ie]=e,n[ze]=a,t){case"dialog":N("cancel",n),N("close",n);break;case"iframe":case"object":case"embed":N("load",n);break;case"video":case"audio":for(t=0;t<zi.length;t++)N(zi[t],n);break;case"source":N("error",n);break;case"img":case"image":case"link":N("error",n),N("load",n);break;case"details":N("toggle",n);break;case"input":N("invalid",n),Tm(n,a.value,a.defaultValue,a.checked,a.defaultChecked,a.type,a.name,!0);break;case"select":N("invalid",n);break;case"textarea":N("invalid",n),_m(n,a.value,a.defaultValue,a.children)}t=a.children,typeof t!="string"&&typeof t!="number"&&typeof t!="bigint"||n.textContent===""+t||a.suppressHydrationWarning===!0||Wp(n.textContent,t)?(a.popover!=null&&(N("beforetoggle",n),N("toggle",n)),a.onScroll!=null&&N("scroll",n),a.onScrollEnd!=null&&N("scrollend",n),a.onClick!=null&&(n.onclick=Wn),n=!0):n=!1,n||It(e,!0)}function fs(e){for(Ae=e.return;Ae;)switch(Ae.tag){case 5:case 31:case 13:gn=!1;return;case 27:case 3:gn=!0;return;default:Ae=Ae.return}}function da(e){if(e!==Ae)return!1;if(!U)return fs(e),U=!0,!1;var n=e.tag,t;if((t=n!==3&&n!==27)&&((t=n===5)&&(t=e.type,t=!(t!=="form"&&t!=="button")||nl(e.type,e.memoizedProps)),t=!t),t&&oe&&It(e),fs(e),n===13){if(e=e.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(S(317));oe=cu(e)}else if(n===31){if(e=e.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(S(317));oe=cu(e)}else n===27?(n=oe,Wt(e.type)?(e=ol,ol=null,oe=e):oe=n):oe=Ae?fn(e.stateNode.nextSibling):null;return!0}function Qt(){oe=Ae=null,U=!1}function Mr(){var e=wt;return e!==null&&(Be===null?Be=e:Be.push.apply(Be,e),wt=null),e}function Hi(e){wt===null?wt=[e]:wt.push(e)}var Cc=Un(null),la=null,qn=null;function dt(e,n,t){re(Cc,n._currentValue),n._currentValue=t}function Jn(e){e._currentValue=Cc.current,xe(Cc)}function zo(e,n,t){for(;e!==null;){var a=e.alternate;if((e.childLanes&n)!==n?(e.childLanes|=n,a!==null&&(a.childLanes|=n)):a!==null&&(a.childLanes&n)!==n&&(a.childLanes|=n),e===t)break;e=e.return}}function bc(e,n,t,a){var i=e.child;for(i!==null&&(i.return=e);i!==null;){var o=i.dependencies;if(o!==null){var s=i.child;o=o.firstContext;e:for(;o!==null;){var r=o;o=i;for(var c=0;c<n.length;c++)if(r.context===n[c]){o.lanes|=t,r=o.alternate,r!==null&&(r.lanes|=t),zo(o.return,t,e),a||(s=null);break e}o=r.next}}else if(i.tag===18){if(s=i.return,s===null)throw Error(S(341));s.lanes|=t,o=s.alternate,o!==null&&(o.lanes|=t),zo(s,t,e),s=null}else i.tag===13&&i.memoizedState!==null&&i.memoizedState.dehydrated===null?(i.lanes|=t,s=i.alternate,s!==null&&(s.lanes|=t),zo(i.return,t,e),s=i.child,s=s!==null?s.sibling:null):s=i.child;if(s!==null)s.return=i;else for(s=i;s!==null;){if(s===e){s=null;break}if(i=s.sibling,i!==null){i.return=s.return,s=i;break}s=s.return}i=s}}function Kt(e,n,t,a){e=null;for(var i=n,o=!1;i!==null;){if(!o){if(i.flags&524288)o=!0;else if(i.flags&262144)break}if(i.tag===10){var s=i.alternate;if(s===null)throw Error(S(387));if(s=s.memoizedProps,s!==null){var r=i.type;sn(i.pendingProps.value,s.value)||(e!==null?e.push(r):e=[r])}}else if(i===ls.current){if(s=i.alternate,s===null)throw Error(S(387));s.memoizedState.memoizedState!==i.memoizedState.memoizedState&&(e!==null?e.push(Qa):e=[Qa])}i=i.return}return e!==null&&bc(n,e,t,a),n.flags|=262144,e!==null}function Cs(e){for(e=e.firstContext;e!==null;){if(!sn(e.context._currentValue,e.memoizedValue))return!0;e=e.next}return!1}function Yt(e){la=e,qn=null,e=e.dependencies,e!==null&&(e.firstContext=null)}function _e(e){return Km(la,e)}function Po(e,n){return la===null&&Yt(e),Km(e,n)}function Km(e,n){var t=n._currentValue;if(n={context:n,memoizedValue:t,next:null},qn===null){if(e===null)throw Error(S(308));qn=n,e.dependencies={lanes:0,firstContext:n},e.flags|=524288}else qn=qn.next=n;return t}var fC=typeof AbortController<"u"?AbortController:function(){var e=[],n=this.signal={aborted:!1,addEventListener:function(t,a){e.push(a)}};this.abort=function(){n.aborted=!0,e.forEach(function(t){return t()})}},CC=be.unstable_scheduleCallback,bC=be.unstable_NormalPriority,pe={$$typeof:Ln,Consumer:null,Provider:null,_currentValue:null,_currentValue2:null,_threadCount:0};function Ul(){return{controller:new fC,data:new Map,refCount:0}}function ro(e){e.refCount--,e.refCount===0&&CC(bC,function(){e.controller.abort()})}function pd(e,n){if(e.pendingLanes&4194048){var t=e.transitionTypes;for(t===null&&(t=e.transitionTypes=[]),e=0;e<n.length;e++){var a=n[e];t.indexOf(a)===-1&&t.push(a)}}}var Ci=null;function vC(e){var n=e.transitionTypes;return e.transitionTypes=null,n}var Ti=null,vc=0,Zt=0,ka=null;function yC(e,n){if(Ti===null){var t=Ti=[];vc=0,Zt=uh(),ka={status:"pending",value:void 0,then:function(a){t.push(a)}}}return vc++,n.then(wd,wd),n}function wd(){if(--vc===0&&(Ci=null,Ti!==null)){ka!==null&&(ka.status="fulfilled");var e=Ti;Ti=null,Zt=0,ka=null;for(var n=0;n<e.length;n++)(0,e[n])()}}function SC(e,n){var t=[],a={status:"pending",value:null,reason:null,then:function(i){t.push(i)}};return e.then(function(){a.status="fulfilled",a.value=n;for(var i=0;i<t.length;i++)(0,t[i])(n)},function(i){for(a.status="rejected",a.reason=i,i=0;i<t.length;i++)(0,t[i])(void 0)}),a}var fd=E.S;E.S=function(e,n){if(gp=nn(),typeof n=="object"&&n!==null&&typeof n.then=="function"&&yC(e,n),Ci!==null)for(var t=Ja;t!==null;)pd(t,Ci),t=t.next;if(t=e.types,t!==null){for(var a=Ja;a!==null;)pd(a,t),a=a.next;if(Zt!==0){a=Ci,a===null&&(a=Ci=[]);for(var i=0;i<t.length;i++){var o=t[i];a.indexOf(o)===-1&&a.push(o)}}}fd!==null&&fd(e,n)};var Jt=Un(null);function Nl(){var e=Jt.current;return e!==null?e:ne.pooledCache}function Xo(e,n){n===null?re(Jt,Jt.current):re(Jt,n.pool)}function Ym(){var e=Nl();return e===null?null:{parent:pe._currentValue,pool:e}}var ni=Error(S(460)),Vl=Error(S(474)),er=Error(S(542)),bs={then:function(){}};function Cd(e){return e=e.status,e==="fulfilled"||e==="rejected"}function Zm(e,n,t){switch(t=e[t],t===void 0?e.push(n):t!==n&&(n.then(Wn,Wn),n=t),n.status){case"fulfilled":return n.value;case"rejected":throw e=n.reason,vd(e),e===void 0&&!("reason"in n)?Error(S(600)):e;default:if(typeof n.status=="string")n.then(Wn,Wn);else{if(e=ne,e!==null&&100<e.shellSuspendCounter)throw Error(S(482));e=n,e.status="pending",e.then(function(a){if(n.status==="pending"){var i=n;i.status="fulfilled",i.value=a}},function(a){if(n.status==="pending"){var i=n;i.status="rejected",i.reason=a}})}switch(n.status){case"fulfilled":return n.value;case"rejected":throw e=n.reason,vd(e),e}throw zt=n,ni}}function Vt(e){try{var n=e._init;return n(e._payload)}catch(t){throw t!==null&&typeof t=="object"&&typeof t.then=="function"?(zt=t,ni):t}}var zt=null;function bd(){if(zt===null)throw Error(S(459));var e=zt;return zt=null,e}function vd(e){if(e===ni||e===er)throw Error(S(483))}var Ea=null,qi=0;function To(e){var n=qi;return qi+=1,Ea===null&&(Ea=[]),Zm(Ea,e,n)}function at(e,n){n=n.props.ref,e.ref=n!==void 0?n:null}function Io(e,n){throw n.$$typeof===nf?Error(S(525)):(e=Object.prototype.toString.call(n),Error(S(31,e==="[object Object]"?"object with keys {"+Object.keys(n).join(", ")+"}":e)))}function $m(e){function n(w,g){if(e){var f=w.deletions;f===null?(w.deletions=[g],w.flags|=16):f.push(g)}}function t(w,g){if(!e)return null;for(;g!==null;)n(w,g),g=g.sibling;return null}function a(w){for(var g=new Map;w!==null;)w.key===null?g.set(w.index,w):g.set(w.key,w),w=w.sibling;return g}function i(w,g){return w=Gn(w,g),w.index=0,w.sibling=null,w}function o(w,g,f){return w.index=f,e?(f=w.alternate,f!==null?(f=f.index,f<g?(w.flags|=2,g):f):(w.flags|=134217730,g)):(w.flags|=1048576,g)}function s(w){return e&&w.alternate===null&&(w.flags|=134217730),w}function r(w,g,f,b){return g===null||g.tag!==6?(g=_r(f,w.mode,b),g.return=w,g):(g=i(g,f),g.return=w,g)}function c(w,g,f,b){var T=f.type;return T===Ca?(w=d(w,g,f.props.children,b,f.key),at(w,f),w):g!==null&&(g.elementType===T||typeof T=="object"&&T!==null&&T.$$typeof===st&&Vt(T)===g.type)?(g=i(g,f.props),at(g,f),g.return=w,g):(g=Jo(f.type,f.key,f.props,null,w.mode,b),at(g,f),g.return=w,g)}function l(w,g,f,b){return g===null||g.tag!==4||g.stateNode.containerInfo!==f.containerInfo||g.stateNode.implementation!==f.implementation?(g=xr(f,w.mode,b),g.return=w,g):(g=i(g,f.children||[]),g.return=w,g)}function d(w,g,f,b,T){return g===null||g.tag!==7?(g=Gt(f,w.mode,b,T),g.return=w,g):(g=i(g,f),g.return=w,g)}function m(w,g,f){if(typeof g=="string"&&g!==""||typeof g=="number"||typeof g=="bigint")return g=_r(""+g,w.mode,f),g.return=w,g;if(typeof g=="object"&&g!==null){switch(g.$$typeof){case Co:return f=Jo(g.type,g.key,g.props,null,w.mode,f),at(f,g),f.return=w,f;case pi:return g=xr(g,w.mode,f),g.return=w,g;case st:return g=Vt(g),m(w,g,f)}if(wi(g)||si(g))return g=Gt(g,w.mode,f,null),g.return=w,g;if(typeof g.then=="function")return m(w,To(g),f);if(g.$$typeof===Ln)return m(w,Po(w,g),f);Io(w,g)}return null}function u(w,g,f,b){var T=g!==null?g.key:null;if(typeof f=="string"&&f!==""||typeof f=="number"||typeof f=="bigint")return T!==null?null:r(w,g,""+f,b);if(typeof f=="object"&&f!==null){switch(f.$$typeof){case Co:return f.key===T?c(w,g,f,b):null;case pi:return f.key===T?l(w,g,f,b):null;case st:return f=Vt(f),u(w,g,f,b)}if(wi(f)||si(f))return T!==null?null:d(w,g,f,b,null);if(typeof f.then=="function")return u(w,g,To(f),b);if(f.$$typeof===Ln)return u(w,g,Po(w,f),b);Io(w,f)}return null}function p(w,g,f,b,T){if(typeof b=="string"&&b!==""||typeof b=="number"||typeof b=="bigint")return w=w.get(f)||null,r(g,w,""+b,T);if(typeof b=="object"&&b!==null){switch(b.$$typeof){case Co:return w=w.get(b.key===null?f:b.key)||null,c(g,w,b,T);case pi:return w=w.get(b.key===null?f:b.key)||null,l(g,w,b,T);case st:return b=Vt(b),p(w,g,f,b,T)}if(wi(b)||si(b))return w=w.get(f)||null,d(g,w,b,T,null);if(typeof b.then=="function")return p(w,g,f,To(b),T);if(b.$$typeof===Ln)return p(w,g,f,Po(g,b),T);Io(g,b)}return null}function C(w,g,f,b){for(var T=null,x=null,y=g,P=g=0,M=null;y!==null&&P<f.length;P++){y.index>P?(M=y,y=null):M=y.sibling;var _=u(w,y,f[P],b);if(_===null){y===null&&(y=M);break}e&&y&&_.alternate===null&&n(w,y),g=o(_,g,P),x===null?T=_:x.sibling=_,x=_,y=M}if(P===f.length)return t(w,y),U&&Hn(w,P),T;if(y===null){for(;P<f.length;P++)y=m(w,f[P],b),y!==null&&(g=o(y,g,P),x===null?T=y:x.sibling=y,x=y);return U&&Hn(w,P),T}for(y=a(y);P<f.length;P++)M=p(y,w,P,f[P],b),M!==null&&(e&&(_=M.alternate,_!==null&&y.delete(_.key===null?P:_.key)),g=o(M,g,P),x===null?T=M:x.sibling=M,x=M);return e&&y.forEach(function(j){return n(w,j)}),U&&Hn(w,P),T}function v(w,g,f,b){if(f==null)throw Error(S(151));for(var T=null,x=null,y=g,P=g=0,M=null,_=f.next();y!==null&&!_.done;P++,_=f.next()){y.index>P?(M=y,y=null):M=y.sibling;var j=u(w,y,_.value,b);if(j===null){y===null&&(y=M);break}e&&y&&j.alternate===null&&n(w,y),g=o(j,g,P),x===null?T=j:x.sibling=j,x=j,y=M}if(_.done)return t(w,y),U&&Hn(w,P),T;if(y===null){for(;!_.done;P++,_=f.next())_=m(w,_.value,b),_!==null&&(g=o(_,g,P),x===null?T=_:x.sibling=_,x=_);return U&&Hn(w,P),T}for(y=a(y);!_.done;P++,_=f.next())_=p(y,w,P,_.value,b),_!==null&&(e&&(M=_.alternate,M!==null&&y.delete(M.key===null?P:M.key)),g=o(_,g,P),x===null?T=_:x.sibling=_,x=_);return e&&y.forEach(function($){return n(w,$)}),U&&Hn(w,P),T}function A(w,g,f,b){if(typeof f=="object"&&f!==null&&f.type===Ca&&f.key===null&&f.props.ref===void 0&&(f=f.props.children),typeof f=="object"&&f!==null){switch(f.$$typeof){case Co:e:{for(var T=f.key;g!==null;){if(g.key===T){if(T=f.type,T===Ca){if(g.tag===7){t(w,g.sibling),b=i(g,f.props.children),at(b,f),b.return=w,w=b;break e}}else if(g.elementType===T||typeof T=="object"&&T!==null&&T.$$typeof===st&&Vt(T)===g.type){t(w,g.sibling),b=i(g,f.props),at(b,f),b.return=w,w=b;break e}t(w,g);break}else n(w,g);g=g.sibling}f.type===Ca?(b=Gt(f.props.children,w.mode,b,f.key),at(b,f),b.return=w,w=b):(b=Jo(f.type,f.key,f.props,null,w.mode,b),at(b,f),b.return=w,w=b)}return s(w);case pi:e:{for(T=f.key;g!==null;){if(g.key===T)if(g.tag===4&&g.stateNode.containerInfo===f.containerInfo&&g.stateNode.implementation===f.implementation){t(w,g.sibling),b=i(g,f.children||[]),b.return=w,w=b;break e}else{t(w,g);break}else n(w,g);g=g.sibling}b=xr(f,w.mode,b),b.return=w,w=b}return s(w);case st:return f=Vt(f),A(w,g,f,b)}if(wi(f))return C(w,g,f,b);if(si(f)){if(T=si(f),typeof T!="function")throw Error(S(150));return f=T.call(f),v(w,g,f,b)}if(typeof f.then=="function")return A(w,g,To(f),b);if(f.$$typeof===Ln)return A(w,g,Po(w,f),b);Io(w,f)}return typeof f=="string"&&f!==""||typeof f=="number"||typeof f=="bigint"?(f=""+f,g!==null&&g.tag===6?(t(w,g.sibling),b=i(g,f),b.return=w,w=b):(t(w,g),b=_r(f,w.mode,b),b.return=w,w=b),s(w)):t(w,g)}return function(w,g,f,b){try{qi=0;var T=A(w,g,f,b);return Ea=null,T}catch(y){if(y===ni||y===er)throw y;var x=qe(29,y,null,w.mode);return x.lanes=b,x.return=w,x}finally{}}}var $t=$m(!0),eg=$m(!1),rt=!1;function jl(e){e.updateQueue={baseState:e.memoizedState,firstBaseUpdate:null,lastBaseUpdate:null,shared:{pending:null,lanes:0,hiddenCallbacks:null},callbacks:null}}function yc(e,n){e=e.updateQueue,n.updateQueue===e&&(n.updateQueue={baseState:e.baseState,firstBaseUpdate:e.firstBaseUpdate,lastBaseUpdate:e.lastBaseUpdate,shared:e.shared,callbacks:null})}function ft(e){return{lane:e,tag:0,payload:null,callback:null,next:null}}function Ct(e,n,t){var a=e.updateQueue;if(a===null)return null;if(a=a.shared,q&2){var i=a.pending;return i===null?n.next=n:(n.next=i.next,i.next=n),a.pending=n,n=ps(e),Gm(e,null,t),n}return Zs(e,a,n,t),ps(e)}function Ii(e,n,t){if(n=n.updateQueue,n!==null&&(n=n.shared,(t&4194048)!==0)){var a=n.lanes;a&=e.pendingLanes,t|=a,n.lanes=t,fm(e,t)}}function Lr(e,n){var t=e.updateQueue,a=e.alternate;if(a!==null&&(a=a.updateQueue,t===a)){var i=null,o=null;if(t=t.firstBaseUpdate,t!==null){do{var s={lane:t.lane,tag:t.tag,payload:t.payload,callback:null,next:null};o===null?i=o=s:o=o.next=s,t=t.next}while(t!==null);o===null?i=o=n:o=o.next=n}else i=o=n;t={baseState:a.baseState,firstBaseUpdate:i,lastBaseUpdate:o,shared:a.shared,callbacks:a.callbacks},e.updateQueue=t;return}e=t.lastBaseUpdate,e===null?t.firstBaseUpdate=n:e.next=n,t.lastBaseUpdate=n}var Sc=!1;function _i(){if(Sc){var e=ka;if(e!==null)throw e}}function xi(e,n,t,a){Sc=!1;var i=e.updateQueue;rt=!1;var o=i.firstBaseUpdate,s=i.lastBaseUpdate,r=i.shared.pending;if(r!==null){i.shared.pending=null;var c=r,l=c.next;c.next=null,s===null?o=l:s.next=l,s=c;var d=e.alternate;d!==null&&(d=d.updateQueue,r=d.lastBaseUpdate,r!==s&&(r===null?d.firstBaseUpdate=l:r.next=l,d.lastBaseUpdate=c))}if(o!==null){var m=i.baseState;s=0,d=l=c=null,r=o;do{var u=r.lane&-536870913,p=u!==r.lane;if(p?(B&u)===u:(a&u)===u){u!==0&&u===Zt&&(Sc=!0),d!==null&&(d=d.next={lane:0,tag:r.tag,payload:r.payload,callback:null,next:null});e:{var C=e,v=r;u=n;var A=t;switch(v.tag){case 1:if(C=v.payload,typeof C=="function"){m=C.call(A,m,u);break e}m=C;break e;case 3:C.flags=C.flags&-65537|128;case 0:if(C=v.payload,u=typeof C=="function"?C.call(A,m,u):C,u==null)break e;m=te({},m,u);break e;case 2:rt=!0}}u=r.callback,u!==null&&(e.flags|=64,p&&(e.flags|=8192),p=i.callbacks,p===null?i.callbacks=[u]:p.push(u))}else p={lane:u,tag:r.tag,payload:r.payload,callback:r.callback,next:null},d===null?(l=d=p,c=m):d=d.next=p,s|=u;if(r=r.next,r===null){if(r=i.shared.pending,r===null)break;p=r,r=p.next,p.next=null,i.lastBaseUpdate=p,i.shared.pending=null}}while(!0);d===null&&(c=m),i.baseState=c,i.firstBaseUpdate=l,i.lastBaseUpdate=d,o===null&&(i.shared.lanes=0),Mt|=s,e.lanes=s,e.memoizedState=m}}function ng(e,n){if(typeof e!="function")throw Error(S(191,e));e.call(n)}function tg(e,n){var t=e.callbacks;if(t!==null)for(e.callbacks=null,e=0;e<t.length;e++)ng(t[e],n)}var _t=Un(null),vs=Un(0);function yd(e,n){e=Zn,re(vs,e),re(_t,n),Zn=e|n.baseLanes}function Ac(){re(vs,Zn),re(_t,_t.current)}function Bl(){Zn=vs.current,xe(_t),xe(vs)}var We=Un(null),Ee=null;function bt(e){var n=e.alternate;re(Me,Me.current&1),re(We,e),Ee===null&&(n===null||_t.current!==null||n.memoizedState!==null)&&(Ee=e)}function Pc(e){re(Me,Me.current),re(We,e),Ee===null&&(Ee=e)}function ag(e){e.tag===22?(re(Me,Me.current),re(We,e),Ee===null&&(Ee=e)):vt()}function vt(){re(Me,Me.current),re(We,We.current)}function Ye(e){xe(We),Ee===e&&(Ee=null),xe(Me)}var Me=Un(0);function Gi(e,n){re(We,We.current),re(Me,n)}function Hl(e){xe(Me),xe(We),Ee===e&&(Ee=null)}function ys(e){for(var n=e;n!==null;){if(n.tag===13){var t=n.memoizedState;if(t!==null&&(t=t.dehydrated,t===null||il(t)||wh(t)))return n}else if(n.tag===19&&n.memoizedProps.revealOrder!=="independent"){if(n.flags&128)return n}else if(n.child!==null){n.child.return=n,n=n.child;continue}if(n===e)break;for(;n.sibling===null;){if(n.return===null||n.return===e)return null;n=n.return}n.sibling.return=n.return,n=n.sibling}return null}var Qn=0,F=null,Y=null,ge=null,Ss=!1,Da=!1,ea=!1,As=0,Ji=0,Oa=null,AC=0;function he(){throw Error(S(321))}function ql(e,n){if(n===null)return!1;for(var t=0;t<n.length&&t<e.length;t++)if(!sn(e[t],n[t]))return!1;return!0}function Gl(e,n,t,a,i,o){return Qn=o,F=n,n.memoizedState=null,n.updateQueue=null,n.lanes=0,E.H=e===null||e.memoizedState===null?Dg:Og,ea=!1,o=t(a,i),ea=!1,Da&&(o=og(n,t,a,i)),ig(e),o}function ig(e){E.H=Ps;var n=Y!==null&&Y.next!==null;if(Qn=0,ge=Y=F=null,Ss=!1,Ji=0,Oa=null,n)throw Error(S(300));e===null||we||(e=e.dependencies,e!==null&&Cs(e)&&(we=!0))}function og(e,n,t,a){F=e;var i=0;do{if(Da&&(Oa=null),Ji=0,Da=!1,25<=i)throw Error(S(301));if(i+=1,ge=Y=null,e.updateQueue!=null){var o=e.updateQueue;o.lastEffect=null,o.events=null,o.stores=null,o.memoCache!=null&&(o.memoCache.index=0)}E.H=WC,o=n(t,a)}while(Da);return o}function PC(){var e=E.H,n=e.useState()[0];return n=typeof n.then=="function"?co(n):n,e=e.useState()[0],(Y!==null?Y.memoizedState:null)!==e&&(F.flags|=1024),n}function Jl(){var e=As!==0;return As=0,e}function zl(e,n,t){n.updateQueue=e.updateQueue,n.flags&=-2053,e.lanes&=~t}function Xl(e){if(Ss){for(e=e.memoizedState;e!==null;){var n=e.queue;n!==null&&(n.pending=null),e=e.next}Ss=!1}Qn=0,ge=Y=F=null,Da=!1,Ji=As=0,Oa=null}function Re(){var e={memoizedState:null,baseState:null,baseQueue:null,queue:null,next:null};return ge===null?F.memoizedState=ge=e:ge=ge.next=e,ge}function ue(){if(Y===null){var e=F.alternate;e=e!==null?e.memoizedState:null}else e=Y.next;var n=ge===null?F.memoizedState:ge.next;if(n!==null)ge=n,Y=e;else{if(e===null)throw F.alternate===null?Error(S(467)):Error(S(310));Y=e,e={memoizedState:Y.memoizedState,baseState:Y.baseState,baseQueue:Y.baseQueue,queue:Y.queue,next:null},ge===null?F.memoizedState=ge=e:ge=ge.next=e}return ge}function nr(){return{lastEffect:null,events:null,stores:null,memoCache:null}}function co(e){var n=Ji;return Ji+=1,Oa===null&&(Oa=[]),e=Zm(Oa,e,n),n=F,(ge===null?n.memoizedState:ge.next)===null&&(n=n.alternate,E.H=n===null||n.memoizedState===null?Dg:Og),e}function tr(e){if(e!==null&&typeof e=="object"){if(typeof e.then=="function")return co(e);if(e.$$typeof===of)return;if(e.$$typeof===Ln)return _e(e)}throw Error(S(438,String(e)))}function Ql(e){var n=null,t=F.updateQueue;if(t!==null&&(n=t.memoCache),n==null){var a=F.alternate;a!==null&&(a=a.updateQueue,a!==null&&(a=a.memoCache,a!=null&&(n={data:a.data.map(function(i){return i.slice()}),index:0})))}if(n==null&&(n={data:[],index:0}),t===null&&(t=nr(),F.updateQueue=t),t.memoCache=n,t=n.data[n.index],t===void 0)for(t=n.data[n.index]=Array(e),a=0;a<e;a++)t[a]=af;return n.index++,t}function Kn(e,n){return typeof n=="function"?n(e):n}function Qo(e){var n=ue();return Kl(n,Y,e)}function Kl(e,n,t){var a=e.queue;if(a===null)throw Error(S(311));a.lastRenderedReducer=t;var i=e.baseQueue,o=a.pending;if(o!==null){if(i!==null){var s=i.next;i.next=o.next,o.next=s}n.baseQueue=i=o,a.pending=null}if(o=e.baseState,i===null)e.memoizedState=o;else{n=i.next;var r=s=null,c=null,l=n,d=!1;do{var m=l.lane&-536870913;if(m!==l.lane?(B&m)===m:(Qn&m)===m){var u=l.revertLane;if(u===0)c!==null&&(c=c.next={lane:0,revertLane:0,gesture:null,action:l.action,hasEagerState:l.hasEagerState,eagerState:l.eagerState,next:null}),m===Zt&&(d=!0);else if((Qn&u)===u){l=l.next,u===Zt&&(d=!0);continue}else m={lane:0,revertLane:l.revertLane,gesture:null,action:l.action,hasEagerState:l.hasEagerState,eagerState:l.eagerState,next:null},c===null?(r=c=m,s=o):c=c.next=m,F.lanes|=u,Mt|=u;m=l.action,ea&&t(o,m),o=l.hasEagerState?l.eagerState:t(o,m)}else u={lane:m,revertLane:l.revertLane,gesture:l.gesture,action:l.action,hasEagerState:l.hasEagerState,eagerState:l.eagerState,next:null},c===null?(r=c=u,s=o):c=c.next=u,F.lanes|=m,Mt|=m;l=l.next}while(l!==null&&l!==n);if(c===null?s=o:c.next=r,!sn(o,e.memoizedState)&&(we=!0,d&&(t=ka,t!==null)))throw t;e.memoizedState=o,e.baseState=s,e.baseQueue=c,a.lastRenderedState=o}return i===null&&(a.lanes=0),[e.memoizedState,a.dispatch]}function Wr(e){var n=ue(),t=n.queue;if(t===null)throw Error(S(311));t.lastRenderedReducer=e;var a=t.dispatch,i=t.pending,o=n.memoizedState;if(i!==null){t.pending=null;var s=i=i.next;do o=e(o,s.action),s=s.next;while(s!==i);sn(o,n.memoizedState)||(we=!0),n.memoizedState=o,n.baseQueue===null&&(n.baseState=o),t.lastRenderedState=o}return[o,a]}function sg(e,n,t){var a=F,i=ue(),o=U;if(o){if(t===void 0)throw Error(S(407));t=t()}else t=n();var s=!sn((Y||i).memoizedState,t);if(s&&(i.memoizedState=t,we=!0),i=i.queue,Yl(lg.bind(null,a,i,e),[e]),e=i.getSnapshot!==n||s||ge!==null&&(ge.memoizedState.tag&1)!==0,Ba(e?9:8,{destroy:void 0},cg.bind(null,a,i,t,n),null),e){if(a.flags|=2048,ne===null)throw Error(S(349));o||Qn&127||rg(a,n,t)}return t}function rg(e,n,t){e.flags|=16384,e={getSnapshot:n,value:t},n=F.updateQueue,n===null?(n=nr(),F.updateQueue=n,n.stores=[e]):(t=n.stores,t===null?n.stores=[e]:t.push(e))}function cg(e,n,t,a){n.value=t,n.getSnapshot=a,hg(n)&&dg(e)}function lg(e,n,t){return t(function(){hg(n)&&dg(e)})}function hg(e){var n=e.getSnapshot;e=e.value;try{var t=n();return!sn(e,t)}catch{return!0}}function dg(e){var n=ca(e,2);n!==null&&Ge(n,e,2)}function Tc(e){var n=Re();if(typeof e=="function"){var t=e;if(e=t(),ea){lt(!0);try{t()}finally{lt(!1)}}}return n.memoizedState=n.baseState=e,n.queue={pending:null,lanes:0,dispatch:null,lastRenderedReducer:Kn,lastRenderedState:e},n}function ug(e,n,t,a){return e.baseState=t,Kl(e,Y,typeof a=="function"?a:Kn)}function TC(e,n,t,a,i){if(ir(e))throw Error(S(485));if(e=n.action,e!==null){var o={payload:i,action:e,next:null,isTransition:!0,status:"pending",value:null,reason:null,listeners:[],then:function(s){o.listeners.push(s)}};E.T!==null?t(!0):o.isTransition=!1,a(o),t=n.pending,t===null?(o.next=n.pending=o,mg(n,o)):(o.next=t.next,n.pending=t.next=o)}}function mg(e,n){var t=n.action,a=n.payload,i=e.state;if(n.isTransition){var o=E.T,s={};s.types=o!==null?o.types:null,E.T=s;try{var r=t(i,a),c=E.S;c!==null&&c(s,r),Sd(e,n,r)}catch(l){Ic(e,n,l)}finally{o!==null&&s.types!==null&&(o.types=s.types),E.T=o}}else try{o=t(i,a),Sd(e,n,o)}catch(l){Ic(e,n,l)}}function Sd(e,n,t){t!==null&&typeof t=="object"&&typeof t.then=="function"?t.then(function(a){Ad(e,n,a)},function(a){return Ic(e,n,a)}):Ad(e,n,t)}function Ad(e,n,t){n.status="fulfilled",n.value=t,gg(n),e.state=t,n=e.pending,n!==null&&(t=n.next,t===n?e.pending=null:(t=t.next,n.next=t,mg(e,t)))}function Ic(e,n,t){var a=e.pending;if(e.pending=null,a!==null){a=a.next;do n.status="rejected",n.reason=t,gg(n),n=n.next;while(n!==a)}e.action=null}function gg(e){e=e.listeners;for(var n=0;n<e.length;n++)(0,e[n])()}function pg(e,n){return n}function Pd(e,n){if(U){var t=ne.formState;if(t!==null){e:{var a=F;if(U){if(oe){n:{for(var i=oe,o=gn;i.nodeType!==8;){if(!o){i=null;break n}if(i=fn(i.nextSibling),i===null){i=null;break n}}o=i.data,i=o==="F!"||o==="F"?i:null}if(i){oe=fn(i.nextSibling),a=i.data==="F!";break e}}It(a)}a=!1}a&&(n=t[0])}}return t=Re(),t.memoizedState=t.baseState=n,a={pending:null,lanes:0,dispatch:null,lastRenderedReducer:pg,lastRenderedState:n},t.queue=a,t=Wg.bind(null,F,a),a.dispatch=t,a=Tc(!1),o=nh.bind(null,F,!1,a.queue),a=Re(),i={state:n,dispatch:null,action:e,pending:null},a.queue=i,t=TC.bind(null,F,i,o,t),i.dispatch=t,a.memoizedState=e,[n,t,!1]}function Td(e){var n=ue();return wg(n,Y,e)}function wg(e,n,t){if(n=Kl(e,n,pg)[0],e=Qo(Kn)[0],typeof n=="object"&&n!==null&&typeof n.then=="function")try{var a=co(n)}catch(s){throw s===ni?er:s}else a=n;n=ue();var i=n.queue,o=i.dispatch;return t!==n.memoizedState&&(F.flags|=2048,Ba(9,{destroy:void 0},IC.bind(null,i,t),null)),[a,o,e]}function IC(e,n){e.action=n}function Id(e){var n=ue(),t=Y;if(t!==null)return wg(n,t,e);ue(),n=n.memoizedState,t=ue();var a=t.queue.dispatch;return t.memoizedState=e,[n,a,!1]}function Ba(e,n,t,a){return e={tag:e,create:t,deps:a,inst:n,next:null},n=F.updateQueue,n===null&&(n=nr(),F.updateQueue=n),t=n.lastEffect,t===null?n.lastEffect=e.next=e:(a=t.next,t.next=e,e.next=a,n.lastEffect=e),e}function fg(){return ue().memoizedState}function Ko(e,n,t,a){var i=Re();F.flags|=e,i.memoizedState=Ba(1|n,{destroy:void 0},t,a===void 0?null:a)}function ar(e,n,t,a){var i=ue();a=a===void 0?null:a;var o=i.memoizedState.inst;Y!==null&&a!==null&&ql(a,Y.memoizedState.deps)?i.memoizedState=Ba(n,o,t,a):(F.flags|=e,i.memoizedState=Ba(1|n,o,t,a))}function _d(e,n){Ko(8390656,8,e,n)}function Yl(e,n){ar(2048,8,e,n)}function _C(e){F.flags|=4;var n=F.updateQueue;if(n===null)n=nr(),F.updateQueue=n,n.events=[e];else{var t=n.events;t===null?n.events=[e]:t.push(e)}}function Cg(e){var n=ue().memoizedState;return _C({ref:n,nextImpl:e}),function(){if(q&2)throw Error(S(440));return n.impl.apply(void 0,arguments)}}function bg(e,n){return ar(4,2,e,n)}function vg(e,n){return ar(4,4,e,n)}function yg(e,n){if(typeof n=="function"){e=e();var t=n(e);return function(){typeof t=="function"?t():n(null)}}if(n!=null)return e=e(),n.current=e,function(){n.current=null}}function Sg(e,n,t){t=t!=null?t.concat([e]):null,ar(4,4,yg.bind(null,n,e),t)}function Zl(){}function Ag(e,n){var t=ue();n=n===void 0?null:n;var a=t.memoizedState;return n!==null&&ql(n,a[1])?a[0]:(t.memoizedState=[e,n],e)}function Pg(e,n){var t=ue();n=n===void 0?null:n;var a=t.memoizedState;if(n!==null&&ql(n,a[1]))return a[0];if(a=e(),ea){lt(!0);try{e()}finally{lt(!1)}}return t.memoizedState=[a,n],a}function $l(e,n,t){return t===void 0||Qn&1073741824&&!(B&261930)?e.memoizedState=n:(e.memoizedState=t,e=wp(),F.lanes|=e,Mt|=e,t)}function Tg(e,n,t,a){return sn(t,n)?t:_t.current!==null?(e=$l(e,t,a),sn(e,n)||(we=!0),e):!(Qn&106)||Qn&1073741824&&!(B&261930)?(we=!0,e.memoizedState=t):(e=wp(),F.lanes|=e,Mt|=e,n)}function Ig(e,n,t,a,i){var o=G.p;G.p=o!==0&&8>o?o:8;var s=E.T,r={};r.types=s!==null?s.types:null,E.T=r,nh(e,!1,n,t);try{var c=i(),l=E.S;if(l!==null&&l(r,c),c!==null&&typeof c=="object"&&typeof c.then=="function"){var d=SC(c,a);Mi(e,n,d,on(e))}else Mi(e,n,a,on(e))}catch(m){Mi(e,n,{then:function(){},status:"rejected",reason:m},on())}finally{G.p=o,s!==null&&r.types!==null&&(s.types=r.types),E.T=s}}function xC(){}function _c(e,n,t,a){if(e.tag!==5)throw Error(S(476));var i=_g(e).queue;Ig(e,i,n,qt,t===null?xC:function(){return xg(e),t(a)})}function _g(e){var n=e.memoizedState;if(n!==null)return n;n={memoizedState:qt,baseState:qt,baseQueue:null,queue:{pending:null,lanes:0,dispatch:null,lastRenderedReducer:Kn,lastRenderedState:qt},next:null};var t={};return n.next={memoizedState:t,baseState:t,baseQueue:null,queue:{pending:null,lanes:0,dispatch:null,lastRenderedReducer:Kn,lastRenderedState:t},next:null},e.memoizedState=n,e=e.alternate,e!==null&&(e.memoizedState=n),n}function xg(e){var n=_g(e);n.next===null&&(n=e.alternate.memoizedState),Mi(e,n.next.queue,{},on())}function eh(){return _e(Qa)}function Mg(){return ue().memoizedState}function Lg(){return ue().memoizedState}function MC(e){for(var n=e.return;n!==null;){switch(n.tag){case 24:case 3:var t=on();e=ft(t);var a=Ct(n,e,t);a!==null&&(Ge(a,n,t),Ii(a,n,t)),n={cache:Ul()},e.payload=n;return}n=n.return}}function LC(e,n,t){var a=on();t={lane:a,revertLane:0,gesture:null,action:t,hasEagerState:!1,eagerState:null,next:null},ir(e)?kg(n,t):(t=Ol(e,n,t,a),t!==null&&(Ge(t,e,a),Eg(t,n,a)))}function Wg(e,n,t){var a=on();Mi(e,n,t,a)}function Mi(e,n,t,a){var i={lane:a,revertLane:0,gesture:null,action:t,hasEagerState:!1,eagerState:null,next:null};if(ir(e))kg(n,i);else{var o=e.alternate;if(e.lanes===0&&(o===null||o.lanes===0)&&(o=n.lastRenderedReducer,o!==null))try{var s=n.lastRenderedState,r=o(s,t);if(i.hasEagerState=!0,i.eagerState=r,sn(r,s))return Zs(e,n,i,0),ne===null&&Ys(),!1}catch{}finally{}if(t=Ol(e,n,i,a),t!==null)return Ge(t,e,a),Eg(t,n,a),!0}return!1}function nh(e,n,t,a){if(a={lane:2,revertLane:uh(),gesture:null,action:a,hasEagerState:!1,eagerState:null,next:null},ir(e)){if(n)throw Error(S(479))}else n=Ol(e,t,a,2),n!==null&&Ge(n,e,2)}function ir(e){var n=e.alternate;return e===F||n!==null&&n===F}function kg(e,n){Da=Ss=!0;var t=e.pending;t===null?n.next=n:(n.next=t.next,t.next=n),e.pending=n}function Eg(e,n,t){if(t&4194048){var a=n.lanes;a&=e.pendingLanes,t|=a,n.lanes=t,fm(e,t)}}var Ps={readContext:_e,use:tr,useCallback:he,useContext:he,useEffect:he,useImperativeHandle:he,useLayoutEffect:he,useInsertionEffect:he,useMemo:he,useReducer:he,useRef:he,useState:he,useDebugValue:he,useDeferredValue:he,useTransition:he,useSyncExternalStore:he,useId:he,useHostTransitionStatus:he,useFormState:he,useActionState:he,useOptimistic:he,useMemoCache:he,useCacheRefresh:he,useEffectEvent:he},Dg={readContext:_e,use:tr,useCallback:function(e,n){return Re().memoizedState=[e,n===void 0?null:n],e},useContext:_e,useEffect:_d,useImperativeHandle:function(e,n,t){t=t!=null?t.concat([e]):null,Ko(4194308,4,yg.bind(null,n,e),t)},useLayoutEffect:function(e,n){return Ko(4194308,4,e,n)},useInsertionEffect:function(e,n){Ko(4,2,e,n)},useMemo:function(e,n){var t=Re();n=n===void 0?null:n;var a=e();if(ea){lt(!0);try{e()}finally{lt(!1)}}return t.memoizedState=[a,n],a},useReducer:function(e,n,t){var a=Re();if(t!==void 0){var i=t(n);if(ea){lt(!0);try{t(n)}finally{lt(!1)}}}else i=n;return a.memoizedState=a.baseState=i,e={pending:null,lanes:0,dispatch:null,lastRenderedReducer:e,lastRenderedState:i},a.queue=e,e=e.dispatch=LC.bind(null,F,e),[a.memoizedState,e]},useRef:function(e){var n=Re();return e={current:e},n.memoizedState=e},useState:function(e){e=Tc(e);var n=e.queue,t=Wg.bind(null,F,n);return n.dispatch=t,[e.memoizedState,t]},useDebugValue:Zl,useDeferredValue:function(e,n){var t=Re();return $l(t,e,n)},useTransition:function(){var e=Tc(!1);return e=Ig.bind(null,F,e.queue,!0,!1),Re().memoizedState=e,[!1,e]},useSyncExternalStore:function(e,n,t){var a=F,i=Re();if(U){if(t===void 0)throw Error(S(407));t=t()}else{if(t=n(),ne===null)throw Error(S(349));B&127||rg(a,n,t)}i.memoizedState=t;var o={value:t,getSnapshot:n};return i.queue=o,_d(lg.bind(null,a,o,e),[e]),a.flags|=2048,Ba(9,{destroy:void 0},cg.bind(null,a,o,t,n),null),t},useId:function(){var e=Re(),n=ne.identifierPrefix;if(U){var t=En,a=kn;t=(a&~(1<<32-an(a)-1)).toString(32)+t,n="_"+n+"R_"+t,t=As++,0<t&&(n+="H"+t.toString(32)),n+="_"}else t=AC++,n="_"+n+"r_"+t.toString(32)+"_";return e.memoizedState=n},useHostTransitionStatus:eh,useFormState:Pd,useActionState:Pd,useOptimistic:function(e){var n=Re();n.memoizedState=n.baseState=e;var t={pending:null,lanes:0,dispatch:null,lastRenderedReducer:null,lastRenderedState:null};return n.queue=t,n=nh.bind(null,F,!0,t),t.dispatch=n,[e,n]},useMemoCache:Ql,useCacheRefresh:function(){return Re().memoizedState=MC.bind(null,F)},useEffectEvent:function(e){var n=Re(),t={impl:e};return n.memoizedState=t,function(){if(q&2)throw Error(S(440));return t.impl.apply(void 0,arguments)}}},Og={readContext:_e,use:tr,useCallback:Ag,useContext:_e,useEffect:Yl,useImperativeHandle:Sg,useInsertionEffect:bg,useLayoutEffect:vg,useMemo:Pg,useReducer:Qo,useRef:fg,useState:function(){return Qo(Kn)},useDebugValue:Zl,useDeferredValue:function(e,n){var t=ue();return Tg(t,Y.memoizedState,e,n)},useTransition:function(){var e=Qo(Kn)[0],n=ue().memoizedState;return[typeof e=="boolean"?e:co(e),n]},useSyncExternalStore:sg,useId:Mg,useHostTransitionStatus:eh,useFormState:Td,useActionState:Td,useOptimistic:function(e,n){var t=ue();return ug(t,Y,e,n)},useMemoCache:Ql,useCacheRefresh:Lg,useEffectEvent:Cg},WC={readContext:_e,use:tr,useCallback:Ag,useContext:_e,useEffect:Yl,useImperativeHandle:Sg,useInsertionEffect:bg,useLayoutEffect:vg,useMemo:Pg,useReducer:Wr,useRef:fg,useState:function(){return Wr(Kn)},useDebugValue:Zl,useDeferredValue:function(e,n){var t=ue();return Y===null?$l(t,e,n):Tg(t,Y.memoizedState,e,n)},useTransition:function(){var e=Wr(Kn)[0],n=ue().memoizedState;return[typeof e=="boolean"?e:co(e),n]},useSyncExternalStore:sg,useId:Mg,useHostTransitionStatus:eh,useFormState:Id,useActionState:Id,useOptimistic:function(e,n){var t=ue();return Y!==null?ug(t,Y,e,n):(t.baseState=e,[e,t.queue.dispatch])},useMemoCache:Ql,useCacheRefresh:Lg,useEffectEvent:Cg};function kr(e,n,t,a){n=e.memoizedState,t=t(a,n),t=t==null?n:te({},n,t),e.memoizedState=t,e.lanes===0&&(e.updateQueue.baseState=t)}var xc={enqueueSetState:function(e,n,t){e=e._reactInternals;var a=on(),i=ft(a);i.payload=n,t!=null&&(i.callback=t),n=Ct(e,i,a),n!==null&&(Ge(n,e,a),Ii(n,e,a))},enqueueReplaceState:function(e,n,t){e=e._reactInternals;var a=on(),i=ft(a);i.tag=1,i.payload=n,t!=null&&(i.callback=t),n=Ct(e,i,a),n!==null&&(Ge(n,e,a),Ii(n,e,a))},enqueueForceUpdate:function(e,n){e=e._reactInternals;var t=on(),a=ft(t);a.tag=2,n!=null&&(a.callback=n),n=Ct(e,a,t),n!==null&&(Ge(n,e,t),Ii(n,e,t))}};function xd(e,n,t,a,i,o,s){return e=e.stateNode,typeof e.shouldComponentUpdate=="function"?e.shouldComponentUpdate(a,o,s):n.prototype&&n.prototype.isPureReactComponent?!ji(t,a)||!ji(i,o):!0}function Md(e,n,t,a){e=n.state,typeof n.componentWillReceiveProps=="function"&&n.componentWillReceiveProps(t,a),typeof n.UNSAFE_componentWillReceiveProps=="function"&&n.UNSAFE_componentWillReceiveProps(t,a),n.state!==e&&xc.enqueueReplaceState(n,n.state,null)}function na(e,n){var t=n;if("ref"in n){t={};for(var a in n)a!=="ref"&&(t[a]=n[a])}if(e=e.defaultProps){t===n&&(t=te({},t));for(var i in e)t[i]===void 0&&(t[i]=e[i])}return t}function Fg(e){gs(e)}function Rg(e){console.error(e)}function Ug(e){gs(e)}function Ts(e,n){try{var t=e.onUncaughtError;t(n.value,{componentStack:n.stack})}catch(a){setTimeout(function(){throw a})}}function Ld(e,n,t){try{var a=e.onCaughtError;a(t.value,{componentStack:t.stack,errorBoundary:n.tag===1?n.stateNode:null})}catch(i){setTimeout(function(){throw i})}}function Mc(e,n,t){return t=ft(t),t.tag=3,t.payload={element:null},t.callback=function(){Ts(e,n)},t}function Ng(e){return e=ft(e),e.tag=3,e}function Vg(e,n,t,a){var i=t.type.getDerivedStateFromError;if(typeof i=="function"){var o=a.value;e.payload=function(){return i(o)},e.callback=function(){Ld(n,t,a)}}var s=t.stateNode;s!==null&&typeof s.componentDidCatch=="function"&&(e.callback=function(){Ld(n,t,a),typeof i!="function"&&(yt===null?yt=new Set([this]):yt.add(this));var r=a.stack;this.componentDidCatch(a.value,{componentStack:r!==null?r:""})})}function kC(e,n,t,a,i){if(t.flags|=32768,a!==null&&typeof a=="object"&&typeof a.then=="function"){if(n=t.alternate,n!==null&&Kt(n,t,i,!0),t=We.current,t!==null){switch(t.tag){case 31:case 13:case 19:return Ee===null?Es():t.alternate===null&&de===0&&(de=3),t.flags&=-257,t.flags|=65536,t.lanes=i,a===bs?t.flags|=16384:(n=t.updateQueue,n===null?t.updateQueue=new Set([a]):n.add(a),Nr(e,a,i)),!1;case 22:return t.flags|=65536,a===bs?t.flags|=16384:(n=t.updateQueue,n===null?(n={transitions:null,markerInstances:null,retryQueue:new Set([a])},t.updateQueue=n):(t=n.retryQueue,t===null?n.retryQueue=new Set([a]):t.add(a)),Nr(e,a,i)),!1}throw Error(S(435,t.tag))}return Nr(e,a,i),Es(),!1}if(U)return n=We.current,n!==null?(!(n.flags&65536)&&(n.flags|=256),n.flags|=65536,n.lanes=i,a!==fc&&(e=Error(S(422),{cause:a}),Hi(mn(e,t)))):(a!==fc&&(n=Error(S(423),{cause:a}),Hi(mn(n,t))),e=e.current.alternate,e.flags|=65536,i&=-i,e.lanes|=i,a=mn(a,t),i=Mc(e.stateNode,a,i),Lr(e,i),de!==4&&(de=2)),!1;var o=Error(S(520),{cause:a});if(o=mn(o,t),Ei===null?Ei=[o]:Ei.push(o),de!==4&&(de=2),n===null)return!0;a=mn(a,t),t=n;do{switch(t.tag){case 3:return t.flags|=65536,e=i&-i,t.lanes|=e,e=Mc(t.stateNode,a,e),Lr(t,e),!1;case 1:if(n=t.type,o=t.stateNode,!(t.flags&128)&&(typeof n.getDerivedStateFromError=="function"||o!==null&&typeof o.componentDidCatch=="function"&&(yt===null||!yt.has(o))))return t.flags|=65536,i&=-i,t.lanes|=i,i=Ng(i),Vg(i,e,t,a),Lr(t,i),!1;break;case 22:if(t.memoizedState!==null)return t.flags|=65536,!1}t=t.return}while(t!==null);return!1}var th=Error(S(461)),we=!1;function fe(e,n,t,a){n.child=e===null?eg(n,null,t,a):$t(n,e.child,t,a)}function Wd(e,n,t,a,i){t=t.render;var o=n.ref;if("ref"in a){var s={};for(var r in a)r!=="ref"&&(s[r]=a[r])}else s=a;return Yt(n),a=Gl(e,n,t,s,o,i),r=Jl(),e!==null&&!we?(zl(e,n,i),Yn(e,n,i)):(U&&r&&$s(n),n.flags|=1,fe(e,n,a,i),n.child)}function kd(e,n,t,a,i){if(e===null){var o=t.type;return typeof o=="function"&&!Fl(o)&&o.defaultProps===void 0&&t.compare===null?(n.tag=15,n.type=o,jg(e,n,o,a,i)):(e=Jo(t.type,null,a,n,n.mode,i),e.ref=n.ref,e.return=n,n.child=e)}if(o=e.child,!ih(e,i)){var s=o.memoizedProps;if(t=t.compare,t=t!==null?t:ji,t(s,a)&&e.ref===n.ref)return Yn(e,n,i)}return n.flags|=1,e=Gn(o,a),e.ref=n.ref,e.return=n,n.child=e}function jg(e,n,t,a,i){if(e!==null){var o=e.memoizedProps;if(ji(o,a)&&e.ref===n.ref)if(we=!1,n.pendingProps=a=o,ih(e,i))e.flags&131072&&(we=!0);else return n.lanes=e.lanes,Yn(e,n,i)}return Lc(e,n,t,a,i)}function Bg(e,n,t,a){var i=a.children,o=e!==null?e.memoizedState:null;if(e===null&&n.stateNode===null&&(n.stateNode={_visibility:1,_pendingMarkers:null,_retryCache:null,_transitions:null}),a.mode==="hidden"){if(n.flags&128){if(o=o!==null?o.baseLanes|t:t,e!==null){for(a=n.child=e.child,i=0;a!==null;)i=i|a.lanes|a.childLanes,a=a.sibling;a=i&~o}else a=0,n.child=null;return Ed(e,n,o,t,a)}if(t&536870912)n.memoizedState={baseLanes:0,cachePool:null},e!==null&&Xo(n,o!==null?o.cachePool:null),o!==null?yd(n,o):Ac(),ag(n);else return a=n.lanes=536870912,Ed(e,n,o!==null?o.baseLanes|t:t,t,a)}else o!==null?(Xo(n,o.cachePool),yd(n,o),vt(),n.memoizedState=null):(e!==null&&Xo(n,null),Ac(),vt());return fe(e,n,i,t),n.child}function Li(e,n){return e!==null&&e.tag===22||n.stateNode!==null||(n.stateNode={_visibility:1,_pendingMarkers:null,_retryCache:null,_transitions:null}),n.sibling}function Ed(e,n,t,a,i){var o=Nl();return o=o===null?null:{parent:pe._currentValue,pool:o},n.memoizedState={baseLanes:t,cachePool:o},e!==null&&Xo(n,null),Ac(),ag(n),e!==null&&Kt(e,n,a,!0),n.childLanes=i,null}function Yo(e,n){return n=or({mode:n.mode,children:n.children},e.mode),n.ref=e.ref,e.child=n,n.return=e,n}function Dd(e,n,t){return $t(n,e.child,null,t),e=Yo(n,n.pendingProps),e.flags|=2,Ye(n),n.memoizedState=null,e}function EC(e,n,t){var a=n.pendingProps,i=(n.flags&128)!==0;if(n.flags&=-129,e===null){if(U){if(a.mode==="hidden")return e=Yo(n,a),n.lanes=536870912,e.memoizedState={baseLanes:0,cachePool:null},Li(null,e);if(Pc(n),(e=oe)?(e=jp(e,gn),e=e!==null&&e.data==="&"?e:null,e!==null&&(n.memoizedState={dehydrated:e,treeContext:Tt!==null?{id:kn,overflow:En}:null,retryLane:536870912,hydrationErrors:null},t=zm(e),t.return=n,n.child=t,Ae=n,oe=null)):e=null,e===null)throw It(n);return n.lanes=536870912,null}return Yo(n,a)}var o=e.memoizedState;if(o!==null){var s=o.dehydrated;if(Pc(n),i)if(n.flags&256)n.flags&=-257,n=Dd(e,n,t);else if(n.memoizedState!==null)n.child=e.child,n.flags|=128,n=null;else throw Error(S(558));else if(we||Kt(e,n,t,!1),i=(t&e.childLanes)!==0,we||i){if(_t.current===null){if(a=ne,a!==null&&(s=Cm(a,t),s!==0&&s!==o.retryLane))throw o.retryLane=s,ca(e,s),Ge(a,e,s),th;Es()}n=Dd(e,n,t)}else e=o.treeContext,oe=fn(s.nextSibling),Ae=n,U=!0,wt=null,gn=!1,e!==null&&Qm(n,e),n=Yo(n,a),n.flags|=134221824;return n}return e=Gn(e.child,{mode:a.mode,children:a.children}),e.ref=n.ref,n.child=e,e.return=n,e}function ga(e,n){var t=n.ref;if(t===null)e!==null&&e.ref!==null&&(n.flags|=4194816);else{if(typeof t!="function"&&typeof t!="object")throw Error(S(284));(e===null||e.ref!==t)&&(n.flags|=4194816)}}function Lc(e,n,t,a,i){return Yt(n),t=Gl(e,n,t,a,void 0,i),a=Jl(),e!==null&&!we?(zl(e,n,i),Yn(e,n,i)):(U&&a&&$s(n),n.flags|=1,fe(e,n,t,i),n.child)}function Od(e,n,t,a,i,o){return Yt(n),n.updateQueue=null,t=og(n,a,t,i),ig(e),a=Jl(),e!==null&&!we?(zl(e,n,o),Yn(e,n,o)):(U&&a&&$s(n),n.flags|=1,fe(e,n,t,o),n.child)}function Fd(e,n,t,a,i){if(Yt(n),n.stateNode===null){var o=Ta,s=t.contextType;typeof s=="object"&&s!==null&&(o=_e(s)),o=new t(a,o),n.memoizedState=o.state!==null&&o.state!==void 0?o.state:null,o.updater=xc,n.stateNode=o,o._reactInternals=n,o=n.stateNode,o.props=a,o.state=n.memoizedState,o.refs={},jl(n),s=t.contextType,o.context=typeof s=="object"&&s!==null?_e(s):Ta,o.state=n.memoizedState,s=t.getDerivedStateFromProps,typeof s=="function"&&(kr(n,t,s,a),o.state=n.memoizedState),typeof t.getDerivedStateFromProps=="function"||typeof o.getSnapshotBeforeUpdate=="function"||typeof o.UNSAFE_componentWillMount!="function"&&typeof o.componentWillMount!="function"||(s=o.state,typeof o.componentWillMount=="function"&&o.componentWillMount(),typeof o.UNSAFE_componentWillMount=="function"&&o.UNSAFE_componentWillMount(),s!==o.state&&xc.enqueueReplaceState(o,o.state,null),xi(n,a,o,i),_i(),o.state=n.memoizedState),typeof o.componentDidMount=="function"&&(n.flags|=4194308),a=!0}else if(e===null){o=n.stateNode;var r=n.memoizedProps,c=na(t,r);o.props=c;var l=o.context,d=t.contextType;s=Ta,typeof d=="object"&&d!==null&&(s=_e(d));var m=t.getDerivedStateFromProps;d=typeof m=="function"||typeof o.getSnapshotBeforeUpdate=="function",r=n.pendingProps!==r,d||typeof o.UNSAFE_componentWillReceiveProps!="function"&&typeof o.componentWillReceiveProps!="function"||(r||l!==s)&&Md(n,o,a,s),rt=!1;var u=n.memoizedState;o.state=u,xi(n,a,o,i),_i(),l=n.memoizedState,r||u!==l||rt?(typeof m=="function"&&(kr(n,t,m,a),l=n.memoizedState),(c=rt||xd(n,t,c,a,u,l,s))?(d||typeof o.UNSAFE_componentWillMount!="function"&&typeof o.componentWillMount!="function"||(typeof o.componentWillMount=="function"&&o.componentWillMount(),typeof o.UNSAFE_componentWillMount=="function"&&o.UNSAFE_componentWillMount()),typeof o.componentDidMount=="function"&&(n.flags|=4194308)):(typeof o.componentDidMount=="function"&&(n.flags|=4194308),n.memoizedProps=a,n.memoizedState=l),o.props=a,o.state=l,o.context=s,a=c):(typeof o.componentDidMount=="function"&&(n.flags|=4194308),a=!1)}else{o=n.stateNode,yc(e,n),s=n.memoizedProps,d=na(t,s),o.props=d,m=n.pendingProps,u=o.context,l=t.contextType,c=Ta,typeof l=="object"&&l!==null&&(c=_e(l)),r=t.getDerivedStateFromProps,(l=typeof r=="function"||typeof o.getSnapshotBeforeUpdate=="function")||typeof o.UNSAFE_componentWillReceiveProps!="function"&&typeof o.componentWillReceiveProps!="function"||(s!==m||u!==c)&&Md(n,o,a,c),rt=!1,u=n.memoizedState,o.state=u,xi(n,a,o,i),_i();var p=n.memoizedState;s!==m||u!==p||rt||e!==null&&e.dependencies!==null&&Cs(e.dependencies)?(typeof r=="function"&&(kr(n,t,r,a),p=n.memoizedState),(d=rt||xd(n,t,d,a,u,p,c)||e!==null&&e.dependencies!==null&&Cs(e.dependencies))?(l||typeof o.UNSAFE_componentWillUpdate!="function"&&typeof o.componentWillUpdate!="function"||(typeof o.componentWillUpdate=="function"&&o.componentWillUpdate(a,p,c),typeof o.UNSAFE_componentWillUpdate=="function"&&o.UNSAFE_componentWillUpdate(a,p,c)),typeof o.componentDidUpdate=="function"&&(n.flags|=4),typeof o.getSnapshotBeforeUpdate=="function"&&(n.flags|=1024)):(typeof o.componentDidUpdate!="function"||s===e.memoizedProps&&u===e.memoizedState||(n.flags|=4),typeof o.getSnapshotBeforeUpdate!="function"||s===e.memoizedProps&&u===e.memoizedState||(n.flags|=1024),n.memoizedProps=a,n.memoizedState=p),o.props=a,o.state=p,o.context=c,a=d):(typeof o.componentDidUpdate!="function"||s===e.memoizedProps&&u===e.memoizedState||(n.flags|=4),typeof o.getSnapshotBeforeUpdate!="function"||s===e.memoizedProps&&u===e.memoizedState||(n.flags|=1024),a=!1)}return o=a,ga(e,n),a=(n.flags&128)!==0,o||a?(o=n.stateNode,t=a&&typeof t.getDerivedStateFromError!="function"?null:o.render(),n.flags|=1,e!==null&&a?(n.child=$t(n,e.child,null,i),n.child=$t(n,null,t,i)):fe(e,n,t,i),n.memoizedState=o.state,e=n.child):e=Yn(e,n,i),e}function Rd(e,n,t,a){return Qt(),n.flags|=256,fe(e,n,t,a),n.child}var Wc={dehydrated:null,treeContext:null,retryLane:0,hydrationErrors:null};function kc(e){return{baseLanes:e,cachePool:Ym()}}function Ec(e,n,t){return e=e!==null?e.childLanes&~t:0,n&&(e|=en),e}function Hg(e,n,t){var a=n.pendingProps,i=!1,o=(n.flags&128)!==0,s;if((s=o)||(s=e!==null&&e.memoizedState===null?!1:(Me.current&2)!==0),s&&(i=!0,n.flags&=-129),s=(n.flags&32)!==0,n.flags&=-33,e===null){if(U){if(i?bt(n):vt(),(e=oe)?(e=jp(e,gn),e=e!==null&&e.data!=="&"?e:null,e!==null&&(n.memoizedState={dehydrated:e,treeContext:Tt!==null?{id:kn,overflow:En}:null,retryLane:536870912,hydrationErrors:null},t=zm(e),t.return=n,n.child=t,Ae=n,oe=null)):e=null,e===null)throw It(n);return wh(e)?n.lanes=32:n.lanes=536870912,null}return o=a.children,a=a.fallback,i?(vt(),i=n.mode,o=or({mode:"hidden",children:o},i),a=Gt(a,i,t,null),o.return=n,a.return=n,o.sibling=a,n.child=o,a=n.child,a.memoizedState=kc(t),a.childLanes=Ec(e,s,t),n.memoizedState=Wc,Li(null,a)):(bt(n),ah(n,o))}var r=e.memoizedState;if(r!==null){var c=r.dehydrated;if(c!==null)return DC(e,n,o,s,a,c,r,t)}return i?(vt(),i=a.fallback,o=n.mode,r=e.child,c=r.sibling,a=Gn(r,{mode:"hidden",children:a.children}),a.subtreeFlags=r.subtreeFlags&1206910976,c!==null?i=Gn(c,i):(i=Gt(i,o,t,null),i.flags|=2),i.return=n,a.return=n,a.sibling=i,n.child=a,Li(null,a),a=n.child,i=e.child.memoizedState,i===null?i=kc(t):(o=i.cachePool,o!==null?(r=pe._currentValue,o=o.parent!==r?{parent:r,pool:r}:o):o=Ym(),i={baseLanes:i.baseLanes|t,cachePool:o}),a.memoizedState=i,a.childLanes=Ec(e,s,t),n.memoizedState=Wc,Li(e.child,a)):(bt(n),t=e.child,e=t.sibling,t=Gn(t,{mode:"visible",children:a.children}),t.return=n,t.sibling=null,e!==null&&(s=n.deletions,s===null?(n.deletions=[e],n.flags|=16):s.push(e)),n.child=t,n.memoizedState=null,t)}function ah(e,n){return n=or({mode:"visible",children:n},e.mode),n.return=e,e.child=n}function or(e,n){return e=qe(22,e,null,n),e.lanes=0,e}function _o(e,n,t){return $t(n,e.child,null,t),e=ah(n,n.pendingProps.children),e.flags|=2,n.memoizedState=null,e}function DC(e,n,t,a,i,o,s,r){if(t)return n.flags&256?(bt(n),n.flags&=-257,_o(e,n,r)):n.memoizedState!==null?(vt(),n.child=e.child,n.flags|=128,null):(vt(),o=i.fallback,s=n.mode,i=or({mode:"visible",children:i.children},s),o=Gt(o,s,r,null),o.flags|=2,i.return=n,o.return=n,i.sibling=o,n.child=i,$t(n,e.child,null,r),i=n.child,i.memoizedState=kc(r),i.childLanes=Ec(e,a,r),n.memoizedState=Wc,Li(null,i));if(bt(n),wh(o)){if(a=o.nextSibling&&o.nextSibling.dataset,a)var c=a.dgst;return a=c,a!==""&&(i=Error(S(419)),i.stack="",i.digest=a,Hi({value:i,source:null,stack:null})),_o(e,n,r)}if(we||Kt(e,n,r,!1),a=(r&e.childLanes)!==0,we||a){if(_t.current!==null)return _o(e,n,r);if(a=ne,a!==null&&(i=Cm(a,r),i!==0&&i!==s.retryLane))throw s.retryLane=i,ca(e,i),Ge(a,e,i),th;return il(o)||Es(),_o(e,n,r)}return il(o)?(n.flags|=192,n.child=e.child,null):(e=s.treeContext,oe=fn(o.nextSibling),Ae=n,U=!0,wt=null,gn=!1,e!==null&&Qm(n,e),n=ah(n,i.children),n.flags|=134221824,n)}function Ud(e,n,t){e.lanes|=n;var a=e.alternate;a!==null&&(a.lanes|=n),zo(e.return,n,t)}function Nd(e){for(var n=null;e!==null;){var t=e.alternate;t!==null&&ys(t)===null&&(n=e),e=e.sibling}return n}function xo(e,n,t,a,i,o){var s=e.memoizedState;s===null?e.memoizedState={isBackwards:n,rendering:null,renderingStartTime:0,last:a,tail:t,tailMode:i,treeForkCount:o}:(s.isBackwards=n,s.rendering=null,s.renderingStartTime=0,s.last=a,s.tail=t,s.tailMode=i,s.treeForkCount=o)}function Er(e){var n=e.child;for(e.child=null;n!==null;){var t=n.sibling;n.sibling=e.child,e.child=n,n=t}}function Dc(e,n,t){var a=n.pendingProps,i=a.revealOrder,o=a.tail;a=a.children;var s=Me.current;if(n.flags&128)return Gi(n,s),null;var r=(s&2)!==0;if(r?(s=s&1|2,n.flags|=128):s&=1,Gi(n,s),i==="backwards"&&e!==null?(Er(e),fe(e,n,a,t),Er(e)):fe(e,n,a,t),a=U?Bi:0,!r&&e!==null&&e.flags&128)e:for(e=n.child;e!==null;){if(e.tag===13)e.memoizedState!==null&&Ud(e,t,n);else if(e.tag===19)Ud(e,t,n);else if(e.child!==null){e.child.return=e,e=e.child;continue}if(e===n)break e;for(;e.sibling===null;){if(e.return===null||e.return===n)break e;e=e.return}e.sibling.return=e.return,e=e.sibling}switch(i){case"backwards":t=Nd(n.child),t===null?(i=n.child,n.child=null):(i=t.sibling,t.sibling=null,Er(n)),xo(n,!0,i,null,o,a);break;case"unstable_legacy-backwards":for(t=null,i=n.child,n.child=null;i!==null;){if(e=i.alternate,e!==null&&ys(e)===null){n.child=i;break}e=i.sibling,i.sibling=t,t=i,i=e}xo(n,!0,t,null,o,a);break;case"together":xo(n,!1,null,null,void 0,a);break;case"independent":n.memoizedState=null;break;default:t=Nd(n.child),t===null?(i=n.child,n.child=null):(i=t.sibling,t.sibling=null),xo(n,!1,i,t,o,a)}return n.child}function Vd(e,n,t){var a=n.pendingProps;return dt(n,n.type,a.value),fe(e,n,a.children,t),n.child}function Yn(e,n,t){if(e!==null&&(n.dependencies=e.dependencies),Mt|=n.lanes,!(t&n.childLanes))if(e!==null){if(Kt(e,n,t,!1),(t&n.childLanes)===0)return null}else return null;if(e!==null&&n.child!==e.child)throw Error(S(153));if(n.child!==null){for(e=n.child,t=Gn(e,e.pendingProps),n.child=t,t.return=n;e.sibling!==null;)e=e.sibling,t=t.sibling=Gn(e,e.pendingProps),t.return=n;t.sibling=null}return n.child}function ih(e,n){return e.lanes&n?!0:(e=e.dependencies,!!(e!==null&&Cs(e)))}function OC(e,n,t){switch(n.tag){case 3:hs(n,n.stateNode.containerInfo),dt(n,pe,e.memoizedState.cache),Qt();break;case 27:case 5:rc(n);break;case 4:hs(n,n.stateNode.containerInfo);break;case 10:dt(n,n.type,n.memoizedProps.value);break;case 31:if(n.memoizedState!==null)return n.flags|=128,Pc(n),null;break;case 13:var a=n.memoizedState;if(a!==null){if(a.dehydrated!==null)return bt(n),n.flags|=128,null;a=Kt(e,n,t,!1);var i=n.child.childLanes;return a||t&i?Hg(e,n,t):(bt(n),e=Yn(e,n,t),e!==null?e.sibling:null)}bt(n);break;case 19:if(n.flags&128)return Dc(e,n,t);if(i=(e.flags&128)!==0,a=(t&n.childLanes)!==0,a||(Kt(e,n,t,!1),a=(t&n.childLanes)!==0),i){if(a)return Dc(e,n,t);n.flags|=128}if(i=n.memoizedState,i!==null&&(i.rendering=null,i.tail=null,i.lastEffect=null),Gi(n,Me.current),a)break;return null;case 22:return n.lanes=0,Bg(e,n,t,n.pendingProps);case 24:dt(n,pe,e.memoizedState.cache)}return Yn(e,n,t)}function qg(e,n,t){if(e!==null)if(e.memoizedProps!==n.pendingProps)we=!0;else{if(!ih(e,t)&&!(n.flags&128))return we=!1,OC(e,n,t);we=!!(e.flags&131072)}else we=!1,U&&n.flags&1048576&&Xm(n,Bi,n.index);switch(n.lanes=0,n.tag){case 16:e:{var a=n.pendingProps;if(e=Vt(n.elementType),n.type=e,typeof e=="function")Fl(e)?(a=na(e,a),n.tag=1,n=Fd(null,n,e,a,t)):(n.tag=0,n=Lc(null,n,e,a,t));else{if(e!=null){var i=e.$$typeof;if(i===Al){n.tag=11,n=Wd(null,n,e,a,t);break e}else if(i===Pl){n.tag=14,n=kd(null,n,e,a,t);break e}else if(i===Ln){n.tag=10,n.type=e,n=Vd(null,n,t);break e}}throw n=oc(e)||e,Error(S(306,n,""))}}return n;case 0:return Lc(e,n,n.type,n.pendingProps,t);case 1:return a=n.type,i=na(a,n.pendingProps),Fd(e,n,a,i,t);case 3:e:{if(hs(n,n.stateNode.containerInfo),e===null)throw Error(S(387));a=n.pendingProps;var o=n.memoizedState;i=o.element,yc(e,n),xi(n,a,null,t);var s=n.memoizedState;if(a=s.cache,dt(n,pe,a),a!==o.cache&&bc(n,[pe],t,!0),_i(),a=s.element,o.isDehydrated)if(o={element:a,isDehydrated:!1,cache:s.cache},n.updateQueue.baseState=o,n.memoizedState=o,n.flags&256){n=Rd(e,n,a,t);break e}else if(a!==i){i=mn(Error(S(424)),n),Hi(i),n=Rd(e,n,a,t);break e}else{switch(e=n.stateNode.containerInfo,e.nodeType){case 9:e=e.body;break;default:e=e.nodeName==="HTML"?e.ownerDocument.body:e}for(oe=fn(e.firstChild),Ae=n,U=!0,wt=null,gn=!0,t=eg(n,null,a,t),n.child=t;t;)t.flags=t.flags&-3|134221824,t=t.sibling}else{if(Qt(),a===i){n=Yn(e,n,t);break e}fe(e,n,a,t)}n=n.child}return n;case 26:return ga(e,n),e===null?(t=du(n.type,null,n.pendingProps,null))?n.memoizedState=t:U||(n.stateNode=Ep(n.type,n.pendingProps,pt.current,n)):n.memoizedState=du(n.type,e.memoizedProps,n.pendingProps,e.memoizedState),null;case 27:return rc(n),e===null&&U&&(a=n.stateNode=Bp(n.type,n.pendingProps,pt.current),Ae=n,gn=!0,i=oe,Wt(n.type)?(ol=i,oe=fn(a.firstChild)):oe=i),fe(e,n,n.pendingProps.children,t),ga(e,n),e===null&&(n.flags|=4194304),n.child;case 5:return e===null&&U&&((i=a=oe)&&(a=Mb(a,n.type,n.pendingProps,gn),a!==null?(n.stateNode=a,Ae=n,oe=fn(a.firstChild),gn=!1,i=!0):i=!1),i||It(n)),rc(n),i=n.type,o=n.pendingProps,s=e!==null?e.memoizedProps:null,a=o.children,nl(i,o)?a=null:s!==null&&nl(i,s)&&(n.flags|=32),n.memoizedState!==null&&(i=Gl(e,n,PC,null,null,t),Qa._currentValue=i),ga(e,n),fe(e,n,a,t),n.child;case 6:return e===null&&U&&((e=t=oe)&&(t=Lb(t,n.pendingProps,gn),t!==null?(n.stateNode=t,Ae=n,oe=null,e=!0):e=!1),e||It(n)),null;case 13:return Hg(e,n,t);case 4:return hs(n,n.stateNode.containerInfo),a=n.pendingProps,e===null?n.child=$t(n,null,a,t):fe(e,n,a,t),n.child;case 11:return Wd(e,n,n.type,n.pendingProps,t);case 7:return a=n.pendingProps,ga(e,n),fe(e,n,a,t),n.child;case 8:return fe(e,n,n.pendingProps.children,t),n.child;case 12:return fe(e,n,n.pendingProps.children,t),n.child;case 10:return Vd(e,n,t);case 9:return i=n.type._context,a=n.pendingProps.children,Yt(n),i=_e(i),a=a(i),n.flags|=1,fe(e,n,a,t),n.child;case 14:return kd(e,n,n.type,n.pendingProps,t);case 15:return jg(e,n,n.type,n.pendingProps,t);case 19:return Dc(e,n,t);case 31:return EC(e,n,t);case 22:return Bg(e,n,t,n.pendingProps);case 24:return Yt(n),a=_e(pe),e===null?(i=Nl(),i===null&&(i=ne,o=Ul(),i.pooledCache=o,o.refCount++,o!==null&&(i.pooledCacheLanes|=t),i=o),n.memoizedState={parent:a,cache:i},jl(n),dt(n,pe,i)):(e.lanes&t&&(yc(e,n),xi(n,null,null,t),_i()),i=e.memoizedState,o=n.memoizedState,i.parent!==a?(i={parent:a,cache:a},n.memoizedState=i,n.lanes===0&&(n.memoizedState=n.updateQueue.baseState=i),dt(n,pe,a)):(a=o.cache,dt(n,pe,a),a!==i.cache&&bc(n,[pe],t,!0))),fe(e,n,n.pendingProps.children,t),n.child;case 30:return n.stateNode===null&&(n.stateNode={autoName:null,paired:null,clones:null,ref:null}),a=n.pendingProps,a.name!=null&&a.name!=="auto"?n.flags|=e===null?18882560:18874368:U&&$s(n),e!==null&&e.memoizedProps.name!==a.name?n.flags|=4194816:ga(e,n),fe(e,n,a.children,t),n.child;case 29:throw n.pendingProps}throw Error(S(156,n.tag))}function Bn(e){e.flags|=4}function Dr(e,n,t,a,i){var o;if((o=(e.mode&32)!==0)&&(o=t===null?gu(n,a):gu(n,a)&&(a.src!==t.src||a.srcSet!==t.srcSet)),o){if(e.flags|=16777216,(i&335544128)===i)if(e.stateNode.complete)e.flags|=8192;else if(bp())e.flags|=8192;else throw zt=bs,Vl}else e.flags&=-16777217}function jd(e,n){if(n.type!=="stylesheet"||n.state.loading&4)e.flags&=-16777217;else if(e.flags|=16777216,!Jp(n))if(bp())e.flags|=8192;else throw zt=bs,Vl}function Mo(e,n){n!==null&&(e.flags|=4),e.flags&16384&&(n=e.tag!==22?pm():536870912,e.lanes|=n,Ha|=n)}function li(e,n){if(!U)switch(e.tailMode){case"visible":break;case"collapsed":for(var t=e.tail,a=null;t!==null;)t.alternate!==null&&(a=t),t=t.sibling;a===null?n||e.tail===null?e.tail=null:e.tail.sibling=null:a.sibling=null;break;default:for(n=e.tail,t=null;n!==null;)n.alternate!==null&&(t=n),n=n.sibling;t===null?e.tail=null:t.sibling=null}}function ie(e){var n=e.alternate!==null&&e.alternate.child===e.child,t=0,a=0;if(n)for(var i=e.child;i!==null;)t|=i.lanes|i.childLanes,a|=i.subtreeFlags&1206910976,a|=i.flags&1206910976,i.return=e,i=i.sibling;else for(i=e.child;i!==null;)t|=i.lanes|i.childLanes,a|=i.subtreeFlags,a|=i.flags,i.return=e,i=i.sibling;return e.subtreeFlags|=a,e.childLanes=t,n}function FC(e,n,t){var a=n.pendingProps;switch(Rl(n),n.tag){case 16:case 15:case 0:case 11:case 7:case 8:case 12:case 9:case 14:return ie(n),null;case 1:return ie(n),null;case 3:return t=n.stateNode,a=null,e!==null&&(a=e.memoizedState.cache),n.memoizedState.cache!==a&&(n.flags|=2048),Jn(pe),Na(),t.pendingContext&&(t.context=t.pendingContext,t.pendingContext=null),(e===null||e.child===null)&&(da(n)?Bn(n):e===null||e.memoizedState.isDehydrated&&!(n.flags&256)||(n.flags|=1024,Mr())),ie(n),null;case 26:var i=n.type,o=n.memoizedState;return e===null?(Bn(n),o!==null?(ie(n),jd(n,o)):(ie(n),Dr(n,i,null,a,t))):o?o!==e.memoizedState?(Bn(n),ie(n),jd(n,o)):(ie(n),n.flags&=-16777217):(e=e.memoizedProps,e!==a&&Bn(n),ie(n),Dr(n,i,e,a,t)),null;case 27:if(ds(n),t=pt.current,i=n.type,e!==null&&n.stateNode!=null)e.memoizedProps!==a&&Bn(n);else{if(!a){if(n.stateNode===null)throw Error(S(166));return ie(n),n.subtreeFlags&=-33554433,null}e=On.current,da(n)?gd(n):(e=Bp(i,a,t),n.stateNode=e,Bn(n))}return ie(n),n.subtreeFlags&=-33554433,null;case 5:if(ds(n),i=n.type,e!==null&&n.stateNode!=null)e.memoizedProps!==a&&Bn(n);else{if(!a){if(n.stateNode===null)throw Error(S(166));return ie(n),n.subtreeFlags&=-33554433,null}if(o=On.current,da(n))gd(n);else{var s=Qi(pt.current);switch(o){case 1:o=s.createElementNS("http://www.w3.org/2000/svg",i);break;case 2:o=s.createElementNS("http://www.w3.org/1998/Math/MathML",i);break;default:switch(i){case"svg":o=s.createElementNS("http://www.w3.org/2000/svg",i);break;case"math":o=s.createElementNS("http://www.w3.org/1998/Math/MathML",i);break;case"script":o=s.createElement("div"),o.innerHTML="<script><\/script>",o=o.removeChild(o.firstChild);break;case"select":o=typeof a.is=="string"?s.createElement("select",{is:a.is}):s.createElement("select"),a.multiple?o.multiple=!0:a.size&&(o.size=a.size);break;default:o=typeof a.is=="string"?s.createElement(i,{is:a.is}):s.createElement(i)}}o[Ie]=n,o[ze]=a;e:for(s=n.child;s!==null;){if(s.tag===5||s.tag===6)o.appendChild(s.stateNode);else if(s.tag!==4&&s.tag!==27&&s.child!==null){s.child.return=s,s=s.child;continue}if(s===n)break e;for(;s.sibling===null;){if(s.return===null||s.return===n)break e;s=s.return}s.sibling.return=s.return,s=s.sibling}n.stateNode=o;e:switch(Le(o,i,a),i){case"button":case"input":case"select":case"textarea":a=!!a.autoFocus;break e;case"img":a=!0;break e;default:a=!1}a&&Bn(n)}}return ie(n),n.subtreeFlags&=-33554433,Dr(n,n.type,e===null?null:e.memoizedProps,n.pendingProps,t),null;case 6:if(e&&n.stateNode!=null)e.memoizedProps!==a&&Bn(n);else{if(typeof a!="string"&&n.stateNode===null)throw Error(S(166));if(e=pt.current,da(n)){if(e=n.stateNode,t=n.memoizedProps,a=null,i=Ae,i!==null)switch(i.tag){case 27:case 5:a=i.memoizedProps}e[Ie]=n,e=!!(e.nodeValue===t||a!==null&&a.suppressHydrationWarning===!0||Wp(e.nodeValue,t)),e||It(n,!0)}else e=Qi(e).createTextNode(a),e[Ie]=n,n.stateNode=e}return ie(n),null;case 31:if(t=n.memoizedState,e===null||e.memoizedState!==null){if(a=da(n),t!==null){if(e===null){if(!a)throw Error(S(318));if(e=n.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(S(557));e[Ie]=n}else Qt(),!(n.flags&128)&&(n.memoizedState=null),n.flags|=4;ie(n),e=!1}else t=Mr(),e!==null&&e.memoizedState!==null&&(e.memoizedState.hydrationErrors=t),e=!0;if(!e)return n.flags&256?(Ye(n),n):(Ye(n),null);if(n.flags&128)throw Error(S(558))}return ie(n),null;case 13:if(a=n.memoizedState,e===null||e.memoizedState!==null&&e.memoizedState.dehydrated!==null){if(i=da(n),a!==null&&a.dehydrated!==null){if(e===null){if(!i)throw Error(S(318));if(i=n.memoizedState,i=i!==null?i.dehydrated:null,!i)throw Error(S(317));i[Ie]=n}else Qt(),!(n.flags&128)&&(n.memoizedState=null),n.flags|=4;ie(n),i=!1}else i=Mr(),e!==null&&e.memoizedState!==null&&(e.memoizedState.hydrationErrors=i),i=!0;if(!i)return n.flags&256?(Ye(n),n):(Ye(n),null)}return Ye(n),n.flags&128?(n.lanes=t,n):(t=a!==null,e=e!==null&&e.memoizedState!==null,t&&(a=n.child,i=null,a.alternate!==null&&a.alternate.memoizedState!==null&&a.alternate.memoizedState.cachePool!==null&&(i=a.alternate.memoizedState.cachePool.pool),o=null,a.memoizedState!==null&&a.memoizedState.cachePool!==null&&(o=a.memoizedState.cachePool.pool),o!==i&&(a.flags|=2048)),t!==e&&t&&(n.child.flags|=8192),Mo(n,n.updateQueue),ie(n),null);case 4:return Na(),e===null&&mh(n.stateNode.containerInfo),n.flags|=67108864,ie(n),null;case 10:return Jn(n.type),ie(n),null;case 19:if(Hl(n),a=n.memoizedState,a===null)return ie(n),null;if(i=(n.flags&128)!==0,o=a.rendering,o===null)if(i)li(a,!1);else{if(de!==0||e!==null&&e.flags&128)for(e=n.child;e!==null;){if(o=ys(e),o!==null){for(n.flags|=128,li(a,!1),e=o.updateQueue,n.updateQueue=e,Mo(n,e),n.subtreeFlags=0,e=t,t=n.child;t!==null;)Jm(t,e),t=t.sibling;return Gi(n,Me.current&1|2),U&&Hn(n,a.treeForkCount),n.child}e=e.sibling}a.tail!==null&&nn()>Ws&&(n.flags|=128,i=!0,li(a,!1),n.lanes=4194304)}else{if(!i)if(e=ys(o),e!==null){if(n.flags|=128,i=!0,e=e.updateQueue,n.updateQueue=e,Mo(n,e),li(a,!0),a.tail===null&&a.tailMode!=="collapsed"&&a.tailMode!=="visible"&&!o.alternate&&!U)return ie(n),null}else 2*nn()-a.renderingStartTime>Ws&&t!==536870912&&(n.flags|=128,i=!0,li(a,!1),n.lanes=4194304);a.isBackwards?(o.sibling=n.child,n.child=o):(e=a.last,e!==null?e.sibling=o:n.child=o,a.last=o)}if(a.tail!==null){e=a.tail;e:{for(t=e;t!==null;){if(t.alternate!==null){t=!1;break e}t=t.sibling}t=!0}return a.rendering=e,a.tail=e.sibling,a.renderingStartTime=nn(),e.sibling=null,o=Me.current,o=i?o&1|2:o&1,a.tailMode==="visible"||a.tailMode==="collapsed"||!t||U?Gi(n,o):(t=o,re(We,n),re(Me,t),Ee===null&&(Ee=n)),U&&Hn(n,a.treeForkCount),e}return ie(n),null;case 22:case 23:return Ye(n),Bl(),a=n.memoizedState!==null,e!==null?e.memoizedState!==null!==a&&(n.flags|=8192):a&&(n.flags|=8192),a?t&536870912&&!(n.flags&128)&&(ie(n),n.subtreeFlags&6&&(n.flags|=8192)):ie(n),t=n.updateQueue,t!==null&&Mo(n,t.retryQueue),t=null,e!==null&&e.memoizedState!==null&&e.memoizedState.cachePool!==null&&(t=e.memoizedState.cachePool.pool),a=null,n.memoizedState!==null&&n.memoizedState.cachePool!==null&&(a=n.memoizedState.cachePool.pool),a!==t&&(n.flags|=2048),e!==null&&xe(Jt),null;case 24:return t=null,e!==null&&(t=e.memoizedState.cache),n.memoizedState.cache!==t&&(n.flags|=2048),Jn(pe),ie(n),null;case 25:return null;case 30:return n.flags|=33554432,ie(n),null}throw Error(S(156,n.tag))}function RC(e,n){switch(Rl(n),n.tag){case 1:return e=n.flags,e&65536?(n.flags=e&-65537|128,n):null;case 3:return Jn(pe),Na(),e=n.flags,e&65536&&!(e&128)?(n.flags=e&-65537|128,n):null;case 26:case 27:case 5:return ds(n),null;case 31:if(n.memoizedState!==null){if(Ye(n),n.alternate===null)throw Error(S(340));Qt()}return e=n.flags,e&65536?(n.flags=e&-65537|128,n):null;case 13:if(Ye(n),e=n.memoizedState,e!==null&&e.dehydrated!==null){if(n.alternate===null)throw Error(S(340));Qt()}return e=n.flags,e&65536?(n.flags=e&-65537|128,n):null;case 19:return Hl(n),e=n.flags,e&65536?(n.flags=e&-65537|128,e=n.memoizedState,e!==null&&(e.rendering=null,e.tail=null),n.flags|=4,n):null;case 4:return Na(),null;case 10:return Jn(n.type),null;case 22:case 23:return Ye(n),Bl(),e!==null&&xe(Jt),e=n.flags,e&65536?(n.flags=e&-65537|128,n):null;case 24:return Jn(pe),null;case 25:return null;default:return null}}function Gg(e,n){switch(Rl(n),n.tag){case 3:Jn(pe),Na();break;case 26:case 27:case 5:ds(n);break;case 4:Na();break;case 31:n.memoizedState!==null&&Ye(n);break;case 13:Ye(n);break;case 19:Hl(n);break;case 10:Jn(n.type);break;case 22:case 23:Ye(n),Bl(),e!==null&&xe(Jt);break;case 24:Jn(pe)}}function lo(e,n){try{var t=n.updateQueue,a=t!==null?t.lastEffect:null;if(a!==null){var i=a.next;t=i;do{if((t.tag&e)===e){a=void 0;var o=t.create,s=t.inst;a=o(),s.destroy=a}t=t.next}while(t!==i)}}catch(r){K(n,n.return,r)}}function xt(e,n,t){try{var a=n.updateQueue,i=a!==null?a.lastEffect:null;if(i!==null){var o=i.next;a=o;do{if((a.tag&e)===e){var s=a.inst,r=s.destroy;if(r!==void 0){s.destroy=void 0,i=n;var c=t,l=r;try{l()}catch(d){K(i,c,d)}}}a=a.next}while(a!==o)}}catch(d){K(n,n.return,d)}}function Jg(e){var n=e.updateQueue;if(n!==null){var t=e.stateNode;try{tg(n,t)}catch(a){K(e,e.return,a)}}}function zg(e,n,t){t.props=na(e.type,e.memoizedProps),t.state=e.memoizedState;try{t.componentWillUnmount()}catch(a){K(e,n,a)}}function xn(e,n){try{var t=e.ref;if(t!==null){switch(e.tag){case 26:case 27:case 5:var a=e.stateNode;break;case 30:var i=e.stateNode,o=Xn(e.memoizedProps,i);(i.ref===null||i.ref.name!==o)&&(i.ref=Fp(o)),a=i.ref;break;case 7:if(e.stateNode===null){var s=new rn(e);Je(e.child,!1,_b,s,void 0,void 0),e.stateNode=s}a=e.stateNode;break;default:a=e.stateNode}typeof t=="function"?e.refCleanup=t(a):t.current=a}}catch(r){K(e,n,r)}}function Te(e,n){var t=e.ref,a=e.refCleanup;if(t!==null)if(typeof a=="function")try{a()}catch(i){K(e,n,i)}finally{e.refCleanup=null,e=e.alternate,e!=null&&(e.refCleanup=null)}else if(typeof t=="function")try{t(null)}catch(i){K(e,n,i)}else t.current=null}function Is(e,n){if((e.tag===5||e.tag===27||e.tag===6)&&e.alternate===null&&n!==null)for(var t=0;t<n.length;t++)Vp(e.stateNode,n[t])}function Bd(e){for(var n=e.return;n!==null&&(sh(n)&&Vp(e.stateNode,n.stateNode),!oh(n));)n=n.return}function Wi(e){for(var n=e.return;n!==null&&(sh(n)&&xb(e.stateNode,n.stateNode),!oh(n));)n=n.return}function oh(e){return e.tag===5||e.tag===3||e.tag===27}function sh(e){return e&&e.tag===7&&e.stateNode!==null}function Oc(e){var n=e.type,t=e.memoizedProps,a=e.stateNode;try{e:switch(n){case"button":case"input":case"select":case"textarea":t.autoFocus&&a.focus();break e;case"img":t.src?a.src=t.src:t.srcSet&&(a.srcset=t.srcSet)}}catch(i){K(e,e.return,i)}}function Or(e,n,t){try{var a=e.stateNode;lb(a,e.type,t,n),a[ze]=n}catch(i){K(e,e.return,i)}}function Xg(e){return e.tag===5||e.tag===3||e.tag===26||e.tag===27&&Wt(e.type)||e.tag===4}function Fr(e){e:for(;;){for(;e.sibling===null;){if(e.return===null||Xg(e.return))return null;e=e.return}for(e.sibling.return=e.return,e=e.sibling;e.tag!==5&&e.tag!==6&&e.tag!==18;){if(e.tag===27&&Wt(e.type)||e.flags&2||e.child===null||e.tag===4)continue e;e.child.return=e,e=e.child}if(!(e.flags&2))return e.stateNode}}function Fc(e,n,t,a){var i=e.tag;if(i===5||i===6)i=e.stateNode,n?(t.nodeType===9?t.body:t.nodeName==="HTML"?t.ownerDocument.body:t).insertBefore(i,n):(n=t.nodeType===9?t.body:t.nodeName==="HTML"?t.ownerDocument.body:t,n.appendChild(i),t=t._reactRootContainer,t!=null||n.onclick!==null||(n.onclick=Wn)),Is(e,a),H=!0;else if(i!==4&&(i===27&&(Is(e,a),a=null,Wt(e.type)&&(t=e.stateNode,n=null)),e=e.child,e!==null))for(Fc(e,n,t,a),e=e.sibling;e!==null;)Fc(e,n,t,a),e=e.sibling}function _s(e,n,t,a){var i=e.tag;if(i===5||i===6)i=e.stateNode,n?t.insertBefore(i,n):t.appendChild(i),Is(e,a),H=!0;else if(i!==4&&(i===27&&(Is(e,a),a=null,Wt(e.type)&&(t=e.stateNode)),e=e.child,e!==null))for(_s(e,n,t,a),e=e.sibling;e!==null;)_s(e,n,t,a),e=e.sibling}function Qg(e){var n=e.stateNode,t=e.memoizedProps;try{for(var a=e.type,i=n.attributes;i.length;)n.removeAttributeNode(i[0]);Le(n,a,t),n[Ie]=e,n[ze]=t}catch(o){K(e,e.return,o)}}var xs=!1,$e=null;function Hd(e){(e.tag===30||e.subtreeFlags&33554432)&&(xs=!0)}var Mn=null;function qd(){var e=Mn;return Mn=null,e}var He=0;function ti(e,n,t,a,i){return He=0,Kg(e.child,n,t,a,i)}function Kg(e,n,t,a,i){for(var o=!1;e!==null;){if(e.tag===5){var s=e.stateNode;if(a!==null){var r=tl(s);a.push(r),r.view&&(o=!0)}else o||tl(s).view&&(o=!0);xs=!0,Dp(s,He===0?n:n+"_"+He,t),He++}else(e.tag!==22||e.memoizedState===null)&&(e.tag===30&&i||Kg(e.child,n,t,a,i)&&(o=!0));e=e.sibling}return o}function Rn(e,n){for(;e!==null;)e.tag===5?Op(e.stateNode,e.memoizedProps):(e.tag!==22||e.memoizedState===null)&&(e.tag===30&&n||Rn(e.child,n)),e=e.sibling}function Zo(e){if(e.subtreeFlags&18874368)for(e=e.child;e!==null;){if((e.tag!==22||e.memoizedState===null)&&(Zo(e),e.tag===30&&(e.flags&18874368)!==0&&e.stateNode.paired)){var n=e.memoizedProps;if(n.name==null||n.name==="auto")throw Error(S(544));var t=n.name;n=et(n.default,n.share),n!=="none"&&(ti(e,t,n,null,!1)||Rn(e.child,!1))}e=e.sibling}}function Rc(e,n){if(e.tag===30){var t=e.stateNode,a=e.memoizedProps,i=Xn(a,t),o=et(a.default,t.paired?a.share:a.enter);o!=="none"?ti(e,i,o,null,!1)?(Zo(e),t.paired||n||qa(e,a.onEnter)):Rn(e.child,!1):Zo(e)}else if(e.subtreeFlags&33554432)for(e=e.child;e!==null;)Rc(e,n),e=e.sibling;else Zo(e)}function Uc(e){if($e!==null&&$e.size!==0){var n=$e;if(e.subtreeFlags&18874368)for(e=e.child;e!==null;){if(e.tag!==22||e.memoizedState===null){if(e.tag===30&&e.flags&18874368){var t=e.memoizedProps,a=t.name;if(a!=null&&a!=="auto"){var i=n.get(a);if(i!==void 0){var o=et(t.default,t.share);if(o!=="none"&&(ti(e,a,o,null,!1)?(o=e.stateNode,i.paired=o,o.paired=i,qa(e,t.onShare)):Rn(e.child,!1)),n.delete(a),n.size===0)break}}}Uc(e)}e=e.sibling}}}function Nc(e){if(e.tag===30){var n=e.memoizedProps,t=Xn(n,e.stateNode),a=$e!==null?$e.get(t):void 0,i=et(n.default,a!==void 0?n.share:n.exit);i!=="none"&&(ti(e,t,i,null,!1)?a!==void 0?(i=e.stateNode,a.paired=i,i.paired=a,$e.delete(t),qa(e,n.onShare)):qa(e,n.onExit):Rn(e.child,!1)),$e!==null&&Uc(e)}else if(e.subtreeFlags&33554432)for(e=e.child;e!==null;)Nc(e),e=e.sibling;else $e!==null&&Uc(e)}function Yg(e){for(e=e.child;e!==null;){if(e.tag===30){var n=e.memoizedProps,t=Xn(n,e.stateNode);n=et(n.default,n.update),e.flags&=-5,n!=="none"&&ti(e,t,n,e.memoizedState=[],!1)}else e.subtreeFlags&33554432&&Yg(e);e=e.sibling}}function Vc(e){if(e.subtreeFlags&18874368)for(e=e.child;e!==null;){if(e.tag!==22||e.memoizedState===null){if(e.tag===30&&e.flags&18874368){var n=e.stateNode;n.paired!==null&&(n.paired=null,Rn(e.child,!1))}Vc(e)}e=e.sibling}}function $o(e){if(e.tag===30)e.stateNode.paired=null,Rn(e.child,!1),Vc(e);else if(e.subtreeFlags&33554432)for(e=e.child;e!==null;)$o(e),e=e.sibling;else Vc(e)}function Zg(e){for(e=e.child;e!==null;)e.tag===30?Rn(e.child,!1):e.subtreeFlags&33554432&&Zg(e),e=e.sibling}function rh(e,n,t,a,i,o,s){for(var r=!1;n!==null;){if(n.tag===5){var c=n.stateNode;if(o!==null&&He<o.length){var l=o[He],d=tl(c);(l.view||d.view)&&(r=!0);var m;if(m=(e.flags&4)===0)if(d.clip)m=!0;else{m=l.rect;var u=d.rect;m=m.y!==u.y||m.x!==u.x||m.height!==u.height||m.width!==u.width}m&&(e.flags|=4),d.abs?d=!l.abs:(l=l.rect,d=d.rect,d=l.height!==d.height||l.width!==d.width),d&&(e.flags|=32)}else e.flags|=32;e.flags&4&&Dp(c,He===0?t:t+"_"+He,i),r&&e.flags&4||(Mn===null&&(Mn=[]),Mn.push(c,He===0?a:a+"_"+He,n.memoizedProps)),He++}else(n.tag!==22||n.memoizedState===null)&&(n.tag===30&&s?e.flags|=n.flags&32:rh(e,n.child,t,a,i,o,s)&&(r=!0));n=n.sibling}return r}function $g(e,n){for(e=e.child;e!==null;){if(e.tag===30){var t=e.memoizedProps,a=e.stateNode,i=Xn(t,a),o=et(t.default,t.update),s;s=e.memoizedState,e.memoizedState=null,a=e;var r=e.child;He=0,i=rh(a,r,i,i,o,s,!1),e.flags&4&&i&&qa(e,t.onUpdate)}else e.subtreeFlags&33554432&&$g(e);e=e.sibling}}var ve=!1,J=!1,Tn=!1,Rr=!1,Gd=typeof WeakSet=="function"?WeakSet:Set,ye=null,In=!1,bi=!1,Ms=!1,jc=!1;function UC(e,n,t){if(e=e.containerInfo,$c=Ka,e=Um(e),El(e)){if("selectionStart"in e)var a={start:e.selectionStart,end:e.selectionEnd};else e:{a=(a=e.ownerDocument)&&a.defaultView||window;var i=a.getSelection&&a.getSelection();if(i&&i.rangeCount!==0){a=i.anchorNode;var o=i.anchorOffset,s=i.focusNode;i=i.focusOffset;try{a.nodeType,s.nodeType}catch{a=null;break e}var r=0,c=-1,l=-1,d=0,m=0,u=e,p=null;n:for(;;){for(var C;u!==a||o!==0&&u.nodeType!==3||(c=r+o),u!==s||i!==0&&u.nodeType!==3||(l=r+i),u.nodeType===3&&(r+=u.nodeValue.length),(C=u.firstChild)!==null;)p=u,u=C;for(;;){if(u===e)break n;if(p===a&&++d===o&&(c=r),p===s&&++m===i&&(l=r),(C=u.nextSibling)!==null)break;u=p,p=u.parentNode}u=C}a=c===-1||l===-1?null:{start:c,end:l}}else a=null}a=a||{start:0,end:0}}else a=null;for(el={focusedElem:e,selectionRange:a},Ka=!1,t=(t&335544064)===t,ye=n,n=t?9270:1024;ye!==null;){if(e=ye,t&&(a=e.deletions,a!==null))for(o=0;o<a.length;o++)t&&Nc(a[o]);if(e.alternate===null&&e.flags&2)t&&Hd(e),Lo(t);else{if(e.tag===22){if(a=e.alternate,e.memoizedState!==null){a!==null&&a.memoizedState===null&&t&&Nc(a),Lo(t);continue}else if(a!==null&&a.memoizedState!==null){t&&Hd(e),Lo(t);continue}}a=e.child,e.subtreeFlags&n&&a!==null?(a.return=e,ye=a):(t&&Yg(e),Lo(t))}}$e=null}function Lo(e){for(;ye!==null;){var n=ye,t=e,a=n.alternate,i=n.flags;switch(n.tag){case 0:case 11:case 15:break;case 1:if(i&1024&&a!==null){t=void 0,i=a.memoizedProps,a=a.memoizedState;var o=n.stateNode;try{var s=na(n.type,i);t=o.getSnapshotBeforeUpdate(s,a),o.__reactInternalSnapshotBeforeUpdate=t}catch(r){K(n,n.return,r)}}break;case 3:if(i&1024){if(a=n.stateNode.containerInfo,t=a.nodeType,t===9)al(a);else if(t===1)switch(a.nodeName){case"HEAD":case"HTML":case"BODY":al(a);break;default:a.textContent=""}}break;case 5:case 26:case 27:case 6:case 4:case 17:break;case 30:t&&a!==null&&(t=Xn(a.memoizedProps,a.stateNode),i=n.memoizedProps,i=et(i.default,i.update),i!=="none"&&ti(a,t,i,a.memoizedState=[],!0));break;default:if(i&1024)throw Error(S(163))}if(a=n.sibling,a!==null){a.return=n.return,ye=a;break}ye=n.return}}function ep(e,n,t){var a=t.flags;switch(t.tag){case 0:case 11:case 15:_n(e,t),a&4&&lo(5,t);break;case 1:if(_n(e,t),a&4)if(e=t.stateNode,n===null)try{e.componentDidMount()}catch(s){K(t,t.return,s)}else{var i=na(t.type,n.memoizedProps);n=n.memoizedState;try{e.componentDidUpdate(i,n,e.__reactInternalSnapshotBeforeUpdate)}catch(s){K(t,t.return,s)}}a&64&&Jg(t),a&512&&xn(t,t.return);break;case 3:if(_n(e,t),a&64&&(e=t.updateQueue,e!==null)){if(n=null,t.child!==null)switch(t.child.tag){case 27:case 5:n=t.child.stateNode;break;case 1:n=t.child.stateNode}try{tg(e,n)}catch(s){K(t,t.return,s)}}break;case 27:n===null&&a&4&&Qg(t);case 26:case 5:_n(e,t),n===null&&a&4&&Oc(t),a&512&&xn(t,t.return);break;case 12:_n(e,t);break;case 31:_n(e,t),a&4&&ip(e,t);break;case 13:_n(e,t),a&4&&op(e,t),a&64&&(e=t.memoizedState,e!==null&&(e=e.dehydrated,e!==null&&(t=KC.bind(null,t),Wb(e,t))));break;case 22:if(a=t.memoizedState!==null||ve,!a){var o=n!==null&&n.memoizedState!==null||J;n=ve,i=J,ve=a,(J=o)&&!i?(a=2,t.subtreeFlags&8772&&(a|=1),vn(e,t,a)):_n(e,t),ve=n,J=i}break;case 30:_n(e,t),a&512&&xn(t,t.return);break;case 7:a&512&&xn(t,t.return);default:_n(e,t)}}function Bc(e,n){for(e=e.child;e!==null;)np(e,n),e=e.sibling}function np(e,n){switch(e.tag){case 5:case 26:try{var t=e.stateNode;if(n){var a=t.style;typeof a.setProperty=="function"?a.setProperty("display","none","important"):a.display="none"}else{var i=e.stateNode,o=e.memoizedProps.style,s=o!=null&&o.hasOwnProperty("display")?o.display:null;i.style.display=s==null||typeof s=="boolean"?"":(""+s).trim()}}catch(c){K(e,e.return,c)}Hc(e,n);break;case 6:try{e.stateNode.nodeValue=n?"":e.memoizedProps,H=!0}catch(c){K(e,e.return,c)}break;case 18:try{var r=e.stateNode;n?ou(r,!0):ou(e.stateNode,!1)}catch(c){K(e,e.return,c)}break;case 22:case 23:e.memoizedState===null&&Bc(e,n);break;default:Bc(e,n)}}function Hc(e,n){if(e.subtreeFlags&67108864)for(e=e.child;e!==null;){e:{var t=e,a=n;switch(t.tag){case 4:np(t,a);break e;case 22:t.memoizedState===null&&Hc(t,a);break e;default:Hc(t,a)}}e=e.sibling}}function tp(e){var n=e.alternate;n!==null&&(e.alternate=null,tp(n)),e.child=null,e.deletions=null,e.sibling=null,e.tag===5&&(n=e.stateNode,n!==null&&zs(n)),e.stateNode=null,e.return=null,e.dependencies=null,e.memoizedProps=null,e.memoizedState=null,e.pendingProps=null,e.stateNode=null,e.updateQueue=null}var ce=null,je=!1;function bn(e,n,t){for(t=t.child;t!==null;)ap(e,n,t),t=t.sibling}function ap(e,n,t){if(tn&&typeof tn.onCommitFiberUnmount=="function")try{tn.onCommitFiberUnmount(to,t)}catch{}switch(t.tag){case 26:J||Te(t,n),bn(e,n,t),t.memoizedState?t.memoizedState.count--:t.stateNode&&!J&&(t=t.stateNode,t.parentNode.removeChild(t));break;case 27:J||Te(t,n),Wi(t);var a=ce,i=je;Wt(t.type)&&(ce=t.stateNode,je=!1),bn(e,n,t),Hp(t.stateNode,t.type,t.memoizedProps),ce=a,je=i;break;case 5:J||Te(t,n),Wi(t);case 6:if(t.tag===6&&Wi(t),a=ce,i=je,ce=null,bn(e,n,t),ce=a,je=i,ce!==null)if(je)try{(ce.nodeType===9?ce.body:ce.nodeName==="HTML"?ce.ownerDocument.body:ce).removeChild(t.stateNode),H=!0}catch(o){K(t,n,o)}else try{ce.removeChild(t.stateNode),H=!0}catch(o){K(t,n,o)}break;case 18:ce!==null&&(je?(e=ce,iu(e.nodeType===9?e.body:e.nodeName==="HTML"?e.ownerDocument.body:e,t.stateNode),Ya(e)):iu(ce,t.stateNode));break;case 4:a=ce,i=je,ce=t.stateNode.containerInfo,je=!0,bn(e,n,t),ce=a,je=i;break;case 0:case 11:case 14:case 15:xt(2,t,n),J||xt(4,t,n),bn(e,n,t);break;case 1:J||(Te(t,n),a=t.stateNode,typeof a.componentWillUnmount=="function"&&zg(t,n,a)),bn(e,n,t);break;case 21:bn(e,n,t);break;case 22:J=(a=J)||t.memoizedState!==null,bn(e,n,t),J=a;break;case 30:Te(t,n),bn(e,n,t);break;case 7:J||Te(t,n),bn(e,n,t);break;default:bn(e,n,t)}}function ip(e,n){if(n.memoizedState===null&&(e=n.alternate,e!==null&&(e=e.memoizedState,e!==null))){e=e.dehydrated;try{Ya(e)}catch(t){K(n,n.return,t)}}}function op(e,n){if(n.memoizedState===null&&(e=n.alternate,e!==null&&(e=e.memoizedState,e!==null&&(e=e.dehydrated,e!==null))))try{Ya(e)}catch(t){K(n,n.return,t)}}function NC(e){switch(e.tag){case 31:case 13:case 19:var n=e.stateNode;return n===null&&(n=e.stateNode=new Gd),n;case 22:return e=e.stateNode,n=e._retryCache,n===null&&(n=e._retryCache=new Gd),n;default:throw Error(S(435,e.tag))}}function Wo(e,n){var t=NC(e);n.forEach(function(a){if(!t.has(a)){t.add(a);var i=YC.bind(null,e,a);a.then(i,i)}})}function Oe(e,n,t){var a=n.deletions;if(a!==null)for(var i=0;i<a.length;i++){var o=a[i],s=e,r=n,c=r;e:for(;c!==null;){switch(c.tag){case 27:if(Wt(c.type)){ce=c.stateNode,je=!1;break e}break;case 5:ce=c.stateNode,je=!1;break e;case 3:case 4:ce=c.stateNode.containerInfo,je=!0;break e}c=c.return}if(ce===null)throw Error(S(160));ap(s,r,o),ce=null,je=!1,s=o.alternate,s!==null&&(s.return=null),o.return=null}if(n.subtreeFlags&13886)for(n=n.child;n!==null;)sp(n,e,t),n=n.sibling}var yn=null;function sp(e,n,t){var a=e.alternate,i=e.flags;switch(e.tag){case 0:case 11:case 14:case 15:if(i&4&&(a=e.updateQueue,a=a!==null?a.events:null,a!==null))for(var o=0;o<a.length;o++){var s=a[o];s.ref.impl=s.nextImpl}Oe(n,e,t),Fe(e),i&4&&(xt(3,e,e.return),lo(3,e),xt(5,e,e.return));break;case 1:Oe(n,e,t),Fe(e),i&512&&(J||a===null||Te(a,a.return)),i&64&&ve&&(e=e.updateQueue,e!==null&&(n=e.callbacks,n!==null&&(t=e.shared.hiddenCallbacks,e.shared.hiddenCallbacks=t===null?n:t.concat(n))));break;case 26:if(o=yn,Oe(n,e,t),Fe(e),i&512&&(J||a===null||Te(a,a.return)),i&4)if(i=a!==null?a.memoizedState:null,t=e.memoizedState,a===null)if(t===null)if(e.stateNode===null)if(ve)e.stateNode=Ep(e.type,e.memoizedProps,n.containerInfo,e);else{e:{n=e.type,t=e.memoizedProps,i=o.ownerDocument||o;n:switch(n){case"title":a=i.getElementsByTagName("title")[0],(!a||a[oo]||a[Ie]||a.namespaceURI==="http://www.w3.org/2000/svg"||a.hasAttribute("itemprop"))&&(a=i.createElement(n),i.head.insertBefore(a,i.querySelector("head > title"))),Le(a,n,t),a[Ie]=e,Se(a),n=a;break e;case"link":if(o=mu("link","href",i).get(n+(t.href||""))){for(s=0;s<o.length;s++)if(a=o[s],a.getAttribute("href")===(t.href==null||t.href===""?null:t.href)&&a.getAttribute("rel")===(t.rel==null?null:t.rel)&&a.getAttribute("title")===(t.title==null?null:t.title)&&a.getAttribute("crossorigin")===(t.crossOrigin==null?null:t.crossOrigin)){o.splice(s,1);break n}}a=i.createElement(n),Le(a,n,t),i.head.appendChild(a);break;case"meta":if(o=mu("meta","content",i).get(n+(t.content||""))){for(s=0;s<o.length;s++)if(a=o[s],a.getAttribute("content")===(t.content==null?null:""+t.content)&&a.getAttribute("name")===(t.name==null?null:t.name)&&a.getAttribute("property")===(t.property==null?null:t.property)&&a.getAttribute("http-equiv")===(t.httpEquiv==null?null:t.httpEquiv)&&a.getAttribute("charset")===(t.charSet==null?null:t.charSet)){o.splice(s,1);break n}}a=i.createElement(n),Le(a,n,t),i.head.appendChild(a);break;default:throw Error(S(468,n))}a[Ie]=e,Se(a),n=a}e.stateNode=n}else ve||sl(o,e.type,e.stateNode);else e.stateNode=uu(o,t,e.memoizedProps);else i!==t?(i===null?(n=a.stateNode,n===null||J||n.parentNode.removeChild(n)):i.count--,t===null?ve||sl(o,e.type,e.stateNode):uu(o,t,e.memoizedProps)):t===null&&e.stateNode!==null&&Or(e,e.memoizedProps,a.memoizedProps);break;case 27:Oe(n,e,t),Fe(e),i&512&&(J||a===null||Te(a,a.return)),a!==null&&i&4&&Or(e,e.memoizedProps,a.memoizedProps);break;case 5:if(o=Tn,Tn=!1,Oe(n,e,t),Tn=o,Fe(e),i&512&&(J||a===null||Te(a,a.return)),e.flags&32){n=e.stateNode;try{ja(n,""),H=!0}catch(d){K(e,e.return,d)}}i&4&&e.stateNode!=null&&(n=e.memoizedProps,Or(e,n,a!==null?a.memoizedProps:n)),i&1024&&(Rr=!0);break;case 6:if(Oe(n,e,t),Fe(e),i&4){if(e.stateNode===null)throw Error(S(162));n=e.memoizedProps,t=e.stateNode;try{t.nodeValue=n,H=!0}catch(d){K(e,e.return,d)}}break;case 3:if(H=!1,as=null,o=yn,yn=Ki(n.containerInfo),Oe(n,e,t),yn=o,Fe(e),i&4&&a!==null&&a.memoizedState.isDehydrated)try{Ya(n.containerInfo)}catch(d){K(e,e.return,d)}Rr&&(Rr=!1,rp(e)),H=!1;break;case 4:i=Tn,Tn=ve,a=Kh(),o=yn,yn=Ki(e.stateNode.containerInfo),Oe(n,e,t),Fe(e),yn=o,H&&bi&&(Ms=!0),H=a,Tn=i;break;case 12:Oe(n,e,t),Fe(e);break;case 31:Oe(n,e,t),Fe(e),i&4&&(n=e.updateQueue,n!==null&&(e.updateQueue=null,Wo(e,n)));break;case 13:Oe(n,e,t),Fe(e),e.child.flags&8192&&e.memoizedState!==null!=(a!==null&&a.memoizedState!==null)&&(sr=nn()),i&4&&(n=e.updateQueue,n!==null&&(e.updateQueue=null,Wo(e,n)));break;case 22:o=e.memoizedState!==null,s=a!==null&&a.memoizedState!==null;var r=ve,c=J,l=Tn;ve=r||o,Tn=l||o,J=c||s,Oe(n,e,t),J=c,Tn=l,ve=r,Fe(e),i&8192&&(n=e.stateNode,n._visibility=o?n._visibility&-2:n._visibility|1,!o||a===null||s||ve||J||(n=s||J,t=ve,a=J,ve=o||ve,J=n,ot(e,2),ve=t,J=a),!o&&Tn||Bc(e,o)),i&4&&(n=e.updateQueue,n!==null&&(t=n.retryQueue,t!==null&&(n.retryQueue=null,Wo(e,t))));break;case 19:Oe(n,e,t),Fe(e),i&4&&(n=e.updateQueue,n!==null&&(e.updateQueue=null,Wo(e,n)));break;case 30:i&512&&(J||a===null||Te(a,a.return)),i=Kh(),o=bi,s=(t&335544064)===t,r=e.memoizedProps,bi=s&&et(r.default,r.update)!=="none",Oe(n,e,t),Fe(e),s&&a!==null&&H&&(e.flags|=4),bi=o,H=i;break;case 21:break;case 7:i&512&&(J||a===null||Te(a,a.return)),a&&a.stateNode!==null&&(a.stateNode._fragmentFiber=e);default:Oe(n,e,t),Fe(e)}}function Fe(e){var n=e.flags;if(n&2){try{for(var t,a=e.return;a!==null;){if(Xg(a)){t=a;break}a=a.return}a=null;for(var i=e.return;i!==null;){if(sh(i)){var o=i.stateNode;a===null?a=[o]:a.push(o)}if(oh(i))break;i=i.return}var s=a;if(t==null)throw Error(S(160));switch(t.tag){case 27:var r=t.stateNode,c=Fr(e);_s(e,c,r,s);break;case 5:var l=t.stateNode;t.flags&32&&(ja(l,""),t.flags&=-33);var d=Fr(e);_s(e,d,l,s);break;case 3:case 4:var m=t.stateNode.containerInfo,u=Fr(e);Fc(e,u,m,s);break;default:throw Error(S(161))}}catch(p){K(e,e.return,p)}e.flags&=-3}n&4096&&(e.flags&=-4097)}function rp(e){if(e.subtreeFlags&1024)for(e=e.child;e!==null;){var n=e;rp(n),n.tag===5&&n.flags&1024&&(n=n.stateNode,Ka=!0,n.reset(),Ka=!1),e=e.sibling}}function ua(e,n){if(n.subtreeFlags&9270)for(n=n.child;n!==null;)cp(n,e),n=n.sibling;else $g(n)}function cp(e,n){var t=e.alternate;if(t===null)Rc(e,!1);else switch(e.tag){case 3:if(jc=In=!1,qd(),ua(n,e),!In&&!Ms){if(e=Mn,e!==null)for(var a=0;a<e.length;a+=3){t=e[a];var i=e[a+1];Op(t,e[a+2]),t=t.ownerDocument.documentElement,t!==null&&t.animate({opacity:[0,0],pointerEvents:["none","none"]},{duration:0,fill:"forwards",pseudoElement:"::view-transition-group("+i+")"})}e=n.containerInfo,e=e.nodeType===9?e.documentElement:e.ownerDocument.documentElement,e!==null&&e.style.viewTransitionName===""&&(e.style.viewTransitionName="none",e.animate({opacity:[0,0],pointerEvents:["none","none"]},{duration:0,fill:"forwards",pseudoElement:"::view-transition-group(root)"}),e.animate({width:[0,0],height:[0,0]},{duration:0,fill:"forwards",pseudoElement:"::view-transition"})),jc=!0}Mn=null;break;case 5:ua(n,e);break;case 4:a=In,In=!1,ua(n,e),In&&(Ms=!0),In=a;break;case 22:e.memoizedState===null&&(t.memoizedState!==null?Rc(e,!1):ua(n,e));break;case 30:a=In,i=qd(),In=!1,ua(n,e),In&&(e.flags|=4);var o=e.memoizedProps,s=e.stateNode;n=Xn(o,s),s=Xn(t.memoizedProps,s);var r=et(o.default,o.update);r==="none"?n=!1:(o=t.memoizedState,t.memoizedState=null,t=e.child,He=0,n=rh(e,t,n,s,r,o,!0),He!==(o===null?0:o.length)&&(e.flags|=32)),e.flags&4&&n?(qa(e,e.memoizedProps.onUpdate),Mn=i):i!==null&&(i.push.apply(i,Mn),Mn=i),In=e.flags&32?!0:a;break;default:ua(n,e)}}function _n(e,n){if(n.subtreeFlags&8772)for(n=n.child;n!==null;)ep(e,n.alternate,n),n=n.sibling}function ot(e,n){for(e=e.child;e!==null;){var t=e,a=n;switch(t.tag){case 0:case 11:case 14:case 15:xt(4,t,t.return),ot(t,a);break;case 1:Te(t,t.return);var i=t.stateNode;typeof i.componentWillUnmount=="function"&&zg(t,t.return,i),ot(t,a);break;case 27:a&2&&Hp(t.stateNode,t.type,t.memoizedProps);case 5:Te(t,t.return),t.tag!==5&&t.tag!==27||Wi(t),ot(t,a);break;case 6:Wi(t);break;case 26:Te(t,t.return),i=t.stateNode,t.memoizedState!==null||i===null||J||i.parentNode.removeChild(i),ot(t,a);break;case 22:t.memoizedState===null&&ot(t,a);break;case 30:Te(t,t.return),ot(t,a);break;case 7:Te(t,t.return);default:ot(t,a)}e=e.sibling}}function vn(e,n,t){for(t=n.subtreeFlags&8772?t:t&-2,n=n.child;n!==null;){var a=n.alternate,i=e,o=n,s=o.flags,r=(t&1)!==0;switch(o.tag){case 0:case 11:case 15:vn(i,o,t),lo(4,o);break;case 1:if(vn(i,o,t),a=o,i=a.stateNode,typeof i.componentDidMount=="function")try{i.componentDidMount()}catch(d){K(a,a.return,d)}if(a=o,i=a.updateQueue,i!==null){var c=a.stateNode;try{var l=i.shared.hiddenCallbacks;if(l!==null)for(i.shared.hiddenCallbacks=null,i=0;i<l.length;i++)ng(l[i],c)}catch(d){K(a,a.return,d)}}r&&s&64&&Jg(o),xn(o,o.return);break;case 27:t&2&&Qg(o);case 5:o.tag!==5&&o.tag!==27||Bd(o),vn(i,o,t),r&&a===null&&s&4&&Oc(o),xn(o,o.return);break;case 6:Bd(o);break;case 26:c=o.stateNode,o.memoizedState!==null||c===null||ve||sl(Ki(c.ownerDocument),o.type,c),vn(i,o,t),r&&a===null&&s&4&&Oc(o),xn(o,o.return);break;case 12:vn(i,o,t);break;case 31:vn(i,o,t),r&&s&4&&ip(i,o);break;case 13:vn(i,o,t),r&&s&4&&op(i,o);break;case 22:o.memoizedState===null&&vn(i,o,t),xn(o,o.return);break;case 30:vn(i,o,t),xn(o,o.return);break;case 7:xn(o,o.return);default:vn(i,o,t)}n=n.sibling}}function ch(e,n){var t=null;e!==null&&e.memoizedState!==null&&e.memoizedState.cachePool!==null&&(t=e.memoizedState.cachePool.pool),e=null,n.memoizedState!==null&&n.memoizedState.cachePool!==null&&(e=n.memoizedState.cachePool.pool),e!==t&&(e!=null&&e.refCount++,t!=null&&ro(t))}function lh(e,n){e=null,n.alternate!==null&&(e=n.alternate.memoizedState.cache),n=n.memoizedState.cache,n!==e&&(n.refCount++,e!=null&&ro(e))}function cn(e,n,t,a){var i=(t&335544064)===t;if(n.subtreeFlags&(i?10262:10256))for(n=n.child;n!==null;)lp(e,n,t,a),n=n.sibling;else i&&Zg(n)}function lp(e,n,t,a){var i=(t&335544064)===t;i&&n.alternate===null&&n.return!==null&&n.return.alternate!==null&&$o(n);var o=n.flags;switch(n.tag){case 0:case 11:case 15:cn(e,n,t,a),o&2048&&lo(9,n);break;case 1:cn(e,n,t,a);break;case 3:cn(e,n,t,a),i&&jc&&(e=e.containerInfo,e=e.nodeType===9?e.body:e.nodeName==="HTML"?e.ownerDocument.body:e,e.style.viewTransitionName==="root"&&(e.style.viewTransitionName=""),e=e.ownerDocument.documentElement,e!==null&&e.style.viewTransitionName==="none"&&(e.style.viewTransitionName="")),o&2048&&(o=null,n.alternate!==null&&(o=n.alternate.memoizedState.cache),n=n.memoizedState.cache,n!==o&&(n.refCount++,o!=null&&ro(o)));break;case 12:if(o&2048){cn(e,n,t,a),o=n.stateNode;try{var s=n.memoizedProps,r=s.id,c=s.onPostCommit;typeof c=="function"&&c(r,n.alternate===null?"mount":"update",o.passiveEffectDuration,-0)}catch(l){K(n,n.return,l)}}else cn(e,n,t,a);break;case 31:cn(e,n,t,a);break;case 13:cn(e,n,t,a);break;case 23:break;case 22:s=n.stateNode,r=n.alternate,n.memoizedState!==null?(i&&r!==null&&r.memoizedState===null&&$o(r),s._visibility&2?cn(e,n,t,a):ki(e,n)):(i&&r!==null&&r.memoizedState!==null&&$o(n),s._visibility&2?cn(e,n,t,a):(s._visibility|=2,pa(e,n,t,a,(n.subtreeFlags&10256)!==0||!1))),o&2048&&ch(r,n);break;case 24:cn(e,n,t,a),o&2048&&lh(n.alternate,n);break;case 30:i&&(o=n.alternate,o!==null&&(Rn(o.child,!0),Rn(n.child,!0))),cn(e,n,t,a);break;default:cn(e,n,t,a)}}function pa(e,n,t,a,i){for(i=i&&((n.subtreeFlags&10256)!==0||!1),n=n.child;n!==null;){var o=e,s=n,r=t,c=a,l=s.flags;switch(s.tag){case 0:case 11:case 15:pa(o,s,r,c,i),lo(8,s);break;case 23:break;case 22:var d=s.stateNode;s.memoizedState!==null?d._visibility&2?pa(o,s,r,c,i):ki(o,s):(d._visibility|=2,pa(o,s,r,c,i)),i&&l&2048&&ch(s.alternate,s);break;case 24:pa(o,s,r,c,i),i&&l&2048&&lh(s.alternate,s);break;default:pa(o,s,r,c,i)}n=n.sibling}}function ki(e,n){if(n.subtreeFlags&10256)for(n=n.child;n!==null;){var t=e,a=n,i=a.flags;switch(a.tag){case 22:ki(t,a),i&2048&&ch(a.alternate,a);break;case 24:ki(t,a),i&2048&&lh(a.alternate,a);break;default:ki(t,a)}n=n.sibling}}var jt=8192;function Rt(e,n,t){if(e.subtreeFlags&jt)for(e=e.child;e!==null;)hp(e,n,t),e=e.sibling}function hp(e,n,t){switch(e.tag){case 26:Rt(e,n,t),e.flags&jt&&(e.memoizedState!==null?Gb(t,yn,e.memoizedState,e.memoizedProps):(e=e.stateNode,(n&335544128)===n&&pu(t,e)));break;case 5:Rt(e,n,t),e.flags&jt&&(e=e.stateNode,(n&335544128)===n&&pu(t,e));break;case 3:case 4:var a=yn;yn=Ki(e.stateNode.containerInfo),Rt(e,n,t),yn=a;break;case 22:e.memoizedState===null&&(a=e.alternate,a!==null&&a.memoizedState!==null?(a=jt,jt=16777216,Rt(e,n,t),jt=a):Rt(e,n,t));break;case 30:if(e.flags&jt&&(a=e.memoizedProps.name,a!=null&&a!=="auto")){var i=e.stateNode;i.paired=null,$e===null&&($e=new Map),$e.set(a,i)}Rt(e,n,t);break;default:Rt(e,n,t)}}function dp(e){var n=e.alternate;if(n!==null&&(e=n.child,e!==null)){n.child=null;do n=e.sibling,e.sibling=null,e=n;while(e!==null)}}function hi(e){var n=e.deletions;if(e.flags&16){if(n!==null)for(var t=0;t<n.length;t++){var a=n[t];ye=a,mp(a,e)}dp(e)}if(e.subtreeFlags&10256)for(e=e.child;e!==null;)up(e),e=e.sibling}function up(e){switch(e.tag){case 0:case 11:case 15:hi(e),e.flags&2048&&xt(9,e,e.return);break;case 3:hi(e);break;case 12:hi(e);break;case 22:var n=e.stateNode;e.memoizedState!==null&&n._visibility&2&&(e.return===null||e.return.tag!==13)?(n._visibility&=-3,es(e)):hi(e);break;default:hi(e)}}function es(e){var n=e.deletions;if(e.flags&16){if(n!==null)for(var t=0;t<n.length;t++){var a=n[t];ye=a,mp(a,e)}dp(e)}for(e=e.child;e!==null;){switch(n=e,n.tag){case 0:case 11:case 15:xt(8,n,n.return),es(n);break;case 22:t=n.stateNode,t._visibility&2&&(t._visibility&=-3,es(n));break;default:es(n)}e=e.sibling}}function mp(e,n){for(;ye!==null;){var t=ye;switch(t.tag){case 0:case 11:case 15:xt(8,t,n);break;case 23:case 22:if(t.memoizedState!==null&&t.memoizedState.cachePool!==null){var a=t.memoizedState.cachePool.pool;a!=null&&a.refCount++}break;case 24:ro(t.memoizedState.cache)}if(a=t.child,a!==null)a.return=t,ye=a;else e:for(t=e;ye!==null;){a=ye;var i=a.sibling,o=a.return;if(tp(a),a===t){ye=null;break e}if(i!==null){i.return=o,ye=i;break e}ye=o}}}var VC={getCacheForType:function(e){var n=_e(pe),t=n.data.get(e);return t===void 0&&(t=e(),n.data.set(e,t)),t},cacheSignal:function(){return _e(pe).controller.signal}},jC=typeof WeakMap=="function"?WeakMap:Map,q=0,ne=null,V=null,B=0,z=0,Xe=null,ut=!1,ai=!1,hh=!1,Zn=0,de=0,Mt=0,Xt=0,Ls=0,en=0,Ha=0,Ei=null,Be=null,qc=!1,sr=0,gp=0,Ws=1/0,ks=null,yt=null,le=0,An=null,ta=null,Fn=0,Gc=0,Jc=null,pp=null,Fa=null,Ra=null,Ua=null,Di=0,ns=null;function on(){return q&2&&B!==0?B&-B:E.T!==null?uh():bm()}function wp(){if(en===0)if(!(B&536870912)||U){var e=vo;vo<<=1,!(vo&3932160)&&(vo=262144),en=e}else en=536870912;return e=We.current,e!==null&&(e.flags|=32),en}function qa(e,n){if(n!=null){var t=e.stateNode,a=t.ref;a===null&&(a=t.ref=Fp(Xn(e.memoizedProps,t))),Ra===null&&(Ra=[]),Ra.push(n.bind(null,a))}}function Ge(e,n,t){(e===ne&&(z===2||z===9)||e.cancelPendingCommit!==null)&&(Ga(e,0),mt(e,B,en,!1)),io(e,t),(!(q&2)||e!==ne)&&(e===ne&&(!(q&2)&&(Xt|=t),de===4&&mt(e,B,en,!1)),Nn(e))}function fp(e,n,t){if(q&6)throw Error(S(327));var a=!t&&(n&127)===0&&(n&e.expiredLanes)===0||ao(e,n),i=a?qC(e,n):Ur(e,n,!0),o=a;do{if(i===0){ai&&!a&&mt(e,n,0,!1);break}else{if(t=e.current.alternate,o&&!BC(t)){i=Ur(e,n,!1),o=!1;continue}if(i===2){if(o=n,e.errorRecoveryDisabledLanes&o)var s=0;else s=e.pendingLanes&-536870913,s=s!==0?s:s&536870912?536870912:0;if(s!==0){n=s;e:{var r=e;i=Ei;var c=r.current.memoizedState.isDehydrated;if(c&&(Ga(r,s).flags|=256),s=Ur(r,s,!1),s!==2&&s!==6){if(hh&&!c){r.errorRecoveryDisabledLanes|=o,Xt|=o,i=4;break e}o=Be,Be=i,o!==null&&(Be===null?Be=o:Be.push.apply(Be,o))}i=s}if(o=!1,i!==2)continue}}if(i===1){Ga(e,0),mt(e,n,0,!0);break}e:{switch(a=e,o=i,o){case 0:case 1:throw Error(S(345));case 4:if((n&4194048)!==n&&(n&62914560)!==n)break;case 6:mt(a,n,en,!ut);break e;case 2:Be=null;break;case 3:case 5:break;default:throw Error(S(329))}if((n&62914560)===n&&(i=sr+300-nn(),10<i)){if(mt(a,n,en,!ut),Js(a,0,!0)!==0)break e;Fn=n,a.timeoutHandle=gh(Jd.bind(null,a,t,Be,ks,qc,n,en,Xt,Ha,ut,o,"Throttled",-0,0),i);break e}Jd(a,t,Be,ks,qc,n,en,Xt,Ha,ut,o,null,-0,0)}}break}while(!0);Nn(e)}function Jd(e,n,t,a,i,o,s,r,c,l,d,m,u,p){e.timeoutHandle=-1;var C=n.subtreeFlags,v=(o&335544064)===o;if(m=null,(v||C&8192||(C&16785408)===16785408)&&(m={stylesheets:null,count:0,imgCount:0,imgBytes:0,suspenseyImages:[],waitingForImages:!0,waitingForViewTransition:!1,unsuspend:Wn},$e=null,hp(n,o,m),v&&(C=m,v=e.containerInfo,v=(v.nodeType===9?v:v.ownerDocument).__reactViewTransition,v!=null&&(C.count++,C.waitingForViewTransition=!0,C=Yi.bind(C),v.finished.then(C,C))),C=(o&62914560)===o?sr-nn():(o&4194048)===o?gp-nn():0,C=Jb(m,C),C!==null)){Fn=o,e.cancelPendingCommit=C(Xd.bind(null,e,n,o,t,a,i,s,r,c,l,d,m,null,u,p)),mt(e,o,s,!l);return}Xd(e,n,o,t,a,i,s,r,c,l,d,m)}function BC(e){for(var n=e;;){var t=n.tag;if((t===0||t===11||t===15)&&n.flags&16384&&(t=n.updateQueue,t!==null&&(t=t.stores,t!==null)))for(var a=0;a<t.length;a++){var i=t[a],o=i.getSnapshot;i=i.value;try{if(!sn(o(),i))return!1}catch{return!1}}if(t=n.child,n.subtreeFlags&16384&&t!==null)t.return=n,n=t;else{if(n===e)break;for(;n.sibling===null;){if(n.return===null||n.return===e)return!0;n=n.return}n.sibling.return=n.return,n=n.sibling}}return!0}function mt(e,n,t,a){n=gm(e,n),n&=~Ls,n&=~Xt,e.suspendedLanes|=n,e.pingedLanes&=~n,a&&(e.warmLanes|=n),a=e.expirationTimes;for(var i=n;0<i;){var o=31-an(i),s=1<<o;a[o]=-1,i&=~s}t!==0&&wm(e,t,n)}function rr(){return q&6?!0:(ho(0),!1)}function dh(){if(V!==null){if(z===0)var e=V.return;else e=V,qn=la=null,Xl(e),Ea=null,qi=0,e=V;for(;e!==null;)Gg(e.alternate,e),e=e.return;V=null}}function Ga(e,n){var t=e.timeoutHandle;return t!==-1&&(e.timeoutHandle=-1,ub(t)),t=e.cancelPendingCommit,t!==null&&(e.cancelPendingCommit=null,t()),Fn=0,dh(),ne=e,V=t=Gn(e.current,null),B=n,z=0,Xe=null,ut=!1,ai=ao(e,n),hh=!1,Ha=en=Ls=Xt=Mt=de=0,Be=Ei=null,qc=!1,Zn=gm(e,n),Ys(),t}function Cp(e,n){F=null,E.H=Ps,n===ni||n===er?(n=bd(),z=3):n===Vl?(n=bd(),z=4):z=n===th?8:n!==null&&typeof n=="object"&&typeof n.then=="function"?6:1,Xe=n,V===null&&(de=1,Ts(e,mn(n,e.current)))}function bp(){var e=We.current;return e===null?!0:(B&4194048)===B?Ee===null:(B&62914560)===B||B&536870912?e===Ee:!1}function vp(){var e=E.H;return E.H=Ps,e===null?Ps:e}function yp(){var e=E.A;return E.A=VC,e}function Es(){de=4,ut||(B&4194048)!==B&&We.current!==null||(ai=!0),!(Mt&134217727)&&!(Xt&134217727)||ne===null||mt(ne,B,en,!1)}function Ur(e,n,t){var a=q;q|=2;var i=vp(),o=yp();(ne!==e||B!==n)&&(ks=null,Ga(e,n)),n=!1;var s=de;e:do try{if(z!==0&&V!==null){var r=V,c=Xe;switch(z){case 8:dh(),s=6;break e;case 3:case 2:case 9:case 6:We.current===null&&(n=!0);var l=z;if(z=0,Xe=null,xa(e,r,c,l),t&&ai){s=0;break e}break;default:l=z,z=0,Xe=null,xa(e,r,c,l)}}HC(),s=de;break}catch(d){Cp(e,d)}while(!0);return n&&e.shellSuspendCounter++,qn=la=null,q=a,E.H=i,E.A=o,V===null&&(ne=null,B=0,Ys()),s}function HC(){for(;V!==null;)Sp(V)}function qC(e,n){var t=q;q|=2;var a=vp(),i=yp();ne!==e||B!==n?(ks=null,Ws=nn()+500,Ga(e,n)):ai=ao(e,n);e:do try{if(z!==0&&V!==null){n=V;var o=Xe;n:switch(z){case 1:z=0,Xe=null,xa(e,n,o,1);break;case 2:case 9:if(Cd(o)){z=0,Xe=null,zd(n);break}n=function(){z!==2&&z!==9||ne!==e||(z=7),Nn(e)},o.then(n,n);break e;case 3:z=7;break e;case 4:z=5;break e;case 7:Cd(o)?(z=0,Xe=null,zd(n)):(z=0,Xe=null,xa(e,n,o,7));break;case 5:var s=null;switch(V.tag){case 26:s=V.memoizedState;case 5:case 27:var r=V;if(s?Jp(s):r.stateNode.complete){z=0,Xe=null;var c=r.sibling;if(c!==null)V=c;else{var l=r.return;l!==null?(V=l,cr(l)):V=null}break n}}z=0,Xe=null,xa(e,n,o,5);break;case 6:z=0,Xe=null,xa(e,n,o,6);break;case 8:dh(),de=6;break e;default:throw Error(S(462))}}GC();break}catch(d){Cp(e,d)}while(!0);return qn=la=null,E.H=a,E.A=i,q=t,V!==null?0:(ne=null,B=0,Ys(),de)}function GC(){for(;V!==null&&!cf();)Sp(V)}function Sp(e){var n=qg(e.alternate,e,Zn);e.memoizedProps=e.pendingProps,n===null?cr(e):V=n}function zd(e){var n=e,t=n.alternate;switch(n.tag){case 15:case 0:n=Od(t,n,n.pendingProps,n.type,void 0,B);break;case 11:n=Od(t,n,n.pendingProps,n.type.render,n.ref,B);break;case 5:Xl(n);var a=n;a===Ae&&(U?(fs(a),a.tag===5&&a.stateNode!=null&&(oe=a.stateNode)):(fs(a),U=!0));default:Gg(t,n),n=V=Jm(n,Zn),n=qg(t,n,Zn)}e.memoizedProps=e.pendingProps,n===null?cr(e):V=n}function xa(e,n,t,a){qn=la=null,Xl(n),Ea=null,qi=0;var i=n.return;try{if(kC(e,i,n,t,B)){de=1,Ts(e,mn(t,e.current)),V=null;return}}catch(o){if(i!==null)throw V=i,o;de=1,Ts(e,mn(t,e.current)),V=null;return}n.flags&32768?(U||a===1?e=!0:ai||B&536870912?e=!1:(ut=e=!0,(a===2||a===9||a===3||a===6)&&(a=We.current,a!==null&&a.tag===13&&(a.flags|=16384))),Ap(n,e)):cr(n)}function cr(e){var n=e;do{if(n.flags&32768){Ap(n,ut);return}e=n.return;var t=FC(n.alternate,n,Zn);if(t!==null){V=t;return}if(n=n.sibling,n!==null){V=n;return}V=n=e}while(n!==null);de===0&&(de=5)}function Ap(e,n){do{var t=RC(e.alternate,e);if(t!==null){t.flags&=32767,V=t;return}if(t=e.return,t!==null&&(t.flags|=32768,t.subtreeFlags=0,t.deletions=null),!n&&(e=e.sibling,e!==null)){V=e;return}V=e=t}while(e!==null);de=6,V=null}function Xd(e,n,t,a,i,o,s,r,c,l,d,m){e.cancelPendingCommit=null;do lr();while(le!==0);if(q&6)throw Error(S(327));if(n!==null){if(n===e.current)throw Error(S(177));e===ne&&(V=ne=null,B=0),ta=n,An=e,Fn=t,Jc=i,pp=a,JC(e,n,t,s,r,c,m)}}function JC(e,n,t,a,i,o,s){var r=n.lanes|n.childLanes;if(Gc=r,r|=Dl,Cf(e,t,r,a,i,o),Ra=null,(t&335544064)===t?(Ua=vC(e),a=10262):(Ua=null,a=10256),n.subtreeFlags&a||n.flags&a?(e.callbackNode=null,e.callbackPriority=0,ZC(us,function(){return Kc(),null})):(e.callbackNode=null,e.callbackPriority=0),xs=!1,a=(n.flags&13878)!==0,n.subtreeFlags&13878||a){a=E.T,E.T=null,i=G.p,G.p=2,o=q,q|=4;try{UC(e,n,t)}finally{q=o,G.p=i,E.T=a}}le=1,xs?Fa=Cb(s,e.containerInfo,Ua,zc,Xc,XC,Qc,Kc,zC):(zc(),Xc(),Qc())}function zC(e){if(le!==0){var n=An.onRecoverableError;n(e,{componentStack:null})}}function XC(){le===3&&(le=0,cp(ta,An),le=4)}function zc(){if(le===1){le=0;var e=An,n=ta,t=Fn,a=(n.flags&13878)!==0;if(n.subtreeFlags&13878||a){a=E.T,E.T=null;var i=G.p;G.p=2;var o=q;q|=4;try{bi=Ms=!1,sp(n,e,t),t=el;var s=Um(e.containerInfo),r=t.focusedElem,c=t.selectionRange;if(s!==r&&r&&r.ownerDocument&&Rm(r.ownerDocument.documentElement,r)){if(c!==null&&El(r)){var l=c.start,d=c.end;if(d===void 0&&(d=l),"selectionStart"in r)r.selectionStart=l,r.selectionEnd=Math.min(d,r.value.length);else{var m=r.ownerDocument||document,u=m&&m.defaultView||window;if(u.getSelection){var p=u.getSelection(),C=r.textContent.length,v=Math.min(c.start,C),A=c.end===void 0?v:Math.min(c.end,C);!p.extend&&v>A&&(s=A,A=v,v=s);var w=hd(r,v),g=hd(r,A);if(w&&g&&(p.rangeCount!==1||p.anchorNode!==w.node||p.anchorOffset!==w.offset||p.focusNode!==g.node||p.focusOffset!==g.offset)){var f=m.createRange();f.setStart(w.node,w.offset),p.removeAllRanges(),v>A?(p.addRange(f),p.extend(g.node,g.offset)):(f.setEnd(g.node,g.offset),p.addRange(f))}}}}for(m=[],p=r;p=p.parentNode;)p.nodeType===1&&m.push({element:p,left:p.scrollLeft,top:p.scrollTop});for(typeof r.focus=="function"&&r.focus(),r=0;r<m.length;r++){var b=m[r];b.element.scrollLeft=b.left,b.element.scrollTop=b.top}}Ka=!!$c,el=$c=null}finally{q=o,G.p=i,E.T=a}}e.current=n,le=2}}function Xc(){if(le===2){le=0;var e=An,n=ta,t=(n.flags&8772)!==0;if(n.subtreeFlags&8772||t){t=E.T,E.T=null;var a=G.p;G.p=2;var i=q;q|=4;try{ep(e,n.alternate,n)}finally{q=i,G.p=a,E.T=t}}le=3}}function Qc(){if(le===4||le===3){le=0;var e=Fa;Fa=null,lf();var n=An,t=ta,a=Fn,i=pp,o=(a&335544064)===a?10262:10256;if(t.subtreeFlags&o||t.flags&o?le=5:(le=0,ta=An=null,Pp(n,n.pendingLanes)),o=n.pendingLanes,o===0&&(yt=null),_l(a),t=t.stateNode,tn&&typeof tn.onCommitFiberRoot=="function")try{tn.onCommitFiberRoot(to,t,void 0,(t.current.flags&128)===128)}catch{}if(i!==null){t=E.T,o=G.p,G.p=2,E.T=null;try{for(var s=n.onRecoverableError,r=0;r<i.length;r++){var c=i[r];s(c.value,{componentStack:c.stack})}}finally{E.T=t,G.p=o}}if(i=Ra,s=Ua,Ua=null,i!==null&&(Ra=null,s===null&&(s=[]),e!==null))for(c=0;c<i.length;c++)t=(0,i[c])(s),t!==void 0&&e.finished.finally(t);Fn&3&&lr(),Nn(n),o=n.pendingLanes,a&261930&&o&42?n===ns?Di++:(Di=0,ns=n):(Di=0,ns=null),ho(0)}}function Pp(e,n){(e.pooledCacheLanes&=n)===0&&(n=e.pooledCache,n!=null&&(e.pooledCache=null,ro(n)))}function lr(){return Fa!==null&&(Fa.skipTransition(),Fa=null),zc(),Xc(),Qc(),Kc()}function Kc(){if(le!==5)return!1;var e=An,n=Gc;Gc=0;var t=_l(Fn),a=E.T,i=G.p;try{G.p=32>t?32:t,E.T=null,t=Jc,Jc=null;var o=An,s=Fn;if(le=0,ta=An=null,Fn=0,q&6)throw Error(S(331));var r=q;if(q|=4,up(o.current),lp(o,o.current,s,t),q=r,ho(0,!1),tn&&typeof tn.onPostCommitFiberRoot=="function")try{tn.onPostCommitFiberRoot(to,o)}catch{}return!0}finally{G.p=i,E.T=a,Pp(e,n)}}function Qd(e,n,t){n=mn(t,n),n=Mc(e.stateNode,n,2),e=Ct(e,n,2),e!==null&&(io(e,2),Nn(e))}function K(e,n,t){if(e.tag===3)Qd(e,e,t);else for(;n!==null;){if(n.tag===3){Qd(n,e,t);break}else if(n.tag===1){var a=n.stateNode;if(typeof n.type.getDerivedStateFromError=="function"||typeof a.componentDidCatch=="function"&&(yt===null||!yt.has(a))){e=mn(t,e),t=Ng(2),a=Ct(n,t,2),a!==null&&(Vg(t,a,n,e),io(a,2),Nn(a));break}}n=n.return}}function Nr(e,n,t){var a=e.pingCache;if(a===null){a=e.pingCache=new jC;var i=new Set;a.set(n,i)}else i=a.get(n),i===void 0&&(i=new Set,a.set(n,i));i.has(t)||(hh=!0,i.add(t),e=QC.bind(null,e,n,t),n.then(e,e))}function QC(e,n,t){var a=e.pingCache;a!==null&&a.delete(n),e.pingedLanes|=e.suspendedLanes&t,e.warmLanes&=~t,ne===e&&(B&t)===t&&(de===4||de===3&&(B&62914560)===B&&300>nn()-sr?q&2?Ls|=t:Ga(e,0):Ls|=t,Ha===B&&(Ha=0)),Nn(e)}function Tp(e,n){n===0&&(n=pm()),e=ca(e,n),e!==null&&(io(e,n),Nn(e))}function KC(e){var n=e.memoizedState,t=0;n!==null&&(t=n.retryLane),Tp(e,t)}function YC(e,n){var t=0;switch(e.tag){case 31:case 13:var a=e.stateNode,i=e.memoizedState;i!==null&&(t=i.retryLane);break;case 19:a=e.stateNode;break;case 22:a=e.stateNode._retryCache;break;default:throw Error(S(314))}a!==null&&a.delete(n),Tp(e,t)}function ZC(e,n){return Tl(e,n)}var Ja=null,wa=null,Yc=!1,Ds=!1,Vr=!1,gt=0;function Nn(e){e!==wa&&e.next===null&&(wa===null?Ja=wa=e:wa=wa.next=e),Ds=!0,Yc||(Yc=!0,eb())}function ho(e,n){if(!Vr&&Ds){Vr=!0;do for(var t=!1,a=Ja;a!==null;){if(e!==0){var i=a.pendingLanes;if(i===0)var o=0;else{var s=a.suspendedLanes,r=a.pingedLanes;o=(1<<31-an(42|e)+1)-1,o&=i&~(s&~r),o=o&201326741?o&201326741|1:o?o|2:0}o!==0&&(t=!0,Kd(a,o))}else o=B,o=Js(a,a===ne?o:0,a.cancelPendingCommit!==null||a.timeoutHandle!==-1),!(o&3)||ao(a,o)||(t=!0,Kd(a,o));a=a.next}while(t);Vr=!1}}function $C(){Ip()}function Ip(){Ds=Yc=!1;var e=0;gt!==0&&db()&&(e=gt);for(var n=nn(),t=null,a=Ja;a!==null;){var i=a.next,o=_p(a,n);o===0?(a.next=null,t===null?Ja=i:t.next=i,i===null&&(wa=t)):(t=a,(e!==0||o&3)&&(Ds=!0)),a=i}le!==0&&le!==5||ho(e),gt!==0&&(gt=0)}function _p(e,n){for(var t=e.suspendedLanes,a=e.pingedLanes,i=e.expirationTimes,o=e.pendingLanes&-62914561;0<o;){var s=31-an(o),r=1<<s,c=i[s];c===-1?(!(r&t)||r&a)&&(i[s]=ff(r,n)):c<=n&&(e.expiredLanes|=r),o&=~r}if(n=ne,t=B,t=Js(e,e===n?t:0,e.cancelPendingCommit!==null||e.timeoutHandle!==-1),a=e.callbackNode,t===0||e===n&&(z===2||z===9)||e.cancelPendingCommit!==null)return a!==null&&a!==null&&fr(a),e.callbackNode=null,e.callbackPriority=0;if(!(t&3)||ao(e,t)){if(n=t&-t,n===e.callbackPriority)return n;switch(a!==null&&fr(a),_l(t)){case 2:case 8:t=um;break;case 32:t=us;break;case 268435456:t=mm;break;default:t=us}return a=xp.bind(null,e),t=Tl(t,a),e.callbackPriority=n,e.callbackNode=t,n}return a!==null&&a!==null&&fr(a),e.callbackPriority=2,e.callbackNode=null,2}function xp(e,n){if(le!==0&&le!==5)return e.callbackNode=null,e.callbackPriority=0,null;var t=e.callbackNode;if(lr()&&e.callbackNode!==t)return null;var a=B;return a=Js(e,e===ne?a:0,e.cancelPendingCommit!==null||e.timeoutHandle!==-1),a===0?null:(fp(e,a,n),_p(e,nn()),e.callbackNode!=null&&e.callbackNode===t?xp.bind(null,e):null)}function Kd(e,n){if(lr())return null;fp(e,n,!0)}function eb(){mb(function(){q&6?Tl(dm,$C):Ip()})}function uh(){if(gt===0){var e=Zt;e===0&&(e=bo,bo<<=1,!(bo&261888)&&(bo=256)),gt=e}return gt}function Yd(e){return e==null||typeof e=="symbol"||typeof e=="boolean"?null:typeof e=="function"?e:Ho(e)}function nb(e,n,t,a,i){if(n==="submit"&&t&&t.stateNode===i){var o=Yd((i[ze]||null).action),s=a.submitter;s&&(n=(n=s[ze]||null)?Yd(n.formAction):s.getAttribute("formAction"),n!==null&&(o=n,s=null));var r=new Xs("action","action",null,a,i);e.push({event:r,listeners:[{instance:null,listener:function(){if(a.defaultPrevented){if(gt!==0){var c=new FormData(i,s);_c(t,{pending:!0,data:c,method:i.method,action:o},null,c)}}else typeof o=="function"&&(r.preventDefault(),c=new FormData(i,s),_c(t,{pending:!0,data:c,method:i.method,action:o},o,c))},currentTarget:i}]})}}for(var jr=0;jr<wc.length;jr++){var Br=wc[jr],tb=Br.toLowerCase(),ab=Br[0].toUpperCase()+Br.slice(1);Pn(tb,"on"+ab)}Pn(Vm,"onAnimationEnd");Pn(jm,"onAnimationIteration");Pn(Bm,"onAnimationStart");Pn("dblclick","onDoubleClick");Pn("focusin","onFocus");Pn("focusout","onBlur");Pn(uC,"onTransitionRun");Pn(mC,"onTransitionStart");Pn(gC,"onTransitionCancel");Pn(Hm,"onTransitionEnd");Va("onMouseEnter",["mouseout","mouseover"]);Va("onMouseLeave",["mouseout","mouseover"]);Va("onPointerEnter",["pointerout","pointerover"]);Va("onPointerLeave",["pointerout","pointerover"]);sa("onChange","change click focusin focusout input keydown keyup selectionchange".split(" "));sa("onSelect","focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" "));sa("onBeforeInput",["compositionend","keypress","textInput","paste"]);sa("onCompositionEnd","compositionend focusout keydown keypress keyup mousedown".split(" "));sa("onCompositionStart","compositionstart focusout keydown keypress keyup mousedown".split(" "));sa("onCompositionUpdate","compositionupdate focusout keydown keypress keyup mousedown".split(" "));var zi="abort canplay canplaythrough durationchange emptied encrypted ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange resize seeked seeking stalled suspend timeupdate volumechange waiting".split(" "),ib=new Set("beforetoggle cancel close invalid load scroll scrollend toggle".split(" ").concat(zi));function Mp(e,n){n=(n&4)!==0;for(var t=0;t<e.length;t++){var a=e[t],i=a.event;a=a.listeners;e:{var o=void 0;if(n)for(var s=a.length-1;0<=s;s--){var r=a[s],c=r.instance,l=r.currentTarget;if(r=r.listener,c!==o&&i.isPropagationStopped())break e;o=r,i.currentTarget=l;try{o(i)}catch(d){gs(d)}i.currentTarget=null,o=c}else for(s=0;s<a.length;s++){if(r=a[s],c=r.instance,l=r.currentTarget,r=r.listener,c!==o&&i.isPropagationStopped())break e;o=r,i.currentTarget=l;try{o(i)}catch(d){gs(d)}i.currentTarget=null,o=c}}}}function N(e,n){var t=n[Jh];t===void 0&&(t=n[Jh]=new Set);var a=e+"__bubble";t.has(a)||(Lp(n,e,2,!1),t.add(a))}function Hr(e,n,t){var a=0;n&&(a|=4),Lp(t,e,a,n)}var ko="_reactListening"+Math.random().toString(36).slice(2);function mh(e){if(!e[ko]){e[ko]=!0,ym.forEach(function(t){t!=="selectionchange"&&(ib.has(t)||Hr(t,!1,e),Hr(t,!0,e))});var n=e.nodeType===9?e:e.ownerDocument;n===null||n[ko]||(n[ko]=!0,Hr("selectionchange",!1,n))}}function Lp(e,n,t,a){switch($p(n)){case 2:var i=Kb;break;case 8:i=Yb;break;default:i=vh}t=i.bind(null,n,t,e),i=void 0,!uc||n!=="touchstart"&&n!=="touchmove"&&n!=="wheel"||(i=!0),a?i!==void 0?e.addEventListener(n,t,{capture:!0,passive:i}):e.addEventListener(n,t,!0):i!==void 0?e.addEventListener(n,t,{passive:i}):e.addEventListener(n,t,!1)}function qr(e,n,t,a,i){var o=a;if(!(n&1)&&!(n&2)&&a!==null)e:for(;;){if(a===null)return;var s=a.tag;if(s===3||s===4){var r=a.stateNode.containerInfo;if(r===i)break;if(s===4)for(s=a.return;s!==null;){var c=s.tag;if((c===3||c===4)&&s.stateNode.containerInfo===i)return;s=s.return}for(;r!==null;){if(s=Bt(r),s===null)return;if(c=s.tag,c===5||c===6||c===26||c===27){a=o=s;continue e}r=r.parentNode}}a=a.return}Mm(function(){var l=o,d=Ml(t),m=[];e:{var u=qm.get(e);if(u!==void 0){var p=Xs,C=e;switch(e){case"keypress":if(Go(t)===0)break e;case"keydown":case"keyup":p=Bf;break;case"focusin":C="focus",p=Ar;break;case"focusout":C="blur",p=Ar;break;case"beforeblur":case"afterblur":p=Ar;break;case"click":if(t.button===2)break e;case"auxclick":case"dblclick":case"mousedown":case"mousemove":case"mouseup":case"mouseout":case"mouseover":case"contextmenu":p=ed;break;case"drag":case"dragend":case"dragenter":case"dragexit":case"dragleave":case"dragover":case"dragstart":case"drop":p=Lf;break;case"touchcancel":case"touchend":case"touchmove":case"touchstart":p=zf;break;case Vm:case jm:case Bm:p=Ef;break;case Hm:p=Qf;break;case"scroll":case"scrollend":p=xf;break;case"wheel":p=Yf;break;case"copy":case"cut":case"paste":p=Of;break;case"gotpointercapture":case"lostpointercapture":case"pointercancel":case"pointerdown":case"pointermove":case"pointerout":case"pointerover":case"pointerup":p=td;break;case"submit":p=Gf;break;case"toggle":case"beforetoggle":p=$f}var v=(n&4)!==0,A=!v&&(e==="scroll"||e==="scrollend"),w=v?u!==null?u+"Capture":null:u;v=[];for(var g=l,f;g!==null;){var b=g;if(f=b.stateNode,b=b.tag,b!==5&&b!==26&&b!==27||f===null||w===null||(b=Ni(g,w),b!=null&&v.push(Xi(g,b,f))),A)break;g=g.return}0<v.length&&(u=new p(u,C,null,t,d),m.push({event:u,listeners:v}))}}if(!(n&7)){e:{if(p=e==="mouseover"||e==="pointerover",u=e==="mouseout"||e==="pointerout",p&&t!==dc&&(C=t.relatedTarget||t.fromElement)&&(Bt(C)||C[$a]))break e;(u||p)&&(C=d.window===d?d:(p=d.ownerDocument)?p.defaultView||p.parentWindow:window,u?(p=t.relatedTarget||t.toElement,u=l,p=p?Bt(p):null,p!==null&&(A=no(p),v=p.tag,p!==A||v!==5&&v!==27&&v!==6)&&(p=null)):(u=null,p=l),u!==p&&(v=ed,b="onMouseLeave",w="onMouseEnter",g="mouse",(e==="pointerout"||e==="pointerover")&&(v=td,b="onPointerLeave",w="onPointerEnter",g="pointer"),A=u==null?C:fi(u),f=p==null?C:fi(p),C=new v(b,g+"leave",u,t,d),C.target=A,C.relatedTarget=f,b=null,Bt(d)===l&&(v=new v(w,g+"enter",p,t,d),v.target=f,v.relatedTarget=A,b=v),A=b,v=u&&p?$r(u,p,ob):null,u!==null&&Zd(m,C,u,v,!1),p!==null&&A!==null&&Zd(m,A,p,v,!0)))}e:{if(u=l?fi(l):window,p=u.nodeName&&u.nodeName.toLowerCase(),p==="select"||p==="input"&&u.type==="file")var T=sd;else if(od(u))if(Om)T=lC;else{T=rC;var x=sC}else p=u.nodeName,!p||p.toLowerCase()!=="input"||u.type!=="checkbox"&&u.type!=="radio"?l&&xl(l.elementType)&&(T=sd):T=cC;if(T&&(T=T(e,l))){Dm(m,T,t,d);break e}x&&x(e,u,l)}switch(x=l?fi(l):window,e){case"focusin":(od(x)||x.contentEditable==="true")&&(Sa=x,gc=l,Pi=null);break;case"focusout":Pi=gc=Sa=null;break;case"mousedown":pc=!0;break;case"contextmenu":case"mouseup":case"dragend":pc=!1,dd(m,t,d);break;case"selectionchange":if(dC)break;case"keydown":case"keyup":dd(m,t,d)}var y;if(kl)e:{switch(e){case"compositionstart":var P="onCompositionStart";break e;case"compositionend":P="onCompositionEnd";break e;case"compositionupdate":P="onCompositionUpdate";break e}P=void 0}else ya?km(e,t)&&(P="onCompositionEnd"):e==="keydown"&&t.keyCode===229&&(P="onCompositionStart");P&&(Wm&&t.locale!=="ko"&&(ya||P!=="onCompositionStart"?P==="onCompositionEnd"&&ya&&(y=Lm()):(ht=d,Ll="value"in ht?ht.value:ht.textContent,ya=!0)),x=Os(l,P),0<x.length&&(P=new nd(P,e,null,t,d),m.push({event:P,listeners:x}),y?P.data=y:(y=Em(t),y!==null&&(P.data=y)))),(y=nC?tC(e,t):aC(e,t))&&(P=Os(l,"onBeforeInput"),0<P.length&&(x=new nd("onBeforeInput","beforeinput",null,t,d),m.push({event:x,listeners:P}),x.data=y)),nb(m,e,l,t,d)}Mp(m,n)})}function Xi(e,n,t){return{instance:e,listener:n,currentTarget:t}}function Os(e,n){for(var t=n+"Capture",a=[];e!==null;){var i=e,o=i.stateNode;if(i=i.tag,i!==5&&i!==26&&i!==27||o===null||(i=Ni(e,t),i!=null&&a.unshift(Xi(e,i,o)),i=Ni(e,n),i!=null&&a.push(Xi(e,i,o))),e.tag===3)return a;e=e.return}return[]}function ob(e){if(e===null)return null;do e=e.return;while(e&&e.tag!==5&&e.tag!==27);return e||null}function Zd(e,n,t,a,i){for(var o=n._reactName,s=[];t!==null&&t!==a;){var r=t,c=r.alternate,l=r.stateNode;if(r=r.tag,c!==null&&c===a)break;r!==5&&r!==26&&r!==27||l===null||(c=l,i?(l=Ni(t,o),l!=null&&s.unshift(Xi(t,l,c))):i||(l=Ni(t,o),l!=null&&s.push(Xi(t,l,c)))),t=t.return}s.length!==0&&e.push({event:n,listeners:s})}var sb=/\r\n?/g,rb=/\u0000|\uFFFD/g;function $d(e){return(typeof e=="string"?e:""+e).replace(sb,`
+`).replace(rb,"")}function Wp(e,n){return n=$d(n),$d(e)===n}function X(e,n,t,a,i,o){switch(t){case"children":if(typeof a=="string")n==="body"||n==="textarea"&&a===""||ja(e,a);else if(typeof a=="number"||typeof a=="bigint")n!=="body"&&ja(e,""+a);else return;break;case"className":So(e,"class",a);break;case"tabIndex":So(e,"tabindex",a);break;case"dir":case"role":case"viewBox":case"width":case"height":So(e,t,a);break;case"style":xm(e,a,o);return;case"data":if(n!=="object"){So(e,"data",a);break}case"src":case"href":if(a===""&&(n!=="a"||t!=="href")){e.removeAttribute(t);break}if(a==null||typeof a=="function"||typeof a=="symbol"||typeof a=="boolean"){e.removeAttribute(t);break}a=Ho(a),e.setAttribute(t,a);break;case"action":case"formAction":if(typeof a=="function"){e.setAttribute(t,"javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')");break}else typeof o=="function"&&(t==="formAction"?(n!=="input"&&X(e,n,"name",i.name,i,null),X(e,n,"formEncType",i.formEncType,i,null),X(e,n,"formMethod",i.formMethod,i,null),X(e,n,"formTarget",i.formTarget,i,null)):(X(e,n,"encType",i.encType,i,null),X(e,n,"method",i.method,i,null),X(e,n,"target",i.target,i,null)));if(a==null||typeof a=="symbol"||typeof a=="boolean"){e.removeAttribute(t);break}a=Ho(a),e.setAttribute(t,a);break;case"onClick":a!=null&&(e.onclick=Wn);return;case"onScroll":a!=null&&N("scroll",e);return;case"onScrollEnd":a!=null&&N("scrollend",e);return;case"dangerouslySetInnerHTML":if(a!=null){if(typeof a!="object"||!("__html"in a))throw Error(S(61));if(t=a.__html,t!=null){if(i.children!=null)throw Error(S(60));(o!=null?o.__html:void 0)!==t&&(e.innerHTML=t)}}break;case"multiple":e.multiple=a&&typeof a!="function"&&typeof a!="symbol";break;case"muted":e.muted=a&&typeof a!="function"&&typeof a!="symbol";break;case"suppressContentEditableWarning":case"suppressHydrationWarning":case"defaultValue":case"defaultChecked":case"innerHTML":case"ref":break;case"autoFocus":break;case"xlinkHref":if(a==null||typeof a=="function"||typeof a=="boolean"||typeof a=="symbol"){e.removeAttribute("xlink:href");break}t=Ho(a),e.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",t);break;case"contentEditable":case"spellCheck":case"draggable":case"value":case"autoReverse":case"externalResourcesRequired":case"focusable":case"preserveAlpha":a!=null&&typeof a!="function"&&typeof a!="symbol"?e.setAttribute(t,a):e.removeAttribute(t);break;case"inert":case"allowFullScreen":case"async":case"autoPlay":case"controls":case"credentialless":case"default":case"defer":case"disabled":case"disablePictureInPicture":case"disableRemotePlayback":case"formNoValidate":case"hidden":case"loop":case"noModule":case"noValidate":case"open":case"playsInline":case"readOnly":case"required":case"reversed":case"scoped":case"seamless":case"itemScope":a&&typeof a!="function"&&typeof a!="symbol"?e.setAttribute(t,""):e.removeAttribute(t);break;case"capture":case"download":a===!0?e.setAttribute(t,""):a!==!1&&a!=null&&typeof a!="function"&&typeof a!="symbol"?e.setAttribute(t,a):e.removeAttribute(t);break;case"cols":case"rows":case"size":case"span":a!=null&&typeof a!="function"&&typeof a!="symbol"&&!isNaN(a)&&1<=a?e.setAttribute(t,a):e.removeAttribute(t);break;case"rowSpan":case"start":a==null||typeof a=="function"||typeof a=="symbol"||isNaN(a)?e.removeAttribute(t):e.setAttribute(t,a);break;case"popover":N("beforetoggle",e),N("toggle",e),Bo(e,"popover",a);break;case"xlinkActuate":jn(e,"http://www.w3.org/1999/xlink","xlink:actuate",a);break;case"xlinkArcrole":jn(e,"http://www.w3.org/1999/xlink","xlink:arcrole",a);break;case"xlinkRole":jn(e,"http://www.w3.org/1999/xlink","xlink:role",a);break;case"xlinkShow":jn(e,"http://www.w3.org/1999/xlink","xlink:show",a);break;case"xlinkTitle":jn(e,"http://www.w3.org/1999/xlink","xlink:title",a);break;case"xlinkType":jn(e,"http://www.w3.org/1999/xlink","xlink:type",a);break;case"xmlBase":jn(e,"http://www.w3.org/XML/1998/namespace","xml:base",a);break;case"xmlLang":jn(e,"http://www.w3.org/XML/1998/namespace","xml:lang",a);break;case"xmlSpace":jn(e,"http://www.w3.org/XML/1998/namespace","xml:space",a);break;case"is":Bo(e,"is",a);break;case"innerText":case"textContent":return;default:if(!(2<t.length)||t[0]!=="o"&&t[0]!=="O"||t[1]!=="n"&&t[1]!=="N")t=If.get(t)||t,Bo(e,t,a);else return}H=!0}function Zc(e,n,t,a,i,o){switch(t){case"style":xm(e,a,o);return;case"dangerouslySetInnerHTML":if(a!=null){if(typeof a!="object"||!("__html"in a))throw Error(S(61));if(t=a.__html,t!=null){if(i.children!=null)throw Error(S(60));(o!=null?o.__html:void 0)!==t&&(e.innerHTML=t)}}break;case"children":if(typeof a=="string")ja(e,a);else if(typeof a=="number"||typeof a=="bigint")ja(e,""+a);else return;break;case"onScroll":a!=null&&N("scroll",e);return;case"onScrollEnd":a!=null&&N("scrollend",e);return;case"onClick":a!=null&&(e.onclick=Wn);return;case"suppressContentEditableWarning":case"suppressHydrationWarning":case"innerHTML":case"ref":return;case"innerText":case"textContent":return;default:if(!Sm.hasOwnProperty(t))e:{if(t[0]==="o"&&t[1]==="n"&&(i=t.endsWith("Capture"),o=t.slice(2,i?t.length-7:void 0),n=e[ze]||null,n=n!=null?n[t]:null,typeof n=="function"&&e.removeEventListener(o,n,i),typeof a=="function")){typeof n!="function"&&n!==null&&(t in e?e[t]=null:e.hasAttribute(t)&&e.removeAttribute(t)),e.addEventListener(o,a,i);break e}H=!0,t in e?e[t]=a:a===!0?e.setAttribute(t,""):Bo(e,t,a)}return}H=!0}function Le(e,n,t){switch(n){case"div":case"span":case"svg":case"path":case"a":case"g":case"p":case"li":break;case"img":N("error",e),N("load",e);var a=!1,i=!1,o;for(o in t)if(t.hasOwnProperty(o)){var s=t[o];if(s!=null)switch(o){case"src":a=!0;break;case"srcSet":i=!0;break;case"children":case"dangerouslySetInnerHTML":throw Error(S(137,n));default:X(e,n,o,s,t,null)}}i&&X(e,n,"srcSet",t.srcSet,t,null),a&&X(e,n,"src",t.src,t,null);return;case"input":N("invalid",e);var r=o=s=i=null,c=null,l=null;for(a in t)if(t.hasOwnProperty(a)){var d=t[a];if(d!=null)switch(a){case"name":i=d;break;case"type":s=d;break;case"checked":c=d;break;case"defaultChecked":l=d;break;case"value":o=d;break;case"defaultValue":r=d;break;case"children":case"dangerouslySetInnerHTML":if(d!=null)throw Error(S(137,n));break;default:X(e,n,a,d,t,null)}}Tm(e,o,r,c,l,s,i,!1);return;case"select":N("invalid",e),a=s=o=null;for(i in t)if(t.hasOwnProperty(i)&&(r=t[i],r!=null))switch(i){case"value":o=r;break;case"defaultValue":s=r;break;case"multiple":a=r;default:X(e,n,i,r,t,null)}n=o,t=s,e.multiple=!!a,n!=null?La(e,!!a,n,!1):t!=null&&La(e,!!a,t,!0);return;case"textarea":N("invalid",e),o=i=a=null;for(s in t)if(t.hasOwnProperty(s)&&(r=t[s],r!=null))switch(s){case"value":a=r;break;case"defaultValue":i=r;break;case"children":o=r;break;case"dangerouslySetInnerHTML":if(r!=null)throw Error(S(91));break;default:X(e,n,s,r,t,null)}_m(e,a,i,o);return;case"option":for(c in t)if(t.hasOwnProperty(c)&&(a=t[c],a!=null))switch(c){case"selected":e.selected=a&&typeof a!="function"&&typeof a!="symbol";break;default:X(e,n,c,a,t,null)}return;case"dialog":N("beforetoggle",e),N("toggle",e),N("cancel",e),N("close",e);break;case"iframe":case"object":N("load",e);break;case"video":case"audio":for(a=0;a<zi.length;a++)N(zi[a],e);break;case"image":N("error",e),N("load",e);break;case"details":N("toggle",e);break;case"embed":case"source":case"link":N("error",e),N("load",e);case"area":case"base":case"br":case"col":case"hr":case"keygen":case"meta":case"param":case"track":case"wbr":case"menuitem":for(l in t)if(t.hasOwnProperty(l)&&(a=t[l],a!=null))switch(l){case"children":case"dangerouslySetInnerHTML":throw Error(S(137,n));default:X(e,n,l,a,t,null)}return;default:if(xl(n)){for(d in t)t.hasOwnProperty(d)&&(a=t[d],a!==void 0&&Zc(e,n,d,a,t,void 0));return}}for(r in t)t.hasOwnProperty(r)&&(a=t[r],a!=null&&X(e,n,r,a,t,null))}var cb={};function lb(e,n,t,a){switch(n){case"div":case"span":case"svg":case"path":case"a":case"g":case"p":case"li":break;case"input":var i=null,o=null,s=null,r=null,c=null,l=null,d=null;for(p in t){var m=t[p];if(t.hasOwnProperty(p)&&m!=null)switch(p){case"checked":break;case"value":break;case"defaultValue":c=m;default:a.hasOwnProperty(p)||X(e,n,p,null,a,m)}}for(var u in a){var p=a[u];if(m=t[u],a.hasOwnProperty(u)&&(p!=null||m!=null))switch(u){case"type":p!==m&&(H=!0),o=p;break;case"name":p!==m&&(H=!0),i=p;break;case"checked":p!==m&&(H=!0),l=p;break;case"defaultChecked":p!==m&&(H=!0),d=p;break;case"value":p!==m&&(H=!0),s=p;break;case"defaultValue":p!==m&&(H=!0),r=p;break;case"children":case"dangerouslySetInnerHTML":if(p!=null)throw Error(S(137,n));break;default:p!==m&&X(e,n,u,p,a,m)}}hc(e,s,r,c,l,d,o,i);return;case"select":p=s=r=u=null;for(o in t)if(c=t[o],t.hasOwnProperty(o)&&c!=null)switch(o){case"value":break;case"multiple":p=c;default:a.hasOwnProperty(o)||X(e,n,o,null,a,c)}for(i in a)if(o=a[i],c=t[i],a.hasOwnProperty(i)&&(o!=null||c!=null))switch(i){case"value":o!==c&&(H=!0),u=o;break;case"defaultValue":o!==c&&(H=!0),r=o;break;case"multiple":o!==c&&(H=!0),s=o;default:o!==c&&X(e,n,i,o,a,c)}n=r,t=s,a=p,u!=null?La(e,!!t,u,!1):!!a!=!!t&&(n!=null?La(e,!!t,n,!0):La(e,!!t,t?[]:"",!1));return;case"textarea":p=u=null;for(r in t)if(i=t[r],t.hasOwnProperty(r)&&i!=null&&!a.hasOwnProperty(r))switch(r){case"value":break;case"children":break;default:X(e,n,r,null,a,i)}for(s in a)if(i=a[s],o=t[s],a.hasOwnProperty(s)&&(i!=null||o!=null))switch(s){case"value":i!==o&&(H=!0),u=i;break;case"defaultValue":i!==o&&(H=!0),p=i;break;case"children":break;case"dangerouslySetInnerHTML":if(i!=null)throw Error(S(91));break;default:i!==o&&X(e,n,s,i,a,o)}Im(e,u,p);return;case"option":for(var C in t)if(u=t[C],t.hasOwnProperty(C)&&u!=null&&!a.hasOwnProperty(C))switch(C){case"selected":e.selected=!1;break;default:X(e,n,C,null,a,u)}for(c in a)if(u=a[c],p=t[c],a.hasOwnProperty(c)&&u!==p&&(u!=null||p!=null))switch(c){case"selected":u!==p&&(H=!0),e.selected=u&&typeof u!="function"&&typeof u!="symbol";break;default:X(e,n,c,u,a,p)}return;case"img":case"link":case"area":case"base":case"br":case"col":case"embed":case"hr":case"keygen":case"meta":case"param":case"source":case"track":case"wbr":case"menuitem":for(var v in t)u=t[v],t.hasOwnProperty(v)&&u!=null&&!a.hasOwnProperty(v)&&X(e,n,v,null,a,u);for(l in a)if(u=a[l],p=t[l],a.hasOwnProperty(l)&&u!==p&&(u!=null||p!=null))switch(l){case"children":case"dangerouslySetInnerHTML":if(u!=null)throw Error(S(137,n));break;default:X(e,n,l,u,a,p)}return;default:if(xl(n)){for(var A in t)u=t[A],t.hasOwnProperty(A)&&u!==void 0&&!a.hasOwnProperty(A)&&Zc(e,n,A,void 0,a,u);for(d in a)u=a[d],p=t[d],!a.hasOwnProperty(d)||u===p||u===void 0&&p===void 0||Zc(e,n,d,u,a,p);return}}for(var w in t)u=t[w],t.hasOwnProperty(w)&&u!=null&&!a.hasOwnProperty(w)&&X(e,n,w,null,a,u);for(m in a)u=a[m],p=t[m],!a.hasOwnProperty(m)||u===p||u==null&&p==null||X(e,n,m,u,a,p)}function eu(e){switch(e){case"css":case"script":case"font":case"img":case"image":case"input":case"link":return!0;default:return!1}}function hb(){if(typeof performance.getEntriesByType=="function"){for(var e=0,n=0,t=performance.getEntriesByType("resource"),a=0;a<t.length;a++){var i=t[a],o=i.transferSize,s=i.initiatorType,r=i.duration;if(o&&r&&eu(s)){for(s=0,r=i.responseEnd,a+=1;a<t.length;a++){var c=t[a],l=c.startTime;if(l>r)break;var d=c.transferSize,m=c.initiatorType;d&&eu(m)&&(c=c.responseEnd,s+=d*(c<r?1:(r-l)/(c-l)))}if(--a,n+=8*(o+s)/(i.duration/1e3),e++,10<e)break}}if(0<e)return n/e/1e6}return navigator.connection&&(e=navigator.connection.downlink,typeof e=="number")?e:5}var $c=null,el=null;function Qi(e){return e.nodeType===9?e:e.ownerDocument}function nu(e){switch(e){case"http://www.w3.org/2000/svg":return 1;case"http://www.w3.org/1998/Math/MathML":return 2;default:return 0}}function kp(e,n){if(e===0)switch(n){case"svg":return 1;case"math":return 2;default:return 0}return e===1&&n==="foreignObject"?0:e}function Ep(e,n,t,a){return t=Qi(t).createElement(e),t[Ie]=a,t[ze]=n,Le(t,e,n),Se(t),t}function nl(e,n){return e==="textarea"||e==="noscript"||typeof n.children=="string"||typeof n.children=="number"||typeof n.children=="bigint"||typeof n.dangerouslySetInnerHTML=="object"&&n.dangerouslySetInnerHTML!==null&&n.dangerouslySetInnerHTML.__html!=null}var Gr=null;function db(){var e=window.event;return e&&e.type==="popstate"?e===Gr?!1:(Gr=e,!0):(Gr=null,!1)}var gh=typeof setTimeout=="function"?setTimeout:void 0,ub=typeof clearTimeout=="function"?clearTimeout:void 0,tu=typeof Promise=="function"?Promise:void 0,au=typeof requestAnimationFrame=="function"?requestAnimationFrame:gh,mb=typeof queueMicrotask=="function"?queueMicrotask:typeof tu<"u"?function(e){return tu.resolve(null).then(e).catch(gb)}:gh;function gb(e){setTimeout(function(){throw e})}function Wt(e){return e==="head"}function iu(e,n){var t=n,a=0;do{var i=t.nextSibling;if(e.removeChild(t),i&&i.nodeType===8)if(t=i.data,t==="/$"||t==="/&"){if(a===0){e.removeChild(i),Ya(n);return}a--}else if(t==="$"||t==="$?"||t==="$~"||t==="$!"||t==="&")a++;else if(t==="html")zr(e.ownerDocument.documentElement);else if(t==="head"){t=e.ownerDocument.head,zr(t);for(var o=t.firstChild;o;){var s=o.nextSibling,r=o.nodeName;o[oo]||r==="SCRIPT"||r==="STYLE"||r==="LINK"&&o.rel.toLowerCase()==="stylesheet"||t.removeChild(o),o=s}}else t==="body"&&zr(e.ownerDocument.body);t=i}while(t);Ya(n)}function ou(e,n){var t=e;e=0;do{var a=t.nextSibling;if(t.nodeType===1?n?(t._stashedDisplay=t.style.display,t.style.display="none"):(t.style.display=t._stashedDisplay||"",t.getAttribute("style")===""&&t.removeAttribute("style")):t.nodeType===3&&(n?(t._stashedText=t.nodeValue,t.nodeValue=""):t.nodeValue=t._stashedText||""),a&&a.nodeType===8)if(t=a.data,t==="/$"){if(e===0)break;e--}else t!=="$"&&t!=="$?"&&t!=="$~"&&t!=="$!"||e++;t=a}while(t)}function Dp(e,n,t){if(n=CSS.escape(n)!==n?"r-"+btoa(n).replace(/=/g,""):n,e.style.viewTransitionName=n,t!=null&&(e.style.viewTransitionClass=t),t=getComputedStyle(e),t.display==="inline"){if(n=e.getClientRects(),n.length===1)var a=1;else for(var i=a=0;i<n.length;i++){var o=n[i];0<o.width&&0<o.height&&a++}a===1&&(e=e.style,e.display=n.length===1?"inline-block":"block",e.marginTop="-"+t.paddingTop,e.marginBottom="-"+t.paddingBottom)}}function Op(e,n){e=e.style,n=n.style;var t=n!=null?n.hasOwnProperty("viewTransitionName")?n.viewTransitionName:n.hasOwnProperty("view-transition-name")?n["view-transition-name"]:null:null;e.viewTransitionName=t==null||typeof t=="boolean"?"":(""+t).trim(),t=n!=null?n.hasOwnProperty("viewTransitionClass")?n.viewTransitionClass:n.hasOwnProperty("view-transition-class")?n["view-transition-class"]:null:null,e.viewTransitionClass=t==null||typeof t=="boolean"?"":(""+t).trim(),e.display==="inline-block"&&(n==null?e.display=e.margin="":(t=n.display,e.display=t==null||typeof t=="boolean"?"":t,t=n.margin,t!=null?e.margin=t:(t=n.hasOwnProperty("marginTop")?n.marginTop:n["margin-top"],e.marginTop=t==null||typeof t=="boolean"?"":t,n=n.hasOwnProperty("marginBottom")?n.marginBottom:n["margin-bottom"],e.marginBottom=n==null||typeof n=="boolean"?"":n)))}function pb(e,n,t){return t=t.ownerDocument.defaultView,{rect:e,abs:n.position==="absolute"||n.position==="fixed",clip:n.clipPath!=="none"||n.overflow!=="visible"||n.filter!=="none"||n.mask!=="none"||n.mask!=="none"||n.borderRadius!=="0px",view:0<=e.bottom&&0<=e.right&&e.top<=t.innerHeight&&e.left<=t.innerWidth}}function tl(e){var n=e.getBoundingClientRect(),t=getComputedStyle(e);return pb(n,t,e)}function wb(e){return e.documentElement.clientHeight}function fb(e){this.addEventListener("load",e),this.addEventListener("error",e)}function Cb(e,n,t,a,i,o,s,r,c){var l=n.nodeType===9?n:n.ownerDocument;try{var d=l.startViewTransition({update:function(){var u=l.defaultView,p=u.navigation&&u.navigation.transition,C=l.fonts.status;a();var v=[];if(C==="loaded"&&(wb(l),l.fonts.status==="loading"&&v.push(l.fonts.ready)),C=v.length,e!==null)for(var A=e.suspenseyImages,w=0,g=0;g<A.length;g++){var f=A[g];if(!f.complete){var b=f.getBoundingClientRect();if(0<b.bottom&&0<b.right&&b.top<u.innerHeight&&b.left<u.innerWidth){if(w+=zp(f),w>is){v.length=C;break}f=new Promise(fb.bind(f)),v.push(f)}}}if(0<v.length)return u=Promise.race([Promise.all(v),new Promise(function(T){return setTimeout(T,500)})]).then(i,i),(p?Promise.allSettled([p.finished,u]):u).then(o,o);if(i(),p)return p.finished.then(o,o);o()},types:t});l.__reactViewTransition=d;var m=[];return d.ready.then(function(){for(var u=l.documentElement.getAnimations({subtree:!0}),p=0;p<u.length;p++){var C=u[p],v=C.effect,A=v.pseudoElement;if(A!=null&&A.startsWith("::view-transition")){m.push(C),C=v.getKeyframes();for(var w=A=void 0,g=!0,f=0;f<C.length;f++){var b=C[f],T=b.width;if(A===void 0)A=T;else if(A!==T){g=!1;break}if(T=b.height,w===void 0)w=T;else if(w!==T){g=!1;break}delete b.width,delete b.height,b.transform==="none"&&delete b.transform}g&&A!==void 0&&w!==void 0&&(v.setKeyframes(C),g=getComputedStyle(v.target,v.pseudoElement),g.width!==A||g.height!==w)&&(g=C[0],g.width=A,g.height=w,g=C[C.length-1],g.width=A,g.height=w,v.setKeyframes(C))}}s()},function(u){l.__reactViewTransition===d&&(l.__reactViewTransition=null);try{if(typeof u=="object"&&u!==null)switch(u.name){case"InvalidStateError":(u.message==="View transition was skipped because document visibility state is hidden."||u.message==="Skipping view transition because document visibility state has become hidden."||u.message==="Skipping view transition because viewport size changed."||u.message==="Transition was aborted because of invalid state")&&(u=null)}u!==null&&c(u)}finally{a(),i(),s()}}),d.finished.finally(function(){for(var u=0;u<m.length;u++)m[u].cancel();l.__reactViewTransition===d&&(l.__reactViewTransition=null),r()}),d}catch{return a(),i(),s(),null}}function Ht(e,n){this._scope=document.documentElement,this._selector="::view-transition-"+e+"("+n+")"}Ht.prototype.animate=function(e,n){return n=typeof n=="number"?{duration:n}:te({},n),n.pseudoElement=this._selector,this._scope.animate(e,n)};Ht.prototype.getAnimations=function(){for(var e=this._scope,n=this._selector,t=e.getAnimations({subtree:!0}),a=[],i=0;i<t.length;i++){var o=t[i].effect;o!==null&&o.target===e&&o.pseudoElement===n&&a.push(t[i])}return a};Ht.prototype.getComputedStyle=function(){return getComputedStyle(this._scope,this._selector)};function Fp(e){return{name:e,group:new Ht("group",e),imagePair:new Ht("image-pair",e),old:new Ht("old",e),new:new Ht("new",e)}}function rn(e){this._fragmentFiber=e,this._observers=this._eventListeners=null}rn.prototype.addEventListener=function(e,n,t){var a=null,i=null;if(!(t!=null&&typeof t!="boolean"&&(a=t.signal||null,a!==null&&a.aborted))){this._eventListeners===null&&(this._eventListeners=[]);var o=this._eventListeners;if(Rp(o,e,n,t)===-1){var s=this,r=n;t!=null&&typeof t!="boolean"&&t.once===!0&&(r=function(c){s.removeEventListener(e,n,t),typeof n=="function"?n.call(this,c):n.handleEvent(c)}),a!==null&&(i=s.removeEventListener.bind(s,e,n,t),a.addEventListener("abort",i,{once:!0}),i=a.removeEventListener.bind(a,"abort",i)),a=za(t),o.push({type:e,listener:n,optionsOrUseCapture:t,attachedListener:r,cleanup:i}),Je(this._fragmentFiber.child,!1,bb,e,r,a)}this._eventListeners=o}};function bb(e,n,t,a){return Ce(e).addEventListener(n,t,a),!1}rn.prototype.removeEventListener=function(e,n,t){var a=this._eventListeners;if(a!==null&&(n=Rp(a,e,n,t),n!==-1)){var i=a[n];t=i.attachedListener;var o=i.cleanup;i=za(i.optionsOrUseCapture),Je(this._fragmentFiber.child,!1,vb,e,t,i),a.splice(n,1),o!==null&&o()}};function vb(e,n,t,a){return Ce(e).removeEventListener(n,t,a),!1}function za(e){return e!=null&&typeof e!="boolean"&&(e.once===!0||e.signal instanceof AbortSignal)?{capture:e.capture,passive:e.passive}:e}function su(e){return e==null?"c=0":typeof e=="boolean"?"c="+(e?"1":"0"):"c="+(e.capture?"1":"0")}function Rp(e,n,t,a){if(e.length===0)return-1;a=su(a);for(var i=0;i<e.length;i++){var o=e[i];if(o.type===n&&o.listener===t&&su(o.optionsOrUseCapture)===a)return i}return-1}rn.prototype.dispatchEvent=function(e){var n=oa(this._fragmentFiber);if(n===null)return!0;n=Ce(n);var t=this._eventListeners;if(t!==null&&0<t.length||!e.bubbles){var a=n.nodeType===9?n.createComment(""):document.createTextNode("");if(t)for(var i=0;i<t.length;i++){var o=t[i];a.addEventListener(o.type,o.attachedListener,za(o.optionsOrUseCapture))}if(n.appendChild(a),e=a.dispatchEvent(e),t)for(i=0;i<t.length;i++)o=t[i],a.removeEventListener(o.type,o.attachedListener,za(o.optionsOrUseCapture));return n.removeChild(a),e}return n.dispatchEvent(e)};rn.prototype.focus=function(e){Je(this._fragmentFiber.child,!0,Up,e,void 0,void 0)};function Up(e,n){return e.tag===6?!1:(e=Ce(e),kb(e,n))}rn.prototype.focusLast=function(e){var n=[];Je(this._fragmentFiber.child,!0,ph,n,void 0,void 0);for(var t=n.length-1;0<=t&&!Up(n[t],e);t--);};function ph(e,n){return n.push(e),!1}rn.prototype.blur=function(){var e=oa(this._fragmentFiber);e!==null&&(e=Ce(e),e=Qi(e).activeElement,e!==null&&Je(this._fragmentFiber.child,!1,yb,e,void 0,void 0))};function yb(e,n){return e.tag===6?!1:(e=Ce(e),e===n||e.contains(n)?(n.blur(),!0):!1)}rn.prototype.observeUsing=function(e){this._observers===null&&(this._observers=new Set),this._observers.add(e),Je(this._fragmentFiber.child,!1,Sb,e,void 0,void 0)};function Sb(e,n){return e.tag===6||(e=Ce(e),n.observe(e)),!1}rn.prototype.unobserveUsing=function(e){var n=this._observers;if(n!==null&&n.has(e)){n.delete(e),Je(this._fragmentFiber.child,!1,Ab,e,void 0,void 0);for(var t=n=0;t<Sn.length;t++){var a=Sn[t];a.fragmentInstance===this&&a.observer===e?e.unobserve(a.instance):Sn[n++]=a}Sn.length=n}};function Ab(e,n){return e.tag===6||(e=Ce(e),n.unobserve(e)),!1}var Sn=[],Jr=!1;function Pb(e,n,t){Sn.push({fragmentInstance:e,observer:n,instance:t}),Jr||(Jr=!0,Eb(function(){Jr=!1;var a=Sn;Sn=[];for(var i=0;i<a.length;i++){var o=a[i];o.observer.unobserve(o.instance)}}))}rn.prototype.getClientRects=function(){var e=[];return Je(this._fragmentFiber.child,!1,Tb,e,void 0,void 0),e};function Tb(e,n){if(e.tag===6){e=e.stateNode;var t=e.ownerDocument.createRange();t.selectNodeContents(e),n.push.apply(n,t.getClientRects())}else e=Ce(e),n.push.apply(n,e.getClientRects());return!1}rn.prototype.getRootNode=function(e){var n=oa(this._fragmentFiber);return n===null?this:Ce(n).getRootNode(e)};rn.prototype.compareDocumentPosition=function(e){var n=oa(this._fragmentFiber);if(n===null)return Node.DOCUMENT_POSITION_DISCONNECTED;var t=[];Je(this._fragmentFiber.child,!1,ph,t,void 0,void 0);var a=Ce(n);if(t.length===0){if(t=a,Vh(this._fragmentFiber)){e:{for(n=this._fragmentFiber.return;n!==null;){if(n.tag===4){n=n.stateNode.containerInfo;break e}if(n.tag===3||n.tag===5||n.tag===27)break;n=n.return}n=null}n!=null&&(t=n)}n=this._fragmentFiber;var i=a=t.compareDocumentPosition(e);return t===e?i=Node.DOCUMENT_POSITION_CONTAINS:a&Node.DOCUMENT_POSITION_CONTAINED_BY&&(t=rm(n)[1],t===null?i=Node.DOCUMENT_POSITION_PRECEDING:(e=Ce(t).compareDocumentPosition(e),i=e===0||e&Node.DOCUMENT_POSITION_FOLLOWING?Node.DOCUMENT_POSITION_FOLLOWING:Node.DOCUMENT_POSITION_PRECEDING)),i|=Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC}n=Ce(t[0]),i=Ce(t[t.length-1]);var o=Vh(this._fragmentFiber)?n.parentElement:a;if(o==null)return Node.DOCUMENT_POSITION_DISCONNECTED;a=o.compareDocumentPosition(n)&Node.DOCUMENT_POSITION_CONTAINED_BY,o=o.compareDocumentPosition(i)&Node.DOCUMENT_POSITION_CONTAINED_BY;var s=n.compareDocumentPosition(e),r=i.compareDocumentPosition(e),c=s&Node.DOCUMENT_POSITION_CONTAINED_BY||r&Node.DOCUMENT_POSITION_CONTAINED_BY;return r=a&&o&&s&Node.DOCUMENT_POSITION_FOLLOWING&&r&Node.DOCUMENT_POSITION_PRECEDING,n=a&&n===e||o&&i===e||c||r?Node.DOCUMENT_POSITION_CONTAINED_BY:!a&&n===e||!o&&i===e?Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC:s,n&Node.DOCUMENT_POSITION_DISCONNECTED||n&Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC||Ib(n,this._fragmentFiber,t[0],t[t.length-1],e)?n:Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC};function Ib(e,n,t,a,i){var o=Bt(i);if(e&Node.DOCUMENT_POSITION_CONTAINED_BY){if(t=!!o)e:{for(;o!==null;){if(o.tag===7&&(o===n||o.alternate===n)){t=!0;break e}o=o.return}t=!1}return t}if(e&Node.DOCUMENT_POSITION_CONTAINS){if(o===null)return o=i.ownerDocument,i===o||i===o.documentElement||i===o.body;e:{for(o=n,n=oa(n);o!==null;){if(!(o.tag!==5&&o.tag!==3&&o.tag!==27||o!==n&&o.alternate!==n)){o=!0;break e}o=o.return}o=!1}return o}return e&Node.DOCUMENT_POSITION_PRECEDING?((n=!!o)&&!(n=o===t)&&(n=$r(t,o,jh),n===null?n=!1:(Je(n,!0,$w,o,t),o=fa,fa=null,n=o!==null)),n):e&Node.DOCUMENT_POSITION_FOLLOWING?((n=!!o)&&!(n=o===a)&&(n=$r(a,o,jh),n===null?n=!1:(Je(n,!0,ef,o,a),o=fa,Zr=fa=null,n=o!==null)),n):!1}function ru(e,n){var t=e.ownerDocument.createRange();t.selectNodeContents(e),e=t.getBoundingClientRect(),window.scrollTo(window.scrollX+e.left,n?window.scrollY+e.top:window.scrollY+e.bottom-window.innerHeight)}rn.prototype.scrollIntoView=function(e){if(typeof e=="object")throw Error(S(566));var n=[];Je(this._fragmentFiber.child,!1,ph,n,void 0,void 0);var t=e!==!1;if(n.length===0){var a=rm(this._fragmentFiber);if(a=t?a[1]||a[0]||oa(this._fragmentFiber):a[0]||a[1],a===null)return;if(a.tag===6){e=Ce(a),ru(e,t);return}if(a=Ce(a),a.nodeType!==9){if(a.nodeType===11){t="host"in a?a.host:null,t!==null&&t.scrollIntoView(e);return}a.scrollIntoView(e)}}for(a=t?n.length-1:0;a!==(t?-1:n.length);){var i=n[a];i.tag===6?(i=Ce(i),ru(i,t)):Ce(i).scrollIntoView(e),a+=t?-1:1}};function _b(e,n){return e=Ce(e),Np(e,n),!1}function Np(e,n){e.reactFragments==null&&(e.reactFragments=new Set),e.reactFragments.add(n)}function Vp(e,n){var t=n._eventListeners;if(t!==null)for(var a=0;a<t.length;a++){var i=t[a];e.addEventListener(i.type,i.attachedListener,za(i.optionsOrUseCapture))}e.nodeType!==3&&(t=n._observers,t!==null&&t.forEach(function(o){for(var s=0,r=0;r<Sn.length;r++){var c=Sn[r];(c.fragmentInstance!==n||c.observer!==o||c.instance!==e)&&(Sn[s++]=c)}Sn.length=s,o.observe(e)}),Np(e,n))}function xb(e,n){var t=n._eventListeners;if(t!==null)for(var a=0;a<t.length;a++){var i=t[a];e.removeEventListener(i.type,i.attachedListener,za(i.optionsOrUseCapture))}e.nodeType!==3&&(t=n._observers,t!==null&&t.forEach(function(o){typeof o.rootMargin=="string"?Pb(n,o,e):o.unobserve(e)}),e.reactFragments!=null&&e.reactFragments.delete(n))}function al(e){var n=e.firstChild;for(n&&n.nodeType===10&&(n=n.nextSibling);n;){var t=n;switch(n=n.nextSibling,t.nodeName){case"HTML":case"HEAD":case"BODY":al(t),zs(t);continue;case"SCRIPT":case"STYLE":continue;case"LINK":if(t.rel.toLowerCase()==="stylesheet")continue}e.removeChild(t)}}function Mb(e,n,t,a){for(;e.nodeType===1;){var i=t;if(e.nodeName.toLowerCase()!==n.toLowerCase()){if(!a&&(e.nodeName!=="INPUT"||e.type!=="hidden"))break}else if(a){if(!e[oo])switch(n){case"meta":if(!e.hasAttribute("itemprop"))break;return e;case"link":if(o=e.getAttribute("rel"),o==="stylesheet"&&e.hasAttribute("data-precedence"))break;if(o!==i.rel||e.getAttribute("href")!==(i.href==null||i.href===""?null:i.href)||e.getAttribute("crossorigin")!==(i.crossOrigin==null?null:i.crossOrigin)||e.getAttribute("title")!==(i.title==null?null:i.title))break;return e;case"style":if(e.hasAttribute("data-precedence"))break;return e;case"script":if(o=e.getAttribute("src"),(o!==(i.src==null?null:i.src)||e.getAttribute("type")!==(i.type==null?null:i.type)||e.getAttribute("crossorigin")!==(i.crossOrigin==null?null:i.crossOrigin))&&o&&e.hasAttribute("async")&&!e.hasAttribute("itemprop"))break;return e;default:return e}}else if(n==="input"&&e.type==="hidden"){var o=i.name==null?null:""+i.name;if(i.type==="hidden"&&e.getAttribute("name")===o)return e}else return e;if(e=fn(e.nextSibling),e===null)break}return null}function Lb(e,n,t){if(n==="")return null;for(;e.nodeType!==3;)if((e.nodeType!==1||e.nodeName!=="INPUT"||e.type!=="hidden")&&!t||(e=fn(e.nextSibling),e===null))return null;return e}function jp(e,n){for(;e.nodeType!==8;)if((e.nodeType!==1||e.nodeName!=="INPUT"||e.type!=="hidden")&&!n||(e=fn(e.nextSibling),e===null))return null;return e}function il(e){return e.data==="$?"||e.data==="$~"}function wh(e){return e.data==="$!"||e.data==="$?"&&e.ownerDocument.readyState!=="loading"}function Wb(e,n){var t=e.ownerDocument;if(e.data==="$~")e._reactRetry=n;else if(e.data!=="$?"||t.readyState!=="loading")n();else{var a=function(){n(),t.removeEventListener("DOMContentLoaded",a)};t.addEventListener("DOMContentLoaded",a),e._reactRetry=a}}function fn(e){for(;e!=null;e=e.nextSibling){var n=e.nodeType;if(n===1||n===3)break;if(n===8){if(n=e.data,n==="$"||n==="$!"||n==="$?"||n==="$~"||n==="&"||n==="F!"||n==="F")break;if(n==="/$"||n==="/&")return null}}return e}var ol=null;function cu(e){e=e.nextSibling;for(var n=0;e;){if(e.nodeType===8){var t=e.data;if(t==="/$"||t==="/&"){if(n===0)return fn(e.nextSibling);n--}else t!=="$"&&t!=="$!"&&t!=="$?"&&t!=="$~"&&t!=="&"||n++}e=e.nextSibling}return null}function lu(e){e=e.previousSibling;for(var n=0;e;){if(e.nodeType===8){var t=e.data;if(t==="$"||t==="$!"||t==="$?"||t==="$~"||t==="&"){if(n===0)return e;n--}else t!=="/$"&&t!=="/&"||n++}e=e.previousSibling}return null}function kb(e,n){function t(){a=!0}if(e.ownerDocument.activeElement===e)return!0;var a=!1;try{e.ownerDocument.addEventListener("focus",t,!0),(e.focus||HTMLElement.prototype.focus).call(e,n)}finally{e.ownerDocument.removeEventListener("focus",t,!0)}return a}function Eb(e){au(function(){au(function(n){return e(n)})})}function Bp(e,n,t){switch(n=Qi(t),e){case"html":if(e=n.documentElement,!e)throw Error(S(452));return e;case"head":if(e=n.head,!e)throw Error(S(453));return e;case"body":if(e=n.body,!e)throw Error(S(454));return e;default:throw Error(S(451))}}function Hp(e,n,t){for(var a in t){var i=t[a];t.hasOwnProperty(a)&&i!=null&&X(e,n,a,null,cb,i)}t.dangerouslySetInnerHTML!=null&&(e.textContent=""),e.onclick===Wn&&(e.onclick=null),zs(e)}function zr(e){for(var n=e.attributes;n.length;)e.removeAttributeNode(n[0]);zs(e)}var Cn=new Map,hu=new Set;function Ki(e){if(typeof e.getRootNode=="function"){var n=e.getRootNode();if(n.nodeType===9||n.nodeType===11)return n}return e.nodeType===9?e:e.ownerDocument}var nt=G.d;G.d={f:Db,r:Ob,D:Fb,C:Rb,L:Ub,m:Nb,X:jb,S:Vb,M:Bb};function Db(){var e=nt.f(),n=rr();return e||n}function Ob(e){var n=ei(e);n!==null&&n.tag===5&&n.type==="form"?xg(n):nt.r(e)}var ii=typeof document>"u"?null:document;function qp(e,n,t){var a=ii;if(a&&typeof n=="string"&&n){var i=un(n);i='link[rel="'+e+'"][href="'+i+'"]',typeof t=="string"&&(i+='[crossorigin="'+t+'"]'),hu.has(i)||(hu.add(i),e={rel:e,crossOrigin:t,href:n},a.querySelector(i)===null&&(n=a.createElement("link"),Le(n,"link",e),Se(n),a.head.appendChild(n)))}}function Fb(e){nt.D(e),qp("dns-prefetch",e,null)}function Rb(e,n){nt.C(e,n),qp("preconnect",e,n)}function Ub(e,n,t){nt.L(e,n,t);var a=ii;if(a&&e&&n){var i='link[rel="preload"][as="'+un(n)+'"]';n==="image"&&t&&t.imageSrcSet?(i+='[imagesrcset="'+un(t.imageSrcSet)+'"]',typeof t.imageSizes=="string"&&(i+='[imagesizes="'+un(t.imageSizes)+'"]')):i+='[href="'+un(e)+'"]';var o=i;switch(n){case"style":o=Xa(e);break;case"script":o=oi(e)}if(!(Cn.has(o)||(e=te({rel:"preload",href:n==="image"&&t&&t.imageSrcSet?void 0:e,as:n},t),Cn.set(o,e),a.querySelector(i)!==null||n==="style"&&a.querySelector(uo(o))||n==="script"&&a.querySelector(mo(o))))){var s=a.createElement("link");Le(s,"link",e),n==="style"&&(s[ms]=!0,s.onload=s.onerror=function(){vm(s)}),Se(s),a.head.appendChild(s)}}}function Nb(e,n){nt.m(e,n);var t=ii;if(t&&e){var a=n&&typeof n.as=="string"?n.as:"script",i='link[rel="modulepreload"][as="'+un(a)+'"][href="'+un(e)+'"]',o=i;switch(a){case"audioworklet":case"paintworklet":case"serviceworker":case"sharedworker":case"worker":case"script":o=oi(e)}if(!Cn.has(o)&&(e=te({rel:"modulepreload",href:e},n),Cn.set(o,e),t.querySelector(i)===null)){switch(a){case"audioworklet":case"paintworklet":case"serviceworker":case"sharedworker":case"worker":case"script":if(t.querySelector(mo(o)))return}a=t.createElement("link"),Le(a,"link",e),Se(a),t.head.appendChild(a)}}}function Vb(e,n,t){nt.S(e,n,t);var a=ii;if(a&&e){var i=Ma(a).hoistableStyles,o=Xa(e);n=n||"default";var s=i.get(o);if(!s){var r={loading:0,preload:null};if(s=a.querySelector(uo(o)))r.loading=5;else{e=te({rel:"stylesheet",href:e,"data-precedence":n},t),(t=Cn.get(o))&&fh(e,t);var c=s=a.createElement("link");Se(c),Le(c,"link",e),c._p=new Promise(function(l,d){c.onload=l,c.onerror=d}),c.addEventListener("load",function(){r.loading|=1}),c.addEventListener("error",function(){r.loading|=2}),r.loading|=4,ts(s,n,a)}s={type:"stylesheet",instance:s,count:1,state:r},i.set(o,s)}}}function jb(e,n){nt.X(e,n);var t=ii;if(t&&e){var a=Ma(t).hoistableScripts,i=oi(e),o=a.get(i);o||(o=t.querySelector(mo(i)),o||(e=te({src:e,async:!0},n),(n=Cn.get(i))&&Ch(e,n),o=t.createElement("script"),Se(o),Le(o,"link",e),t.head.appendChild(o)),o={type:"script",instance:o,count:1,state:null},a.set(i,o))}}function Bb(e,n){nt.M(e,n);var t=ii;if(t&&e){var a=Ma(t).hoistableScripts,i=oi(e),o=a.get(i);o||(o=t.querySelector(mo(i)),o||(e=te({src:e,async:!0,type:"module"},n),(n=Cn.get(i))&&Ch(e,n),o=t.createElement("script"),Se(o),Le(o,"link",e),t.head.appendChild(o)),o={type:"script",instance:o,count:1,state:null},a.set(i,o))}}function du(e,n,t,a){var i=(i=pt.current)?Ki(i):null;if(!i)throw Error(S(446));switch(e){case"meta":case"title":return null;case"style":return typeof t.precedence=="string"&&typeof t.href=="string"?(t=Xa(t.href),n=Ma(i).hoistableStyles,a=n.get(t),a||(a={type:"style",instance:null,count:0,state:null},n.set(t,a)),a):{type:"void",instance:null,count:0,state:null};case"link":if(t.rel==="stylesheet"&&typeof t.href=="string"&&typeof t.precedence=="string"){e=Xa(t.href);var o=Ma(i).hoistableStyles,s=o.get(e);if(s||(i=i.ownerDocument||i,s={type:"stylesheet",instance:null,count:0,state:{loading:0,preload:null}},o.set(e,s),(o=i.querySelector(uo(e)))?o._p||(s.instance=o,s.state.loading=5):(o=Cn.get(e),o||(o={rel:"preload",as:"style",href:t.href,crossOrigin:t.crossOrigin,integrity:t.integrity,media:t.media,hrefLang:t.hrefLang,referrerPolicy:t.referrerPolicy},Cn.set(e,o)),Hb(i,e,o,s.state))),n&&a===null)throw Error(S(528,""));return s}if(n&&a!==null)throw Error(S(529,""));return null;case"script":return n=t.async,t=t.src,typeof t=="string"&&n&&typeof n!="function"&&typeof n!="symbol"?(t=oi(t),n=Ma(i).hoistableScripts,a=n.get(t),a||(a={type:"script",instance:null,count:0,state:null},n.set(t,a)),a):{type:"void",instance:null,count:0,state:null};default:throw Error(S(444,e))}}function Xa(e){return'href="'+un(e)+'"'}function uo(e){return'link[rel="stylesheet"]['+e+"]"}function Gp(e){return te({},e,{"data-precedence":e.precedence,precedence:null})}function Hb(e,n,t,a){if(n=e.querySelector('link[rel="preload"][as="style"]['+n+"]")){if(n[ms]!==!0){a.loading=1;return}}else n=e.createElement("link"),n[ms]=!0,n.onload=n.onerror=vm.bind(null,n),Le(n,"link",t),Se(n),e.head.appendChild(n);a.preload=n,n.addEventListener("load",function(){return a.loading|=1}),n.addEventListener("error",function(){return a.loading|=2})}function oi(e){return'[src="'+un(e)+'"]'}function mo(e){return"script[async]"+e}function uu(e,n,t){if(n.count++,n.instance===null)switch(n.type){case"style":var a=e.querySelector('style[data-href~="'+un(t.href)+'"]');if(a)return n.instance=a,Se(a),a;var i=te({},t,{"data-href":t.href,"data-precedence":t.precedence,href:null,precedence:null});return a=(e.ownerDocument||e).createElement("style"),Se(a),Le(a,"style",i),ts(a,t.precedence,e),n.instance=a;case"stylesheet":i=Xa(t.href);var o=e.querySelector(uo(i));if(o)return n.state.loading|=4,n.instance=o,Se(o),o;a=Gp(t),(i=Cn.get(i))&&fh(a,i),o=(e.ownerDocument||e).createElement("link"),Se(o);var s=o;return s._p=new Promise(function(r,c){s.onload=r,s.onerror=c}),Le(o,"link",a),n.state.loading|=4,ts(o,t.precedence,e),n.instance=o;case"script":return o=oi(t.src),(i=e.querySelector(mo(o)))?(n.instance=i,Se(i),i):(a=t,(i=Cn.get(o))&&(a=te({},t),Ch(a,i)),e=e.ownerDocument||e,i=e.createElement("script"),Se(i),Le(i,"link",a),e.head.appendChild(i),n.instance=i);case"void":return null;default:throw Error(S(443,n.type))}else n.type==="stylesheet"&&!(n.state.loading&4)&&(a=n.instance,n.state.loading|=4,ts(a,t.precedence,e));return n.instance}function ts(e,n,t){for(var a=t.querySelectorAll('link[rel="stylesheet"][data-precedence],style[data-precedence]'),i=a.length?a[a.length-1]:null,o=i,s=0;s<a.length;s++){var r=a[s];if(r.dataset.precedence===n)o=r;else if(o!==i)break}o?o.parentNode.insertBefore(e,o.nextSibling):(n=t.nodeType===9?t.head:t,n.insertBefore(e,n.firstChild))}function fh(e,n){e.crossOrigin==null&&(e.crossOrigin=n.crossOrigin),e.referrerPolicy==null&&(e.referrerPolicy=n.referrerPolicy),e.title==null&&(e.title=n.title)}function Ch(e,n){e.crossOrigin==null&&(e.crossOrigin=n.crossOrigin),e.referrerPolicy==null&&(e.referrerPolicy=n.referrerPolicy),e.integrity==null&&(e.integrity=n.integrity)}var as=null;function mu(e,n,t){if(as===null){var a=new Map,i=as=new Map;i.set(t,a)}else i=as,a=i.get(t),a||(a=new Map,i.set(t,a));if(a.has(e))return a;for(a.set(e,null),t=t.getElementsByTagName(e),i=0;i<t.length;i++){var o=t[i];if(!(o[oo]||o[Ie]||e==="link"&&o.getAttribute("rel")==="stylesheet")&&o.namespaceURI!=="http://www.w3.org/2000/svg"){var s=o.getAttribute(n)||"";s=e+s;var r=a.get(s);r?r.push(o):a.set(s,[o])}}return a}function sl(e,n,t){e=e.ownerDocument||e,e.head.insertBefore(t,n==="title"?e.querySelector("head > title"):null)}function qb(e,n,t){if(t===1||n.itemProp!=null)return!1;switch(e){case"meta":case"title":return!0;case"style":if(typeof n.precedence!="string"||typeof n.href!="string"||n.href==="")break;return!0;case"link":if(typeof n.rel!="string"||typeof n.href!="string"||n.href===""||n.onLoad||n.onError)break;switch(n.rel){case"stylesheet":return e=n.disabled,typeof n.precedence=="string"&&e==null;default:return!0}case"script":if(n.async&&typeof n.async!="function"&&typeof n.async!="symbol"&&!n.onLoad&&!n.onError&&n.src&&typeof n.src=="string")return!0}return!1}function gu(e,n){return e==="img"&&n.src!=null&&n.src!==""&&n.onLoad==null&&n.loading!=="lazy"}function Jp(e){return!(e.type==="stylesheet"&&!(e.state.loading&3))}function zp(e){return(e.width||100)*(e.height||100)*(typeof devicePixelRatio=="number"?devicePixelRatio:1)*.25}function pu(e,n){typeof n.decode=="function"&&(e.imgCount++,n.complete||(e.imgBytes+=zp(n),e.suspenseyImages.push(n)),e=zb.bind(e),n.decode().then(e,e))}function Gb(e,n,t,a){if(t.type==="stylesheet"&&(typeof a.media!="string"||matchMedia(a.media).matches!==!1)&&!(t.state.loading&4)){if(t.instance===null){var i=Xa(a.href),o=n.querySelector(uo(i));if(o){n=o._p,n!==null&&typeof n=="object"&&typeof n.then=="function"&&(e.count++,e=Yi.bind(e),n.then(e,e)),t.state.loading|=4,t.instance=o,Se(o);return}o=n.ownerDocument||n,a=Gp(a),(i=Cn.get(i))&&fh(a,i),o=o.createElement("link"),Se(o);var s=o;s._p=new Promise(function(r,c){s.onload=r,s.onerror=c}),Le(o,"link",a),t.instance=o}e.stylesheets===null&&(e.stylesheets=new Map),e.stylesheets.set(t,n),(n=t.state.preload)&&!(t.state.loading&3)&&(e.count++,t=Yi.bind(e),n.addEventListener("load",t),n.addEventListener("error",t))}}var is=0;function Jb(e,n){return e.stylesheets&&e.count===0&&os(e,e.stylesheets),0<e.count||0<e.imgCount?function(t){var a=setTimeout(function(){if(e.stylesheets&&os(e,e.stylesheets),e.unsuspend){var o=e.unsuspend;e.unsuspend=null,o()}},6e4+n);0<e.imgBytes&&is===0&&(is=62500*hb());var i=setTimeout(function(){if(e.waitingForImages=!1,e.count===0&&(e.stylesheets&&os(e,e.stylesheets),e.unsuspend)){var o=e.unsuspend;e.unsuspend=null,o()}},(e.imgBytes>is?50:800)+n);return e.unsuspend=t,function(){e.unsuspend=null,clearTimeout(a),clearTimeout(i)}}:null}function Xp(e){if(e.count===0&&(e.imgCount===0||!e.waitingForImages)){if(e.stylesheets)os(e,e.stylesheets);else if(e.unsuspend){var n=e.unsuspend;e.unsuspend=null,n()}}}function Yi(){this.count--,Xp(this)}function zb(){this.imgCount--,Xp(this)}var Fs=null;function os(e,n){e.stylesheets=null,e.unsuspend!==null&&(e.count++,Fs=new Map,n.forEach(Xb,e),Fs=null,Yi.call(e))}function Xb(e,n){if(!(n.state.loading&4)){var t=Fs.get(e);if(t)var a=t.get(null);else{t=new Map,Fs.set(e,t);for(var i=e.querySelectorAll("link[data-precedence],style[data-precedence]"),o=0;o<i.length;o++){var s=i[o];(s.nodeName==="LINK"||s.getAttribute("media")!=="not all")&&(t.set(s.dataset.precedence,s),a=s)}a&&t.set(null,a)}i=n.instance,s=i.getAttribute("data-precedence"),o=t.get(s)||a,o===a&&t.set(null,i),t.set(s,i),this.count++,a=Yi.bind(this),i.addEventListener("load",a),i.addEventListener("error",a),o?o.parentNode.insertBefore(i,o.nextSibling):(e=e.nodeType===9?e.head:e,e.insertBefore(i,e.firstChild)),n.state.loading|=4}}var Qa={$$typeof:Ln,Provider:null,Consumer:null,_currentValue:qt,_currentValue2:qt,_threadCount:0};function Qb(e,n,t,a,i,o,s,r,c){this.tag=1,this.containerInfo=e,this.pingCache=this.current=this.pendingChildren=null,this.timeoutHandle=-1,this.callbackNode=this.next=this.pendingContext=this.context=this.cancelPendingCommit=null,this.callbackPriority=0,this.expirationTimes=Cr(-1),this.entangledLanes=this.shellSuspendCounter=this.errorRecoveryDisabledLanes=this.expiredLanes=this.warmLanes=this.pingedLanes=this.suspendedLanes=this.pendingLanes=0,this.entanglements=Cr(0),this.hiddenUpdates=Cr(null),this.identifierPrefix=a,this.onUncaughtError=i,this.onCaughtError=o,this.onRecoverableError=s,this.pooledCache=null,this.pooledCacheLanes=0,this.formState=c,this.transitionTypes=null,this.incompleteTransitions=new Map}function Qp(e,n,t,a,i,o,s,r,c,l,d,m){return e=new Qb(e,n,t,s,c,l,d,m,r),n=1,o===!0&&(n|=24),o=qe(3,null,null,n),e.current=o,o.stateNode=e,n=Ul(),n.refCount++,e.pooledCache=n,n.refCount++,o.memoizedState={element:a,isDehydrated:t,cache:n},jl(o),e}function Kp(e){return e?(e=Ta,e):Ta}function Yp(e,n,t,a,i,o){i=Kp(i),a.context===null?a.context=i:a.pendingContext=i,a=ft(n),a.payload={element:t},o=o===void 0?null:o,o!==null&&(a.callback=o),t=Ct(e,a,n),t!==null&&(Ge(t,e,n),Ii(t,e,n))}function wu(e,n){if(e=e.memoizedState,e!==null&&e.dehydrated!==null){var t=e.retryLane;e.retryLane=t!==0&&t<n?t:n}}function bh(e,n){wu(e,n),(e=e.alternate)&&wu(e,n)}function Zp(e){if(e.tag===13||e.tag===31){var n=ca(e,67108864);n!==null&&Ge(n,e,67108864),bh(e,67108864)}}function fu(e){if(e.tag===13||e.tag===31){var n=on();n=Il(n);var t=ca(e,n);t!==null&&Ge(t,e,n),bh(e,n)}}var Ka=!0;function Kb(e,n,t,a){var i=E.T;E.T=null;var o=G.p;try{G.p=2,vh(e,n,t,a)}finally{G.p=o,E.T=i}}function Yb(e,n,t,a){var i=E.T;E.T=null;var o=G.p;try{G.p=8,vh(e,n,t,a)}finally{G.p=o,E.T=i}}function vh(e,n,t,a){if(Ka){var i=rl(a);if(i===null)qr(e,n,a,Rs,t),Cu(e,a);else if($b(i,e,n,t,a))a.stopPropagation();else if(Cu(e,a),n&4&&-1<Zb.indexOf(e)){for(;i!==null;){var o=ei(i);if(o!==null)switch(o.tag){case 3:if(o=o.stateNode,o.current.memoizedState.isDehydrated){var s=Nt(o.pendingLanes);if(s!==0){var r=o;for(r.pendingLanes|=2,r.entangledLanes|=2;s;){var c=1<<31-an(s);r.entanglements[1]|=c,s&=~c}Nn(o),!(q&6)&&(Ws=nn()+500,ho(0))}}break;case 31:case 13:r=ca(o,2),r!==null&&Ge(r,o,2),rr(),bh(o,2)}if(o=rl(a),o===null&&qr(e,n,a,Rs,t),o===i)break;i=o}i!==null&&a.stopPropagation()}else qr(e,n,a,null,t)}}function rl(e){return e=Ml(e),yh(e)}var Rs=null;function yh(e){if(Rs=null,e=Bt(e),e!==null){var n=no(e);if(n===null)e=null;else{var t=n.tag;if(t===13){if(e=im(n),e!==null)return e;e=null}else if(t===31){if(e=om(n),e!==null)return e;e=null}else if(t===3){if(n.stateNode.current.memoizedState.isDehydrated)return n.tag===3?n.stateNode.containerInfo:null;e=null}else n!==e&&(e=null)}}return Rs=e,null}function $p(e){switch(e){case"beforetoggle":case"cancel":case"click":case"close":case"contextmenu":case"copy":case"cut":case"auxclick":case"dblclick":case"dragend":case"dragstart":case"drop":case"focusin":case"focusout":case"input":case"invalid":case"keydown":case"keypress":case"keyup":case"mousedown":case"mouseup":case"paste":case"pause":case"play":case"pointercancel":case"pointerdown":case"pointerup":case"ratechange":case"reset":case"seeked":case"submit":case"toggle":case"touchcancel":case"touchend":case"touchstart":case"volumechange":case"change":case"selectionchange":case"textInput":case"compositionstart":case"compositionend":case"compositionupdate":case"beforeblur":case"afterblur":case"beforeinput":case"blur":case"fullscreenchange":case"fullscreenerror":case"focus":case"hashchange":case"popstate":case"select":case"selectstart":return 2;case"drag":case"dragenter":case"dragexit":case"dragleave":case"dragover":case"mousemove":case"mouseout":case"mouseover":case"pointermove":case"pointerout":case"pointerover":case"resize":case"scroll":case"touchmove":case"wheel":case"mouseenter":case"mouseleave":case"pointerenter":case"pointerleave":return 8;case"message":switch(hf()){case dm:return 2;case um:return 8;case us:case df:return 32;case mm:return 268435456;default:return 32}default:return 32}}var cl=!1,St=null,At=null,Pt=null,Zi=new Map,$i=new Map,ct=[],Zb="mousedown mouseup touchcancel touchend touchstart auxclick dblclick pointercancel pointerdown pointerup dragend dragstart drop compositionend compositionstart keydown keypress keyup input textInput copy cut paste click change contextmenu reset".split(" ");function Cu(e,n){switch(e){case"focusin":case"focusout":St=null;break;case"dragenter":case"dragleave":At=null;break;case"mouseover":case"mouseout":Pt=null;break;case"pointerover":case"pointerout":Zi.delete(n.pointerId);break;case"gotpointercapture":case"lostpointercapture":$i.delete(n.pointerId)}}function di(e,n,t,a,i,o){return e===null||e.nativeEvent!==o?(e={blockedOn:n,domEventName:t,eventSystemFlags:a,nativeEvent:o,targetContainers:[i]},n!==null&&(n=ei(n),n!==null&&Zp(n)),e):(e.eventSystemFlags|=a,n=e.targetContainers,i!==null&&n.indexOf(i)===-1&&n.push(i),e)}function $b(e,n,t,a,i){switch(n){case"focusin":return St=di(St,e,n,t,a,i),!0;case"dragenter":return At=di(At,e,n,t,a,i),!0;case"mouseover":return Pt=di(Pt,e,n,t,a,i),!0;case"pointerover":var o=i.pointerId;return Zi.set(o,di(Zi.get(o)||null,e,n,t,a,i)),!0;case"gotpointercapture":return o=i.pointerId,$i.set(o,di($i.get(o)||null,e,n,t,a,i)),!0}return!1}function ew(e){var n=Bt(e.target);if(n!==null){var t=no(n);if(t!==null){if(n=t.tag,n===13){if(n=im(t),n!==null){e.blockedOn=n,Gh(e.priority,function(){fu(t)});return}}else if(n===31){if(n=om(t),n!==null){e.blockedOn=n,Gh(e.priority,function(){fu(t)});return}}else if(n===3&&t.stateNode.current.memoizedState.isDehydrated){e.blockedOn=t.tag===3?t.stateNode.containerInfo:null;return}}}e.blockedOn=null}function ss(e){if(e.blockedOn!==null)return!1;for(var n=e.targetContainers;0<n.length;){var t=rl(e.nativeEvent);if(t===null){t=e.nativeEvent;var a=new t.constructor(t.type,t);dc=a,t.target.dispatchEvent(a),dc=null}else return n=ei(t),n!==null&&Zp(n),e.blockedOn=t,!1;n.shift()}return!0}function bu(e,n,t){ss(e)&&t.delete(n)}function ev(){cl=!1,St!==null&&ss(St)&&(St=null),At!==null&&ss(At)&&(At=null),Pt!==null&&ss(Pt)&&(Pt=null),Zi.forEach(bu),$i.forEach(bu)}function Eo(e,n){e.blockedOn===n&&(e.blockedOn=null,cl||(cl=!0,be.unstable_scheduleCallback(be.unstable_NormalPriority,ev)))}var Do=null;function vu(e){Do!==e&&(Do=e,be.unstable_scheduleCallback(be.unstable_NormalPriority,function(){Do===e&&(Do=null);for(var n=0;n<e.length;n+=3){var t=e[n],a=e[n+1],i=e[n+2];if(typeof a!="function"){if(yh(a||t)===null)continue;break}var o=ei(t);o!==null&&(e.splice(n,3),n-=3,_c(o,{pending:!0,data:i,method:t.method,action:a},a,i))}}))}function Ya(e){function n(c){return Eo(c,e)}St!==null&&Eo(St,e),At!==null&&Eo(At,e),Pt!==null&&Eo(Pt,e),Zi.forEach(n),$i.forEach(n);for(var t=0;t<ct.length;t++){var a=ct[t];a.blockedOn===e&&(a.blockedOn=null)}for(;0<ct.length&&(t=ct[0],t.blockedOn===null);)ew(t),t.blockedOn===null&&ct.shift();if(t=(e.ownerDocument||e).$$reactFormReplay,t!=null)for(a=0;a<t.length;a+=3){var i=t[a],o=t[a+1],s=i[ze]||null;if(typeof o=="function")s||vu(t);else if(s){var r=null;if(o&&o.hasAttribute("formAction")){if(i=o,s=o[ze]||null)r=s.formAction;else if(yh(i)!==null)continue}else r=s.action;typeof r=="function"?t[a+1]=r:(t.splice(a,3),a-=3),vu(t)}}}function nw(){function e(o){o.canIntercept&&o.info==="react-transition"&&o.intercept({handler:function(){return new Promise(function(s){return i=s})},focusReset:"manual",scroll:"manual"})}function n(){i!==null&&(i(),i=null),a||setTimeout(t,20)}function t(){if(!a&&!navigation.transition){var o=navigation.currentEntry;o&&o.url!=null&&navigation.navigate(o.url,{state:o.getState(),info:"react-transition",history:"replace"})}}if(typeof navigation=="object"){var a=!1,i=null;return navigation.addEventListener("navigate",e),navigation.addEventListener("navigatesuccess",n),navigation.addEventListener("navigateerror",n),setTimeout(t,100),function(){a=!0,navigation.removeEventListener("navigate",e),navigation.removeEventListener("navigatesuccess",n),navigation.removeEventListener("navigateerror",n),i!==null&&(i(),i=null)}}}function Sh(e){this._internalRoot=e}hr.prototype.render=Sh.prototype.render=function(e){var n=this._internalRoot;if(n===null)throw Error(S(409));var t=n.current,a=on();Yp(t,a,e,n,null,null)};hr.prototype.unmount=Sh.prototype.unmount=function(){var e=this._internalRoot;if(e!==null){this._internalRoot=null;var n=e.containerInfo;Yp(e.current,2,null,e,null,null),rr(),n[$a]=null}};function hr(e){this._internalRoot=e}hr.prototype.unstable_scheduleHydration=function(e){if(e){var n=bm();e={blockedOn:null,target:e,priority:n};for(var t=0;t<ct.length&&n!==0&&n<ct[t].priority;t++);ct.splice(t,0,e),t===0&&ew(e)}};var yu=tm.version;if(yu!=="19.3.0")throw Error(S(527,yu,"19.3.0"));G.findDOMNode=function(e){var n=e._reactInternals;if(n===void 0)throw typeof e.render=="function"?Error(S(188)):(e=Object.keys(e).join(","),Error(S(268,e)));return e=Zw(n),e=e!==null?sm(e):null,e=e===null?null:e.stateNode,e};var nv={bundleType:0,version:"19.3.0",rendererPackageName:"react-dom",currentDispatcherRef:E,reconcilerVersion:"19.3.0"};if(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__<"u"){var Oo=__REACT_DEVTOOLS_GLOBAL_HOOK__;if(!Oo.isDisabled&&Oo.supportsFiber)try{to=Oo.inject(nv),tn=Oo}catch{}}qs.createRoot=function(e,n){if(!am(e))throw Error(S(299));var t=!1,a="",i=Fg,o=Rg,s=Ug;return n!=null&&(n.unstable_strictMode===!0&&(t=!0),n.identifierPrefix!==void 0&&(a=n.identifierPrefix),n.onUncaughtError!==void 0&&(i=n.onUncaughtError),n.onCaughtError!==void 0&&(o=n.onCaughtError),n.onRecoverableError!==void 0&&(s=n.onRecoverableError)),n=Qp(e,1,!1,null,null,t,a,null,i,o,s,nw),e[$a]=n.current,mh(e),new Sh(n)};qs.hydrateRoot=function(e,n,t){if(!am(e))throw Error(S(299));var a=!1,i="",o=Fg,s=Rg,r=Ug,c=null;return t!=null&&(t.unstable_strictMode===!0&&(a=!0),t.identifierPrefix!==void 0&&(i=t.identifierPrefix),t.onUncaughtError!==void 0&&(o=t.onUncaughtError),t.onCaughtError!==void 0&&(s=t.onCaughtError),t.onRecoverableError!==void 0&&(r=t.onRecoverableError),t.formState!==void 0&&(c=t.formState)),n=Qp(e,1,!0,n,t??null,a,i,c,o,s,r,nw),n.context=Kp(null),t=n.current,a=on(),a=Il(a),i=ft(a),i.callback=null,Ct(t,i,a),t=a,n.current.lanes=t,io(n,t),Nn(n),e[$a]=n.current,mh(e),new hr(n)};qs.version="19.3.0";function tw(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(tw)}catch(e){console.error(e)}}tw(),ju.exports=qs;var tv=ju.exports;function kt(e){return Array.isArray?Array.isArray(e):iw(e)==="[object Array]"}function av(e){if(typeof e=="string")return e;if(typeof e=="bigint")return e.toString();const n=e+"";return n=="0"&&1/e==-1/0?"-0":n}function ll(e){return e==null?"":av(e)}function ke(e){return typeof e=="string"}function rs(e){return typeof e=="number"}function iv(e){return e===!0||e===!1||ov(e)&&iw(e)=="[object Boolean]"}function aw(e){return typeof e=="object"}function ov(e){return aw(e)&&e!==null}function Ze(e){return e!=null}function Fo(e){return!e.trim().length}function iw(e){return e==null?e===void 0?"[object Undefined]":"[object Null]":Object.prototype.toString.call(e)}const sv="Incorrect 'index' type",hl="Invalid doc index: must be a non-negative integer within the bounds of the docs array",rv=e=>`Invalid value for key ${e}`,cv=e=>`Pattern length exceeds max of ${e}.`,lv=e=>`Missing ${e} property in key`,hv=e=>`Property 'weight' in key '${e}' must be a positive integer`,dv="Fuse.match does not support useTokenSearch: token search requires corpus-level statistics (df, fieldCount) that a one-off string comparison does not have. Use new Fuse(...).search(...) instead.",Su=Object.prototype.hasOwnProperty;var uv=class{constructor(e){this._keys=[],this._keyMap={};let n=0;e.forEach(t=>{const a=ow(t);this._keys.push(a),this._keyMap[a.id]=a,n+=a.weight}),this._keys.forEach(t=>{t.weight/=n})}get(e){return this._keyMap[e]}keys(){return this._keys}toJSON(){return JSON.stringify(this._keys)}};function ow(e){let n=null,t=null,a=null,i=1,o=null;if(ke(e)||kt(e))a=e,n=Au(e),t=cs(e);else{if(!Su.call(e,"name"))throw new Error(lv("name"));const s=e.name;if(a=s,Su.call(e,"weight")&&e.weight!==void 0&&(i=e.weight,i<=0))throw new Error(hv(cs(s)));n=Au(s),t=cs(s),o=e.getFn??null}return{path:n,id:t,weight:i,src:a,getFn:o}}function Au(e){return kt(e)?e:e.split(".")}function cs(e){return kt(e)?e.join("."):e}function mv(e,n){const t=[];let a=!1;const i=(o,s,r,c)=>{if(Ze(o))if(!s[r])t.push(c!==void 0?{v:o,i:c}:o);else{const l=o[s[r]];if(!Ze(l))return;if(r===s.length-1&&(ke(l)||rs(l)||iv(l)||typeof l=="bigint"))t.push(c!==void 0?{v:ll(l),i:c}:ll(l));else if(kt(l)){a=!0;for(let d=0,m=l.length;d<m;d+=1)i(l[d],s,r+1,d)}else s.length&&i(l,s,r+1,c)}};return i(e,ke(n)?n.split("."):n,0),a?t:t[0]}const gv={includeMatches:!1,findAllMatches:!1,minMatchCharLength:1},pv={isCaseSensitive:!1,ignoreDiacritics:!1,includeScore:!1,keys:[],shouldSort:!0,sortFn:(e,n)=>e.score===n.score?e.idx<n.idx?-1:1:e.score<n.score?-1:1},wv={location:0,threshold:.6,distance:100},fv={useExtendedSearch:!1,useTokenSearch:!1,tokenize:void 0,tokenMatch:"any",getFn:mv,ignoreLocation:!1,ignoreFieldNorm:!1,fieldNormWeight:1},k=Object.freeze({...pv,...gv,...wv,...fv});function Cv(e){return e>=9&&e<=13||e===32||e===160}function bv(e=1,n=3){const t=new Map,a=Math.pow(10,n);return{get(i){let o=0,s=!1;for(let c=0;c<i.length;c++)Cv(i.charCodeAt(c))?s=!1:s||(o++,s=!0);if(o===0&&(o=1),t.has(o))return t.get(o);const r=Math.round(a/Math.pow(o,.5*e))/a;return t.set(o,r),r},clear(){t.clear()}}}var Ah=class{constructor({getFn:e=k.getFn,fieldNormWeight:n=k.fieldNormWeight}={}){this.norm=bv(n,3),this.getFn=e,this.isCreated=!1,this.docs=[],this.keys=[],this._keysMap={},this.setIndexRecords()}setSources(e=[]){this.docs=e}setIndexRecords(e=[]){this.records=e}setKeys(e=[]){this.keys=e,this._keysMap={},e.forEach((n,t)=>{this._keysMap[n.id]=t})}create(){if(this.isCreated||!this.docs.length)return;this.isCreated=!0;const e=this.docs.length;this.records=new Array(e);let n=0;if(ke(this.docs[0]))for(let t=0;t<e;t++){const a=this._createStringRecord(this.docs[t],t);a&&(this.records[n++]=a)}else for(let t=0;t<e;t++)this.records[n++]=this._createObjectRecord(this.docs[t],t);this.records.length=n,this.norm.clear()}add(e,n){if(!Number.isInteger(n)||n<0)throw new Error(hl);if(ke(e)){const a=this._createStringRecord(e,n);return a&&this.records.push(a),a}const t=this._createObjectRecord(e,n);return this.records.push(t),t}removeAt(e){if(!Number.isInteger(e)||e<0)throw new Error(hl);for(let n=0,t=this.records.length;n<t;n+=1)if(this.records[n].i===e){this.records.splice(n,1);break}for(let n=0,t=this.records.length;n<t;n+=1)this.records[n].i>e&&(this.records[n].i-=1)}removeAll(e){const n=new Set;for(const a of e)Number.isInteger(a)&&a>=0&&n.add(a);if(n.size===0)return;this.records=this.records.filter(a=>!n.has(a.i));const t=Array.from(n).sort((a,i)=>a-i);for(const a of this.records){let i=0,o=t.length;for(;i<o;){const s=i+o>>>1;t[s]<a.i?i=s+1:o=s}a.i-=i}}getValueForItemAtKeyId(e,n){return e[this._keysMap[n]]}size(){return this.records.length}_createStringRecord(e,n){return!Ze(e)||Fo(e)?null:{v:e,i:n,n:this.norm.get(e)}}_createObjectRecord(e,n){const t={i:n,$:{}};for(let a=0,i=this.keys.length;a<i;a++){const o=this.keys[a],s=o.getFn?o.getFn(e):this.getFn(e,o.path);if(Ze(s)){if(kt(s)){const r=[];for(let c=0,l=s.length;c<l;c+=1){const d=s[c];if(Ze(d)){if(ke(d)){if(!Fo(d)){const m={v:d,i:c,n:this.norm.get(d)};r.push(m)}}else if(Ze(d.v)){const m=ke(d.v)?d.v:ll(d.v);if(!Fo(m)){const u={v:m,i:d.i,n:this.norm.get(m)};r.push(u)}}}}t.$[a]=r}else if(ke(s)&&!Fo(s)){const r={v:s,n:this.norm.get(s)};t.$[a]=r}}}return t}toJSON(){return{keys:this.keys.map(({getFn:e,...n})=>n),records:this.records}}};function sw(e,n,{getFn:t=k.getFn,fieldNormWeight:a=k.fieldNormWeight}={}){const i=new Ah({getFn:t,fieldNormWeight:a});return i.setKeys(e.map(ow)),i.setSources(n),i.create(),i}function vv(e,{getFn:n=k.getFn,fieldNormWeight:t=k.fieldNormWeight}={}){const{keys:a,records:i}=e,o=new Ah({getFn:n,fieldNormWeight:t});return o.setKeys(a),o.setIndexRecords(i),o}function yv(e=[],n=k.minMatchCharLength){const t=[];let a=-1,i=-1,o=0;for(let s=e.length;o<s;o+=1){const r=e[o];r&&a===-1?a=o:!r&&a!==-1&&(i=o-1,i-a+1>=n&&t.push([a,i]),a=-1)}return e[o-1]&&o-a>=n&&t.push([a,o-1]),t}function Sv(e,n,t,{location:a=k.location,distance:i=k.distance,threshold:o=k.threshold,findAllMatches:s=k.findAllMatches,minMatchCharLength:r=k.minMatchCharLength,includeMatches:c=k.includeMatches,ignoreLocation:l=k.ignoreLocation}={}){if(n.length>32)throw new Error(cv(32));const d=n.length,m=e.length,u=Math.max(0,Math.min(a,m));let p=o,C=u;const v=(M,_)=>{const j=M/d;if(l)return j;const $=Math.abs(u-_);return i?j+$/i:$?1:j},A=r>1||c,w=A?Array(m):[];let g;for(;(g=e.indexOf(n,C))>-1;){const M=v(0,g);if(p=Math.min(M,p),C=g+d,A){let _=0;for(;_<d;)w[g+_]=1,_+=1}}C=-1;let f=[],b=1,T=0,x=d+m;const y=1<<d-1;for(let M=0;M<d;M+=1){let _=0,j=x;for(;_<j;)v(M,u+j)<=p?_=j:x=j,j=Math.floor((x-_)/2+_);x=j;let $=Math.max(1,u-j+1);const Pe=s?m:Math.min(u+j,m)+d,Ve=Array(Pe+2);Ve[Pe+1]=(1<<M)-1;for(let R=Pe;R>=$;R-=1){const I=R-1,L=t[e[I]];if(Ve[R]=(Ve[R+1]<<1|1)&L,M&&(Ve[R]|=(f[R+1]|f[R])<<1|1|f[R+1]),Ve[R]&y&&(b=v(M,I),b<=p)){if(p=b,C=I,T=M,C<=u)break;$=Math.max(1,2*u-C)}}if(v(M+1,u)>p)break;f=Ve}if(A&&C>=0){const M=Math.min(m-1,C+d-1+T);for(let _=C;_<=M;_+=1)t[e[_]]&&(w[_]=1)}const P={isMatch:C>=0,score:Math.max(.001,b)};if(A){const M=yv(w,r);M.length?c&&(P.indices=M):P.isMatch=!1}return P}function Av(e){const n={};for(let t=0,a=e.length;t<a;t+=1){const i=e.charAt(t);n[i]=(n[i]||0)|1<<a-t-1}return n}function Ph(e){if(e.length<=1)return e;e.sort((t,a)=>t[0]-a[0]||t[1]-a[1]);const n=[e[0]];for(let t=1,a=e.length;t<a;t+=1){const i=n[n.length-1],o=e[t];o[0]<=i[1]+1?i[1]=Math.max(i[1],o[1]):n.push(o)}return n}const rw={ł:"l",Ł:"L",đ:"d",Đ:"D",ø:"o",Ø:"O",ħ:"h",Ħ:"H",ŧ:"t",Ŧ:"T",ı:"i",ß:"ss"},Pv=new RegExp("["+Object.keys(rw).join("")+"]","g"),eo=typeof String.prototype.normalize=="function"?e=>e.normalize("NFD").replace(/[\u0300-\u036F\u0483-\u0489\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED\u0711\u0730-\u074A\u07A6-\u07B0\u07EB-\u07F3\u07FD\u0816-\u0819\u081B-\u0823\u0825-\u0827\u0829-\u082D\u0859-\u085B\u08D3-\u08E1\u08E3-\u0903\u093A-\u093C\u093E-\u094F\u0951-\u0957\u0962\u0963\u0981-\u0983\u09BC\u09BE-\u09C4\u09C7\u09C8\u09CB-\u09CD\u09D7\u09E2\u09E3\u09FE\u0A01-\u0A03\u0A3C\u0A3E-\u0A42\u0A47\u0A48\u0A4B-\u0A4D\u0A51\u0A70\u0A71\u0A75\u0A81-\u0A83\u0ABC\u0ABE-\u0AC5\u0AC7-\u0AC9\u0ACB-\u0ACD\u0AE2\u0AE3\u0AFA-\u0AFF\u0B01-\u0B03\u0B3C\u0B3E-\u0B44\u0B47\u0B48\u0B4B-\u0B4D\u0B56\u0B57\u0B62\u0B63\u0B82\u0BBE-\u0BC2\u0BC6-\u0BC8\u0BCA-\u0BCD\u0BD7\u0C00-\u0C04\u0C3E-\u0C44\u0C46-\u0C48\u0C4A-\u0C4D\u0C55\u0C56\u0C62\u0C63\u0C81-\u0C83\u0CBC\u0CBE-\u0CC4\u0CC6-\u0CC8\u0CCA-\u0CCD\u0CD5\u0CD6\u0CE2\u0CE3\u0D00-\u0D03\u0D3B\u0D3C\u0D3E-\u0D44\u0D46-\u0D48\u0D4A-\u0D4D\u0D57\u0D62\u0D63\u0D82\u0D83\u0DCA\u0DCF-\u0DD4\u0DD6\u0DD8-\u0DDF\u0DF2\u0DF3\u0E31\u0E34-\u0E3A\u0E47-\u0E4E\u0EB1\u0EB4-\u0EB9\u0EBB\u0EBC\u0EC8-\u0ECD\u0F18\u0F19\u0F35\u0F37\u0F39\u0F3E\u0F3F\u0F71-\u0F84\u0F86\u0F87\u0F8D-\u0F97\u0F99-\u0FBC\u0FC6\u102B-\u103E\u1056-\u1059\u105E-\u1060\u1062-\u1064\u1067-\u106D\u1071-\u1074\u1082-\u108D\u108F\u109A-\u109D\u135D-\u135F\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17B4-\u17D3\u17DD\u180B-\u180D\u1885\u1886\u18A9\u1920-\u192B\u1930-\u193B\u1A17-\u1A1B\u1A55-\u1A5E\u1A60-\u1A7C\u1A7F\u1AB0-\u1ABE\u1B00-\u1B04\u1B34-\u1B44\u1B6B-\u1B73\u1B80-\u1B82\u1BA1-\u1BAD\u1BE6-\u1BF3\u1C24-\u1C37\u1CD0-\u1CD2\u1CD4-\u1CE8\u1CED\u1CF2-\u1CF4\u1CF7-\u1CF9\u1DC0-\u1DF9\u1DFB-\u1DFF\u20D0-\u20F0\u2CEF-\u2CF1\u2D7F\u2DE0-\u2DFF\u302A-\u302F\u3099\u309A\uA66F-\uA672\uA674-\uA67D\uA69E\uA69F\uA6F0\uA6F1\uA802\uA806\uA80B\uA823-\uA827\uA880\uA881\uA8B4-\uA8C5\uA8E0-\uA8F1\uA8FF\uA926-\uA92D\uA947-\uA953\uA980-\uA983\uA9B3-\uA9C0\uA9E5\uAA29-\uAA36\uAA43\uAA4C\uAA4D\uAA7B-\uAA7D\uAAB0\uAAB2-\uAAB4\uAAB7\uAAB8\uAABE\uAABF\uAAC1\uAAEB-\uAAEF\uAAF5\uAAF6\uABE3-\uABEA\uABEC\uABED\uFB1E\uFE00-\uFE0F\uFE20-\uFE2F]/g,"").replace(Pv,n=>rw[n]):e=>e;var Th=class{constructor(e,{location:n=k.location,threshold:t=k.threshold,distance:a=k.distance,includeMatches:i=k.includeMatches,findAllMatches:o=k.findAllMatches,minMatchCharLength:s=k.minMatchCharLength,isCaseSensitive:r=k.isCaseSensitive,ignoreDiacritics:c=k.ignoreDiacritics,ignoreLocation:l=k.ignoreLocation}={}){if(this.options={location:n,threshold:t,distance:a,includeMatches:i,findAllMatches:o,minMatchCharLength:s,isCaseSensitive:r,ignoreDiacritics:c,ignoreLocation:l},e=r?e:e.toLowerCase(),e=c?eo(e):e,this.pattern=e,this.chunks=[],!this.pattern.length)return;const d=(u,p)=>{this.chunks.push({pattern:u,alphabet:Av(u),startIndex:p})},m=this.pattern.length;if(m>32){let u=0;const p=m%32,C=m-p;for(;u<C;)d(this.pattern.substr(u,32),u),u+=32;if(p){const v=m-32;d(this.pattern.substr(v),v)}}else d(this.pattern,0)}searchIn(e){const{isCaseSensitive:n,ignoreDiacritics:t,includeMatches:a}=this.options;if(e=n?e:e.toLowerCase(),e=t?eo(e):e,this.pattern===e){if(e.length<this.options.minMatchCharLength)return{isMatch:!1,score:1};const C={isMatch:!0,score:0};return a&&(C.indices=[[0,e.length-1]]),C}const{location:i,distance:o,threshold:s,findAllMatches:r,minMatchCharLength:c,ignoreLocation:l}=this.options,d=[];let m=0,u=!1;this.chunks.forEach(({pattern:C,alphabet:v,startIndex:A})=>{const{isMatch:w,score:g,indices:f}=Sv(e,C,v,{location:i+A,distance:o,threshold:s,findAllMatches:r,minMatchCharLength:c,includeMatches:a,ignoreLocation:l});w&&(u=!0),m+=g,w&&f&&d.push(...f)});const p={isMatch:u,score:u?m/this.chunks.length:1};return u&&a&&(p.indices=Ph(d)),p}};const Tv=new Set(["fuzzy","include"]);function Iv(e){return e.startsWith("inverse")}const dl=[{type:"exact",multiRegex:/^="(.*)"$/,singleRegex:/^=(.*)$/,create:e=>({type:"exact",search(n){const t=n===e;return{isMatch:t,score:t?0:1,indices:[0,e.length-1]}}})},{type:"include",multiRegex:/^'"(.*)"$/,singleRegex:/^'(.*)$/,create:e=>({type:"include",search(n){let t=0,a;const i=[],o=e.length;for(;(a=n.indexOf(e,t))>-1;)t=a+o,i.push([a,t-1]);const s=!!i.length;return{isMatch:s,score:s?0:1,indices:i}}})},{type:"prefix-exact",multiRegex:/^\^"(.*)"$/,singleRegex:/^\^(.*)$/,create:e=>({type:"prefix-exact",search(n){const t=n.startsWith(e);return{isMatch:t,score:t?0:1,indices:[0,e.length-1]}}})},{type:"inverse-prefix-exact",multiRegex:/^!\^"(.*)"$/,singleRegex:/^!\^(.*)$/,create:e=>({type:"inverse-prefix-exact",search(n){const t=!n.startsWith(e);return{isMatch:t,score:t?0:1,indices:[0,n.length-1]}}})},{type:"inverse-suffix-exact",multiRegex:/^!"(.*)"\$$/,singleRegex:/^!(.*)\$$/,create:e=>({type:"inverse-suffix-exact",search(n){const t=!n.endsWith(e);return{isMatch:t,score:t?0:1,indices:[0,n.length-1]}}})},{type:"suffix-exact",multiRegex:/^"(.*)"\$$/,singleRegex:/^(.*)\$$/,create:e=>({type:"suffix-exact",search(n){const t=n.endsWith(e);return{isMatch:t,score:t?0:1,indices:[n.length-e.length,n.length-1]}}})},{type:"inverse-exact",multiRegex:/^!"(.*)"$/,singleRegex:/^!(.*)$/,create:e=>({type:"inverse-exact",search(n){const t=n.indexOf(e)===-1;return{isMatch:t,score:t?0:1,indices:[0,n.length-1]}}})},{type:"fuzzy",multiRegex:/^"(.*)"$/,singleRegex:/^(.*)$/,create:(e,n={})=>{const t=new Th(e,{location:n.location??k.location,threshold:n.threshold??k.threshold,distance:n.distance??k.distance,includeMatches:n.includeMatches??k.includeMatches,findAllMatches:n.findAllMatches??k.findAllMatches,minMatchCharLength:n.minMatchCharLength??k.minMatchCharLength,isCaseSensitive:n.isCaseSensitive??k.isCaseSensitive,ignoreDiacritics:n.ignoreDiacritics??k.ignoreDiacritics,ignoreLocation:n.ignoreLocation??k.ignoreLocation});return{type:"fuzzy",search(a){return t.searchIn(a)}}}}],Pu=dl.length,_v="\0",xv="|";function Mv(e){const n=[],t=e.length;let a=0;for(;a<t;){for(;a<t&&e[a]===" ";)a++;if(a>=t)break;let i=a;for(;i<t&&e[i]!==" "&&e[i]!=='"';)i++;if(i<t&&e[i]==='"'){for(i++;i<t;){if(e[i]==='"'){const o=i+1;if(o>=t||e[o]===" "){i++;break}if(e[o]==="$"&&(o+1>=t||e[o+1]===" ")){i+=2;break}}i++}n.push(e.substring(a,i)),a=i}else{for(;i<t&&e[i]!==" ";)i++;n.push(e.substring(a,i)),a=i}}return n}function Tu(e,n){const t=e.match(n);return t?t[1]:null}function Lv(e,n={}){return e.replace(/\\\|/g,_v).split(xv).map(t=>{const a=Mv(t.replace(/\u0000/g,"|").trim()).filter(o=>o&&!!o.trim()),i=[];for(let o=0,s=a.length;o<s;o+=1){const r=a[o];let c=!1,l=-1;for(;!c&&++l<Pu;){const d=dl[l],m=Tu(r,d.multiRegex);m&&(i.push(d.create(m,n)),c=!0)}if(!c)for(l=-1;++l<Pu;){const d=dl[l],m=Tu(r,d.singleRegex);if(m){i.push(d.create(m,n));break}}}return i})}var Wv=class{constructor(e,{isCaseSensitive:n=k.isCaseSensitive,ignoreDiacritics:t=k.ignoreDiacritics,includeMatches:a=k.includeMatches,minMatchCharLength:i=k.minMatchCharLength,ignoreLocation:o=k.ignoreLocation,findAllMatches:s=k.findAllMatches,location:r=k.location,threshold:c=k.threshold,distance:l=k.distance}={}){this.query=null,this.options={isCaseSensitive:n,ignoreDiacritics:t,includeMatches:a,minMatchCharLength:i,findAllMatches:s,ignoreLocation:o,location:r,threshold:c,distance:l},e=n?e:e.toLowerCase(),e=t?eo(e):e,this.pattern=e,this.query=Lv(this.pattern,this.options)}static condition(e,n){return n.useExtendedSearch}searchIn(e){const n=this.query;if(!n)return{isMatch:!1,score:1};const{includeMatches:t,isCaseSensitive:a,ignoreDiacritics:i}=this.options;e=a?e:e.toLowerCase(),e=i?eo(e):e;let o=0;const s=[];let r=0,c=!1;for(let l=0,d=n.length;l<d;l+=1){const m=n[l];s.length=0,o=0,c=!1;for(let u=0,p=m.length;u<p;u+=1){const C=m[u],{isMatch:v,indices:A,score:w}=C.search(e);if(v)o+=1,r+=w,Iv(C.type)&&(c=!0),t&&(Tv.has(C.type)?s.push(...A):s.push(A));else{r=0,o=0,s.length=0,c=!1;break}}if(o){const u={isMatch:!0,score:r/o};return c&&(u.hasInverse=!0),t&&(u.indices=Ph(s)),u}}return{isMatch:!1,score:1}}};const ul=[];function Ih(...e){ul.push(...e)}function Us(e,n){for(let t=0,a=ul.length;t<a;t+=1){const i=ul[t];if(i.condition(e,n))return new i(e,n)}return new Th(e,n)}const Ns={AND:"$and",OR:"$or"},ml={PATH:"$path",PATTERN:"$val"},gl=e=>!!(e[Ns.AND]||e[Ns.OR]),kv=e=>!!e[ml.PATH],Ev=e=>!kt(e)&&aw(e)&&!gl(e),Iu=e=>({[Ns.AND]:Object.keys(e).map(n=>({[n]:e[n]}))});function cw(e,n,{auto:t=!0}={}){const a=i=>{if(ke(i)){const c={keyId:null,pattern:i};return t&&(c.searcher=Us(i,n)),c}const o=Object.keys(i),s=kv(i);if(!s&&o.length>1&&!gl(i))return a(Iu(i));if(Ev(i)){const c=s?i[ml.PATH]:o[0],l=s?i[ml.PATTERN]:i[c];if(!ke(l))throw new Error(rv(c));const d={keyId:cs(c),pattern:l};return t&&(d.searcher=Us(l,n)),d}const r={children:[],operator:o[0]};return o.forEach(c=>{const l=i[c];kt(l)&&l.forEach(d=>{r.children.push(a(d))})}),r};return gl(e)||(e=Iu(e)),a(e)}function pl(e,{ignoreFieldNorm:n=k.ignoreFieldNorm}){let t=1;return e.forEach(({key:a,norm:i,score:o})=>{const s=a?a.weight:null;t*=Math.pow(o===0&&s?Number.EPSILON:o,(s||1)*(n?1:i))}),t}function Dv(e,{ignoreFieldNorm:n=k.ignoreFieldNorm}){e.forEach(t=>{t.score=pl(t.matches,{ignoreFieldNorm:n})})}var Ov=class{constructor(e,n){this.limit=e,this.heap=[],this.comparator=n}get size(){return this.heap.length}insert(e){this.size<this.limit?(this.heap.push(e),this._bubbleUp(this.size-1)):this.comparator(e,this.heap[0])<0&&(this.heap[0]=e,this._sinkDown(0))}extractSorted(){return this.heap.sort(this.comparator)}_bubbleUp(e){const n=this.heap;for(;e>0;){const t=e-1>>1;if(this.comparator(n[e],n[t])<=0)break;const a=n[e];n[e]=n[t],n[t]=a,e=t}}_sinkDown(e){const n=this.heap,t=n.length;let a=e;do{e=a;const i=2*e+1,o=2*e+2;if(i<t&&this.comparator(n[i],n[a])>0&&(a=i),o<t&&this.comparator(n[o],n[a])>0&&(a=o),a!==e){const s=n[e];n[e]=n[a],n[a]=s}}while(a!==e)}};function Fv(e){const n=[];return e.matches.forEach(t=>{if(!Ze(t.indices)||!t.indices.length)return;const a={indices:t.indices,value:t.value};t.key&&(a.key=t.key.id),t.idx>-1&&(a.refIndex=t.idx),n.push(a)}),n}function Rv(e,n,{includeMatches:t=k.includeMatches,includeScore:a=k.includeScore}={}){return e.map(i=>{const{idx:o}=i,s={item:n[o],refIndex:o};return t&&(s.matches=Fv(i)),a&&(s.score=i.score),s})}const Uv=/[\p{L}\p{M}\p{N}_]+/gu,_u=new WeakSet;function Nv(e){_u.has(e)||(_u.add(e),console.warn(`[Fuse] tokenize regex ${e} lacks the global flag; only the first match per text will be returned. Add the 'g' flag.`))}function Vv(e){if(typeof e=="function"){let n=!1;return t=>{const a=e(t);if(!n&&(n=!0,!Array.isArray(a)||a.some(i=>typeof i!="string")))throw new Error(`[Fuse] tokenize function must return string[]; received ${Array.isArray(a)?"array containing non-strings":typeof a}.`);return a}}return e instanceof RegExp?(e.global||Nv(e),n=>n.match(e)||[]):n=>n.match(Uv)||[]}function wl({isCaseSensitive:e=!1,ignoreDiacritics:n=!1,tokenize:t}={}){const a=Vv(t);return{tokenize(i){return e||(i=i.toLowerCase()),n&&(i=eo(i)),a(i)}}}var jv=class{static condition(e,n){return n.useTokenSearch}constructor(e,n){this.options=n,this.analyzer=wl({isCaseSensitive:n.isCaseSensitive,ignoreDiacritics:n.ignoreDiacritics,tokenize:n.tokenize});const t=this.analyzer.tokenize(e),{df:a,fieldCount:i}=n._invertedIndex;this.termSearchers=[],this.idfWeights=[];for(const o of t){this.termSearchers.push(new Th(o,{location:n.location,threshold:n.threshold,distance:n.distance,includeMatches:n.includeMatches,findAllMatches:n.findAllMatches,minMatchCharLength:n.minMatchCharLength,isCaseSensitive:n.isCaseSensitive,ignoreDiacritics:n.ignoreDiacritics,ignoreLocation:!0}));const s=a.get(o)||0,r=Math.log(1+(i-s+.5)/(s+.5));this.idfWeights.push(r)}this.combineAll=n.tokenMatch==="all",this.numTerms=this.termSearchers.length,this.useMask=this.numTerms<=31}searchIn(e){if(!this.termSearchers.length)return{isMatch:!1,score:1};const n=[];let t=0,a=0,i=0,o=0;const s=this.combineAll&&!this.useMask?new Set:null;for(let l=0;l<this.termSearchers.length;l++){const d=this.termSearchers[l].searchIn(e),m=this.idfWeights[l];a+=m,d.isMatch&&(i++,t+=m*(1-d.score),d.indices&&n.push(...d.indices),this.combineAll&&(this.useMask?o|=1<<l:s.add(l)))}if(i===0)return{isMatch:!1,score:1};const r=a>0?1-t/a:0,c={isMatch:!0,score:Math.max(.001,r)};return this.options.includeMatches&&n.length&&(c.indices=Ph(n)),this.combineAll&&(this.useMask?c.matchedMask=o:c.matchedTerms=s,c.termCount=this.numTerms),c}};function Xr(e,n,t,a){const i=a.tokenize(n);if(!i.length)return;e.fieldCount++,e.docFieldCount.set(t,(e.docFieldCount.get(t)||0)+1);const o=new Set(i);let s=e.docTermFieldHits.get(t);s||(s=new Map,e.docTermFieldHits.set(t,s));for(const r of o)s.set(r,(s.get(r)||0)+1),e.df.set(r,(e.df.get(r)||0)+1)}function lw(e,n,t,a){const{i,v:o,$:s}=n;if(o!==void 0){Xr(e,o,i,a);return}if(s)for(let r=0;r<t;r++){const c=s[r];if(c)if(Array.isArray(c))for(const l of c)Xr(e,l.v,i,a);else Xr(e,c.v,i,a)}}function Bv(e,n,t){const a={fieldCount:0,df:new Map,docFieldCount:new Map,docTermFieldHits:new Map};for(const i of e)lw(a,i,n,t);return a}function Hv(e,n,t,a){lw(e,n,t,a)}function qv(e,n){const t=e.docFieldCount.get(n);if(t===void 0)return;e.fieldCount-=t,e.docFieldCount.delete(n);const a=e.docTermFieldHits.get(n);if(a){for(const[i,o]of a){const s=(e.df.get(i)||0)-o;s<=0?e.df.delete(i):e.df.set(i,s)}e.docTermFieldHits.delete(n)}}function xu(e,n){if(n.length===0)return;const t=Array.from(new Set(n)).sort((r,c)=>r-c);for(const r of t)qv(e,r);const a=r=>{let c=0,l=t.length;for(;c<l;){const d=c+l>>>1;t[d]<r?c=d+1:l=d}return r-c},i=t[0],o=new Map;for(const[r,c]of e.docFieldCount)o.set(r>i?a(r):r,c);e.docFieldCount=o;const s=new Map;for(const[r,c]of e.docTermFieldHits)s.set(r>i?a(r):r,c);e.docTermFieldHits=s}var Et=class{constructor(e,n,t){this.options={...k,...n},this.options.useExtendedSearch,this.options.useTokenSearch,this._keyStore=new uv(this.options.keys),this._docs=e,this._myIndex=null,this._invertedIndex=null,this.setCollection(e,t),this._lastQuery=null,this._lastSearcher=null}_getSearcher(e){if(this._lastQuery===e)return this._lastSearcher;const n=Us(e,this._invertedIndex?{...this.options,_invertedIndex:this._invertedIndex}:this.options);return this._lastQuery=e,this._lastSearcher=n,n}setCollection(e,n){if(this._docs=e,n&&!(n instanceof Ah))throw new Error(sv);if(this._myIndex=n||sw(this.options.keys,this._docs,{getFn:this.options.getFn,fieldNormWeight:this.options.fieldNormWeight}),this.options.useTokenSearch){const t=wl({isCaseSensitive:this.options.isCaseSensitive,ignoreDiacritics:this.options.ignoreDiacritics,tokenize:this.options.tokenize});this._invertedIndex=Bv(this._myIndex.records,this._myIndex.keys.length,t)}this._invalidateSearcherCache()}add(e){if(!Ze(e))return;this._docs.push(e);const n=this._myIndex.add(e,this._docs.length-1);if(this._invertedIndex&&n){const t=wl({isCaseSensitive:this.options.isCaseSensitive,ignoreDiacritics:this.options.ignoreDiacritics,tokenize:this.options.tokenize});Hv(this._invertedIndex,n,this._myIndex.keys.length,t)}this._invalidateSearcherCache()}remove(e=()=>!1){const n=[],t=[];for(let a=0,i=this._docs.length;a<i;a+=1)e(this._docs[a],a)&&(n.push(this._docs[a]),t.push(a));if(t.length){this._invertedIndex&&xu(this._invertedIndex,t);const a=new Set(t);this._docs=this._docs.filter((i,o)=>!a.has(o)),this._myIndex.removeAll(t),this._invalidateSearcherCache()}return n}removeAt(e){if(!Number.isInteger(e)||e<0||e>=this._docs.length)throw new Error(hl);this._invertedIndex&&xu(this._invertedIndex,[e]);const n=this._docs.splice(e,1)[0];return this._myIndex.removeAt(e),this._invalidateSearcherCache(),n}_invalidateSearcherCache(){this._lastQuery=null,this._lastSearcher=null}getIndex(){return this._myIndex}_normalizedKeys(){return this._myIndex.keys.map(e=>this._keyStore.get(e.id)||e)}search(e,n){const{limit:t=-1}=n||{},{includeMatches:a,includeScore:i,shouldSort:o,sortFn:s,ignoreFieldNorm:r}=this.options;if(ke(e)&&!e.trim()){let u=this._docs.map((p,C)=>({item:p,refIndex:C}));return rs(t)&&t>-1&&(u=u.slice(0,t)),u}const c=o&&rs(t)&&t>0&&ke(e),l=s,d=(u,p)=>l(u,p)||u.idx-p.idx;let m;if(c){const u=new Ov(t,d);ke(this._docs[0])?this._searchStringList(e,{heap:u,ignoreFieldNorm:r}):this._searchObjectList(e,{heap:u,ignoreFieldNorm:r}),m=u.extractSorted()}else m=ke(e)?ke(this._docs[0])?this._searchStringList(e):this._searchObjectList(e):this._searchLogical(e),Dv(m,{ignoreFieldNorm:r}),o&&m.sort(ke(e)?d:l),rs(t)&&t>-1&&(m=m.slice(0,t));return Rv(m,this._docs,{includeMatches:a,includeScore:i})}_searchStringList(e,{heap:n,ignoreFieldNorm:t}={}){const a=this._getSearcher(e),i=this.options.useTokenSearch&&this.options.tokenMatch==="all",{records:o}=this._myIndex,s=n?null:[];return o.forEach(({v:r,i:c,n:l})=>{if(!Ze(r))return;const d=a.searchIn(r);if(d.isMatch){const m={score:d.score,value:r,norm:l,indices:d.indices};i&&(m.matchedMask=d.matchedMask,m.matchedTerms=d.matchedTerms,m.termCount=d.termCount);const u=[m];if(!i||this._coversAllTokens(u)){const p={item:r,idx:c,matches:u};n?(p.score=pl(p.matches,{ignoreFieldNorm:t}),n.insert(p)):s.push(p)}}}),s}_searchLogical(e){const n=cw(e,this.options),t=this._normalizedKeys(),a=(r,c,l)=>{if(!("children"in r)){const{keyId:p,searcher:C}=r;let v;return p===null?(v=[],t.forEach((A,w)=>{v.push(...this._findMatches({key:A,value:c[w],searcher:C}))})):v=this._findMatches({key:this._keyStore.get(p),value:this._myIndex.getValueForItemAtKeyId(c,p),searcher:C}),v&&v.length?[{idx:l,item:c,matches:v}]:[]}const{children:d,operator:m}=r,u=[];for(let p=0,C=d.length;p<C;p+=1){const v=d[p],A=a(v,c,l);if(A.length)u.push(...A);else if(m===Ns.AND)return[]}return u},i=this._myIndex.records,o=new Map,s=[];return i.forEach(({$:r,i:c})=>{if(Ze(r)){const l=a(n,r,c);l.length&&(o.has(c)||(o.set(c,{idx:c,item:r,matches:[]}),s.push(o.get(c))),l.forEach(({matches:d})=>{o.get(c).matches.push(...d)}))}}),s}_searchObjectList(e,{heap:n,ignoreFieldNorm:t}={}){const a=this._getSearcher(e),i=this.options.useTokenSearch&&this.options.tokenMatch==="all",{records:o}=this._myIndex,s=this._normalizedKeys(),r=n?null:[];return o.forEach(({$:c,i:l})=>{if(!Ze(c))return;const d=[];let m=!1,u=!1;if(s.forEach((p,C)=>{const v=this._findMatches({key:p,value:c[C],searcher:a});v.length?(d.push(...v),v[0].hasInverse&&(u=!0)):m=!0}),!(u&&m)&&d.length&&(!i||this._coversAllTokens(d))){const p={idx:l,item:c,matches:d};n?(p.score=pl(p.matches,{ignoreFieldNorm:t}),n.insert(p)):r.push(p)}}),r}_findMatches({key:e,value:n,searcher:t}){if(!Ze(n))return[];const a=[];if(kt(n))n.forEach(({v:i,i:o,n:s})=>{if(!Ze(i))return;const r=t.searchIn(i);if(r.isMatch){const c={score:r.score,key:e,value:i,idx:o,norm:s,indices:r.indices,hasInverse:r.hasInverse};r.termCount!==void 0&&(c.matchedMask=r.matchedMask,c.matchedTerms=r.matchedTerms,c.termCount=r.termCount),a.push(c)}});else{const{v:i,n:o}=n,s=t.searchIn(i);if(s.isMatch){const r={score:s.score,key:e,value:i,norm:o,indices:s.indices,hasInverse:s.hasInverse};s.termCount!==void 0&&(r.matchedMask=s.matchedMask,r.matchedTerms=s.matchedTerms,r.termCount=s.termCount),a.push(r)}}return a}_coversAllTokens(e){const n=e.length?e[0].termCount:void 0;if(n===void 0)return!0;if(n<=31){let a=0;for(let i=0;i<e.length;i++)a|=e[i].matchedMask||0;return a===2**n-1}const t=new Set;for(let a=0;a<e.length;a++){const i=e[a].matchedTerms;if(i)for(const o of i)t.add(o)}return t.size===n}};Et.version="7.5.0";Et.createIndex=sw;Et.parseIndex=vv;Et.config=k;Et.match=function(e,n,t){if(t&&t.useTokenSearch)throw new Error(dv);return Us(e,{...k,...t}).searchIn(n)};Et.parseQuery=cw;Ih(Wv);Ih(jv);Et.use=function(...e){e.forEach(n=>Ih(n))};var Gv=Et;const Jv=`---
 title: "Agents & Copilots"
 slug: "agents-copilots"
 locale: "en"
@@ -75,7 +75,7 @@ Coming soon — articles in preparation.
 
 ---
 *Source: [Agents & Copilots](https://www.plc-hmi-scadas.com/en/Agents-Copilots/) — Pedro Pagán Pallarés*
-`,Fv=`---
+`,zv=`---
 title: "AI-Generated Code"
 slug: "ai-code"
 locale: "en"
@@ -109,7 +109,7 @@ How far can a language model go with the right instructions? In this section you
 
 ---
 *Source: [AI-Generated Code](https://www.plc-hmi-scadas.com/en/AI-Code/) — Pedro Pagán Pallarés*
-`,Rv=`---
+`,Xv=`---
 title: "Bubble Algorithm - Generated by AI"
 slug: "blog-algoritmo-de-la-burbuja-generado-por-ia"
 locale: "en"
@@ -221,7 +221,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Bubble Algorithm - Generated by AI](https://www.plc-hmi-scadas.com/en/blog/algoritmo-de-la-burbuja-generado-por-ia/) — Pedro Pagán Pallarés*
-`,Uv=`---
+`,Qv=`---
 title: "Minesweeper Programmed with Artificial Intelligence"
 slug: "blog-buscaminas-con-inteligencia-artificial"
 locale: "en"
@@ -522,7 +522,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Minesweeper Programmed with Artificial Intelligence](https://www.plc-hmi-scadas.com/en/blog/buscaminas-con-inteligencia-artificial/) — Pedro Pagán Pallarés*
-`,Nv=`---
+`,Kv=`---
 title: "Minesweeper 2: AI Strikes Back"
 slug: "blog-buscaminas-programado-con-inteligencia-artificial-remasterizado-24-25"
 locale: "en"
@@ -599,7 +599,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Minesweeper 2: AI Strikes Back](https://www.plc-hmi-scadas.com/en/blog/buscaminas-programado-con-inteligencia-artificial-remasterizado-24-25/) — Pedro Pagán Pallarés*
-`,Vv=`---
+`,Yv=`---
 title: "Minesweeper III: \\"A Quality Leap\\""
 slug: "blog-el-buscaminas-iii-un-salto-de-calidad"
 locale: "en"
@@ -777,7 +777,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Minesweeper III: "A Quality Leap"](https://www.plc-hmi-scadas.com/en/blog/el-buscaminas-iii-un-salto-de-calidad/) — Pedro Pagán Pallarés*
-`,Bv=`---
+`,Zv=`---
 title: "The knapsack problem applied to industry"
 slug: "blog-el-problema-de-la-mochila-aplicado-en-industria"
 locale: "en"
@@ -939,7 +939,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [The knapsack problem applied to industry](https://www.plc-hmi-scadas.com/en/blog/el-problema-de-la-mochila-aplicado-en-industria/) — Pedro Pagán Pallarés*
-`,Hv=`---
+`,$v=`---
 title: "Little SCADA: creating a control interface with Python and ChatGPT"
 slug: "blog-little-scada-creando-una-interfaz-de-control-con-python"
 locale: "en"
@@ -1049,7 +1049,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Little SCADA: creating a control interface with Python and ChatGPT](https://www.plc-hmi-scadas.com/en/blog/little-scada-creando-una-interfaz-de-control-con-python/) — Pedro Pagán Pallarés*
-`,jv=`---
+`,e0=`---
 title: "Applied Industrial AI"
 slug: "industrial-ai"
 locale: "en"
@@ -1081,7 +1081,7 @@ AI is not just for chatbots. In this section you will find articles where **arti
 
 ---
 *Source: [Applied Industrial AI](https://www.plc-hmi-scadas.com/en/Industrial-AI/) — Pedro Pagán Pallarés*
-`,qv=`---
+`,n0=`---
 title: "Beckhoff - HMI CE"
 slug: "beckhoff-ce-hmi"
 locale: "en"
@@ -1136,7 +1136,7 @@ InduSoft CE NET Runtime
 
 ---
 *Source: [Beckhoff - HMI CE](https://www.plc-hmi-scadas.com/en/Beckhoff_CE_HMI.php) — Jose Manuel Luque*
-`,Gv=`---
+`,t0=`---
 title: "AVEVA Intouch Historical Data Access System (HistData Part 1)"
 slug: "blog-aveva-intouch-historial-data-access-system-histdata"
 locale: "en"
@@ -1202,7 +1202,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Historical Data Access System (HistData Part 1)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historial-data-access-system-histdata/) — Jose Manuel Luque*
-`,Jv=`---
+`,a0=`---
 title: "AVEVA Intouch Historical Data Access System (HistData Part 1)"
 slug: "blog-aveva-intouch-historical-data-access-system-histdata"
 locale: "en"
@@ -1268,7 +1268,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Historical Data Access System (HistData Part 1)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-access-system-histdata/) — Jose Manuel Luque*
-`,zv=`---
+`,i0=`---
 title: "Industrial Automation Guide"
 slug: "blog-flujo-trabajo-ingeniero-automatizacion"
 locale: "en"
@@ -2201,7 +2201,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Industrial Automation Guide](https://www.plc-hmi-scadas.com/en/blog/flujo-trabajo-ingeniero-automatizacion/) — Pedro Pagán Pallarés*
-`,Xv=`---
+`,o0=`---
 title: "GRAFCET: Complete Guide to Industrial Automation Design"
 slug: "blog-grafcet-guia-completa-diseno-automatizacion"
 locale: "en"
@@ -2993,7 +2993,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [GRAFCET: Complete Guide to Industrial Automation Design](https://www.plc-hmi-scadas.com/en/blog/grafcet-guia-completa-diseno-automatizacion/) — Pedro Pagán Pallarés*
-`,Qv=`---
+`,s0=`---
 title: "Factory Talk View SE - DataLogs Configuration"
 slug: "ftvse-datalog-2"
 locale: "en"
@@ -3051,7 +3051,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Factory Talk View SE - DataLogs Configuration](https://www.plc-hmi-scadas.com/en/FTVSE_DataLog_2.php) — Jose Manuel Luque*
-`,Kv=`---
+`,r0=`---
 title: "Intouch 2020R2SP1 OPC UA Server"
 slug: "intouch-2020r1sp1-opcua"
 locale: "en"
@@ -3104,7 +3104,7 @@ F
 
 ---
 *Source: [Intouch 2020R2SP1 OPC UA Server](https://www.plc-hmi-scadas.com/en/Intouch_2020R1Sp1_OPCUA.php) — Jose Manuel Luque*
-`,Yv=`---
+`,c0=`---
 title: "ActiveX Control aaHistClientTrendControl"
 slug: "intouch-activex-aahistclienttrend"
 locale: "en"
@@ -3164,7 +3164,7 @@ September 16, 2013
 
 ---
 *Source: [ActiveX Control aaHistClientTrendControl](https://www.plc-hmi-scadas.com/en/Intouch_ActiveX_aaHistClientTrend.php) — Jose Manuel Luque*
-`,Zv=`---
+`,l0=`---
 title: "Others"
 slug: "others"
 locale: "en"
@@ -3193,7 +3193,7 @@ Articles on miscellaneous programming, databases, networking, and communications
 
 ---
 *Source: [Others](https://www.plc-hmi-scadas.com/en/Others/) — Jose Manuel*
-`,$v=`---
+`,h0=`---
 title: "SCADA — Supervisory Control and Data Acquisition"
 slug: "scada"
 locale: "en"
@@ -3318,7 +3318,7 @@ Complete automation engineer workflow: from FDS to commissioning in 10 phases. P
 
 ---
 *Source: [SCADA — Supervisory Control and Data Acquisition](https://www.plc-hmi-scadas.com/en/SCADA/) — Jose Manuel*
-`,e0=`---
+`,d0=`---
 title: "TIA Portal - PLCSIM Advanced OPC UA"
 slug: "tia-opcua-plcsimadvanced"
 locale: "en"
@@ -3403,7 +3403,7 @@ January 12, 2018
 
 ---
 *Source: [TIA Portal - PLCSIM Advanced OPC UA](https://www.plc-hmi-scadas.com/en/TIA_OPCUA_PLCSimAdvanced.php) — Jose Manuel Luque*
-`,n0=`---
+`,u0=`---
 title: "S7-1500 OPC UA Client(&quot;The security checks failed using the selected certificates&quot;)"
 slug: "tia-portal-s71500-client-opc-ua"
 locale: "en"
@@ -3448,7 +3448,7 @@ It does not connect and the error "The security checks failed using the selected
 
 ---
 *Source: [S7-1500 OPC UA Client(&quot;The security checks failed using the selected certificates&quot;)](https://www.plc-hmi-scadas.com/en/TIA_Portal_S71500_Client_OPC_UA.php) — Jose Manuel Luque*
-`,t0=`---
+`,m0=`---
 title: "WinCC DataMonitor - Part 2: Advanced Reporting"
 slug: "wincc-datamonitor-2"
 locale: "en"
@@ -3570,7 +3570,7 @@ May 21, 2013
 
 ---
 *Source: [WinCC DataMonitor - Part 2: Advanced Reporting](https://www.plc-hmi-scadas.com/en/WinCC_DataMonitor_2.php) — Jose Manuel Luque*
-`,a0=`---
+`,g0=`---
 title: "WinCC VBScript InvertBitInTag"
 slug: "wincc-vbs-invertir-bits-us"
 locale: "en"
@@ -3619,7 +3619,7 @@ May 28, 2018
 
 ---
 *Source: [WinCC VBScript InvertBitInTag](https://www.plc-hmi-scadas.com/en/WinCC_VBS_Invertir_Bits_US.php) — Jose Manuel Luque*
-`,i0=`---
+`,p0=`---
 title: "404"
 slug: "blog-espionage-modbus-communications"
 locale: "en"
@@ -3646,7 +3646,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/espionage-modbus-communications/)*
-`,o0=`---
+`,w0=`---
 title: "404"
 slug: "blog-factory-talk-historian-pi-interface-performance-monitor"
 locale: "en"
@@ -3673,7 +3673,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-pi-interface-performance-monitor/)*
-`,s0=`---
+`,f0=`---
 title: "404"
 slug: "blog-ia"
 locale: "en"
@@ -3700,7 +3700,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/IA/)*
-`,r0=`---
+`,C0=`---
 title: "404"
 slug: "blog-iis-reverse-proxy-reporting-services-wincc-unified"
 locale: "en"
@@ -3727,7 +3727,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/iis-reverse-proxy-reporting-services-wincc-unified/)*
-`,c0=`---
+`,b0=`---
 title: "404"
 slug: "blog-little-scada-creating-a-control-interface-with-python"
 locale: "en"
@@ -3754,7 +3754,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/little-scada-creating-a-control-interface-with-python/)*
-`,l0=`---
+`,v0=`---
 title: "404"
 slug: "blog-minesweeper-programmed-with-artificial-intelligence-remastered-24-25"
 locale: "en"
@@ -3781,7 +3781,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/minesweeper-programmed-with-artificial-intelligence-remastered-24-25/)*
-`,h0=`---
+`,y0=`---
 title: "404"
 slug: "blog-minesweeper-with-artificial-intelligence"
 locale: "en"
@@ -3808,7 +3808,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/minesweeper-with-artificial-intelligence/)*
-`,d0=`---
+`,S0=`---
 title: "404"
 slug: "blog-scada"
 locale: "en"
@@ -3835,7 +3835,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/scada/)*
-`,u0=`---
+`,A0=`---
 title: "404"
 slug: "blog-wp-content-uploads-2024-06-queryformat-txt"
 locale: "en"
@@ -3862,7 +3862,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/blog/wp-content/uploads/2024/06/QueryFormat.txt)*
-`,m0=`---
+`,P0=`---
 title: "RSLinx OPC Server"
 slug: "017"
 locale: "en"
@@ -3955,7 +3955,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [RSLinx OPC Server](https://www.plc-hmi-scadas.com/en/017.php) — Jose Manuel Luque*
-`,g0=`---
+`,T0=`---
 title: "FSGateway Configuration"
 slug: "021"
 locale: "en"
@@ -4042,7 +4042,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [FSGateway Configuration](https://www.plc-hmi-scadas.com/en/021.php) — Jose Manuel Luque*
-`,p0=`---
+`,I0=`---
 title: "Siemens S7-1500 OPC UA Client: Read and Write in TIA Portal"
 slug: "blog-cliente-opc-ua-plc-s7-1500"
 locale: "en"
@@ -4191,7 +4191,7 @@ The key point is consistency between the variables published by the server and t
 
 ---
 *Source: [Siemens S7-1500 OPC UA Client: Read and Write in TIA Portal](https://www.plc-hmi-scadas.com/en/blog/cliente-opc-ua-plc-s7-1500/)*
-`,w0=`---
+`,_0=`---
 title: "CODESYS SoftPLC as an OPC UA Server and Siemens S7-1500 as Client"
 slug: "blog-codesys-softplc-servidor-opc-ua-siemens-cliente"
 locale: "en"
@@ -4379,7 +4379,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [CODESYS SoftPLC as an OPC UA Server and Siemens S7-1500 as Client](https://www.plc-hmi-scadas.com/en/blog/codesys-softplc-servidor-opc-ua-siemens-cliente/) — Pedro Pagán Pallarés*
-`,f0=`---
+`,x0=`---
 title: "Secure OPC UA Connection Flow"
 slug: "blog-flujo-de-conexion-opc-ua-segura"
 locale: "en"
@@ -4467,7 +4467,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Secure OPC UA Connection Flow](https://www.plc-hmi-scadas.com/en/blog/flujo-de-conexion-opc-ua-segura/) — Jose Manuel Luque*
-`,C0=`---
+`,M0=`---
 title: "Logging PLC Data with InfluxDB"
 slug: "blog-registro-datos-plc-influxdb"
 locale: "en"
@@ -4653,7 +4653,7 @@ This validates a simple flow: Siemens PLC as OPC UA server, Python bridge writin
 
 ---
 *Source: [Logging PLC Data with InfluxDB](https://www.plc-hmi-scadas.com/en/blog/registro-datos-plc-influxdb/)*
-`,b0=`---
+`,L0=`---
 title: "OPC UA Sniffer with Siemens PLC, UA Expert and Capture Application"
 slug: "blog-sniffer-opc-ua-plc-siemens-uaexpert"
 locale: "en"
@@ -4726,7 +4726,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [OPC UA Sniffer with Siemens PLC, UA Expert and Capture Application](https://www.plc-hmi-scadas.com/en/blog/sniffer-opc-ua-plc-siemens-uaexpert/) — Jose Manuel Luque*
-`,v0=`---
+`,W0=`---
 title: "Industrial Ethernet Networks"
 slug: "industrial-networks"
 locale: "en"
@@ -4762,7 +4762,7 @@ Industrial Ethernet networks are the backbone of communication between PLCs, HMI
 
 ---
 *Source: [Industrial Ethernet Networks](https://www.plc-hmi-scadas.com/en/Industrial-Networks/) — Jose Manuel*
-`,y0=`---
+`,k0=`---
 title: "Modbus RTU / TCP"
 slug: "modbus"
 locale: "en"
@@ -4795,7 +4795,7 @@ Modbus is the world's most widely used industrial communication protocol. Develo
 
 ---
 *Source: [Modbus RTU / TCP](https://www.plc-hmi-scadas.com/en/Modbus/) — Jose Manuel*
-`,S0=`---
+`,E0=`---
 title: "MQTT"
 slug: "mqtt"
 locale: "en"
@@ -4828,7 +4828,7 @@ Its main features are: extremely lightweight, supports quality of service (QoS 0
 
 ---
 *Source: [MQTT](https://www.plc-hmi-scadas.com/en/MQTT/) — Jose Manuel*
-`,A0=`---
+`,D0=`---
 title: "Industrial Ethernet Networks"
 slug: "redes"
 locale: "en"
@@ -4864,7 +4864,7 @@ Industrial Ethernet networks are the backbone of communication between PLCs, HMI
 
 ---
 *Source: [Industrial Ethernet Networks](https://www.plc-hmi-scadas.com/en/REDES.php) — Jose Manuel*
-`,P0=`---
+`,O0=`---
 title: "REST API"
 slug: "rest-api"
 locale: "en"
@@ -4895,7 +4895,7 @@ Content under preparation — coming soon: articles about creating REST APIs for
 
 ---
 *Source: [REST API](https://www.plc-hmi-scadas.com/en/REST-API/) — Jose Manuel*
-`,T0=`---
+`,F0=`---
 title: "SNMP"
 slug: "snmp"
 locale: "en"
@@ -4926,7 +4926,7 @@ SNMP is the standard protocol for monitoring and managing network devices: switc
 
 ---
 *Source: [SNMP](https://www.plc-hmi-scadas.com/en/SNMP.php) — Jose Manuel*
-`,I0=`---
+`,R0=`---
 title: "404"
 slug: "comunicaciones-industriales"
 locale: "en"
@@ -4953,7 +4953,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/Comunicaciones-Industriales/)*
-`,_0=`---
+`,U0=`---
 title: "Register PLC Data in Database with OPC Server and VB.NET"
 slug: "004"
 locale: "en"
@@ -5044,7 +5044,7 @@ July 2012
 
 ---
 *Source: [Register PLC Data in Database with OPC Server and VB.NET](https://www.plc-hmi-scadas.com/en/004.php) — Jose Manuel Luque*
-`,M0=`---
+`,N0=`---
 title: "OPC Communication S7-200 with KepServer"
 slug: "007"
 locale: "en"
@@ -5141,7 +5141,7 @@ July 29, 2012
 
 ---
 *Source: [OPC Communication S7-200 with KepServer](https://www.plc-hmi-scadas.com/en/007.php) — Jose Manuel Luque*
-`,x0=`---
+`,V0=`---
 title: "OPC Factory Server OFS Configuration"
 slug: "018"
 locale: "en"
@@ -5204,7 +5204,7 @@ August 15, 2012
 
 ---
 *Source: [OPC Factory Server OFS Configuration](https://www.plc-hmi-scadas.com/en/018.php) — Jose Manuel Luque*
-`,L0=`---
+`,j0=`---
 title: "Modbus RTU Network Simulation"
 slug: "058"
 locale: "en"
@@ -5275,7 +5275,7 @@ With this, we have simulated our virtual network, which can be useful when we wa
 
 ---
 *Source: [Modbus RTU Network Simulation](https://www.plc-hmi-scadas.com/en/058.php) — Jose Manuel Luque*
-`,W0=`---
+`,B0=`---
 title: "OPC KepServer Configuration with Omron CQM1 PLC"
 slug: "069"
 locale: "en"
@@ -5344,7 +5344,7 @@ February 3, 2013
 
 ---
 *Source: [OPC KepServer Configuration with Omron CQM1 PLC](https://www.plc-hmi-scadas.com/en/069.php) — Jose Manuel Luque*
-`,k0=`---
+`,H0=`---
 title: "CodeSys OPC Server"
 slug: "071"
 locale: "en"
@@ -5403,7 +5403,7 @@ February 5, 2013
 
 ---
 *Source: [CodeSys OPC Server](https://www.plc-hmi-scadas.com/en/071.php) — Jose Manuel Luque*
-`,E0=`---
+`,q0=`---
 title: "OPC TwinCAT Server Configuration"
 slug: "073"
 locale: "en"
@@ -5462,7 +5462,7 @@ February 7, 2013
 
 ---
 *Source: [OPC TwinCAT Server Configuration](https://www.plc-hmi-scadas.com/en/073.php) — Jose Manuel Luque*
-`,D0=`---
+`,G0=`---
 title: "DASSIDirect Configuration with S7-1200"
 slug: "088"
 locale: "en"
@@ -5519,7 +5519,7 @@ March 22, 2013
 
 ---
 *Source: [DASSIDirect Configuration with S7-1200](https://www.plc-hmi-scadas.com/en/088.php) — Jose Manuel Luque*
-`,O0=`---
+`,J0=`---
 title: "DASABCIP Configuration with SoftLogix"
 slug: "119"
 locale: "en"
@@ -5605,7 +5605,7 @@ If you liked it or found the information useful, share it ...
 
 ---
 *Source: [DASABCIP Configuration with SoftLogix](https://www.plc-hmi-scadas.com/en/119.php) — Jose Manuel Luque*
-`,F0=`---
+`,z0=`---
 title: "KepServer Configuration with SoftLogix5800"
 slug: "121"
 locale: "en"
@@ -5691,7 +5691,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [KepServer Configuration with SoftLogix5800](https://www.plc-hmi-scadas.com/en/121.php) — Jose Manuel Luque*
-`,R0=`---
+`,X0=`---
 title: "Docker: OPC UA Server and Web Client"
 slug: "blog-docker-servidor-opc-ua"
 locale: "en"
@@ -5929,7 +5929,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Docker: OPC UA Server and Web Client](https://www.plc-hmi-scadas.com/en/blog/docker-servidor-opc-ua/) — Pedro Pagán Pallarés*
-`,U0=`---
+`,Q0=`---
 title: "Committed to the Cause"
 slug: "blog-entregados-a-la-causa"
 locale: "en"
@@ -5984,7 +5984,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Committed to the Cause](https://www.plc-hmi-scadas.com/en/blog/entregados-a-la-causa/) — Pedro Pagán Pallarés*
-`,N0=`---
+`,K0=`---
 title: "Analyzing Modbus TCP Communications"
 slug: "blog-espiando-comunicaciones-modbus"
 locale: "en"
@@ -6145,7 +6145,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Analyzing Modbus TCP Communications](https://www.plc-hmi-scadas.com/en/blog/espiando-comunicaciones-modbus/) — Pedro Pagán Pallarés*
-`,V0=`---
+`,Y0=`---
 title: "Exploiting Modbus TCP Vulnerabilities"
 slug: "blog-explotando-vulnerabilidades-modbus-tcp"
 locale: "en"
@@ -6268,7 +6268,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Exploiting Modbus TCP Vulnerabilities](https://www.plc-hmi-scadas.com/en/blog/explotando-vulnerabilidades-modbus-tcp/) — Pedro Pagán Pallarés*
-`,B0=`---
+`,Z0=`---
 title: "PPS: The Heart (and the Limit) of EtherNet/IP"
 slug: "blog-pps-ethernet-ip-omron-eip21"
 locale: "en"
@@ -6433,7 +6433,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [PPS: The Heart (and the Limit) of EtherNet/IP](https://www.plc-hmi-scadas.com/en/blog/pps-ethernet-ip-omron-eip21/) — Pedro Pagán Pallarés*
-`,H0=`---
+`,$0=`---
 title: "Networks: GNS3, Broadcast Storm and STP Protocol"
 slug: "blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp"
 locale: "en"
@@ -6589,7 +6589,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Networks: GNS3, Broadcast Storm and STP Protocol](https://www.plc-hmi-scadas.com/en/blog/redes-gns3-tormenta-de-broadcast-y-protocolo-stp/) — Pedro Pagán Pallarés*
-`,j0=`---
+`,ey=`---
 title: "OPC UA Server and Client + Copilot Edits"
 slug: "blog-servidor-opc-flask-co-pilot"
 locale: "en"
@@ -6841,7 +6841,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [OPC UA Server and Client + Copilot Edits](https://www.plc-hmi-scadas.com/en/blog/servidor-opc-flask-co-pilot/) — Pedro Pagán Pallarés*
-`,q0=`---
+`,ny=`---
 title: "Temperature Control System (III)"
 slug: "blog-sistema-de-control-de-temperatura-iii"
 locale: "en"
@@ -7150,7 +7150,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Temperature Control System (III)](https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-iii/) — Pedro Pagán Pallarés*
-`,G0=`---
+`,ty=`---
 title: "SNMP (Simple Network Management Protocol)"
 slug: "blog-snmp-simple-network-management-protocol"
 locale: "en"
@@ -7252,7 +7252,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [SNMP (Simple Network Management Protocol)](https://www.plc-hmi-scadas.com/en/blog/snmp-simple-network-management-protocol/) — Jose Manuel Luque*
-`,J0=`---
+`,ay=`---
 title: "How to Set Up a VPN in Your Home Lab with WireGuard"
 slug: "blog-vpn-home-lab-wireguard"
 locale: "en"
@@ -7880,7 +7880,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [How to Set Up a VPN in Your Home Lab with WireGuard](https://www.plc-hmi-scadas.com/en/blog/vpn-home-lab-wireguard/) — Pedro Pagán Pallarés*
-`,z0=`---
+`,iy=`---
 title: "DAServer Manager BackUp - Restore"
 slug: "intouch-daserver"
 locale: "en"
@@ -7940,7 +7940,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [DAServer Manager BackUp - Restore](https://www.plc-hmi-scadas.com/en/Intouch_DAServer.php) — Jose Manuel Luque*
-`,X0=`---
+`,oy=`---
 title: "Intouch - DASMBTCP Configuration"
 slug: "intouch-dasmbtcp"
 locale: "en"
@@ -8016,7 +8016,7 @@ November 24, 2013
 
 ---
 *Source: [Intouch - DASMBTCP Configuration](https://www.plc-hmi-scadas.com/en/Intouch_DASMBTCP.php) — Jose Manuel Luque*
-`,Q0=`---
+`,sy=`---
 title: "KepServer with S7-1500"
 slug: "kepserver-1500"
 locale: "en"
@@ -8076,7 +8076,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [KepServer with S7-1500](https://www.plc-hmi-scadas.com/en/KepServer_1500.php) — Jose Manuel Luque*
-`,K0=`---
+`,ry=`---
 title: "Simatic Net - Load PC Station Configuration"
 slug: "simaticnet-cargar-configuracion-pcstation"
 locale: "en"
@@ -8149,7 +8149,7 @@ August 20, 2017
 
 ---
 *Source: [Simatic Net - Load PC Station Configuration](https://www.plc-hmi-scadas.com/en/SimaticNet_Cargar_Configuracion_PCStation.php) — Jose Manuel Luque*
-`,Y0=`---
+`,cy=`---
 title: "PC Station Simatic Net Configuration"
 slug: "simaticnet-vdf"
 locale: "en"
@@ -8251,7 +8251,7 @@ August 13, 2017
 
 ---
 *Source: [PC Station Simatic Net Configuration](https://www.plc-hmi-scadas.com/en/SimaticNet_VDF.php) — Jose Manuel Luque*
-`,Z0=`---
+`,ly=`---
 title: "Wonderware OI.Gateway.2"
 slug: "ww-oigateway"
 locale: "en"
@@ -8306,7 +8306,7 @@ January 12, 2018
 
 ---
 *Source: [Wonderware OI.Gateway.2](https://www.plc-hmi-scadas.com/en/WW_OIGateway.php) — Jose Manuel Luque*
-`,$0=`---
+`,hy=`---
 title: "Cookie policy"
 slug: "cookie-policy"
 locale: "en"
@@ -8376,7 +8376,7 @@ For more information about personal data processing, providers, retention and in
 
 ---
 *Source: [Cookie policy](https://www.plc-hmi-scadas.com/en/cookie-policy.php) — Jose Manuel*
-`,ey=`---
+`,dy=`---
 title: "Print Files from WinCC Flexible PC Runtime"
 slug: "003"
 locale: "en"
@@ -8433,7 +8433,7 @@ July 2012
 
 ---
 *Source: [Print Files from WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/003.php) — Jose Manuel Luque*
-`,ny=`---
+`,uy=`---
 title: "Registering Variables in WinCC Flexible PC Runtime"
 slug: "005"
 locale: "en"
@@ -8482,7 +8482,7 @@ July 2012
 
 ---
 *Source: [Registering Variables in WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/005.php) — Jose Manuel Luque*
-`,ty=`---
+`,my=`---
 title: "Vijeo Designer Simulation"
 slug: "013"
 locale: "en"
@@ -8557,7 +8557,7 @@ August 9, 2012
 
 ---
 *Source: [Vijeo Designer Simulation](https://www.plc-hmi-scadas.com/en/013.php) — Jose Manuel Luque*
-`,ay=`---
+`,gy=`---
 title: "Transfer Project to a Runtime PC"
 slug: "015"
 locale: "en"
@@ -8640,7 +8640,7 @@ August 11, 2012
 
 ---
 *Source: [Transfer Project to a Runtime PC](https://www.plc-hmi-scadas.com/en/015.php) — Jose Manuel Luque*
-`,iy=`---
+`,py=`---
 title: "S7-2xx (PPI) Link with WinCC Flexible PC Runtime"
 slug: "016"
 locale: "en"
@@ -8693,7 +8693,7 @@ August 14, 2012
 
 ---
 *Source: [S7-2xx (PPI) Link with WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/016.php) — Jose Manuel Luque*
-`,oy=`---
+`,wy=`---
 title: "Backup with Prosafe"
 slug: "019"
 locale: "en"
@@ -8754,7 +8754,7 @@ August 19, 2012
 
 ---
 *Source: [Backup with Prosafe](https://www.plc-hmi-scadas.com/en/019.php) — Jose Manuel Luque*
-`,sy=`---
+`,fy=`---
 title: "WinCC Flexible as Web Server"
 slug: "025"
 locale: "en"
@@ -8851,7 +8851,7 @@ August 29, 2012
 
 ---
 *Source: [WinCC Flexible as Web Server](https://www.plc-hmi-scadas.com/en/025.php) — Jose Manuel Luque*
-`,ry=`---
+`,Cy=`---
 title: "Backup Panel View with PanelBuilder32"
 slug: "026"
 locale: "en"
@@ -8906,7 +8906,7 @@ August 30, 2012
 
 ---
 *Source: [Backup Panel View with PanelBuilder32](https://www.plc-hmi-scadas.com/en/026.php) — Jose Manuel Luque*
-`,cy=`---
+`,by=`---
 title: "Update Operating System on OP/TP/MP"
 slug: "029"
 locale: "en"
@@ -8955,7 +8955,7 @@ September 3, 2012
 
 ---
 *Source: [Update Operating System on OP/TP/MP](https://www.plc-hmi-scadas.com/en/029.php) — Jose Manuel Luque*
-`,ly=`---
+`,vy=`---
 title: "ProTool PC Runtime Link with MicroLogix"
 slug: "033"
 locale: "en"
@@ -9012,7 +9012,7 @@ September 7, 2012
 
 ---
 *Source: [ProTool PC Runtime Link with MicroLogix](https://www.plc-hmi-scadas.com/en/033.php) — Jose Manuel Luque*
-`,hy=`---
+`,yy=`---
 title: "Recipes in TIA WinCC Runtime Professional"
 slug: "040"
 locale: "en"
@@ -9075,7 +9075,7 @@ September 20, 2012
 
 ---
 *Source: [Recipes in TIA WinCC Runtime Professional](https://www.plc-hmi-scadas.com/en/040.php) — Jose Manuel Luque*
-`,dy=`---
+`,Sy=`---
 title: "Starting Vijeo Runtime on PC"
 slug: "044"
 locale: "en"
@@ -9158,7 +9158,7 @@ October 16, 2012
 
 ---
 *Source: [Starting Vijeo Runtime on PC](https://www.plc-hmi-scadas.com/en/044.php) — Jose Manuel Luque*
-`,uy=`---
+`,Ay=`---
 title: "Link between Omron CQM1 PLC and WinCC Advanced RT V.11"
 slug: "046"
 locale: "en"
@@ -9221,7 +9221,7 @@ October 28, 2012
 
 ---
 *Source: [Link between Omron CQM1 PLC and WinCC Advanced RT V.11](https://www.plc-hmi-scadas.com/en/046.php) — Jose Manuel Luque*
-`,my=`---
+`,Py=`---
 title: "Automatic Screen Change"
 slug: "047"
 locale: "en"
@@ -9312,7 +9312,7 @@ November 1, 2012
 
 ---
 *Source: [Automatic Screen Change](https://www.plc-hmi-scadas.com/en/047.php) — Jose Manuel Luque*
-`,gy=`---
+`,Ty=`---
 title: "S7-2xx (PPI) Link with WinCC RT Advanced PC (TIA)"
 slug: "049"
 locale: "en"
@@ -9369,7 +9369,7 @@ November 13, 2012
 
 ---
 *Source: [S7-2xx (PPI) Link with WinCC RT Advanced PC (TIA)](https://www.plc-hmi-scadas.com/en/049.php) — Jose Manuel Luque*
-`,py=`---
+`,Iy=`---
 title: "DELTA DOP-B Screen Editor Alarm Configuration"
 slug: "063"
 locale: "en"
@@ -9454,7 +9454,7 @@ January 12, 2012
 
 ---
 *Source: [DELTA DOP-B Screen Editor Alarm Configuration](https://www.plc-hmi-scadas.com/en/063.php) — Jose Manuel Luque*
-`,wy=`---
+`,_y=`---
 title: "FactoryTalk View ME communicating with RSLogix Emulate 5000"
 slug: "076"
 locale: "en"
@@ -9545,7 +9545,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [FactoryTalk View ME communicating with RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/076.php) — Jose Manuel Luque*
-`,fy=`---
+`,xy=`---
 title: "User and Security Configuration in Factory Talk View ME"
 slug: "077"
 locale: "en"
@@ -9622,7 +9622,7 @@ February 14, 2013
 
 ---
 *Source: [User and Security Configuration in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/077.php) — Jose Manuel Luque*
-`,Cy=`---
+`,My=`---
 title: "Macro Configuration in Factory Talk View ME"
 slug: "078"
 locale: "en"
@@ -9679,7 +9679,7 @@ February 16, 2013
 
 ---
 *Source: [Macro Configuration in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/078.php) — Jose Manuel Luque*
-`,by=`---
+`,Ly=`---
 title: "Data Log Configuration in Factory Talk View ME"
 slug: "079"
 locale: "en"
@@ -9744,7 +9744,7 @@ February 17, 2013
 
 ---
 *Source: [Data Log Configuration in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/079.php) — Jose Manuel Luque*
-`,vy=`---
+`,Wy=`---
 title: "Configuration of PlaceHolders and Parameters"
 slug: "080"
 locale: "en"
@@ -9793,7 +9793,7 @@ February 20, 2013
 
 ---
 *Source: [Configuration of PlaceHolders and Parameters](https://www.plc-hmi-scadas.com/en/080.php) — Jose Manuel Luque*
-`,yy=`---
+`,ky=`---
 title: "Configuration of Information Messages in Factory Talk View ME"
 slug: "081"
 locale: "en"
@@ -9856,7 +9856,7 @@ February 22, 2013
 
 ---
 *Source: [Configuration of Information Messages in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/081.php) — Jose Manuel Luque*
-`,Sy=`---
+`,Ey=`---
 title: "RSLinx Enterprise Configuration"
 slug: "085"
 locale: "en"
@@ -9913,7 +9913,7 @@ March 11, 2013
 
 ---
 *Source: [RSLinx Enterprise Configuration](https://www.plc-hmi-scadas.com/en/085.php) — Jose Manuel Luque*
-`,Ay=`---
+`,Dy=`---
 title: "KepServer Enterprise"
 slug: "087"
 locale: "en"
@@ -9994,7 +9994,7 @@ March 17, 2013
 
 ---
 *Source: [KepServer Enterprise](https://www.plc-hmi-scadas.com/en/087.php) — Jose Manuel Luque*
-`,Py=`---
+`,Oy=`---
 title: "Vijeo Designer Configuration with S7-1200"
 slug: "090"
 locale: "en"
@@ -10079,7 +10079,7 @@ March 27, 2013
 
 ---
 *Source: [Vijeo Designer Configuration with S7-1200](https://www.plc-hmi-scadas.com/en/090.php) — Jose Manuel Luque*
-`,Ty=`---
+`,Fy=`---
 title: "Comfort Panels control Media Player"
 slug: "095"
 locale: "en"
@@ -10118,7 +10118,7 @@ April 3, 2013
 
 ---
 *Source: [Comfort Panels control Media Player](https://www.plc-hmi-scadas.com/en/095.php) — Jose Manuel Luque*
-`,Iy=`---
+`,Ry=`---
 title: "Sm@rt Server"
 slug: "097"
 locale: "en"
@@ -10187,7 +10187,7 @@ April 8, 2013
 
 ---
 *Source: [Sm@rt Server](https://www.plc-hmi-scadas.com/en/097.php) — Jose Manuel Luque*
-`,_y=`---
+`,Uy=`---
 title: "Sm@rt Client Viewer Control"
 slug: "101"
 locale: "en"
@@ -10236,7 +10236,7 @@ April 20, 2013
 
 ---
 *Source: [Sm@rt Client Viewer Control](https://www.plc-hmi-scadas.com/en/101.php) — Jose Manuel Luque*
-`,My=`---
+`,Ny=`---
 title: "OPC Server Comfort Panels"
 slug: "102"
 locale: "en"
@@ -10299,7 +10299,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [OPC Server Comfort Panels](https://www.plc-hmi-scadas.com/en/102.php) — Jose Manuel Luque*
-`,xy=`---
+`,Vy=`---
 title: "ProTool OP3"
 slug: "106"
 locale: "en"
@@ -10412,7 +10412,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [ProTool OP3](https://www.plc-hmi-scadas.com/en/106.php) — Jose Manuel Luque*
-`,Ly=`---
+`,jy=`---
 title: "ProTool PC Runtime with S7-200 (PPI)"
 slug: "107"
 locale: "en"
@@ -10475,7 +10475,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [ProTool PC Runtime with S7-200 (PPI)](https://www.plc-hmi-scadas.com/en/107.php) — Jose Manuel Luque*
-`,Wy=`---
+`,By=`---
 title: "WinCC RT Advanced (Profibus)"
 slug: "114"
 locale: "en"
@@ -10554,7 +10554,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [WinCC RT Advanced (Profibus)](https://www.plc-hmi-scadas.com/en/114.php) — Jose Manuel Luque*
-`,ky=`---
+`,Hy=`---
 title: "HMI HTTP Server"
 slug: "115"
 locale: "en"
@@ -10653,7 +10653,7 @@ If you liked it or the information was useful to you, share it ...
 
 ---
 *Source: [HMI HTTP Server](https://www.plc-hmi-scadas.com/en/115.php) — Jose Manuel Luque*
-`,Ey=`---
+`,qy=`---
 title: "Vijeo Designer Configuration with SoftLogix"
 slug: "122"
 locale: "en"
@@ -10723,7 +10723,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Vijeo Designer Configuration with SoftLogix](https://www.plc-hmi-scadas.com/en/122.php) — Jose Manuel Luque*
-`,Dy=`---
+`,Gy=`---
 title: "Update Firmware Panel View Plus 600"
 slug: "123"
 locale: "en"
@@ -10807,7 +10807,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Update Firmware Panel View Plus 600](https://www.plc-hmi-scadas.com/en/123.php) — Jose Manuel Luque*
-`,Oy=`---
+`,Jy=`---
 title: "HMI Simulation of Automation Studio"
 slug: "132"
 locale: "en"
@@ -10901,7 +10901,7 @@ If you liked it or found the information useful, share it.
 
 ---
 *Source: [HMI Simulation of Automation Studio](https://www.plc-hmi-scadas.com/en/132.php) — Jose Manuel Luque*
-`,Fy=`---
+`,zy=`---
 title: "Time Conversion Script in HMI"
 slug: "134"
 locale: "en"
@@ -10977,7 +10977,7 @@ If you liked it, or if the information was useful to you, share it...
 
 ---
 *Source: [Time Conversion Script in HMI](https://www.plc-hmi-scadas.com/en/134.php) — Jose Manuel Luque*
-`,Ry=`---
+`,Xy=`---
 title: "ActiveX Control Windows Media Player"
 slug: "factorytalkviewme-activex-wmp"
 locale: "en"
@@ -11033,7 +11033,7 @@ July 20, 2013
 
 ---
 *Source: [ActiveX Control Windows Media Player](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_ActiveX_WMP.php) — Jose Manuel Luque*
-`,Uy=`---
+`,Qy=`---
 title: "Factory Talk View ME Alarm Configuration"
 slug: "factorytalkviewme-alarmas"
 locale: "en"
@@ -11097,7 +11097,7 @@ July 19, 2013
 
 ---
 *Source: [Factory Talk View ME Alarm Configuration](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_Alarmas.php) — Jose Manuel Luque*
-`,Ny=`---
+`,Ky=`---
 title: "Global Connection Date and Time"
 slug: "factorytalkviewme-globalconnection-dt"
 locale: "en"
@@ -11165,7 +11165,7 @@ July 20, 2013
 
 ---
 *Source: [Global Connection Date and Time](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_GlobalConnection_DT.php) — Jose Manuel Luque*
-`,Vy=`---
+`,Yy=`---
 title: "Changing Languages in Factory Talk View ME"
 slug: "factorytalkviewme-lenguages"
 locale: "en"
@@ -11241,7 +11241,7 @@ June 22, 2013
 
 ---
 *Source: [Changing Languages in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_Lenguages.php) — Jose Manuel Luque*
-`,By=`---
+`,Zy=`---
 title: "Allen Bradley / Rockwell — HMI"
 slug: "hmi-allen-bradley"
 locale: "en"
@@ -11303,7 +11303,7 @@ Show more
 
 ---
 *Source: [Allen Bradley / Rockwell — HMI](https://www.plc-hmi-scadas.com/en/HMI-ALLEN-BRADLEY/) — Jose Manuel*
-`,Hy=`---
+`,$y=`---
 title: "Omron — HMI"
 slug: "hmi-omron"
 locale: "en"
@@ -11341,7 +11341,7 @@ Show more
 
 ---
 *Source: [Omron — HMI](https://www.plc-hmi-scadas.com/en/HMI-OMRON/) — Jose Manuel*
-`,jy=`---
+`,eS=`---
 title: "Schneider Electric — HMI"
 slug: "hmi-schneider"
 locale: "en"
@@ -11389,7 +11389,7 @@ Section under construction — XBT-L1000 articles coming soon.
 
 ---
 *Source: [Schneider Electric — HMI](https://www.plc-hmi-scadas.com/en/HMI-SCHNEIDER/) — Jose Manuel*
-`,qy=`---
+`,nS=`---
 title: "Siemens Simatic — HMI"
 slug: "hmi-siemens"
 locale: "en"
@@ -11468,7 +11468,7 @@ Show more
 
 ---
 *Source: [Siemens Simatic — HMI](https://www.plc-hmi-scadas.com/en/HMI-SIEMENS/) — Jose Manuel*
-`,Gy=`---
+`,tS=`---
 title: "Communication between Omron N3BQ-TW01B and S7-200"
 slug: "omron-s7-200"
 locale: "en"
@@ -11545,7 +11545,7 @@ August 26, 2017
 
 ---
 *Source: [Communication between Omron N3BQ-TW01B and S7-200](https://www.plc-hmi-scadas.com/en/Omron_S7-200.php) — Jose Manuel Luque*
-`,Jy=`---
+`,aS=`---
 title: "Transfer of the project to NB3Q"
 slug: "omron-transfer-hmi"
 locale: "en"
@@ -11610,7 +11610,7 @@ August 27, 2017
 
 ---
 *Source: [Transfer of the project to NB3Q](https://www.plc-hmi-scadas.com/en/Omron_Transfer_HMI.php) — Jose Manuel Luque*
-`,zy=`---
+`,iS=`---
 title: "Other HMIs"
 slug: "other-hmis"
 locale: "en"
@@ -11655,7 +11655,7 @@ Show more
 
 ---
 *Source: [Other HMIs](https://www.plc-hmi-scadas.com/en/Other-HMIs/) — Jose Manuel*
-`,Xy=`---
+`,oS=`---
 title: "PanelBuilder32 Configuration Communications Setup"
 slug: "panelbuilder-communications"
 locale: "en"
@@ -11749,7 +11749,7 @@ July 23, 2013
 
 ---
 *Source: [PanelBuilder32 Configuration Communications Setup](https://www.plc-hmi-scadas.com/en/PanelBuilder_communications.php) — Jose Manuel Luque*
-`,Qy=`---
+`,sS=`---
 title: "PanelBuilder32 Tag Editor"
 slug: "panelbuilder32-tageditor"
 locale: "en"
@@ -11803,7 +11803,7 @@ August 5, 2013
 
 ---
 *Source: [PanelBuilder32 Tag Editor](https://www.plc-hmi-scadas.com/en/PanelBuilder32_TagEditor.php) — Jose Manuel Luque*
-`,Ky=`---
+`,rS=`---
 title: "Restore to Factory Settings"
 slug: "simatic-restaurar-ktp"
 locale: "en"
@@ -11857,7 +11857,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Restore to Factory Settings](https://www.plc-hmi-scadas.com/en/Simatic_Restaurar_KTP.php) — Jose Manuel Luque*
-`,Yy=`---
+`,cS=`---
 title: "Script Conversion S5Time format (Milliseconds) to H_M_S"
 slug: "tia-portal-conversion-tiempos-2"
 locale: "en"
@@ -11905,7 +11905,7 @@ January 26, 2014
 
 ---
 *Source: [Script Conversion S5Time format (Milliseconds) to H_M_S](https://www.plc-hmi-scadas.com/en/TIA_Portal_Conversion_Tiempos_2.php) — Jose Manuel Luque*
-`,Zy=`---
+`,lS=`---
 title: "Script Conversion from S5Time format (BCD_I) to H_M_S"
 slug: "tia-portal-conversion-tiempos"
 locale: "en"
@@ -11961,7 +11961,7 @@ January 26, 2014
 
 ---
 *Source: [Script Conversion from S5Time format (BCD_I) to H_M_S](https://www.plc-hmi-scadas.com/en/TIA_Portal_Conversion_Tiempos.php) — Jose Manuel Luque*
-`,$y=`---
+`,hS=`---
 title: "VBScript Change Object Properties"
 slug: "tia-portal-vbscript-propiedades"
 locale: "en"
@@ -12009,7 +12009,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [VBScript Change Object Properties](https://www.plc-hmi-scadas.com/en/TIA_Portal_VBScript_Propiedades.php) — Jose Manuel Luque*
-`,eS=`---
+`,dS=`---
 title: "WinCC Flexible Logged User Name"
 slug: "winccflexible-currentuser"
 locale: "en"
@@ -12072,7 +12072,7 @@ June 1, 2018
 
 ---
 *Source: [WinCC Flexible Logged User Name](https://www.plc-hmi-scadas.com/en/WinCCFlexible_CurrentUser.php) — Jose Manuel Luque*
-`,nS=`---
+`,uS=`---
 title: "WinCC Flexible Simotion"
 slug: "winccflexible-simotion"
 locale: "en"
@@ -12173,7 +12173,7 @@ June 5, 2018
 
 ---
 *Source: [WinCC Flexible Simotion](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion.php) — Jose Manuel Luque*
-`,tS=`---
+`,mS=`---
 title: "Artificial Intelligence"
 slug: "ai"
 locale: "en"
@@ -12236,7 +12236,7 @@ Read more
 
 ---
 *Source: [Artificial Intelligence](https://www.plc-hmi-scadas.com/en/AI/) — Pedro Pagán Pallarés*
-`,aS=`---
+`,gS=`---
 title: "Article library"
 slug: "articles"
 locale: "en"
@@ -12329,7 +12329,7 @@ credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mir
 
 ---
 *Source: [Article library](https://www.plc-hmi-scadas.com/en/Articles/) — Jose Manuel*
-`,iS=`---
+`,pS=`---
 title: "Jose Manuel Luque"
 slug: "blog-author-jose-manuel"
 locale: "en"
@@ -12393,7 +12393,7 @@ _«Never regard study as a duty, but as the enviable opportunity to learn to kno
 
 ---
 *Source: [Jose Manuel Luque](https://www.plc-hmi-scadas.com/en/blog/author/jose-manuel/) — Jose Manuel Luque*
-`,oS=`---
+`,wS=`---
 title: "Pedro Pagán Pallarés"
 slug: "blog-author-pedro"
 locale: "en"
@@ -12459,7 +12459,7 @@ _«Silent gratitude isn't much use to anyone.»_ \\- Gladys Berthe Stern
 
 ---
 *Source: [Pedro Pagán Pallarés](https://www.plc-hmi-scadas.com/en/blog/author/pedro/) — Pedro Pagán Pallarés*
-`,sS=`---
+`,fS=`---
 title: "Let's Talk"
 slug: "contact"
 locale: "en"
@@ -12525,7 +12525,7 @@ By submitting you agree that we use your email only to reply. No spam, ever.
 
 ---
 *Source: [Let's Talk](https://www.plc-hmi-scadas.com/en/Contact) — Jose Manuel Luque & Pedro Pagán Pallarés*
-`,rS=`---
+`,CS=`---
 title: "Databases"
 slug: "databases"
 locale: "en"
@@ -12565,7 +12565,7 @@ SCADA systems and industrial historians rely on robust databases for storing pro
 
 ---
 *Source: [Databases](https://www.plc-hmi-scadas.com/en/Databases/) — Jose Manuel*
-`,cS=`---
+`,bS=`---
 title: "HMI — Human Machine Interface"
 slug: "hmi"
 locale: "en"
@@ -12672,7 +12672,7 @@ Complete automation engineer workflow: from FDS to commissioning in 10 phases. P
 
 ---
 *Source: [HMI — Human Machine Interface](https://www.plc-hmi-scadas.com/en/HMI/) — Jose Manuel*
-`,lS=`---
+`,vS=`---
 title: "Industrial automation resources"
 slug: "home"
 locale: "en"
@@ -12699,7 +12699,7 @@ I decided to create this space (July 2012) in the great cloud of the internet to
 
 ---
 *Source: [Industrial automation resources](https://www.plc-hmi-scadas.com/en/Home/) — Jose Manuel*
-`,hS=`---
+`,yS=`---
 title: "Industrial automation resources"
 slug: "index"
 locale: "en"
@@ -12726,7 +12726,7 @@ I decided to create this space (July 2012) in the great cloud of the internet to
 
 ---
 *Source: [Industrial automation resources](https://www.plc-hmi-scadas.com/en/) — Jose Manuel*
-`,dS=`---
+`,SS=`---
 title: "Industrial Communications"
 slug: "industrial-communications"
 locale: "en"
@@ -12833,7 +12833,7 @@ Read more
 
 ---
 *Source: [Industrial Communications](https://www.plc-hmi-scadas.com/en/Industrial-Communications/) — Jose Manuel*
-`,uS=`---
+`,AS=`---
 title: "OPC Servers"
 slug: "opc"
 locale: "en"
@@ -12948,7 +12948,7 @@ Intouch FSGateway, successor to the former OPCLinx.
 
 ---
 *Source: [OPC Servers](https://www.plc-hmi-scadas.com/en/OPC/) — Jose Manuel*
-`,mS=`---
+`,PS=`---
 title: "PLC — Programmable Logic Controllers"
 slug: "plc"
 locale: "en"
@@ -13086,7 +13086,7 @@ What is GRAFCET, elements, evolution rules, structures, GEMMA and step-by-step t
 
 ---
 *Source: [PLC — Programmable Logic Controllers](https://www.plc-hmi-scadas.com/en/PLC/) — Jose Manuel*
-`,gS=`---
+`,TS=`---
 title: "Article Series"
 slug: "series"
 locale: "en"
@@ -13109,7 +13109,7 @@ credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mir
 
 ---
 *Source: [Article Series](https://www.plc-hmi-scadas.com/en/Series/) — Jose Manuel*
-`,pS=`---
+`,IS=`---
 title: "Software & Development"
 slug: "software"
 locale: "en"
@@ -13178,7 +13178,7 @@ Read more
 
 ---
 *Source: [Software & Development](https://www.plc-hmi-scadas.com/en/Software/) — Pedro Pagán Pallarés*
-`,wS=`---
+`,_S=`---
 title: "Tools for automation technicians"
 slug: "tools"
 locale: "en"
@@ -13203,7 +13203,7 @@ Web editor and simulator for designing GRAFCET, defining steps, transitions, act
 
 ---
 *Source: [Tools for automation technicians](https://www.plc-hmi-scadas.com/en/Tools/) — Pedro Pagan Pallares*
-`,fS=`---
+`,xS=`---
 title: "Legal notice"
 slug: "legal-notice"
 locale: "en"
@@ -13240,7 +13240,7 @@ See the [privacy policy](#/a/en%2Fprivacy-policy) and the [cookie policy](#/a/en
 
 ---
 *Source: [Legal notice](https://www.plc-hmi-scadas.com/en/legal-notice.php) — Jose Manuel*
-`,CS=`---
+`,MS=`---
 title: "404"
 slug: "library"
 locale: "en"
@@ -13267,7 +13267,7 @@ Popular categories:
 
 ---
 *Source: [404](https://www.plc-hmi-scadas.com/en/Library/)*
-`,bS=`---
+`,LS=`---
 title: "PC/PG Communication and S7-2xx CPU"
 slug: "001"
 locale: "en"
@@ -13337,7 +13337,7 @@ July 2012
 
 ---
 *Source: [PC/PG Communication and S7-2xx CPU](https://www.plc-hmi-scadas.com/en/001.php) — Jose Manuel Luque*
-`,vS=`---
+`,WS=`---
 title: "Communication between PC/PG and S5-100 CPU"
 slug: "002"
 locale: "en"
@@ -13418,7 +13418,7 @@ July 2012
 
 ---
 *Source: [Communication between PC/PG and S5-100 CPU](https://www.plc-hmi-scadas.com/en/002.php) — Jose Manuel Luque*
-`,yS=`---
+`,kS=`---
 title: "PC/PG Communication with S5 PLC using USB-RS232 Adapter"
 slug: "006"
 locale: "en"
@@ -13505,7 +13505,7 @@ July 26, 2012
 
 ---
 *Source: [PC/PG Communication with S5 PLC using USB-RS232 Adapter](https://www.plc-hmi-scadas.com/en/006.php) — Jose Manuel Luque*
-`,SS=`---
+`,ES=`---
 title: "Scale Analog Input in Twido"
 slug: "010"
 locale: "en"
@@ -13576,7 +13576,7 @@ July 29, 2012
 
 ---
 *Source: [Scale Analog Input in Twido](https://www.plc-hmi-scadas.com/en/010.php) — Jose Manuel Luque*
-`,AS=`---
+`,DS=`---
 title: "RSLogix Emulate 5000"
 slug: "011"
 locale: "en"
@@ -13699,7 +13699,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/011.php) — Jose Manuel Luque*
-`,PS=`---
+`,OS=`---
 title: "Simulation with Unity"
 slug: "012"
 locale: "en"
@@ -13796,7 +13796,7 @@ Update: May 18, 2013. Video of the detailed description above in conjunction wit
 
 ---
 *Source: [Simulation with Unity](https://www.plc-hmi-scadas.com/en/012.php) — Jose Manuel Luque*
-`,TS=`---
+`,FS=`---
 title: "RSLogix Emulate 500 Configuration"
 slug: "023"
 locale: "en"
@@ -13891,7 +13891,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [RSLogix Emulate 500 Configuration](https://www.plc-hmi-scadas.com/en/023.php) — Jose Manuel Luque*
-`,IS=`---
+`,RS=`---
 title: "Configuration of the 1747 PIC-AIC+ Driver"
 slug: "024"
 locale: "en"
@@ -13953,7 +13953,7 @@ August 29, 2012
 
 ---
 *Source: [Configuration of the 1747 PIC-AIC+ Driver](https://www.plc-hmi-scadas.com/en/024.php) — Jose Manuel Luque*
-`,_S=`---
+`,US=`---
 title: "Configuration of the Ethernet Devices Driver"
 slug: "027"
 locale: "en"
@@ -13999,7 +13999,7 @@ September 1, 2012
 
 ---
 *Source: [Configuration of the Ethernet Devices Driver](https://www.plc-hmi-scadas.com/en/027.php) — Jose Manuel Luque*
-`,MS=`---
+`,NS=`---
 title: "CX-Simulator"
 slug: "036"
 locale: "en"
@@ -14074,7 +14074,7 @@ September 11, 2012
 
 ---
 *Source: [CX-Simulator](https://www.plc-hmi-scadas.com/en/036.php) — Jose Manuel Luque*
-`,xS=`---
+`,VS=`---
 title: "FIFO Function in CX-Programmer"
 slug: "037"
 locale: "en"
@@ -14115,7 +14115,7 @@ September 13, 2012
 
 ---
 *Source: [FIFO Function in CX-Programmer](https://www.plc-hmi-scadas.com/en/037.php) — Jose Manuel Luque*
-`,LS=`---
+`,jS=`---
 title: "Profibus Configuration between S7-300 and S7-200 EM277"
 slug: "041"
 locale: "en"
@@ -14200,7 +14200,7 @@ September 22, 2012
 
 ---
 *Source: [Profibus Configuration between S7-300 and S7-200 EM277](https://www.plc-hmi-scadas.com/en/041.php) — Jose Manuel Luque*
-`,WS=`---
+`,BS=`---
 title: "Communication between PC and Omron CQM1 PLC"
 slug: "045"
 locale: "en"
@@ -14261,7 +14261,7 @@ October 20, 2012
 
 ---
 *Source: [Communication between PC and Omron CQM1 PLC](https://www.plc-hmi-scadas.com/en/045.php) — Jose Manuel Luque*
-`,kS=`---
+`,HS=`---
 title: "WinAC / WinLC"
 slug: "050"
 locale: "en"
@@ -14352,7 +14352,7 @@ November 21, 2012
 
 ---
 *Source: [WinAC / WinLC](https://www.plc-hmi-scadas.com/en/050.php) — Jose Manuel Luque*
-`,ES=`---
+`,qS=`---
 title: "Reading and Writing Date and Time from PLC and WinCC RT Advanced"
 slug: "053"
 locale: "en"
@@ -14425,7 +14425,7 @@ November 28, 2012
 
 ---
 *Source: [Reading and Writing Date and Time from PLC and WinCC RT Advanced](https://www.plc-hmi-scadas.com/en/053.php) — Jose Manuel Luque*
-`,DS=`---
+`,GS=`---
 title: "Simulation with PLCSIM and FLUIDSIM"
 slug: "056"
 locale: "en"
@@ -14456,7 +14456,7 @@ December 15, 2012
 
 ---
 *Source: [Simulation with PLCSIM and FLUIDSIM](https://www.plc-hmi-scadas.com/en/056.php) — Jose Manuel Luque*
-`,OS=`---
+`,JS=`---
 title: "S7-200 Modbus Slave"
 slug: "059"
 locale: "en"
@@ -14539,7 +14539,7 @@ December 29, 2012
 
 ---
 *Source: [S7-200 Modbus Slave](https://www.plc-hmi-scadas.com/en/059.php) — Jose Manuel Luque*
-`,FS=`---
+`,zS=`---
 title: "S7-200 Modbus Master"
 slug: "060"
 locale: "en"
@@ -14594,7 +14594,7 @@ December 30, 2012
 
 ---
 *Source: [S7-200 Modbus Master](https://www.plc-hmi-scadas.com/en/060.php) — Jose Manuel Luque*
-`,RS=`---
+`,XS=`---
 title: "Creation of a Multi-instance FB"
 slug: "065"
 locale: "en"
@@ -14683,7 +14683,7 @@ January 16, 2012
 
 ---
 *Source: [Creation of a Multi-instance FB](https://www.plc-hmi-scadas.com/en/065.php) — Jose Manuel Luque*
-`,US=`---
+`,QS=`---
 title: "First Project with ABB Control Builder"
 slug: "066"
 locale: "en"
@@ -14794,7 +14794,7 @@ January 25, 2013
 
 ---
 *Source: [First Project with ABB Control Builder](https://www.plc-hmi-scadas.com/en/066.php) — Jose Manuel Luque*
-`,NS=`---
+`,KS=`---
 title: "Create FB in Control Builder Plus"
 slug: "067"
 locale: "en"
@@ -14907,7 +14907,7 @@ January 27, 2013
 
 ---
 *Source: [Create FB in Control Builder Plus](https://www.plc-hmi-scadas.com/en/067.php) — Jose Manuel Luque*
-`,VS=`---
+`,YS=`---
 title: "Create Backup of a GE 90-30 PLC with VersaPro"
 slug: "068"
 locale: "en"
@@ -14996,7 +14996,7 @@ January 30, 2013
 
 ---
 *Source: [Create Backup of a GE 90-30 PLC with VersaPro](https://www.plc-hmi-scadas.com/en/068.php) — Jose Manuel Luque*
-`,BS=`---
+`,ZS=`---
 title: "CodeSys"
 slug: "070"
 locale: "en"
@@ -15099,7 +15099,7 @@ February 5, 2013
 
 ---
 *Source: [CodeSys](https://www.plc-hmi-scadas.com/en/070.php) — Jose Manuel Luque*
-`,HS=`---
+`,$S=`---
 title: "First Project in Beckhoff TwinCat"
 slug: "072"
 locale: "en"
@@ -15172,7 +15172,7 @@ February 7, 2013
 
 ---
 *Source: [First Project in Beckhoff TwinCat](https://www.plc-hmi-scadas.com/en/072.php) — Jose Manuel Luque*
-`,jS=`---
+`,eA=`---
 title: "Remote Device Linx Gateway"
 slug: "075"
 locale: "en"
@@ -15261,7 +15261,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [Remote Device Linx Gateway](https://www.plc-hmi-scadas.com/en/075.php) — Jose Manuel Luque*
-`,qS=`---
+`,nA=`---
 title: "S7 OpenModbus/TCP Simulation"
 slug: "082"
 locale: "en"
@@ -15346,7 +15346,7 @@ March 3, 2012
 
 ---
 *Source: [S7 OpenModbus/TCP Simulation](https://www.plc-hmi-scadas.com/en/082.php) — Jose Manuel Luque*
-`,GS=`---
+`,tA=`---
 title: "Simatic 1200 ModbusTCP Server"
 slug: "083"
 locale: "en"
@@ -15407,7 +15407,7 @@ March 6, 2013
 
 ---
 *Source: [Simatic 1200 ModbusTCP Server](https://www.plc-hmi-scadas.com/en/083.php) — Jose Manuel Luque*
-`,JS=`---
+`,aA=`---
 title: "Simatic 1200 ModbusTCP Client"
 slug: "084"
 locale: "en"
@@ -15474,7 +15474,7 @@ March 10, 2013
 
 ---
 *Source: [Simatic 1200 ModbusTCP Client](https://www.plc-hmi-scadas.com/en/084.php) — Jose Manuel Luque*
-`,zS=`---
+`,iA=`---
 title: "Example FB14-15 SFB14-15 GET-PUT"
 slug: "086"
 locale: "en"
@@ -15541,7 +15541,7 @@ March 17, 2013
 
 ---
 *Source: [Example FB14-15 SFB14-15 GET-PUT](https://www.plc-hmi-scadas.com/en/086.php) — Jose Manuel Luque*
-`,XS=`---
+`,oA=`---
 title: "BOOTP/DHCP Server"
 slug: "089"
 locale: "en"
@@ -15602,7 +15602,7 @@ March 25, 2013
 
 ---
 *Source: [BOOTP/DHCP Server](https://www.plc-hmi-scadas.com/en/089.php) — Jose Manuel Luque*
-`,QS=`---
+`,sA=`---
 title: "S7-1200 Web Server"
 slug: "091"
 locale: "en"
@@ -15657,7 +15657,7 @@ March 28, 2013
 
 ---
 *Source: [S7-1200 Web Server](https://www.plc-hmi-scadas.com/en/091.php) — Jose Manuel Luque*
-`,KS=`---
+`,rA=`---
 title: "Update Firmware on a ControlLogix"
 slug: "092"
 locale: "en"
@@ -15720,7 +15720,7 @@ March 29, 2013
 
 ---
 *Source: [Update Firmware on a ControlLogix](https://www.plc-hmi-scadas.com/en/092.php) — Jose Manuel Luque*
-`,YS=`---
+`,cA=`---
 title: "System Diagnosis and Diagnostic Viewer"
 slug: "093"
 locale: "en"
@@ -15801,7 +15801,7 @@ April 2, 2013
 
 ---
 *Source: [System Diagnosis and Diagnostic Viewer](https://www.plc-hmi-scadas.com/en/093.php) — Jose Manuel Luque*
-`,ZS=`---
+`,lA=`---
 title: "RSLinx DF1"
 slug: "094"
 locale: "en"
@@ -15860,7 +15860,7 @@ April 3, 2013
 
 ---
 *Source: [RSLinx DF1](https://www.plc-hmi-scadas.com/en/094.php) — Jose Manuel Luque*
-`,$S=`---
+`,hA=`---
 title: "Indexed Text to Display Messages on HMI"
 slug: "096"
 locale: "en"
@@ -15907,7 +15907,7 @@ April 5, 2013
 
 ---
 *Source: [Indexed Text to Display Messages on HMI](https://www.plc-hmi-scadas.com/en/096.php) — Jose Manuel Luque*
-`,eA=`---
+`,dA=`---
 title: "Indexed Text to Display Alerts on HMI II"
 slug: "098"
 locale: "en"
@@ -15960,7 +15960,7 @@ April 10, 2013
 
 ---
 *Source: [Indexed Text to Display Alerts on HMI II](https://www.plc-hmi-scadas.com/en/098.php) — Jose Manuel Luque*
-`,nA=`---
+`,uA=`---
 title: "Read Time Simatic 1200"
 slug: "099"
 locale: "en"
@@ -16021,7 +16021,7 @@ April 8, 2013
 
 ---
 *Source: [Read Time Simatic 1200](https://www.plc-hmi-scadas.com/en/099.php) — Jose Manuel Luque*
-`,tA=`---
+`,mA=`---
 title: "TIA Portal Global Libraries"
 slug: "100"
 locale: "en"
@@ -16076,7 +16076,7 @@ April 13, 2013
 
 ---
 *Source: [TIA Portal Global Libraries](https://www.plc-hmi-scadas.com/en/100.php) — Jose Manuel Luque*
-`,aA=`---
+`,gA=`---
 title: "Create Backup with Unity Pro"
 slug: "103"
 locale: "en"
@@ -16141,7 +16141,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Create Backup with Unity Pro](https://www.plc-hmi-scadas.com/en/103.php) — Jose Manuel Luque*
-`,iA=`---
+`,pA=`---
 title: "Function Block TIA Portal"
 slug: "104"
 locale: "en"
@@ -16194,7 +16194,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Function Block TIA Portal](https://www.plc-hmi-scadas.com/en/104.php) — Jose Manuel Luque*
-`,oA=`---
+`,wA=`---
 title: "PLCSIM V.12"
 slug: "105"
 locale: "en"
@@ -16283,7 +16283,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [PLCSIM V.12](https://www.plc-hmi-scadas.com/en/105.php) — Jose Manuel Luque*
-`,sA=`---
+`,fA=`---
 title: "SoftLogix"
 slug: "111"
 locale: "en"
@@ -16390,7 +16390,7 @@ If you liked it or the information was useful to you, share it...
 
 ---
 *Source: [SoftLogix](https://www.plc-hmi-scadas.com/en/111.php) — Jose Manuel Luque*
-`,rA=`---
+`,CA=`---
 title: "Logix5000 – Consumed and Produced Tags"
 slug: "117"
 locale: "en"
@@ -16475,7 +16475,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Logix5000 – Consumed and Produced Tags](https://www.plc-hmi-scadas.com/en/117.php) — Jose Manuel Luque*
-`,cA=`---
+`,bA=`---
 title: "Configuration of a Logix5000 Message"
 slug: "118"
 locale: "en"
@@ -16571,7 +16571,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Configuration of a Logix5000 Message](https://www.plc-hmi-scadas.com/en/118.php) — Jose Manuel Luque*
-`,lA=`---
+`,vA=`---
 title: "GSV/SSV Instructions"
 slug: "120"
 locale: "en"
@@ -16637,7 +16637,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [GSV/SSV Instructions](https://www.plc-hmi-scadas.com/en/120.php) — Jose Manuel Luque*
-`,hA=`---
+`,yA=`---
 title: "Introduction to RSLogix 5000"
 slug: "124"
 locale: "en"
@@ -16804,7 +16804,7 @@ The configuration consists of selecting the module type and the slot number wher
 
 ---
 *Source: [Introduction to RSLogix 5000](https://www.plc-hmi-scadas.com/en/124.php) — Jose Manuel Luque*
-`,dA=`---
+`,SA=`---
 title: "Logix5000 – Read Barcode Codes"
 slug: "125"
 locale: "en"
@@ -16866,7 +16866,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Logix5000 – Read Barcode Codes](https://www.plc-hmi-scadas.com/en/125.php) — Jose Manuel Luque*
-`,uA=`---
+`,AA=`---
 title: "CP 340 RS232 Configuration"
 slug: "128"
 locale: "en"
@@ -16954,7 +16954,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [CP 340 RS232 Configuration](https://www.plc-hmi-scadas.com/en/128.php) — Jose Manuel Luque*
-`,mA=`---
+`,PA=`---
 title: "PLC Simulation with Automation Studio"
 slug: "130"
 locale: "en"
@@ -17040,7 +17040,7 @@ If you liked it or found the information useful, share it ...
 
 ---
 *Source: [PLC Simulation with Automation Studio](https://www.plc-hmi-scadas.com/en/130.php) — Jose Manuel Luque*
-`,gA=`---
+`,TA=`---
 title: "Factory Talk Transaction Manager"
 slug: "135"
 locale: "en"
@@ -17164,7 +17164,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Factory Talk Transaction Manager](https://www.plc-hmi-scadas.com/en/135.php) — Jose Manuel Luque*
-`,pA=`---
+`,IA=`---
 title: "Prosoft AN-X2-AB-DHRIO Gateway Configuration"
 slug: "ab-gateway-dhrio"
 locale: "en"
@@ -17263,7 +17263,7 @@ August 23, 2017
 
 ---
 *Source: [Prosoft AN-X2-AB-DHRIO Gateway Configuration](https://www.plc-hmi-scadas.com/en/AB_Gateway_DHRIO.php) — Jose Manuel Luque*
-`,wA=`---
+`,_A=`---
 title: "First Test with Micro830 and Component Workbench"
 slug: "ab-micro830"
 locale: "en"
@@ -17343,7 +17343,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [First Test with Micro830 and Component Workbench](https://www.plc-hmi-scadas.com/en/AB_Micro830.php) — Jose Manuel Luque*
-`,fA=`---
+`,xA=`---
 title: "Micrologix Master Modbus PowerFlex 4 Slave Modbus"
 slug: "ab-micrologix-modbus-powerflex"
 locale: "en"
@@ -17395,7 +17395,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [Micrologix Master Modbus PowerFlex 4 Slave Modbus](https://www.plc-hmi-scadas.com/en/AB_Micrologix_Modbus_PowerFlex.php) — Jose Manuel Luque*
-`,CA=`---
+`,MA=`---
 title: "Parameterizing PowerFlex525 with Component Workbench"
 slug: "ab-powerflex525"
 locale: "en"
@@ -17447,7 +17447,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [Parameterizing PowerFlex525 with Component Workbench](https://www.plc-hmi-scadas.com/en/AB_PowerFlex525.php) — Jose Manuel Luque*
-`,bA=`---
+`,LA=`---
 title: "Enable Source Protection"
 slug: "ab-source-protection"
 locale: "en"
@@ -17494,7 +17494,7 @@ January 28, 2019
 
 ---
 *Source: [Enable Source Protection](https://www.plc-hmi-scadas.com/en/AB_Source_Protection.php) — Jose Manuel Luque*
-`,vA=`---
+`,WA=`---
 title: "RSLogix 500 - Upload Project"
 slug: "ab-upload"
 locale: "en"
@@ -17547,7 +17547,7 @@ January 21, 2018
 
 ---
 *Source: [RSLogix 500 - Upload Project](https://www.plc-hmi-scadas.com/en/AB_Upload.php) — Jose Manuel Luque*
-`,yA=`---
+`,kA=`---
 title: "Beckhoff CERHOST"
 slug: "beckhoff-cerhost"
 locale: "en"
@@ -17600,7 +17600,7 @@ Depending on the changes we make, we need to restart the device and we do this w
 
 ---
 *Source: [Beckhoff CERHOST](https://www.plc-hmi-scadas.com/en/Beckhoff_CERHOST.php) — Jose Manuel Luque*
-`,SA=`---
+`,EA=`---
 title: "Online Hardware Configuration - Twincat System Manager"
 slug: "beckhoff-create-config"
 locale: "en"
@@ -17701,7 +17701,7 @@ We save the project with the name we are interested in, and we are ready to crea
 
 ---
 *Source: [Online Hardware Configuration - Twincat System Manager](https://www.plc-hmi-scadas.com/en/Beckhoff_Create_Config.php) — Jose Manuel Luque*
-`,AA=`---
+`,DA=`---
 title: "Download TwinCAT PLC Project"
 slug: "beckhoff-download-plc"
 locale: "en"
@@ -17754,7 +17754,7 @@ With an open project, we can modify the download options; by default, the select
 
 ---
 *Source: [Download TwinCAT PLC Project](https://www.plc-hmi-scadas.com/en/Beckhoff_Download_PLC.php) — Jose Manuel Luque*
-`,PA=`---
+`,OA=`---
 title: "Beckhoff OPC UA Server - CE"
 slug: "beckhoff-server-opc-ua"
 locale: "en"
@@ -17837,7 +17837,7 @@ And here we check that everything works perfectly, we can now establish communic
 
 ---
 *Source: [Beckhoff OPC UA Server - CE](https://www.plc-hmi-scadas.com/en/Beckhoff_Server_OPC_UA.php) — Jose Manuel Luque*
-`,TA=`---
+`,FA=`---
 title: "Upload TwinCAT System Manager Configuration"
 slug: "beckhoff-upload-config"
 locale: "en"
@@ -17918,7 +17918,7 @@ And we have now downloaded all the hardware configuration in a new project, also
 
 ---
 *Source: [Upload TwinCAT System Manager Configuration](https://www.plc-hmi-scadas.com/en/Beckhoff_Upload_Config.php) — Jose Manuel Luque*
-`,IA=`---
+`,RA=`---
 title: "Upload PLC TwinCAT Project"
 slug: "beckhoff-upload-plc"
 locale: "en"
@@ -17971,7 +17971,7 @@ Once downloaded, we can save it with the name that interests us. And note how we
 
 ---
 *Source: [Upload PLC TwinCAT Project](https://www.plc-hmi-scadas.com/en/Beckhoff_Upload_PLC.php) — Jose Manuel Luque*
-`,_A=`---
+`,UA=`---
 title: "OPC UA Security: Siemens S7-1500 and UA Expert Client"
 slug: "blog-certificados-opc-ua-plc-siemens-uaexpert"
 locale: "en"
@@ -18295,7 +18295,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [OPC UA Security: Siemens S7-1500 and UA Expert Client](https://www.plc-hmi-scadas.com/en/blog/certificados-opc-ua-plc-siemens-uaexpert/) — PLC-HMI-SCADAS*
-`,MA=`---
+`,NA=`---
 title: "PLC scan cycle: when milliseconds become distance"
 slug: "blog-ciclo-scan-plc"
 locale: "en"
@@ -18421,7 +18421,7 @@ That is why it is worth measuring the cycle, understanding how it grows and desi
 
 ---
 *Source: [PLC scan cycle: when milliseconds become distance](https://www.plc-hmi-scadas.com/en/blog/ciclo-scan-plc/)*
-`,xA=`---
+`,VA=`---
 title: "PROFINET Basics"
 slug: "blog-conceptos-basicos-profinet"
 locale: "en"
@@ -18538,7 +18538,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [PROFINET Basics](https://www.plc-hmi-scadas.com/en/blog/conceptos-basicos-profinet/) — Jose Manuel Luque*
-`,LA=`---
+`,jA=`---
 title: "Common Industrial Protocol (CIP) Ethernet/IP"
 slug: "blog-ethernet-ip-cip-common-industrial-protocol"
 locale: "en"
@@ -18607,7 +18607,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Common Industrial Protocol (CIP) Ethernet/IP](https://www.plc-hmi-scadas.com/en/blog/ethernet-ip-cip-common-industrial-protocol/) — Jose Manuel Luque*
-`,WA=`---
+`,BA=`---
 title: "FactoryTalk Echo: Simulate Two Rockwell PLCs"
 slug: "blog-factorytalk-echo-simular-dos-plc-rockwell"
 locale: "en"
@@ -18726,7 +18726,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [FactoryTalk Echo: Simulate Two Rockwell PLCs](https://www.plc-hmi-scadas.com/en/blog/factorytalk-echo-simular-dos-plc-rockwell/) — Pedro Pagán Pallarés*
-`,kA=`---
+`,HA=`---
 title: "FactoryTalk Echo - Update firmware v.37"
 slug: "blog-factorytalk-echo-update-firmware-v-37"
 locale: "en"
@@ -18780,7 +18780,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [FactoryTalk Echo - Update firmware v.37](https://www.plc-hmi-scadas.com/en/blog/factorytalk-echo-update-firmware-v-37/) — Jose Manuel Luque*
-`,EA=`---
+`,qA=`---
 title: "Optimizing Industry: Version Control and TIA Portal (Part 1)"
 slug: "blog-gittialportal"
 locale: "en"
@@ -18912,7 +18912,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Optimizing Industry: Version Control and TIA Portal (Part 1)](https://www.plc-hmi-scadas.com/en/blog/gittialportal/) — Jhon Chuquimarca Castillo*
-`,DA=`---
+`,GA=`---
 title: "Logix Designer SDK: Automating Rockwell Projects"
 slug: "blog-logix-designer-sdk-automatizacion-proyectos"
 locale: "en"
@@ -19024,7 +19024,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Logix Designer SDK: Automating Rockwell Projects](https://www.plc-hmi-scadas.com/en/blog/logix-designer-sdk-automatizacion-proyectos/) — Pedro Pagán Pallarés*
-`,OA=`---
+`,JA=`---
 title: "Optimizing Industry: Version Control and TIA Portal (Part 2)"
 slug: "blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2"
 locale: "en"
@@ -19169,7 +19169,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Optimizing Industry: Version Control and TIA Portal (Part 2)](https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/) — Jhon Chuquimarca Castillo*
-`,FA=`---
+`,zA=`---
 title: "Optimizing Industry: Version Control and TIA Portal (Part 3)"
 slug: "blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3"
 locale: "en"
@@ -19338,7 +19338,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Optimizing Industry: Version Control and TIA Portal (Part 3)](https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/) — Jhon Chuquimarca Castillo*
-`,RA=`---
+`,XA=`---
 title: "Prosoft PLX31-EIP-SIE"
 slug: "blog-prosoft-plx31-eip-sie"
 locale: "en"
@@ -19465,7 +19465,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Prosoft PLX31-EIP-SIE](https://www.plc-hmi-scadas.com/en/blog/prosoft-plx31-eip-sie/) — Jose Manuel Luque*
-`,UA=`---
+`,QA=`---
 title: "SQL Records with Siemens S7-1500 PLC, Intercepted with Wireshark"
 slug: "blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark"
 locale: "en"
@@ -19585,7 +19585,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [SQL Records with Siemens S7-1500 PLC, Intercepted with Wireshark](https://www.plc-hmi-scadas.com/en/blog/registros-en-sql-con-plc-1500-interceptados-con-wireshark/) — Pedro Pagán Pallarés*
-`,NA=`---
+`,KA=`---
 title: "RSLogix 5000 - Studio 5000 - Electronic Data Sheet (EDS)"
 slug: "blog-rslogix-5000-studio-5000-electronic-data-sheet-eds"
 locale: "en"
@@ -19653,7 +19653,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [RSLogix 5000 - Studio 5000 - Electronic Data Sheet (EDS)](https://www.plc-hmi-scadas.com/en/blog/rslogix-5000-studio-5000-electronic-data-sheet-eds/) — Jose Manuel Luque*
-`,VA=`---
+`,YA=`---
 title: "Time server for Siemens S7-1500 PLC with NTP"
 slug: "blog-servidor-hora-plc-siemens"
 locale: "en"
@@ -19835,7 +19835,7 @@ Practical summary: do not leave the PLC clock depending only on a PG/PC download
 
 ---
 *Source: [Time server for Siemens S7-1500 PLC with NTP](https://www.plc-hmi-scadas.com/en/blog/servidor-hora-plc-siemens/) — Pedro Pagán Pallarés*
-`,BA=`---
+`,ZA=`---
 title: "Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM"
 slug: "blog-servidor-opc-ua-plc-siemens"
 locale: "en"
@@ -19983,7 +19983,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](https://www.plc-hmi-scadas.com/en/blog/servidor-opc-ua-plc-siemens/) — PLC-HMI-SCADAS*
-`,HA=`---
+`,$A=`---
 title: "Temperature Control System (I)"
 slug: "blog-simulador-de-temperatura"
 locale: "en"
@@ -20103,7 +20103,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Temperature Control System (I)](https://www.plc-hmi-scadas.com/en/blog/simulador-de-temperatura/) — Pedro Pagán Pallarés*
-`,jA=`---
+`,e2=`---
 title: "Temperature Control System (II)"
 slug: "blog-sistema-de-control-de-temperatura-ii"
 locale: "en"
@@ -20227,7 +20227,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Temperature Control System (II)](https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-ii/) — Pedro Pagán Pallarés*
-`,qA=`---
+`,n2=`---
 title: "Syslog in Siemens PLCs: traceability and cybersecurity from the controller"
 slug: "blog-syslog-plc-siemens-linux"
 locale: "en"
@@ -20456,7 +20456,7 @@ Thanks to this structure, a Siemens PLC can send events with date, origin, sever
 
 ---
 *Source: [Syslog in Siemens PLCs: traceability and cybersecurity from the controller](https://www.plc-hmi-scadas.com/en/blog/syslog-plc-siemens-linux/) — Jose Manuel Luque*
-`,GA=`---
+`,t2=`---
 title: "TIA Portal 19 - Get / Put"
 slug: "blog-tia-portal-19-get-put"
 locale: "en"
@@ -20519,7 +20519,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [TIA Portal 19 - Get / Put](https://www.plc-hmi-scadas.com/en/blog/tia-portal-19-get-put/) — Jose Manuel Luque*
-`,JA=`---
+`,a2=`---
 title: "TIA Portal (Central User Management)"
 slug: "blog-tia-portal-central-user-management"
 locale: "en"
@@ -20617,7 +20617,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [TIA Portal (Central User Management)](https://www.plc-hmi-scadas.com/en/blog/tia-portal-central-user-management) — Jose Manuel Luque*
-`,zA=`---
+`,i2=`---
 title: "TIA Portal — Configuration Time in MRP Ring with Cisco Switch"
 slug: "blog-tia-portal-configuration-time-mpr"
 locale: "en"
@@ -20680,7 +20680,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [TIA Portal — Configuration Time in MRP Ring with Cisco Switch](https://www.plc-hmi-scadas.com/en/blog/tia-portal-configuration-time-mpr/) — Jose Manuel Luque*
-`,XA=`---
+`,o2=`---
 title: "Trace in TIA Portal: how to find a phantom fault"
 slug: "blog-trace-tia-portal-plc-siemens"
 locale: "en"
@@ -20857,7 +20857,7 @@ When it happens again, we will now have a visible alarm on the HMI. Once the pro
 
 ---
 *Source: [Trace in TIA Portal: how to find a phantom fault](https://www.plc-hmi-scadas.com/en/blog/trace-tia-portal-plc-siemens/) — Jose Manuel Luque*
-`,QA=`---
+`,s2=`---
 title: "Siemens S7-1500 Web Server"
 slug: "blog-web-server-siemens-s7-1500-https-view-of-things"
 locale: "en"
@@ -21043,7 +21043,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Siemens S7-1500 Web Server](https://www.plc-hmi-scadas.com/en/blog/web-server-siemens-s7-1500-https-view-of-things/) — Pedro Pagán Pallarés*
-`,KA=`---
+`,r2=`---
 title: "Cognex Insight Explorer"
 slug: "cognex-insight-explorer"
 locale: "en"
@@ -21114,7 +21114,7 @@ February 4, 2018
 
 ---
 *Source: [Cognex Insight Explorer](https://www.plc-hmi-scadas.com/en/Cognex_Insight_Explorer.php) — Jose Manuel Luque*
-`,YA=`---
+`,c2=`---
 title: "UnityPro-ControlExpert CANOpen"
 slug: "controlexpert-canopen"
 locale: "en"
@@ -21185,7 +21185,7 @@ As information, the latest version of SyCon is v.11.
 
 ---
 *Source: [UnityPro-ControlExpert CANOpen](https://www.plc-hmi-scadas.com/en/ControlExpert_CanOpen.php) — Jose Manuel Luque*
-`,ZA=`---
+`,l2=`---
 title: "ControlExpert PLC Simulator"
 slug: "controlexpertplcsim"
 locale: "en"
@@ -21254,7 +21254,7 @@ Finally, to understand the addressing, this is how it works. We will not go into
 
 ---
 *Source: [ControlExpert PLC Simulator](https://www.plc-hmi-scadas.com/en/ControlExpertPLCSim.php) — Jose Manuel Luque*
-`,$A=`---
+`,h2=`---
 title: "IBH Link S5++"
 slug: "ibh-s5"
 locale: "en"
@@ -21314,7 +21314,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [IBH Link S5++](https://www.plc-hmi-scadas.com/en/IBH_S5.php) — Jose Manuel Luque*
-`,e2=`---
+`,d2=`---
 title: "Logix5000 – Digital Alarms ALMD"
 slug: "logix5000-almd"
 locale: "en"
@@ -21382,7 +21382,7 @@ I have forced the variable of my Maximum level sensor and have the Alarm active;
 
 ---
 *Source: [Logix5000 – Digital Alarms ALMD](https://www.plc-hmi-scadas.com/en/Logix5000_ALMD.php) — Jose Manuel Luque*
-`,n2=`---
+`,u2=`---
 title: "Logix5000 Red Ethernet with PowerFlex 525"
 slug: "logix5000-powerflex-ethernet"
 locale: "en"
@@ -21486,7 +21486,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Logix5000 Red Ethernet with PowerFlex 525](https://www.plc-hmi-scadas.com/en/Logix5000_PowerFlex_Ethernet.php) — Jose Manuel Luque*
-`,t2=`---
+`,m2=`---
 title: "Syswin 3.4 Upload Backup of the Project"
 slug: "omron-syswin"
 locale: "en"
@@ -21545,7 +21545,7 @@ January 28, 2019
 
 ---
 *Source: [Syswin 3.4 Upload Backup of the Project](https://www.plc-hmi-scadas.com/en/Omron_Syswin.php) — Jose Manuel Luque*
-`,a2=`---
+`,g2=`---
 title: "Other PLCs"
 slug: "other-plcs"
 locale: "en"
@@ -21609,7 +21609,7 @@ Show more
 
 ---
 *Source: [Other PLCs](https://www.plc-hmi-scadas.com/en/Other-PLCs/) — Jose Manuel*
-`,i2=`---
+`,p2=`---
 title: "PV550 Communication with PLC5-30 on DH+ Network"
 slug: "panelbuilder32-pv550-rslogix5-plc5"
 locale: "en"
@@ -21657,7 +21657,7 @@ August 5, 2013
 
 ---
 *Source: [PV550 Communication with PLC5-30 on DH+ Network](https://www.plc-hmi-scadas.com/en/PanelBuilder32_PV550_RSLogix5_PLC5.php) — Jose Manuel Luque*
-`,o2=`---
+`,w2=`---
 title: "Allen Bradley / Rockwell — PLC"
 slug: "plc-allen-bradley"
 locale: "en"
@@ -21769,7 +21769,7 @@ Regardless of the PLC, the RSLinx software is essential for configuring the driv
 
 ---
 *Source: [Allen Bradley / Rockwell — PLC](https://www.plc-hmi-scadas.com/en/PLC-ALLEN-BRADLEY/) — Jose Manuel*
-`,s2=`---
+`,f2=`---
 title: "Beckhoff TwinCAT — PLC"
 slug: "plc-beckhoff"
 locale: "en"
@@ -21820,7 +21820,7 @@ Section under construction — TwinCAT 3 articles coming soon.
 
 ---
 *Source: [Beckhoff TwinCAT — PLC](https://www.plc-hmi-scadas.com/en/PLC-BECKHOFF/) — Jose Manuel Luque*
-`,r2=`---
+`,C2=`---
 title: "Omron — PLC"
 slug: "plc-omron"
 locale: "en"
@@ -21868,7 +21868,7 @@ Show more
 
 ---
 *Source: [Omron — PLC](https://www.plc-hmi-scadas.com/en/PLC-OMRON/) — Jose Manuel*
-`,c2=`---
+`,b2=`---
 title: "Schneider Electric — PLC"
 slug: "plc-schneider"
 locale: "en"
@@ -21929,7 +21929,7 @@ Show more
 
 ---
 *Source: [Schneider Electric — PLC](https://www.plc-hmi-scadas.com/en/PLC-SCHNEIDER/) — Jose Manuel*
-`,l2=`---
+`,v2=`---
 title: "Siemens Simatic — PLC"
 slug: "plc-siemens"
 locale: "en"
@@ -22056,7 +22056,7 @@ Ver más
 
 ---
 *Source: [Siemens Simatic — PLC](https://www.plc-hmi-scadas.com/en/PLC-SIEMENS/) — Jose Manuel*
-`,h2=`---
+`,y2=`---
 title: "RSLinx SoftLogix5 Driver Configuration"
 slug: "rslinx-softlogix5"
 locale: "en"
@@ -22110,7 +22110,7 @@ August 13, 2013
 
 ---
 *Source: [RSLinx SoftLogix5 Driver Configuration](https://www.plc-hmi-scadas.com/en/RSLinx_SoftLogix5.php) — Jose Manuel Luque*
-`,d2=`---
+`,S2=`---
 title: "Backup PLC5 with RSLogix5"
 slug: "rslogix5-backup"
 locale: "en"
@@ -22168,7 +22168,7 @@ August 4, 2013
 
 ---
 *Source: [Backup PLC5 with RSLogix5](https://www.plc-hmi-scadas.com/en/RSLogix5_Backup.php) — Jose Manuel Luque*
-`,u2=`---
+`,A2=`---
 title: "Hardware Configuration in RSLogix5"
 slug: "rslogix5-configuracion-hardware"
 locale: "en"
@@ -22236,7 +22236,7 @@ August 5, 2013
 
 ---
 *Source: [Hardware Configuration in RSLogix5](https://www.plc-hmi-scadas.com/en/RSLogix5_Configuracion_Hardware.php) — Jose Manuel Luque*
-`,m2=`---
+`,P2=`---
 title: "Micrologix Modbus Master RTU"
 slug: "rslogix500-micrologix-master-modbus"
 locale: "en"
@@ -22304,7 +22304,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Micrologix Modbus Master RTU](https://www.plc-hmi-scadas.com/en/RsLogix500_Micrologix_Master_Modbus.php) — Jose Manuel Luque*
-`,g2=`---
+`,T2=`---
 title: "Upload S7-200 Microwin"
 slug: "s7-200-upload"
 locale: "en"
@@ -22347,7 +22347,7 @@ September 3, 2017
 
 ---
 *Source: [Upload S7-200 Microwin](https://www.plc-hmi-scadas.com/en/S7-200_Upload.php) — Jose Manuel Luque*
-`,p2=`---
+`,I2=`---
 title: "Data Exchange between Siemens and Schneider via Modbus TCP"
 slug: "siemens-modbus-schneider"
 locale: "en"
@@ -22412,7 +22412,7 @@ This information belongs to the help of the function and the allowed values for 
 
 ---
 *Source: [Data Exchange between Siemens and Schneider via Modbus TCP](https://www.plc-hmi-scadas.com/en/Siemens_Modbus_Schneider.php) — Jose Manuel Luque*
-`,w2=`---
+`,_2=`---
 title: "Download program from an S7-300 Step7"
 slug: "simatic-cargar-en-pg"
 locale: "en"
@@ -22482,7 +22482,7 @@ If you liked it or found it helpful, share it...
 
 ---
 *Source: [Download program from an S7-300 Step7](https://www.plc-hmi-scadas.com/en/Simatic_Cargar_en_PG.php) — Jose Manuel Luque*
-`,f2=`---
+`,x2=`---
 title: "SoftLogix 5"
 slug: "softlogix5"
 locale: "en"
@@ -22572,7 +22572,7 @@ August 15, 2013
 
 ---
 *Source: [SoftLogix 5](https://www.plc-hmi-scadas.com/en/SoftLogix5.php) — Jose Manuel Luque*
-`,C2=`---
+`,M2=`---
 title: "SoMachine Communications Simulation"
 slug: "somachine-simulacion-comunicaciones"
 locale: "en"
@@ -22629,7 +22629,7 @@ Conclusion, we will wait to see if the next update of SoMachine enables it just 
 
 ---
 *Source: [SoMachine Communications Simulation](https://www.plc-hmi-scadas.com/en/SoMachine_Simulacion_Comunicaciones.php) — Jose Manuel Luque*
-`,b2=`---
+`,L2=`---
 title: "Step 7 Conversion Big Little Indian"
 slug: "stept7-big-litle-indian"
 locale: "en"
@@ -22677,7 +22677,7 @@ December 7, 2013
 
 ---
 *Source: [Step 7 Conversion Big Little Indian](https://www.plc-hmi-scadas.com/en/Stept7_Big_Litle_Indian.php) — Jose Manuel Luque*
-`,v2=`---
+`,W2=`---
 title: "TIA Portal - PLCSIM Advanced Simulation"
 slug: "tia-plcsimadvanced"
 locale: "en"
@@ -22770,7 +22770,7 @@ January 11, 2018
 
 ---
 *Source: [TIA Portal - PLCSIM Advanced Simulation](https://www.plc-hmi-scadas.com/en/TIA_PLCSimAdvanced.php) — Jose Manuel Luque*
-`,y2=`---
+`,k2=`---
 title: "Send SMS with CP 1242-7"
 slug: "tia-portal-1200-sms"
 locale: "en"
@@ -22846,7 +22846,7 @@ October 13, 2013
 
 ---
 *Source: [Send SMS with CP 1242-7](https://www.plc-hmi-scadas.com/en/TIA_Portal_1200_SMS.php) — Jose Manuel Luque*
-`,S2=`---
+`,E2=`---
 title: "TIA Portal \\"AT\\""
 slug: "tia-portal-at"
 locale: "en"
@@ -22904,7 +22904,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [TIA Portal "AT"](https://www.plc-hmi-scadas.com/en/TIA_Portal_AT.php) — Jose Manuel Luque*
-`,A2=`---
+`,D2=`---
 title: "TIA Portal - Cognex Camera (Profinet)"
 slug: "tia-portal-camaras-cognex"
 locale: "en"
@@ -22989,7 +22989,7 @@ February 4, 2018
 
 ---
 *Source: [TIA Portal - Cognex Camera (Profinet)](https://www.plc-hmi-scadas.com/en/TIA_Portal_Camaras_Cognex.php) — Jose Manuel Luque*
-`,P2=`---
+`,O2=`---
 title: "TIA Portal - Hour Counter"
 slug: "tia-portal-contador-horas"
 locale: "en"
@@ -23057,7 +23057,7 @@ January 11, 2014
 
 ---
 *Source: [TIA Portal - Hour Counter](https://www.plc-hmi-scadas.com/en/TIA_Portal_Contador_Horas.php) — Jose Manuel Luque*
-`,T2=`---
+`,F2=`---
 title: "TIA Portal - GSD Installation for Cognex Cameras"
 slug: "tia-portal-gsd-cognex"
 locale: "en"
@@ -23126,7 +23126,7 @@ February 4, 2018
 
 ---
 *Source: [TIA Portal - GSD Installation for Cognex Cameras](https://www.plc-hmi-scadas.com/en/TIA_Portal_GSD_Cognex.php) — Jose Manuel Luque*
-`,I2=`---
+`,R2=`---
 title: "CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration"
 slug: "tia-portal-modbus-rtu"
 locale: "en"
@@ -23210,7 +23210,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration](https://www.plc-hmi-scadas.com/en/TIA_Portal_Modbus_RTU.php) — Jose Manuel Luque*
-`,_2=`---
+`,U2=`---
 title: "TIA Portal - Upload project"
 slug: "tia-portal-upload"
 locale: "en"
@@ -23285,7 +23285,7 @@ January 9, 2018
 
 ---
 *Source: [TIA Portal - Upload project](https://www.plc-hmi-scadas.com/en/TIA_Portal_Upload.php) — Jose Manuel Luque*
-`,M2=`---
+`,N2=`---
 title: "Example of the READ_VAR Function"
 slug: "unity-varread"
 locale: "en"
@@ -23355,7 +23355,7 @@ September 9, 2013
 
 ---
 *Source: [Example of the READ_VAR Function](https://www.plc-hmi-scadas.com/en/Unity_VarRead.php) — Jose Manuel Luque*
-`,x2=`---
+`,V2=`---
 title: "Simotion Project - OPC Symbols Export"
 slug: "winccflexible-simotion-opc"
 locale: "en"
@@ -23464,7 +23464,7 @@ June 8, 2018
 
 ---
 *Source: [Simotion Project - OPC Symbols Export](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC.php) — Jose Manuel Luque*
-`,L2=`---
+`,j2=`---
 title: "Privacy policy"
 slug: "privacy-policy"
 locale: "en"
@@ -23520,7 +23520,7 @@ See the [cookie policy](#/a/en%2Fcookie-policy) for technical details about cons
 
 ---
 *Source: [Privacy policy](https://www.plc-hmi-scadas.com/en/privacy-policy.php) — Jose Manuel*
-`,W2=`---
+`,B2=`---
 title: "Intouch Communication and S7-2xx"
 slug: "008"
 locale: "en"
@@ -23599,7 +23599,7 @@ July 31, 2012
 
 ---
 *Source: [Intouch Communication and S7-2xx](https://www.plc-hmi-scadas.com/en/008.php) — Jose Manuel Luque*
-`,k2=`---
+`,H2=`---
 title: "OPC Server Communication with WinCC RT Professional 11"
 slug: "009"
 locale: "en"
@@ -23654,7 +23654,7 @@ July 29, 2012
 
 ---
 *Source: [OPC Server Communication with WinCC RT Professional 11](https://www.plc-hmi-scadas.com/en/009.php) — Jose Manuel Luque*
-`,E2=`---
+`,q2=`---
 title: "Logging Data in Access Database with Intouch"
 slug: "014"
 locale: "en"
@@ -23733,7 +23733,7 @@ August 5, 2012
 
 ---
 *Source: [Logging Data in Access Database with Intouch](https://www.plc-hmi-scadas.com/en/014.php) — Jose Manuel Luque*
-`,D2=`---
+`,G2=`---
 title: "Security and User Management in Intouch"
 slug: "020"
 locale: "en"
@@ -23818,7 +23818,7 @@ August 22, 2012
 
 ---
 *Source: [Security and User Management in Intouch](https://www.plc-hmi-scadas.com/en/020.php) — Jose Manuel Luque*
-`,O2=`---
+`,J2=`---
 title: "InTouch with RSLogix Emulate 5000 through FSGateway"
 slug: "022"
 locale: "en"
@@ -23905,7 +23905,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [InTouch with RSLogix Emulate 5000 through FSGateway](https://www.plc-hmi-scadas.com/en/022.php) — Jose Manuel Luque*
-`,F2=`---
+`,z2=`---
 title: "Language Configuration in Intouch"
 slug: "028"
 locale: "en"
@@ -23980,7 +23980,7 @@ September 1, 2012
 
 ---
 *Source: [Language Configuration in Intouch](https://www.plc-hmi-scadas.com/en/028.php) — Jose Manuel Luque*
-`,R2=`---
+`,X2=`---
 title: "User Management and Security in RSView32"
 slug: "030"
 locale: "en"
@@ -24059,7 +24059,7 @@ September 5, 2012
 
 ---
 *Source: [User Management and Security in RSView32](https://www.plc-hmi-scadas.com/en/030.php) — Jose Manuel Luque*
-`,U2=`---
+`,Q2=`---
 title: "RSView32 Connection with OPC Server"
 slug: "031"
 locale: "en"
@@ -24130,7 +24130,7 @@ September 6, 2012
 
 ---
 *Source: [RSView32 Connection with OPC Server](https://www.plc-hmi-scadas.com/en/031.php) — Jose Manuel Luque*
-`,N2=`---
+`,K2=`---
 title: "Channel Configuration in RSView32"
 slug: "032"
 locale: "en"
@@ -24211,7 +24211,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [Channel Configuration in RSView32](https://www.plc-hmi-scadas.com/en/032.php) — Jose Manuel Luque*
-`,V2=`---
+`,Y2=`---
 title: "Send Emails from Vijeo Citect"
 slug: "034"
 locale: "en"
@@ -24280,7 +24280,7 @@ September 8, 2012
 
 ---
 *Source: [Send Emails from Vijeo Citect](https://www.plc-hmi-scadas.com/en/034.php) — Jose Manuel Luque*
-`,B2=`---
+`,Z2=`---
 title: "CitectScada Link with OPC OFS Server"
 slug: "035"
 locale: "en"
@@ -24347,7 +24347,7 @@ September 9, 2012
 
 ---
 *Source: [CitectScada Link with OPC OFS Server](https://www.plc-hmi-scadas.com/en/035.php) — Jose Manuel Luque*
-`,H2=`---
+`,$2=`---
 title: "Recipes in TIA WinCC Runtime Professional"
 slug: "039"
 locale: "en"
@@ -24418,7 +24418,7 @@ September 20, 2012
 
 ---
 *Source: [Recipes in TIA WinCC Runtime Professional](https://www.plc-hmi-scadas.com/en/039.php) — Jose Manuel Luque*
-`,j2=`---
+`,e1=`---
 title: "Recording Data in CitectScada"
 slug: "042"
 locale: "en"
@@ -24501,7 +24501,7 @@ October 12, 2012
 
 ---
 *Source: [Recording Data in CitectScada](https://www.plc-hmi-scadas.com/en/042.php) — Jose Manuel Luque*
-`,q2=`---
+`,n1=`---
 title: "Popup window for controlling elements in WinCC V7.0"
 slug: "043"
 locale: "en"
@@ -24606,7 +24606,7 @@ October 8, 2012
 
 ---
 *Source: [Popup window for controlling elements in WinCC V7.0](https://www.plc-hmi-scadas.com/en/043.php) — Jose Manuel Luque*
-`,G2=`---
+`,t1=`---
 title: "Popup Window for Controlling Multiple Motors in TIA WinCC RT Professional"
 slug: "048"
 locale: "en"
@@ -24689,7 +24689,7 @@ Below is a small video of the final operation of the configuration made.
 
 ---
 *Source: [Popup Window for Controlling Multiple Motors in TIA WinCC RT Professional](https://www.plc-hmi-scadas.com/en/048.php) — Jose Manuel Luque*
-`,J2=`---
+`,a1=`---
 title: "Getting Started with ArchestrA Application Server"
 slug: "051"
 locale: "en"
@@ -24794,7 +24794,7 @@ November 23, 2012
 
 ---
 *Source: [Getting Started with ArchestrA Application Server](https://www.plc-hmi-scadas.com/en/051.php) — Jose Manuel Luque*
-`,z2=`---
+`,i1=`---
 title: "ArchestrA Application Server"
 slug: "052"
 locale: "en"
@@ -24877,7 +24877,7 @@ November 25, 2012
 
 ---
 *Source: [ArchestrA Application Server](https://www.plc-hmi-scadas.com/en/052.php) — Jose Manuel Luque*
-`,X2=`---
+`,o1=`---
 title: "Getting Started with ArchestrA Application Server Part 3"
 slug: "054"
 locale: "en"
@@ -24960,7 +24960,7 @@ December 3, 2012
 
 ---
 *Source: [Getting Started with ArchestrA Application Server Part 3](https://www.plc-hmi-scadas.com/en/054.php) — Jose Manuel Luque*
-`,Q2=`---
+`,s1=`---
 title: "WinCC WebNavigator Configuration"
 slug: "055"
 locale: "en"
@@ -25121,7 +25121,7 @@ December 9, 2012
 
 ---
 *Source: [WinCC WebNavigator Configuration](https://www.plc-hmi-scadas.com/en/055.php) — Jose Manuel Luque*
-`,K2=`---
+`,r1=`---
 title: "Infilink Configuration with OPC KepServer"
 slug: "057"
 locale: "en"
@@ -25198,7 +25198,7 @@ December 19, 2012
 
 ---
 *Source: [Infilink Configuration with OPC KepServer](https://www.plc-hmi-scadas.com/en/057.php) — Jose Manuel Luque*
-`,Y2=`---
+`,c1=`---
 title: "Intouch Simulation with PLCSIM via NETTOPLCSIM"
 slug: "061"
 locale: "en"
@@ -25303,7 +25303,7 @@ Wednesday, January 2, 2013
 
 ---
 *Source: [Intouch Simulation with PLCSIM via NETTOPLCSIM](https://www.plc-hmi-scadas.com/en/061.php) — Jose Manuel Luque*
-`,Z2=`---
+`,l1=`---
 title: "WinCC Simulation with PLCSIM"
 slug: "062"
 locale: "en"
@@ -25376,7 +25376,7 @@ January 10, 2012
 
 ---
 *Source: [WinCC Simulation with PLCSIM](https://www.plc-hmi-scadas.com/en/062.php) — Jose Manuel Luque*
-`,$2=`---
+`,h1=`---
 title: "ArchestrA, Importing .Net Controls"
 slug: "064"
 locale: "en"
@@ -25433,7 +25433,7 @@ January 15, 2012
 
 ---
 *Source: [ArchestrA, Importing .Net Controls](https://www.plc-hmi-scadas.com/en/064.php) — Jose Manuel Luque*
-`,e1=`---
+`,d1=`---
 title: "FactoryTalk View SE communicating with RSLogix Emulate 5000"
 slug: "074"
 locale: "en"
@@ -25531,7 +25531,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [FactoryTalk View SE communicating with RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/074.php) — Jose Manuel Luque*
-`,n1=`---
+`,u1=`---
 title: "Factory Talk View SE"
 slug: "108"
 locale: "en"
@@ -25674,7 +25674,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [Factory Talk View SE](https://www.plc-hmi-scadas.com/en/108.php) — Jose Manuel Luque*
-`,t1=`---
+`,m1=`---
 title: "Factory Talk View Client"
 slug: "109"
 locale: "en"
@@ -25747,7 +25747,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [Factory Talk View Client](https://www.plc-hmi-scadas.com/en/109.php) — Jose Manuel Luque*
-`,a1=`---
+`,g1=`---
 title: "WinCC RT Professional V.12 with S7-1200"
 slug: "110"
 locale: "en"
@@ -25838,7 +25838,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [WinCC RT Professional V.12 with S7-1200](https://www.plc-hmi-scadas.com/en/110.php) — Jose Manuel Luque*
-`,i1=`---
+`,p1=`---
 title: "VBScript in WinCC V.7"
 slug: "112"
 locale: "en"
@@ -25953,7 +25953,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [VBScript in WinCC V.7](https://www.plc-hmi-scadas.com/en/112.php) — Jose Manuel Luque*
-`,o1=`---
+`,w1=`---
 title: "VBScript with Excel in WinCC"
 slug: "113"
 locale: "en"
@@ -26022,7 +26022,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [VBScript with Excel in WinCC](https://www.plc-hmi-scadas.com/en/113.php) — Jose Manuel Luque*
-`,s1=`---
+`,f1=`---
 title: "Intouch, WWPoke() - WWRequest() Functions"
 slug: "116"
 locale: "en"
@@ -26100,7 +26100,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Intouch, WWPoke() - WWRequest() Functions](https://www.plc-hmi-scadas.com/en/116.php) — Jose Manuel Luque*
-`,r1=`---
+`,C1=`---
 title: "Vijeo Citect Simulation with Unity"
 slug: "126"
 locale: "en"
@@ -26194,7 +26194,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Vijeo Citect Simulation with Unity](https://www.plc-hmi-scadas.com/en/126.php) — Jose Manuel Luque*
-`,c1=`---
+`,b1=`---
 title: "Configuration of the I/O Driver ABCLX in Vijeo Citect"
 slug: "127"
 locale: "en"
@@ -26268,7 +26268,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [Configuration of the I/O Driver ABCLX in Vijeo Citect](https://www.plc-hmi-scadas.com/en/127.php) — Jose Manuel Luque*
-`,l1=`---
+`,v1=`---
 title: "ActiveX Controls in Intouch"
 slug: "129"
 locale: "en"
@@ -26352,7 +26352,7 @@ If you liked or found the information useful, share it ...
 
 ---
 *Source: [ActiveX Controls in Intouch](https://www.plc-hmi-scadas.com/en/129.php) — Jose Manuel Luque*
-`,h1=`---
+`,y1=`---
 title: "Introduction to Wonderware Information Server"
 slug: "131"
 locale: "en"
@@ -26394,7 +26394,7 @@ If you liked it or found the information useful, share it ...
 
 ---
 *Source: [Introduction to Wonderware Information Server](https://www.plc-hmi-scadas.com/en/131.php) — Jose Manuel Luque*
-`,d1=`---
+`,S1=`---
 title: "Information Server Win-XML"
 slug: "133"
 locale: "en"
@@ -26474,7 +26474,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Information Server Win-XML](https://www.plc-hmi-scadas.com/en/133.php) — Jose Manuel Luque*
-`,u1=`---
+`,A1=`---
 title: "Factory Talk Alarm and Events Database"
 slug: "137"
 locale: "en"
@@ -26540,7 +26540,7 @@ If you liked or found the information useful, share it ...
 
 ---
 *Source: [Factory Talk Alarm and Events Database](https://www.plc-hmi-scadas.com/en/137.php) — Jose Manuel Luque*
-`,m1=`---
+`,P1=`---
 title: "Historian Client Trend Symbol Configuration"
 slug: "archestra-aahistclienttrendcontrol"
 locale: "en"
@@ -26586,7 +26586,7 @@ Note: It is possible that if the Historian Client or ActiveFactory is not instal
 
 ---
 *Source: [Historian Client Trend Symbol Configuration](https://www.plc-hmi-scadas.com/en/ArchestrA_aaHistClientTrendControl.php) — Jose Manuel Luque*
-`,g1=`---
+`,T1=`---
 title: "Application Server - Distributed Application"
 slug: "archestra-aplicacion-distribuida"
 locale: "en"
@@ -26662,7 +26662,7 @@ August 5, 2013
 
 ---
 *Source: [Application Server - Distributed Application](https://www.plc-hmi-scadas.com/en/ArchestrA_Aplicacion_Distribuida.php) — Jose Manuel Luque*
-`,p1=`---
+`,I1=`---
 title: "DataGrid Control"
 slug: "archestra-datagrid"
 locale: "en"
@@ -26742,7 +26742,7 @@ Now, we can press the Retrieve button to get the results of the query we assigne
 
 ---
 *Source: [DataGrid Control](https://www.plc-hmi-scadas.com/en/ArchestrA_DataGrid.php) — Jose Manuel Luque*
-`,w1=`---
+`,_1=`---
 title: "ArchestrA Control DataGridView .Net"
 slug: "archestra-datagridview"
 locale: "en"
@@ -26792,7 +26792,7 @@ August 26, 2013
 
 ---
 *Source: [ArchestrA Control DataGridView .Net](https://www.plc-hmi-scadas.com/en/ArchestrA_DataGridView.php) — Jose Manuel Luque*
-`,f1=`---
+`,x1=`---
 title: "Wonderware Historian I/O Server II"
 slug: "archestra-fsgateway-historian"
 locale: "en"
@@ -26864,7 +26864,7 @@ August 18, 2013
 
 ---
 *Source: [Wonderware Historian I/O Server II](https://www.plc-hmi-scadas.com/en/ArchestrA_FSGateway_Historian.php) — Jose Manuel Luque*
-`,C1=`---
+`,M1=`---
 title: "Instances in ArchestrA Application Server"
 slug: "archestra-instancias"
 locale: "en"
@@ -26948,7 +26948,7 @@ August 25, 2013
 
 ---
 *Source: [Instances in ArchestrA Application Server](https://www.plc-hmi-scadas.com/en/ArchestrA_Instancias.php) — Jose Manuel Luque*
-`,b1=`---
+`,L1=`---
 title: "Wonderware Historian I/O Server"
 slug: "archestra-ioserver-historian"
 locale: "en"
@@ -26992,7 +26992,7 @@ August 18, 2013
 
 ---
 *Source: [Wonderware Historian I/O Server](https://www.plc-hmi-scadas.com/en/ArchestrA_IOServer_Historian.php) — Jose Manuel Luque*
-`,v1=`---
+`,W1=`---
 title: "ArchestrA TrendClient"
 slug: "archestra-trendclient"
 locale: "en"
@@ -27054,7 +27054,7 @@ September 3, 2013
 
 ---
 *Source: [ArchestrA TrendClient](https://www.plc-hmi-scadas.com/en/ArchestrA_TrendClient.php) — Jose Manuel Luque*
-`,y1=`---
+`,k1=`---
 title: "ArchestrA - SQL Queries"
 slug: "archestra-webbrowser-sql"
 locale: "en"
@@ -27114,7 +27114,7 @@ August 14, 2013
 
 ---
 *Source: [ArchestrA - SQL Queries](https://www.plc-hmi-scadas.com/en/ArchestrA_WebBrowser_SQL.php) — Jose Manuel Luque*
-`,S1=`---
+`,E1=`---
 title: "WebBrowser Configuration within Application Server (ArchestrA)"
 slug: "archestra-webbrowser"
 locale: "en"
@@ -27182,7 +27182,7 @@ August 11, 2013
 
 ---
 *Source: [WebBrowser Configuration within Application Server (ArchestrA)](https://www.plc-hmi-scadas.com/en/ArchestrA_WebBrowser.php) — Jose Manuel Luque*
-`,A1=`---
+`,D1=`---
 title: "Sending WinCC Alarms via Whatsapp"
 slug: "blog-alarmas-wincc-por-whatsapp"
 locale: "en"
@@ -27483,7 +27483,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Sending WinCC Alarms via Whatsapp](https://www.plc-hmi-scadas.com/en/blog/alarmas-wincc-por-whatsapp/) — Pedro Pagán Pallarés*
-`,P1=`---
+`,O1=`---
 title: "AVEVA ArchestrA – Write to the Logger from C#"
 slug: "blog-aveva-archestra-logger-csharp"
 locale: "en"
@@ -27683,7 +27683,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [AVEVA ArchestrA – Write to the Logger from C#](https://www.plc-hmi-scadas.com/en/blog/aveva-archestra-logger-csharp/) — Jose Manuel Luque*
-`,T1=`---
+`,F1=`---
 title: "AVEVA Driver Redundancy"
 slug: "blog-aveva-driver-redundancy"
 locale: "en"
@@ -27806,7 +27806,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Driver Redundancy](https://www.plc-hmi-scadas.com/en/blog/aveva-driver-redundancy/) — Jose Manuel Luque*
-`,I1=`---
+`,R1=`---
 title: "AVEVA SNMP Driver"
 slug: "blog-aveva-driver-snmp"
 locale: "en"
@@ -27875,7 +27875,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA SNMP Driver](https://www.plc-hmi-scadas.com/en/blog/aveva-driver-snmp/) — Jose Manuel Luque*
-`,_1=`---
+`,U1=`---
 title: "AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)"
 slug: "blog-aveva-historian-client-factory-talk-view-se"
 locale: "en"
@@ -27970,7 +27970,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)](https://www.plc-hmi-scadas.com/en/blog/aveva-historian-client-factory-talk-view-se/) — Jose Manuel Luque*
-`,M1=`---
+`,N1=`---
 title: "AVEVA Intouch 2023R2 - News"
 slug: "blog-aveva-intouch-2023r2-novedades"
 locale: "en"
@@ -28017,7 +28017,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch 2023R2 - News](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-2023r2-novedades/) — Jose Manuel Luque*
-`,x1=`---
+`,V1=`---
 title: "AVEVA Intouch Client Controls"
 slug: "blog-aveva-intouch-client-controls-net"
 locale: "en"
@@ -28092,7 +28092,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Client Controls](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-client-controls-net/) — Jose Manuel Luque*
-`,L1=`---
+`,j1=`---
 title: "AVEVA Intouch BarcodeLib"
 slug: "blog-aveva-intouch-codebarlib"
 locale: "en"
@@ -28174,7 +28174,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch BarcodeLib](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-codebarlib/) — Jose Manuel Luque*
-`,W1=`---
+`,B1=`---
 title: "AVEVA Intouch Control .Net"
 slug: "blog-aveva-intouch-control-net"
 locale: "en"
@@ -28362,7 +28362,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Control .Net](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-control-net/) — Jose Manuel Luque*
-`,k1=`---
+`,H1=`---
 title: "AVEVA Intouch Historical Data Access System (HistData Part 2)"
 slug: "blog-aveva-intouch-historical-data-access-system-histdata-parte-2"
 locale: "en"
@@ -28437,7 +28437,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Historical Data Access System (HistData Part 2)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-access-system-histdata-parte-2/) — Jose Manuel Luque*
-`,E1=`---
+`,q1=`---
 title: "AVEVA Intouch Historical Data (Part 2)"
 slug: "blog-aveva-intouch-historical-data-parte-2"
 locale: "en"
@@ -28504,7 +28504,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Historical Data (Part 2)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-parte-2/) — Jose Manuel Luque*
-`,D1=`---
+`,G1=`---
 title: "AVEVA Intouch Historical Data (Part 1)"
 slug: "blog-aveva-intouch-historical-data"
 locale: "en"
@@ -28591,7 +28591,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Historical Data (Part 1)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data/) — Jose Manuel Luque*
-`,O1=`---
+`,J1=`---
 title: "AVEVA Intouch Read Alarms"
 slug: "blog-aveva-intouch-leer-alarmas"
 locale: "en"
@@ -28668,7 +28668,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Read Alarms](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-leer-alarmas/) — Jose Manuel Luque*
-`,F1=`---
+`,z1=`---
 title: "AVEVA Intouch RDS - CMD"
 slug: "blog-aveva-intouch-rds-cmd"
 locale: "en"
@@ -28727,7 +28727,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch RDS - CMD](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-cmd/) — Jose Manuel Luque*
-`,R1=`---
+`,X1=`---
 title: "AVEVA Intouch RDS - Query Events and 21 CFR Part 11"
 slug: "blog-aveva-intouch-rds-query-events"
 locale: "en"
@@ -28796,7 +28796,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch RDS - Query Events and 21 CFR Part 11](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-query-events/) — Jose Manuel Luque*
-`,U1=`---
+`,Q1=`---
 title: "AVEVA Intouch - SQLite"
 slug: "blog-aveva-intouch-sqlite"
 locale: "en"
@@ -28931,7 +28931,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch - SQLite](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-sqlite/) — Jose Manuel Luque*
-`,N1=`---
+`,K1=`---
 title: "AVEVA Intouch Widgets (Custom Widgets Package)"
 slug: "blog-aveva-intouch-widgets-custom-widgets-package"
 locale: "en"
@@ -28984,7 +28984,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Widgets (Custom Widgets Package)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-widgets-custom-widgets-package/) — Jose Manuel Luque*
-`,V1=`---
+`,Y1=`---
 title: "AVEVA Intouch Widgets"
 slug: "blog-aveva-intouch-widgets"
 locale: "en"
@@ -29049,7 +29049,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Widgets](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-widgets/) — Jose Manuel Luque*
-`,B1=`---
+`,Z1=`---
 title: "Secure Siemens PLC Communication with HMI and PC/PG"
 slug: "blog-comunicacion-plc-hmi-pc-pg-segura"
 locale: "en"
@@ -29276,7 +29276,7 @@ Is the communication encrypted? Yes: it uses an internal certificate generated b
 
 ---
 *Source: [Secure Siemens PLC Communication with HMI and PC/PG](https://www.plc-hmi-scadas.com/en/blog/comunicacion-plc-hmi-pc-pg-segura/)*
-`,H1=`---
+`,$1=`---
 title: "Web Embedding in WinCC Unified: Browser, iFrames and Security Policies"
 slug: "blog-embebido-web-wincc-unified-iframe-politicas-seguridad"
 locale: "en"
@@ -29446,7 +29446,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [Web Embedding in WinCC Unified: Browser, iFrames and Security Policies](https://www.plc-hmi-scadas.com/en/blog/embebido-web-wincc-unified-iframe-politicas-seguridad/) — Jose Manuel Luque*
-`,j1=`---
+`,eP=`---
 title: "Factory Talk Historian - FTLD"
 slug: "blog-factory-talk-historian-ftld-interface"
 locale: "en"
@@ -29515,7 +29515,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk Historian - FTLD](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-ftld-interface/) — Jose Manuel Luque*
-`,q1=`---
+`,nP=`---
 title: "Factory Talk Historian - License"
 slug: "blog-factory-talk-historian-license"
 locale: "en"
@@ -29575,7 +29575,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk Historian - License](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-license/) — Jose Manuel Luque*
-`,G1=`---
+`,tP=`---
 title: "Factory Talk Historian - PIPerfMon (Performance Counters)"
 slug: "blog-factory-talk-historian-piperfmon-performance-counters"
 locale: "en"
@@ -29633,7 +29633,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk Historian - PIPerfMon (Performance Counters)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-piperfmon-performance-counters/) — Jose Manuel Luque*
-`,J1=`---
+`,aP=`---
 title: "Factory Talk Historian - PIPerfMon (Interface Performance Monitor)"
 slug: "blog-factory-talk-historin-piperfmon"
 locale: "en"
@@ -29707,7 +29707,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk Historian - PIPerfMon (Interface Performance Monitor)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historin-piperfmon/) — Jose Manuel Luque*
-`,z1=`---
+`,iP=`---
 title: "Factory Talk View SE - Factory Talk Historian Status (FTLD)"
 slug: "blog-factory-talk-view-se-factory-talk-historian-status-ftld"
 locale: "en"
@@ -29796,7 +29796,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk View SE - Factory Talk Historian Status (FTLD)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-factory-talk-historian-status-ftld/) — Jose Manuel Luque*
-`,X1=`---
+`,oP=`---
 title: "Factory Talk View SE - Global Object Runtime Optimization"
 slug: "blog-factory-talk-view-se-global-object-runtime-optimization"
 locale: "en"
@@ -29843,7 +29843,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk View SE - Global Object Runtime Optimization](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-global-object-runtime-optimization/) — Jose Manuel Luque*
-`,Q1=`---
+`,sP=`---
 title: "FactoryTalk View SE - InfluxDB"
 slug: "blog-factory-talk-view-se-influxdb"
 locale: "en"
@@ -29972,7 +29972,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [FactoryTalk View SE - InfluxDB](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-influxdb/) — Jose Manuel Luque*
-`,K1=`---
+`,rP=`---
 title: "Factory Talk View SE - SQLite"
 slug: "blog-factory-talk-view-se-sqlite"
 locale: "en"
@@ -30128,7 +30128,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk View SE - SQLite](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-sqlite/) — Jose Manuel Luque*
-`,Y1=`---
+`,cP=`---
 title: "Factory Talk View SE - DataLogPro Error"
 slug: "blog-factorytalk-view-se-error-datalogpro"
 locale: "en"
@@ -30211,7 +30211,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [Factory Talk View SE - DataLogPro Error](https://www.plc-hmi-scadas.com/en/blog/factorytalk-view-se-error-datalogpro/) — Jose Manuel Luque*
-`,Z1=`---
+`,lP=`---
 title: "AVEVA Intouch RDP - Alarms & Events"
 slug: "blog-intouch-rdp-a"
 locale: "en"
@@ -30367,7 +30367,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch RDP - Alarms & Events](https://www.plc-hmi-scadas.com/en/blog/intouch-rdp-a/) — Jose Manuel Luque*
-`,$1=`---
+`,hP=`---
 title: "AVEVA Intouch RDS - NAD"
 slug: "blog-intouch-rds-nad"
 locale: "en"
@@ -30443,7 +30443,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch RDS - NAD](https://www.plc-hmi-scadas.com/en/blog/intouch-rds-nad/) — Jose Manuel Luque*
-`,eP=`---
+`,dP=`---
 title: "AVEVA Intouch 2023 - News"
 slug: "blog-novedades-scada-aveva-intouch-2023"
 locale: "en"
@@ -30518,7 +30518,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch 2023 - News](https://www.plc-hmi-scadas.com/en/blog/novedades-scada-aveva-intouch-2023/) — Jose Manuel Luque*
-`,nP=`---
+`,uP=`---
 title: "PM-Analyze (Part - 2)"
 slug: "blog-pm-analyze-parte-2"
 locale: "en"
@@ -30622,7 +30622,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [PM-Analyze (Part - 2)](https://www.plc-hmi-scadas.com/en/blog/pm-analyze-parte-2/) — Jose Manuel Luque*
-`,tP=`---
+`,mP=`---
 title: "PM-Analyze (Part - 1)"
 slug: "blog-pm-analyze"
 locale: "en"
@@ -30768,7 +30768,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [PM-Analyze (Part - 1)](https://www.plc-hmi-scadas.com/en/blog/pm-analyze/) — Jose Manuel Luque*
-`,aP=`---
+`,gP=`---
 title: "SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)"
 slug: "blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023"
 locale: "en"
@@ -30846,7 +30846,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)](https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/) — Jose Manuel Luque*
-`,iP=`---
+`,pP=`---
 title: "SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)"
 slug: "blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8"
 locale: "en"
@@ -30943,7 +30943,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)](https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/) — Jose Manuel Luque*
-`,oP=`---
+`,wP=`---
 title: "SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)"
 slug: "blog-scadas-con-ms-controls-activex-vb6"
 locale: "en"
@@ -31130,7 +31130,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)](https://www.plc-hmi-scadas.com/en/blog/scadas-con-ms-controls-activex-vb6/) — Jose Manuel Luque*
-`,sP=`---
+`,fP=`---
 title: "Network Segmentation - S7 1500 & WinCC Unified"
 slug: "blog-segmentacion-de-redes-s71500-wincc-unified"
 locale: "en"
@@ -31243,7 +31243,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Network Segmentation - S7 1500 & WinCC Unified](https://www.plc-hmi-scadas.com/en/blog/segmentacion-de-redes-s71500-wincc-unified/) — Jose Manuel Luque*
-`,rP=`---
+`,CP=`---
 title: "How to Create WinCC Unified SQLite Reports in SSRS"
 slug: "blog-ssrs-wincc-unified-sqlite"
 locale: "en"
@@ -31364,7 +31364,7 @@ With these 12 steps, we covered the complete path from ODBC driver configuration
 
 ---
 *Source: [How to Create WinCC Unified SQLite Reports in SSRS](https://www.plc-hmi-scadas.com/en/blog/ssrs-wincc-unified-sqlite/) — Pedro Pagan Pallares*
-`,cP=`---
+`,bP=`---
 title: "UMC Admin Studio: guided console for Siemens Central User Management"
 slug: "blog-umc-admin-studio"
 locale: "en"
@@ -31581,7 +31581,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [UMC Admin Studio: guided console for Siemens Central User Management](https://www.plc-hmi-scadas.com/en/blog/umc-admin-studio/) — Jose Manuel Luque*
-`,lP=`---
+`,vP=`---
 title: "UMC Redundancy (User Management Component)"
 slug: "blog-umc-redundancy-user-management-component"
 locale: "en"
@@ -31752,7 +31752,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [UMC Redundancy (User Management Component)](https://www.plc-hmi-scadas.com/en/blog/umc-redundancy-user-management-component) — Jose Manuel Luque*
-`,hP=`---
+`,yP=`---
 title: "UMC (User Management Control)"
 slug: "blog-umc-user-management-control"
 locale: "en"
@@ -31888,7 +31888,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [UMC (User Management Control)](https://www.plc-hmi-scadas.com/en/blog/umc-user-management-control) — Jose Manuel Luque*
-`,dP=`---
+`,SP=`---
 title: "WinCC 8.1 Backup in Runtime"
 slug: "blog-wincc-8-1-backup-en-runtime"
 locale: "en"
@@ -31958,7 +31958,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC 8.1 Backup in Runtime](https://www.plc-hmi-scadas.com/en/blog/wincc-8-1-backup-en-runtime/) — Jose Manuel Luque*
-`,uP=`---
+`,AP=`---
 title: "WinCC 8.1 News"
 slug: "blog-wincc-8-1-novedades"
 locale: "en"
@@ -32059,7 +32059,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC 8.1 News](https://www.plc-hmi-scadas.com/en/blog/wincc-8-1-novedades/) — Jose Manuel Luque*
-`,mP=`---
+`,PP=`---
 title: "WinCC #ifdef RUN_ON_WEBNAVIGATOR"
 slug: "blog-wincc-ifdef-run-on-webnavigator"
 locale: "en"
@@ -32150,7 +32150,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC #ifdef RUN_ON_WEBNAVIGATOR](https://www.plc-hmi-scadas.com/en/blog/wincc-ifdef-run_on_webnavigator/) — Jose Manuel Luque*
-`,gP=`---
+`,TP=`---
 title: "WinCC - SQLite"
 slug: "blog-wincc-sqlite"
 locale: "en"
@@ -32277,7 +32277,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC - SQLite](https://www.plc-hmi-scadas.com/en/blog/wincc-sqlite/) — Jose Manuel Luque*
-`,pP=`---
+`,IP=`---
 title: "WinCC Unified Collaboration in WinCC 8.1"
 slug: "blog-wincc-unified-collaboration-wincc-8-1"
 locale: "en"
@@ -32382,7 +32382,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [WinCC Unified Collaboration in WinCC 8.1](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration-wincc-8-1/) — Jose Manuel Luque*
-`,wP=`---
+`,_P=`---
 title: "WinCC Unified Collaboration: sharing Screens between Runtimes"
 slug: "blog-wincc-unified-collaboration"
 locale: "en"
@@ -32531,7 +32531,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [WinCC Unified Collaboration: sharing Screens between Runtimes](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration/) — Jose Manuel Luque*
-`,fP=`---
+`,xP=`---
 title: "WinCC Unified — CWC and Open Pipe"
 slug: "blog-wincc-unified-cwc-open-pipe"
 locale: "en"
@@ -32626,7 +32626,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [WinCC Unified — CWC and Open Pipe](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-cwc-open-pipe/) — Jose Manuel Luque*
-`,CP=`---
+`,MP=`---
 title: "WinCC Unified Open Pipe"
 slug: "blog-wincc-unified-open-pipe"
 locale: "en"
@@ -32782,7 +32782,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC Unified Open Pipe](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-open-pipe/) — Jose Manuel Luque*
-`,bP=`---
+`,LP=`---
 title: "WinCC Unified Redundancy V20"
 slug: "blog-wincc-unified-redundancy-v20"
 locale: "en"
@@ -32929,7 +32929,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC Unified Redundancy V20](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-redundancy-v20/) — Jose Manuel Luque*
-`,vP=`---
+`,WP=`---
 title: "WinCC Unified RT GraphQL"
 slug: "blog-wincc-unified-rt-graphql"
 locale: "en"
@@ -33106,7 +33106,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC Unified RT GraphQL](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-rt-graphql/) — Jose Manuel Luque*
-`,yP=`---
+`,kP=`---
 title: "WinCC Unified (User Management Component)"
 slug: "blog-wincc-unified-user-management-component"
 locale: "en"
@@ -33189,7 +33189,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC Unified (User Management Component)](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-user-management-component) — Jose Manuel Luque*
-`,SP=`---
+`,EP=`---
 title: "WinCC V8.0 News"
 slug: "blog-wincc-v8-0-novedades"
 locale: "en"
@@ -33247,7 +33247,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC V8.0 News](https://www.plc-hmi-scadas.com/en/blog/wincc-v8-0-novedades/) — Jose Manuel Luque*
-`,AP=`---
+`,DP=`---
 title: "WinCC v8.1 Read Alarms"
 slug: "blog-wincc-v8-1-leer-alarmas"
 locale: "en"
@@ -33420,7 +33420,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC v8.1 Read Alarms](https://www.plc-hmi-scadas.com/en/blog/wincc-v8-1-leer-alarmas/) — Jose Manuel Luque*
-`,PP=`---
+`,OP=`---
 title: "WinCC - WebNavigator \\"Failed to load https://Sever:4430/Main.PD_\\""
 slug: "blog-wincc-webnavigaror-failed-to-load-https-sever4430-main-pd"
 locale: "en"
@@ -33463,7 +33463,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC - WebNavigator "Failed to load https://Sever:4430/Main.PD_"](https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigaror-failed-to-load-https-sever4430-main-pd_/) — Jose Manuel Luque*
-`,TP=`---
+`,FP=`---
 title: "WinCC - WebNavigator \\"No Connection to server\\""
 slug: "blog-wincc-webnavigaror-no-connection-to-server"
 locale: "en"
@@ -33518,7 +33518,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC - WebNavigator "No Connection to server"](https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigaror-no-connection-to-server/) — Jose Manuel Luque*
-`,IP=`---
+`,RP=`---
 title: "WinCC WebNavigator/WebUx HTTPS Certificates"
 slug: "blog-wincc-webnavigator-webux-certificados-https"
 locale: "en"
@@ -33680,7 +33680,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC WebNavigator/WebUx HTTPS Certificates](https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigator-webux-certificados-https/) — Jose Manuel Luque*
-`,_P=`---
+`,UP=`---
 title: "CitectSCADA DataBase"
 slug: "citectscada-database"
 locale: "en"
@@ -33785,7 +33785,7 @@ However, with Cicode code, the function is called directly.
 
 ---
 *Source: [CitectSCADA DataBase](https://www.plc-hmi-scadas.com/en/CitectScada_DataBase.php) — Jose Manuel Luque*
-`,MP=`---
+`,NP=`---
 title: "Factory Talk View ActiveX Controls Microsoft ADO - Microsoft DataGrid"
 slug: "factorytalk-activex-adodc"
 locale: "en"
@@ -33849,7 +33849,7 @@ July 14, 2013
 
 ---
 *Source: [Factory Talk View ActiveX Controls Microsoft ADO - Microsoft DataGrid](https://www.plc-hmi-scadas.com/en/FactoryTalk_ActiveX_ADODC.php) — Jose Manuel Luque*
-`,xP=`---
+`,VP=`---
 title: "Factory Talk Alarm and Events"
 slug: "factorytalk-alarmevents"
 locale: "en"
@@ -33935,7 +33935,7 @@ And now a short video to see its operation.
 
 ---
 *Source: [Factory Talk Alarm and Events](https://www.plc-hmi-scadas.com/en/FactoryTalk_AlarmEvents.php) — Jose Manuel Luque*
-`,LP=`---
+`,jP=`---
 title: "Factory Talk View Flash, GIF Animations"
 slug: "factorytalkview-animaciones"
 locale: "en"
@@ -33999,7 +33999,7 @@ September 15, 2013
 
 ---
 *Source: [Factory Talk View Flash, GIF Animations](https://www.plc-hmi-scadas.com/en/FactoryTalkView_Animaciones.php) — Jose Manuel Luque*
-`,WP=`---
+`,BP=`---
 title: "Factory Talk View Send Email"
 slug: "factorytalkview-sendemail"
 locale: "en"
@@ -34053,7 +34053,7 @@ Update 26-3-2015 "If you get an error when sending the email and you are using G
 
 ---
 *Source: [Factory Talk View Send Email](https://www.plc-hmi-scadas.com/en/FactoryTalkView_SendEmail.php) — Jose Manuel Luque*
-`,kP=`---
+`,HP=`---
 title: "Import Factory Talk View SE Project"
 slug: "factorytalkviewse-importar"
 locale: "en"
@@ -34109,7 +34109,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Import Factory Talk View SE Project](https://www.plc-hmi-scadas.com/en/FactoryTalkViewSE_Importar.php) — Jose Manuel Luque*
-`,EP=`---
+`,qP=`---
 title: "Driver SI7"
 slug: "fix32-driver-si7"
 locale: "en"
@@ -34171,7 +34171,7 @@ August 12, 2017
 
 ---
 *Source: [Driver SI7](https://www.plc-hmi-scadas.com/en/Fix32_Driver_SI7.php) — Jose Manuel Luque*
-`,DP=`---
+`,GP=`---
 title: "Factory Talk View SE - DataLog Configuration"
 slug: "ftvse-datalog"
 locale: "en"
@@ -34275,7 +34275,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Factory Talk View SE - DataLog Configuration](https://www.plc-hmi-scadas.com/en/FTVSE_DataLog.php) — Jose Manuel Luque*
-`,OP=`---
+`,JP=`---
 title: "VBA Code to Save Data in Excel"
 slug: "ftvse-excel"
 locale: "en"
@@ -34335,7 +34335,7 @@ If you liked it or found it helpful, share it :-)
 
 ---
 *Source: [VBA Code to Save Data in Excel](https://www.plc-hmi-scadas.com/en/FTVSE_Excel.php) — Jose Manuel Luque*
-`,FP=`---
+`,zP=`---
 title: "Introduction to the VBA Object Model in Factory Talk View SE"
 slug: "ftvse-introduccion-vba"
 locale: "en"
@@ -34397,7 +34397,7 @@ If you liked it, or it was useful to you, share it ... :-)
 
 ---
 *Source: [Introduction to the VBA Object Model in Factory Talk View SE](https://www.plc-hmi-scadas.com/en/FTVSE_Introduccion_VBA.php) — Jose Manuel Luque*
-`,RP=`---
+`,XP=`---
 title: "Factory Talk View send e-mail"
 slug: "ftvse-mail"
 locale: "en"
@@ -34447,7 +34447,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Factory Talk View send e-mail](https://www.plc-hmi-scadas.com/en/FTVSE_Mail.php) — Jose Manuel Luque*
-`,UP=`---
+`,QP=`---
 title: "FTVSE - Load Recipes and Sort Them"
 slug: "ftvse-recepis"
 locale: "en"
@@ -34503,7 +34503,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [FTVSE - Load Recipes and Sort Them](https://www.plc-hmi-scadas.com/en/FTVSE_Recepis.php) — Jose Manuel Luque*
-`,NP=`---
+`,KP=`---
 title: "Object Reference with VBA in Factory Talk View SE"
 slug: "ftvse-vba-referencia-objetos"
 locale: "en"
@@ -34559,7 +34559,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Object Reference with VBA in Factory Talk View SE](https://www.plc-hmi-scadas.com/en/FTVSE_VBA_Referencia_Objetos.php) — Jose Manuel Luque*
-`,VP=`---
+`,YP=`---
 title: "iFix 6.0 - Open DataBase Connectivity (ODBC)"
 slug: "ifix-database"
 locale: "en"
@@ -34614,7 +34614,7 @@ The data we have in our Database for this example.
 
 ---
 *Source: [iFix 6.0 - Open DataBase Connectivity (ODBC)](https://www.plc-hmi-scadas.com/en/IFix_DataBase.php) — Jose Manuel Luque*
-`,BP=`---
+`,ZP=`---
 title: "AVEVA Intouch 2020 Import Industrial Graphics"
 slug: "intouch-2020-industrialgraphics"
 locale: "en"
@@ -34661,7 +34661,7 @@ After a few seconds, we now have the two directories with all the symbols.
 
 ---
 *Source: [AVEVA Intouch 2020 Import Industrial Graphics](https://www.plc-hmi-scadas.com/en/Intouch_2020_IndustrialGraphics.php) — Jose Manuel Luque*
-`,HP=`---
+`,$P=`---
 title: "AVEVA Intouch 2020 Unlock application"
 slug: "intouch-2020-unlock"
 locale: "en"
@@ -34706,7 +34706,7 @@ If we click the button, we see that it deletes that file and we can now edit our
 
 ---
 *Source: [AVEVA Intouch 2020 Unlock application](https://www.plc-hmi-scadas.com/en/Intouch_2020_Unlock.php) — Jose Manuel Luque*
-`,jP=`---
+`,eT=`---
 title: "AVEVA Intouch 2020 Widget (Wonderware)"
 slug: "intouch-2020-widget"
 locale: "en"
@@ -34789,7 +34789,7 @@ Basic questions. How do we create these symbols?
 
 ---
 *Source: [AVEVA Intouch 2020 Widget (Wonderware)](https://www.plc-hmi-scadas.com/en/Intouch_2020_Widget.php) — Jose Manuel Luque*
-`,qP=`---
+`,nT=`---
 title: "Alarm DB Logger Manager Configuration"
 slug: "intouch-alarms"
 locale: "en"
@@ -34865,7 +34865,7 @@ If you liked it or found it helpful, share it :-)
 
 ---
 *Source: [Alarm DB Logger Manager Configuration](https://www.plc-hmi-scadas.com/en/Intouch_Alarms.php) — Jose Manuel Luque*
-`,GP=`---
+`,tT=`---
 title: "Intouch"
 slug: "intouch-bit-integer"
 locale: "en"
@@ -34907,7 +34907,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [Intouch](https://www.plc-hmi-scadas.com/en/Intouch_Bit_Integer.php) — Jose Manuel Luque*
-`,JP=`---
+`,aT=`---
 title: "AVEVA Intouch 2020 (Import Client Controls)"
 slug: "intouch-controls-net"
 locale: "en"
@@ -34974,7 +34974,7 @@ We start the Runtime and here we have our control functioning correctly.
 
 ---
 *Source: [AVEVA Intouch 2020 (Import Client Controls)](https://www.plc-hmi-scadas.com/en/Intouch_Controls_Net.php) — Jose Manuel Luque*
-`,zP=`---
+`,iT=`---
 title: "DAServer Manager BackUp - Restore"
 slug: "intouch-daserver-items"
 locale: "en"
@@ -35028,7 +35028,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [DAServer Manager BackUp - Restore](https://www.plc-hmi-scadas.com/en/Intouch_DAServer_Items.php) — Jose Manuel Luque*
-`,XP=`---
+`,oT=`---
 title: "Intouch - Oracle DataBase"
 slug: "intouch-db-oracle"
 locale: "en"
@@ -35089,7 +35089,7 @@ Now we are going to test our code, we insert our symbol into a new screen and mo
 
 ---
 *Source: [Intouch - Oracle DataBase](https://www.plc-hmi-scadas.com/en/Intouch_DB_Oracle.php) — Jose Manuel Luque*
-`,QP=`---
+`,sT=`---
 title: "Intouch GetNodeName"
 slug: "intouch-functions"
 locale: "en"
@@ -35143,7 +35143,7 @@ September 17, 2013
 
 ---
 *Source: [Intouch GetNodeName](https://www.plc-hmi-scadas.com/en/Intouch_Functions.php) — Jose Manuel Luque*
-`,KP=`---
+`,rT=`---
 title: "Wonderware Historian"
 slug: "intouch-historian"
 locale: "en"
@@ -35237,7 +35237,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Wonderware Historian](https://www.plc-hmi-scadas.com/en/Intouch_Historian.php) — Jose Manuel Luque*
-`,YP=`---
+`,cT=`---
 title: "Intouch  - MySQL DataBase"
 slug: "intouch-mysql"
 locale: "en"
@@ -35304,7 +35304,7 @@ And the values that are in the Database.
 
 ---
 *Source: [Intouch  - MySQL DataBase](https://www.plc-hmi-scadas.com/en/Intouch_MySQL.php) — Jose Manuel Luque*
-`,ZP=`---
+`,lT=`---
 title: "Intouch  - Open DataBase Connectivity (ODBC)"
 slug: "intouch-odbc"
 locale: "en"
@@ -35371,7 +35371,7 @@ And the values that are in the Database
 
 ---
 *Source: [Intouch  - Open DataBase Connectivity (ODBC)](https://www.plc-hmi-scadas.com/en/Intouch_ODBC.php) — Jose Manuel Luque*
-`,$P=`---
+`,hT=`---
 title: "Intouch System Platform"
 slug: "intouch-system-platform"
 locale: "en"
@@ -35431,7 +35431,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [Intouch System Platform](https://www.plc-hmi-scadas.com/en/Intouch_System_Platform.php) — Jose Manuel Luque*
-`,eT=`---
+`,dT=`---
 title: "Indirect Tags in Intouch"
 slug: "intouch-tagsindirectos"
 locale: "en"
@@ -35517,7 +35517,7 @@ September 5, 2013
 
 ---
 *Source: [Indirect Tags in Intouch](https://www.plc-hmi-scadas.com/en/Intouch_TagsIndirectos.php) — Jose Manuel Luque*
-`,nT=`---
+`,uT=`---
 title: "Intouch Simulation with Unity Pro"
 slug: "intouch-unitypro"
 locale: "en"
@@ -35567,7 +35567,7 @@ November 24, 2013
 
 ---
 *Source: [Intouch Simulation with Unity Pro](https://www.plc-hmi-scadas.com/en/Intouch_UnityPro.php) — Jose Manuel Luque*
-`,tT=`---
+`,mT=`---
 title: "Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500"
 slug: "intouchedgehmi"
 locale: "en"
@@ -35648,7 +35648,7 @@ January 29, 2019
 
 ---
 *Source: [Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500](https://www.plc-hmi-scadas.com/en/IntouchEdgeHMI.php) — Jose Manuel Luque*
-`,aT=`---
+`,gT=`---
 title: "ODBC Configuration for Oracle Database"
 slug: "odbc-remote-oracle"
 locale: "en"
@@ -35707,7 +35707,7 @@ We have now configured our Data Sources and now we move on to how to [use it](#/
 
 ---
 *Source: [ODBC Configuration for Oracle Database](https://www.plc-hmi-scadas.com/en/ODBC_Remote_Oracle.php) — Jose Manuel Luque*
-`,iT=`---
+`,pT=`---
 title: "Oracle Data Access Components (ODAC)"
 slug: "oracle-drivers"
 locale: "en"
@@ -35768,7 +35768,7 @@ But next, [configure the ODBC](#/a/en%2Fodbc-remote-oracle) for more information
 
 ---
 *Source: [Oracle Data Access Components (ODAC)](https://www.plc-hmi-scadas.com/en/Oracle_Drivers.php) — Jose Manuel Luque*
-`,oT=`---
+`,wT=`---
 title: "Other SCADAs"
 slug: "other-scadas"
 locale: "en"
@@ -35832,7 +35832,7 @@ Show more
 
 ---
 *Source: [Other SCADAs](https://www.plc-hmi-scadas.com/en/Other-SCADAs/) — Jose Manuel*
-`,sT=`---
+`,fT=`---
 title: "DDE Server Configuration with Microsoft Excel"
 slug: "rsview-dde"
 locale: "en"
@@ -35886,7 +35886,7 @@ July 24, 2013
 
 ---
 *Source: [DDE Server Configuration with Microsoft Excel](https://www.plc-hmi-scadas.com/en/RSView_DDE.php) — Jose Manuel Luque*
-`,rT=`---
+`,CT=`---
 title: "Tag Monitor Configuration"
 slug: "rsview-monitortag"
 locale: "en"
@@ -35924,7 +35924,7 @@ August 4, 2013
 
 ---
 *Source: [Tag Monitor Configuration](https://www.plc-hmi-scadas.com/en/RSView_MonitorTag.php) — Jose Manuel Luque*
-`,cT=`---
+`,bT=`---
 title: "RSView32, Scan Class Configuration"
 slug: "rsview-scanclass"
 locale: "en"
@@ -35966,7 +35966,7 @@ July 24, 2013
 
 ---
 *Source: [RSView32, Scan Class Configuration](https://www.plc-hmi-scadas.com/en/RSView_ScanClass.php) — Jose Manuel Luque*
-`,lT=`---
+`,vT=`---
 title: "RSView32 Tag DataBase"
 slug: "rsview-tagdatabase"
 locale: "en"
@@ -36026,7 +36026,7 @@ August 4, 2013
 
 ---
 *Source: [RSView32 Tag DataBase](https://www.plc-hmi-scadas.com/en/RSView_TagDataBase.php) — Jose Manuel Luque*
-`,hT=`---
+`,yT=`---
 title: "RSView32 DDE Server"
 slug: "rsview32-dde-excel"
 locale: "en"
@@ -36072,7 +36072,7 @@ July 27, 2013
 
 ---
 *Source: [RSView32 DDE Server](https://www.plc-hmi-scadas.com/en/RSView32_DDE_Excel.php) — Jose Manuel Luque*
-`,dT=`---
+`,ST=`---
 title: "Rockwell Automation — SCADA"
 slug: "scada-allen-bradley"
 locale: "en"
@@ -36156,7 +36156,7 @@ Show more
 
 ---
 *Source: [Rockwell Automation — SCADA](https://www.plc-hmi-scadas.com/en/SCADA-ALLEN-BRADLEY/) — Jose Manuel*
-`,uT=`---
+`,AT=`---
 title: "Wonderware / AVEVA — SCADA"
 slug: "scada-intouch"
 locale: "en"
@@ -36308,7 +36308,7 @@ Within the architectures, we can find what is called StandAlone (everything incl
 
 ---
 *Source: [Wonderware / AVEVA — SCADA](https://www.plc-hmi-scadas.com/en/SCADA-INTOUCH/) — Jose Manuel*
-`,mT=`---
+`,PT=`---
 title: "Schneider Electric — SCADA"
 slug: "scada-schneider"
 locale: "en"
@@ -36358,7 +36358,7 @@ Show more
 
 ---
 *Source: [Schneider Electric — SCADA](https://www.plc-hmi-scadas.com/en/SCADA-SCHNEIDER/) — Jose Manuel*
-`,gT=`---
+`,TT=`---
 title: "Siemens WinCC — SCADA"
 slug: "scada-siemens"
 locale: "en"
@@ -36747,7 +36747,7 @@ WinCC RT Professional 16 — 2019
 
 ---
 *Source: [Siemens WinCC — SCADA](https://www.plc-hmi-scadas.com/en/SCADA-SIEMENS/) — Jose Manuel*
-`,pT=`---
+`,IT=`---
 title: "Introduction to TopKapi"
 slug: "scada-topkapi"
 locale: "en"
@@ -36781,7 +36781,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Introduction to TopKapi](https://www.plc-hmi-scadas.com/en/Scada_TopKapi.php) — Jose Manuel Luque*
-`,wT=`---
+`,_T=`---
 title: "Simatic Logon"
 slug: "simatic-logon"
 locale: "en"
@@ -36857,7 +36857,7 @@ June 13, 2016
 
 ---
 *Source: [Simatic Logon](https://www.plc-hmi-scadas.com/en/Simatic_Logon.php) — Jose Manuel Luque*
-`,fT=`---
+`,xT=`---
 title: "Tag Alarm and Event Server ..."
 slug: "tagalarmeventserver"
 locale: "en"
@@ -36913,7 +36913,7 @@ July 19, 2013
 
 ---
 *Source: [Tag Alarm and Event Server ...](https://www.plc-hmi-scadas.com/en/TagAlarmEventServer.php) — Jose Manuel Luque*
-`,CT=`---
+`,MT=`---
 title: "WinCC RT Professional Manually Transfer Project"
 slug: "tia-portal-wincc-rt-transfer"
 locale: "en"
@@ -37013,7 +37013,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC RT Professional Manually Transfer Project](https://www.plc-hmi-scadas.com/en/TIA_Portal_WinCC_RT_Transfer.php) — Jose Manuel Luque*
-`,bT=`---
+`,LT=`---
 title: "WinCC ActiveX Spreadsheet"
 slug: "wincc-activex-excel"
 locale: "en"
@@ -37077,7 +37077,7 @@ November 17, 2013
 
 ---
 *Source: [WinCC ActiveX Spreadsheet](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_Excel.php) — Jose Manuel Luque*
-`,vT=`---
+`,WT=`---
 title: "View PDF files in WinCC"
 slug: "wincc-activex-pdf"
 locale: "en"
@@ -37140,7 +37140,7 @@ Once in Runtime, after pressing the button, we have our document.
 
 ---
 *Source: [View PDF files in WinCC](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_pdf.php) — Jose Manuel Luque*
-`,yT=`---
+`,kT=`---
 title: "WinCC ActiveX WebBrowser - .Net WebBrowser"
 slug: "wincc-activex-webbrowser"
 locale: "en"
@@ -37191,7 +37191,7 @@ The operation is correct and can be a solution. Experiment with it, and if you f
 
 ---
 *Source: [WinCC ActiveX WebBrowser - .Net WebBrowser](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_WebBrowser.php) — Jose Manuel Luque*
-`,ST=`---
+`,ET=`---
 title: "WinCC Create ActiveX Controls"
 slug: "wincc-activex"
 locale: "en"
@@ -37259,7 +37259,7 @@ If you liked it or found it useful... share it :-)
 
 ---
 *Source: [WinCC Create ActiveX Controls](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX.php) — Jose Manuel Luque*
-`,AT=`---
+`,DT=`---
 title: "WinCC Simatic Time"
 slug: "wincc-administrador-variables-timer"
 locale: "en"
@@ -37311,7 +37311,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC Simatic Time](https://www.plc-hmi-scadas.com/en/WinCC_Administrador_Variables_Timer.php) — Jose Manuel Luque*
-`,PT=`---
+`,OT=`---
 title: "WinCC Independent Screen Design and Current Screen Name"
 slug: "wincc-arquitectura-2"
 locale: "en"
@@ -37371,7 +37371,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC Independent Screen Design and Current Screen Name](https://www.plc-hmi-scadas.com/en/WinCC_Arquitectura_2.php) — Jose Manuel Luque*
-`,TT=`---
+`,FT=`---
 title: "WinCC Design with Independent Screens and Current Screen Name"
 slug: "wincc-arquitectura"
 locale: "en"
@@ -37425,7 +37425,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC Design with Independent Screens and Current Screen Name](https://www.plc-hmi-scadas.com/en/WinCC_Arquitectura.php) — Jose Manuel Luque*
-`,IT=`---
+`,RT=`---
 title: "WinCC (AS Symbols)"
 slug: "wincc-as-symbols"
 locale: "en"
@@ -37474,7 +37474,7 @@ If we now create a structure in the PLC and a DB Motors, once transferred to the
 
 ---
 *Source: [WinCC (AS Symbols)](https://www.plc-hmi-scadas.com/en/WinCC_AS_Symbols.php) — Jose Manuel Luque*
-`,_T=`---
+`,UT=`---
 title: "Control.Net Connect BackUp TagLogging in Clients"
 slug: "wincc-backup-taglogging"
 locale: "en"
@@ -37554,7 +37554,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Control.Net Connect BackUp TagLogging in Clients](https://www.plc-hmi-scadas.com/en/WinCC_BackUp_TagLogging.php) — Jose Manuel Luque*
-`,MT=`---
+`,NT=`---
 title: "Backup & Restore WinCC Project Online"
 slug: "wincc-backup-winccruntime"
 locale: "en"
@@ -37600,7 +37600,7 @@ July 7, 2015 - Link 12-11-2015
 
 ---
 *Source: [Backup & Restore WinCC Project Online](https://www.plc-hmi-scadas.com/en/WinCC_Backup_WinCCRuntime.php) — Jose Manuel Luque*
-`,xT=`---
+`,VT=`---
 title: "WinCC - Life Bit"
 slug: "wincc-bit-de-vida"
 locale: "en"
@@ -37660,7 +37660,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC - Life Bit](https://www.plc-hmi-scadas.com/en/WinCC_Bit_de_Vida.php) — Jose Manuel Luque*
-`,LT=`---
+`,jT=`---
 title: "WinCC MQTT Publish - Broker - Codesys Subscriber"
 slug: "wincc-broker-codesys"
 locale: "en"
@@ -37711,7 +37711,7 @@ So let's keep learning...
 
 ---
 *Source: [WinCC MQTT Publish - Broker - Codesys Subscriber](https://www.plc-hmi-scadas.com/en/WinCC_Broker_Codesys.php) — Jose Manuel Luque*
-`,WT=`---
+`,BT=`---
 title: "WinCC ChipCard Option"
 slug: "wincc-chipcard"
 locale: "en"
@@ -37773,7 +37773,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [WinCC ChipCard Option](https://www.plc-hmi-scadas.com/en/WinCC_Chipcard.php) — Jose Manuel Luque*
-`,kT=`---
+`,HT=`---
 title: "OPC UA WinCC Channel Driver"
 slug: "wincc-cliente-opcua-beckhoff"
 locale: "en"
@@ -37882,7 +37882,7 @@ Once we have moved it, and restarted the runtime, we can check that the operatio
 
 ---
 *Source: [OPC UA WinCC Channel Driver](https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCUA_Beckhoff.php) — Jose Manuel Luque*
-`,ET=`---
+`,qT=`---
 title: "WinCC OPC UA Client"
 slug: "wincc-cliente-opcua"
 locale: "en"
@@ -37964,7 +37964,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC OPC UA Client](https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCUA.php) — Jose Manuel Luque*
-`,DT=`---
+`,GT=`---
 title: "WinCC OPC XML Client Server"
 slug: "wincc-cliente-opcxml"
 locale: "en"
@@ -38046,7 +38046,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [WinCC OPC XML Client Server](https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCXML.php) — Jose Manuel Luque*
-`,OT=`---
+`,JT=`---
 title: "WinCC Client"
 slug: "wincc-cliente"
 locale: "en"
@@ -38149,7 +38149,7 @@ March 25, 2014
 
 ---
 *Source: [WinCC Client](https://www.plc-hmi-scadas.com/en/WinCC_Cliente.php) — Jose Manuel Luque*
-`,FT=`---
+`,zT=`---
 title: "WinCC Tags Option Computer-Local"
 slug: "wincc-computer-local"
 locale: "en"
@@ -38204,7 +38204,7 @@ Conclusion: We will activate this option when we are interested in the client/cl
 
 ---
 *Source: [WinCC Tags Option Computer-Local](https://www.plc-hmi-scadas.com/en/WinCC_Computer_Local.php) — Jose Manuel Luque*
-`,RT=`---
+`,XT=`---
 title: "WinCC Confirm the input value of process tag with a button"
 slug: "wincc-confirm-tagvalue-us"
 locale: "en"
@@ -38287,7 +38287,7 @@ March 8, 2018
 
 ---
 *Source: [WinCC Confirm the input value of process tag with a button](https://www.plc-hmi-scadas.com/en/WinCC_Confirm_TagValue_US.php) — Jose Manuel Luque*
-`,UT=`---
+`,QT=`---
 title: "WinCC Confirm the entry of a process value"
 slug: "wincc-confirm-tagvalue"
 locale: "en"
@@ -38364,7 +38364,7 @@ March 8, 2018
 
 ---
 *Source: [WinCC Confirm the entry of a process value](https://www.plc-hmi-scadas.com/en/WinCC_Confirm_TagValue.php) — Jose Manuel Luque*
-`,NT=`---
+`,KT=`---
 title: "WinCC Basic Knowledge"
 slug: "wincc-conocimientosbasicos-ii"
 locale: "en"
@@ -38405,7 +38405,7 @@ June 8, 2016
 
 ---
 *Source: [WinCC Basic Knowledge](https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos_II.php) — Jose Manuel Luque*
-`,VT=`---
+`,YT=`---
 title: "WinCC Basic Knowledge"
 slug: "wincc-conocimientosbasicos-iii"
 locale: "en"
@@ -38450,7 +38450,7 @@ June 8, 2016
 
 ---
 *Source: [WinCC Basic Knowledge](https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos_III.php) — Jose Manuel Luque*
-`,BT=`---
+`,ZT=`---
 title: "WinCC Basic Knowledge"
 slug: "wincc-conocimientosbasicos"
 locale: "en"
@@ -38491,7 +38491,7 @@ June 3, 2016
 
 ---
 *Source: [WinCC Basic Knowledge](https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos.php) — Jose Manuel Luque*
-`,HT=`---
+`,$T=`---
 title: "WinCC Control .Net KeyBoard"
 slug: "wincc-control-keyboard"
 locale: "en"
@@ -38548,7 +38548,7 @@ July 2, 2016
 
 ---
 *Source: [WinCC Control .Net KeyBoard](https://www.plc-hmi-scadas.com/en/WinCC_Control_KeyBoard.php) — Jose Manuel Luque*
-`,jT=`---
+`,eI=`---
 title: "WinCC DataMonitor"
 slug: "wincc-datamonitor"
 locale: "en"
@@ -38628,7 +38628,7 @@ To avoid prolonging this practice too much, I will divide it into several parts,
 
 ---
 *Source: [WinCC DataMonitor](https://www.plc-hmi-scadas.com/en/WinCC_DataMonitor.php) — Jose Manuel Luque*
-`,qT=`---
+`,nI=`---
 title: "WinCC - Oracle DataBase"
 slug: "wincc-db-oracle"
 locale: "en"
@@ -38695,7 +38695,7 @@ Here we have the two buttons, and now we move to Runtime to check it.
 
 ---
 *Source: [WinCC - Oracle DataBase](https://www.plc-hmi-scadas.com/en/WinCC_DB_Oracle.php) — Jose Manuel Luque*
-`,GT=`---
+`,tI=`---
 title: "WinCC DDE Communication with Intouch"
 slug: "wincc-dde"
 locale: "en"
@@ -38757,7 +38757,7 @@ November 16, 2013
 
 ---
 *Source: [WinCC DDE Communication with Intouch](https://www.plc-hmi-scadas.com/en/WinCC_DDE.php) — Jose Manuel Luque*
-`,JT=`---
+`,aI=`---
 title: "WinCC Debugger VBScript"
 slug: "wincc-debugger-vbscript"
 locale: "en"
@@ -38834,7 +38834,7 @@ Conclusion: This is how we debug all the scripts we are interested in but with t
 
 ---
 *Source: [WinCC Debugger VBScript](https://www.plc-hmi-scadas.com/en/WinCC_Debugger_VBScript.php) — Jose Manuel Luque*
-`,zT=`---
+`,iI=`---
 title: "OPC Driver Configuration WinCC"
 slug: "wincc-driver-opc"
 locale: "en"
@@ -38908,7 +38908,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [OPC Driver Configuration WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Driver_OPC.php) — Jose Manuel Luque*
-`,XT=`---
+`,oI=`---
 title: "S7-1500 Driver Configuration"
 slug: "wincc-driver-s71500"
 locale: "en"
@@ -38964,7 +38964,7 @@ June 1, 2016
 
 ---
 *Source: [S7-1500 Driver Configuration](https://www.plc-hmi-scadas.com/en/WinCC_Driver_S71500.php) — Jose Manuel Luque*
-`,QT=`---
+`,sI=`---
 title: "WinCC Dynamic Wizard"
 slug: "wincc-dynamic-wizard"
 locale: "en"
@@ -39016,7 +39016,7 @@ If you liked it or found it useful... Share it :-)
 
 ---
 *Source: [WinCC Dynamic Wizard](https://www.plc-hmi-scadas.com/en/WinCC_Dynamic_Wizard.php) — Jose Manuel Luque*
-`,KT=`---
+`,rI=`---
 title: "WinCC Equipment Properties"
 slug: "wincc-equipo"
 locale: "en"
@@ -39100,7 +39100,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC Equipment Properties](https://www.plc-hmi-scadas.com/en/WinCC_Equipo.php) — Jose Manuel Luque*
-`,YT=`---
+`,cI=`---
 title: "Error Code Ox8000152100000084 -Driver 1200-1500"
 slug: "wincc-error-driver-s71500"
 locale: "en"
@@ -39152,7 +39152,7 @@ June 30, 2016
 
 ---
 *Source: [Error Code Ox8000152100000084 -Driver 1200-1500](https://www.plc-hmi-scadas.com/en/WinCC_Error_Driver_S71500.php) — Jose Manuel Luque*
-`,ZT=`---
+`,lI=`---
 title: "WinCC Events Screen (Graphics Designer)"
 slug: "wincc-eventos-pdl"
 locale: "en"
@@ -39207,7 +39207,7 @@ Subsequently, we change the trigger to Windows Cycle so that it executes accordi
 
 ---
 *Source: [WinCC Events Screen (Graphics Designer)](https://www.plc-hmi-scadas.com/en/WinCC_Eventos_PDL.php) — Jose Manuel Luque*
-`,$T=`---
+`,hI=`---
 title: "VBScript Function to Activate/Deactivate Bit"
 slug: "wincc-funcion-activar-desactivar-bits"
 locale: "en"
@@ -39257,7 +39257,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [VBScript Function to Activate/Deactivate Bit](https://www.plc-hmi-scadas.com/en/WinCC_Funcion_Activar_Desactivar_Bits.php) — Jose Manuel Luque*
-`,eI=`---
+`,dI=`---
 title: "WinCC Function GetTagRaw"
 slug: "wincc-funcion-gettagraw"
 locale: "en"
@@ -39305,7 +39305,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC Function GetTagRaw](https://www.plc-hmi-scadas.com/en/WinCC_Funcion_GetTagRaw.php) — Jose Manuel Luque*
-`,nI=`---
+`,uI=`---
 title: "Graphic Designer Image Window"
 slug: "wincc-graphic-designer-vi"
 locale: "en"
@@ -39373,7 +39373,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Graphic Designer Image Window](https://www.plc-hmi-scadas.com/en/WinCC_Graphic_Designer_VI.php) — Jose Manuel Luque*
-`,tI=`---
+`,mI=`---
 title: "Communication CPU S5 with WinCC via the IBH Link S5++ Gateway"
 slug: "wincc-ibh-link"
 locale: "en"
@@ -39435,7 +39435,7 @@ If you liked it or found it useful, share it ...
 
 ---
 *Source: [Communication CPU S5 with WinCC via the IBH Link S5++ Gateway](https://www.plc-hmi-scadas.com/en/WinCC_IBH_Link.php) — Jose Manuel Luque*
-`,aI=`---
+`,gI=`---
 title: "WinCC ActiveX Controls Microsoft"
 slug: "wincc-instalacion-activex"
 locale: "en"
@@ -39481,7 +39481,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC ActiveX Controls Microsoft](https://www.plc-hmi-scadas.com/en/WinCC_Instalacion_ActiveX.php) — Jose Manuel Luque*
-`,iI=`---
+`,pI=`---
 title: "WinCC V7.3 Installation on Windows 10 Pro"
 slug: "wincc-instalacion"
 locale: "en"
@@ -39551,7 +39551,7 @@ If you found this useful or liked it, share it :-)
 
 ---
 *Source: [WinCC V7.3 Installation on Windows 10 Pro](https://www.plc-hmi-scadas.com/en/WinCC_Instalacion.php) — Jose Manuel Luque*
-`,oI=`---
+`,wI=`---
 title: "WinCC Automate Tasks with VBA"
 slug: "wincc-keyboard-vba"
 locale: "en"
@@ -39601,7 +39601,7 @@ If you liked it or found it useful, share it ...
 
 ---
 *Source: [WinCC Automate Tasks with VBA](https://www.plc-hmi-scadas.com/en/WinCC_KeyBoard_VBA.php) — Jose Manuel Luque*
-`,sI=`---
+`,fI=`---
 title: "WinCC KeyBoard"
 slug: "wincc-keyboard"
 locale: "en"
@@ -39661,7 +39661,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC KeyBoard](https://www.plc-hmi-scadas.com/en/WinCC_KeyBoard.php) — Jose Manuel Luque*
-`,rI=`---
+`,CI=`---
 title: "VBScript Library WinCC"
 slug: "wincc-libreria-us"
 locale: "en"
@@ -40000,7 +40000,7 @@ March 8, 2017
 
 ---
 *Source: [VBScript Library WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Libreria_US.php) — Jose Manuel Luque*
-`,cI=`---
+`,bI=`---
 title: "WinCC Login/Logout with VBScript"
 slug: "wincc-libreria-useradministrator"
 locale: "en"
@@ -40037,7 +40037,7 @@ January 19, 2017
 
 ---
 *Source: [WinCC Login/Logout with VBScript](https://www.plc-hmi-scadas.com/en/WinCC_Libreria_UserAdministrator.php) — Jose Manuel Luque*
-`,lI=`---
+`,vI=`---
 title: "VBScript Library WinCC"
 slug: "wincc-libreria"
 locale: "en"
@@ -40368,7 +40368,7 @@ March 8, 2017
 
 ---
 *Source: [VBScript Library WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Libreria.php) — Jose Manuel Luque*
-`,hI=`---
+`,yI=`---
 title: "Using External Libraries in VBScript"
 slug: "wincc-librerias-dll"
 locale: "en"
@@ -40427,7 +40427,7 @@ July 25, 2016
 
 ---
 *Source: [Using External Libraries in VBScript](https://www.plc-hmi-scadas.com/en/WinCC_Librerias_Dll.php) — Jose Manuel Luque*
-`,dI=`---
+`,SI=`---
 title: "C++ Libraries in WinCC"
 slug: "wincc-librerias-plus-plus"
 locale: "en"
@@ -40509,7 +40509,7 @@ January 14, 2017
 
 ---
 *Source: [C++ Libraries in WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Librerias_Plus_Plus.php) — Jose Manuel Luque*
-`,uI=`---
+`,AI=`---
 title: "WinCC Licenses"
 slug: "wincc-license"
 locale: "en"
@@ -40612,7 +40612,7 @@ As there are only 3 PLCs connected, we do not need the Simatic Net license
 
 ---
 *Source: [WinCC Licenses](https://www.plc-hmi-scadas.com/en/WinCC_License.php) — Jose Manuel Luque*
-`,mI=`---
+`,PI=`---
 title: "WinCC LogOn - LogOut"
 slug: "wincc-loginusuario"
 locale: "en"
@@ -40672,7 +40672,7 @@ June 13, 2016
 
 ---
 *Source: [WinCC LogOn - LogOut](https://www.plc-hmi-scadas.com/en/WinCC_LoginUsuario.php) — Jose Manuel Luque*
-`,gI=`---
+`,TI=`---
 title: "WinCC Menu Configuration with VBScript (Login, Logout, Restart, ShutDown)"
 slug: "wincc-menu-vbs"
 locale: "en"
@@ -40730,7 +40730,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [WinCC Menu Configuration with VBScript (Login, Logout, Restart, ShutDown)](https://www.plc-hmi-scadas.com/en/WinCC_Menu_VBS.php) — Jose Manuel Luque*
-`,pI=`---
+`,II=`---
 title: "WinCC Modbus TCP Driver"
 slug: "wincc-modbustcp"
 locale: "en"
@@ -40807,7 +40807,7 @@ An image to illustrate read-only variables and read/write variables.
 
 ---
 *Source: [WinCC Modbus TCP Driver](https://www.plc-hmi-scadas.com/en/WinCC_ModbusTCP.php) — Jose Manuel Luque*
-`,wI=`---
+`,_I=`---
 title: "WinCC Stand-Alone Project"
 slug: "wincc-monopuesto"
 locale: "en"
@@ -40848,7 +40848,7 @@ March 25, 2014
 
 ---
 *Source: [WinCC Stand-Alone Project](https://www.plc-hmi-scadas.com/en/WinCC_Monopuesto.php) — Jose Manuel Luque*
-`,fI=`---
+`,xI=`---
 title: "WinCC MQTT Publisher"
 slug: "wincc-mqtt"
 locale: "en"
@@ -40967,7 +40967,7 @@ IMPORTANT: WinCC does not allow receiving values from the broker.
 
 ---
 *Source: [WinCC MQTT Publisher](https://www.plc-hmi-scadas.com/en/WinCC_MQTT.php) — Jose Manuel Luque*
-`,CI=`---
+`,MI=`---
 title: "WinCC - MS Excel - Office Web Component"
 slug: "wincc-msexcel-owc"
 locale: "en"
@@ -41018,7 +41018,7 @@ February 11, 2018
 
 ---
 *Source: [WinCC - MS Excel - Office Web Component](https://www.plc-hmi-scadas.com/en/WinCC_MSExcel_OWC.php) — Jose Manuel Luque*
-`,bI=`---
+`,LI=`---
 title: "This computer is not in the client list of the server project"
 slug: "wincc-multipuesto-error"
 locale: "en"
@@ -41094,7 +41094,7 @@ _
 
 ---
 *Source: [This computer is not in the client list of the server project](https://www.plc-hmi-scadas.com/en/WinCC_Multipuesto_Error.php) — Jose Manuel Luque*
-`,vI=`---
+`,WI=`---
 title: "WinCC Multi-User Project"
 slug: "wincc-multipuesto"
 locale: "en"
@@ -41185,7 +41185,7 @@ March 25, 2014
 
 ---
 *Source: [WinCC Multi-User Project](https://www.plc-hmi-scadas.com/en/WinCC_Multipuesto.php) — Jose Manuel Luque*
-`,yI=`---
+`,kI=`---
 title: "WinCC - MySQL DataBase"
 slug: "wincc-mysql"
 locale: "en"
@@ -41272,7 +41272,7 @@ And the values that are in the Database.
 
 ---
 *Source: [WinCC - MySQL DataBase](https://www.plc-hmi-scadas.com/en/WinCC_MySQL.php) — Jose Manuel Luque*
-`,SI=`---
+`,EI=`---
 title: "WinCC Create .Net Controls"
 slug: "wincc-net"
 locale: "en"
@@ -41350,7 +41350,7 @@ If you liked it or found it useful, share it ... :)
 
 ---
 *Source: [WinCC Create .Net Controls](https://www.plc-hmi-scadas.com/en/WinCC_Net.php) — Jose Manuel Luque*
-`,AI=`---
+`,DI=`---
 title: "WinCC V7.4 News"
 slug: "wincc-new-7-4"
 locale: "en"
@@ -41514,7 +41514,7 @@ June 23, 2016
 
 ---
 *Source: [WinCC V7.4 News](https://www.plc-hmi-scadas.com/en/WinCC_New_7_4.php) — Jose Manuel Luque*
-`,PI=`---
+`,OI=`---
 title: "New Features of WinCC 7.5"
 slug: "wincc-new-7-5"
 locale: "en"
@@ -41695,7 +41695,7 @@ These have been some of the new functions, but I reiterate that the best thing i
 
 ---
 *Source: [New Features of WinCC 7.5](https://www.plc-hmi-scadas.com/en/WinCC_New_7_5.php) — Jose Manuel Luque*
-`,TI=`---
+`,FI=`---
 title: "WinCC Active Alarms Number / Unacknowledged Alarms Number"
 slug: "wincc-numero-alarmas"
 locale: "en"
@@ -41749,7 +41749,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC Active Alarms Number / Unacknowledged Alarms Number](https://www.plc-hmi-scadas.com/en/WinCC_Numero_Alarmas.php) — Jose Manuel Luque*
-`,II=`---
+`,RI=`---
 title: "WinCC - PLCSIM Advanced Simulation"
 slug: "wincc-plcsimadvanced"
 locale: "en"
@@ -41800,7 +41800,7 @@ January 11, 2018
 
 ---
 *Source: [WinCC - PLCSIM Advanced Simulation](https://www.plc-hmi-scadas.com/en/WinCC_PLCSimAdvanced.php) — Jose Manuel Luque*
-`,_I=`---
+`,UI=`---
 title: "WinCC - PM Quality (Introduction)."
 slug: "wincc-pm-quality-1"
 locale: "en"
@@ -41920,7 +41920,7 @@ Now we are going to configure the PM-Server project; we will continue in the nex
 
 ---
 *Source: [WinCC - PM Quality (Introduction).](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_1.php) — Jose Manuel Luque*
-`,MI=`---
+`,NI=`---
 title: "WinCC - PM Quality (PM-Server & Stations)"
 slug: "wincc-pm-quality-2"
 locale: "en"
@@ -42033,7 +42033,7 @@ We do not have the Runtime started but for now, all the configuration is correct
 
 ---
 *Source: [WinCC - PM Quality (PM-Server & Stations)](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_2.php) — Jose Manuel Luque*
-`,xI=`---
+`,VI=`---
 title: "WinCC - PM Quality (Topology - Phase - Trends)"
 slug: "wincc-pm-quality-3"
 locale: "en"
@@ -42166,7 +42166,7 @@ Now to finish, we would need to print the Report with all the necessary informat
 
 ---
 *Source: [WinCC - PM Quality (Topology - Phase - Trends)](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_3.php) — Jose Manuel Luque*
-`,LI=`---
+`,jI=`---
 title: "WinCC - PM Quality (Reports)"
 slug: "wincc-pm-quality-4"
 locale: "en"
@@ -42235,7 +42235,7 @@ At a minimum, we now have a more global concept of this Add-On.
 
 ---
 *Source: [WinCC - PM Quality (Reports)](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_4.php) — Jose Manuel Luque*
-`,WI=`---
+`,BI=`---
 title: "WinCC Redundancy"
 slug: "wincc-redundancy"
 locale: "en"
@@ -42327,7 +42327,7 @@ If you liked it or found it useful... Share it....
 
 ---
 *Source: [WinCC Redundancy](https://www.plc-hmi-scadas.com/en/WinCC_Redundancy.php) — Jose Manuel Luque*
-`,kI=`---
+`,HI=`---
 title: "WinCC RT Professional Load Project Runtime Station"
 slug: "wincc-rt-cargar-proyecto"
 locale: "en"
@@ -42465,7 +42465,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC RT Professional Load Project Runtime Station](https://www.plc-hmi-scadas.com/en/WinCC_RT_Cargar_Proyecto.php) — Jose Manuel Luque*
-`,EI=`---
+`,qI=`---
 title: "WinCC Read / Write Tags (Ansi C - VBScript)"
 slug: "wincc-rw-tag"
 locale: "en"
@@ -42522,7 +42522,7 @@ January 28, 2018
 
 ---
 *Source: [WinCC Read / Write Tags (Ansi C - VBScript)](https://www.plc-hmi-scadas.com/en/WinCC_RW_Tag.php) — Jose Manuel Luque*
-`,DI=`---
+`,GI=`---
 title: "WinCC Send Mail VBScript"
 slug: "wincc-sendmail"
 locale: "en"
@@ -42567,7 +42567,7 @@ February 11, 2018
 
 ---
 *Source: [WinCC Send Mail VBScript](https://www.plc-hmi-scadas.com/en/WinCC_SendMail.php) — Jose Manuel Luque*
-`,OI=`---
+`,JI=`---
 title: "WinCC Server not available"
 slug: "wincc-server-not-available"
 locale: "en"
@@ -42612,7 +42612,7 @@ September 3, 2017
 
 ---
 *Source: [WinCC Server not available](https://www.plc-hmi-scadas.com/en/WinCC_Server_Not_available.php) — Jose Manuel Luque*
-`,FI=`---
+`,zI=`---
 title: "WinCC OPC Server"
 slug: "wincc-servidor-opc"
 locale: "en"
@@ -42711,7 +42711,7 @@ August 26, 2014
 
 ---
 *Source: [WinCC OPC Server](https://www.plc-hmi-scadas.com/en/WinCC_Servidor_OPC.php) — Jose Manuel Luque*
-`,RI=`---
+`,XI=`---
 title: "Simatic Logon Configuration with Active Directory"
 slug: "wincc-simatic-logon"
 locale: "en"
@@ -42811,7 +42811,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Simatic Logon Configuration with Active Directory](https://www.plc-hmi-scadas.com/en/WinCC_Simatic_Logon.php) — Jose Manuel Luque*
-`,UI=`---
+`,QI=`---
 title: "WinCC Driver Allen Bradley-Ethernet IP"
 slug: "wincc-softlogix"
 locale: "en"
@@ -42869,7 +42869,7 @@ July 26, 2016
 
 ---
 *Source: [WinCC Driver Allen Bradley-Ethernet IP](https://www.plc-hmi-scadas.com/en/WinCC_Softlogix.php) — Jose Manuel Luque*
-`,NI=`---
+`,KI=`---
 title: "WinCC Driver System Info Configuration"
 slug: "wincc-system-info"
 locale: "en"
@@ -42943,7 +42943,7 @@ November 17, 2013
 
 ---
 *Source: [WinCC Driver System Info Configuration](https://www.plc-hmi-scadas.com/en/WinCC_System_Info.php) — Jose Manuel Luque*
-`,VI=`---
+`,YI=`---
 title: "WinCC - No access points found"
 slug: "wincc-tagmanagement"
 locale: "en"
@@ -42988,7 +42988,7 @@ Problem solved, we can now select S7ONLINE.
 
 ---
 *Source: [WinCC - No access points found](https://www.plc-hmi-scadas.com/en/WinCC_TagManagement.php) — Jose Manuel Luque*
-`,BI=`---
+`,ZI=`---
 title: "WinCC Unified User Management"
 slug: "wincc-unified-administracion-usuarios"
 locale: "en"
@@ -43061,7 +43061,7 @@ If we now log in as Operator, we have been able to log in and I have assigned ad
 
 ---
 *Source: [WinCC Unified User Management](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Administracion_Usuarios.php) — Jose Manuel Luque*
-`,HI=`---
+`,$I=`---
 title: "WinCC Unified Configuration"
 slug: "wincc-unified-configuration"
 locale: "en"
@@ -43116,7 +43116,7 @@ We finish the wizard and its time to execute this configuration. Once this step 
 
 ---
 *Source: [WinCC Unified Configuration](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Configuration.php) — Jose Manuel Luque*
-`,jI=`---
+`,e_=`---
 title: "WinCC Unified Connection OPC UA"
 slug: "wincc-unified-connection-opcua"
 locale: "en"
@@ -43167,7 +43167,7 @@ We just need to use the tags where appropriate and simulate our process to trans
 
 ---
 *Source: [WinCC Unified Connection OPC UA](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Connection_OPCUA.php) — Jose Manuel Luque*
-`,qI=`---
+`,n_=`---
 title: "WinCC Unified Custom Web Controls"
 slug: "wincc-unified-custom-web-controls"
 locale: "en"
@@ -43264,7 +43264,7 @@ To avoid extending this article too much, we already have the basis of how it wo
 
 ---
 *Source: [WinCC Unified Custom Web Controls](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Custom_Web_Controls.php) — Jose Manuel Luque*
-`,GI=`---
+`,t_=`---
 title: "WinCC Unified JavaScript Synchronous/ Asynchronous"
 slug: "wincc-unified-js"
 locale: "en"
@@ -43325,7 +43325,7 @@ With this, it is clear what function we need to assign to the execution of our s
 
 ---
 *Source: [WinCC Unified JavaScript Synchronous/ Asynchronous](https://www.plc-hmi-scadas.com/en/WinCC_Unified_JS.php) — Jose Manuel Luque*
-`,JI=`---
+`,a_=`---
 title: "WinCC Unified OPC Server UA"
 slug: "wincc-unified-servidor-opc-ua"
 locale: "en"
@@ -43404,7 +43404,7 @@ If we check the State variable of the Server, we can see that we are in running.
 
 ---
 *Source: [WinCC Unified OPC Server UA](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Servidor_OPC_UA.php) — Jose Manuel Luque*
-`,zI=`---
+`,i_=`---
 title: "WinCC Unified Trace JavaScript"
 slug: "wincc-unified-trace-javascript"
 locale: "en"
@@ -43459,7 +43459,7 @@ If we are only interested in the Scripts, it is ideal to filter by Filter --> Mo
 
 ---
 *Source: [WinCC Unified Trace JavaScript](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Trace_JavaScript.php) — Jose Manuel Luque*
-`,XI=`---
+`,o_=`---
 title: "WinCC Unified Transfer Project"
 slug: "wincc-unified-transferir-proyecto"
 locale: "en"
@@ -43532,7 +43532,7 @@ Here we have another novelty, and we will have to work on it for better understa
 
 ---
 *Source: [WinCC Unified Transfer Project](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Transferir_Proyecto.php) — Jose Manuel Luque*
-`,QI=`---
+`,s_=`---
 title: "Visual Basic Application Macro AddIn in Graphic Designer WinCC"
 slug: "wincc-vba"
 locale: "en"
@@ -43599,7 +43599,7 @@ We start WinCC and at the same time the Graphics Designer, we go to Tools --> Ma
 
 ---
 *Source: [Visual Basic Application Macro AddIn in Graphic Designer WinCC](https://www.plc-hmi-scadas.com/en/WinCC_VBA.php) — Jose Manuel Luque*
-`,KI=`---
+`,r_=`---
 title: "WinCC - GetTagRaw / SetTagRaw in VBScript"
 slug: "wincc-vbs-gettagraw"
 locale: "en"
@@ -43690,7 +43690,7 @@ January 21, 2018
 
 ---
 *Source: [WinCC - GetTagRaw / SetTagRaw in VBScript](https://www.plc-hmi-scadas.com/en/WinCC_VBS_GetTagRaw.php) — Jose Manuel Luque*
-`,YI=`---
+`,c_=`---
 title: "WinCC VBScript Print Files"
 slug: "wincc-vbs-imprimir"
 locale: "en"
@@ -43736,7 +43736,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC VBScript Print Files](https://www.plc-hmi-scadas.com/en/WinCC_VBS_Imprimir.php) — Jose Manuel Luque*
-`,ZI=`---
+`,l_=`---
 title: "WinCC VBScript InvertBitInVariable"
 slug: "wincc-vbs-invertir-bits"
 locale: "en"
@@ -43785,7 +43785,7 @@ May 28, 2018
 
 ---
 *Source: [WinCC VBScript InvertBitInVariable](https://www.plc-hmi-scadas.com/en/WinCC_VBS_Invertir_Bits.php) — Jose Manuel Luque*
-`,$I=`---
+`,h_=`---
 title: "WinCC VBS Ping"
 slug: "wincc-vbs-ping"
 locale: "en"
@@ -43839,7 +43839,7 @@ If you liked it or found it useful ... Share it :-)
 
 ---
 *Source: [WinCC VBS Ping](https://www.plc-hmi-scadas.com/en/WinCC_VBS_Ping.php) — Jose Manuel Luque*
-`,e_=`---
+`,d_=`---
 title: "VBScript Execute in WinCC Server / WebNavigator Client"
 slug: "wincc-vbs-webnavigator"
 locale: "en"
@@ -43881,7 +43881,7 @@ If you liked it or found it useful, share it ... :)
 
 ---
 *Source: [VBScript Execute in WinCC Server / WebNavigator Client](https://www.plc-hmi-scadas.com/en/WinCC_VBS_WebNavigator.php) — Jose Manuel Luque*
-`,n_=`---
+`,u_=`---
 title: "WebNavigator HTTPS Configuration"
 slug: "wincc-webnavigator-https"
 locale: "en"
@@ -43953,7 +43953,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WebNavigator HTTPS Configuration](https://www.plc-hmi-scadas.com/en/WinCC_WebNavigator_https.php) — Jose Manuel Luque*
-`,t_=`---
+`,m_=`---
 title: "WinCC WebUX"
 slug: "wincc-webux-ii"
 locale: "en"
@@ -44006,7 +44006,7 @@ Siemens notes that Windows 10 limits the number of connections; the maximum is 1
 
 ---
 *Source: [WinCC WebUX](https://www.plc-hmi-scadas.com/en/WinCC_WebUX_II.php) — Jose Manuel Luque*
-`,a_=`---
+`,g_=`---
 title: "WinCC New WebUX Server V7.3"
 slug: "wincc-webux"
 locale: "en"
@@ -44094,7 +44094,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [WinCC New WebUX Server V7.3](https://www.plc-hmi-scadas.com/en/WinCC_WebUX.php) — Jose Manuel Luque*
-`,i_=`---
+`,p_=`---
 title: "WinCC Create WPF Controls"
 slug: "wincc-wpf"
 locale: "en"
@@ -44170,7 +44170,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [WinCC Create WPF Controls](https://www.plc-hmi-scadas.com/en/WinCC_WPF.php) — Jose Manuel Luque*
-`,o_=`---
+`,w_=`---
 title: "WinCC"
 slug: "wincc"
 locale: "en"
@@ -44246,7 +44246,7 @@ March 25, 2014
 
 ---
 *Source: [WinCC](https://www.plc-hmi-scadas.com/en/WinCC.php) — Jose Manuel Luque*
-`,s_=`---
+`,f_=`---
 title: "WinCC - OPC SimaticNet (Simotion)"
 slug: "winccflexible-simotion-opc-2"
 locale: "en"
@@ -44323,7 +44323,7 @@ June 10, 2018
 
 ---
 *Source: [WinCC - OPC SimaticNet (Simotion)](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC_2.php) — Jose Manuel Luque*
-`,r_=`---
+`,C_=`---
 title: "Active Factory/Historian Client Trends"
 slug: "wonderware-activefactory"
 locale: "en"
@@ -44397,7 +44397,7 @@ September 10, 2013
 
 ---
 *Source: [Active Factory/Historian Client Trends](https://www.plc-hmi-scadas.com/en/Wonderware_ActiveFactory.php) — Jose Manuel Luque*
-`,c_=`---
+`,b_=`---
 title: "Historian AutoStart"
 slug: "wwhistorian-autostart"
 locale: "en"
@@ -44447,7 +44447,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [Historian AutoStart](https://www.plc-hmi-scadas.com/en/WWHistorian_AutoStart.php) — Jose Manuel Luque*
-`,l_=`---
+`,v_=`---
 title: "Configurator WWHistorian"
 slug: "wwhistorian-configurator"
 locale: "en"
@@ -44497,7 +44497,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [Configurator WWHistorian](https://www.plc-hmi-scadas.com/en/WWHistorian_Configurator.php) — Jose Manuel Luque*
-`,h_=`---
+`,y_=`---
 title: "InduSoft Web Studio - Intouch Machine Edition - Intouch Edge HMI"
 slug: "wwintouchmachineedition"
 locale: "en"
@@ -44542,7 +44542,7 @@ The latest version of Intouch Machine Edition is currently called Intouch Edge H
 
 ---
 *Source: [InduSoft Web Studio - Intouch Machine Edition - Intouch Edge HMI](https://www.plc-hmi-scadas.com/en/WWIntouchMachineEdition.php) — Jose Manuel Luque*
-`,d_=`---
+`,S_=`---
 title: "SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500"
 slug: "zenon-driver-tia"
 locale: "en"
@@ -44619,7 +44619,7 @@ January 21, 2019
 
 ---
 *Source: [SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500](https://www.plc-hmi-scadas.com/en/Zenon_Driver_TIA.php) — Jose Manuel Luque*
-`,u_=`---
+`,A_=`---
 title: "Introduction to SCADA ZENON Supervisor (COPA-DATA)"
 slug: "zenon-introduccion"
 locale: "en"
@@ -44686,7 +44686,7 @@ This has been a small introduction that we will explore with examples later, to 
 
 ---
 *Source: [Introduction to SCADA ZENON Supervisor (COPA-DATA)](https://www.plc-hmi-scadas.com/en/Zenon_Introduccion.php) — Jose Manuel Luque*
-`,m_=`---
+`,P_=`---
 title: "SQL Databases in SCADAs"
 slug: "136"
 locale: "en"
@@ -44776,7 +44776,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [SQL Databases in SCADAs](https://www.plc-hmi-scadas.com/en/136.php) — Jose Manuel Luque*
-`,g_=`---
+`,T_=`---
 title: "Version Control with Git, GitHub and TIA Portal V21"
 slug: "blog-control-versiones-git-tia-portal-v21"
 locale: "en"
@@ -44980,7 +44980,7 @@ Industrial automation and version control applied to PLC projects.
 
 ---
 *Source: [Version Control with Git, GitHub and TIA Portal V21](https://www.plc-hmi-scadas.com/en/blog/control-versiones-git-tia-portal-v21/) — Pedro Pagán Pallarés*
-`,p_=`---
+`,I_=`---
 title: "Set Up a Development Environment with VS Code, GitHub Copilot and AI Agents"
 slug: "blog-entorno-desarrollo-vscode-copilot-agentes"
 locale: "en"
@@ -45477,7 +45477,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Set Up a Development Environment with VS Code, GitHub Copilot and AI Agents](https://www.plc-hmi-scadas.com/en/blog/entorno-desarrollo-vscode-copilot-agentes/) — Pedro Pagán Pallarés*
-`,w_=`---
+`,__=`---
 title: "Git & GitHub for Teams:Interactive Guide to Collaborative Workflows with VS Code"
 slug: "blog-git-github-flujo-colaborativo-vscode"
 locale: "en"
@@ -45966,7 +45966,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Git & GitHub for Teams:Interactive Guide to Collaborative Workflows with VS Code](https://www.plc-hmi-scadas.com/en/blog/git-github-flujo-colaborativo-vscode/) — Pedro Pagán Pallarés*
-`,f_=`---
+`,x_=`---
 title: "Version Control — Git & GitHub"
 slug: "git"
 locale: "en"
@@ -45998,7 +45998,7 @@ Version control and collaborative workflow applied to industrial automation proj
 
 ---
 *Source: [Version Control — Git & GitHub](https://www.plc-hmi-scadas.com/en/Git/) — Jose Manuel*
-`,C_=`---
+`,M_=`---
 title: "Framework — VS Code & Copilot"
 slug: "vscode"
 locale: "en"
@@ -46029,7 +46029,7 @@ Professional development environment with VS Code and GitHub Copilot for industr
 
 ---
 *Source: [Framework — VS Code & Copilot](https://www.plc-hmi-scadas.com/en/VSCode/) — Jose Manuel*
-`,b_=`---
+`,L_=`---
 title: "GrafSim · GRAFCET editor and simulator"
 slug: "blog-grafsim"
 locale: "en"
@@ -46203,7 +46203,7 @@ Automation and industrial organisation engineer specialised in data and applied 
 
 ---
 *Source: [GrafSim · GRAFCET editor and simulator](https://www.plc-hmi-scadas.com/en/blog/grafsim/) — Pedro Pagán Pallarés*
-`,v_=`---
+`,W_=`---
 title: "PHS Color Batch Simulator: pigment dosing with PLC and OPC UA"
 slug: "blog-phs-color-batch-simulator-opc-ua"
 locale: "en"
@@ -46423,7 +46423,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [PHS Color Batch Simulator: pigment dosing with PLC and OPC UA](https://www.plc-hmi-scadas.com/en/blog/phs-color-batch-simulator-opc-ua/) — Pedro Pagán Pallarés*
-`,y_=`---
+`,k_=`---
 title: "PHS Thermal Process Simulator: simulate processes and control them through OPC UA"
 slug: "blog-phs-thermal-process-simulator-opc-ua"
 locale: "en"
@@ -46643,44 +46643,44 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [PHS Thermal Process Simulator: simulate processes and control them through OPC UA](https://www.plc-hmi-scadas.com/en/blog/phs-thermal-process-simulator-opc-ua/) — Pedro Pagán Pallarés*
-`;function Sh(){return{async:!1,breaks:!1,extensions:null,gfm:!0,hooks:null,pedantic:!1,renderer:null,silent:!1,tokenizer:null,walkTokens:null}}let oa=Sh();function tw(e){oa=e}const aw=/[&<>"']/,S_=new RegExp(aw.source,"g"),iw=/[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/,A_=new RegExp(iw.source,"g"),P_={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},Pu=e=>P_[e];function Qe(e,n){if(n){if(aw.test(e))return e.replace(S_,Pu)}else if(iw.test(e))return e.replace(A_,Pu);return e}const T_=/(^|[^\[])\^/g;function Y(e,n){let t=typeof e=="string"?e:e.source;n=n||"";const a={replace:(i,o)=>{let s=typeof o=="string"?o:o.source;return s=s.replace(T_,"$1"),t=t.replace(i,s),a},getRegex:()=>new RegExp(t,n)};return a}function Tu(e){try{e=encodeURI(e).replace(/%25/g,"%")}catch{return null}return e}const Mi={exec:()=>null};function Iu(e,n){const t=e.replace(/\|/g,(o,s,r)=>{let c=!1,l=s;for(;--l>=0&&r[l]==="\\";)c=!c;return c?"|":" |"}),a=t.split(/ \|/);let i=0;if(a[0].trim()||a.shift(),a.length>0&&!a[a.length-1].trim()&&a.pop(),n)if(a.length>n)a.splice(n);else for(;a.length<n;)a.push("");for(;i<a.length;i++)a[i]=a[i].trim().replace(/\\\|/g,"|");return a}function ri(e,n,t){const a=e.length;if(a===0)return"";let i=0;for(;i<a&&e.charAt(a-i-1)===n;)i++;return e.slice(0,a-i)}function I_(e,n){if(e.indexOf(n[1])===-1)return-1;let t=0;for(let a=0;a<e.length;a++)if(e[a]==="\\")a++;else if(e[a]===n[0])t++;else if(e[a]===n[1]&&(t--,t<0))return a;return-1}function _u(e,n,t,a){const i=n.href,o=n.title?Qe(n.title):null,s=e[1].replace(/\\([\[\]])/g,"$1");if(e[0].charAt(0)!=="!"){a.state.inLink=!0;const r={type:"link",raw:t,href:i,title:o,text:s,tokens:a.inlineTokens(s)};return a.state.inLink=!1,r}return{type:"image",raw:t,href:i,title:o,text:Qe(s)}}function __(e,n){const t=e.match(/^(\s+)(?:```)/);if(t===null)return n;const a=t[1];return n.split(`
+`;function _h(){return{async:!1,breaks:!1,extensions:null,gfm:!0,hooks:null,pedantic:!1,renderer:null,silent:!1,tokenizer:null,walkTokens:null}}let ha=_h();function hw(e){ha=e}const dw=/[&<>"']/,E_=new RegExp(dw.source,"g"),uw=/[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/,D_=new RegExp(uw.source,"g"),O_={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},Mu=e=>O_[e];function Ke(e,n){if(n){if(dw.test(e))return e.replace(E_,Mu)}else if(uw.test(e))return e.replace(D_,Mu);return e}const F_=/(^|[^\[])\^/g;function Z(e,n){let t=typeof e=="string"?e:e.source;n=n||"";const a={replace:(i,o)=>{let s=typeof o=="string"?o:o.source;return s=s.replace(F_,"$1"),t=t.replace(i,s),a},getRegex:()=>new RegExp(t,n)};return a}function Lu(e){try{e=encodeURI(e).replace(/%25/g,"%")}catch{return null}return e}const Oi={exec:()=>null};function Wu(e,n){const t=e.replace(/\|/g,(o,s,r)=>{let c=!1,l=s;for(;--l>=0&&r[l]==="\\";)c=!c;return c?"|":" |"}),a=t.split(/ \|/);let i=0;if(a[0].trim()||a.shift(),a.length>0&&!a[a.length-1].trim()&&a.pop(),n)if(a.length>n)a.splice(n);else for(;a.length<n;)a.push("");for(;i<a.length;i++)a[i]=a[i].trim().replace(/\\\|/g,"|");return a}function ui(e,n,t){const a=e.length;if(a===0)return"";let i=0;for(;i<a&&e.charAt(a-i-1)===n;)i++;return e.slice(0,a-i)}function R_(e,n){if(e.indexOf(n[1])===-1)return-1;let t=0;for(let a=0;a<e.length;a++)if(e[a]==="\\")a++;else if(e[a]===n[0])t++;else if(e[a]===n[1]&&(t--,t<0))return a;return-1}function ku(e,n,t,a){const i=n.href,o=n.title?Ke(n.title):null,s=e[1].replace(/\\([\[\]])/g,"$1");if(e[0].charAt(0)!=="!"){a.state.inLink=!0;const r={type:"link",raw:t,href:i,title:o,text:s,tokens:a.inlineTokens(s)};return a.state.inLink=!1,r}return{type:"image",raw:t,href:i,title:o,text:Ke(s)}}function U_(e,n){const t=e.match(/^(\s+)(?:```)/);if(t===null)return n;const a=t[1];return n.split(`
 `).map(i=>{const o=i.match(/^\s+/);if(o===null)return i;const[s]=o;return s.length>=a.length?i.slice(a.length):i}).join(`
-`)}class Es{constructor(n){Z(this,"options");Z(this,"rules");Z(this,"lexer");this.options=n||oa}space(n){const t=this.rules.block.newline.exec(n);if(t&&t[0].length>0)return{type:"space",raw:t[0]}}code(n){const t=this.rules.block.code.exec(n);if(t){const a=t[0].replace(/^(?: {1,4}| {0,3}\t)/gm,"");return{type:"code",raw:t[0],codeBlockStyle:"indented",text:this.options.pedantic?a:ri(a,`
-`)}}}fences(n){const t=this.rules.block.fences.exec(n);if(t){const a=t[0],i=__(a,t[3]||"");return{type:"code",raw:a,lang:t[2]?t[2].trim().replace(this.rules.inline.anyPunctuation,"$1"):t[2],text:i}}}heading(n){const t=this.rules.block.heading.exec(n);if(t){let a=t[2].trim();if(/#$/.test(a)){const i=ri(a,"#");(this.options.pedantic||!i||/ $/.test(i))&&(a=i.trim())}return{type:"heading",raw:t[0],depth:t[1].length,text:a,tokens:this.lexer.inline(a)}}}hr(n){const t=this.rules.block.hr.exec(n);if(t)return{type:"hr",raw:ri(t[0],`
-`)}}blockquote(n){const t=this.rules.block.blockquote.exec(n);if(t){let a=ri(t[0],`
+`)}class Vs{constructor(n){ee(this,"options");ee(this,"rules");ee(this,"lexer");this.options=n||ha}space(n){const t=this.rules.block.newline.exec(n);if(t&&t[0].length>0)return{type:"space",raw:t[0]}}code(n){const t=this.rules.block.code.exec(n);if(t){const a=t[0].replace(/^(?: {1,4}| {0,3}\t)/gm,"");return{type:"code",raw:t[0],codeBlockStyle:"indented",text:this.options.pedantic?a:ui(a,`
+`)}}}fences(n){const t=this.rules.block.fences.exec(n);if(t){const a=t[0],i=U_(a,t[3]||"");return{type:"code",raw:a,lang:t[2]?t[2].trim().replace(this.rules.inline.anyPunctuation,"$1"):t[2],text:i}}}heading(n){const t=this.rules.block.heading.exec(n);if(t){let a=t[2].trim();if(/#$/.test(a)){const i=ui(a,"#");(this.options.pedantic||!i||/ $/.test(i))&&(a=i.trim())}return{type:"heading",raw:t[0],depth:t[1].length,text:a,tokens:this.lexer.inline(a)}}}hr(n){const t=this.rules.block.hr.exec(n);if(t)return{type:"hr",raw:ui(t[0],`
+`)}}blockquote(n){const t=this.rules.block.blockquote.exec(n);if(t){let a=ui(t[0],`
 `).split(`
-`),i="",o="";const s=[];for(;a.length>0;){let r=!1;const c=[];let l;for(l=0;l<a.length;l++)if(/^ {0,3}>/.test(a[l]))c.push(a[l]),r=!0;else if(!r)c.push(a[l]);else break;a=a.slice(l);const h=c.join(`
-`),p=h.replace(/\n {0,3}((?:=+|-+) *)(?=\n|$)/g,`
+`),i="",o="";const s=[];for(;a.length>0;){let r=!1;const c=[];let l;for(l=0;l<a.length;l++)if(/^ {0,3}>/.test(a[l]))c.push(a[l]),r=!0;else if(!r)c.push(a[l]);else break;a=a.slice(l);const d=c.join(`
+`),m=d.replace(/\n {0,3}((?:=+|-+) *)(?=\n|$)/g,`
     $1`).replace(/^ {0,3}>[ \t]?/gm,"");i=i?`${i}
-${h}`:h,o=o?`${o}
-${p}`:p;const d=this.lexer.state.top;if(this.lexer.state.top=!0,this.lexer.blockTokens(p,s,!0),this.lexer.state.top=d,a.length===0)break;const m=s[s.length-1];if((m==null?void 0:m.type)==="code")break;if((m==null?void 0:m.type)==="blockquote"){const f=m,b=f.raw+`
+${d}`:d,o=o?`${o}
+${m}`:m;const u=this.lexer.state.top;if(this.lexer.state.top=!0,this.lexer.blockTokens(m,s,!0),this.lexer.state.top=u,a.length===0)break;const p=s[s.length-1];if((p==null?void 0:p.type)==="code")break;if((p==null?void 0:p.type)==="blockquote"){const C=p,v=C.raw+`
 `+a.join(`
-`),P=this.blockquote(b);s[s.length-1]=P,i=i.substring(0,i.length-f.raw.length)+P.raw,o=o.substring(0,o.length-f.text.length)+P.text;break}else if((m==null?void 0:m.type)==="list"){const f=m,b=f.raw+`
+`),A=this.blockquote(v);s[s.length-1]=A,i=i.substring(0,i.length-C.raw.length)+A.raw,o=o.substring(0,o.length-C.text.length)+A.text;break}else if((p==null?void 0:p.type)==="list"){const C=p,v=C.raw+`
 `+a.join(`
-`),P=this.list(b);s[s.length-1]=P,i=i.substring(0,i.length-m.raw.length)+P.raw,o=o.substring(0,o.length-f.raw.length)+P.raw,a=b.substring(s[s.length-1].raw.length).split(`
-`);continue}}return{type:"blockquote",raw:i,tokens:s,text:o}}}list(n){let t=this.rules.block.list.exec(n);if(t){let a=t[1].trim();const i=a.length>1,o={type:"list",raw:"",ordered:i,start:i?+a.slice(0,-1):"",loose:!1,items:[]};a=i?`\\d{1,9}\\${a.slice(-1)}`:`\\${a}`,this.options.pedantic&&(a=i?a:"[*+-]");const s=new RegExp(`^( {0,3}${a})((?:[	 ][^\\n]*)?(?:\\n|$))`);let r=!1;for(;n;){let c=!1,l="",h="";if(!(t=s.exec(n))||this.rules.block.hr.test(n))break;l=t[0],n=n.substring(l.length);let p=t[2].split(`
-`,1)[0].replace(/^\t+/,g=>" ".repeat(3*g.length)),d=n.split(`
-`,1)[0],m=!p.trim(),f=0;if(this.options.pedantic?(f=2,h=p.trimStart()):m?f=t[1].length+1:(f=t[2].search(/[^ ]/),f=f>4?1:f,h=p.slice(f),f+=t[1].length),m&&/^[ \t]*$/.test(d)&&(l+=d+`
-`,n=n.substring(d.length+1),c=!0),!c){const g=new RegExp(`^ {0,${Math.min(3,f-1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`),u=new RegExp(`^ {0,${Math.min(3,f-1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`),w=new RegExp(`^ {0,${Math.min(3,f-1)}}(?:\`\`\`|~~~)`),C=new RegExp(`^ {0,${Math.min(3,f-1)}}#`),S=new RegExp(`^ {0,${Math.min(3,f-1)}}<(?:[a-z].*>|!--)`,"i");for(;n;){const _=n.split(`
-`,1)[0];let T;if(d=_,this.options.pedantic?(d=d.replace(/^ {1,4}(?=( {4})*[^ ])/g,"  "),T=d):T=d.replace(/\t/g,"    "),w.test(d)||C.test(d)||S.test(d)||g.test(d)||u.test(d))break;if(T.search(/[^ ]/)>=f||!d.trim())h+=`
-`+T.slice(f);else{if(m||p.replace(/\t/g,"    ").search(/[^ ]/)>=4||w.test(p)||C.test(p)||u.test(p))break;h+=`
-`+d}!m&&!d.trim()&&(m=!0),l+=_+`
-`,n=n.substring(_.length+1),p=T.slice(f)}}o.loose||(r?o.loose=!0:/\n[ \t]*\n[ \t]*$/.test(l)&&(r=!0));let b=null,P;this.options.gfm&&(b=/^\[[ xX]\] /.exec(h),b&&(P=b[0]!=="[ ] ",h=h.replace(/^\[[ xX]\] +/,""))),o.items.push({type:"list_item",raw:l,task:!!b,checked:P,loose:!1,text:h,tokens:[]}),o.raw+=l}o.items[o.items.length-1].raw=o.items[o.items.length-1].raw.trimEnd(),o.items[o.items.length-1].text=o.items[o.items.length-1].text.trimEnd(),o.raw=o.raw.trimEnd();for(let c=0;c<o.items.length;c++)if(this.lexer.state.top=!1,o.items[c].tokens=this.lexer.blockTokens(o.items[c].text,[]),!o.loose){const l=o.items[c].tokens.filter(p=>p.type==="space"),h=l.length>0&&l.some(p=>/\n.*\n/.test(p.raw));o.loose=h}if(o.loose)for(let c=0;c<o.items.length;c++)o.items[c].loose=!0;return o}}html(n){const t=this.rules.block.html.exec(n);if(t)return{type:"html",block:!0,raw:t[0],pre:t[1]==="pre"||t[1]==="script"||t[1]==="style",text:t[0]}}def(n){const t=this.rules.block.def.exec(n);if(t){const a=t[1].toLowerCase().replace(/\s+/g," "),i=t[2]?t[2].replace(/^<(.*)>$/,"$1").replace(this.rules.inline.anyPunctuation,"$1"):"",o=t[3]?t[3].substring(1,t[3].length-1).replace(this.rules.inline.anyPunctuation,"$1"):t[3];return{type:"def",tag:a,raw:t[0],href:i,title:o}}}table(n){const t=this.rules.block.table.exec(n);if(!t||!/[:|]/.test(t[2]))return;const a=Iu(t[1]),i=t[2].replace(/^\||\| *$/g,"").split("|"),o=t[3]&&t[3].trim()?t[3].replace(/\n[ \t]*$/,"").split(`
-`):[],s={type:"table",raw:t[0],header:[],align:[],rows:[]};if(a.length===i.length){for(const r of i)/^ *-+: *$/.test(r)?s.align.push("right"):/^ *:-+: *$/.test(r)?s.align.push("center"):/^ *:-+ *$/.test(r)?s.align.push("left"):s.align.push(null);for(let r=0;r<a.length;r++)s.header.push({text:a[r],tokens:this.lexer.inline(a[r]),header:!0,align:s.align[r]});for(const r of o)s.rows.push(Iu(r,s.header.length).map((c,l)=>({text:c,tokens:this.lexer.inline(c),header:!1,align:s.align[l]})));return s}}lheading(n){const t=this.rules.block.lheading.exec(n);if(t)return{type:"heading",raw:t[0],depth:t[2].charAt(0)==="="?1:2,text:t[1],tokens:this.lexer.inline(t[1])}}paragraph(n){const t=this.rules.block.paragraph.exec(n);if(t){const a=t[1].charAt(t[1].length-1)===`
-`?t[1].slice(0,-1):t[1];return{type:"paragraph",raw:t[0],text:a,tokens:this.lexer.inline(a)}}}text(n){const t=this.rules.block.text.exec(n);if(t)return{type:"text",raw:t[0],text:t[0],tokens:this.lexer.inline(t[0])}}escape(n){const t=this.rules.inline.escape.exec(n);if(t)return{type:"escape",raw:t[0],text:Qe(t[1])}}tag(n){const t=this.rules.inline.tag.exec(n);if(t)return!this.lexer.state.inLink&&/^<a /i.test(t[0])?this.lexer.state.inLink=!0:this.lexer.state.inLink&&/^<\/a>/i.test(t[0])&&(this.lexer.state.inLink=!1),!this.lexer.state.inRawBlock&&/^<(pre|code|kbd|script)(\s|>)/i.test(t[0])?this.lexer.state.inRawBlock=!0:this.lexer.state.inRawBlock&&/^<\/(pre|code|kbd|script)(\s|>)/i.test(t[0])&&(this.lexer.state.inRawBlock=!1),{type:"html",raw:t[0],inLink:this.lexer.state.inLink,inRawBlock:this.lexer.state.inRawBlock,block:!1,text:t[0]}}link(n){const t=this.rules.inline.link.exec(n);if(t){const a=t[2].trim();if(!this.options.pedantic&&/^</.test(a)){if(!/>$/.test(a))return;const s=ri(a.slice(0,-1),"\\");if((a.length-s.length)%2===0)return}else{const s=I_(t[2],"()");if(s>-1){const c=(t[0].indexOf("!")===0?5:4)+t[1].length+s;t[2]=t[2].substring(0,s),t[0]=t[0].substring(0,c).trim(),t[3]=""}}let i=t[2],o="";if(this.options.pedantic){const s=/^([^'"]*[^\s])\s+(['"])(.*)\2/.exec(i);s&&(i=s[1],o=s[3])}else o=t[3]?t[3].slice(1,-1):"";return i=i.trim(),/^</.test(i)&&(this.options.pedantic&&!/>$/.test(a)?i=i.slice(1):i=i.slice(1,-1)),_u(t,{href:i&&i.replace(this.rules.inline.anyPunctuation,"$1"),title:o&&o.replace(this.rules.inline.anyPunctuation,"$1")},t[0],this.lexer)}}reflink(n,t){let a;if((a=this.rules.inline.reflink.exec(n))||(a=this.rules.inline.nolink.exec(n))){const i=(a[2]||a[1]).replace(/\s+/g," "),o=t[i.toLowerCase()];if(!o){const s=a[0].charAt(0);return{type:"text",raw:s,text:s}}return _u(a,o,a[0],this.lexer)}}emStrong(n,t,a=""){let i=this.rules.inline.emStrongLDelim.exec(n);if(!i||i[3]&&a.match(/[\p{L}\p{N}]/u))return;if(!(i[1]||i[2]||"")||!a||this.rules.inline.punctuation.exec(a)){const s=[...i[0]].length-1;let r,c,l=s,h=0;const p=i[0][0]==="*"?this.rules.inline.emStrongRDelimAst:this.rules.inline.emStrongRDelimUnd;for(p.lastIndex=0,t=t.slice(-1*n.length+s);(i=p.exec(t))!=null;){if(r=i[1]||i[2]||i[3]||i[4]||i[5]||i[6],!r)continue;if(c=[...r].length,i[3]||i[4]){l+=c;continue}else if((i[5]||i[6])&&s%3&&!((s+c)%3)){h+=c;continue}if(l-=c,l>0)continue;c=Math.min(c,c+l+h);const d=[...i[0]][0].length,m=n.slice(0,s+i.index+d+c);if(Math.min(s,c)%2){const b=m.slice(1,-1);return{type:"em",raw:m,text:b,tokens:this.lexer.inlineTokens(b)}}const f=m.slice(2,-2);return{type:"strong",raw:m,text:f,tokens:this.lexer.inlineTokens(f)}}}}codespan(n){const t=this.rules.inline.code.exec(n);if(t){let a=t[2].replace(/\n/g," ");const i=/[^ ]/.test(a),o=/^ /.test(a)&&/ $/.test(a);return i&&o&&(a=a.substring(1,a.length-1)),a=Qe(a,!0),{type:"codespan",raw:t[0],text:a}}}br(n){const t=this.rules.inline.br.exec(n);if(t)return{type:"br",raw:t[0]}}del(n){const t=this.rules.inline.del.exec(n);if(t)return{type:"del",raw:t[0],text:t[2],tokens:this.lexer.inlineTokens(t[2])}}autolink(n){const t=this.rules.inline.autolink.exec(n);if(t){let a,i;return t[2]==="@"?(a=Qe(t[1]),i="mailto:"+a):(a=Qe(t[1]),i=a),{type:"link",raw:t[0],text:a,href:i,tokens:[{type:"text",raw:a,text:a}]}}}url(n){var a;let t;if(t=this.rules.inline.url.exec(n)){let i,o;if(t[2]==="@")i=Qe(t[0]),o="mailto:"+i;else{let s;do s=t[0],t[0]=((a=this.rules.inline._backpedal.exec(t[0]))==null?void 0:a[0])??"";while(s!==t[0]);i=Qe(t[0]),t[1]==="www."?o="http://"+t[0]:o=t[0]}return{type:"link",raw:t[0],text:i,href:o,tokens:[{type:"text",raw:i,text:i}]}}}inlineText(n){const t=this.rules.inline.text.exec(n);if(t){let a;return this.lexer.state.inRawBlock?a=t[0]:a=Qe(t[0]),{type:"text",raw:t[0],text:a}}}}const M_=/^(?:[ \t]*(?:\n|$))+/,x_=/^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/,L_=/^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/,oo=/^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/,W_=/^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/,ow=/(?:[*+-]|\d{1,9}[.)])/,sw=Y(/^(?!bull |blockCode|fences|blockquote|heading|html)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html))+?)\n {0,3}(=+|-+) *(?:\n+|$)/).replace(/bull/g,ow).replace(/blockCode/g,/(?: {4}| {0,3}\t)/).replace(/fences/g,/ {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g,/ {0,3}>/).replace(/heading/g,/ {0,3}#{1,6}/).replace(/html/g,/ {0,3}<[^\n>]+>\n/).getRegex(),Ah=/^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,k_=/^[^\n]+/,Ph=/(?!\s*\])(?:\\.|[^\[\]\\])+/,E_=Y(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label",Ph).replace("title",/(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(),D_=Y(/^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g,ow).getRegex(),ir="address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul",Th=/<!--(?:-?>|[\s\S]*?(?:-->|$))/,O_=Y("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))","i").replace("comment",Th).replace("tag",ir).replace("attribute",/ +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(),rw=Y(Ah).replace("hr",oo).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("|table","").replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",ir).getRegex(),F_=Y(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph",rw).getRegex(),Ih={blockquote:F_,code:x_,def:E_,fences:L_,heading:W_,hr:oo,html:O_,lheading:sw,list:D_,newline:M_,paragraph:rw,table:Mi,text:k_},Mu=Y("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr",oo).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("blockquote"," {0,3}>").replace("code","(?: {4}| {0,3}	)[^\\n]").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",ir).getRegex(),R_={...Ih,table:Mu,paragraph:Y(Ah).replace("hr",oo).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("table",Mu).replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",ir).getRegex()},U_={...Ih,html:Y(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment",Th).replace(/tag/g,"(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,heading:/^(#{1,6})(.*)(?:\n+|$)/,fences:Mi,lheading:/^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,paragraph:Y(Ah).replace("hr",oo).replace("heading",` *#{1,6} *[^
-]`).replace("lheading",sw).replace("|table","").replace("blockquote"," {0,3}>").replace("|fences","").replace("|list","").replace("|html","").replace("|tag","").getRegex()},cw=/^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,N_=/^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,lw=/^( {2,}|\\)\n(?!\s*$)/,V_=/^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/,so="\\p{P}\\p{S}",B_=Y(/^((?![*_])[\spunctuation])/,"u").replace(/punctuation/g,so).getRegex(),H_=/\[[^[\]]*?\]\((?:\\.|[^\\\(\)]|\((?:\\.|[^\\\(\)])*\))*\)|`[^`]*?`|<[^<>]*?>/g,j_=Y(/^(?:\*+(?:((?!\*)[punct])|[^\s*]))|^_+(?:((?!_)[punct])|([^\s_]))/,"u").replace(/punct/g,so).getRegex(),q_=Y("^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)[punct](\\*+)(?=[\\s]|$)|[^punct\\s](\\*+)(?!\\*)(?=[punct\\s]|$)|(?!\\*)[punct\\s](\\*+)(?=[^punct\\s])|[\\s](\\*+)(?!\\*)(?=[punct])|(?!\\*)[punct](\\*+)(?!\\*)(?=[punct])|[^punct\\s](\\*+)(?=[^punct\\s])","gu").replace(/punct/g,so).getRegex(),G_=Y("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)[punct](_+)(?=[\\s]|$)|[^punct\\s](_+)(?!_)(?=[punct\\s]|$)|(?!_)[punct\\s](_+)(?=[^punct\\s])|[\\s](_+)(?!_)(?=[punct])|(?!_)[punct](_+)(?!_)(?=[punct])","gu").replace(/punct/g,so).getRegex(),J_=Y(/\\([punct])/,"gu").replace(/punct/g,so).getRegex(),z_=Y(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme",/[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email",/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(),X_=Y(Th).replace("(?:-->|$)","-->").getRegex(),Q_=Y("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment",X_).replace("attribute",/\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(),Ds=/(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/,K_=Y(/^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/).replace("label",Ds).replace("href",/<(?:\\.|[^\n<>\\])+>|[^\s\x00-\x1f]*/).replace("title",/"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(),hw=Y(/^!?\[(label)\]\[(ref)\]/).replace("label",Ds).replace("ref",Ph).getRegex(),dw=Y(/^!?\[(ref)\](?:\[\])?/).replace("ref",Ph).getRegex(),Y_=Y("reflink|nolink(?!\\()","g").replace("reflink",hw).replace("nolink",dw).getRegex(),_h={_backpedal:Mi,anyPunctuation:J_,autolink:z_,blockSkip:H_,br:lw,code:N_,del:Mi,emStrongLDelim:j_,emStrongRDelimAst:q_,emStrongRDelimUnd:G_,escape:cw,link:K_,nolink:dw,punctuation:B_,reflink:hw,reflinkSearch:Y_,tag:Q_,text:V_,url:Mi},Z_={..._h,link:Y(/^!?\[(label)\]\((.*?)\)/).replace("label",Ds).getRegex(),reflink:Y(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label",Ds).getRegex()},dl={..._h,escape:Y(cw).replace("])","~|])").getRegex(),url:Y(/^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,"i").replace("email",/[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),_backpedal:/(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,del:/^(~~?)(?=[^\s~])((?:\\.|[^\\])*?(?:\\.|[^\s~\\]))\1(?=[^~]|$)/,text:/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/},$_={...dl,br:Y(lw).replace("{2,}","*").getRegex(),text:Y(dl.text).replace("\\b_","\\b_| {2,}\\n").replace(/\{2,\}/g,"*").getRegex()},Wo={normal:Ih,gfm:R_,pedantic:U_},ci={normal:_h,gfm:dl,breaks:$_,pedantic:Z_};class gn{constructor(n){Z(this,"tokens");Z(this,"options");Z(this,"state");Z(this,"tokenizer");Z(this,"inlineQueue");this.tokens=[],this.tokens.links=Object.create(null),this.options=n||oa,this.options.tokenizer=this.options.tokenizer||new Es,this.tokenizer=this.options.tokenizer,this.tokenizer.options=this.options,this.tokenizer.lexer=this,this.inlineQueue=[],this.state={inLink:!1,inRawBlock:!1,top:!0};const t={block:Wo.normal,inline:ci.normal};this.options.pedantic?(t.block=Wo.pedantic,t.inline=ci.pedantic):this.options.gfm&&(t.block=Wo.gfm,this.options.breaks?t.inline=ci.breaks:t.inline=ci.gfm),this.tokenizer.rules=t}static get rules(){return{block:Wo,inline:ci}}static lex(n,t){return new gn(t).lex(n)}static lexInline(n,t){return new gn(t).inlineTokens(n)}lex(n){n=n.replace(/\r\n|\r/g,`
+`),A=this.list(v);s[s.length-1]=A,i=i.substring(0,i.length-p.raw.length)+A.raw,o=o.substring(0,o.length-C.raw.length)+A.raw,a=v.substring(s[s.length-1].raw.length).split(`
+`);continue}}return{type:"blockquote",raw:i,tokens:s,text:o}}}list(n){let t=this.rules.block.list.exec(n);if(t){let a=t[1].trim();const i=a.length>1,o={type:"list",raw:"",ordered:i,start:i?+a.slice(0,-1):"",loose:!1,items:[]};a=i?`\\d{1,9}\\${a.slice(-1)}`:`\\${a}`,this.options.pedantic&&(a=i?a:"[*+-]");const s=new RegExp(`^( {0,3}${a})((?:[	 ][^\\n]*)?(?:\\n|$))`);let r=!1;for(;n;){let c=!1,l="",d="";if(!(t=s.exec(n))||this.rules.block.hr.test(n))break;l=t[0],n=n.substring(l.length);let m=t[2].split(`
+`,1)[0].replace(/^\t+/,w=>" ".repeat(3*w.length)),u=n.split(`
+`,1)[0],p=!m.trim(),C=0;if(this.options.pedantic?(C=2,d=m.trimStart()):p?C=t[1].length+1:(C=t[2].search(/[^ ]/),C=C>4?1:C,d=m.slice(C),C+=t[1].length),p&&/^[ \t]*$/.test(u)&&(l+=u+`
+`,n=n.substring(u.length+1),c=!0),!c){const w=new RegExp(`^ {0,${Math.min(3,C-1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`),g=new RegExp(`^ {0,${Math.min(3,C-1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`),f=new RegExp(`^ {0,${Math.min(3,C-1)}}(?:\`\`\`|~~~)`),b=new RegExp(`^ {0,${Math.min(3,C-1)}}#`),T=new RegExp(`^ {0,${Math.min(3,C-1)}}<(?:[a-z].*>|!--)`,"i");for(;n;){const x=n.split(`
+`,1)[0];let y;if(u=x,this.options.pedantic?(u=u.replace(/^ {1,4}(?=( {4})*[^ ])/g,"  "),y=u):y=u.replace(/\t/g,"    "),f.test(u)||b.test(u)||T.test(u)||w.test(u)||g.test(u))break;if(y.search(/[^ ]/)>=C||!u.trim())d+=`
+`+y.slice(C);else{if(p||m.replace(/\t/g,"    ").search(/[^ ]/)>=4||f.test(m)||b.test(m)||g.test(m))break;d+=`
+`+u}!p&&!u.trim()&&(p=!0),l+=x+`
+`,n=n.substring(x.length+1),m=y.slice(C)}}o.loose||(r?o.loose=!0:/\n[ \t]*\n[ \t]*$/.test(l)&&(r=!0));let v=null,A;this.options.gfm&&(v=/^\[[ xX]\] /.exec(d),v&&(A=v[0]!=="[ ] ",d=d.replace(/^\[[ xX]\] +/,""))),o.items.push({type:"list_item",raw:l,task:!!v,checked:A,loose:!1,text:d,tokens:[]}),o.raw+=l}o.items[o.items.length-1].raw=o.items[o.items.length-1].raw.trimEnd(),o.items[o.items.length-1].text=o.items[o.items.length-1].text.trimEnd(),o.raw=o.raw.trimEnd();for(let c=0;c<o.items.length;c++)if(this.lexer.state.top=!1,o.items[c].tokens=this.lexer.blockTokens(o.items[c].text,[]),!o.loose){const l=o.items[c].tokens.filter(m=>m.type==="space"),d=l.length>0&&l.some(m=>/\n.*\n/.test(m.raw));o.loose=d}if(o.loose)for(let c=0;c<o.items.length;c++)o.items[c].loose=!0;return o}}html(n){const t=this.rules.block.html.exec(n);if(t)return{type:"html",block:!0,raw:t[0],pre:t[1]==="pre"||t[1]==="script"||t[1]==="style",text:t[0]}}def(n){const t=this.rules.block.def.exec(n);if(t){const a=t[1].toLowerCase().replace(/\s+/g," "),i=t[2]?t[2].replace(/^<(.*)>$/,"$1").replace(this.rules.inline.anyPunctuation,"$1"):"",o=t[3]?t[3].substring(1,t[3].length-1).replace(this.rules.inline.anyPunctuation,"$1"):t[3];return{type:"def",tag:a,raw:t[0],href:i,title:o}}}table(n){const t=this.rules.block.table.exec(n);if(!t||!/[:|]/.test(t[2]))return;const a=Wu(t[1]),i=t[2].replace(/^\||\| *$/g,"").split("|"),o=t[3]&&t[3].trim()?t[3].replace(/\n[ \t]*$/,"").split(`
+`):[],s={type:"table",raw:t[0],header:[],align:[],rows:[]};if(a.length===i.length){for(const r of i)/^ *-+: *$/.test(r)?s.align.push("right"):/^ *:-+: *$/.test(r)?s.align.push("center"):/^ *:-+ *$/.test(r)?s.align.push("left"):s.align.push(null);for(let r=0;r<a.length;r++)s.header.push({text:a[r],tokens:this.lexer.inline(a[r]),header:!0,align:s.align[r]});for(const r of o)s.rows.push(Wu(r,s.header.length).map((c,l)=>({text:c,tokens:this.lexer.inline(c),header:!1,align:s.align[l]})));return s}}lheading(n){const t=this.rules.block.lheading.exec(n);if(t)return{type:"heading",raw:t[0],depth:t[2].charAt(0)==="="?1:2,text:t[1],tokens:this.lexer.inline(t[1])}}paragraph(n){const t=this.rules.block.paragraph.exec(n);if(t){const a=t[1].charAt(t[1].length-1)===`
+`?t[1].slice(0,-1):t[1];return{type:"paragraph",raw:t[0],text:a,tokens:this.lexer.inline(a)}}}text(n){const t=this.rules.block.text.exec(n);if(t)return{type:"text",raw:t[0],text:t[0],tokens:this.lexer.inline(t[0])}}escape(n){const t=this.rules.inline.escape.exec(n);if(t)return{type:"escape",raw:t[0],text:Ke(t[1])}}tag(n){const t=this.rules.inline.tag.exec(n);if(t)return!this.lexer.state.inLink&&/^<a /i.test(t[0])?this.lexer.state.inLink=!0:this.lexer.state.inLink&&/^<\/a>/i.test(t[0])&&(this.lexer.state.inLink=!1),!this.lexer.state.inRawBlock&&/^<(pre|code|kbd|script)(\s|>)/i.test(t[0])?this.lexer.state.inRawBlock=!0:this.lexer.state.inRawBlock&&/^<\/(pre|code|kbd|script)(\s|>)/i.test(t[0])&&(this.lexer.state.inRawBlock=!1),{type:"html",raw:t[0],inLink:this.lexer.state.inLink,inRawBlock:this.lexer.state.inRawBlock,block:!1,text:t[0]}}link(n){const t=this.rules.inline.link.exec(n);if(t){const a=t[2].trim();if(!this.options.pedantic&&/^</.test(a)){if(!/>$/.test(a))return;const s=ui(a.slice(0,-1),"\\");if((a.length-s.length)%2===0)return}else{const s=R_(t[2],"()");if(s>-1){const c=(t[0].indexOf("!")===0?5:4)+t[1].length+s;t[2]=t[2].substring(0,s),t[0]=t[0].substring(0,c).trim(),t[3]=""}}let i=t[2],o="";if(this.options.pedantic){const s=/^([^'"]*[^\s])\s+(['"])(.*)\2/.exec(i);s&&(i=s[1],o=s[3])}else o=t[3]?t[3].slice(1,-1):"";return i=i.trim(),/^</.test(i)&&(this.options.pedantic&&!/>$/.test(a)?i=i.slice(1):i=i.slice(1,-1)),ku(t,{href:i&&i.replace(this.rules.inline.anyPunctuation,"$1"),title:o&&o.replace(this.rules.inline.anyPunctuation,"$1")},t[0],this.lexer)}}reflink(n,t){let a;if((a=this.rules.inline.reflink.exec(n))||(a=this.rules.inline.nolink.exec(n))){const i=(a[2]||a[1]).replace(/\s+/g," "),o=t[i.toLowerCase()];if(!o){const s=a[0].charAt(0);return{type:"text",raw:s,text:s}}return ku(a,o,a[0],this.lexer)}}emStrong(n,t,a=""){let i=this.rules.inline.emStrongLDelim.exec(n);if(!i||i[3]&&a.match(/[\p{L}\p{N}]/u))return;if(!(i[1]||i[2]||"")||!a||this.rules.inline.punctuation.exec(a)){const s=[...i[0]].length-1;let r,c,l=s,d=0;const m=i[0][0]==="*"?this.rules.inline.emStrongRDelimAst:this.rules.inline.emStrongRDelimUnd;for(m.lastIndex=0,t=t.slice(-1*n.length+s);(i=m.exec(t))!=null;){if(r=i[1]||i[2]||i[3]||i[4]||i[5]||i[6],!r)continue;if(c=[...r].length,i[3]||i[4]){l+=c;continue}else if((i[5]||i[6])&&s%3&&!((s+c)%3)){d+=c;continue}if(l-=c,l>0)continue;c=Math.min(c,c+l+d);const u=[...i[0]][0].length,p=n.slice(0,s+i.index+u+c);if(Math.min(s,c)%2){const v=p.slice(1,-1);return{type:"em",raw:p,text:v,tokens:this.lexer.inlineTokens(v)}}const C=p.slice(2,-2);return{type:"strong",raw:p,text:C,tokens:this.lexer.inlineTokens(C)}}}}codespan(n){const t=this.rules.inline.code.exec(n);if(t){let a=t[2].replace(/\n/g," ");const i=/[^ ]/.test(a),o=/^ /.test(a)&&/ $/.test(a);return i&&o&&(a=a.substring(1,a.length-1)),a=Ke(a,!0),{type:"codespan",raw:t[0],text:a}}}br(n){const t=this.rules.inline.br.exec(n);if(t)return{type:"br",raw:t[0]}}del(n){const t=this.rules.inline.del.exec(n);if(t)return{type:"del",raw:t[0],text:t[2],tokens:this.lexer.inlineTokens(t[2])}}autolink(n){const t=this.rules.inline.autolink.exec(n);if(t){let a,i;return t[2]==="@"?(a=Ke(t[1]),i="mailto:"+a):(a=Ke(t[1]),i=a),{type:"link",raw:t[0],text:a,href:i,tokens:[{type:"text",raw:a,text:a}]}}}url(n){var a;let t;if(t=this.rules.inline.url.exec(n)){let i,o;if(t[2]==="@")i=Ke(t[0]),o="mailto:"+i;else{let s;do s=t[0],t[0]=((a=this.rules.inline._backpedal.exec(t[0]))==null?void 0:a[0])??"";while(s!==t[0]);i=Ke(t[0]),t[1]==="www."?o="http://"+t[0]:o=t[0]}return{type:"link",raw:t[0],text:i,href:o,tokens:[{type:"text",raw:i,text:i}]}}}inlineText(n){const t=this.rules.inline.text.exec(n);if(t){let a;return this.lexer.state.inRawBlock?a=t[0]:a=Ke(t[0]),{type:"text",raw:t[0],text:a}}}}const N_=/^(?:[ \t]*(?:\n|$))+/,V_=/^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/,j_=/^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/,go=/^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/,B_=/^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/,mw=/(?:[*+-]|\d{1,9}[.)])/,gw=Z(/^(?!bull |blockCode|fences|blockquote|heading|html)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html))+?)\n {0,3}(=+|-+) *(?:\n+|$)/).replace(/bull/g,mw).replace(/blockCode/g,/(?: {4}| {0,3}\t)/).replace(/fences/g,/ {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g,/ {0,3}>/).replace(/heading/g,/ {0,3}#{1,6}/).replace(/html/g,/ {0,3}<[^\n>]+>\n/).getRegex(),xh=/^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,H_=/^[^\n]+/,Mh=/(?!\s*\])(?:\\.|[^\[\]\\])+/,q_=Z(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label",Mh).replace("title",/(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(),G_=Z(/^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g,mw).getRegex(),dr="address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul",Lh=/<!--(?:-?>|[\s\S]*?(?:-->|$))/,J_=Z("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))","i").replace("comment",Lh).replace("tag",dr).replace("attribute",/ +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(),pw=Z(xh).replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("|table","").replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",dr).getRegex(),z_=Z(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph",pw).getRegex(),Wh={blockquote:z_,code:V_,def:q_,fences:j_,heading:B_,hr:go,html:J_,lheading:gw,list:G_,newline:N_,paragraph:pw,table:Oi,text:H_},Eu=Z("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("blockquote"," {0,3}>").replace("code","(?: {4}| {0,3}	)[^\\n]").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",dr).getRegex(),X_={...Wh,table:Eu,paragraph:Z(xh).replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("table",Eu).replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",dr).getRegex()},Q_={...Wh,html:Z(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment",Lh).replace(/tag/g,"(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,heading:/^(#{1,6})(.*)(?:\n+|$)/,fences:Oi,lheading:/^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,paragraph:Z(xh).replace("hr",go).replace("heading",` *#{1,6} *[^
+]`).replace("lheading",gw).replace("|table","").replace("blockquote"," {0,3}>").replace("|fences","").replace("|list","").replace("|html","").replace("|tag","").getRegex()},ww=/^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,K_=/^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,fw=/^( {2,}|\\)\n(?!\s*$)/,Y_=/^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/,po="\\p{P}\\p{S}",Z_=Z(/^((?![*_])[\spunctuation])/,"u").replace(/punctuation/g,po).getRegex(),$_=/\[[^[\]]*?\]\((?:\\.|[^\\\(\)]|\((?:\\.|[^\\\(\)])*\))*\)|`[^`]*?`|<[^<>]*?>/g,ex=Z(/^(?:\*+(?:((?!\*)[punct])|[^\s*]))|^_+(?:((?!_)[punct])|([^\s_]))/,"u").replace(/punct/g,po).getRegex(),nx=Z("^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)[punct](\\*+)(?=[\\s]|$)|[^punct\\s](\\*+)(?!\\*)(?=[punct\\s]|$)|(?!\\*)[punct\\s](\\*+)(?=[^punct\\s])|[\\s](\\*+)(?!\\*)(?=[punct])|(?!\\*)[punct](\\*+)(?!\\*)(?=[punct])|[^punct\\s](\\*+)(?=[^punct\\s])","gu").replace(/punct/g,po).getRegex(),tx=Z("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)[punct](_+)(?=[\\s]|$)|[^punct\\s](_+)(?!_)(?=[punct\\s]|$)|(?!_)[punct\\s](_+)(?=[^punct\\s])|[\\s](_+)(?!_)(?=[punct])|(?!_)[punct](_+)(?!_)(?=[punct])","gu").replace(/punct/g,po).getRegex(),ax=Z(/\\([punct])/,"gu").replace(/punct/g,po).getRegex(),ix=Z(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme",/[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email",/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(),ox=Z(Lh).replace("(?:-->|$)","-->").getRegex(),sx=Z("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment",ox).replace("attribute",/\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(),js=/(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/,rx=Z(/^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/).replace("label",js).replace("href",/<(?:\\.|[^\n<>\\])+>|[^\s\x00-\x1f]*/).replace("title",/"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(),Cw=Z(/^!?\[(label)\]\[(ref)\]/).replace("label",js).replace("ref",Mh).getRegex(),bw=Z(/^!?\[(ref)\](?:\[\])?/).replace("ref",Mh).getRegex(),cx=Z("reflink|nolink(?!\\()","g").replace("reflink",Cw).replace("nolink",bw).getRegex(),kh={_backpedal:Oi,anyPunctuation:ax,autolink:ix,blockSkip:$_,br:fw,code:K_,del:Oi,emStrongLDelim:ex,emStrongRDelimAst:nx,emStrongRDelimUnd:tx,escape:ww,link:rx,nolink:bw,punctuation:Z_,reflink:Cw,reflinkSearch:cx,tag:sx,text:Y_,url:Oi},lx={...kh,link:Z(/^!?\[(label)\]\((.*?)\)/).replace("label",js).getRegex(),reflink:Z(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label",js).getRegex()},fl={...kh,escape:Z(ww).replace("])","~|])").getRegex(),url:Z(/^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,"i").replace("email",/[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),_backpedal:/(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,del:/^(~~?)(?=[^\s~])((?:\\.|[^\\])*?(?:\\.|[^\s~\\]))\1(?=[^~]|$)/,text:/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/},hx={...fl,br:Z(fw).replace("{2,}","*").getRegex(),text:Z(fl.text).replace("\\b_","\\b_| {2,}\\n").replace(/\{2,\}/g,"*").getRegex()},Ro={normal:Wh,gfm:X_,pedantic:Q_},mi={normal:kh,gfm:fl,breaks:hx,pedantic:lx};class pn{constructor(n){ee(this,"tokens");ee(this,"options");ee(this,"state");ee(this,"tokenizer");ee(this,"inlineQueue");this.tokens=[],this.tokens.links=Object.create(null),this.options=n||ha,this.options.tokenizer=this.options.tokenizer||new Vs,this.tokenizer=this.options.tokenizer,this.tokenizer.options=this.options,this.tokenizer.lexer=this,this.inlineQueue=[],this.state={inLink:!1,inRawBlock:!1,top:!0};const t={block:Ro.normal,inline:mi.normal};this.options.pedantic?(t.block=Ro.pedantic,t.inline=mi.pedantic):this.options.gfm&&(t.block=Ro.gfm,this.options.breaks?t.inline=mi.breaks:t.inline=mi.gfm),this.tokenizer.rules=t}static get rules(){return{block:Ro,inline:mi}}static lex(n,t){return new pn(t).lex(n)}static lexInline(n,t){return new pn(t).inlineTokens(n)}lex(n){n=n.replace(/\r\n|\r/g,`
 `),this.blockTokens(n,this.tokens);for(let t=0;t<this.inlineQueue.length;t++){const a=this.inlineQueue[t];this.inlineTokens(a.src,a.tokens)}return this.inlineQueue=[],this.tokens}blockTokens(n,t=[],a=!1){this.options.pedantic&&(n=n.replace(/\t/g,"    ").replace(/^ +$/gm,""));let i,o,s;for(;n;)if(!(this.options.extensions&&this.options.extensions.block&&this.options.extensions.block.some(r=>(i=r.call({lexer:this},n,t))?(n=n.substring(i.raw.length),t.push(i),!0):!1))){if(i=this.tokenizer.space(n)){n=n.substring(i.raw.length),i.raw.length===1&&t.length>0?t[t.length-1].raw+=`
 `:t.push(i);continue}if(i=this.tokenizer.code(n)){n=n.substring(i.raw.length),o=t[t.length-1],o&&(o.type==="paragraph"||o.type==="text")?(o.raw+=`
 `+i.raw,o.text+=`
 `+i.text,this.inlineQueue[this.inlineQueue.length-1].src=o.text):t.push(i);continue}if(i=this.tokenizer.fences(n)){n=n.substring(i.raw.length),t.push(i);continue}if(i=this.tokenizer.heading(n)){n=n.substring(i.raw.length),t.push(i);continue}if(i=this.tokenizer.hr(n)){n=n.substring(i.raw.length),t.push(i);continue}if(i=this.tokenizer.blockquote(n)){n=n.substring(i.raw.length),t.push(i);continue}if(i=this.tokenizer.list(n)){n=n.substring(i.raw.length),t.push(i);continue}if(i=this.tokenizer.html(n)){n=n.substring(i.raw.length),t.push(i);continue}if(i=this.tokenizer.def(n)){n=n.substring(i.raw.length),o=t[t.length-1],o&&(o.type==="paragraph"||o.type==="text")?(o.raw+=`
 `+i.raw,o.text+=`
-`+i.raw,this.inlineQueue[this.inlineQueue.length-1].src=o.text):this.tokens.links[i.tag]||(this.tokens.links[i.tag]={href:i.href,title:i.title});continue}if(i=this.tokenizer.table(n)){n=n.substring(i.raw.length),t.push(i);continue}if(i=this.tokenizer.lheading(n)){n=n.substring(i.raw.length),t.push(i);continue}if(s=n,this.options.extensions&&this.options.extensions.startBlock){let r=1/0;const c=n.slice(1);let l;this.options.extensions.startBlock.forEach(h=>{l=h.call({lexer:this},c),typeof l=="number"&&l>=0&&(r=Math.min(r,l))}),r<1/0&&r>=0&&(s=n.substring(0,r+1))}if(this.state.top&&(i=this.tokenizer.paragraph(s))){o=t[t.length-1],a&&(o==null?void 0:o.type)==="paragraph"?(o.raw+=`
+`+i.raw,this.inlineQueue[this.inlineQueue.length-1].src=o.text):this.tokens.links[i.tag]||(this.tokens.links[i.tag]={href:i.href,title:i.title});continue}if(i=this.tokenizer.table(n)){n=n.substring(i.raw.length),t.push(i);continue}if(i=this.tokenizer.lheading(n)){n=n.substring(i.raw.length),t.push(i);continue}if(s=n,this.options.extensions&&this.options.extensions.startBlock){let r=1/0;const c=n.slice(1);let l;this.options.extensions.startBlock.forEach(d=>{l=d.call({lexer:this},c),typeof l=="number"&&l>=0&&(r=Math.min(r,l))}),r<1/0&&r>=0&&(s=n.substring(0,r+1))}if(this.state.top&&(i=this.tokenizer.paragraph(s))){o=t[t.length-1],a&&(o==null?void 0:o.type)==="paragraph"?(o.raw+=`
 `+i.raw,o.text+=`
 `+i.text,this.inlineQueue.pop(),this.inlineQueue[this.inlineQueue.length-1].src=o.text):t.push(i),a=s.length!==n.length,n=n.substring(i.raw.length);continue}if(i=this.tokenizer.text(n)){n=n.substring(i.raw.length),o=t[t.length-1],o&&o.type==="text"?(o.raw+=`
 `+i.raw,o.text+=`
-`+i.text,this.inlineQueue.pop(),this.inlineQueue[this.inlineQueue.length-1].src=o.text):t.push(i);continue}if(n){const r="Infinite loop on byte: "+n.charCodeAt(0);if(this.options.silent){console.error(r);break}else throw new Error(r)}}return this.state.top=!0,t}inline(n,t=[]){return this.inlineQueue.push({src:n,tokens:t}),t}inlineTokens(n,t=[]){let a,i,o,s=n,r,c,l;if(this.tokens.links){const h=Object.keys(this.tokens.links);if(h.length>0)for(;(r=this.tokenizer.rules.inline.reflinkSearch.exec(s))!=null;)h.includes(r[0].slice(r[0].lastIndexOf("[")+1,-1))&&(s=s.slice(0,r.index)+"["+"a".repeat(r[0].length-2)+"]"+s.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex))}for(;(r=this.tokenizer.rules.inline.blockSkip.exec(s))!=null;)s=s.slice(0,r.index)+"["+"a".repeat(r[0].length-2)+"]"+s.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);for(;(r=this.tokenizer.rules.inline.anyPunctuation.exec(s))!=null;)s=s.slice(0,r.index)+"++"+s.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);for(;n;)if(c||(l=""),c=!1,!(this.options.extensions&&this.options.extensions.inline&&this.options.extensions.inline.some(h=>(a=h.call({lexer:this},n,t))?(n=n.substring(a.raw.length),t.push(a),!0):!1))){if(a=this.tokenizer.escape(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.tag(n)){n=n.substring(a.raw.length),i=t[t.length-1],i&&a.type==="text"&&i.type==="text"?(i.raw+=a.raw,i.text+=a.text):t.push(a);continue}if(a=this.tokenizer.link(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.reflink(n,this.tokens.links)){n=n.substring(a.raw.length),i=t[t.length-1],i&&a.type==="text"&&i.type==="text"?(i.raw+=a.raw,i.text+=a.text):t.push(a);continue}if(a=this.tokenizer.emStrong(n,s,l)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.codespan(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.br(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.del(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.autolink(n)){n=n.substring(a.raw.length),t.push(a);continue}if(!this.state.inLink&&(a=this.tokenizer.url(n))){n=n.substring(a.raw.length),t.push(a);continue}if(o=n,this.options.extensions&&this.options.extensions.startInline){let h=1/0;const p=n.slice(1);let d;this.options.extensions.startInline.forEach(m=>{d=m.call({lexer:this},p),typeof d=="number"&&d>=0&&(h=Math.min(h,d))}),h<1/0&&h>=0&&(o=n.substring(0,h+1))}if(a=this.tokenizer.inlineText(o)){n=n.substring(a.raw.length),a.raw.slice(-1)!=="_"&&(l=a.raw.slice(-1)),c=!0,i=t[t.length-1],i&&i.type==="text"?(i.raw+=a.raw,i.text+=a.text):t.push(a);continue}if(n){const h="Infinite loop on byte: "+n.charCodeAt(0);if(this.options.silent){console.error(h);break}else throw new Error(h)}}return t}}class Os{constructor(n){Z(this,"options");Z(this,"parser");this.options=n||oa}space(n){return""}code({text:n,lang:t,escaped:a}){var s;const i=(s=(t||"").match(/^\S*/))==null?void 0:s[0],o=n.replace(/\n$/,"")+`
-`;return i?'<pre><code class="language-'+Qe(i)+'">'+(a?o:Qe(o,!0))+`</code></pre>
-`:"<pre><code>"+(a?o:Qe(o,!0))+`</code></pre>
+`+i.text,this.inlineQueue.pop(),this.inlineQueue[this.inlineQueue.length-1].src=o.text):t.push(i);continue}if(n){const r="Infinite loop on byte: "+n.charCodeAt(0);if(this.options.silent){console.error(r);break}else throw new Error(r)}}return this.state.top=!0,t}inline(n,t=[]){return this.inlineQueue.push({src:n,tokens:t}),t}inlineTokens(n,t=[]){let a,i,o,s=n,r,c,l;if(this.tokens.links){const d=Object.keys(this.tokens.links);if(d.length>0)for(;(r=this.tokenizer.rules.inline.reflinkSearch.exec(s))!=null;)d.includes(r[0].slice(r[0].lastIndexOf("[")+1,-1))&&(s=s.slice(0,r.index)+"["+"a".repeat(r[0].length-2)+"]"+s.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex))}for(;(r=this.tokenizer.rules.inline.blockSkip.exec(s))!=null;)s=s.slice(0,r.index)+"["+"a".repeat(r[0].length-2)+"]"+s.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);for(;(r=this.tokenizer.rules.inline.anyPunctuation.exec(s))!=null;)s=s.slice(0,r.index)+"++"+s.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);for(;n;)if(c||(l=""),c=!1,!(this.options.extensions&&this.options.extensions.inline&&this.options.extensions.inline.some(d=>(a=d.call({lexer:this},n,t))?(n=n.substring(a.raw.length),t.push(a),!0):!1))){if(a=this.tokenizer.escape(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.tag(n)){n=n.substring(a.raw.length),i=t[t.length-1],i&&a.type==="text"&&i.type==="text"?(i.raw+=a.raw,i.text+=a.text):t.push(a);continue}if(a=this.tokenizer.link(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.reflink(n,this.tokens.links)){n=n.substring(a.raw.length),i=t[t.length-1],i&&a.type==="text"&&i.type==="text"?(i.raw+=a.raw,i.text+=a.text):t.push(a);continue}if(a=this.tokenizer.emStrong(n,s,l)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.codespan(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.br(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.del(n)){n=n.substring(a.raw.length),t.push(a);continue}if(a=this.tokenizer.autolink(n)){n=n.substring(a.raw.length),t.push(a);continue}if(!this.state.inLink&&(a=this.tokenizer.url(n))){n=n.substring(a.raw.length),t.push(a);continue}if(o=n,this.options.extensions&&this.options.extensions.startInline){let d=1/0;const m=n.slice(1);let u;this.options.extensions.startInline.forEach(p=>{u=p.call({lexer:this},m),typeof u=="number"&&u>=0&&(d=Math.min(d,u))}),d<1/0&&d>=0&&(o=n.substring(0,d+1))}if(a=this.tokenizer.inlineText(o)){n=n.substring(a.raw.length),a.raw.slice(-1)!=="_"&&(l=a.raw.slice(-1)),c=!0,i=t[t.length-1],i&&i.type==="text"?(i.raw+=a.raw,i.text+=a.text):t.push(a);continue}if(n){const d="Infinite loop on byte: "+n.charCodeAt(0);if(this.options.silent){console.error(d);break}else throw new Error(d)}}return t}}class Bs{constructor(n){ee(this,"options");ee(this,"parser");this.options=n||ha}space(n){return""}code({text:n,lang:t,escaped:a}){var s;const i=(s=(t||"").match(/^\S*/))==null?void 0:s[0],o=n.replace(/\n$/,"")+`
+`;return i?'<pre><code class="language-'+Ke(i)+'">'+(a?o:Ke(o,!0))+`</code></pre>
+`:"<pre><code>"+(a?o:Ke(o,!0))+`</code></pre>
 `}blockquote({tokens:n}){return`<blockquote>
 ${this.parser.parse(n)}</blockquote>
 `}html({text:n}){return n}heading({tokens:n,depth:t}){return`<h${t}>${this.parser.parseInline(n)}</h${t}>
@@ -46696,12 +46696,12 @@ ${this.parser.parse(n)}</blockquote>
 `}tablerow({text:n}){return`<tr>
 ${n}</tr>
 `}tablecell(n){const t=this.parser.parseInline(n.tokens),a=n.header?"th":"td";return(n.align?`<${a} align="${n.align}">`:`<${a}>`)+t+`</${a}>
-`}strong({tokens:n}){return`<strong>${this.parser.parseInline(n)}</strong>`}em({tokens:n}){return`<em>${this.parser.parseInline(n)}</em>`}codespan({text:n}){return`<code>${n}</code>`}br(n){return"<br>"}del({tokens:n}){return`<del>${this.parser.parseInline(n)}</del>`}link({href:n,title:t,tokens:a}){const i=this.parser.parseInline(a),o=Tu(n);if(o===null)return i;n=o;let s='<a href="'+n+'"';return t&&(s+=' title="'+t+'"'),s+=">"+i+"</a>",s}image({href:n,title:t,text:a}){const i=Tu(n);if(i===null)return a;n=i;let o=`<img src="${n}" alt="${a}"`;return t&&(o+=` title="${t}"`),o+=">",o}text(n){return"tokens"in n&&n.tokens?this.parser.parseInline(n.tokens):n.text}}class Mh{strong({text:n}){return n}em({text:n}){return n}codespan({text:n}){return n}del({text:n}){return n}html({text:n}){return n}text({text:n}){return n}link({text:n}){return""+n}image({text:n}){return""+n}br(){return""}}class pn{constructor(n){Z(this,"options");Z(this,"renderer");Z(this,"textRenderer");this.options=n||oa,this.options.renderer=this.options.renderer||new Os,this.renderer=this.options.renderer,this.renderer.options=this.options,this.renderer.parser=this,this.textRenderer=new Mh}static parse(n,t){return new pn(t).parse(n)}static parseInline(n,t){return new pn(t).parseInline(n)}parse(n,t=!0){let a="";for(let i=0;i<n.length;i++){const o=n[i];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[o.type]){const r=o,c=this.options.extensions.renderers[r.type].call({parser:this},r);if(c!==!1||!["space","hr","heading","code","table","blockquote","list","html","paragraph","text"].includes(r.type)){a+=c||"";continue}}const s=o;switch(s.type){case"space":{a+=this.renderer.space(s);continue}case"hr":{a+=this.renderer.hr(s);continue}case"heading":{a+=this.renderer.heading(s);continue}case"code":{a+=this.renderer.code(s);continue}case"table":{a+=this.renderer.table(s);continue}case"blockquote":{a+=this.renderer.blockquote(s);continue}case"list":{a+=this.renderer.list(s);continue}case"html":{a+=this.renderer.html(s);continue}case"paragraph":{a+=this.renderer.paragraph(s);continue}case"text":{let r=s,c=this.renderer.text(r);for(;i+1<n.length&&n[i+1].type==="text";)r=n[++i],c+=`
-`+this.renderer.text(r);t?a+=this.renderer.paragraph({type:"paragraph",raw:c,text:c,tokens:[{type:"text",raw:c,text:c}]}):a+=c;continue}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return a}parseInline(n,t){t=t||this.renderer;let a="";for(let i=0;i<n.length;i++){const o=n[i];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[o.type]){const r=this.options.extensions.renderers[o.type].call({parser:this},o);if(r!==!1||!["escape","html","link","image","strong","em","codespan","br","del","text"].includes(o.type)){a+=r||"";continue}}const s=o;switch(s.type){case"escape":{a+=t.text(s);break}case"html":{a+=t.html(s);break}case"link":{a+=t.link(s);break}case"image":{a+=t.image(s);break}case"strong":{a+=t.strong(s);break}case"em":{a+=t.em(s);break}case"codespan":{a+=t.codespan(s);break}case"br":{a+=t.br(s);break}case"del":{a+=t.del(s);break}case"text":{a+=t.text(s);break}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return a}}class xi{constructor(n){Z(this,"options");Z(this,"block");this.options=n||oa}preprocess(n){return n}postprocess(n){return n}processAllTokens(n){return n}provideLexer(){return this.block?gn.lex:gn.lexInline}provideParser(){return this.block?pn.parse:pn.parseInline}}Z(xi,"passThroughHooks",new Set(["preprocess","postprocess","processAllTokens"]));class eM{constructor(...n){Z(this,"defaults",Sh());Z(this,"options",this.setOptions);Z(this,"parse",this.parseMarkdown(!0));Z(this,"parseInline",this.parseMarkdown(!1));Z(this,"Parser",pn);Z(this,"Renderer",Os);Z(this,"TextRenderer",Mh);Z(this,"Lexer",gn);Z(this,"Tokenizer",Es);Z(this,"Hooks",xi);this.use(...n)}walkTokens(n,t){var i,o;let a=[];for(const s of n)switch(a=a.concat(t.call(this,s)),s.type){case"table":{const r=s;for(const c of r.header)a=a.concat(this.walkTokens(c.tokens,t));for(const c of r.rows)for(const l of c)a=a.concat(this.walkTokens(l.tokens,t));break}case"list":{const r=s;a=a.concat(this.walkTokens(r.items,t));break}default:{const r=s;(o=(i=this.defaults.extensions)==null?void 0:i.childTokens)!=null&&o[r.type]?this.defaults.extensions.childTokens[r.type].forEach(c=>{const l=r[c].flat(1/0);a=a.concat(this.walkTokens(l,t))}):r.tokens&&(a=a.concat(this.walkTokens(r.tokens,t)))}}return a}use(...n){const t=this.defaults.extensions||{renderers:{},childTokens:{}};return n.forEach(a=>{const i={...a};if(i.async=this.defaults.async||i.async||!1,a.extensions&&(a.extensions.forEach(o=>{if(!o.name)throw new Error("extension name required");if("renderer"in o){const s=t.renderers[o.name];s?t.renderers[o.name]=function(...r){let c=o.renderer.apply(this,r);return c===!1&&(c=s.apply(this,r)),c}:t.renderers[o.name]=o.renderer}if("tokenizer"in o){if(!o.level||o.level!=="block"&&o.level!=="inline")throw new Error("extension level must be 'block' or 'inline'");const s=t[o.level];s?s.unshift(o.tokenizer):t[o.level]=[o.tokenizer],o.start&&(o.level==="block"?t.startBlock?t.startBlock.push(o.start):t.startBlock=[o.start]:o.level==="inline"&&(t.startInline?t.startInline.push(o.start):t.startInline=[o.start]))}"childTokens"in o&&o.childTokens&&(t.childTokens[o.name]=o.childTokens)}),i.extensions=t),a.renderer){const o=this.defaults.renderer||new Os(this.defaults);for(const s in a.renderer){if(!(s in o))throw new Error(`renderer '${s}' does not exist`);if(["options","parser"].includes(s))continue;const r=s,c=a.renderer[r],l=o[r];o[r]=(...h)=>{let p=c.apply(o,h);return p===!1&&(p=l.apply(o,h)),p||""}}i.renderer=o}if(a.tokenizer){const o=this.defaults.tokenizer||new Es(this.defaults);for(const s in a.tokenizer){if(!(s in o))throw new Error(`tokenizer '${s}' does not exist`);if(["options","rules","lexer"].includes(s))continue;const r=s,c=a.tokenizer[r],l=o[r];o[r]=(...h)=>{let p=c.apply(o,h);return p===!1&&(p=l.apply(o,h)),p}}i.tokenizer=o}if(a.hooks){const o=this.defaults.hooks||new xi;for(const s in a.hooks){if(!(s in o))throw new Error(`hook '${s}' does not exist`);if(["options","block"].includes(s))continue;const r=s,c=a.hooks[r],l=o[r];xi.passThroughHooks.has(s)?o[r]=h=>{if(this.defaults.async)return Promise.resolve(c.call(o,h)).then(d=>l.call(o,d));const p=c.call(o,h);return l.call(o,p)}:o[r]=(...h)=>{let p=c.apply(o,h);return p===!1&&(p=l.apply(o,h)),p}}i.hooks=o}if(a.walkTokens){const o=this.defaults.walkTokens,s=a.walkTokens;i.walkTokens=function(r){let c=[];return c.push(s.call(this,r)),o&&(c=c.concat(o.call(this,r))),c}}this.defaults={...this.defaults,...i}}),this}setOptions(n){return this.defaults={...this.defaults,...n},this}lexer(n,t){return gn.lex(n,t??this.defaults)}parser(n,t){return pn.parse(n,t??this.defaults)}parseMarkdown(n){return(a,i)=>{const o={...i},s={...this.defaults,...o},r=this.onError(!!s.silent,!!s.async);if(this.defaults.async===!0&&o.async===!1)return r(new Error("marked(): The async option was set to true by an extension. Remove async: false from the parse options object to return a Promise."));if(typeof a>"u"||a===null)return r(new Error("marked(): input parameter is undefined or null"));if(typeof a!="string")return r(new Error("marked(): input parameter is of type "+Object.prototype.toString.call(a)+", string expected"));s.hooks&&(s.hooks.options=s,s.hooks.block=n);const c=s.hooks?s.hooks.provideLexer():n?gn.lex:gn.lexInline,l=s.hooks?s.hooks.provideParser():n?pn.parse:pn.parseInline;if(s.async)return Promise.resolve(s.hooks?s.hooks.preprocess(a):a).then(h=>c(h,s)).then(h=>s.hooks?s.hooks.processAllTokens(h):h).then(h=>s.walkTokens?Promise.all(this.walkTokens(h,s.walkTokens)).then(()=>h):h).then(h=>l(h,s)).then(h=>s.hooks?s.hooks.postprocess(h):h).catch(r);try{s.hooks&&(a=s.hooks.preprocess(a));let h=c(a,s);s.hooks&&(h=s.hooks.processAllTokens(h)),s.walkTokens&&this.walkTokens(h,s.walkTokens);let p=l(h,s);return s.hooks&&(p=s.hooks.postprocess(p)),p}catch(h){return r(h)}}}onError(n,t){return a=>{if(a.message+=`
-Please report this to https://github.com/markedjs/marked.`,n){const i="<p>An error occurred:</p><pre>"+Qe(a.message+"",!0)+"</pre>";return t?Promise.resolve(i):i}if(t)return Promise.reject(a);throw a}}}const $t=new eM;function X(e,n){return $t.parse(e,n)}X.options=X.setOptions=function(e){return $t.setOptions(e),X.defaults=$t.defaults,tw(X.defaults),X};X.getDefaults=Sh;X.defaults=oa;X.use=function(...e){return $t.use(...e),X.defaults=$t.defaults,tw(X.defaults),X};X.walkTokens=function(e,n){return $t.walkTokens(e,n)};X.parseInline=$t.parseInline;X.Parser=pn;X.parser=pn.parse;X.Renderer=Os;X.TextRenderer=Mh;X.Lexer=gn;X.lexer=gn.lex;X.Tokenizer=Es;X.Hooks=xi;X.parse=X;X.options;X.setOptions;X.use;X.walkTokens;X.parseInline;pn.parse;gn.lex;const nM=Object.assign({"./content/en/ai/agents-copilots.mdx":Ov,"./content/en/ai/ai-code.mdx":Fv,"./content/en/ai/blog-algoritmo-de-la-burbuja-generado-por-ia.mdx":Rv,"./content/en/ai/blog-buscaminas-con-inteligencia-artificial.mdx":Uv,"./content/en/ai/blog-buscaminas-programado-con-inteligencia-artificial-remasterizado-24-25.mdx":Nv,"./content/en/ai/blog-el-buscaminas-iii-un-salto-de-calidad.mdx":Vv,"./content/en/ai/blog-el-problema-de-la-mochila-aplicado-en-industria.mdx":Bv,"./content/en/ai/blog-little-scada-creando-una-interfaz-de-control-con-python.mdx":Hv,"./content/en/ai/industrial-ai.mdx":jv,"./content/en/articles/beckhoff-ce-hmi.mdx":qv,"./content/en/articles/blog-aveva-intouch-historial-data-access-system-histdata.mdx":Gv,"./content/en/articles/blog-aveva-intouch-historical-data-access-system-histdata.mdx":Jv,"./content/en/articles/blog-flujo-trabajo-ingeniero-automatizacion.mdx":zv,"./content/en/articles/blog-grafcet-guia-completa-diseno-automatizacion.mdx":Xv,"./content/en/articles/ftvse-datalog-2.mdx":Qv,"./content/en/articles/intouch-2020r1sp1-opcua.mdx":Kv,"./content/en/articles/intouch-activex-aahistclienttrend.mdx":Yv,"./content/en/articles/others.mdx":Zv,"./content/en/articles/scada.mdx":$v,"./content/en/articles/tia-opcua-plcsimadvanced.mdx":e0,"./content/en/articles/tia-portal-s71500-client-opc-ua.mdx":n0,"./content/en/articles/wincc-datamonitor-2.mdx":t0,"./content/en/articles/wincc-vbs-invertir-bits-us.mdx":a0,"./content/en/blog/blog-espionage-modbus-communications.mdx":i0,"./content/en/blog/blog-factory-talk-historian-pi-interface-performance-monitor.mdx":o0,"./content/en/blog/blog-ia.mdx":s0,"./content/en/blog/blog-iis-reverse-proxy-reporting-services-wincc-unified.mdx":r0,"./content/en/blog/blog-little-scada-creating-a-control-interface-with-python.mdx":c0,"./content/en/blog/blog-minesweeper-programmed-with-artificial-intelligence-remastered-24-25.mdx":l0,"./content/en/blog/blog-minesweeper-with-artificial-intelligence.mdx":h0,"./content/en/blog/blog-scada.mdx":d0,"./content/en/blog/blog-wp-content-uploads-2024-06-queryformat-txt.mdx":u0,"./content/en/communications/017.mdx":m0,"./content/en/communications/021.mdx":g0,"./content/en/communications/blog-cliente-opc-ua-plc-s7-1500.mdx":p0,"./content/en/communications/blog-codesys-softplc-servidor-opc-ua-siemens-cliente.mdx":w0,"./content/en/communications/blog-flujo-de-conexion-opc-ua-segura.mdx":f0,"./content/en/communications/blog-registro-datos-plc-influxdb.mdx":C0,"./content/en/communications/blog-sniffer-opc-ua-plc-siemens-uaexpert.mdx":b0,"./content/en/communications/industrial-networks.mdx":v0,"./content/en/communications/modbus.mdx":y0,"./content/en/communications/mqtt.mdx":S0,"./content/en/communications/redes.mdx":A0,"./content/en/communications/rest-api.mdx":P0,"./content/en/communications/snmp.mdx":T0,"./content/en/comunicaciones-industriales/comunicaciones-industriales.mdx":I0,"./content/en/comunicaciones/004.mdx":_0,"./content/en/comunicaciones/007.mdx":M0,"./content/en/comunicaciones/018.mdx":x0,"./content/en/comunicaciones/058.mdx":L0,"./content/en/comunicaciones/069.mdx":W0,"./content/en/comunicaciones/071.mdx":k0,"./content/en/comunicaciones/073.mdx":E0,"./content/en/comunicaciones/088.mdx":D0,"./content/en/comunicaciones/119.mdx":O0,"./content/en/comunicaciones/121.mdx":F0,"./content/en/comunicaciones/blog-docker-servidor-opc-ua.mdx":R0,"./content/en/comunicaciones/blog-entregados-a-la-causa.mdx":U0,"./content/en/comunicaciones/blog-espiando-comunicaciones-modbus.mdx":N0,"./content/en/comunicaciones/blog-explotando-vulnerabilidades-modbus-tcp.mdx":V0,"./content/en/comunicaciones/blog-pps-ethernet-ip-omron-eip21.mdx":B0,"./content/en/comunicaciones/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp.mdx":H0,"./content/en/comunicaciones/blog-servidor-opc-flask-co-pilot.mdx":j0,"./content/en/comunicaciones/blog-sistema-de-control-de-temperatura-iii.mdx":q0,"./content/en/comunicaciones/blog-snmp-simple-network-management-protocol.mdx":G0,"./content/en/comunicaciones/blog-vpn-home-lab-wireguard.mdx":J0,"./content/en/comunicaciones/intouch-daserver.mdx":z0,"./content/en/comunicaciones/intouch-dasmbtcp.mdx":X0,"./content/en/comunicaciones/kepserver-1500.mdx":Q0,"./content/en/comunicaciones/simaticnet-cargar-configuracion-pcstation.mdx":K0,"./content/en/comunicaciones/simaticnet-vdf.mdx":Y0,"./content/en/comunicaciones/ww-oigateway.mdx":Z0,"./content/en/cookie-policy/cookie-policy.mdx":$0,"./content/en/hmi/003.mdx":ey,"./content/en/hmi/005.mdx":ny,"./content/en/hmi/013.mdx":ty,"./content/en/hmi/015.mdx":ay,"./content/en/hmi/016.mdx":iy,"./content/en/hmi/019.mdx":oy,"./content/en/hmi/025.mdx":sy,"./content/en/hmi/026.mdx":ry,"./content/en/hmi/029.mdx":cy,"./content/en/hmi/033.mdx":ly,"./content/en/hmi/040.mdx":hy,"./content/en/hmi/044.mdx":dy,"./content/en/hmi/046.mdx":uy,"./content/en/hmi/047.mdx":my,"./content/en/hmi/049.mdx":gy,"./content/en/hmi/063.mdx":py,"./content/en/hmi/076.mdx":wy,"./content/en/hmi/077.mdx":fy,"./content/en/hmi/078.mdx":Cy,"./content/en/hmi/079.mdx":by,"./content/en/hmi/080.mdx":vy,"./content/en/hmi/081.mdx":yy,"./content/en/hmi/085.mdx":Sy,"./content/en/hmi/087.mdx":Ay,"./content/en/hmi/090.mdx":Py,"./content/en/hmi/095.mdx":Ty,"./content/en/hmi/097.mdx":Iy,"./content/en/hmi/101.mdx":_y,"./content/en/hmi/102.mdx":My,"./content/en/hmi/106.mdx":xy,"./content/en/hmi/107.mdx":Ly,"./content/en/hmi/114.mdx":Wy,"./content/en/hmi/115.mdx":ky,"./content/en/hmi/122.mdx":Ey,"./content/en/hmi/123.mdx":Dy,"./content/en/hmi/132.mdx":Oy,"./content/en/hmi/134.mdx":Fy,"./content/en/hmi/factorytalkviewme-activex-wmp.mdx":Ry,"./content/en/hmi/factorytalkviewme-alarmas.mdx":Uy,"./content/en/hmi/factorytalkviewme-globalconnection-dt.mdx":Ny,"./content/en/hmi/factorytalkviewme-lenguages.mdx":Vy,"./content/en/hmi/hmi-allen-bradley.mdx":By,"./content/en/hmi/hmi-omron.mdx":Hy,"./content/en/hmi/hmi-schneider.mdx":jy,"./content/en/hmi/hmi-siemens.mdx":qy,"./content/en/hmi/omron-s7-200.mdx":Gy,"./content/en/hmi/omron-transfer-hmi.mdx":Jy,"./content/en/hmi/other-hmis.mdx":zy,"./content/en/hmi/panelbuilder-communications.mdx":Xy,"./content/en/hmi/panelbuilder32-tageditor.mdx":Qy,"./content/en/hmi/simatic-restaurar-ktp.mdx":Ky,"./content/en/hmi/tia-portal-conversion-tiempos-2.mdx":Yy,"./content/en/hmi/tia-portal-conversion-tiempos.mdx":Zy,"./content/en/hmi/tia-portal-vbscript-propiedades.mdx":$y,"./content/en/hmi/winccflexible-currentuser.mdx":eS,"./content/en/hmi/winccflexible-simotion.mdx":nS,"./content/en/home/ai.mdx":tS,"./content/en/home/articles.mdx":aS,"./content/en/home/blog-author-jose-manuel.mdx":iS,"./content/en/home/blog-author-pedro.mdx":oS,"./content/en/home/contact.mdx":sS,"./content/en/home/databases.mdx":rS,"./content/en/home/hmi.mdx":cS,"./content/en/home/home.mdx":lS,"./content/en/home/index.mdx":hS,"./content/en/home/industrial-communications.mdx":dS,"./content/en/home/opc.mdx":uS,"./content/en/home/plc.mdx":mS,"./content/en/home/series.mdx":gS,"./content/en/home/software.mdx":pS,"./content/en/home/tools.mdx":wS,"./content/en/legal-notice/legal-notice.mdx":fS,"./content/en/library/library.mdx":CS,"./content/en/plc/001.mdx":bS,"./content/en/plc/002.mdx":vS,"./content/en/plc/006.mdx":yS,"./content/en/plc/010.mdx":SS,"./content/en/plc/011.mdx":AS,"./content/en/plc/012.mdx":PS,"./content/en/plc/023.mdx":TS,"./content/en/plc/024.mdx":IS,"./content/en/plc/027.mdx":_S,"./content/en/plc/036.mdx":MS,"./content/en/plc/037.mdx":xS,"./content/en/plc/041.mdx":LS,"./content/en/plc/045.mdx":WS,"./content/en/plc/050.mdx":kS,"./content/en/plc/053.mdx":ES,"./content/en/plc/056.mdx":DS,"./content/en/plc/059.mdx":OS,"./content/en/plc/060.mdx":FS,"./content/en/plc/065.mdx":RS,"./content/en/plc/066.mdx":US,"./content/en/plc/067.mdx":NS,"./content/en/plc/068.mdx":VS,"./content/en/plc/070.mdx":BS,"./content/en/plc/072.mdx":HS,"./content/en/plc/075.mdx":jS,"./content/en/plc/082.mdx":qS,"./content/en/plc/083.mdx":GS,"./content/en/plc/084.mdx":JS,"./content/en/plc/086.mdx":zS,"./content/en/plc/089.mdx":XS,"./content/en/plc/091.mdx":QS,"./content/en/plc/092.mdx":KS,"./content/en/plc/093.mdx":YS,"./content/en/plc/094.mdx":ZS,"./content/en/plc/096.mdx":$S,"./content/en/plc/098.mdx":eA,"./content/en/plc/099.mdx":nA,"./content/en/plc/100.mdx":tA,"./content/en/plc/103.mdx":aA,"./content/en/plc/104.mdx":iA,"./content/en/plc/105.mdx":oA,"./content/en/plc/111.mdx":sA,"./content/en/plc/117.mdx":rA,"./content/en/plc/118.mdx":cA,"./content/en/plc/120.mdx":lA,"./content/en/plc/124.mdx":hA,"./content/en/plc/125.mdx":dA,"./content/en/plc/128.mdx":uA,"./content/en/plc/130.mdx":mA,"./content/en/plc/135.mdx":gA,"./content/en/plc/ab-gateway-dhrio.mdx":pA,"./content/en/plc/ab-micro830.mdx":wA,"./content/en/plc/ab-micrologix-modbus-powerflex.mdx":fA,"./content/en/plc/ab-powerflex525.mdx":CA,"./content/en/plc/ab-source-protection.mdx":bA,"./content/en/plc/ab-upload.mdx":vA,"./content/en/plc/beckhoff-cerhost.mdx":yA,"./content/en/plc/beckhoff-create-config.mdx":SA,"./content/en/plc/beckhoff-download-plc.mdx":AA,"./content/en/plc/beckhoff-server-opc-ua.mdx":PA,"./content/en/plc/beckhoff-upload-config.mdx":TA,"./content/en/plc/beckhoff-upload-plc.mdx":IA,"./content/en/plc/blog-certificados-opc-ua-plc-siemens-uaexpert.mdx":_A,"./content/en/plc/blog-ciclo-scan-plc.mdx":MA,"./content/en/plc/blog-conceptos-basicos-profinet.mdx":xA,"./content/en/plc/blog-ethernet-ip-cip-common-industrial-protocol.mdx":LA,"./content/en/plc/blog-factorytalk-echo-simular-dos-plc-rockwell.mdx":WA,"./content/en/plc/blog-factorytalk-echo-update-firmware-v-37.mdx":kA,"./content/en/plc/blog-gittialportal.mdx":EA,"./content/en/plc/blog-logix-designer-sdk-automatizacion-proyectos.mdx":DA,"./content/en/plc/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2.mdx":OA,"./content/en/plc/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3.mdx":FA,"./content/en/plc/blog-prosoft-plx31-eip-sie.mdx":RA,"./content/en/plc/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark.mdx":UA,"./content/en/plc/blog-rslogix-5000-studio-5000-electronic-data-sheet-eds.mdx":NA,"./content/en/plc/blog-servidor-hora-plc-siemens.mdx":VA,"./content/en/plc/blog-servidor-opc-ua-plc-siemens.mdx":BA,"./content/en/plc/blog-simulador-de-temperatura.mdx":HA,"./content/en/plc/blog-sistema-de-control-de-temperatura-ii.mdx":jA,"./content/en/plc/blog-syslog-plc-siemens-linux.mdx":qA,"./content/en/plc/blog-tia-portal-19-get-put.mdx":GA,"./content/en/plc/blog-tia-portal-central-user-management.mdx":JA,"./content/en/plc/blog-tia-portal-configuration-time-mpr.mdx":zA,"./content/en/plc/blog-trace-tia-portal-plc-siemens.mdx":XA,"./content/en/plc/blog-web-server-siemens-s7-1500-https-view-of-things.mdx":QA,"./content/en/plc/cognex-insight-explorer.mdx":KA,"./content/en/plc/controlexpert-canopen.mdx":YA,"./content/en/plc/controlexpertplcsim.mdx":ZA,"./content/en/plc/ibh-s5.mdx":$A,"./content/en/plc/logix5000-almd.mdx":e2,"./content/en/plc/logix5000-powerflex-ethernet.mdx":n2,"./content/en/plc/omron-syswin.mdx":t2,"./content/en/plc/other-plcs.mdx":a2,"./content/en/plc/panelbuilder32-pv550-rslogix5-plc5.mdx":i2,"./content/en/plc/plc-allen-bradley.mdx":o2,"./content/en/plc/plc-beckhoff.mdx":s2,"./content/en/plc/plc-omron.mdx":r2,"./content/en/plc/plc-schneider.mdx":c2,"./content/en/plc/plc-siemens.mdx":l2,"./content/en/plc/rslinx-softlogix5.mdx":h2,"./content/en/plc/rslogix5-backup.mdx":d2,"./content/en/plc/rslogix5-configuracion-hardware.mdx":u2,"./content/en/plc/rslogix500-micrologix-master-modbus.mdx":m2,"./content/en/plc/s7-200-upload.mdx":g2,"./content/en/plc/siemens-modbus-schneider.mdx":p2,"./content/en/plc/simatic-cargar-en-pg.mdx":w2,"./content/en/plc/softlogix5.mdx":f2,"./content/en/plc/somachine-simulacion-comunicaciones.mdx":C2,"./content/en/plc/stept7-big-litle-indian.mdx":b2,"./content/en/plc/tia-plcsimadvanced.mdx":v2,"./content/en/plc/tia-portal-1200-sms.mdx":y2,"./content/en/plc/tia-portal-at.mdx":S2,"./content/en/plc/tia-portal-camaras-cognex.mdx":A2,"./content/en/plc/tia-portal-contador-horas.mdx":P2,"./content/en/plc/tia-portal-gsd-cognex.mdx":T2,"./content/en/plc/tia-portal-modbus-rtu.mdx":I2,"./content/en/plc/tia-portal-upload.mdx":_2,"./content/en/plc/unity-varread.mdx":M2,"./content/en/plc/winccflexible-simotion-opc.mdx":x2,"./content/en/privacy-policy/privacy-policy.mdx":L2,"./content/en/scada/008.mdx":W2,"./content/en/scada/009.mdx":k2,"./content/en/scada/014.mdx":E2,"./content/en/scada/020.mdx":D2,"./content/en/scada/022.mdx":O2,"./content/en/scada/028.mdx":F2,"./content/en/scada/030.mdx":R2,"./content/en/scada/031.mdx":U2,"./content/en/scada/032.mdx":N2,"./content/en/scada/034.mdx":V2,"./content/en/scada/035.mdx":B2,"./content/en/scada/039.mdx":H2,"./content/en/scada/042.mdx":j2,"./content/en/scada/043.mdx":q2,"./content/en/scada/048.mdx":G2,"./content/en/scada/051.mdx":J2,"./content/en/scada/052.mdx":z2,"./content/en/scada/054.mdx":X2,"./content/en/scada/055.mdx":Q2,"./content/en/scada/057.mdx":K2,"./content/en/scada/061.mdx":Y2,"./content/en/scada/062.mdx":Z2,"./content/en/scada/064.mdx":$2,"./content/en/scada/074.mdx":e1,"./content/en/scada/108.mdx":n1,"./content/en/scada/109.mdx":t1,"./content/en/scada/110.mdx":a1,"./content/en/scada/112.mdx":i1,"./content/en/scada/113.mdx":o1,"./content/en/scada/116.mdx":s1,"./content/en/scada/126.mdx":r1,"./content/en/scada/127.mdx":c1,"./content/en/scada/129.mdx":l1,"./content/en/scada/131.mdx":h1,"./content/en/scada/133.mdx":d1,"./content/en/scada/137.mdx":u1,"./content/en/scada/archestra-aahistclienttrendcontrol.mdx":m1,"./content/en/scada/archestra-aplicacion-distribuida.mdx":g1,"./content/en/scada/archestra-datagrid.mdx":p1,"./content/en/scada/archestra-datagridview.mdx":w1,"./content/en/scada/archestra-fsgateway-historian.mdx":f1,"./content/en/scada/archestra-instancias.mdx":C1,"./content/en/scada/archestra-ioserver-historian.mdx":b1,"./content/en/scada/archestra-trendclient.mdx":v1,"./content/en/scada/archestra-webbrowser-sql.mdx":y1,"./content/en/scada/archestra-webbrowser.mdx":S1,"./content/en/scada/blog-alarmas-wincc-por-whatsapp.mdx":A1,"./content/en/scada/blog-aveva-archestra-logger-csharp.mdx":P1,"./content/en/scada/blog-aveva-driver-redundancy.mdx":T1,"./content/en/scada/blog-aveva-driver-snmp.mdx":I1,"./content/en/scada/blog-aveva-historian-client-factory-talk-view-se.mdx":_1,"./content/en/scada/blog-aveva-intouch-2023r2-novedades.mdx":M1,"./content/en/scada/blog-aveva-intouch-client-controls-net.mdx":x1,"./content/en/scada/blog-aveva-intouch-codebarlib.mdx":L1,"./content/en/scada/blog-aveva-intouch-control-net.mdx":W1,"./content/en/scada/blog-aveva-intouch-historical-data-access-system-histdata-parte-2.mdx":k1,"./content/en/scada/blog-aveva-intouch-historical-data-parte-2.mdx":E1,"./content/en/scada/blog-aveva-intouch-historical-data.mdx":D1,"./content/en/scada/blog-aveva-intouch-leer-alarmas.mdx":O1,"./content/en/scada/blog-aveva-intouch-rds-cmd.mdx":F1,"./content/en/scada/blog-aveva-intouch-rds-query-events.mdx":R1,"./content/en/scada/blog-aveva-intouch-sqlite.mdx":U1,"./content/en/scada/blog-aveva-intouch-widgets-custom-widgets-package.mdx":N1,"./content/en/scada/blog-aveva-intouch-widgets.mdx":V1,"./content/en/scada/blog-comunicacion-plc-hmi-pc-pg-segura.mdx":B1,"./content/en/scada/blog-embebido-web-wincc-unified-iframe-politicas-seguridad.mdx":H1,"./content/en/scada/blog-factory-talk-historian-ftld-interface.mdx":j1,"./content/en/scada/blog-factory-talk-historian-license.mdx":q1,"./content/en/scada/blog-factory-talk-historian-piperfmon-performance-counters.mdx":G1,"./content/en/scada/blog-factory-talk-historin-piperfmon.mdx":J1,"./content/en/scada/blog-factory-talk-view-se-factory-talk-historian-status-ftld.mdx":z1,"./content/en/scada/blog-factory-talk-view-se-global-object-runtime-optimization.mdx":X1,"./content/en/scada/blog-factory-talk-view-se-influxdb.mdx":Q1,"./content/en/scada/blog-factory-talk-view-se-sqlite.mdx":K1,"./content/en/scada/blog-factorytalk-view-se-error-datalogpro.mdx":Y1,"./content/en/scada/blog-intouch-rdp-a.mdx":Z1,"./content/en/scada/blog-intouch-rds-nad.mdx":$1,"./content/en/scada/blog-novedades-scada-aveva-intouch-2023.mdx":eP,"./content/en/scada/blog-pm-analyze-parte-2.mdx":nP,"./content/en/scada/blog-pm-analyze.mdx":tP,"./content/en/scada/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023.mdx":aP,"./content/en/scada/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8.mdx":iP,"./content/en/scada/blog-scadas-con-ms-controls-activex-vb6.mdx":oP,"./content/en/scada/blog-segmentacion-de-redes-s71500-wincc-unified.mdx":sP,"./content/en/scada/blog-ssrs-wincc-unified-sqlite.mdx":rP,"./content/en/scada/blog-umc-admin-studio.mdx":cP,"./content/en/scada/blog-umc-redundancy-user-management-component.mdx":lP,"./content/en/scada/blog-umc-user-management-control.mdx":hP,"./content/en/scada/blog-wincc-8-1-backup-en-runtime.mdx":dP,"./content/en/scada/blog-wincc-8-1-novedades.mdx":uP,"./content/en/scada/blog-wincc-ifdef-run-on-webnavigator.mdx":mP,"./content/en/scada/blog-wincc-sqlite.mdx":gP,"./content/en/scada/blog-wincc-unified-collaboration-wincc-8-1.mdx":pP,"./content/en/scada/blog-wincc-unified-collaboration.mdx":wP,"./content/en/scada/blog-wincc-unified-cwc-open-pipe.mdx":fP,"./content/en/scada/blog-wincc-unified-open-pipe.mdx":CP,"./content/en/scada/blog-wincc-unified-redundancy-v20.mdx":bP,"./content/en/scada/blog-wincc-unified-rt-graphql.mdx":vP,"./content/en/scada/blog-wincc-unified-user-management-component.mdx":yP,"./content/en/scada/blog-wincc-v8-0-novedades.mdx":SP,"./content/en/scada/blog-wincc-v8-1-leer-alarmas.mdx":AP,"./content/en/scada/blog-wincc-webnavigaror-failed-to-load-https-sever4430-main-pd.mdx":PP,"./content/en/scada/blog-wincc-webnavigaror-no-connection-to-server.mdx":TP,"./content/en/scada/blog-wincc-webnavigator-webux-certificados-https.mdx":IP,"./content/en/scada/citectscada-database.mdx":_P,"./content/en/scada/factorytalk-activex-adodc.mdx":MP,"./content/en/scada/factorytalk-alarmevents.mdx":xP,"./content/en/scada/factorytalkview-animaciones.mdx":LP,"./content/en/scada/factorytalkview-sendemail.mdx":WP,"./content/en/scada/factorytalkviewse-importar.mdx":kP,"./content/en/scada/fix32-driver-si7.mdx":EP,"./content/en/scada/ftvse-datalog.mdx":DP,"./content/en/scada/ftvse-excel.mdx":OP,"./content/en/scada/ftvse-introduccion-vba.mdx":FP,"./content/en/scada/ftvse-mail.mdx":RP,"./content/en/scada/ftvse-recepis.mdx":UP,"./content/en/scada/ftvse-vba-referencia-objetos.mdx":NP,"./content/en/scada/ifix-database.mdx":VP,"./content/en/scada/intouch-2020-industrialgraphics.mdx":BP,"./content/en/scada/intouch-2020-unlock.mdx":HP,"./content/en/scada/intouch-2020-widget.mdx":jP,"./content/en/scada/intouch-alarms.mdx":qP,"./content/en/scada/intouch-bit-integer.mdx":GP,"./content/en/scada/intouch-controls-net.mdx":JP,"./content/en/scada/intouch-daserver-items.mdx":zP,"./content/en/scada/intouch-db-oracle.mdx":XP,"./content/en/scada/intouch-functions.mdx":QP,"./content/en/scada/intouch-historian.mdx":KP,"./content/en/scada/intouch-mysql.mdx":YP,"./content/en/scada/intouch-odbc.mdx":ZP,"./content/en/scada/intouch-system-platform.mdx":$P,"./content/en/scada/intouch-tagsindirectos.mdx":eT,"./content/en/scada/intouch-unitypro.mdx":nT,"./content/en/scada/intouchedgehmi.mdx":tT,"./content/en/scada/odbc-remote-oracle.mdx":aT,"./content/en/scada/oracle-drivers.mdx":iT,"./content/en/scada/other-scadas.mdx":oT,"./content/en/scada/rsview-dde.mdx":sT,"./content/en/scada/rsview-monitortag.mdx":rT,"./content/en/scada/rsview-scanclass.mdx":cT,"./content/en/scada/rsview-tagdatabase.mdx":lT,"./content/en/scada/rsview32-dde-excel.mdx":hT,"./content/en/scada/scada-allen-bradley.mdx":dT,"./content/en/scada/scada-intouch.mdx":uT,"./content/en/scada/scada-schneider.mdx":mT,"./content/en/scada/scada-siemens.mdx":gT,"./content/en/scada/scada-topkapi.mdx":pT,"./content/en/scada/simatic-logon.mdx":wT,"./content/en/scada/tagalarmeventserver.mdx":fT,"./content/en/scada/tia-portal-wincc-rt-transfer.mdx":CT,"./content/en/scada/wincc-activex-excel.mdx":bT,"./content/en/scada/wincc-activex-pdf.mdx":vT,"./content/en/scada/wincc-activex-webbrowser.mdx":yT,"./content/en/scada/wincc-activex.mdx":ST,"./content/en/scada/wincc-administrador-variables-timer.mdx":AT,"./content/en/scada/wincc-arquitectura-2.mdx":PT,"./content/en/scada/wincc-arquitectura.mdx":TT,"./content/en/scada/wincc-as-symbols.mdx":IT,"./content/en/scada/wincc-backup-taglogging.mdx":_T,"./content/en/scada/wincc-backup-winccruntime.mdx":MT,"./content/en/scada/wincc-bit-de-vida.mdx":xT,"./content/en/scada/wincc-broker-codesys.mdx":LT,"./content/en/scada/wincc-chipcard.mdx":WT,"./content/en/scada/wincc-cliente-opcua-beckhoff.mdx":kT,"./content/en/scada/wincc-cliente-opcua.mdx":ET,"./content/en/scada/wincc-cliente-opcxml.mdx":DT,"./content/en/scada/wincc-cliente.mdx":OT,"./content/en/scada/wincc-computer-local.mdx":FT,"./content/en/scada/wincc-confirm-tagvalue-us.mdx":RT,"./content/en/scada/wincc-confirm-tagvalue.mdx":UT,"./content/en/scada/wincc-conocimientosbasicos-ii.mdx":NT,"./content/en/scada/wincc-conocimientosbasicos-iii.mdx":VT,"./content/en/scada/wincc-conocimientosbasicos.mdx":BT,"./content/en/scada/wincc-control-keyboard.mdx":HT,"./content/en/scada/wincc-datamonitor.mdx":jT,"./content/en/scada/wincc-db-oracle.mdx":qT,"./content/en/scada/wincc-dde.mdx":GT,"./content/en/scada/wincc-debugger-vbscript.mdx":JT,"./content/en/scada/wincc-driver-opc.mdx":zT,"./content/en/scada/wincc-driver-s71500.mdx":XT,"./content/en/scada/wincc-dynamic-wizard.mdx":QT,"./content/en/scada/wincc-equipo.mdx":KT,"./content/en/scada/wincc-error-driver-s71500.mdx":YT,"./content/en/scada/wincc-eventos-pdl.mdx":ZT,"./content/en/scada/wincc-funcion-activar-desactivar-bits.mdx":$T,"./content/en/scada/wincc-funcion-gettagraw.mdx":eI,"./content/en/scada/wincc-graphic-designer-vi.mdx":nI,"./content/en/scada/wincc-ibh-link.mdx":tI,"./content/en/scada/wincc-instalacion-activex.mdx":aI,"./content/en/scada/wincc-instalacion.mdx":iI,"./content/en/scada/wincc-keyboard-vba.mdx":oI,"./content/en/scada/wincc-keyboard.mdx":sI,"./content/en/scada/wincc-libreria-us.mdx":rI,"./content/en/scada/wincc-libreria-useradministrator.mdx":cI,"./content/en/scada/wincc-libreria.mdx":lI,"./content/en/scada/wincc-librerias-dll.mdx":hI,"./content/en/scada/wincc-librerias-plus-plus.mdx":dI,"./content/en/scada/wincc-license.mdx":uI,"./content/en/scada/wincc-loginusuario.mdx":mI,"./content/en/scada/wincc-menu-vbs.mdx":gI,"./content/en/scada/wincc-modbustcp.mdx":pI,"./content/en/scada/wincc-monopuesto.mdx":wI,"./content/en/scada/wincc-mqtt.mdx":fI,"./content/en/scada/wincc-msexcel-owc.mdx":CI,"./content/en/scada/wincc-multipuesto-error.mdx":bI,"./content/en/scada/wincc-multipuesto.mdx":vI,"./content/en/scada/wincc-mysql.mdx":yI,"./content/en/scada/wincc-net.mdx":SI,"./content/en/scada/wincc-new-7-4.mdx":AI,"./content/en/scada/wincc-new-7-5.mdx":PI,"./content/en/scada/wincc-numero-alarmas.mdx":TI,"./content/en/scada/wincc-plcsimadvanced.mdx":II,"./content/en/scada/wincc-pm-quality-1.mdx":_I,"./content/en/scada/wincc-pm-quality-2.mdx":MI,"./content/en/scada/wincc-pm-quality-3.mdx":xI,"./content/en/scada/wincc-pm-quality-4.mdx":LI,"./content/en/scada/wincc-redundancy.mdx":WI,"./content/en/scada/wincc-rt-cargar-proyecto.mdx":kI,"./content/en/scada/wincc-rw-tag.mdx":EI,"./content/en/scada/wincc-sendmail.mdx":DI,"./content/en/scada/wincc-server-not-available.mdx":OI,"./content/en/scada/wincc-servidor-opc.mdx":FI,"./content/en/scada/wincc-simatic-logon.mdx":RI,"./content/en/scada/wincc-softlogix.mdx":UI,"./content/en/scada/wincc-system-info.mdx":NI,"./content/en/scada/wincc-tagmanagement.mdx":VI,"./content/en/scada/wincc-unified-administracion-usuarios.mdx":BI,"./content/en/scada/wincc-unified-configuration.mdx":HI,"./content/en/scada/wincc-unified-connection-opcua.mdx":jI,"./content/en/scada/wincc-unified-custom-web-controls.mdx":qI,"./content/en/scada/wincc-unified-js.mdx":GI,"./content/en/scada/wincc-unified-servidor-opc-ua.mdx":JI,"./content/en/scada/wincc-unified-trace-javascript.mdx":zI,"./content/en/scada/wincc-unified-transferir-proyecto.mdx":XI,"./content/en/scada/wincc-vba.mdx":QI,"./content/en/scada/wincc-vbs-gettagraw.mdx":KI,"./content/en/scada/wincc-vbs-imprimir.mdx":YI,"./content/en/scada/wincc-vbs-invertir-bits.mdx":ZI,"./content/en/scada/wincc-vbs-ping.mdx":$I,"./content/en/scada/wincc-vbs-webnavigator.mdx":e_,"./content/en/scada/wincc-webnavigator-https.mdx":n_,"./content/en/scada/wincc-webux-ii.mdx":t_,"./content/en/scada/wincc-webux.mdx":a_,"./content/en/scada/wincc-wpf.mdx":i_,"./content/en/scada/wincc.mdx":o_,"./content/en/scada/winccflexible-simotion-opc-2.mdx":s_,"./content/en/scada/wonderware-activefactory.mdx":r_,"./content/en/scada/wwhistorian-autostart.mdx":c_,"./content/en/scada/wwhistorian-configurator.mdx":l_,"./content/en/scada/wwintouchmachineedition.mdx":h_,"./content/en/scada/zenon-driver-tia.mdx":d_,"./content/en/scada/zenon-introduccion.mdx":u_,"./content/en/software/136.mdx":m_,"./content/en/software/blog-control-versiones-git-tia-portal-v21.mdx":g_,"./content/en/software/blog-entorno-desarrollo-vscode-copilot-agentes.mdx":p_,"./content/en/software/blog-git-github-flujo-colaborativo-vscode.mdx":w_,"./content/en/software/git.mdx":f_,"./content/en/software/vscode.mdx":C_,"./content/en/tools/blog-grafsim.mdx":b_,"./content/en/tools/blog-phs-color-batch-simulator-opc-ua.mdx":v_,"./content/en/tools/blog-phs-thermal-process-simulator-opc-ua.mdx":y_});function tM(e){const n=e.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);if(!n)return{fm:{},body:e};const t={};for(const a of n[1].split(`
-`)){const i=a.indexOf(":");if(!(i<0))try{t[a.slice(0,i).trim()]=JSON.parse(a.slice(i+1).trim())}catch{t[a.slice(0,i).trim()]=a.slice(i+1).trim()}}return{fm:t,body:n[2]}}const aM={comunicaciones:"Communications",communications:"Communications",articles:"Articles",blog:"Articles",ai:"AI",plc:"PLC",hmi:"HMI",scada:"SCADA",software:"Software",tools:"Tools",home:"Other"},iM={"siemens wincc":"SIEMENS",opc:"OPC SERVER","control de versiones":"VERSION CONTROL","version control":"VERSION CONTROL","codigo generado por ia":"AI GENERATED CODE","código generado por ia":"AI GENERATED CODE","ai generated code":"AI GENERATED CODE","redes industriales":"INDUSTRIAL NETWORKS","industrial networks":"INDUSTRIAL NETWORKS","industrial ai":"INDUSTRIAL AI"},oM=e=>aM[(e[1]||"").toLowerCase()]||(e[1]?e[1]:"Other"),sM=e=>{const n=(e[2]||"").trim();return iM[n.toLowerCase()]||n.toUpperCase()||"General"},ul=Object.entries(nM).map(([e,n])=>{const{fm:t,body:a}=tM(n);return{title:t.title||e,slug:t.slug||e,locale:t.locale||"en",category:t.category||"misc",originalUrl:t.originalUrl||"",author:t.author||"",date:t.date||"",tags:t.tags||[],downloads:t.downloads||[],credit:t.credit||"",group:oM(t.breadcrumbs||[]),sub:sM(t.breadcrumbs||[]),body:a,words:a.split(/\s+/).length,key:`${t.locale||"en"}/${t.slug||e}`}}).sort((e,n)=>e.group.localeCompare(n.group)||e.sub.localeCompare(n.sub)||e.title.localeCompare(n.title,void 0,{numeric:!0})),rM=e=>X.parse(e,{async:!1}),Hr=["Idle","Tank filling","Heating","Agitation","Discharge"],xu=5;function cM(){const[e,n]=O.useState(0),[t,a]=O.useState({start:!1,high:!1,temp:!1,low:!0}),[i,o]=O.useState(0),[s,r]=O.useState([]),c=O.useRef(Date.now()),l=()=>((Date.now()-c.current)/1e3).toFixed(1).padStart(6)+"s",h=(m,f)=>{r(b=>[...b,`${l()}  - S${m+1} ${Hr[m]} deactivated`,`${l()}  + S${f+1} ${Hr[f]} activated`]),n(f),o(0)};O.useEffect(()=>{const m=setInterval(()=>e===3&&o(f=>+(f+.1).toFixed(1)),100);return()=>clearInterval(m)},[e]);const p=[t.start,t.high,t.temp,i>=xu,t.low][e];O.useEffect(()=>{p&&h(e,(e+1)%5)},[p,e]);const d=m=>a(f=>({...f,[m]:!f[m]}));return y.jsxs("div",{className:"sim",children:[y.jsx("h2",{children:"GrafSim — GRAFCET / SFC"}),y.jsx("div",{children:Hr.map((m,f)=>y.jsxs("span",{children:[y.jsxs("span",{className:"step"+(f===e?" on":""),children:["S",f+1," ",m]}),f<4&&y.jsxs("small",{children:[" ─ t",f+1," ─ "]})]},m))}),y.jsxs("p",{children:["Transitions: t1 Start · t2 Level High · t3 Temp reached · t4 timer ",xu,"s (",i.toFixed(1),"s) · t5 Level Low (→ S1)"]}),y.jsxs("div",{className:"row",children:[["start","high","temp","low"].map(m=>y.jsxs("label",{children:[y.jsx("input",{type:"checkbox",checked:t[m],onChange:()=>d(m)})," ",{start:"Start PB",high:"Level HIGH",temp:"Temp SP reached",low:"Level LOW"}[m]]},m)),y.jsx("button",{className:"btn ghost",onClick:()=>{n(0),o(0),r([]),a({start:!1,high:!1,temp:!1,low:!0}),c.current=Date.now()},children:"Reset"})]}),y.jsx("div",{className:"log",children:s.map((m,f)=>y.jsx("div",{children:m},f))})]})}const ko=.5,lM=500,hM=1.2,jr=20,dM=4e3,uM=6,Lu=400;function mM(){const[e,n]=O.useState(8),[t,a]=O.useState(60),[i,o]=O.useState(5),[s,r]=O.useState(60),[c,l]=O.useState(!0),[h,p]=O.useState(30),d=O.useRef({kp:e,ti:t,td:i,sp:s,auto:c,manual:h});d.current={kp:e,ti:t,td:i,sp:s,auto:c,manual:h};const m=O.useRef({T:jr,I:0,prevE:0,mv:0,wasAuto:!0,pvBuf:Array(uM).fill(jr),hist:[]}),f=O.useRef(null);O.useEffect(()=>{const g=setInterval(()=>{const{kp:u,ti:w,td:C,sp:S,auto:_,manual:T}=d.current,A=m.current,W=A.pvBuf[0],M=S-W;if(_){A.wasAuto||(A.I=A.mv-u*M);const $n=(M-A.prevE)/ko,Je=u*M+A.I+u*C*$n,Ae=Math.min(100,Math.max(0,Je));(Ae===Je||Je>100&&M<0||Je<0&&M>0)&&(A.I+=u/w*M*ko),A.mv=Ae}else A.mv=T;A.wasAuto=_,A.prevE=M;const q=A.mv/100*dM,ge=hM*(A.T-jr)*10;A.T+=(q-ge)/lM*ko*.2,A.pvBuf.push(A.T),A.pvBuf.shift(),A.hist.push([S,W,A.mv]),A.hist.length>Lu&&A.hist.shift(),b()},ko*200);return()=>clearInterval(g)},[]);function b(){const g=f.current;if(!g)return;const u=g.getContext("2d"),w=g.width,C=g.height;u.clearRect(0,0,w,C),u.strokeStyle="#334155";for(let _=0;_<=4;_++)u.beginPath(),u.moveTo(0,C*_/4),u.lineTo(w,C*_/4),u.stroke();const S=(_,T,A)=>{u.strokeStyle=T,u.beginPath(),m.current.hist.forEach((W,M)=>{const q=M/Lu*w,ge=C-W[_]/A*C;M?u.lineTo(q,ge):u.moveTo(q,ge)}),u.stroke()};S(0,"#facc15",100),S(1,"#38bdf8",100),S(2,"#f87171",100)}const P=(g,u,w,C,S,_=1)=>y.jsxs("label",{children:[g,": ",u,y.jsx("input",{type:"range",min:C,max:S,step:_,value:u,onChange:T=>w(+T.target.value)})]});return y.jsxs("div",{className:"sim",children:[y.jsx("h2",{children:"Thermal process — PID loop"}),y.jsx("canvas",{ref:f,width:800,height:240}),y.jsxs("small",{children:[y.jsx("span",{style:{color:"#facc15"},children:"SP"})," · ",y.jsx("span",{style:{color:"#38bdf8"},children:"PV (°C)"})," · ",y.jsx("span",{style:{color:"#f87171"},children:"MV (%)"})," — 0–100 scale"]}),y.jsxs("div",{className:"row",children:[P("Kp",e,n,0,30,.5),P("Ti (s)",t,a,5,300),P("Td (s)",i,o,0,30),P("SP °C",s,r,20,95),y.jsx("button",{className:"btn",onClick:()=>l(!c),children:c?"AUTO":"MANUAL"}),!c&&P("Manual MV %",h,p,0,100),y.jsx("button",{className:"btn ghost",onClick:()=>{m.current.T-=10,m.current.pvBuf=m.current.pvBuf.map(g=>g-10)},children:"Cold fluid disturbance"})]})]})}const qr=[{n:"Red",c:[220,38,38]},{n:"Green",c:[34,197,94]},{n:"Blue",c:[59,130,246]}],Eo={"Recipe A":[30,50,20],"Recipe B":[10,20,70]},gM=4,pM=.5;function wM(){const[e,n]=O.useState("IDLE"),[t,a]=O.useState("Recipe A"),[i,o]=O.useState([0,0,0]),[s,r]=O.useState(0),c=O.useRef({state:e,dosed:i,rec:t});c.current={state:e,dosed:i,rec:t};const l=Eo[t],h=e==="RUNNING"?i.findIndex((g,u)=>g<l[u]):-1;O.useEffect(()=>{const g=setInterval(()=>{const{state:u,dosed:w,rec:C}=c.current;if(u!=="RUNNING")return;const S=w.findIndex((_,T)=>_<Eo[C][T]);if(S<0)return n("COMPLETED");o(_=>_.map((T,A)=>A===S?Math.min(Eo[C][A],+(T+gM*.1).toFixed(2)):T))},100);return()=>clearInterval(g)},[]),O.useEffect(()=>{e==="RUNNING"&&i.every((g,u)=>g>=l[u])&&n("COMPLETED")},[i,e]);const p=i.reduce((g,u)=>g+u,0),d=p||1,m=qr.reduce((g,u,w)=>g.map((C,S)=>C+u.c[S]*i[w]/d),[0,0,0]).map(Math.round),f=Math.min(1,p/100),b=()=>{o([0,0,0]),n("IDLE")},P=g=>e==="COMPLETED"&&Math.abs(i[g]-l[g])>pM;return y.jsxs("div",{className:"sim",children:[y.jsx("h2",{children:"Color batching — ISA-88 state model"}),y.jsxs("div",{className:"row",children:[y.jsx("select",{disabled:e!=="IDLE",value:t,onChange:g=>a(g.target.value),children:Object.keys(Eo).map(g=>y.jsx("option",{children:g},g))}),y.jsxs("b",{children:["State: ",e]}),y.jsx("button",{className:"btn",disabled:e!=="IDLE"&&e!=="PAUSED",onClick:()=>n("RUNNING"),children:e==="PAUSED"?"Resume":"Start"}),y.jsx("button",{className:"btn ghost",disabled:e!=="RUNNING",onClick:()=>n("PAUSED"),children:"Pause"}),y.jsx("button",{className:"btn ghost",disabled:e!=="RUNNING"&&e!=="PAUSED",onClick:()=>n("ABORTED"),children:"Abort"}),y.jsx("button",{className:"btn ghost",onClick:b,children:"Reset"}),y.jsx("button",{className:"btn ghost",onClick:()=>r(p),children:"Tare"})]}),y.jsxs("svg",{viewBox:"0 0 200 140",width:"260",children:[y.jsx("rect",{x:"40",y:"10",width:"120",height:"120",fill:"none",stroke:"#64748b",strokeWidth:"3"}),y.jsx("rect",{x:"42",y:128-116*f,width:"116",height:116*f,fill:`rgb(${m})`}),qr.map((g,u)=>y.jsx("circle",{cx:60+u*40,cy:"6",r:"5",fill:u===h?`rgb(${g.c})`:"#cbd5e1"},u))]}),y.jsxs("p",{style:{font:"20px monospace"},children:["Load cell: ",(p-s).toFixed(2)," kg (tare ",s.toFixed(1),")"]}),qr.map((g,u)=>y.jsxs("div",{children:[g.n,": ",i[u].toFixed(1)," / ",l[u]," kg ",P(u)&&y.jsx("b",{style:{color:"#dc2626"},children:"⚠ out of tolerance"})]},g.n))]})}const fM=(e,n)=>{try{return JSON.parse(localStorage.getItem(e)||"")}catch{return n}},Do=(e,n)=>{const[t,a]=O.useState(()=>fM(e,n));return O.useEffect(()=>{try{localStorage.setItem(e,JSON.stringify(t))}catch{}},[e,t]),[t,a]},CM=()=>{const[e,n]=O.useState(location.hash.slice(1)||"/");return O.useEffect(()=>{const t=()=>n(location.hash.slice(1)||"/");return addEventListener("hashchange",t),()=>removeEventListener("hashchange",t)},[]),e};function bM(){const e=CM(),[n,t]=Do("locale","en"),[a,i]=Do("done",[]),[o,s]=Do("bookmarks",[]),[r,c]=Do("recent",[]),[l,h]=O.useState(""),p=O.useRef(null),d=O.useMemo(()=>ul.filter(g=>g.locale===n),[n]),m=O.useMemo(()=>new Dv(d,{keys:["title","tags","group","sub","body"],threshold:.3,ignoreLocation:!0}),[d]),f=l?m.search(l).slice(0,30).map(g=>g.item):[];O.useEffect(()=>{const g=u=>{var w;(u.ctrlKey||u.metaKey)&&u.key==="k"&&(u.preventDefault(),(w=p.current)==null||w.focus())};return addEventListener("keydown",g),()=>removeEventListener("keydown",g)},[]);const b=e.startsWith("/a/")?ul.find(g=>g.key===decodeURIComponent(e.slice(3))):void 0;O.useEffect(()=>{b&&c(g=>[b.key,...g.filter(u=>u!==b.key)].slice(0,8))},[b==null?void 0:b.key]);const P=(g,u,w)=>u(g.includes(w)?g.filter(C=>C!==w):[...g,w]);return y.jsxs(y.Fragment,{children:[y.jsxs("header",{children:[y.jsx("a",{href:"#/",children:y.jsx("b",{children:"PLC Academy"})}),y.jsx("a",{href:"#/sims",children:"Simulators"}),y.jsx("input",{ref:p,placeholder:"Search (Ctrl+K)",value:l,onChange:g=>h(g.target.value)}),y.jsxs("select",{value:n,onChange:g=>t(g.target.value),children:[y.jsx("option",{value:"en",children:"EN"}),y.jsx("option",{value:"es",children:"ES"})]})]}),l?y.jsx("div",{className:"layout",style:{gridTemplateColumns:"1fr"},children:y.jsxs("div",{children:[f.length===0&&y.jsx("p",{children:"No results."}),f.map(g=>y.jsxs("div",{className:"card",children:[y.jsx("a",{href:`#/a/${encodeURIComponent(g.key)}`,onClick:()=>h(""),children:g.title})," ",y.jsxs("small",{children:[g.group," · ",g.sub]})]},g.key))]})}):e==="/sims"?y.jsxs("div",{className:"layout",style:{gridTemplateColumns:"1fr"},children:[y.jsx(cM,{}),y.jsx(mM,{}),y.jsx(wM,{})]}):y.jsxs("div",{className:"layout",children:[y.jsx(vM,{list:d,done:a,current:b==null?void 0:b.key}),b?y.jsx(SM,{a:b,done:a.includes(b.key),marked:o.includes(b.key),onDone:()=>P(a,i,b.key),onMark:()=>P(o,s,b.key)}):y.jsx(yM,{list:d,done:a,marks:o,recent:r}),b&&y.jsx(AM,{a:b})]})]})}function vM({list:e,done:n,current:t}){const a=[...new Set(e.map(i=>i.group))];return y.jsxs("nav",{className:"tree",children:[a.map(i=>{const o=e.filter(r=>r.group===i),s=[...new Set(o.map(r=>r.sub))];return y.jsxs("details",{open:o.some(r=>r.key===t),children:[y.jsxs("summary",{children:[i," (",o.length,")"]}),s.map(r=>{const c=o.filter(l=>l.sub===r);return y.jsxs("details",{style:{marginLeft:8},open:c.some(l=>l.key===t),children:[y.jsxs("summary",{style:{fontWeight:500},children:[r," (",c.length,")"]}),c.map(l=>y.jsxs("a",{className:l.key===t?"on":"",href:`#/a/${encodeURIComponent(l.key)}`,children:[n.includes(l.key)?"✓ ":"",l.title]},l.key))]},r)})]},i)}),!e.length&&y.jsxs("p",{children:["No content yet. Run ",y.jsx("code",{children:"npm run scrape"}),"."]})]})}function yM({list:e,done:n,marks:t,recent:a}){const i=[...new Set(e.map(s=>s.group))],o=s=>{const r=ul.find(c=>c.key===s);return r&&y.jsx("div",{children:y.jsx("a",{href:`#/a/${encodeURIComponent(s)}`,children:r.title})},s)};return y.jsxs("div",{children:[y.jsx("h1",{children:"Dashboard"}),i.map(s=>{const r=e.filter(l=>l.group===s),c=r.filter(l=>n.includes(l.key)).length;return y.jsxs("div",{className:"card",children:[s,": ",c,"/",r.length,y.jsx("div",{className:"bar",children:y.jsx("i",{style:{width:`${c/r.length*100}%`}})})]},s)}),y.jsx("h3",{children:"Recently read"}),a.map(o),y.jsx("h3",{children:"Bookmarks"}),t.map(o)]})}function SM({a:e,done:n,marked:t,onDone:a,onMark:i}){const o=O.useMemo(()=>rM(e.body).replace(/<h([23])>(.*?)<\/h\1>/g,(c,l,h)=>`<h${l} id="${uw(h)}">${h}</h${l}>`),[e]),s=O.useRef(null);O.useEffect(()=>{var c;(c=s.current)==null||c.querySelectorAll("pre").forEach(l=>{if(l.querySelector("button"))return;const h=document.createElement("button");h.textContent="Copy",h.className="btn ghost",h.style.cssText="position:absolute;top:6px;right:6px",h.onclick=()=>{var p;return navigator.clipboard.writeText(((p=l.textContent)==null?void 0:p.replace(/^Copy/,""))||"")},l.appendChild(h)})},[o]);const r=()=>{const c=new Blob([`# ${e.title}
+`}strong({tokens:n}){return`<strong>${this.parser.parseInline(n)}</strong>`}em({tokens:n}){return`<em>${this.parser.parseInline(n)}</em>`}codespan({text:n}){return`<code>${n}</code>`}br(n){return"<br>"}del({tokens:n}){return`<del>${this.parser.parseInline(n)}</del>`}link({href:n,title:t,tokens:a}){const i=this.parser.parseInline(a),o=Lu(n);if(o===null)return i;n=o;let s='<a href="'+n+'"';return t&&(s+=' title="'+t+'"'),s+=">"+i+"</a>",s}image({href:n,title:t,text:a}){const i=Lu(n);if(i===null)return a;n=i;let o=`<img src="${n}" alt="${a}"`;return t&&(o+=` title="${t}"`),o+=">",o}text(n){return"tokens"in n&&n.tokens?this.parser.parseInline(n.tokens):n.text}}class Eh{strong({text:n}){return n}em({text:n}){return n}codespan({text:n}){return n}del({text:n}){return n}html({text:n}){return n}text({text:n}){return n}link({text:n}){return""+n}image({text:n}){return""+n}br(){return""}}class wn{constructor(n){ee(this,"options");ee(this,"renderer");ee(this,"textRenderer");this.options=n||ha,this.options.renderer=this.options.renderer||new Bs,this.renderer=this.options.renderer,this.renderer.options=this.options,this.renderer.parser=this,this.textRenderer=new Eh}static parse(n,t){return new wn(t).parse(n)}static parseInline(n,t){return new wn(t).parseInline(n)}parse(n,t=!0){let a="";for(let i=0;i<n.length;i++){const o=n[i];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[o.type]){const r=o,c=this.options.extensions.renderers[r.type].call({parser:this},r);if(c!==!1||!["space","hr","heading","code","table","blockquote","list","html","paragraph","text"].includes(r.type)){a+=c||"";continue}}const s=o;switch(s.type){case"space":{a+=this.renderer.space(s);continue}case"hr":{a+=this.renderer.hr(s);continue}case"heading":{a+=this.renderer.heading(s);continue}case"code":{a+=this.renderer.code(s);continue}case"table":{a+=this.renderer.table(s);continue}case"blockquote":{a+=this.renderer.blockquote(s);continue}case"list":{a+=this.renderer.list(s);continue}case"html":{a+=this.renderer.html(s);continue}case"paragraph":{a+=this.renderer.paragraph(s);continue}case"text":{let r=s,c=this.renderer.text(r);for(;i+1<n.length&&n[i+1].type==="text";)r=n[++i],c+=`
+`+this.renderer.text(r);t?a+=this.renderer.paragraph({type:"paragraph",raw:c,text:c,tokens:[{type:"text",raw:c,text:c}]}):a+=c;continue}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return a}parseInline(n,t){t=t||this.renderer;let a="";for(let i=0;i<n.length;i++){const o=n[i];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[o.type]){const r=this.options.extensions.renderers[o.type].call({parser:this},o);if(r!==!1||!["escape","html","link","image","strong","em","codespan","br","del","text"].includes(o.type)){a+=r||"";continue}}const s=o;switch(s.type){case"escape":{a+=t.text(s);break}case"html":{a+=t.html(s);break}case"link":{a+=t.link(s);break}case"image":{a+=t.image(s);break}case"strong":{a+=t.strong(s);break}case"em":{a+=t.em(s);break}case"codespan":{a+=t.codespan(s);break}case"br":{a+=t.br(s);break}case"del":{a+=t.del(s);break}case"text":{a+=t.text(s);break}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return a}}class Fi{constructor(n){ee(this,"options");ee(this,"block");this.options=n||ha}preprocess(n){return n}postprocess(n){return n}processAllTokens(n){return n}provideLexer(){return this.block?pn.lex:pn.lexInline}provideParser(){return this.block?wn.parse:wn.parseInline}}ee(Fi,"passThroughHooks",new Set(["preprocess","postprocess","processAllTokens"]));class dx{constructor(...n){ee(this,"defaults",_h());ee(this,"options",this.setOptions);ee(this,"parse",this.parseMarkdown(!0));ee(this,"parseInline",this.parseMarkdown(!1));ee(this,"Parser",wn);ee(this,"Renderer",Bs);ee(this,"TextRenderer",Eh);ee(this,"Lexer",pn);ee(this,"Tokenizer",Vs);ee(this,"Hooks",Fi);this.use(...n)}walkTokens(n,t){var i,o;let a=[];for(const s of n)switch(a=a.concat(t.call(this,s)),s.type){case"table":{const r=s;for(const c of r.header)a=a.concat(this.walkTokens(c.tokens,t));for(const c of r.rows)for(const l of c)a=a.concat(this.walkTokens(l.tokens,t));break}case"list":{const r=s;a=a.concat(this.walkTokens(r.items,t));break}default:{const r=s;(o=(i=this.defaults.extensions)==null?void 0:i.childTokens)!=null&&o[r.type]?this.defaults.extensions.childTokens[r.type].forEach(c=>{const l=r[c].flat(1/0);a=a.concat(this.walkTokens(l,t))}):r.tokens&&(a=a.concat(this.walkTokens(r.tokens,t)))}}return a}use(...n){const t=this.defaults.extensions||{renderers:{},childTokens:{}};return n.forEach(a=>{const i={...a};if(i.async=this.defaults.async||i.async||!1,a.extensions&&(a.extensions.forEach(o=>{if(!o.name)throw new Error("extension name required");if("renderer"in o){const s=t.renderers[o.name];s?t.renderers[o.name]=function(...r){let c=o.renderer.apply(this,r);return c===!1&&(c=s.apply(this,r)),c}:t.renderers[o.name]=o.renderer}if("tokenizer"in o){if(!o.level||o.level!=="block"&&o.level!=="inline")throw new Error("extension level must be 'block' or 'inline'");const s=t[o.level];s?s.unshift(o.tokenizer):t[o.level]=[o.tokenizer],o.start&&(o.level==="block"?t.startBlock?t.startBlock.push(o.start):t.startBlock=[o.start]:o.level==="inline"&&(t.startInline?t.startInline.push(o.start):t.startInline=[o.start]))}"childTokens"in o&&o.childTokens&&(t.childTokens[o.name]=o.childTokens)}),i.extensions=t),a.renderer){const o=this.defaults.renderer||new Bs(this.defaults);for(const s in a.renderer){if(!(s in o))throw new Error(`renderer '${s}' does not exist`);if(["options","parser"].includes(s))continue;const r=s,c=a.renderer[r],l=o[r];o[r]=(...d)=>{let m=c.apply(o,d);return m===!1&&(m=l.apply(o,d)),m||""}}i.renderer=o}if(a.tokenizer){const o=this.defaults.tokenizer||new Vs(this.defaults);for(const s in a.tokenizer){if(!(s in o))throw new Error(`tokenizer '${s}' does not exist`);if(["options","rules","lexer"].includes(s))continue;const r=s,c=a.tokenizer[r],l=o[r];o[r]=(...d)=>{let m=c.apply(o,d);return m===!1&&(m=l.apply(o,d)),m}}i.tokenizer=o}if(a.hooks){const o=this.defaults.hooks||new Fi;for(const s in a.hooks){if(!(s in o))throw new Error(`hook '${s}' does not exist`);if(["options","block"].includes(s))continue;const r=s,c=a.hooks[r],l=o[r];Fi.passThroughHooks.has(s)?o[r]=d=>{if(this.defaults.async)return Promise.resolve(c.call(o,d)).then(u=>l.call(o,u));const m=c.call(o,d);return l.call(o,m)}:o[r]=(...d)=>{let m=c.apply(o,d);return m===!1&&(m=l.apply(o,d)),m}}i.hooks=o}if(a.walkTokens){const o=this.defaults.walkTokens,s=a.walkTokens;i.walkTokens=function(r){let c=[];return c.push(s.call(this,r)),o&&(c=c.concat(o.call(this,r))),c}}this.defaults={...this.defaults,...i}}),this}setOptions(n){return this.defaults={...this.defaults,...n},this}lexer(n,t){return pn.lex(n,t??this.defaults)}parser(n,t){return wn.parse(n,t??this.defaults)}parseMarkdown(n){return(a,i)=>{const o={...i},s={...this.defaults,...o},r=this.onError(!!s.silent,!!s.async);if(this.defaults.async===!0&&o.async===!1)return r(new Error("marked(): The async option was set to true by an extension. Remove async: false from the parse options object to return a Promise."));if(typeof a>"u"||a===null)return r(new Error("marked(): input parameter is undefined or null"));if(typeof a!="string")return r(new Error("marked(): input parameter is of type "+Object.prototype.toString.call(a)+", string expected"));s.hooks&&(s.hooks.options=s,s.hooks.block=n);const c=s.hooks?s.hooks.provideLexer():n?pn.lex:pn.lexInline,l=s.hooks?s.hooks.provideParser():n?wn.parse:wn.parseInline;if(s.async)return Promise.resolve(s.hooks?s.hooks.preprocess(a):a).then(d=>c(d,s)).then(d=>s.hooks?s.hooks.processAllTokens(d):d).then(d=>s.walkTokens?Promise.all(this.walkTokens(d,s.walkTokens)).then(()=>d):d).then(d=>l(d,s)).then(d=>s.hooks?s.hooks.postprocess(d):d).catch(r);try{s.hooks&&(a=s.hooks.preprocess(a));let d=c(a,s);s.hooks&&(d=s.hooks.processAllTokens(d)),s.walkTokens&&this.walkTokens(d,s.walkTokens);let m=l(d,s);return s.hooks&&(m=s.hooks.postprocess(m)),m}catch(d){return r(d)}}}onError(n,t){return a=>{if(a.message+=`
+Please report this to https://github.com/markedjs/marked.`,n){const i="<p>An error occurred:</p><pre>"+Ke(a.message+"",!0)+"</pre>";return t?Promise.resolve(i):i}if(t)return Promise.reject(a);throw a}}}const aa=new dx;function Q(e,n){return aa.parse(e,n)}Q.options=Q.setOptions=function(e){return aa.setOptions(e),Q.defaults=aa.defaults,hw(Q.defaults),Q};Q.getDefaults=_h;Q.defaults=ha;Q.use=function(...e){return aa.use(...e),Q.defaults=aa.defaults,hw(Q.defaults),Q};Q.walkTokens=function(e,n){return aa.walkTokens(e,n)};Q.parseInline=aa.parseInline;Q.Parser=wn;Q.parser=wn.parse;Q.Renderer=Bs;Q.TextRenderer=Eh;Q.Lexer=pn;Q.lexer=pn.lex;Q.Tokenizer=Vs;Q.Hooks=Fi;Q.parse=Q;Q.options;Q.setOptions;Q.use;Q.walkTokens;Q.parseInline;wn.parse;pn.lex;const ux=Object.assign({"./content/en/ai/agents-copilots.mdx":Jv,"./content/en/ai/ai-code.mdx":zv,"./content/en/ai/blog-algoritmo-de-la-burbuja-generado-por-ia.mdx":Xv,"./content/en/ai/blog-buscaminas-con-inteligencia-artificial.mdx":Qv,"./content/en/ai/blog-buscaminas-programado-con-inteligencia-artificial-remasterizado-24-25.mdx":Kv,"./content/en/ai/blog-el-buscaminas-iii-un-salto-de-calidad.mdx":Yv,"./content/en/ai/blog-el-problema-de-la-mochila-aplicado-en-industria.mdx":Zv,"./content/en/ai/blog-little-scada-creando-una-interfaz-de-control-con-python.mdx":$v,"./content/en/ai/industrial-ai.mdx":e0,"./content/en/articles/beckhoff-ce-hmi.mdx":n0,"./content/en/articles/blog-aveva-intouch-historial-data-access-system-histdata.mdx":t0,"./content/en/articles/blog-aveva-intouch-historical-data-access-system-histdata.mdx":a0,"./content/en/articles/blog-flujo-trabajo-ingeniero-automatizacion.mdx":i0,"./content/en/articles/blog-grafcet-guia-completa-diseno-automatizacion.mdx":o0,"./content/en/articles/ftvse-datalog-2.mdx":s0,"./content/en/articles/intouch-2020r1sp1-opcua.mdx":r0,"./content/en/articles/intouch-activex-aahistclienttrend.mdx":c0,"./content/en/articles/others.mdx":l0,"./content/en/articles/scada.mdx":h0,"./content/en/articles/tia-opcua-plcsimadvanced.mdx":d0,"./content/en/articles/tia-portal-s71500-client-opc-ua.mdx":u0,"./content/en/articles/wincc-datamonitor-2.mdx":m0,"./content/en/articles/wincc-vbs-invertir-bits-us.mdx":g0,"./content/en/blog/blog-espionage-modbus-communications.mdx":p0,"./content/en/blog/blog-factory-talk-historian-pi-interface-performance-monitor.mdx":w0,"./content/en/blog/blog-ia.mdx":f0,"./content/en/blog/blog-iis-reverse-proxy-reporting-services-wincc-unified.mdx":C0,"./content/en/blog/blog-little-scada-creating-a-control-interface-with-python.mdx":b0,"./content/en/blog/blog-minesweeper-programmed-with-artificial-intelligence-remastered-24-25.mdx":v0,"./content/en/blog/blog-minesweeper-with-artificial-intelligence.mdx":y0,"./content/en/blog/blog-scada.mdx":S0,"./content/en/blog/blog-wp-content-uploads-2024-06-queryformat-txt.mdx":A0,"./content/en/communications/017.mdx":P0,"./content/en/communications/021.mdx":T0,"./content/en/communications/blog-cliente-opc-ua-plc-s7-1500.mdx":I0,"./content/en/communications/blog-codesys-softplc-servidor-opc-ua-siemens-cliente.mdx":_0,"./content/en/communications/blog-flujo-de-conexion-opc-ua-segura.mdx":x0,"./content/en/communications/blog-registro-datos-plc-influxdb.mdx":M0,"./content/en/communications/blog-sniffer-opc-ua-plc-siemens-uaexpert.mdx":L0,"./content/en/communications/industrial-networks.mdx":W0,"./content/en/communications/modbus.mdx":k0,"./content/en/communications/mqtt.mdx":E0,"./content/en/communications/redes.mdx":D0,"./content/en/communications/rest-api.mdx":O0,"./content/en/communications/snmp.mdx":F0,"./content/en/comunicaciones-industriales/comunicaciones-industriales.mdx":R0,"./content/en/comunicaciones/004.mdx":U0,"./content/en/comunicaciones/007.mdx":N0,"./content/en/comunicaciones/018.mdx":V0,"./content/en/comunicaciones/058.mdx":j0,"./content/en/comunicaciones/069.mdx":B0,"./content/en/comunicaciones/071.mdx":H0,"./content/en/comunicaciones/073.mdx":q0,"./content/en/comunicaciones/088.mdx":G0,"./content/en/comunicaciones/119.mdx":J0,"./content/en/comunicaciones/121.mdx":z0,"./content/en/comunicaciones/blog-docker-servidor-opc-ua.mdx":X0,"./content/en/comunicaciones/blog-entregados-a-la-causa.mdx":Q0,"./content/en/comunicaciones/blog-espiando-comunicaciones-modbus.mdx":K0,"./content/en/comunicaciones/blog-explotando-vulnerabilidades-modbus-tcp.mdx":Y0,"./content/en/comunicaciones/blog-pps-ethernet-ip-omron-eip21.mdx":Z0,"./content/en/comunicaciones/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp.mdx":$0,"./content/en/comunicaciones/blog-servidor-opc-flask-co-pilot.mdx":ey,"./content/en/comunicaciones/blog-sistema-de-control-de-temperatura-iii.mdx":ny,"./content/en/comunicaciones/blog-snmp-simple-network-management-protocol.mdx":ty,"./content/en/comunicaciones/blog-vpn-home-lab-wireguard.mdx":ay,"./content/en/comunicaciones/intouch-daserver.mdx":iy,"./content/en/comunicaciones/intouch-dasmbtcp.mdx":oy,"./content/en/comunicaciones/kepserver-1500.mdx":sy,"./content/en/comunicaciones/simaticnet-cargar-configuracion-pcstation.mdx":ry,"./content/en/comunicaciones/simaticnet-vdf.mdx":cy,"./content/en/comunicaciones/ww-oigateway.mdx":ly,"./content/en/cookie-policy/cookie-policy.mdx":hy,"./content/en/hmi/003.mdx":dy,"./content/en/hmi/005.mdx":uy,"./content/en/hmi/013.mdx":my,"./content/en/hmi/015.mdx":gy,"./content/en/hmi/016.mdx":py,"./content/en/hmi/019.mdx":wy,"./content/en/hmi/025.mdx":fy,"./content/en/hmi/026.mdx":Cy,"./content/en/hmi/029.mdx":by,"./content/en/hmi/033.mdx":vy,"./content/en/hmi/040.mdx":yy,"./content/en/hmi/044.mdx":Sy,"./content/en/hmi/046.mdx":Ay,"./content/en/hmi/047.mdx":Py,"./content/en/hmi/049.mdx":Ty,"./content/en/hmi/063.mdx":Iy,"./content/en/hmi/076.mdx":_y,"./content/en/hmi/077.mdx":xy,"./content/en/hmi/078.mdx":My,"./content/en/hmi/079.mdx":Ly,"./content/en/hmi/080.mdx":Wy,"./content/en/hmi/081.mdx":ky,"./content/en/hmi/085.mdx":Ey,"./content/en/hmi/087.mdx":Dy,"./content/en/hmi/090.mdx":Oy,"./content/en/hmi/095.mdx":Fy,"./content/en/hmi/097.mdx":Ry,"./content/en/hmi/101.mdx":Uy,"./content/en/hmi/102.mdx":Ny,"./content/en/hmi/106.mdx":Vy,"./content/en/hmi/107.mdx":jy,"./content/en/hmi/114.mdx":By,"./content/en/hmi/115.mdx":Hy,"./content/en/hmi/122.mdx":qy,"./content/en/hmi/123.mdx":Gy,"./content/en/hmi/132.mdx":Jy,"./content/en/hmi/134.mdx":zy,"./content/en/hmi/factorytalkviewme-activex-wmp.mdx":Xy,"./content/en/hmi/factorytalkviewme-alarmas.mdx":Qy,"./content/en/hmi/factorytalkviewme-globalconnection-dt.mdx":Ky,"./content/en/hmi/factorytalkviewme-lenguages.mdx":Yy,"./content/en/hmi/hmi-allen-bradley.mdx":Zy,"./content/en/hmi/hmi-omron.mdx":$y,"./content/en/hmi/hmi-schneider.mdx":eS,"./content/en/hmi/hmi-siemens.mdx":nS,"./content/en/hmi/omron-s7-200.mdx":tS,"./content/en/hmi/omron-transfer-hmi.mdx":aS,"./content/en/hmi/other-hmis.mdx":iS,"./content/en/hmi/panelbuilder-communications.mdx":oS,"./content/en/hmi/panelbuilder32-tageditor.mdx":sS,"./content/en/hmi/simatic-restaurar-ktp.mdx":rS,"./content/en/hmi/tia-portal-conversion-tiempos-2.mdx":cS,"./content/en/hmi/tia-portal-conversion-tiempos.mdx":lS,"./content/en/hmi/tia-portal-vbscript-propiedades.mdx":hS,"./content/en/hmi/winccflexible-currentuser.mdx":dS,"./content/en/hmi/winccflexible-simotion.mdx":uS,"./content/en/home/ai.mdx":mS,"./content/en/home/articles.mdx":gS,"./content/en/home/blog-author-jose-manuel.mdx":pS,"./content/en/home/blog-author-pedro.mdx":wS,"./content/en/home/contact.mdx":fS,"./content/en/home/databases.mdx":CS,"./content/en/home/hmi.mdx":bS,"./content/en/home/home.mdx":vS,"./content/en/home/index.mdx":yS,"./content/en/home/industrial-communications.mdx":SS,"./content/en/home/opc.mdx":AS,"./content/en/home/plc.mdx":PS,"./content/en/home/series.mdx":TS,"./content/en/home/software.mdx":IS,"./content/en/home/tools.mdx":_S,"./content/en/legal-notice/legal-notice.mdx":xS,"./content/en/library/library.mdx":MS,"./content/en/plc/001.mdx":LS,"./content/en/plc/002.mdx":WS,"./content/en/plc/006.mdx":kS,"./content/en/plc/010.mdx":ES,"./content/en/plc/011.mdx":DS,"./content/en/plc/012.mdx":OS,"./content/en/plc/023.mdx":FS,"./content/en/plc/024.mdx":RS,"./content/en/plc/027.mdx":US,"./content/en/plc/036.mdx":NS,"./content/en/plc/037.mdx":VS,"./content/en/plc/041.mdx":jS,"./content/en/plc/045.mdx":BS,"./content/en/plc/050.mdx":HS,"./content/en/plc/053.mdx":qS,"./content/en/plc/056.mdx":GS,"./content/en/plc/059.mdx":JS,"./content/en/plc/060.mdx":zS,"./content/en/plc/065.mdx":XS,"./content/en/plc/066.mdx":QS,"./content/en/plc/067.mdx":KS,"./content/en/plc/068.mdx":YS,"./content/en/plc/070.mdx":ZS,"./content/en/plc/072.mdx":$S,"./content/en/plc/075.mdx":eA,"./content/en/plc/082.mdx":nA,"./content/en/plc/083.mdx":tA,"./content/en/plc/084.mdx":aA,"./content/en/plc/086.mdx":iA,"./content/en/plc/089.mdx":oA,"./content/en/plc/091.mdx":sA,"./content/en/plc/092.mdx":rA,"./content/en/plc/093.mdx":cA,"./content/en/plc/094.mdx":lA,"./content/en/plc/096.mdx":hA,"./content/en/plc/098.mdx":dA,"./content/en/plc/099.mdx":uA,"./content/en/plc/100.mdx":mA,"./content/en/plc/103.mdx":gA,"./content/en/plc/104.mdx":pA,"./content/en/plc/105.mdx":wA,"./content/en/plc/111.mdx":fA,"./content/en/plc/117.mdx":CA,"./content/en/plc/118.mdx":bA,"./content/en/plc/120.mdx":vA,"./content/en/plc/124.mdx":yA,"./content/en/plc/125.mdx":SA,"./content/en/plc/128.mdx":AA,"./content/en/plc/130.mdx":PA,"./content/en/plc/135.mdx":TA,"./content/en/plc/ab-gateway-dhrio.mdx":IA,"./content/en/plc/ab-micro830.mdx":_A,"./content/en/plc/ab-micrologix-modbus-powerflex.mdx":xA,"./content/en/plc/ab-powerflex525.mdx":MA,"./content/en/plc/ab-source-protection.mdx":LA,"./content/en/plc/ab-upload.mdx":WA,"./content/en/plc/beckhoff-cerhost.mdx":kA,"./content/en/plc/beckhoff-create-config.mdx":EA,"./content/en/plc/beckhoff-download-plc.mdx":DA,"./content/en/plc/beckhoff-server-opc-ua.mdx":OA,"./content/en/plc/beckhoff-upload-config.mdx":FA,"./content/en/plc/beckhoff-upload-plc.mdx":RA,"./content/en/plc/blog-certificados-opc-ua-plc-siemens-uaexpert.mdx":UA,"./content/en/plc/blog-ciclo-scan-plc.mdx":NA,"./content/en/plc/blog-conceptos-basicos-profinet.mdx":VA,"./content/en/plc/blog-ethernet-ip-cip-common-industrial-protocol.mdx":jA,"./content/en/plc/blog-factorytalk-echo-simular-dos-plc-rockwell.mdx":BA,"./content/en/plc/blog-factorytalk-echo-update-firmware-v-37.mdx":HA,"./content/en/plc/blog-gittialportal.mdx":qA,"./content/en/plc/blog-logix-designer-sdk-automatizacion-proyectos.mdx":GA,"./content/en/plc/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2.mdx":JA,"./content/en/plc/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3.mdx":zA,"./content/en/plc/blog-prosoft-plx31-eip-sie.mdx":XA,"./content/en/plc/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark.mdx":QA,"./content/en/plc/blog-rslogix-5000-studio-5000-electronic-data-sheet-eds.mdx":KA,"./content/en/plc/blog-servidor-hora-plc-siemens.mdx":YA,"./content/en/plc/blog-servidor-opc-ua-plc-siemens.mdx":ZA,"./content/en/plc/blog-simulador-de-temperatura.mdx":$A,"./content/en/plc/blog-sistema-de-control-de-temperatura-ii.mdx":e2,"./content/en/plc/blog-syslog-plc-siemens-linux.mdx":n2,"./content/en/plc/blog-tia-portal-19-get-put.mdx":t2,"./content/en/plc/blog-tia-portal-central-user-management.mdx":a2,"./content/en/plc/blog-tia-portal-configuration-time-mpr.mdx":i2,"./content/en/plc/blog-trace-tia-portal-plc-siemens.mdx":o2,"./content/en/plc/blog-web-server-siemens-s7-1500-https-view-of-things.mdx":s2,"./content/en/plc/cognex-insight-explorer.mdx":r2,"./content/en/plc/controlexpert-canopen.mdx":c2,"./content/en/plc/controlexpertplcsim.mdx":l2,"./content/en/plc/ibh-s5.mdx":h2,"./content/en/plc/logix5000-almd.mdx":d2,"./content/en/plc/logix5000-powerflex-ethernet.mdx":u2,"./content/en/plc/omron-syswin.mdx":m2,"./content/en/plc/other-plcs.mdx":g2,"./content/en/plc/panelbuilder32-pv550-rslogix5-plc5.mdx":p2,"./content/en/plc/plc-allen-bradley.mdx":w2,"./content/en/plc/plc-beckhoff.mdx":f2,"./content/en/plc/plc-omron.mdx":C2,"./content/en/plc/plc-schneider.mdx":b2,"./content/en/plc/plc-siemens.mdx":v2,"./content/en/plc/rslinx-softlogix5.mdx":y2,"./content/en/plc/rslogix5-backup.mdx":S2,"./content/en/plc/rslogix5-configuracion-hardware.mdx":A2,"./content/en/plc/rslogix500-micrologix-master-modbus.mdx":P2,"./content/en/plc/s7-200-upload.mdx":T2,"./content/en/plc/siemens-modbus-schneider.mdx":I2,"./content/en/plc/simatic-cargar-en-pg.mdx":_2,"./content/en/plc/softlogix5.mdx":x2,"./content/en/plc/somachine-simulacion-comunicaciones.mdx":M2,"./content/en/plc/stept7-big-litle-indian.mdx":L2,"./content/en/plc/tia-plcsimadvanced.mdx":W2,"./content/en/plc/tia-portal-1200-sms.mdx":k2,"./content/en/plc/tia-portal-at.mdx":E2,"./content/en/plc/tia-portal-camaras-cognex.mdx":D2,"./content/en/plc/tia-portal-contador-horas.mdx":O2,"./content/en/plc/tia-portal-gsd-cognex.mdx":F2,"./content/en/plc/tia-portal-modbus-rtu.mdx":R2,"./content/en/plc/tia-portal-upload.mdx":U2,"./content/en/plc/unity-varread.mdx":N2,"./content/en/plc/winccflexible-simotion-opc.mdx":V2,"./content/en/privacy-policy/privacy-policy.mdx":j2,"./content/en/scada/008.mdx":B2,"./content/en/scada/009.mdx":H2,"./content/en/scada/014.mdx":q2,"./content/en/scada/020.mdx":G2,"./content/en/scada/022.mdx":J2,"./content/en/scada/028.mdx":z2,"./content/en/scada/030.mdx":X2,"./content/en/scada/031.mdx":Q2,"./content/en/scada/032.mdx":K2,"./content/en/scada/034.mdx":Y2,"./content/en/scada/035.mdx":Z2,"./content/en/scada/039.mdx":$2,"./content/en/scada/042.mdx":e1,"./content/en/scada/043.mdx":n1,"./content/en/scada/048.mdx":t1,"./content/en/scada/051.mdx":a1,"./content/en/scada/052.mdx":i1,"./content/en/scada/054.mdx":o1,"./content/en/scada/055.mdx":s1,"./content/en/scada/057.mdx":r1,"./content/en/scada/061.mdx":c1,"./content/en/scada/062.mdx":l1,"./content/en/scada/064.mdx":h1,"./content/en/scada/074.mdx":d1,"./content/en/scada/108.mdx":u1,"./content/en/scada/109.mdx":m1,"./content/en/scada/110.mdx":g1,"./content/en/scada/112.mdx":p1,"./content/en/scada/113.mdx":w1,"./content/en/scada/116.mdx":f1,"./content/en/scada/126.mdx":C1,"./content/en/scada/127.mdx":b1,"./content/en/scada/129.mdx":v1,"./content/en/scada/131.mdx":y1,"./content/en/scada/133.mdx":S1,"./content/en/scada/137.mdx":A1,"./content/en/scada/archestra-aahistclienttrendcontrol.mdx":P1,"./content/en/scada/archestra-aplicacion-distribuida.mdx":T1,"./content/en/scada/archestra-datagrid.mdx":I1,"./content/en/scada/archestra-datagridview.mdx":_1,"./content/en/scada/archestra-fsgateway-historian.mdx":x1,"./content/en/scada/archestra-instancias.mdx":M1,"./content/en/scada/archestra-ioserver-historian.mdx":L1,"./content/en/scada/archestra-trendclient.mdx":W1,"./content/en/scada/archestra-webbrowser-sql.mdx":k1,"./content/en/scada/archestra-webbrowser.mdx":E1,"./content/en/scada/blog-alarmas-wincc-por-whatsapp.mdx":D1,"./content/en/scada/blog-aveva-archestra-logger-csharp.mdx":O1,"./content/en/scada/blog-aveva-driver-redundancy.mdx":F1,"./content/en/scada/blog-aveva-driver-snmp.mdx":R1,"./content/en/scada/blog-aveva-historian-client-factory-talk-view-se.mdx":U1,"./content/en/scada/blog-aveva-intouch-2023r2-novedades.mdx":N1,"./content/en/scada/blog-aveva-intouch-client-controls-net.mdx":V1,"./content/en/scada/blog-aveva-intouch-codebarlib.mdx":j1,"./content/en/scada/blog-aveva-intouch-control-net.mdx":B1,"./content/en/scada/blog-aveva-intouch-historical-data-access-system-histdata-parte-2.mdx":H1,"./content/en/scada/blog-aveva-intouch-historical-data-parte-2.mdx":q1,"./content/en/scada/blog-aveva-intouch-historical-data.mdx":G1,"./content/en/scada/blog-aveva-intouch-leer-alarmas.mdx":J1,"./content/en/scada/blog-aveva-intouch-rds-cmd.mdx":z1,"./content/en/scada/blog-aveva-intouch-rds-query-events.mdx":X1,"./content/en/scada/blog-aveva-intouch-sqlite.mdx":Q1,"./content/en/scada/blog-aveva-intouch-widgets-custom-widgets-package.mdx":K1,"./content/en/scada/blog-aveva-intouch-widgets.mdx":Y1,"./content/en/scada/blog-comunicacion-plc-hmi-pc-pg-segura.mdx":Z1,"./content/en/scada/blog-embebido-web-wincc-unified-iframe-politicas-seguridad.mdx":$1,"./content/en/scada/blog-factory-talk-historian-ftld-interface.mdx":eP,"./content/en/scada/blog-factory-talk-historian-license.mdx":nP,"./content/en/scada/blog-factory-talk-historian-piperfmon-performance-counters.mdx":tP,"./content/en/scada/blog-factory-talk-historin-piperfmon.mdx":aP,"./content/en/scada/blog-factory-talk-view-se-factory-talk-historian-status-ftld.mdx":iP,"./content/en/scada/blog-factory-talk-view-se-global-object-runtime-optimization.mdx":oP,"./content/en/scada/blog-factory-talk-view-se-influxdb.mdx":sP,"./content/en/scada/blog-factory-talk-view-se-sqlite.mdx":rP,"./content/en/scada/blog-factorytalk-view-se-error-datalogpro.mdx":cP,"./content/en/scada/blog-intouch-rdp-a.mdx":lP,"./content/en/scada/blog-intouch-rds-nad.mdx":hP,"./content/en/scada/blog-novedades-scada-aveva-intouch-2023.mdx":dP,"./content/en/scada/blog-pm-analyze-parte-2.mdx":uP,"./content/en/scada/blog-pm-analyze.mdx":mP,"./content/en/scada/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023.mdx":gP,"./content/en/scada/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8.mdx":pP,"./content/en/scada/blog-scadas-con-ms-controls-activex-vb6.mdx":wP,"./content/en/scada/blog-segmentacion-de-redes-s71500-wincc-unified.mdx":fP,"./content/en/scada/blog-ssrs-wincc-unified-sqlite.mdx":CP,"./content/en/scada/blog-umc-admin-studio.mdx":bP,"./content/en/scada/blog-umc-redundancy-user-management-component.mdx":vP,"./content/en/scada/blog-umc-user-management-control.mdx":yP,"./content/en/scada/blog-wincc-8-1-backup-en-runtime.mdx":SP,"./content/en/scada/blog-wincc-8-1-novedades.mdx":AP,"./content/en/scada/blog-wincc-ifdef-run-on-webnavigator.mdx":PP,"./content/en/scada/blog-wincc-sqlite.mdx":TP,"./content/en/scada/blog-wincc-unified-collaboration-wincc-8-1.mdx":IP,"./content/en/scada/blog-wincc-unified-collaboration.mdx":_P,"./content/en/scada/blog-wincc-unified-cwc-open-pipe.mdx":xP,"./content/en/scada/blog-wincc-unified-open-pipe.mdx":MP,"./content/en/scada/blog-wincc-unified-redundancy-v20.mdx":LP,"./content/en/scada/blog-wincc-unified-rt-graphql.mdx":WP,"./content/en/scada/blog-wincc-unified-user-management-component.mdx":kP,"./content/en/scada/blog-wincc-v8-0-novedades.mdx":EP,"./content/en/scada/blog-wincc-v8-1-leer-alarmas.mdx":DP,"./content/en/scada/blog-wincc-webnavigaror-failed-to-load-https-sever4430-main-pd.mdx":OP,"./content/en/scada/blog-wincc-webnavigaror-no-connection-to-server.mdx":FP,"./content/en/scada/blog-wincc-webnavigator-webux-certificados-https.mdx":RP,"./content/en/scada/citectscada-database.mdx":UP,"./content/en/scada/factorytalk-activex-adodc.mdx":NP,"./content/en/scada/factorytalk-alarmevents.mdx":VP,"./content/en/scada/factorytalkview-animaciones.mdx":jP,"./content/en/scada/factorytalkview-sendemail.mdx":BP,"./content/en/scada/factorytalkviewse-importar.mdx":HP,"./content/en/scada/fix32-driver-si7.mdx":qP,"./content/en/scada/ftvse-datalog.mdx":GP,"./content/en/scada/ftvse-excel.mdx":JP,"./content/en/scada/ftvse-introduccion-vba.mdx":zP,"./content/en/scada/ftvse-mail.mdx":XP,"./content/en/scada/ftvse-recepis.mdx":QP,"./content/en/scada/ftvse-vba-referencia-objetos.mdx":KP,"./content/en/scada/ifix-database.mdx":YP,"./content/en/scada/intouch-2020-industrialgraphics.mdx":ZP,"./content/en/scada/intouch-2020-unlock.mdx":$P,"./content/en/scada/intouch-2020-widget.mdx":eT,"./content/en/scada/intouch-alarms.mdx":nT,"./content/en/scada/intouch-bit-integer.mdx":tT,"./content/en/scada/intouch-controls-net.mdx":aT,"./content/en/scada/intouch-daserver-items.mdx":iT,"./content/en/scada/intouch-db-oracle.mdx":oT,"./content/en/scada/intouch-functions.mdx":sT,"./content/en/scada/intouch-historian.mdx":rT,"./content/en/scada/intouch-mysql.mdx":cT,"./content/en/scada/intouch-odbc.mdx":lT,"./content/en/scada/intouch-system-platform.mdx":hT,"./content/en/scada/intouch-tagsindirectos.mdx":dT,"./content/en/scada/intouch-unitypro.mdx":uT,"./content/en/scada/intouchedgehmi.mdx":mT,"./content/en/scada/odbc-remote-oracle.mdx":gT,"./content/en/scada/oracle-drivers.mdx":pT,"./content/en/scada/other-scadas.mdx":wT,"./content/en/scada/rsview-dde.mdx":fT,"./content/en/scada/rsview-monitortag.mdx":CT,"./content/en/scada/rsview-scanclass.mdx":bT,"./content/en/scada/rsview-tagdatabase.mdx":vT,"./content/en/scada/rsview32-dde-excel.mdx":yT,"./content/en/scada/scada-allen-bradley.mdx":ST,"./content/en/scada/scada-intouch.mdx":AT,"./content/en/scada/scada-schneider.mdx":PT,"./content/en/scada/scada-siemens.mdx":TT,"./content/en/scada/scada-topkapi.mdx":IT,"./content/en/scada/simatic-logon.mdx":_T,"./content/en/scada/tagalarmeventserver.mdx":xT,"./content/en/scada/tia-portal-wincc-rt-transfer.mdx":MT,"./content/en/scada/wincc-activex-excel.mdx":LT,"./content/en/scada/wincc-activex-pdf.mdx":WT,"./content/en/scada/wincc-activex-webbrowser.mdx":kT,"./content/en/scada/wincc-activex.mdx":ET,"./content/en/scada/wincc-administrador-variables-timer.mdx":DT,"./content/en/scada/wincc-arquitectura-2.mdx":OT,"./content/en/scada/wincc-arquitectura.mdx":FT,"./content/en/scada/wincc-as-symbols.mdx":RT,"./content/en/scada/wincc-backup-taglogging.mdx":UT,"./content/en/scada/wincc-backup-winccruntime.mdx":NT,"./content/en/scada/wincc-bit-de-vida.mdx":VT,"./content/en/scada/wincc-broker-codesys.mdx":jT,"./content/en/scada/wincc-chipcard.mdx":BT,"./content/en/scada/wincc-cliente-opcua-beckhoff.mdx":HT,"./content/en/scada/wincc-cliente-opcua.mdx":qT,"./content/en/scada/wincc-cliente-opcxml.mdx":GT,"./content/en/scada/wincc-cliente.mdx":JT,"./content/en/scada/wincc-computer-local.mdx":zT,"./content/en/scada/wincc-confirm-tagvalue-us.mdx":XT,"./content/en/scada/wincc-confirm-tagvalue.mdx":QT,"./content/en/scada/wincc-conocimientosbasicos-ii.mdx":KT,"./content/en/scada/wincc-conocimientosbasicos-iii.mdx":YT,"./content/en/scada/wincc-conocimientosbasicos.mdx":ZT,"./content/en/scada/wincc-control-keyboard.mdx":$T,"./content/en/scada/wincc-datamonitor.mdx":eI,"./content/en/scada/wincc-db-oracle.mdx":nI,"./content/en/scada/wincc-dde.mdx":tI,"./content/en/scada/wincc-debugger-vbscript.mdx":aI,"./content/en/scada/wincc-driver-opc.mdx":iI,"./content/en/scada/wincc-driver-s71500.mdx":oI,"./content/en/scada/wincc-dynamic-wizard.mdx":sI,"./content/en/scada/wincc-equipo.mdx":rI,"./content/en/scada/wincc-error-driver-s71500.mdx":cI,"./content/en/scada/wincc-eventos-pdl.mdx":lI,"./content/en/scada/wincc-funcion-activar-desactivar-bits.mdx":hI,"./content/en/scada/wincc-funcion-gettagraw.mdx":dI,"./content/en/scada/wincc-graphic-designer-vi.mdx":uI,"./content/en/scada/wincc-ibh-link.mdx":mI,"./content/en/scada/wincc-instalacion-activex.mdx":gI,"./content/en/scada/wincc-instalacion.mdx":pI,"./content/en/scada/wincc-keyboard-vba.mdx":wI,"./content/en/scada/wincc-keyboard.mdx":fI,"./content/en/scada/wincc-libreria-us.mdx":CI,"./content/en/scada/wincc-libreria-useradministrator.mdx":bI,"./content/en/scada/wincc-libreria.mdx":vI,"./content/en/scada/wincc-librerias-dll.mdx":yI,"./content/en/scada/wincc-librerias-plus-plus.mdx":SI,"./content/en/scada/wincc-license.mdx":AI,"./content/en/scada/wincc-loginusuario.mdx":PI,"./content/en/scada/wincc-menu-vbs.mdx":TI,"./content/en/scada/wincc-modbustcp.mdx":II,"./content/en/scada/wincc-monopuesto.mdx":_I,"./content/en/scada/wincc-mqtt.mdx":xI,"./content/en/scada/wincc-msexcel-owc.mdx":MI,"./content/en/scada/wincc-multipuesto-error.mdx":LI,"./content/en/scada/wincc-multipuesto.mdx":WI,"./content/en/scada/wincc-mysql.mdx":kI,"./content/en/scada/wincc-net.mdx":EI,"./content/en/scada/wincc-new-7-4.mdx":DI,"./content/en/scada/wincc-new-7-5.mdx":OI,"./content/en/scada/wincc-numero-alarmas.mdx":FI,"./content/en/scada/wincc-plcsimadvanced.mdx":RI,"./content/en/scada/wincc-pm-quality-1.mdx":UI,"./content/en/scada/wincc-pm-quality-2.mdx":NI,"./content/en/scada/wincc-pm-quality-3.mdx":VI,"./content/en/scada/wincc-pm-quality-4.mdx":jI,"./content/en/scada/wincc-redundancy.mdx":BI,"./content/en/scada/wincc-rt-cargar-proyecto.mdx":HI,"./content/en/scada/wincc-rw-tag.mdx":qI,"./content/en/scada/wincc-sendmail.mdx":GI,"./content/en/scada/wincc-server-not-available.mdx":JI,"./content/en/scada/wincc-servidor-opc.mdx":zI,"./content/en/scada/wincc-simatic-logon.mdx":XI,"./content/en/scada/wincc-softlogix.mdx":QI,"./content/en/scada/wincc-system-info.mdx":KI,"./content/en/scada/wincc-tagmanagement.mdx":YI,"./content/en/scada/wincc-unified-administracion-usuarios.mdx":ZI,"./content/en/scada/wincc-unified-configuration.mdx":$I,"./content/en/scada/wincc-unified-connection-opcua.mdx":e_,"./content/en/scada/wincc-unified-custom-web-controls.mdx":n_,"./content/en/scada/wincc-unified-js.mdx":t_,"./content/en/scada/wincc-unified-servidor-opc-ua.mdx":a_,"./content/en/scada/wincc-unified-trace-javascript.mdx":i_,"./content/en/scada/wincc-unified-transferir-proyecto.mdx":o_,"./content/en/scada/wincc-vba.mdx":s_,"./content/en/scada/wincc-vbs-gettagraw.mdx":r_,"./content/en/scada/wincc-vbs-imprimir.mdx":c_,"./content/en/scada/wincc-vbs-invertir-bits.mdx":l_,"./content/en/scada/wincc-vbs-ping.mdx":h_,"./content/en/scada/wincc-vbs-webnavigator.mdx":d_,"./content/en/scada/wincc-webnavigator-https.mdx":u_,"./content/en/scada/wincc-webux-ii.mdx":m_,"./content/en/scada/wincc-webux.mdx":g_,"./content/en/scada/wincc-wpf.mdx":p_,"./content/en/scada/wincc.mdx":w_,"./content/en/scada/winccflexible-simotion-opc-2.mdx":f_,"./content/en/scada/wonderware-activefactory.mdx":C_,"./content/en/scada/wwhistorian-autostart.mdx":b_,"./content/en/scada/wwhistorian-configurator.mdx":v_,"./content/en/scada/wwintouchmachineedition.mdx":y_,"./content/en/scada/zenon-driver-tia.mdx":S_,"./content/en/scada/zenon-introduccion.mdx":A_,"./content/en/software/136.mdx":P_,"./content/en/software/blog-control-versiones-git-tia-portal-v21.mdx":T_,"./content/en/software/blog-entorno-desarrollo-vscode-copilot-agentes.mdx":I_,"./content/en/software/blog-git-github-flujo-colaborativo-vscode.mdx":__,"./content/en/software/git.mdx":x_,"./content/en/software/vscode.mdx":M_,"./content/en/tools/blog-grafsim.mdx":L_,"./content/en/tools/blog-phs-color-batch-simulator-opc-ua.mdx":W_,"./content/en/tools/blog-phs-thermal-process-simulator-opc-ua.mdx":k_});function mx(e){const n=e.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);if(!n)return{fm:{},body:e};const t={};for(const a of n[1].split(`
+`)){const i=a.indexOf(":");if(!(i<0))try{t[a.slice(0,i).trim()]=JSON.parse(a.slice(i+1).trim())}catch{t[a.slice(0,i).trim()]=a.slice(i+1).trim()}}return{fm:t,body:n[2]}}const gx={comunicaciones:"Communications",communications:"Communications",articles:"Articles",blog:"Articles",ai:"AI",plc:"PLC",hmi:"HMI",scada:"SCADA",software:"Software",tools:"Tools",home:"Other"},px={"siemens wincc":"SIEMENS",opc:"OPC SERVER","control de versiones":"VERSION CONTROL","version control":"VERSION CONTROL","codigo generado por ia":"AI GENERATED CODE","código generado por ia":"AI GENERATED CODE","ai generated code":"AI GENERATED CODE","redes industriales":"INDUSTRIAL NETWORKS","industrial networks":"INDUSTRIAL NETWORKS","industrial ai":"INDUSTRIAL AI"},wx=e=>gx[(e[1]||"").toLowerCase()]||(e[1]?e[1]:"Other"),fx=e=>{const n=(e[2]||"").trim();return px[n.toLowerCase()]||n.toUpperCase()||"General"},Ri=Object.entries(ux).map(([e,n])=>{const{fm:t,body:a}=mx(n);return{title:t.title||e,slug:t.slug||e,locale:t.locale||"en",category:t.category||"misc",originalUrl:t.originalUrl||"",author:t.author||"",date:t.date||"",tags:t.tags||[],downloads:t.downloads||[],credit:t.credit||"",group:wx(t.breadcrumbs||[]),sub:fx(t.breadcrumbs||[]),body:a,words:a.split(/\s+/).length,key:`${t.locale||"en"}/${t.slug||e}`}}).sort((e,n)=>e.group.localeCompare(n.group)||e.sub.localeCompare(n.sub)||e.title.localeCompare(n.title,void 0,{numeric:!0})),vw=e=>Q.parse(e,{async:!1}),gi=[{name:"Idle",action:"Wait for start"},{name:"Tank filling",action:"Inlet valve XV-1 open"},{name:"Heating",action:"Heater E-1 on"},{name:"Agitation",action:"Agitator M-1 on for 5 s"},{name:"Discharge",action:"Outlet valve XV-2 open"}],Qr=5,Cx=[{k:"start",tag:"HS-1",label:"Start push button"},{k:"high",tag:"LSH-1",label:"Tank level high"},{k:"temp",tag:"TSH-1",label:"Temperature at setpoint"},{k:"low",tag:"LSL-1",label:"Tank level low"}],Du={start:!1,high:!1,temp:!1,low:!0};function bx(){const[e,n]=W.useState(0),[t,a]=W.useState(Du),[i,o]=W.useState(0),[s,r]=W.useState([]),c=W.useRef(Date.now()),l=W.useRef(null),d=()=>((Date.now()-c.current)/1e3).toFixed(1).padStart(6)+" s";W.useEffect(()=>{const v=setInterval(()=>e===3&&o(A=>+(A+.1).toFixed(1)),100);return()=>clearInterval(v)},[e]);const u=[t.start,t.high,t.temp,i>=Qr,t.low][e];W.useEffect(()=>{if(!u)return;const v=(e+1)%gi.length,A=d();r(w=>[...w,{t:A,on:!1,text:`X${e+1} ${gi[e].name} deactivated`},{t:A,on:!0,text:`X${v+1} ${gi[v].name} activated`}]),n(v),o(0)},[u,e]),W.useEffect(()=>{var v;(v=l.current)==null||v.scrollTo({top:l.current.scrollHeight})},[s]);const p=()=>{n(0),o(0),r([]),a(Du),c.current=Date.now()},C=[h.jsxs(h.Fragment,{children:[h.jsx("b",{children:"t1"}),"HS-1 start pressed"]}),h.jsxs(h.Fragment,{children:[h.jsx("b",{children:"t2"}),"LSH-1 level high"]}),h.jsxs(h.Fragment,{children:[h.jsx("b",{children:"t3"}),"TSH-1 temperature reached"]}),h.jsxs(h.Fragment,{children:[h.jsx("b",{children:"t4"}),"X4 for ",Qr," s ",h.jsxs("span",{className:i>=Qr?"true":void 0,children:["(",i.toFixed(1)," s)"]})]})];return h.jsxs("section",{className:"faceplate","aria-labelledby":"sfc-title",children:[h.jsxs("div",{className:"fp-head",children:[h.jsx("span",{className:"tag",children:"SFC-101"}),h.jsx("h2",{id:"sfc-title",children:"Tank batch sequence"}),h.jsx("p",{children:"A five-step GRAFCET. Operate the field inputs on the right and watch the active step (the filled box) move down the chart. The initial step has a double frame."})]}),h.jsxs("div",{className:"fp-body fp-split",children:[h.jsxs("div",{children:[h.jsx("ol",{className:"grafcet","aria-label":"Sequence chart",children:gi.map((v,A)=>h.jsxs("li",{children:[h.jsxs("div",{className:"gc-step",children:[h.jsx("div",{className:"gc-box"+(A===0?" initial":"")+(A===e?" active":""),"aria-label":`Step ${A+1}${A===e?", active":""}`,children:A+1}),h.jsxs("div",{className:"gc-action"+(A===e?" active":""),children:[h.jsx("b",{children:v.name}),h.jsx("span",{children:v.action})]})]}),A<gi.length-1&&h.jsxs("div",{className:"gc-trans",children:[h.jsx("div",{className:"gc-link"+(A===e?" armed":""),"aria-hidden":"true"}),h.jsx("div",{className:"gc-cond",children:C[A]})]})]},v.name))}),h.jsxs("p",{className:"gc-return",children:[h.jsx("b",{style:{fontFamily:"var(--font-head)",color:"var(--ink)"},children:"t5"})," LSL-1 level low, back to step 1",e===4&&" (armed)"]})]}),h.jsxs("div",{children:[h.jsx("h3",{className:"fp-section-title",children:"Field inputs"}),h.jsx("div",{className:"io-grid",children:Cx.map(({k:v,tag:A,label:w})=>h.jsxs("button",{type:"button",className:"io","aria-pressed":t[v],onClick:()=>a(g=>({...g,[v]:!g[v]})),children:[h.jsx("b",{children:A}),h.jsx("span",{children:w})]},v))}),h.jsx("div",{style:{marginTop:12},children:h.jsx("button",{className:"btn quiet",onClick:p,children:"Reset sequence"})}),h.jsx("h3",{className:"fp-section-title",style:{marginTop:18},children:"Step log"}),h.jsx("div",{className:"console",ref:l,role:"log","aria-live":"polite",children:s.map((v,A)=>h.jsxs("div",{className:v.on?"on":"off",children:[v.t,"  ",v.on?"+":"-"," ",v.text]},A))})]})]})]})}const Uo=.5,vx=500,yx=1.2,No=20,Sx=4e3,Ax=6,Ou=400,Ut=e=>getComputedStyle(document.documentElement).getPropertyValue(e).trim();function Px(){const[e,n]=W.useState(8),[t,a]=W.useState(60),[i,o]=W.useState(5),[s,r]=W.useState(60),[c,l]=W.useState(!0),[d,m]=W.useState(30),[u,p]=W.useState(No),[C,v]=W.useState(0),A=W.useRef({kp:e,ti:t,td:i,sp:s,auto:c,manual:d});A.current={kp:e,ti:t,td:i,sp:s,auto:c,manual:d};const w=W.useRef({T:No,I:0,prevE:0,mv:0,wasAuto:!0,pvBuf:Array(Ax).fill(No),hist:[]}),g=W.useRef(null);W.useEffect(()=>{let y=0;const P=setInterval(()=>{const{kp:M,ti:_,td:j,sp:$,auto:Pe,manual:Ve}=A.current,R=w.current,I=R.pvBuf[0],L=$-I;if(Pe){R.wasAuto||(R.I=R.mv-M*L);const me=(L-R.prevE)/Uo,Vn=M*L+R.I+M*j*me,Dt=Math.min(100,Math.max(0,Vn));(Dt===Vn||Vn>100&&L<0||Vn<0&&L>0)&&(R.I+=M/_*L*Uo),R.mv=Dt}else R.mv=Ve;R.wasAuto=Pe,R.prevE=L;const O=R.mv/100*Sx,ae=yx*(R.T-No)*10;R.T+=(O-ae)/vx*Uo*.2,R.pvBuf.push(R.T),R.pvBuf.shift(),R.hist.push([$,I,R.mv]),R.hist.length>Ou&&R.hist.shift(),f(),++y%2===0&&(p(I),v(R.mv))},Uo*200);return()=>clearInterval(P)},[]);function f(){const y=g.current;if(!y)return;const P=y.getContext("2d"),M=y.width,_=y.height;P.clearRect(0,0,M,_),P.fillStyle=Ut("--trend-bg"),P.fillRect(0,0,M,_),P.strokeStyle=Ut("--trend-grid"),P.lineWidth=1,P.font=`12px ${Ut("--font-mono")||"monospace"}`,P.fillStyle=Ut("--ink-3");for(let $=0;$<=4;$++){const Pe=Math.round(_*$/4)+.5;P.beginPath(),P.moveTo(0,Pe),P.lineTo(M,Pe),P.stroke(),$<4&&P.fillText(String(100-$*25),6,Pe+14)}const j=($,Pe,Ve,R=[])=>{P.strokeStyle=Pe,P.lineWidth=Ve,P.setLineDash(R),P.beginPath(),w.current.hist.forEach((I,L)=>{const O=L/Ou*M,ae=_-I[$]/100*_;L?P.lineTo(O,ae):P.moveTo(O,ae)}),P.stroke(),P.setLineDash([])};j(2,Ut("--ink-3"),1.5),j(0,Ut("--ink"),1.5,[6,5]),j(1,Ut("--accent"),2.5)}const b=(y,P,M,_,j,$,Pe=1,Ve="")=>h.jsxs("div",{className:"slider",children:[h.jsx("label",{htmlFor:y,children:P}),h.jsxs("output",{htmlFor:y,children:[M,Ve]}),h.jsx("input",{id:y,type:"range",min:j,max:$,step:Pe,value:M,onChange:R=>_(+R.target.value)})]}),T=s-u,x=u>95;return h.jsxs("section",{className:"faceplate","aria-labelledby":"tic-title",children:[h.jsxs("div",{className:"fp-head",children:[h.jsx("span",{className:"tag",children:"TIC-201"}),h.jsx("h2",{id:"tic-title",children:"Heated tank temperature loop"}),h.jsx("p",{children:"A tank with a heater, heat loss to a 20 °C room and a measurement lag of three seconds. The controller is a PID with anti-windup and bumpless transfer from manual to auto."})]}),h.jsxs("div",{className:"fp-body fp-split",children:[h.jsxs("div",{children:[h.jsx("canvas",{ref:g,className:"trend",width:800,height:300,"aria-label":"Trend of setpoint, process value and controller output"}),h.jsxs("div",{className:"legend",children:[h.jsxs("span",{children:[h.jsx("i",{style:{borderTopStyle:"dashed",borderColor:"var(--ink)"}}),"SP setpoint"]}),h.jsxs("span",{children:[h.jsx("i",{style:{borderColor:"var(--accent)",borderTopWidth:3}}),"PV temperature, °C"]}),h.jsxs("span",{children:[h.jsx("i",{style:{borderColor:"var(--ink-3)"}}),"MV heater output, %"]})]}),h.jsxs("div",{className:"readouts",style:{marginTop:16},children:[h.jsxs("div",{className:"readout",children:[h.jsx("span",{children:"SP"}),h.jsxs("b",{children:[s.toFixed(1),h.jsx("small",{children:"°C"})]})]}),h.jsxs("div",{className:"readout"+(x?" alarm":""),children:[h.jsxs("span",{children:["PV",x&&", high alarm"]}),h.jsxs("b",{children:[u.toFixed(1),h.jsx("small",{children:"°C"})]})]}),h.jsxs("div",{className:"readout",children:[h.jsx("span",{children:"Error"}),h.jsxs("b",{children:[T>0?"+":"",T.toFixed(1),h.jsx("small",{children:"°C"})]})]}),h.jsxs("div",{className:"readout",children:[h.jsx("span",{children:"MV"}),h.jsxs("b",{children:[C.toFixed(0),h.jsx("small",{children:"%"})]})]})]})]}),h.jsxs("div",{className:"controls",children:[h.jsxs("div",{children:[h.jsx("h3",{className:"fp-section-title",children:"Mode"}),h.jsxs("div",{className:"segmented",role:"group","aria-label":"Controller mode",children:[h.jsx("button",{"aria-pressed":c,onClick:()=>l(!0),children:"Auto"}),h.jsx("button",{"aria-pressed":!c,onClick:()=>{m(Math.round(w.current.mv)),l(!1)},children:"Manual"})]})]}),c?b("sp","Setpoint",s,r,20,95,1," °C"):b("mv","Heater output",d,m,0,100,1," %"),h.jsxs("div",{children:[h.jsx("h3",{className:"fp-section-title",children:"Tuning"}),h.jsxs("div",{className:"controls",children:[b("kp","Gain Kp",e,n,0,30,.5),b("ti","Integral time Ti",t,a,5,300,1," s"),b("td","Derivative time Td",i,o,0,30,1," s")]})]}),h.jsx("div",{children:h.jsx("button",{className:"btn quiet",onClick:()=>{w.current.T-=10,w.current.pvBuf=w.current.pvBuf.map(y=>y-10)},children:"Add cold fluid (−10 °C)"})})]})]})]})}const Tx=["Idle","Running","Paused","Complete","Aborted"],Kr=[{n:"Red",tag:"XV-11",c:[196,52,44]},{n:"Green",tag:"XV-12",c:[52,140,84]},{n:"Blue",tag:"XV-13",c:[48,98,168]}],Vo={"Recipe A":[30,50,20],"Recipe B":[10,20,70]},Ix=4,_x=.5;function xx(){const[e,n]=W.useState("Idle"),[t,a]=W.useState("Recipe A"),[i,o]=W.useState([0,0,0]),[s,r]=W.useState(0),c=W.useRef({state:e,dosed:i,rec:t});c.current={state:e,dosed:i,rec:t};const l=Vo[t],d=e==="Running"?i.findIndex((f,b)=>f<l[b]):-1;W.useEffect(()=>{const f=setInterval(()=>{const{state:b,dosed:T,rec:x}=c.current;if(b!=="Running")return;const y=T.findIndex((P,M)=>P<Vo[x][M]);if(y<0)return n("Complete");o(P=>P.map((M,_)=>_===y?Math.min(Vo[x][_],+(M+Ix*.1).toFixed(2)):M))},100);return()=>clearInterval(f)},[]),W.useEffect(()=>{e==="Running"&&i.every((f,b)=>f>=l[b])&&n("Complete")},[i,e]);const m=i.reduce((f,b)=>f+b,0),u=m||1,p=Kr.reduce((f,b,T)=>f.map((x,y)=>x+b.c[y]*i[T]/u),[0,0,0]).map(Math.round),C=Math.min(1,m/100),v=()=>{o([0,0,0]),n("Idle")},A=f=>e==="Complete"&&Math.abs(i[f]-l[f])>_x,w=180,g=w*C;return h.jsxs("section",{className:"faceplate","aria-labelledby":"wic-title",children:[h.jsxs("div",{className:"fp-head",children:[h.jsx("span",{className:"tag",children:"WIC-301"}),h.jsx("h2",{id:"wic-title",children:"Pigment batch on a load cell"}),h.jsx("p",{children:"An ISA-88 style batch. Each pigment valve opens in turn until its target weight is reached; the tank colour is the weighted mix of what has been dosed."})]}),h.jsxs("div",{className:"fp-body fp-split",children:[h.jsxs("div",{className:"tank-wrap",children:[h.jsxs("svg",{viewBox:"0 0 240 260",role:"img","aria-label":`Tank holding ${m.toFixed(1)} kg`,children:[Kr.map((f,b)=>h.jsxs("g",{children:[h.jsx("line",{x1:70+b*50,y1:4,x2:70+b*50,y2:30,stroke:"var(--ink-2)",strokeWidth:3}),h.jsx("path",{d:`M${62+b*50} 14 l16 10 v-10 l-16 10 z`,fill:b===d?`rgb(${f.c})`:"var(--surface)",stroke:"var(--ink-2)",strokeWidth:1.5}),h.jsx("text",{x:70+b*50,y:46,textAnchor:"middle",fontSize:"11",fill:"var(--ink-2)",fontFamily:"var(--font-head)",children:f.tag})]},f.n)),h.jsx("rect",{x:40,y:56,width:160,height:w+4,rx:6,fill:"var(--surface-2)",stroke:"var(--ink-2)",strokeWidth:2.5}),m>0&&h.jsx("rect",{x:42,y:58+w-g+2,width:156,height:g,rx:4,fill:`rgb(${p})`,style:{transition:"y .1s linear, height .1s linear"}}),[.25,.5,.75].map(f=>h.jsx("line",{x1:190,x2:200,y1:58+w*(1-f),y2:58+w*(1-f),stroke:"var(--ink-3)"},f)),h.jsx("path",{d:"M80 242 h80 l-12 14 h-56 z",fill:"var(--line)"})]}),h.jsx("div",{className:"readouts",style:{width:"100%",maxWidth:300},children:h.jsxs("div",{className:"readout",children:[h.jsx("span",{children:"Net weight"}),h.jsxs("b",{children:[(m-s).toFixed(2),h.jsx("small",{children:"kg"})]})]})})]}),h.jsxs("div",{className:"controls",children:[h.jsxs("div",{children:[h.jsx("h3",{className:"fp-section-title",children:"Batch state"}),h.jsx("div",{className:"states",role:"status","aria-label":`Batch state: ${e}`,children:Tx.map(f=>h.jsx("span",{className:"state"+(f===e?" current":"")+(f==="Aborted"?" aborted":f==="Complete"?" complete":""),children:f},f))})]}),h.jsxs("div",{style:{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"},children:[h.jsx("label",{className:"visually-hidden",htmlFor:"recipe",children:"Recipe"}),h.jsx("select",{id:"recipe",className:"locale",disabled:e!=="Idle",value:t,onChange:f=>a(f.target.value),children:Object.keys(Vo).map(f=>h.jsx("option",{children:f},f))}),h.jsx("button",{className:"btn",disabled:e!=="Idle"&&e!=="Paused",onClick:()=>n("Running"),children:e==="Paused"?"Resume":"Start"}),h.jsx("button",{className:"btn quiet",disabled:e!=="Running",onClick:()=>n("Paused"),children:"Pause"}),h.jsx("button",{className:"btn quiet",disabled:e!=="Running"&&e!=="Paused",onClick:()=>n("Aborted"),children:"Abort"})]}),h.jsxs("table",{className:"dose",children:[h.jsx("thead",{children:h.jsxs("tr",{children:[h.jsx("th",{scope:"col",children:"Pigment"}),h.jsx("th",{scope:"col",children:"Target"}),h.jsx("th",{scope:"col",children:"Dosed"}),h.jsx("th",{scope:"col",children:"Deviation"})]})}),h.jsx("tbody",{children:Kr.map((f,b)=>h.jsxs("tr",{className:b===d?"dosing":void 0,children:[h.jsxs("td",{children:[h.jsx("span",{className:"swatch",style:{background:`rgb(${f.c})`}}),f.n,b===d&&" (dosing)"]}),h.jsx("td",{className:"num",children:l[b].toFixed(1)}),h.jsx("td",{className:"num",children:i[b].toFixed(1)}),h.jsxs("td",{className:"num"+(A(b)?" bad":""),children:[(i[b]-l[b]).toFixed(1),A(b)&&" out of tolerance"]})]},f.n))})]}),h.jsxs("div",{style:{display:"flex",gap:14,flexWrap:"wrap"},children:[h.jsx("button",{className:"linkbtn",onClick:()=>r(m),children:"Tare the load cell"}),h.jsx("button",{className:"linkbtn",onClick:()=>{v(),r(0)},children:"Reset batch"})]})]})]})]})}const Mx=(e,n)=>{try{return JSON.parse(localStorage.getItem(e)||"")}catch{return n}},jo=(e,n)=>{const[t,a]=W.useState(()=>Mx(e,n));return W.useEffect(()=>{try{localStorage.setItem(e,JSON.stringify(t))}catch{}},[e,t]),[t,a]},Lx=()=>{const[e,n]=W.useState(location.hash.slice(1)||"/");return W.useEffect(()=>{const t=()=>n(location.hash.slice(1)||"/");return addEventListener("hashchange",t),()=>removeEventListener("hashchange",t)},[]),e},Fu=["PLC","HMI","SCADA","Communications","Software","AI","Articles","Tools","Other"],Wx=(e,n)=>(Fu.indexOf(e)+1||99)-(Fu.indexOf(n)+1||99)||e.localeCompare(n),kx=new Set(["ABB","OPC","AI","GE","IFIX","FIX32","MQTT","SNMP","PLC","HMI","SCADA","CODESYS","B&R","COPA-DATA"]),Ex={INTOUCH:"InTouch","OPC SERVER":"OPC servers",OTHERS:"Other",GENERAL:"General","ZENON COPA-DATA":"zenon (COPA-DATA)","BASES DE DATOS":"Databases","AI GENERATED CODE":"AI-generated code","VERSION CONTROL":"Version control","INDUSTRIAL AI":"Industrial AI","INDUSTRIAL NETWORKS":"Industrial networks","GE FANUC":"GE Fanuc","B&R AUTOMATION":"B&R Automation"},Dn=e=>Ex[e]??e.split(" ").map(n=>kx.has(n)?n:n.charAt(0)+n.slice(1).toLowerCase()).join(" "),yw=e=>Math.max(1,Math.round(e.words/220)),ia=e=>`#/a/${encodeURIComponent(e.key)}`,vi=e=>`#/g/${encodeURIComponent(e)}`;function Dx(){const e=Lx(),[n,t]=jo("locale","en"),[a,i]=jo("done",[]),[o,s]=jo("bookmarks",[]),[r,c]=jo("recent",[]),[l,d]=W.useState(""),[m,u]=W.useState(!1),p=W.useRef(null),C=W.useMemo(()=>[...new Set(Ri.map(y=>y.locale))],[]),v=W.useMemo(()=>Ri.filter(y=>y.locale===n),[n]),A=W.useMemo(()=>new Gv(v,{keys:[{name:"title",weight:3},"tags","group","sub","body"],threshold:.3,ignoreLocation:!0}),[v]),w=l.trim()?A.search(l.trim()).slice(0,40).map(y=>y.item):[];W.useEffect(()=>{const y=P=>{var M,_,j;(P.ctrlKey||P.metaKey)&&P.key.toLowerCase()==="k"&&(P.preventDefault(),(M=p.current)==null||M.focus(),(_=p.current)==null||_.select()),P.key==="Escape"&&document.activeElement===p.current&&(d(""),(j=p.current)==null||j.blur())};return addEventListener("keydown",y),()=>removeEventListener("keydown",y)},[]);const g=e.startsWith("/a/")?Ri.find(y=>y.key===decodeURIComponent(e.slice(3))):void 0,f=e.startsWith("/g/")?decodeURIComponent(e.slice(3)):void 0;W.useEffect(()=>{u(!1),d(""),window.scrollTo({top:0})},[e]),W.useEffect(()=>{g&&c(y=>[g.key,...y.filter(P=>P!==g.key)].slice(0,8))},[g==null?void 0:g.key]),W.useEffect(()=>{document.title=g?`${g.title} | PLC Academy`:f?`${f} | PLC Academy`:e==="/sims"?"Simulators | PLC Academy":"PLC Academy"},[g,f,e]);const b=(y,P,M)=>P(y.includes(M)?y.filter(_=>_!==M):[...y,M]),T=e==="/sims"?"sims":"library";let x;return l.trim()?x=h.jsx(Hx,{q:l.trim(),hits:w}):e==="/"?x=h.jsx(Rx,{list:v,done:a,recent:r,marks:o}):e==="/sims"?x=h.jsx(qx,{}):f&&v.some(y=>y.group===f)?x=h.jsx(Ux,{group:f,list:v,done:a}):g?x=h.jsxs("div",{className:"reader-layout",children:[h.jsx(Nx,{list:v,done:a,current:g,open:m}),h.jsx(Vx,{a:g,list:v,done:a.includes(g.key),marked:o.includes(g.key),onDone:()=>b(a,i,g.key),onMark:()=>b(o,s,g.key)}),h.jsx(jx,{a:g})]}):x=h.jsx(Gx,{}),h.jsxs(h.Fragment,{children:[h.jsx("a",{className:"skip-link",href:"#main",onClick:y=>{var P;y.preventDefault(),(P=document.getElementById("main"))==null||P.focus()},children:"Skip to content"}),h.jsxs("header",{className:"topbar",children:[h.jsxs("a",{className:"brand",href:"#/","aria-label":"PLC Academy home",children:[h.jsx(Ox,{}),h.jsx("span",{children:"PLC Academy"})]}),h.jsxs("nav",{className:"topnav","aria-label":"Main",children:[h.jsx("a",{className:"lib-link",href:"#/","aria-current":T==="library"&&!l?"page":void 0,children:"Library"}),h.jsx("a",{href:"#/sims","aria-current":T==="sims"&&!l?"page":void 0,children:"Simulators"})]}),h.jsxs("div",{className:"search",role:"search",children:[h.jsx("label",{className:"visually-hidden",htmlFor:"q",children:"Search articles"}),h.jsx("input",{id:"q",ref:p,type:"search",placeholder:"Search S7-1500, Modbus, WinCC…",value:l,onChange:y=>d(y.target.value),autoComplete:"off"}),h.jsx("kbd",{children:"Ctrl K"})]}),C.length>1&&h.jsx("select",{className:"locale","aria-label":"Language",value:n,onChange:y=>t(y.target.value),children:C.map(y=>h.jsx("option",{value:y,children:y.toUpperCase()},y))}),g&&!l&&h.jsx("button",{className:"drawer-toggle","aria-expanded":m,"aria-controls":"library-tree",onClick:()=>u(y=>!y),children:m?"Close":"Contents"})]}),h.jsx("main",{id:"main",tabIndex:-1,children:x})]})}function Ox(){return h.jsxs("svg",{width:"26",height:"26",viewBox:"0 0 26 26","aria-hidden":"true",fill:"none",stroke:"currentColor",strokeWidth:"2",children:[h.jsx("path",{d:"M2 3v20M24 3v20"}),h.jsx("path",{d:"M2 13h5M10 13h4M19.5 13h4.5"}),h.jsx("path",{d:"M7 8v10M10 8v10"}),h.jsx("path",{d:"M15.5 8.5a5 5 0 0 0 0 9M18 8.5a5 5 0 0 1 0 9"})]})}const Fx=[{depth:0,level:"IT side",name:"Data and code",groups:["Software","AI"]},{depth:1,level:"ISA-95 level 2",name:"Supervision",groups:["SCADA","HMI"]},{depth:2,level:"ISA-95 level 1",name:"Control",groups:["PLC"]}];function Rx({list:e,done:n,recent:t,marks:a}){const i=m=>{const u=e.filter(C=>C.group===m),p=Object.entries(u.reduce((C,v)=>(C[v.sub]=(C[v.sub]||0)+1,C),{})).filter(([C])=>C!=="General").sort((C,v)=>v[1]-C[1]).slice(0,3).map(([C])=>Dn(C));return{n:u.length,read:u.filter(C=>n.includes(C.key)).length,subs:p}},o=(m,u)=>{const p=i(m);return p.n?h.jsxs("a",{className:"unit",href:vi(m),style:{"--i":u},children:[h.jsxs("span",{className:"unit-top",children:[h.jsx("span",{className:"unit-name",children:m}),h.jsxs("span",{className:"unit-count",children:[p.n," articles"]})]}),p.subs.length>0&&h.jsx("span",{className:"unit-note",children:p.subs.join(", ")}),h.jsx("span",{className:"meter",title:`${p.read} of ${p.n} read`,children:h.jsx("i",{style:{width:`${p.read/p.n*100}%`}})})]},m):null},s=i("Communications"),r=["Articles","Tools","Other"].filter(m=>e.some(u=>u.group===m)),c=t.map(m=>Ri.find(u=>u.key===m)).filter(Boolean),l=a.map(m=>Ri.find(u=>u.key===m)).filter(Boolean);let d=0;return h.jsxs("div",{className:"page",children:[h.jsxs("section",{className:"home-intro","aria-labelledby":"home-title",children:[h.jsxs("div",{children:[h.jsx("h1",{id:"home-title",children:"PLC, HMI and SCADA, layer by layer"}),e.length?h.jsxs("p",{className:"lede",children:[e.length," tutorials you can read offline, sorted by where they sit in the plant, plus three process simulators to practise on."]}):h.jsxs("p",{className:"lede",children:["No articles yet. Run ",h.jsx("code",{children:"npm run scrape"})," to build the library, then reload."]}),h.jsxs("div",{className:"home-actions",children:[e.some(m=>m.group==="PLC")&&h.jsx("a",{className:"btn",href:vi("PLC"),children:"Browse PLC tutorials"}),h.jsx("a",{className:"btn quiet",href:"#/sims",children:"Open the simulators"})]}),h.jsxs("p",{className:"credit-line",style:{marginTop:28},children:["Articles are mirrored from ",h.jsx("a",{href:"https://www.plc-hmi-scadas.com/",target:"_blank",rel:"noreferrer",children:"plc-hmi-scadas.com"}),"; every page credits its author and links to the original."]})]}),h.jsxs("div",{className:"plant",role:"group","aria-label":"Library by plant layer",children:[h.jsx("div",{className:"plant-levels",children:Fx.map(m=>h.jsxs("div",{className:"level","data-depth":m.depth,children:[h.jsxs("div",{className:"level-name",children:[h.jsx("b",{children:m.name}),m.level]}),h.jsx("div",{className:"level-row",children:m.groups.map(u=>o(u,d++))})]},m.name))}),s.n>0&&h.jsxs("a",{className:"bus",href:vi("Communications"),title:"Networks and protocols that connect every layer",children:[h.jsx("small",{children:s.n}),h.jsx("span",{children:"Communications"}),h.jsx("small",{"aria-hidden":"true"})]}),r.length>0&&h.jsx("div",{className:"plant-foot",children:r.map(m=>h.jsxs("a",{href:vi(m),children:[m==="Other"?"Other pages":m," (",e.filter(u=>u.group===m).length,")"]},m))}),h.jsx("p",{className:"plant-caption",children:"Layers follow the ISA-95 model. The green line under each section is your reading progress, stored in this browser."})]})]}),h.jsxs("div",{className:"home-lower",children:[h.jsxs("section",{"aria-labelledby":"continue-title",children:[h.jsx("h2",{id:"continue-title",children:"Continue reading"}),c.length?h.jsx(Ru,{items:c.slice(0,6),done:n}):h.jsxs("p",{className:"empty",children:["Nothing read yet. Pick a layer on the map, or press ",h.jsx("kbd",{children:"Ctrl K"})," and search for a part number like S7-1200."]}),l.length>0&&h.jsxs(h.Fragment,{children:[h.jsx("h2",{style:{marginTop:32},children:"Bookmarks"}),h.jsx(Ru,{items:l,done:n})]})]}),h.jsxs("section",{"aria-labelledby":"sim-title",children:[h.jsx("h2",{id:"sim-title",children:"Practise on a process"}),h.jsxs("div",{className:"faceplate-links",children:[h.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[h.jsx("span",{className:"tag",children:"SFC-101"}),h.jsxs("p",{children:[h.jsx("b",{children:"Sequence chart"}),"Step a five-stage tank batch through its GRAFCET transitions."]})]}),h.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[h.jsx("span",{className:"tag",children:"TIC-201"}),h.jsxs("p",{children:[h.jsx("b",{children:"Temperature loop"}),"Tune a PID controller on a heated tank and inject disturbances."]})]}),h.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[h.jsx("span",{className:"tag",children:"WIC-301"}),h.jsxs("p",{children:[h.jsx("b",{children:"Batch dosing"}),"Run an ISA-88 recipe that weighs three pigments into one tank."]})]})]})]})]})]})}function Ru({items:e,done:n}){return h.jsx("ul",{className:"reading-list",children:e.map(t=>h.jsx("li",{children:h.jsxs("a",{href:ia(t),children:[h.jsxs("span",{className:"rl-title",children:[n.includes(t.key)&&h.jsx("span",{className:"check","aria-label":"Completed",children:"✓ "}),t.title]}),h.jsxs("span",{className:"rl-path",children:[t.group," / ",Dn(t.sub)]})]})},t.key))})}function Ux({group:e,list:n,done:t}){const a=n.filter(s=>s.group===e),i=[...new Set(a.map(s=>s.sub))].sort((s,r)=>s==="General"?1:r==="General"?-1:a.filter(c=>c.sub===r).length-a.filter(c=>c.sub===s).length),o=a.filter(s=>t.includes(s.key)).length;return h.jsxs("div",{className:"page",children:[h.jsxs("nav",{className:"crumbs","aria-label":"Breadcrumb",children:[h.jsx("a",{href:"#/",children:"Library"}),h.jsx("span",{"aria-hidden":"true",children:"/"}),h.jsx("span",{children:e})]}),h.jsxs("header",{className:"group-head",children:[h.jsx("h1",{children:e}),h.jsxs("p",{children:[a.length," articles across ",i.length," ",i.length===1?"platform":"platforms",". You have read ",o,"."]})]}),h.jsx("div",{className:"platforms",children:i.map(s=>{const r=a.filter(c=>c.sub===s);return h.jsxs("section",{className:"platform","aria-label":Dn(s),children:[h.jsxs("h2",{children:[Dn(s)," ",h.jsx("small",{children:r.length})]}),h.jsx("ul",{className:"article-list",children:r.map(c=>h.jsx("li",{children:h.jsxs("a",{href:ia(c),children:[h.jsx("span",{className:"check","aria-label":t.includes(c.key)?"Completed":void 0,children:t.includes(c.key)?"✓":""}),h.jsx("span",{children:c.title}),h.jsxs("span",{className:"mins",children:[yw(c)," min"]})]})},c.key))})]},s)})})]})}function Nx({list:e,done:n,current:t,open:a}){const i=[...new Set(e.map(o=>o.group))].sort(Wx);return h.jsxs("nav",{className:"tree"+(a?" open":""),id:"library-tree","aria-label":"Library contents",children:[h.jsx("h2",{children:"Library"}),i.map(o=>{const s=e.filter(c=>c.group===o),r=[...new Set(s.map(c=>c.sub))];return h.jsxs("details",{open:o===t.group,children:[h.jsxs("summary",{children:[h.jsx("span",{children:o}),h.jsx("small",{children:s.length})]}),r.map(c=>{const l=s.filter(d=>d.sub===c);return h.jsxs("details",{open:o===t.group&&c===t.sub,children:[h.jsxs("summary",{children:[h.jsx("span",{children:Dn(c)}),h.jsx("small",{children:l.length})]}),l.map(d=>h.jsxs("a",{href:ia(d),"aria-current":d.key===t.key?"page":void 0,children:[n.includes(d.key)&&h.jsx("span",{className:"check","aria-label":"Completed",children:"✓"}),d.title]},d.key))]},c)})]},o)})]})}const Uu=e=>e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");function Sw(e){let n=e.body.replace(/^\s*\[Home\][^\n]*\n+/,"").replace(/^\s*#\s+[^\n]*\n+/,"");return e.author&&(n=n.replace(new RegExp("^\\s*"+Uu(e.author)+"[^\\n]*\\n+"),"")),e.tags.length&&(n=n.replace(new RegExp("^\\s*"+Uu(e.tags.join(" "))+"\\s*\\n+"),"")),n}const Aw=e=>e.replace(/<[^>]+>/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-");function Vx({a:e,list:n,done:t,marked:a,onDone:i,onMark:o}){const s=W.useMemo(()=>Sw(e),[e]),r=W.useMemo(()=>vw(s).replace(/<h([23])>(.*?)<\/h\1>/g,(A,w,g)=>`<h${w} id="${Aw(g)}">${g}</h${w}>`),[s]),c=W.useRef(null),[l,d]=W.useState(!1);W.useEffect(()=>{var A;(A=c.current)==null||A.querySelectorAll("pre").forEach(w=>{if(w.querySelector(".copy"))return;const g=document.createElement("button");g.className="copy",g.type="button",g.textContent="Copy",g.onclick=()=>{var f;navigator.clipboard.writeText(((f=w.querySelector("code"))==null?void 0:f.textContent)??w.textContent??"").then(()=>{g.textContent="Copied",setTimeout(()=>g.textContent="Copy",1500)})},w.appendChild(g)})},[r]);const m=()=>{const A=new Blob([`# ${e.title}
 
 > ${e.credit}
 > Source: ${e.originalUrl}
 
-${e.body}`],{type:"text/markdown"}),l=document.createElement("a");l.href=URL.createObjectURL(c),l.download=`${e.slug}.md`,l.click()};return y.jsxs("article",{className:"doc",children:[y.jsx("h1",{children:e.title}),y.jsxs("div",{className:"credit",children:[e.author&&y.jsxs(y.Fragment,{children:["By ",e.author,". "]}),e.date,y.jsx("br",{}),e.credit," ",y.jsx("a",{href:e.originalUrl,target:"_blank",rel:"noreferrer",children:"Original"})]}),y.jsxs("div",{className:"row",children:[y.jsx("button",{className:"btn",onClick:a,children:n?"✓ Completed":"Mark as completed"}),y.jsx("button",{className:"btn ghost",onClick:i,children:t?"★ Bookmarked":"☆ Bookmark"}),y.jsx("button",{className:"btn ghost",onClick:r,children:"Export .md"}),y.jsx("button",{className:"btn ghost",onClick:()=>print(),children:"Print / PDF"}),y.jsxs("span",{children:["~",Math.max(1,Math.round(e.words/200))," min"]})]}),e.downloads.length>0&&y.jsxs("div",{className:"card",children:[y.jsx("b",{children:"Downloads"}),e.downloads.map(c=>y.jsx("div",{children:y.jsx("a",{href:c.url,children:c.title})},c.url))]}),y.jsx("div",{ref:s,dangerouslySetInnerHTML:{__html:o}})]})}const uw=e=>e.replace(/<[^>]+>/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-");function AM({a:e}){const n=[...e.body.matchAll(/^(#{2,3})\s+(.+)$/gm)];return y.jsxs("aside",{className:"toc",children:[y.jsx("b",{children:"On this page"}),n.map((t,a)=>y.jsx("a",{style:{paddingLeft:(t[1].length-2)*12},href:`#/a/${encodeURIComponent(e.key)}`,onClick:i=>{var o;i.preventDefault(),(o=document.getElementById(uw(t[2])))==null||o.scrollIntoView({behavior:"smooth"})},children:t[2]},a))]})}Gb.createRoot(document.getElementById("root")).render(y.jsx(bM,{}));
+${s}`],{type:"text/markdown"}),w=document.createElement("a");w.href=URL.createObjectURL(A),w.download=`${e.slug}.md`,w.click(),d(!0),setTimeout(()=>d(!1),1800)},u=n.filter(A=>A.group===e.group&&A.sub===e.sub),p=u.findIndex(A=>A.key===e.key),C=u[p-1],v=u[p+1];return h.jsxs("article",{className:"doc","aria-labelledby":"doc-title",children:[h.jsxs("header",{className:"doc-head",children:[h.jsxs("nav",{className:"crumbs","aria-label":"Breadcrumb",children:[h.jsx("a",{href:"#/",children:"Library"}),h.jsx("span",{"aria-hidden":"true",children:"/"}),h.jsx("a",{href:vi(e.group),children:e.group}),h.jsx("span",{"aria-hidden":"true",children:"/"}),h.jsx("span",{children:Dn(e.sub)})]}),h.jsx("h1",{id:"doc-title",children:e.title}),h.jsxs("div",{className:"doc-meta",children:[e.author&&h.jsxs("span",{children:["By ",e.author]}),e.date&&h.jsx("span",{children:e.date}),h.jsxs("span",{children:[yw(e)," min read"]}),e.tags.length>0&&h.jsx("span",{children:e.tags.slice(0,4).join(", ")})]}),h.jsxs("div",{className:"doc-actions",children:[h.jsx("button",{className:"btn"+(t?" done":""),onClick:i,"aria-pressed":t,children:t?"✓ Completed":"Mark as completed"}),h.jsx("button",{className:"btn quiet",onClick:o,"aria-pressed":a,children:a?"Bookmarked":"Bookmark"}),h.jsx("span",{className:"spacer"}),h.jsx("button",{className:"linkbtn",onClick:m,children:l?"Saved .md file":"Save as Markdown"}),h.jsx("button",{className:"linkbtn",onClick:()=>print(),children:"Print or save PDF"})]})]}),h.jsxs("dl",{className:"source-plate",children:[h.jsx("dt",{children:"Source"}),h.jsx("dd",{children:h.jsx("a",{href:e.originalUrl,target:"_blank",rel:"noreferrer",children:e.originalUrl.replace(/^https?:\/\/(www\.)?/,"")})}),e.author&&h.jsxs(h.Fragment,{children:[h.jsx("dt",{children:"Author"}),h.jsx("dd",{children:e.author})]}),h.jsx("dt",{children:"Note"}),h.jsx("dd",{children:"Mirrored for offline study. Read and cite the original where you can."})]}),e.downloads.length>0&&h.jsxs("aside",{className:"downloads","aria-label":"Downloads",children:[h.jsx("h2",{children:"Project files"}),e.downloads.map(A=>h.jsx("div",{children:h.jsx("a",{href:A.url,children:A.title})},A.url))]}),h.jsx("div",{className:"prose",ref:c,dangerouslySetInnerHTML:{__html:r}}),(C||v)&&h.jsxs("nav",{className:"pager","aria-label":`More in ${Dn(e.sub)}`,children:[C&&h.jsxs("a",{href:ia(C),children:[h.jsxs("small",{children:["Previous in ",Dn(e.sub)]}),C.title]}),v&&h.jsxs("a",{className:"next",href:ia(v),children:[h.jsxs("small",{children:["Next in ",Dn(e.sub)]}),v.title]})]})]})}function jx({a:e}){const n=W.useMemo(()=>[...Sw(e).matchAll(/^(#{2,3})\s+(.+)$/gm)],[e]);return n.length<2?h.jsx("div",{}):h.jsxs("aside",{className:"toc","aria-label":"On this page",children:[h.jsx("h2",{children:"On this page"}),n.map((t,a)=>{const i=t[2].replace(/[*_`]/g,"");return h.jsx("a",{className:t[1].length===3?"sub":void 0,href:ia(e),onClick:o=>{var s;o.preventDefault(),(s=document.getElementById(Aw(vw(t[2]).replace(/<\/?p>\n?/g,""))))==null||s.scrollIntoView()},children:i},a)})]})}function Bx(e,n){const t=e.replace(/!\[[^\]]*\]\([^)]*\)/g,"").replace(/\[([^\]]*)\]\([^)]*\)/g,"$1").replace(/[#>*_`|]/g,"").replace(/\s+/g," "),a=t.toLowerCase().indexOf(n.toLowerCase());if(a<0)return{pre:t.slice(0,150),hit:"",post:""};const i=Math.max(0,a-70);return{pre:(i?"…":"")+t.slice(i,a),hit:t.slice(a,a+n.length),post:t.slice(a+n.length,a+n.length+90)+"…"}}function Hx({q:e,hits:n}){return h.jsxs("div",{className:"page",children:[h.jsx("h1",{style:{fontSize:30},children:n.length?`${n.length===40?"Top 40":n.length} results for “${e}”`:`No articles match “${e}”`}),!n.length&&h.jsx("p",{className:"empty",children:"Try a model or protocol name, such as S7-1500, Modbus or InTouch. Press Esc to clear the search."}),h.jsx("ul",{className:"results",children:n.map(t=>{const a=Bx(t.body,e);return h.jsx("li",{children:h.jsxs("a",{href:ia(t),children:[h.jsx("span",{className:"r-title",children:t.title}),h.jsxs("span",{className:"r-path",children:[t.group," / ",Dn(t.sub)]}),h.jsxs("span",{className:"r-snip",children:[a.pre,a.hit&&h.jsx("mark",{children:a.hit}),a.post]})]})},t.key)})})]})}function qx(){return h.jsxs("div",{className:"page",children:[h.jsxs("header",{className:"sims-head",children:[h.jsx("h1",{children:"Simulators"}),h.jsx("p",{children:"Three small processes drawn as operator faceplates. Each one runs in your browser; nothing is saved between visits."})]}),h.jsx(bx,{}),h.jsx(Px,{}),h.jsx(xx,{})]})}function Gx(){return h.jsxs("div",{className:"page notfound",children:[h.jsx("h1",{children:"That page isn't in the library"}),h.jsx("p",{className:"muted",children:"The link may point to an article that wasn't mirrored. Search for its title, or go back to the library map."}),h.jsx("a",{className:"btn",href:"#/",children:"Back to the library"})]})}tv.createRoot(document.getElementById("root")).render(h.jsx(Dx,{}));

@@ -1,0 +1,2111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Water Plant PLC Build-Up</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A 17-step walkthrough of how a Siemens S7-200 water treatment PLC program was designed, with a live simulator of the finished program.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<style>
+@font-face{font-family:"Barlow";src:url(fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow";src:url(fonts/barlow-latin-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Barlow";src:url(fonts/barlow-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow";src:url(fonts/barlow-latin-700-normal.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(fonts/barlow-semi-condensed-latin-500-normal.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(fonts/barlow-semi-condensed-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(fonts/barlow-semi-condensed-latin-700-normal.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+/* Layout: an engineer's build log. Step rail on the left, one build step at a time on a drafting sheet.
+   Simulator panels follow ISA-101 practice: grey for normal, colour only for state and abnormal. */
+:root{
+  --bg:#e2e5e3; --paper:#f7f8f6; --ink:#1c2225; --ink-2:#4e585c; --muted:#6f797d; --rule:#d4d9d7; --rule-2:#bcc3c1;
+  --accent:#2d5f8b; --accent-ink:#244f75; --accent-wash:#d5e1eb; --code-bg:#eaecea; --panel:#eef0ee;
+  --on:#2e7d32; --on-wash:#e1f1e2; --off:#a3afb5; --alarm:#c62828; --alarm-wash:#fbe5e5; --warn:#a86400; --warn-wash:#fbefd9; --info:#1f6aa8;
+  --tip-bg:#182226; --tip-fg:#ffffff;
+  --f-head:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Barlow","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161b1d; --paper:#1f2629; --ink:#e2e7e5; --ink-2:#a3aeb1; --muted:#7f8a8e; --rule:#2d363a; --rule-2:#3b464a;
+    --accent:#86afd4; --accent-ink:#9fc0de; --accent-wash:#233849; --code-bg:#1a2023; --panel:#252d31;
+    --on:#5cc062; --on-wash:#17331a; --off:#55636b; --alarm:#ef6461; --alarm-wash:#3a1717; --warn:#f0a63a; --warn-wash:#3a2a10; --info:#6aa9e6;
+    --tip-bg:#e2e9ec; --tip-fg:#151c20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161b1d; --paper:#1f2629; --ink:#e2e7e5; --ink-2:#a3aeb1; --muted:#7f8a8e; --rule:#2d363a; --rule-2:#3b464a;
+  --accent:#86afd4; --accent-ink:#9fc0de; --accent-wash:#233849; --code-bg:#1a2023; --panel:#252d31;
+  --on:#5cc062; --on-wash:#17331a; --off:#55636b; --alarm:#ef6461; --alarm-wash:#3a1717; --warn:#f0a63a; --warn-wash:#3a2a10; --info:#6aa9e6;
+  --tip-bg:#e2e9ec; --tip-fg:#151c20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);margin:0}
+.top{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 8px;max-width:1320px;margin:0 auto}
+.top .eyebrow{font:600 .78rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.top h1{font:700 clamp(1.7rem,3.6vw,2.5rem)/1.1 var(--f-head);margin:4px 0 6px;text-wrap:balance}
+.top p{margin:0;color:var(--ink-2);max-width:78ch}
+.progress{display:flex;align-items:center;gap:12px;margin-top:14px;font:600 .85rem var(--f-head);color:var(--ink-2);letter-spacing:.04em}
+.progress .bar{flex:1;height:6px;background:var(--rule);border-radius:3px;overflow:hidden;max-width:520px}
+.progress .bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 64px;display:grid;grid-template-columns:270px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Step rail */
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--paper);border:1px solid var(--rule);max-height:calc(100vh - 24px);overflow:auto}
+.rail summary{list-style:none;cursor:pointer;padding:12px 14px;font:600 .78rem var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);border-bottom:1px solid var(--rule)}
+.rail summary::-webkit-details-marker{display:none}
+.rail ol{list-style:none;margin:0;padding:6px}
+.rail .phase{font:600 .7rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 8px 4px}
+.rail button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:2em 1fr;gap:4px;width:100%;padding:6px 8px;border-radius:4px;cursor:pointer;color:var(--ink-2);font-size:.92rem;line-height:1.3}
+.rail button span{font:500 .8rem var(--f-mono);color:var(--muted);padding-top:1px}
+.rail button:hover{background:var(--panel);color:var(--ink)}
+.rail button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.rail button[aria-current="step"]{background:var(--accent-wash);color:var(--ink);font-weight:600}
+.rail button[aria-current="step"] span{color:var(--accent-ink)}
+.rail button.done span::after{content:" ✓";color:var(--on)}
+@media (max-width:980px){.rail{position:static;max-height:none}}
+
+/* Sheet */
+.sheet{background:var(--paper);border:1px solid var(--rule);min-width:0}
+.step{padding-inline:clamp(16px,3.6vw,44px);padding-block:28px 32px}
+.step-eyebrow{font:600 .78rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.step h2{font:700 clamp(1.5rem,3vw,2rem)/1.15 var(--f-head);margin:4px 0 10px;text-wrap:balance}
+.step h3{font:600 1.18rem/1.25 var(--f-head);margin:28px 0 8px;letter-spacing:.01em}
+.lede{font-size:1.08rem;color:var(--ink-2);max-width:72ch}
+.step p,.step li{max-width:74ch}
+.step ul,.step ol{padding-left:1.3em}
+.step li{margin:4px 0}
+code,.mono{font-family:var(--f-mono);font-size:.84em;background:var(--code-bg);padding:.06em .32em;border-radius:3px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0}
+.cols>*{min-width:0}
+
+/* Engineer's notebook blocks */
+.think{border-left:3px solid var(--accent);background:var(--panel);padding:12px 16px;margin:18px 0}
+.think h4,.decision h4,.robust h4,.evidence h4,.pitfall h4{margin:0 0 6px;font:600 .78rem var(--f-head);letter-spacing:.1em;text-transform:uppercase}
+.think h4{color:var(--accent-ink)}
+.think dl{margin:0;display:grid;gap:8px}
+.think dt{font-weight:600}
+.think dd{margin:0 0 0 0;color:var(--ink-2)}
+.decision{border:1px solid var(--rule-2);padding:12px 16px;margin:18px 0}
+.decision h4{color:var(--ink)}
+.robust{border:1px solid var(--on);background:var(--on-wash);padding:12px 16px;margin:18px 0}
+.robust h4{color:var(--on)}
+.evidence{border:1px dashed var(--rule-2);padding:12px 16px;margin:18px 0}
+.evidence h4{color:var(--info)}
+.pitfall{border:1px solid var(--warn);background:var(--warn-wash);padding:12px 16px;margin:18px 0}
+.pitfall h4{color:var(--warn)}
+.think p:last-child,.decision p:last-child,.robust p:last-child,.evidence p:last-child,.pitfall p:last-child,
+.robust ul:last-child,.decision ul:last-child,.evidence ul:last-child,.pitfall ul:last-child{margin-bottom:0}
+
+/* Code */
+.code{border:1px solid var(--rule);margin:16px 0;background:var(--code-bg)}
+.code-h{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;padding:8px 12px;border-bottom:1px solid var(--rule);font:600 .9rem var(--f-head);letter-spacing:.02em}
+.code-h small{font:400 .82rem var(--f-body);color:var(--muted);letter-spacing:0}
+.code-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+@media (max-width:820px){.code-body{grid-template-columns:minmax(0,1fr)}}
+pre.stl{margin:0;padding:10px 12px;overflow-x:auto;font:400 .82rem/1.55 var(--f-mono);color:var(--ink);tab-size:4}
+pre.stl .nw{color:var(--muted)}
+pre.stl .op{color:var(--accent-ink);font-weight:500}
+pre.stl .ad{color:var(--info)}
+pre.stl .nu{color:var(--warn)}
+.notes{margin:0;padding:10px 14px 10px 30px;border-left:1px solid var(--rule);background:var(--paper);font-size:.92rem}
+@media (max-width:820px){.notes{border-left:0;border-top:1px solid var(--rule)}}
+.notes li{margin:0 0 8px}
+.notes b{font-family:var(--f-mono);font-size:.82rem;color:var(--accent-ink)}
+
+/* Tables */
+.tbl{overflow-x:auto;border:1px solid var(--rule);margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem;line-height:1.45;font-variant-numeric:tabular-nums}
+th{font:600 .74rem var(--f-head);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);text-align:left;background:var(--panel);padding:7px 10px;border-bottom:1px solid var(--rule-2);white-space:nowrap}
+td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.a{font-family:var(--f-mono);font-size:.82rem;white-space:nowrap}
+td.n{text-align:right;white-space:nowrap}
+
+/* Figures */
+figure{margin:18px 0;border:1px solid var(--rule)}
+.fig{padding:12px;overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto;min-width:620px}
+figcaption{padding:8px 12px;border-top:1px solid var(--rule);font-size:.87rem;color:var(--ink-2);background:var(--panel)}
+.d text{font-family:var(--f-body);font-size:12px;fill:var(--ink)}
+.d .ts{font-size:10.5px;fill:var(--ink-2)}
+.d .tm{font-family:var(--f-mono);font-size:10px;fill:var(--ink-2)}
+.d .th{font-family:var(--f-head);font-weight:600;font-size:13px;fill:var(--ink)}
+.d .tacc{fill:var(--accent-ink)}
+.d .box{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2}
+.d .box-soft{fill:var(--panel);stroke:var(--rule-2);stroke-width:1}
+.d .box-acc{fill:var(--accent-wash);stroke:var(--accent);stroke-width:1.5}
+.d .ln{stroke:var(--ink-2);stroke-width:1.4;fill:none}
+.d .ln-acc{stroke:var(--accent);stroke-width:2;fill:none}
+.d .guide{stroke:var(--rule);stroke-width:1;fill:none}
+.d .ah{fill:var(--ink-2)}
+.d .sig{stroke:var(--accent);stroke-width:2;fill:none;stroke-linejoin:round}
+.d .water{fill:var(--accent-wash)}
+.d .pump{fill:var(--ink-2)}
+
+/* Widgets */
+.widget{border:1px solid var(--accent);margin:20px 0;background:var(--paper)}
+.widget-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;align-items:baseline;padding:8px 14px;background:var(--accent-wash);border-bottom:1px solid var(--accent)}
+.widget-h b{font:700 .95rem var(--f-head);letter-spacing:.03em}
+.widget-h span{font-size:.85rem;color:var(--ink-2)}
+.widget-b{padding:14px;display:grid;gap:14px}
+.wrow{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.btn{font:600 .88rem var(--f-head);letter-spacing:.04em;padding:7px 12px;border:1px solid var(--rule-2);background:var(--panel);color:var(--ink);border-radius:4px;cursor:pointer;min-height:36px}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible,.tog input:focus-visible+span,input[type=range]:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.btn.danger{border-color:var(--alarm);color:var(--alarm)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tog{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;cursor:pointer;user-select:none}
+.tog input{position:absolute;opacity:0;width:1px;height:1px}
+.tog span{display:inline-block;width:34px;height:20px;border-radius:10px;background:var(--off);position:relative;transition:background .15s;flex:none}
+.tog span::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--paper);transition:left .15s}
+.tog input:checked+span{background:var(--on)}
+.tog input:checked+span::after{left:17px}
+.lamp{display:inline-flex;align-items:center;gap:6px;font:500 .82rem var(--f-mono);padding:3px 8px;border:1px solid var(--rule-2);border-radius:3px;background:var(--panel);color:var(--ink-2);white-space:nowrap}
+.lamp::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--off);flex:none}
+.lamp.on{border-color:var(--on);color:var(--ink);background:var(--on-wash)}
+.lamp.on::before{background:var(--on)}
+.lamp.al{border-color:var(--alarm);color:var(--alarm);background:var(--alarm-wash)}
+.lamp.al::before{background:var(--alarm)}
+.lamp.wn{border-color:var(--warn);color:var(--warn);background:var(--warn-wash)}
+.lamp.wn::before{background:var(--warn)}
+.readout{font:500 .9rem var(--f-mono);font-variant-numeric:tabular-nums}
+label.fld{display:grid;gap:4px;font-size:.85rem;color:var(--ink-2)}
+select,input[type=number]{font:inherit;padding:6px 8px;border:1px solid var(--rule-2);border-radius:4px;background:var(--paper);color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.9rem}
+.kv dt{color:var(--ink-2)}
+.kv dd{margin:0;font:500 .9rem var(--f-mono)}
+
+/* Ladder */
+.lad .rail-l{stroke:var(--ink-2);stroke-width:3}
+.lad .w{stroke:var(--off);stroke-width:2.5;fill:none}
+.lad .w.pw{stroke:var(--on);stroke-width:3.5}
+.lad .ct{stroke:var(--ink-2);stroke-width:2.5;fill:none}
+.lad .ct.cl{stroke:var(--on)}
+.lad .coil{stroke:var(--ink-2);stroke-width:2.5;fill:none}
+.lad .coil.en{stroke:var(--on);fill:var(--on-wash)}
+.lad text{font-family:var(--f-mono);font-size:11px;fill:var(--ink-2)}
+.lad .lbl{font-family:var(--f-body);font-size:10.5px;fill:var(--muted)}
+
+/* Memory map */
+.mm{display:grid;gap:10px}
+.mm svg{width:100%;height:auto;min-width:640px}
+.mm rect.z{cursor:pointer;stroke:var(--paper);stroke-width:1}
+.mm rect.z:hover,.mm rect.z.sel{stroke:var(--ink);stroke-width:2}
+.mm .ax{font:400 10px var(--f-mono);fill:var(--muted)}
+.mm-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:6px 18px;font-size:.88rem;margin:0;padding:0;list-style:none}
+.mm-list li{display:grid;grid-template-columns:14px 1fr;gap:8px;align-items:start;padding:4px 6px;border-radius:3px;max-width:none}
+.mm-list li.sel{background:var(--accent-wash)}
+.mm-list i{width:12px;height:12px;border-radius:2px;margin-top:4px}
+.mm-list b{font:500 .8rem var(--f-mono)}
+
+/* Simulator */
+.sim{border:1px solid var(--rule-2);background:var(--panel)}
+.sim-top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--rule-2);background:var(--paper)}
+.sim-top .clock{font:500 1rem var(--f-mono);margin-left:auto}
+.seg{display:inline-flex;border:1px solid var(--rule-2);border-radius:4px;overflow:hidden}
+.seg button{all:unset;cursor:pointer;padding:6px 10px;font:600 .82rem var(--f-head);color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.sim-body{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+.sim-ctrl{padding:12px;border-bottom:1px solid var(--rule-2);display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 22px;align-content:start;background:var(--paper)}
+.sim-ctrl h5{margin:0 0 6px;font:600 .72rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sim-ctrl .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sim-ctrl .stack{display:grid;gap:7px}
+.sim-view{padding:12px;min-width:0;display:grid;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 .78rem var(--f-head);letter-spacing:.04em;padding:4px 9px;border-radius:12px;border:1px solid var(--rule-2);color:var(--muted);background:var(--paper)}
+.chip.on{border-color:var(--on);color:var(--on);background:var(--on-wash)}
+.chip.al{border-color:var(--alarm);color:var(--alarm);background:var(--alarm-wash)}
+.pid-svg{overflow-x:auto;border:1px solid var(--rule);background:var(--paper)}
+.pid-svg svg{display:block;width:100%;height:auto;min-width:700px}
+.s text{font-family:var(--f-body);font-size:13px;fill:var(--ink)}
+.s .v{font-family:var(--f-mono);font-size:12px;fill:var(--ink)}
+.s .lb{font-size:11px;fill:var(--muted)}
+.s .pipe{stroke:var(--rule-2);stroke-width:5;fill:none;stroke-linecap:round}
+.s .pipe.flow{stroke:var(--accent)}
+.s .eq{fill:var(--panel);stroke:var(--ink-2);stroke-width:1.4}
+.s .eq.on{fill:var(--on-wash);stroke:var(--on);stroke-width:2}
+.s .eq.al{stroke:var(--alarm);stroke-width:2.2}
+.s .vlv{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.4}
+.s .vlv.on{fill:var(--on);stroke:var(--on)}
+.s .tankw{fill:var(--accent-wash)}
+.s .lvl{fill:var(--accent);opacity:.35}
+.s .tick{stroke:var(--ink-2);stroke-width:1}
+.s .ptri{fill:var(--ink-2)}
+.s .eq.on+.ptri{fill:var(--on)}
+.lamps{display:flex;flex-wrap:wrap;gap:5px}
+.sim-low{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0;border-top:1px solid var(--rule-2)}
+.sim-low>div{padding:12px;border-right:1px solid var(--rule-2);min-width:0;background:var(--paper)}
+.sim-low h5{margin:0 0 8px;font:600 .72rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tmr{display:grid;grid-template-columns:52px 1fr 108px;gap:2px 8px;align-items:center;font-size:.82rem;margin-bottom:5px}
+.tmr b{font:500 .78rem var(--f-mono)}
+.tmr .tb{height:7px;background:var(--rule);border-radius:4px;overflow:hidden}
+.tmr .tb i{display:block;height:100%;background:var(--accent);width:0}
+.tmr.q .tb i{background:var(--on)}
+.tmr .tv{font:400 .74rem var(--f-mono);color:var(--ink-2);text-align:right}
+.tmr small{grid-column:2/4;color:var(--muted);font-size:.74rem;margin-top:-3px}
+.alist{list-style:none;margin:0;padding:0;display:grid;gap:5px;font-size:.85rem}
+.alist li{border-left:3px solid var(--alarm);padding:3px 8px;background:var(--alarm-wash)}
+.alist li.trip{font-weight:600}
+.alist .empty{border-left-color:var(--on);background:var(--on-wash)}
+.elog{list-style:none;margin:0;padding:0;font:400 .8rem/1.5 var(--f-mono);max-height:260px;overflow:auto}
+.elog li{display:grid;grid-template-columns:70px 1fr;gap:6px;border-bottom:1px solid var(--rule);padding:2px 0}
+.elog li.alarm{color:var(--alarm)}
+.bits{display:flex;flex-wrap:wrap;gap:4px}
+.navbar{display:flex;justify-content:space-between;gap:12px;padding:16px clamp(16px,3.6vw,44px) 24px;border-top:1px solid var(--rule)}
+.srcnote{font-size:.85rem;color:var(--muted)}
+.tline svg{min-width:620px}
+#tip{position:fixed;left:0;top:0;pointer-events:none;background:var(--tip-bg);color:var(--tip-fg);font:13px/1.4 var(--f-body);padding:6px 9px;border-radius:4px;max-width:300px;opacity:0;z-index:20}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="eyebrow">Siemens S7-200 · CPU 226 · STEP 7-Micro/WIN 4.0</div>
+  <h1>Building the Water Plant PLC program from scratch</h1>
+  <p>A step-by-step reconstruction of how an automation engineer would design and write this real project. It is based on the project file <code>Water Plant.mwp</code> and its program listing <code>PLC.awl</code>. Each step explains the problem, the thinking, the code that solved it and how to make it robust. It ends with a live simulator of the finished program.</p>
+  <div class="progress"><span id="prog-txt">Step 1 of 17</span><span class="bar"><i id="prog-bar"></i></span></div>
+</header>
+
+<div class="wrap">
+  <details class="rail" id="rail" open>
+    <summary>Build steps</summary>
+    <ol id="rail-list"></ol>
+  </details>
+
+  <main class="sheet" id="sheet">
+
+<!-- ===================== STEP 1 ===================== -->
+<section class="step" id="process" data-phase="Understand" data-title="Start with the process">
+  <div class="step-eyebrow">Understand</div>
+  <h2>Start with the process, not the PLC</h2>
+  <p class="lede">Good PLC programs are designed away from the keyboard. Before writing a single network, the engineer has to understand the plant: what it makes, in what order things must happen, what can be damaged, and what the operator needs to do.</p>
+
+  <figure>
+    <div class="fig">
+    <svg class="d" viewBox="0 0 940 300" role="img" aria-label="Process: feed water fills a break tank through Q1.6; pump 1 feeds stage 1; pump 2 feeds stage 2; two polishing modules finish the water; product valve Q0.6 sends it to users.">
+      <defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs>
+      <text x="16" y="134">Feed</text>
+      <line x1="46" y1="130" x2="64" y2="130" class="ln"/>
+      <polygon points="64,122 64,138 74,130" class="box"/><polygon points="84,122 84,138 74,130" class="box"/>
+      <text x="74" y="112" text-anchor="middle" class="tm">Q1.6 fill</text>
+      <line x1="84" y1="130" x2="110" y2="130" class="ln" marker-end="url(#m1)"/>
+      <rect x="110" y="78" width="80" height="104" rx="4" class="box"/><rect x="111" y="120" width="78" height="61" class="water"/>
+      <text x="150" y="98" text-anchor="middle" class="th">Break tank</text>
+      <text x="150" y="200" text-anchor="middle" class="tm">AIW22 level 0–100 %</text>
+      <line x1="190" y1="130" x2="214" y2="130" class="ln"/>
+      <circle cx="234" cy="130" r="20" class="box"/><polygon points="227,120 227,140 245,130" class="pump"/>
+      <text x="234" y="170" text-anchor="middle" class="th">Pump 1</text>
+      <text x="234" y="185" text-anchor="middle" class="tm">Q0.0 · AQW0 speed</text>
+      <text x="234" y="99" text-anchor="middle" class="tm">AIW12 0–25 bar</text>
+      <line x1="254" y1="130" x2="300" y2="130" class="ln" marker-end="url(#m1)"/>
+      <rect x="300" y="98" width="120" height="64" rx="4" class="box-acc"/>
+      <text x="360" y="126" text-anchor="middle" class="th">Stage 1</text>
+      <text x="360" y="144" text-anchor="middle" class="ts">pass 1 membranes</text>
+      <text x="360" y="84" text-anchor="middle" class="tm">AIW0 0–2000 µS/cm in</text>
+      <text x="360" y="182" text-anchor="middle" class="tm">AIW4 0–50 µS/cm out</text>
+      <line x1="420" y1="130" x2="500" y2="130" class="ln" marker-end="url(#m1)"/>
+      <text x="460" y="120" text-anchor="middle" class="tm">AIW14 0–10</text>
+      <circle cx="520" cy="130" r="20" class="box"/><polygon points="513,120 513,140 531,130" class="pump"/>
+      <text x="520" y="170" text-anchor="middle" class="th">Pump 2</text>
+      <text x="520" y="185" text-anchor="middle" class="tm">Q0.1 · AQW4 speed</text>
+      <text x="520" y="99" text-anchor="middle" class="tm">AIW30 0–25 bar</text>
+      <line x1="540" y1="130" x2="590" y2="130" class="ln" marker-end="url(#m1)"/>
+      <rect x="590" y="98" width="110" height="64" rx="4" class="box-acc"/>
+      <text x="645" y="126" text-anchor="middle" class="th">Stage 2</text>
+      <text x="645" y="144" text-anchor="middle" class="ts">pass 2 membranes</text>
+      <text x="645" y="84" text-anchor="middle" class="tm">AIW24 0–9999 l/h</text>
+      <text x="645" y="182" text-anchor="middle" class="tm">AIW40 0–5 µS/cm out</text>
+      <line x1="700" y1="130" x2="740" y2="130" class="ln"/>
+      <line x1="740" y1="86" x2="740" y2="174" class="ln"/>
+      <line x1="740" y1="86" x2="762" y2="86" class="ln" marker-end="url(#m1)"/>
+      <line x1="740" y1="174" x2="762" y2="174" class="ln" marker-end="url(#m1)"/>
+      <rect x="762" y="62" width="128" height="48" rx="4" class="box"/>
+      <text x="826" y="81" text-anchor="middle" class="th">Polishing 1 · Q0.4</text>
+      <text x="826" y="98" text-anchor="middle" class="tm">10–250 V · 0.25–5 A</text>
+      <rect x="762" y="150" width="128" height="48" rx="4" class="box"/>
+      <text x="826" y="169" text-anchor="middle" class="th">Polishing 2 · Q0.5</text>
+      <text x="826" y="186" text-anchor="middle" class="tm">10–250 V · 0.25–5 A</text>
+      <line x1="890" y1="86" x2="910" y2="86" class="ln"/><line x1="890" y1="174" x2="910" y2="174" class="ln"/>
+      <line x1="910" y1="86" x2="910" y2="250" class="ln"/>
+      <line x1="910" y1="250" x2="846" y2="250" class="ln"/>
+      <polygon points="846,242 846,258 834,250" class="box"/><polygon points="822,242 822,258 834,250" class="box"/>
+      <line x1="822" y1="250" x2="760" y2="250" class="ln" marker-end="url(#m1)"/>
+      <text x="834" y="236" text-anchor="middle" class="tm">Q0.6 product</text>
+      <text x="752" y="254" text-anchor="end">to users</text>
+      <text x="16" y="262" class="ts">Ranges are the real scaling limits stored in the project (data page ANOL_RANGE).</text>
+      <text x="16" y="276" class="ts">Instrument types and units are inferred from those ranges; confirm against the P&amp;ID.</text>
+    </svg>
+    </div>
+    <figcaption>The plant as the program sees it. Two pressure stages (most likely double-pass reverse osmosis) feed two polishing modules. The polishing modules' 10–250 V and 0.25–5 A limits are typical of EDI power supplies.</figcaption>
+  </figure>
+
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>What must run, and in what order?</dt><dd>Tank, then pump 1 and stage 1, then pump 2 and stage 2, then polishing. Each stage only starts when the one before it is delivering.</dd>
+      <dt>What can be damaged?</dt><dd>Pumps running dry (no tank level), membranes over-pressurised, polishing modules powered without water flowing through them.</dd>
+      <dt>What protects the product?</dt><dd>Quality checks (conductivity, rejection, temperature) decide whether water goes to the users.</dd>
+      <dt>What does the operator need?</dt><dd>Start and stop, hand control for maintenance, a cleaning cycle, alarm acknowledgement, and setpoints they can adjust.</dd>
+      <dt>Who else needs data?</dt><dd>A touch panel (HMI) on the skid and a supervisory system (SCADA or BMS) on the network.</dd>
+    </dl>
+  </div>
+
+  <h3>Requirements to build against</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ID</th><th>Requirement</th><th>Built in step</th></tr></thead>
+    <tbody>
+      <tr><td class="a">R1</td><td>Start and stop from the HMI, only when the plant is safe to start</td><td>7</td></tr>
+      <tr><td class="a">R2</td><td>Never run the pumps without water in the break tank; keep the tank topped up</td><td>7</td></tr>
+      <tr><td class="a">R3</td><td>Start in a safe order, with a low-pressure flush before full production</td><td>8</td></tr>
+      <tr><td class="a">R4</td><td>Let maintenance staff run any output by hand, without upsetting the plant</td><td>9, 10</td></tr>
+      <tr><td class="a">R5</td><td>Hold pressure and flow automatically with variable-speed pumps</td><td>11</td></tr>
+      <tr><td class="a">R6</td><td>Run a timed cleaning (sanitise) cycle on demand</td><td>12</td></tr>
+      <tr><td class="a">R7</td><td>Detect faults, warn the operator and stop safely when needed</td><td>13</td></tr>
+      <tr><td class="a">R8</td><td>Share status, values and alarms with the HMI and SCADA</td><td>14</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>What the project file tells us</h3>
+  <p>The <code>.mwp</code> file is a compressed STEP 7-Micro/WIN project. Unpacked, it holds more than the program listing: the data block with every commissioning value, the wizard configurations, and timestamps that show how the project grew.</p>
+  <figure class="tline">
+    <div class="fig">
+    <svg class="d" viewBox="0 0 900 150" role="img" aria-label="Project timeline: PID loop 1 configured June 2006, PID loop 2 November 2011, Ethernet module October 2013, last changes February 2014.">
+      <line x1="40" y1="70" x2="860" y2="70" class="ln"/>
+      <g class="tm"><text x="40" y="92" text-anchor="middle">2006</text><text x="142" y="92" text-anchor="middle">2007</text><text x="245" y="92" text-anchor="middle">2008</text><text x="347" y="92" text-anchor="middle">2009</text><text x="450" y="92" text-anchor="middle">2010</text><text x="552" y="92" text-anchor="middle">2011</text><text x="655" y="92" text-anchor="middle">2012</text><text x="757" y="92" text-anchor="middle">2013</text><text x="860" y="92" text-anchor="middle">2014</text></g>
+      <g class="guide"><line x1="40" y1="64" x2="40" y2="76"/><line x1="142" y1="64" x2="142" y2="76"/><line x1="245" y1="64" x2="245" y2="76"/><line x1="347" y1="64" x2="347" y2="76"/><line x1="450" y1="64" x2="450" y2="76"/><line x1="552" y1="64" x2="552" y2="76"/><line x1="655" y1="64" x2="655" y2="76"/><line x1="757" y1="64" x2="757" y2="76"/><line x1="860" y1="64" x2="860" y2="76"/></g>
+      <circle cx="78" cy="70" r="7" class="box-acc"/><text x="78" y="44" text-anchor="middle" class="th">Jun 2006</text><text x="78" y="58" text-anchor="middle" class="ts">PID loop 1 set up</text>
+      <circle cx="642" cy="70" r="7" class="box-acc"/><text x="642" y="44" text-anchor="middle" class="th">Nov 2011</text><text x="642" y="58" text-anchor="middle" class="ts">PID loop 2 added</text>
+      <circle cx="834" cy="70" r="7" class="box-acc"/><text x="770" y="118" text-anchor="middle" class="th">Oct 2013</text><text x="770" y="132" text-anchor="middle" class="ts">Ethernet (CP 243-1) added</text>
+      <line x1="834" y1="77" x2="790" y2="106" class="guide"/>
+      <circle cx="873" cy="70" r="7" class="box"/><text x="873" y="44" text-anchor="end" class="th">Feb 2014</text><text x="873" y="58" text-anchor="end" class="ts">last edit</text>
+    </svg>
+    </div>
+    <figcaption>Dates come from the wizard records inside <code>Water Plant.mwp</code>. The program grew over eight years. That history explains its shape: option bits, a second PID loop and a network block added later.</figcaption>
+  </figure>
+  <div class="evidence">
+    <h4>Evidence from the files</h4>
+    <ul>
+      <li>Saved with STEP 7-Micro/WIN <code>4.0.9.25</code> (V4.0 SP9) for a <code>CPU 226</code> with firmware <code>02.01</code>. Project name "Water Plant"; data page "Version" stores <code>1.2</code>.</li>
+      <li>One main block, 14 subroutines and one interrupt. Six blocks were generated by wizards or supplied locked (password-protected).</li>
+      <li>The user symbol table is empty and every network comment is the default text. The original programmer worked with absolute addresses and left no comments. This reconstruction adds the explanation that was never written down.</li>
+      <li>The data block is organised in pages: <code>Data Block</code> (60 values), <code>ANOL_RANGE</code> (48 scaling limits), <code>COMM</code> (7 commissioning setpoints), <code>Version</code>, plus pages the PID and Ethernet wizards created.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== STEP 2 ===================== -->
+<section class="step" id="io" data-phase="Understand" data-title="List the I/O, pick the hardware">
+  <div class="step-eyebrow">Understand</div>
+  <h2>List the I/O and choose the hardware</h2>
+  <p class="lede">Count every signal before choosing a controller. The I/O list becomes the contract between the electrical design and the program, and it decides the CPU and modules.</p>
+  <div class="cols">
+    <div class="decision"><h4>The count</h4><ul><li>15 digital inputs: permissives, drive healthy signals, running feedbacks</li><li>16 digital outputs: pumps, valves, polishing modules, horn, lamps</li><li>24 analog inputs: conductivity, temperature, pressure, flow, level, voltage, current</li><li>2 analog outputs: pump speed references to the drives</li></ul></div>
+    <div class="decision"><h4>The hardware chosen</h4><ul><li><b>CPU 226</b>: 24 DI / 16 DO onboard, enough for all digital I/O with no expansion</li><li><b>6 analog modules</b>, 4 channels each: <code>AIW0</code>–<code>AIW46</code></li><li><b>2 analog outputs</b> as 4–20 mA (the PID wizard scales them 6400–32000)</li><li><b>CP 243-1</b> Ethernet module in slot 6 for SCADA</li><li><b>Windows CE touch panel</b> for the operator</li></ul></div>
+  </div>
+  <div class="pitfall"><h4>Watch the expansion limit</h4><p>A CPU 226 accepts at most seven expansion modules. This design uses all seven (six analog plus the CP 243-1). Any future signal needs a different solution, so leave spare capacity when you can.</p></div>
+
+  <h3>Fail-safe signal design</h3>
+  <p>Look at how the digital inputs are used: the program alarms when <code>I1.2</code>, <code>I1.3</code>, <code>I1.4</code> and <code>I1.5</code> go <b>off</b>. These are "healthy" signals wired normally closed. A broken wire, a blown fuse or a pulled connector then looks exactly like a fault, so the plant stops instead of carrying on blind.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Input</th><th>Signal (inferred from use)</th><th>What the program does with it</th></tr></thead>
+    <tbody>
+      <tr><td class="a">I1.2</td><td>System enable / emergency-stop healthy</td><td>Needed for Auto and Sanitise; loss clears all hand selections and trips</td></tr>
+      <tr><td class="a">I1.3</td><td>Start permissive</td><td>Needed to start; loss for 5 s trips</td></tr>
+      <tr><td class="a">I1.4 / I1.5</td><td>Pump 1 / pump 2 drive healthy</td><td>Hard interlock on each pump in every mode</td></tr>
+      <tr><td class="a">I0.4</td><td>Run-proving switch</td><td>Loss restarts the flush and raises an alarm</td></tr>
+      <tr><td class="a">I0.5</td><td>Product-path permissive</td><td>Needed for the product valve</td></tr>
+      <tr><td class="a">I0.6 / I0.7</td><td>Polishing module running feedbacks</td><td>Enable the module's flow and voltage/current alarms</td></tr>
+      <tr><td class="a">I0.2, I0.3, I1.6, I1.7, I2.0–I2.2</td><td>Further monitored signals (function not recorded)</td><td>Alarms, one cycle timer (I1.7)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Analog ranges stored in the project</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Channel</th><th>Range</th><th>Likely signal</th><th>Channel</th><th>Range</th><th>Likely signal</th></tr></thead>
+    <tbody>
+      <tr><td class="a">AIW0</td><td class="n">0–2000</td><td>Feed conductivity</td><td class="a">AIW24</td><td class="n">0–9999</td><td>Stage 2 flow (PID 2)</td></tr>
+      <tr><td class="a">AIW2</td><td class="n">0–100</td><td>Feed temperature</td><td class="a">AIW26</td><td class="n">0–500</td><td>Polishing 1 flow</td></tr>
+      <tr><td class="a">AIW4</td><td class="n">0–50</td><td>Stage 1 product conductivity</td><td class="a">AIW28</td><td class="n">0–500</td><td>Polishing 2 flow</td></tr>
+      <tr><td class="a">AIW6</td><td class="n">0–100</td><td>Temperature</td><td class="a">AIW30</td><td class="n">0–25</td><td>Pump 2 pressure</td></tr>
+      <tr><td class="a">AIW8</td><td class="n">0–5</td><td>Product conductivity</td><td class="a">AIW32 / 36</td><td class="n">0–5.5</td><td>Polishing current (0–10 V)</td></tr>
+      <tr><td class="a">AIW10</td><td class="n">0–100</td><td>Product temperature</td><td class="a">AIW34 / 38</td><td class="n">0–600</td><td>Polishing voltage (0–10 V)</td></tr>
+      <tr><td class="a">AIW12</td><td class="n">0–25</td><td>Pump 1 pressure</td><td class="a">AIW40</td><td class="n">0–5</td><td>Stage 2 product conductivity</td></tr>
+      <tr><td class="a">AIW14</td><td class="n">0–10</td><td>Pressure (PID 1)</td><td class="a">AIW42</td><td class="n">0–100</td><td>Temperature</td></tr>
+      <tr><td class="a">AIW16</td><td class="n">0–9999</td><td>Stage 1 flow</td><td class="a">AIW44</td><td class="n">0–10</td><td>Polishing inlet pressure</td></tr>
+      <tr><td class="a">AIW22</td><td class="n">0–100</td><td>Break-tank level (%)</td><td class="a">AIW18 / 20 / 46</td><td class="n">–</td><td>Disabled or unused</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ===================== STEP 3 ===================== -->
+<section class="step" id="memory" data-phase="Plan" data-title="Plan the memory map">
+  <div class="step-eyebrow">Plan</div>
+  <h2>Plan the memory map before writing code</h2>
+  <p class="lede">An S7-200 has one big V memory area that the program, the HMI, the SCADA link and the wizards all share. Decide up front which address ranges belong to what. Otherwise two features will one day write the same byte.</p>
+  <div class="widget">
+    <div class="widget-h"><b>V memory map of the Water Plant</b><span>Click a block to see what lives there</span></div>
+    <div class="widget-b mm">
+      <div style="overflow-x:auto"><svg id="mm-svg" viewBox="0 0 900 90" role="img" aria-label="V memory map from VB0 to VB1400"></svg></div>
+      <ul class="mm-list" id="mm-list"></ul>
+    </div>
+  </div>
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>Group by owner and purpose</dt><dd>Commands and sequence bits low (<code>VB0</code>–<code>VB14</code>), scaled values together (<code>VD100</code>–<code>VD144</code>), setpoints together (<code>VD350</code>–<code>VD396</code>), alarm limits together (<code>VD900</code>–<code>VD1022</code>). The HMI designer then maps whole blocks, not scattered tags.</dd>
+      <dt>Make alarms contiguous</dt><dd>All alarm bits sit in <code>VB150</code>–<code>VB159</code>. One block move (<code>BMD VD150, VD1148, 5</code>) sends every alarm to SCADA, and comparing those bytes with a snapshot detects new alarms for the horn.</dd>
+      <dt>Reserve space for the wizards</dt><dd>The PID wizard needs an 80-byte loop table. It was given <code>VB228</code>–<code>VB307</code> and <code>VB638</code>–<code>VB717</code>, wedged between other areas with no spare bytes.</dd>
+      <dt>Store every default in the data block</dt><dd>Timers, setpoints, ranges and limits all have starting values in data block pages. A new CPU or a memory reset then starts with sensible values, not zeros.</dd>
+    </dl>
+  </div>
+  <div class="evidence">
+    <h4>Evidence: the real commissioning values</h4>
+    <div class="tbl" style="margin:6px 0 0"><table>
+      <thead><tr><th>Address</th><th>Value</th><th>Meaning</th><th>Address</th><th>Value</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td class="a">VW38</td><td class="n">100</td><td>Pump 1 start delay, 10.0 s</td><td class="a">VD64</td><td class="n">2.0</td><td>PID 1 setpoint (AIW14)</td></tr>
+        <tr><td class="a">VW34</td><td class="n">300</td><td>Flush time, 30.0 s</td><td class="a">VD360</td><td class="n">5.0</td><td>PID 1 setpoint during flush (AIW12)</td></tr>
+        <tr><td class="a">VW50</td><td class="n">50</td><td>Pump 2 start delay, 5.0 s</td><td class="a">VD754</td><td class="n">6500</td><td>PID 2 flow setpoint (AIW24)</td></tr>
+        <tr><td class="a">VW32</td><td class="n">300</td><td>Pump-proven delay, 30.0 s</td><td class="a">VD368 / 372</td><td class="n">25 / 20</td><td>Tank level: run start / stop (%)</td></tr>
+        <tr><td class="a">VW36</td><td class="n">600</td><td>Polishing flow proving, 60.0 s</td><td class="a">VD376 / 380</td><td class="n">65 / 75</td><td>Tank level: fill open / close (%)</td></tr>
+        <tr><td class="a">VW22 / 24 / 26</td><td class="n">1800 / 5400 / 21600</td><td>Sanitise stages: 30 min, 90 min, 6 h</td><td class="a">VD990</td><td class="n">18.0</td><td>Pump 1 pressure trip</td></tr>
+        <tr><td class="a">VD70 / 74 / 82</td><td class="n">0.2 / 0.032 / 1.0</td><td>PID 1 gain, Ti (min), Ts (s)</td><td class="a">VD1018 / 1022</td><td class="n">90 / 15</td><td>Minimum rejection, stage 1 / 2 (%)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="pitfall"><h4>Gaps the data block can't fill</h4><p>Three values in the data block are never used by the program: <code>VW44</code> = 1200, <code>VD46</code> = 150.0 and <code>VD52</code> = 60.0. They are probably left over from an earlier version or meant for the HMI. Unused memory with values in it confuses the next engineer, so document it or remove it.</p></div>
+</section>
+
+<!-- ===================== STEP 4 ===================== -->
+<section class="step" id="structure" data-phase="Plan" data-title="Design the program structure">
+  <div class="step-eyebrow">Plan</div>
+  <h2>Design the program structure</h2>
+  <p class="lede">Split the program by the question each part answers. The key idea in this project is layering. Auto, Manual and Sanitise only produce <b>requests</b> in V memory; one routine, Run, decides what the physical outputs actually do.</p>
+  <figure>
+    <div class="fig">
+    <svg class="d" viewBox="0 0 900 330" role="img" aria-label="Call structure: OB1 calls Auto, Manual, Run, Analogue Processing, Sanitise, Alarms and Network; Analogue Processing calls Analogue_In and Analogue_In_V; Network calls S_RTI and ETH6_CTRL; OB1 also calls PID1_INIT, PID2_INIT and Time_WinCE; INT0 runs the PID loops.">
+      <defs><marker id="m4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs>
+      <rect x="370" y="14" width="160" height="44" rx="5" class="box-acc"/>
+      <text x="450" y="34" text-anchor="middle" class="th">OB1 Main</text>
+      <text x="450" y="50" text-anchor="middle" class="ts">every scan, top to bottom</text>
+      <text x="20" y="104" class="th tacc">Requests</text>
+      <text x="20" y="194" class="th tacc">Outputs</text>
+      <text x="20" y="284" class="th tacc">Services</text>
+      <line x1="16" y1="150" x2="884" y2="150" class="guide"/>
+      <line x1="16" y1="236" x2="884" y2="236" class="guide"/>
+      <rect x="110" y="84" width="150" height="46" rx="4" class="box"/><text x="185" y="104" text-anchor="middle" class="th">SBR0 Auto</text><text x="185" y="120" text-anchor="middle" class="ts">what the plant wants</text>
+      <rect x="280" y="84" width="150" height="46" rx="4" class="box"/><text x="355" y="104" text-anchor="middle" class="th">SBR1 Manual</text><text x="355" y="120" text-anchor="middle" class="ts">what the operator wants</text>
+      <rect x="450" y="84" width="150" height="46" rx="4" class="box"/><text x="525" y="104" text-anchor="middle" class="th">SBR5 Sanitise</text><text x="525" y="120" text-anchor="middle" class="ts">what cleaning wants</text>
+      <rect x="620" y="84" width="170" height="46" rx="4" class="box"/><text x="705" y="104" text-anchor="middle" class="th">OB1 PID calls</text><text x="705" y="120" text-anchor="middle" class="ts">SBR6, SBR8 → INT0</text>
+      <rect x="300" y="168" width="300" height="46" rx="4" class="box-acc"/><text x="450" y="188" text-anchor="middle" class="th">SBR2 Run</text><text x="450" y="204" text-anchor="middle" class="ts">the only routine that writes Q outputs</text>
+      <line x1="185" y1="130" x2="330" y2="166" class="ln" marker-end="url(#m4)"/>
+      <line x1="355" y1="130" x2="400" y2="166" class="ln" marker-end="url(#m4)"/>
+      <line x1="525" y1="130" x2="500" y2="166" class="ln" marker-end="url(#m4)"/>
+      <rect x="60" y="254" width="200" height="56" rx="4" class="box"/><text x="160" y="274" text-anchor="middle" class="th">SBR4 Analogue_Processing</text><text x="160" y="290" text-anchor="middle" class="ts">calls SBR3 (mA) and SBR9 (V)</text><text x="160" y="303" text-anchor="middle" class="ts">24 times</text>
+      <rect x="280" y="254" width="160" height="56" rx="4" class="box"/><text x="360" y="274" text-anchor="middle" class="th">SBR7 Alarms</text><text x="360" y="290" text-anchor="middle" class="ts">detect, latch, trip, horn</text>
+      <rect x="460" y="254" width="190" height="56" rx="4" class="box"/><text x="555" y="274" text-anchor="middle" class="th">SBR11 Network</text><text x="555" y="290" text-anchor="middle" class="ts">calls SBR12 S_RTI, SBR13 ETH6</text>
+      <rect x="670" y="254" width="170" height="56" rx="4" class="box"/><text x="755" y="274" text-anchor="middle" class="th">SBR10 Time_WinCE</text><text x="755" y="290" text-anchor="middle" class="ts">clock sync with HMI</text>
+      <line x1="450" y1="58" x2="450" y2="80" class="ln"/>
+      <line x1="185" y1="80" x2="705" y2="80" class="ln"/>
+    </svg>
+    </div>
+    <figcaption>Three layers. Request routines write V bits, Run turns requests into outputs and applies the hard interlocks, and service routines provide data and protection to everyone.</figcaption>
+  </figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Block</th><th>The question it answers</th><th>Why it is a separate block</th></tr></thead>
+    <tbody>
+      <tr><td class="a">OB1</td><td>What runs every scan, and in what order?</td><td>Keeps the main block a short, readable schedule plus a few global functions</td></tr>
+      <tr><td class="a">SBR4 + SBR3/9</td><td>What are the measurements in real units?</td><td>One routine, called 24 times with parameters, instead of 24 copies of the same maths</td></tr>
+      <tr><td class="a">SBR0 Auto</td><td>What would the plant do by itself?</td><td>Sequence logic stays free of manual and safety details, so it reads like the process</td></tr>
+      <tr><td class="a">SBR1 Manual</td><td>What has the operator asked for in hand?</td><td>Hand logic for 12 outputs in one place, all built on one pattern</td></tr>
+      <tr><td class="a">SBR5 Sanitise</td><td>What does the cleaning cycle need?</td><td>A batch sequence with its own timers that must never mix with production logic</td></tr>
+      <tr><td class="a">SBR2 Run</td><td>Should this output be on right now?</td><td>Each output is written once, so interlocks cannot be bypassed by any mode</td></tr>
+      <tr><td class="a">SBR7 Alarms</td><td>Is anything wrong, and how bad?</td><td>One home for detection, delays, latching and the shutdown decision</td></tr>
+      <tr><td class="a">SBR11 Network</td><td>Who else needs the data?</td><td>Communication changes (added in 2013) touched only this block</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pitfall"><h4>Scan order matters</h4><p>OB1 calls Auto → Manual → Run → Analogue → Sanitise → Alarms → Network. So Run decides with analog values from the <i>previous</i> scan, and alarm interlocks act one scan late. At scan times of a few milliseconds this is harmless. In a new design, use Inputs → Alarms → Requests → Outputs → Comms, so every decision in a scan uses the same fresh data.</p></div>
+</section>
+
+<!-- ===================== STEP 5 ===================== -->
+<section class="step" id="ob1" data-phase="Build" data-title="OB1: the housekeeping layer">
+  <div class="step-eyebrow">Build</div>
+  <h2>OB1: the housekeeping layer</h2>
+  <p class="lede">The main block starts with things every other routine relies on: a clean power-up, a flashing signal for lamps, configuration options and a heartbeat that tells the HMI the PLC is alive.</p>
+  <div class="code">
+    <div class="code-h">OB1 · Networks 2–5 <small>power-up inhibit and alarm reset</small></div>
+    <div class="code-body">
+<pre class="stl">Network 2
+LD     SM0.1
+O      SM0.3
+R      M0.0, 1
+Network 3
+LDN    M0.0
+TOF    T36, +4500
+A      T36
+S      M0.0, 1
+Network 4
+LD     T36
+EU
+S      M0.1, 1
+Network 5
+LDN    T36
+EU
+R      M0.1, 0</pre>
+      <ol class="notes">
+        <li><b>N2</b> On the first scan (<code>SM0.1</code>) or a power-up restart (<code>SM0.3</code>), clear the "already started" flag <code>M0.0</code>.</li>
+        <li><b>N3</b> With <code>M0.0</code> off, the off-delay <code>T36</code> switches on at once and <code>M0.0</code> latches. T36 then stays on for 4500 × 10 ms = <b>45 s</b>. This is the power-up window.</li>
+        <li><b>N4</b> When the window opens, set the alarm reset <code>M0.1</code>. Alarms that are only "wrong" because devices are still booting get cleared.</li>
+        <li><b>N5</b> When the window closes, release the reset. The count here is <code>0</code>, which an S7-200 does not accept as a valid reset length (finding F3, step 15).</li>
+      </ol>
+    </div>
+  </div>
+  <div class="code">
+    <div class="code-h">OB1 · Networks 13, 14, 34, 35 <small>flasher, options, heartbeat</small></div>
+    <div class="code-body">
+<pre class="stl">Network 13
+LDN    T42
+TON    T41, +25
+Network 14
+LD     T41
+TOF    T42, +10
+Network 34
+LD     SM0.0
+S      M1.0, 1
+S      M1.1, 1
+R      M1.2, 1
+S      M1.3, 1
+S      M1.4, 1
+S      M1.5, 1
+R      M1.6, 1
+R      M1.7, 1
+=      M5.1
+Network 35
+LD     T42
+EU
++I     +1, VW778
+AENO
+AW&gt;    VW778, +9999
+MOVW   +0, VW778</pre>
+      <ol class="notes">
+        <li><b>N13–14</b> Two timers chase each other: T41 runs 2.5 s, then T42 holds 1 s. The result is a 1 s pulse every 3.5 s, used to flash the status lamp.</li>
+        <li><b>N34</b> Option bits configure the plant. <code>M1.1</code> enables an I0.2 function and Q1.0, <code>M1.2</code> (off) disables channel AIW18, and <code>M1.4</code> enables the second polishing module. This is how one program serves several plant variants.</li>
+        <li><b>N35</b> A heartbeat counter: the HMI watches <code>VW778</code> change to know the PLC is running.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Give field devices time to boot before trusting them (here 45 s), and mask alarms that would only be noise during that time.</li><li>Build lamp flashing from timers inside the program, so the rhythm doesn't depend on the scan time.</li><li>Configuration options belong in clearly named bits set in one place, never scattered constants.</li><li>Always publish a heartbeat. An HMI showing frozen values is worse than one showing "PLC not responding".</li></ul></div>
+</section>
+
+<!-- ===================== STEP 6 ===================== -->
+<section class="step" id="analog" data-phase="Build" data-title="Analog inputs: one routine, 24 calls">
+  <div class="step-eyebrow">Build</div>
+  <h2>Analog inputs: one routine, 24 calls</h2>
+  <p class="lede">Every decision in this plant depends on measurements, so they come first. The programmer wrote one parameterised subroutine that converts a raw module value into engineering units, then called it once per channel.</p>
+  <div class="code">
+    <div class="code-h">SBR3 Analogue_In <small>inputs: Input (WORD), High_Limit, Low_Limit · output: Eng_out</small></div>
+    <div class="code-body">
+<pre class="stl">Network 1
+LD     SM0.0
+ITD    LW0, LD14
+AENO
+DTR    LD14, LD18
+Network 2
+LD     SM0.0
+MOVR   LD18, LD34
+-R     6400.0, LD34
+Network 3
+LD     SM0.0
+MOVR   LD34, LD22
+/R     25600.0, LD22
+Network 4
+LD     SM0.0
+MOVR   LD2, LD26
+AENO
+-R     LD6, LD26
+AENO
+MOVR   LD26, LD30
++R     LD6, LD30
+Network 5
+LD     SM0.0
+MOVR   LD22, LD10
+*R     LD30, LD10</pre>
+      <ol class="notes">
+        <li><b>N1</b> Convert the 16-bit raw value to a real number. Local memory <code>L</code> means every call has its own private workspace.</li>
+        <li><b>N2–3</b> The module reads 4 mA as 6400 and 20 mA as 32000, so subtract 6400 and divide by 25600. This gives the fraction of span, 0.0 to 1.0.</li>
+        <li><b>N4</b> Intended: span = High − Low. As written, it adds Low back again, so the result is just High.</li>
+        <li><b>N5</b> Engineering value = fraction × span. Because of N4, the Low limit is ignored. This is harmless here only because every Low limit in the project is 0.0 (finding F1).</li>
+      </ol>
+    </div>
+  </div>
+  <div class="code">
+    <div class="code-h">SBR4 and SBR7 <small>calling the routine, and catching broken wires</small></div>
+    <div class="code-body">
+<pre class="stl">Network 12   (SBR4)
+LD     SM0.0
+CALL   SBR3, AIW22, VD488, VD492, VD144
+Network 5    (SBR7, shortened)
+LDW&lt;=  AIW0, +5000
+OW&lt;=   AIW2, +5000
+...
+OW&lt;=   AIW44, +5000
+TON    T40, +50
+Network 80   (SBR7)
+LDW&lt;=  AIW22, +5000
+A      T40
+LD     V154.2
+AN     M0.1
+OLD
+=      V154.2</pre>
+      <ol class="notes">
+        <li><b>SBR4 N12</b> Tank level: raw <code>AIW22</code>, limits from <code>VD488</code>/<code>VD492</code> (100.0 / 0.0), result in <code>VD144</code> as %. The limits live in data block page <code>ANOL_RANGE</code>, so ranges change without touching code.</li>
+        <li><b>SBR7 N5</b> A raw value at or below 5000 (about 3.1 mA) means a broken wire or dead transmitter. If any channel stays there for 5 s, timer <code>T40</code> runs out.</li>
+        <li><b>SBR7 N80</b> The channel's own alarm bit latches until reset. For the tank level it is in the shutdown group, because without level the pumps are unprotected.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="widget" id="w-scale">
+    <div class="widget-h"><b>Try it: scale a 4–20 mA signal</b><span>Real channel ranges from the project</span></div>
+    <div class="widget-b">
+      <div class="wrow">
+        <label class="fld">Channel<select id="sc-ch"></select></label>
+        <label class="fld">Low limit (try a non-zero value)<input type="number" id="sc-low" value="0" step="1" style="width:120px"></label>
+      </div>
+      <label class="fld">Loop current: <span class="readout" id="sc-ma-t">12.00 mA</span><input type="range" id="sc-ma" min="0" max="21" step="0.05" value="12"></label>
+      <dl class="kv" id="sc-out"></dl>
+    </div>
+  </div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Write reusable maths once, with parameters, and test it once: 4 mA, 12 mA and 20 mA, plus a non-zero Low limit.</li><li>Keep ranges in data, not code.</li><li>Detect under-range (below about 3.6 mA) as a fault. Never let a dead transmitter look like a real low reading.</li><li>Decide what a failed signal should do to the process. Step 16 shows what this plant does when its level transmitter fails.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 7 ===================== -->
+<section class="step" id="auto" data-phase="Build" data-title="Auto: permissives, seal-in, level">
+  <div class="step-eyebrow">Build</div>
+  <h2>Auto mode: permissives, seal-in and level control</h2>
+  <p class="lede">The first piece of process logic answers one question: is the plant allowed to run, and does it want to? It is a classic start/stop seal-in circuit with permissives, plus level control on the break tank.</p>
+  <div class="code">
+    <div class="code-h">SBR0 Auto · Networks 1–2 <small>start/stop with permissives</small></div>
+    <div class="code-body">
+<pre class="stl">Network 1
+LD     V0.0
+A      I1.3
+O      V0.2
+AN     V0.1
+AN     M0.2
+A      I1.2
+AN     V10.3
+=      V0.2
+=      V1180.0
+Network 2
+LD     V0.2
+A      V2.4
+=      V0.7</pre>
+      <ol class="notes">
+        <li><b>N1</b> Start (<code>V0.0</code>, an HMI button) only works when the start permissive <code>I1.3</code> is present. Once on, <code>V0.2</code> holds itself in (the "seal").</li>
+        <li><b>N1</b> Stop, any shutdown alarm (<code>M0.2</code>), loss of the system enable <code>I1.2</code>, or a sanitise cycle (<code>V10.3</code>) breaks the seal. A copy goes to SCADA (<code>V1180.0</code>).</li>
+        <li><b>N2</b> Auto selected is not the same as running. <code>V0.7</code> (run demand) also needs tank level OK (<code>V2.4</code>), so a low tank pauses the plant without dropping Auto.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="widget" id="w-seal">
+    <div class="widget-h"><b>Try it: the seal-in rung</b><span>The same logic drawn as ladder; green = power flowing</span></div>
+    <div class="widget-b">
+      <div style="overflow-x:auto">
+      <svg class="lad" id="lad" viewBox="0 0 640 160" style="width:100%;min-width:600px" role="img" aria-label="Ladder rung for V0.2">
+        <line x1="16" y1="20" x2="16" y2="140" class="rail-l"/><line x1="624" y1="20" x2="624" y2="140" class="rail-l"/>
+        <path id="lw0" class="w" d="M16 56 H58"/>
+        <path id="lw1" class="w" d="M72 56 H128"/>
+        <path id="lw2" class="w" d="M142 56 H190"/>
+        <path id="lwb0" class="w" d="M30 56 V116 H98"/>
+        <path id="lwb1" class="w" d="M112 116 H190 V56"/>
+        <path id="lw3" class="w" d="M190 56 H238"/>
+        <path id="lw4" class="w" d="M252 56 H308"/>
+        <path id="lw5" class="w" d="M322 56 H378"/>
+        <path id="lw6" class="w" d="M392 56 H448"/>
+        <path id="lw7" class="w" d="M462 56 H530"/>
+        <path id="lw8" class="w" d="M566 56 H624"/>
+        <path id="lc-start" class="ct" d="M58 44 V68 M72 44 V68"/><text x="65" y="34" text-anchor="middle">V0.0</text><text x="65" y="86" text-anchor="middle" class="lbl">Start</text>
+        <path id="lc-i13" class="ct" d="M128 44 V68 M142 44 V68"/><text x="135" y="34" text-anchor="middle">I1.3</text><text x="135" y="86" text-anchor="middle" class="lbl">permissive</text>
+        <path id="lc-seal" class="ct" d="M98 104 V128 M112 104 V128"/><text x="105" y="146" text-anchor="middle">V0.2</text>
+        <path id="lc-stop" class="ct" d="M238 44 V68 M252 44 V68 M234 66 L256 46"/><text x="245" y="34" text-anchor="middle">V0.1</text><text x="245" y="86" text-anchor="middle" class="lbl">Stop</text>
+        <path id="lc-trip" class="ct" d="M308 44 V68 M322 44 V68 M304 66 L326 46"/><text x="315" y="34" text-anchor="middle">M0.2</text><text x="315" y="86" text-anchor="middle" class="lbl">trip</text>
+        <path id="lc-i12" class="ct" d="M378 44 V68 M392 44 V68"/><text x="385" y="34" text-anchor="middle">I1.2</text><text x="385" y="86" text-anchor="middle" class="lbl">enable</text>
+        <path id="lc-san" class="ct" d="M448 44 V68 M462 44 V68 M444 66 L466 46"/><text x="455" y="34" text-anchor="middle">V10.3</text><text x="455" y="86" text-anchor="middle" class="lbl">sanitise</text>
+        <path id="lcoil" class="coil" d="M536 40 Q526 56 536 72 M560 40 Q570 56 560 72"/><text x="548" y="34" text-anchor="middle">V0.2</text><text x="548" y="86" text-anchor="middle" class="lbl">Auto</text>
+      </svg>
+      </div>
+      <div class="wrow">
+        <button class="btn primary" id="sl-start" type="button">Press Start</button>
+        <button class="btn" id="sl-stop" type="button">Press Stop</button>
+        <label class="tog"><input type="checkbox" id="sl-i13" checked><span></span>I1.3 permissive</label>
+        <label class="tog"><input type="checkbox" id="sl-i12" checked><span></span>I1.2 enable</label>
+        <label class="tog"><input type="checkbox" id="sl-trip"><span></span>Trip active (M0.2)</label>
+        <label class="tog"><input type="checkbox" id="sl-san"><span></span>Sanitise running</label>
+        <span class="lamp" id="sl-out">V0.2 Auto</span>
+      </div>
+      <p class="srcnote" id="sl-msg" style="margin:0">Press Start: the coil energises and the V0.2 contact then holds it on after you let go.</p>
+    </div>
+  </div>
+  <h3>Break-tank level with hysteresis</h3>
+  <div class="code">
+    <div class="code-h">SBR0 Auto · Networks 21–25 <small>run permissive and fill valve</small></div>
+    <div class="code-body">
+<pre class="stl">Network 21
+LDR&gt;=  VD144, VD368
+S      V2.4, 1
+Network 22
+LDR&lt;=  VD144, VD372
+R      V2.4, 1
+Network 23
+LDR&gt;=  VD144, VD380
+R      V2.5, 1
+Network 24
+LDR&lt;=  VD144, VD376
+S      V2.5, 1
+Network 25
+LD     V0.2
+O      V10.6
+A      V2.5
+AN     V1.0
+AN     V150.1
+=      V2.6</pre>
+      <ol class="notes">
+        <li><b>N21–22</b> Pumps are allowed (<code>V2.4</code>) when the tank reaches 25 %, and stopped at 20 %. The 5 % gap stops the pumps chattering on and off around one level.</li>
+        <li><b>N23–24</b> The fill valve demand (<code>V2.5</code>) opens at 65 % and closes at 75 %. These are set/reset pairs, so the bit remembers its state between the two levels.</li>
+        <li><b>N25</b> Filling is allowed in Auto or in sanitise stage 3, and blocked by the I0.2 condition (<code>V1.0</code>, <code>V150.1</code>).</li>
+      </ol>
+    </div>
+  </div>
+  <div class="widget" id="w-tank">
+    <div class="widget-h"><b>Try it: level control with hysteresis</b><span>Real setpoints 20/25 % and 65/75 %</span></div>
+    <div class="widget-b">
+      <div class="cols" style="margin:0;grid-template-columns:120px minmax(0,1fr)">
+        <svg id="tk-svg" viewBox="0 0 120 220" style="width:120px;height:auto" role="img" aria-label="Tank level gauge">
+          <rect x="30" y="10" width="50" height="200" rx="3" fill="var(--panel)" stroke="var(--ink-2)"/>
+          <rect id="tk-fill" x="31" y="110" width="48" height="99" fill="var(--accent)" opacity=".35"/>
+          <g font-family="var(--f-mono)" font-size="9" fill="var(--ink-2)">
+            <line x1="80" y1="60" x2="88" y2="60" stroke="var(--ink-2)"/><text x="90" y="63">75</text>
+            <line x1="80" y1="80" x2="88" y2="80" stroke="var(--ink-2)"/><text x="90" y="83">65</text>
+            <line x1="80" y1="160" x2="88" y2="160" stroke="var(--ink-2)"/><text x="90" y="163">25</text>
+            <line x1="80" y1="170" x2="88" y2="170" stroke="var(--ink-2)"/><text x="90" y="173">20</text>
+            <line x1="80" y1="190" x2="88" y2="190" stroke="var(--alarm)"/><text x="90" y="193" fill="var(--alarm)">10</text>
+          </g>
+        </svg>
+        <div class="widget-b" style="padding:0">
+          <label class="fld">Tank level <span class="readout" id="tk-val">50.0 %</span><input type="range" id="tk-lvl" min="0" max="100" step="0.5" value="50"></label>
+          <div class="wrow"><span class="lamp" id="tk-v24">V2.4 pumps allowed</span><span class="lamp" id="tk-v25">V2.5 fill demand</span><span class="lamp" id="tk-low">V154.1 low level</span></div>
+          <div class="wrow"><button class="btn" id="tk-run" type="button" aria-pressed="false">Let the plant run</button><span class="srcnote">Pumps draw water, the fill valve tops it up.</span></div>
+          <p class="srcnote" id="tk-msg" style="margin:0">Drag the level down past 20 %, then back up past 20 %: the pumps stay off until 25 %.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Separate "selected" (operator intent) from "running" (process allows it). A paused plant restarts by itself, a stopped one does not.</li><li>Every on/off decision made on an analog value needs hysteresis.</li><li>Put every permissive in the seal-in rung itself, so a lost permissive drops the mode and the operator must start again.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 8 ===================== -->
+<section class="step" id="sequence" data-phase="Build" data-title="Auto: the timed start sequence">
+  <div class="step-eyebrow">Build</div>
+  <h2>Auto mode: the timed start sequence</h2>
+  <p class="lede">With run demand decided, the plant must come up in a safe order. The programmer chained timers: each step starts only when the previous one is done. A flush at low pressure runs first to rinse the membranes.</p>
+  <figure>
+    <div class="fig">
+    <svg class="d" viewBox="0 0 900 400" role="img" aria-label="Timing diagram to scale: flush valves from 0 s, pump 1 at 10 s, flush ends at 40 s, flush valve A closes at 43 s, pump 2 at 47 s, product valve at 45 s, polishing at 137 s.">
+      <g class="tm">
+        <text x="200" y="40" text-anchor="middle">0</text><text x="288" y="40" text-anchor="middle">20</text><text x="376" y="40" text-anchor="middle">40</text><text x="464" y="40" text-anchor="middle">60</text><text x="552" y="40" text-anchor="middle">80</text><text x="640" y="40" text-anchor="middle">100</text><text x="728" y="40" text-anchor="middle">120</text><text x="816" y="40" text-anchor="middle">140 s</text>
+      </g>
+      <g class="guide"><line x1="200" y1="48" x2="200" y2="352"/><line x1="288" y1="48" x2="288" y2="352"/><line x1="376" y1="48" x2="376" y2="352"/><line x1="464" y1="48" x2="464" y2="352"/><line x1="552" y1="48" x2="552" y2="352"/><line x1="640" y1="48" x2="640" y2="352"/><line x1="728" y1="48" x2="728" y2="352"/><line x1="816" y1="48" x2="816" y2="352"/></g>
+      <text x="12" y="74">Auto, running</text><text x="112" y="74" class="tm">V0.2 · V0.7</text>
+      <polyline points="190,78 200,78 200,62 870,62" class="sig"/>
+      <text x="12" y="108">Flush valve A</text><text x="112" y="108" class="tm">Q1.2</text>
+      <polyline points="190,112 200,112 200,96 389,96 389,112 870,112" class="sig"/>
+      <text x="12" y="142">Flush valve B</text><text x="112" y="142" class="tm">Q1.3</text>
+      <polyline points="190,146 213,146 213,130 376,130 376,146 870,146" class="sig"/>
+      <text x="12" y="176">Pump 1</text><text x="112" y="176" class="tm">Q0.0</text>
+      <polyline points="190,180 244,180 244,164 870,164" class="sig"/>
+      <text x="12" y="210">Pump 2 permissive</text><text x="112" y="210" class="tm">M2.3</text>
+      <polyline points="190,214 406,214 406,198 870,198" class="sig"/>
+      <text x="12" y="244">Pump 2</text><text x="112" y="244" class="tm">Q0.1</text>
+      <polyline points="190,248 407,248 407,232 870,232" class="sig"/>
+      <text x="12" y="278">Product valve</text><text x="112" y="278" class="tm">Q0.6</text>
+      <polyline points="190,282 398,282 398,266 870,266" class="sig"/>
+      <text x="12" y="312">Polishing 1 and 2</text><text x="112" y="312" class="tm">Q0.4 · Q0.5</text>
+      <polyline points="190,316 803,316 803,300 870,300" class="sig"/>
+      <text x="12" y="345">PID 1 measures</text>
+      <rect x="200" y="333" width="189" height="16" rx="2" class="box-soft"/><text x="294" y="345" text-anchor="middle" class="tm">AIW12 · 5.0 bar</text>
+      <rect x="391" y="333" width="479" height="16" rx="2" class="box-acc"/><text x="630" y="345" text-anchor="middle" class="tm">AIW14 · setpoint 2.0</text>
+      <g class="ln"><path d="M200 366 V374 M200 370 H244 M244 366 V374"/><path d="M244 366 V374 M244 370 H376 M376 366 V374"/><path d="M376 366 V374 M376 370 H398 M398 366 V374"/><path d="M407 366 V374 M407 370 H539 M539 366 V374"/><path d="M539 366 V374 M539 370 H803 M803 366 V374"/></g>
+      <text x="222" y="390" text-anchor="middle" class="tm">VW38 10 s</text><text x="310" y="390" text-anchor="middle" class="tm">VW34 flush 30 s</text><text x="387" y="390" text-anchor="middle" class="tm">5 s</text><text x="473" y="390" text-anchor="middle" class="tm">VW32 proven 30 s</text><text x="671" y="390" text-anchor="middle" class="tm">VW36 flow proving 60 s</text>
+    </svg>
+    </div>
+    <figcaption>Drawn to scale from the engine running the real program with the real data-block times. Pump 2 waits for its delay (VW50, 5 s after flush valve B closes) and also for the permissive M2.3, which needs 10 s of stage 1 pressure. That is why it starts at 47 s, not 45 s.</figcaption>
+  </figure>
+  <div class="code">
+    <div class="code-h">SBR0 Auto · Networks 4–7, 16–19 <small>step timers and the flush</small></div>
+    <div class="code-body">
+<pre class="stl">Network 4
+LD     V0.7
+AN     V1.1
+TON    T103, VW38
+Network 5
+LD     T103
+=      V2.0
+Network 6
+LD     V2.0
+AN     V1.3
+TON    T106, VW50
+Network 7
+LD     T106
+=      V2.1
+Network 16
+LD     V0.7
+LDN    V2.0
+LDN    I0.4
+AN     T45
+OLD
+ALD
+TOF    T45, VW34
+Network 17
+LD     T45
+TON    T55, +30
+TOF    T56, +30
+Network 18
+LD     T55
+=      V1.3
+Network 19
+LD     T56
+=      V1.2</pre>
+      <ol class="notes">
+        <li><b>N4–5</b> Step 1: 10 s after run demand, request pump 1 (<code>V2.0</code>). The delay lets valves move before the pump pushes against them.</li>
+        <li><b>N6–7</b> Step 2: pump 2 (<code>V2.1</code>) is requested 5 s after flush valve B closes. Each step is the input of the next timer, so the order can't change.</li>
+        <li><b>N16</b> The flush timer is an <i>off</i>-delay. It is on while waiting for pump 1, then holds for 30 s after pump 1 starts. If <code>I0.4</code> drops during production, the flush starts again.</li>
+        <li><b>N17–19</b> Flush valve A opens at once and closes 3 s late; valve B opens 3 s late and closes on time. Staggering avoids a pressure shock.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>Why timers in a chain, not a step counter?</dt><dd>Each step's timer has the previous step as its input. If anything upstream drops, every later step drops in the same scan, so shutdown is automatic and needs no extra code. The price is less visibility: there is no single "step number" to show on the HMI.</dd>
+      <dt>Why keep presets in V memory?</dt><dd><code>TON T103, VW38</code> reads its preset from <code>VW38</code>, which the operator can tune on the HMI without a program download.</dd>
+    </dl>
+  </div>
+  <p class="srcnote">Watch this sequence live in step 16: press Start in the simulator and follow the timers.</p>
+</section>
+
+<!-- ===================== STEP 9 ===================== -->
+<section class="step" id="manual" data-phase="Build" data-title="Manual mode without bumps">
+  <div class="step-eyebrow">Build</div>
+  <h2>Manual mode without bumps</h2>
+  <p class="lede">Maintenance needs to run single outputs by hand. Each output gets a "hand" bit and a "command" bit from the HMI. The neat part is bumpless transfer: switching to hand must not change what the output is doing.</p>
+  <div class="code">
+    <div class="code-h">SBR1 Manual · Networks 1–2, 17–18, 25 <small>one pattern repeated 12 times</small></div>
+    <div class="code-body">
+<pre class="stl">Network 1
+LDN    V5.0
+A      Q1.0
+LDN    V5.0
+AN     Q1.0
+NOT
+A      V5.1
+OLD
+=      V5.1
+Network 2
+LD     M1.1
+A      V5.0
+A      V5.1
+=      V3.0
+Network 17
+LDN    V7.0
+A      Q0.0
+LDN    V7.0
+AN     Q0.0
+NOT
+A      V7.1
+OLD
+=      V7.1
+Network 18
+LD     V7.0
+A      V7.1
+AN     V152.0
+AN     V151.0
+=      V4.0
+Network 25
+LDN    I1.2
+MOVB   0, VB5
+MOVB   0, VB6
+MOVB   0, VB7
+MOVB   0, VB8</pre>
+      <ol class="notes">
+        <li><b>N1</b> While <code>V5.0</code> (hand) is off, the command bit <code>V5.1</code> copies the real output <code>Q1.0</code>. When hand is on, <code>V5.1</code> keeps whatever the operator sets.</li>
+        <li><b>N2</b> The hand request for Q1.0 (<code>V3.0</code>) is hand AND command AND the option bit.</li>
+        <li><b>N17–18</b> Pump 1 uses the same pattern, plus interlocks: hand running is refused while a high-pressure trip (<code>V152.0</code>, <code>V151.0</code>) is active.</li>
+        <li><b>N25</b> If the system enable <code>I1.2</code> drops, all hand selections (<code>VB5</code>–<code>VB8</code>) are cleared. After an emergency stop, nothing restarts in hand by surprise.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="widget" id="w-hand">
+    <div class="widget-h"><b>Try it: bumpless hand/auto</b><span>Pattern from SBR1 Network 1</span></div>
+    <div class="widget-b">
+      <div class="wrow">
+        <label class="tog"><input type="checkbox" id="hd-auto" checked><span></span>Auto logic wants the output ON</label>
+        <label class="tog"><input type="checkbox" id="hd-hand"><span></span>Hand selected (V5.0)</label>
+        <label class="tog"><input type="checkbox" id="hd-track" checked><span></span>Command tracks output (the SBR1 trick)</label>
+      </div>
+      <div class="wrow">
+        <button class="btn" id="hd-cmd" type="button">Toggle hand command (V5.1)</button>
+        <span class="lamp" id="hd-v51">V5.1 command</span>
+        <span class="lamp" id="hd-q">Q output</span>
+      </div>
+      <p class="srcnote" id="hd-msg" style="margin:0"></p>
+    </div>
+  </div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Hand mode is still subject to safety interlocks. Only the sequence is bypassed, never the protection.</li><li>Clear hand selections on an emergency stop.</li><li>Use the same pattern for every output, so one review covers all twelve.</li><li>Six outputs (Q1.1–Q1.6) have no interlock in hand at all. Review that in a risk assessment.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 10 ===================== -->
+<section class="step" id="outputs" data-phase="Build" data-title="One place writes the outputs">
+  <div class="step-eyebrow">Build</div>
+  <h2>One place writes the outputs</h2>
+  <p class="lede">SBR2 Run is short but central. For every output it chooses between the auto request and the hand request, adds sanitise, then applies the interlocks that no mode may bypass.</p>
+  <div class="code">
+    <div class="code-h">SBR2 Run · Networks 9–13, 16 <small>pumps, permissive and product valve</small></div>
+    <div class="code-body">
+<pre class="stl">Network 9
+LDN    V7.0
+A      V2.0
+LD     V7.0
+A      V4.0
+OLD
+LDN    V7.0
+A      V10.4
+OLD
+A      I1.4
+A      V2.4
+=      Q0.0
+Network 10
+LDN    V8.0
+A      V2.1
+LD     V8.0
+A      V4.1
+OLD
+LDN    V8.0
+A      V10.4
+OLD
+A      I1.5
+A      M2.3
+A      V2.4
+=      Q0.1
+Network 11
+LD     Q0.0
+AR&gt;=   VD128, VD350
+=      M2.1
+Network 12
+LDR&lt;=  VD128, VD350
+TOF    T119, +100
+Network 13
+LD     M2.1
+O      M2.3
+AN     T119
+=      M2.3
+Network 16
+LD     V2.0
+A      V2.1
+AN     V1.2
+LPS
+A      I0.5
+AN     V152.4
+=      Q0.6
+=      V1180.4
+LPP
+=      V1180.2</pre>
+      <ol class="notes">
+        <li><b>N9</b> Pump 1 runs on auto step <code>V2.0</code>, or hand request <code>V4.0</code>, or sanitise <code>V10.4</code>. Whatever the source, it needs drive healthy <code>I1.4</code> and tank OK <code>V2.4</code>. These are the hard interlocks.</li>
+        <li><b>N10</b> Pump 2 adds one more interlock: <code>M2.3</code>, proof that stage 1 is delivering.</li>
+        <li><b>N11–13</b> <code>M2.3</code> is made when <code>VD128</code> has been above 0.1 for 10 s with pump 1 on. It drops the moment it falls back. The 10 s off-delay is a debounce: one good reading isn't trusted, but one bad reading stops the pump.</li>
+        <li><b>N16</b> Product goes to users only with both pumps on, the flush finished, <code>I0.5</code> present and no high product temperature (<code>V152.4</code>).</li>
+      </ol>
+    </div>
+  </div>
+  <div class="decision"><h4>The design rule</h4><p>Write every output in exactly one network. With one place per output, an interlock added there protects the output in every mode, and anyone investigating "why is this pump off?" has only one network to read.</p></div>
+  <div class="pitfall"><h4>Auto-restart after a drive fault</h4><p>If <code>I1.4</code> drops, pump 1 stops at once. But Auto stays selected and <code>V2.0</code> stays on, so the pump restarts by itself the moment the healthy signal returns. Some plants want exactly that; many want an operator restart after a drive trip. Decide deliberately (try "Pump 1 drive fault" in the simulator).</p></div>
+</section>
+
+<!-- ===================== STEP 11 ===================== -->
+<section class="step" id="pid" data-phase="Build" data-title="PID control with the wizard">
+  <div class="step-eyebrow">Build</div>
+  <h2>Closed-loop control with the PID wizard</h2>
+  <p class="lede">The pumps run on variable-speed drives. The programmer used the Micro/WIN PID wizard instead of writing PID code. The wizard generates an init subroutine, a timed interrupt that runs the loop, and a loop table in V memory.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Wizard setting (from the project file)</th><th>Loop 1 (pump 1)</th><th>Loop 2 (pump 2)</th></tr></thead>
+    <tbody>
+      <tr><td>Created</td><td>15 June 2006</td><td>15 November 2011</td></tr>
+      <tr><td>Loop table</td><td class="a">VB228</td><td class="a">VB638</td></tr>
+      <tr><td>Setpoint range</td><td>0.0–10.0</td><td>0.0–9999.0</td></tr>
+      <tr><td>Process value input</td><td>4–20 mA, raw 6400–32000</td><td>4–20 mA, raw 6400–32000</td></tr>
+      <tr><td>Output</td><td>4–20 mA to the drive, raw 6400–32000</td><td>4–20 mA to the drive, raw 6400–32000</td></tr>
+      <tr><td>Tuning in use (data block)</td><td>Gain 0.2, Ti 0.032 min, Td 0, Ts 1.0 s</td><td>Gain 0.15, Ti 0.045 min, Td 0, Ts 1.0 s</td></tr>
+      <tr><td>Setpoint in use</td><td><code>VD64</code> = 2.0 on AIW14; 5.0 on AIW12 while flushing</td><td><code>VD754</code> = 6500 on AIW24</td></tr>
+    </tbody>
+  </table></div>
+  <div class="code">
+    <div class="code-h">OB1 · Networks 15–24, 39–40 <small>auto/manual, setpoint switching, tuning from the HMI</small></div>
+    <div class="code-body">
+<pre class="stl">Network 15
+LD     V9.1
+O      SM0.1
+S      V9.3, 1
+R      V9.1, 1
+Network 17
+LD     Q0.0
+A      V9.3
+=      V9.0
+Network 18
+LDN    M0.5
+CALL   SBR6, AIW14, VD64, V9.0, VD86, VW62
+MOVW   VW62, AQW0
+Network 19
+LD     M0.5
+CALL   SBR6, AIW12, VD384, V9.0, VD86, VW62
+MOVW   VW62, AQW0
+Network 20
+LD     SM0.0
+LPS
+A      Q0.0
+MOVW   VW62, AQW0
+LPP
+AN     Q0.0
+MOVR   0.0, VD86
+Network 21
+LD     SM0.0
+MOVR   VD70, VD240
+Network 39
+LD     SM0.0
+MOVR   VD456, VD364
+AENO
+/R     VD448, VD364
+AENO
+MOVR   VD364, VD384
+*R     VD360, VD384
+Network 40
+LD     V0.7
+A      V1.2
+=      M0.5</pre>
+      <ol class="notes">
+        <li><b>N15–17</b> The loop goes to auto at power-up, but is only in auto (<code>V9.0</code>) while pump 1 runs. A stopped pump has its loop in manual.</li>
+        <li><b>N18–19</b> The same wizard routine is called with a different measurement and setpoint depending on <code>M0.5</code> (running and flushing). During the flush, pump 1 holds 5.0 bar on its own discharge (AIW12) instead of normal control on AIW14.</li>
+        <li><b>N20</b> When the pump is off, manual output = 0.0. The drive gets zero speed and the loop restarts from zero next time, with no wind-up.</li>
+        <li><b>N21</b> Tuning values are copied from HMI registers into the loop table every scan (<code>VD70</code> → gain at <code>VD240</code>). The operator tunes without opening the wizard.</li>
+        <li><b>N39</b> The wizard's setpoint range was set for AIW14 (0–10). The flush setpoint is rescaled so the same percentage is meant: 5.0 × 10 / 25 = 2.0.</li>
+      </ol>
+    </div>
+  </div>
+  <figure>
+    <div class="fig">
+    <svg class="d" viewBox="0 0 840 160" role="img" aria-label="PID loop 1: setpoint VD64 or VD384, PID in INT0, auto/manual V9.0, AQW0 to pump 1 drive, process, feedback AIW14 or AIW12 selected by M0.5.">
+      <defs><marker id="m11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs>
+      <rect x="16" y="34" width="130" height="44" rx="4" class="box"/><text x="81" y="52" text-anchor="middle" class="tm">SP VD64 = 2.0</text><text x="81" y="68" text-anchor="middle" class="tm">flush VD384</text>
+      <line x1="146" y1="56" x2="174" y2="56" class="ln" marker-end="url(#m11)"/>
+      <circle cx="190" cy="56" r="14" class="box"/><text x="190" y="61" text-anchor="middle" class="th">Σ</text>
+      <line x1="204" y1="56" x2="234" y2="56" class="ln" marker-end="url(#m11)"/>
+      <rect x="236" y="34" width="120" height="44" rx="4" class="box-acc"/><text x="296" y="53" text-anchor="middle" class="th">PID 1 (INT0)</text><text x="296" y="69" text-anchor="middle" class="ts">every 1.0 s</text>
+      <line x1="356" y1="56" x2="386" y2="56" class="ln" marker-end="url(#m11)"/>
+      <rect x="388" y="34" width="120" height="44" rx="4" class="box"/><text x="448" y="52" text-anchor="middle" class="tm">auto: V9.0</text><text x="448" y="68" text-anchor="middle" class="tm">manual: VD86 = 0</text>
+      <line x1="508" y1="56" x2="550" y2="56" class="ln" marker-end="url(#m11)"/><text x="529" y="48" text-anchor="middle" class="tm">AQW0</text>
+      <rect x="552" y="34" width="112" height="44" rx="4" class="box"/><text x="608" y="53" text-anchor="middle" class="th">Pump 1 drive</text><text x="608" y="69" text-anchor="middle" class="ts">4–20 mA speed</text>
+      <line x1="664" y1="56" x2="694" y2="56" class="ln" marker-end="url(#m11)"/>
+      <rect x="696" y="34" width="128" height="44" rx="4" class="box"/><text x="760" y="53" text-anchor="middle" class="th">Stage 1</text><text x="760" y="69" text-anchor="middle" class="ts">pressure</text>
+      <path d="M760 78 V112 H566" class="ln" marker-end="url(#m11)"/>
+      <rect x="424" y="97" width="142" height="30" rx="4" class="box-soft"/><text x="495" y="116" text-anchor="middle" class="tm">PV: AIW14 | AIW12</text>
+      <path d="M424 112 H190 V72" class="ln" marker-end="url(#m11)"/>
+      <text x="495" y="146" text-anchor="middle" class="ts">M0.5 (running and flushing) selects AIW12 and VD384</text>
+    </svg>
+    </div>
+    <figcaption>Loop 1 as built. Loop 2 is the same shape with one measurement (AIW24 flow), one setpoint (6500) and output AQW4.</figcaption>
+  </figure>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Use the wizard for the algorithm, but keep the operator interface (setpoints, tuning, auto/manual) in your own V memory.</li><li>Force the controller output to a known value whenever the actuator is off.</li><li>When switching measurements, convert setpoints so the same physical meaning is kept.</li><li>The wizard also stored autotune parameters (deviation 0.08, hysteresis 0.02, initial step 0.1, 7200 s watchdog), so the PID Tune Control Panel was available at commissioning.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 12 ===================== -->
+<section class="step" id="sanitise" data-phase="Build" data-title="Sanitisation: a timed batch">
+  <div class="step-eyebrow">Build</div>
+  <h2>Sanitisation: a timed batch sequence</h2>
+  <p class="lede">Cleaning is a different kind of sequence: long, rarely run, and never mixed with production. It got its own subroutine with three stages and its own countdowns.</p>
+  <figure>
+    <div class="fig">
+    <svg class="d" viewBox="0 0 860 120" role="img" aria-label="Sanitise stages to scale: stage 1 circulate 30 minutes, stage 2 soak 90 minutes, stage 3 rinse 6 hours.">
+      <rect x="20" y="30" width="51" height="40" class="box-acc"/><rect x="73" y="30" width="152" height="40" class="box-soft"/><rect x="227" y="30" width="613" height="40" class="box-acc"/>
+      <text x="46" y="22" text-anchor="middle" class="tm">30 min</text><text x="149" y="22" text-anchor="middle" class="tm">90 min</text><text x="533" y="22" text-anchor="middle" class="tm">6 h</text>
+      <text x="46" y="55" text-anchor="middle" class="th">1</text><text x="149" y="55" text-anchor="middle" class="th">2 · soak</text><text x="533" y="55" text-anchor="middle" class="th">3 · rinse, pumps on, Q1.4 + Q1.5 open</text>
+      <text x="20" y="94" class="ts">Stage 1 circulates with both pumps; stage 2 soaks with pumps off; stage 3 rinses. Total 8 hours, drawn to scale.</text>
+    </svg>
+    </div>
+    <figcaption>Real stage times from the data block: <code>VW22</code> = 1800 s, <code>VW24</code> = 5400 s, <code>VW26</code> = 21600 s.</figcaption>
+  </figure>
+  <div class="code">
+    <div class="code-h">SBR5 Sanitise · Networks 1–5, 12–15 <small>latch, countdown, stage flags</small></div>
+    <div class="code-body">
+<pre class="stl">Network 1
+LDN    V0.6
+LD     V10.0
+O      V10.3
+ALD
+AN     V10.1
+AN     V12.2
+A      I1.2
+AN     M0.2
+=      V10.3
+=      V1180.1
+Network 3
+LD     V10.0
+ITD    VW22, VD204
+Network 4
+LD     SM0.5
+EU
+A      V10.3
+AN     V12.0
+DECD   VD204
+Network 5
+LDD&lt;=  VD204, +0
+A      V10.3
+S      V12.0, 1
+Network 12
+LD     V10.1
+R      V12.0, 1
+R      V12.1, 1
+R      V12.2, 1
+Network 15
+LD     V10.3
+A      V12.0
+A      V12.1
+AN     V12.2
+=      V10.6</pre>
+      <ol class="notes">
+        <li><b>N1</b> The same seal-in pattern as Auto, with its own permissives. Note that Auto has <code>AN V10.3</code>: starting a sanitise drops production.</li>
+        <li><b>N3</b> Pressing start loads the stage time into a double-word counter.</li>
+        <li><b>N4</b> <code>SM0.5</code> is a 1-second clock; its rising edge counts the stage down once per second.</li>
+        <li><b>N5</b> At zero, the stage's done flag <code>V12.0</code> sets. Stages 2 and 3 repeat this with <code>VD212</code> and <code>VD224</code>.</li>
+        <li><b>N12–15</b> Stop/reset clears the stage flags. Stage-active bits such as <code>V10.6</code> are decoded from the done flags and feed SBR2 Run.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="think">
+    <h4>Engineer's thinking: why not just use timers?</h4>
+    <p>An S7-200 100 ms timer counts to 32767, which is 3276.7 s or about 54 minutes. Stage 2 lasts 90 minutes and stage 3 six hours. Neither fits in one timer. A DINT counted down once per second fits easily, and the HMI can show the remaining time directly from <code>VD204</code>, <code>VD212</code> and <code>VD224</code>.</p>
+  </div>
+  <div class="pitfall"><h4>Points to decide</h4><ul><li>Once complete, <code>V12.2</code> blocks a new cycle until someone presses Stop/reset. That may be intended as an acknowledgement, but it must be explained to operators.</li><li>If a trip or loss of I1.2 aborts the cycle, the finished stages stay flagged and a restart skips them. Only Stop/reset clears them.</li><li>The cycle is purely time-based. Nothing checks temperature or chemical strength, so the cleaning effect must be proven another way.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 13 ===================== -->
+<section class="step" id="alarms" data-phase="Build" data-title="Alarms: detect, delay, latch, act">
+  <div class="step-eyebrow">Build</div>
+  <h2>Alarms: detect, delay, latch, act</h2>
+  <p class="lede">SBR7 is the largest block, with 105 networks and 61 alarm bits. Almost every alarm is built from the same five parts. Once you see the pattern, the whole block reads quickly.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Part</th><th>Purpose</th><th>Example in this program</th></tr></thead>
+    <tbody>
+      <tr><td>Condition</td><td>What is wrong</td><td><code>LDN I0.3</code>, <code>LDR&gt;= VD104, 30.0</code>, raw ≤ 5000</td></tr>
+      <tr><td>Enable</td><td>Only judge when it matters</td><td>Pump proven: <code>T44</code> = pump 1 running 30 s; not during sanitise</td></tr>
+      <tr><td>Delay</td><td>Ignore short spikes</td><td><code>TON T46, +50</code> (5 s), <code>T63</code> (15 s), <code>VW942</code> (180 s)</td></tr>
+      <tr><td>Latch</td><td>Remember it until someone acknowledges</td><td><code>LD V150.5 / AN M0.1 / OLD</code></td></tr>
+      <tr><td>Action</td><td>Make the plant safe</td><td>Shutdown group <code>M0.2</code>, product valve block <code>V152.4</code>, horn <code>Q0.7</code></td></tr>
+    </tbody>
+  </table></div>
+  <div class="code">
+    <div class="code-h">SBR7 Alarms · Networks 1, 10–11, 22, 74 <small>the pattern, hysteresis and the shutdown group</small></div>
+    <div class="code-body">
+<pre class="stl">Network 1
+LD     Q0.0
+TON    T44, VW32
+Network 10
+LDN    I0.3
+A      T44
+AN     V10.3
+TON    T46, +50
+Network 11
+LDN    I0.3
+A      T46
+LD     V150.5
+AN     M0.1
+OLD
+A      T44
+=      V150.5
+Network 22
+LDR&gt;=  VD104, 30.0
+A      T44
+LDR&lt;=  VD104, 28.0
+A      M0.1
+NOT
+A      V150.0
+OLD
+=      V150.0
+Network 74
+LD     V151.0
+O      V151.1
+O      V153.2
+O      V152.0
+O      V152.2
+O      V154.2
+O      V155.1
+O      V155.2
+O      V153.7
+O      V152.1
+O      V153.4
+=      M0.2</pre>
+      <ol class="notes">
+        <li><b>N1</b> <code>T44</code> = "pump 1 has run for 30 s". Many alarms use it as their enable, so start-up transients don't cause nuisance alarms.</li>
+        <li><b>N10–11</b> The full pattern: I0.3 missing, while pump 1 is proven, for 5 s, latches <code>V150.5</code>. Reset (<code>M0.1</code>) clears it only if the condition has gone. A stopped pump also clears it.</li>
+        <li><b>N22</b> A high limit with hysteresis: it sets at 30.0, and reset only works once the value is back below 28.0.</li>
+        <li><b>N74</b> Eleven alarms form the shutdown group <code>M0.2</code>. It drops Auto and Sanitise and blocks them from starting. The rest are warnings.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="widget" id="w-alarm">
+    <div class="widget-h"><b>Try it: one alarm, start to finish</b><span>SBR7 Networks 10–11 with the horn from Networks 83–86</span></div>
+    <div class="widget-b">
+      <div class="wrow">
+        <label class="tog"><input type="checkbox" id="al-run" checked><span></span>Pump 1 running and proven (T44)</label>
+        <label class="tog"><input type="checkbox" id="al-i03" checked><span></span>I0.3 signal present</label>
+        <button class="btn" id="al-reset" type="button">Alarm reset (M0.1)</button>
+      </div>
+      <div class="tmr" id="al-tmr" style="max-width:420px"><b>T46</b><span class="tb"><i></i></span><span class="tv">0.0 / 5.0 s</span></div>
+      <div class="wrow"><span class="lamp" id="al-v">V150.5 alarm</span><span class="lamp" id="al-horn">Q0.7 horn</span></div>
+      <p class="srcnote" id="al-msg" style="margin:0">Switch off I0.3 and watch the 5 s delay, then the latch and the horn.</p>
+    </div>
+  </div>
+  <h3>The horn: noticing new alarms</h3>
+  <p>The horn should sound for a <i>new</i> alarm, not keep sounding for old ones. Networks 83–87 compare each live alarm byte (<code>VB150</code>–<code>VB159</code>) with a snapshot (<code>VB160</code>–<code>VB169</code>). A rising difference sets <code>V14.0</code>, which latches the horn. After 3 s (<code>T121</code>) the snapshot is updated; when every alarm has cleared, it is zeroed.</p>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Every alarm needs an enable. An alarm that fires every time the plant starts teaches operators to ignore alarms.</li><li>Separate warnings from trips, and keep the trip list in one network so it can be reviewed in one glance.</li><li>Latch alarms so a short event is never missed, and only allow a reset once the condition has cleared.</li><li>Detect new alarms bit by bit. A byte "greater than" compare can miss one when another bit in the same byte clears in the same scan.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 14 ===================== -->
+<section class="step" id="comms" data-phase="Build" data-title="Talking to the HMI and SCADA">
+  <div class="step-eyebrow">Build</div>
+  <h2>Talking to the HMI and SCADA</h2>
+  <p class="lede">The last layer shares data. The HMI reads and writes V memory directly. SCADA arrived in 2013 through a CP 243-1 Ethernet module, configured with the Ethernet wizard. All of its data is packed in one subroutine.</p>
+  <div class="code">
+    <div class="code-h">OB1 N36–38 and SBR11 Network <small>clock sync, scaling for SCADA, alarm block move</small></div>
+    <div class="code-body">
+<pre class="stl">Network 36   (OB1)
+LD     SM0.4
+EU
+=      M3.5
+Network 37   (OB1)
+LD     SM0.0
+CALL   SBR10, M3.0, M3.1, M3.5, M3.3, M3.4
+Network 1    (SBR11)
+LD     SM0.0
+CALL   SBR13, V1390.0, VW1392, VW1394
+Network 2    (SBR11)
+LD     SM0.0
+CALL   SBR12, VD116, 5.0, 0.0, +5000, +0, VW1124
+Network 5    (SBR11)
+LD     SM0.5
+EU
++I     +1, VW1178
+Network 7    (SBR11)
+LD     SM0.0
+BMD    VD150, VD1148, 5</pre>
+      <ol class="notes">
+        <li><b>OB1 N36–37</b> Once a minute (<code>SM0.4</code> edge) the HMI clock routine is triggered. The touch panel is the time master, so PLC timestamps match the HMI.</li>
+        <li><b>SBR11 N1</b> The Ethernet wizard block runs the CP 243-1 and reports ready, channel status and error codes.</li>
+        <li><b>SBR11 N2</b> Real values are scaled to integers for SCADA: product conductivity 0–5.0 becomes 0–5000, so three decimals survive.</li>
+        <li><b>SBR11 N5</b> A second heartbeat for SCADA, counting seconds.</li>
+        <li><b>SBR11 N7</b> All ten alarm bytes and their snapshot go to SCADA in one block move of five double words.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Put everything that leaves the PLC in one exchange area (here <code>VB1124</code>–<code>VB1180</code>). The SCADA engineer gets one contiguous range.</li><li>Give each consumer a heartbeat and make it alarm when the heartbeat stops.</li><li>Keep a single time master and synchronise the others from it.</li><li>Check your reset logic: SBR11 N6 resets the heartbeat when <code>VW3898</code> exceeds 9999. That should be <code>VW1178</code> (finding F2).</li></ul></div>
+</section>
+
+<!-- ===================== STEP 15 ===================== -->
+<section class="step" id="test" data-phase="Prove" data-title="Test, commission, review">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Test, commission and review</h2>
+  <p class="lede">A program is only robust once it has been proven. This is the order a careful engineer follows, then what a fresh review of this project found.</p>
+  <ol>
+    <li><b>Desk check.</b> Read every network against the requirements list from step 1. Compile, and clear every warning.</li>
+    <li><b>Simulate.</b> Force inputs with the PLC on the bench and watch the status chart: start sequence, every interlock, every alarm.</li>
+    <li><b>I/O check on site.</b> Prove each wire: every input from the field device, every output to its actuator, each analog at 4, 12 and 20 mA.</li>
+    <li><b>Loop check and tuning.</b> Run each PID in manual, then auto. Use the PID Tune Control Panel and record the final values in the data block. This project keeps them on a page named <code>COMM</code>.</li>
+    <li><b>Sequence and alarm challenge.</b> Run the start sequence and the sanitise cycle with real water. Trigger every trip on purpose.</li>
+    <li><b>Archive.</b> Upload the final program and data block, save the project with a version number (here <code>VD500</code> = 1.2), and store a backup off the machine.</li>
+  </ol>
+  <h3>What a fresh review found</h3>
+  <p>None of these stop the plant working day to day, which is why they survived. They are good examples of what testing should catch.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>ID</th><th>Finding</th><th>Evidence from the project file</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td class="a">F1</td><td>Scaling ignores the Low limit</td><td>Every Low limit in <code>ANOL_RANGE</code> is 0.0, so it never shows</td><td>Test reusable code with values the current plant doesn't use</td></tr>
+      <tr><td class="a">F3</td><td><code>R M0.1, 0</code> resets nothing</td><td>Power-up reset release depends on the HMI clearing M0.1</td><td>Treat a zero count or length as a bug</td></tr>
+      <tr><td class="a">F5</td><td>Tank level alarms don't latch</td><td>High alarm sets at 100 %, holds only while ≤ 98 %; low alarm sets at 10 %, holds only while ≥ 15 %</td><td>Test each latch by clearing the condition before resetting</td></tr>
+      <tr><td class="a">F2</td><td>Heartbeat reset checks the wrong word</td><td><code>VW3898</code> is used nowhere else</td><td>Search for addresses used only once; they are usually typos</td></tr>
+      <tr><td class="a">F4</td><td>New-alarm detection by byte compare</td><td>Ten alarm bytes compared with "greater than"</td><td>Compare bit by bit</td></tr>
+      <tr><td class="a">F6</td><td>Minute timers overflow above 54 min</td><td><code>VW40</code> = 30, safely below; an HMI entry of 60 would break it</td><td>Limit every operator entry to what the code can handle</td></tr>
+      <tr><td class="a">F15</td><td>No documentation in the project</td><td>Empty symbol table, default comments in all 14 blocks</td><td>Name and comment as you go; nobody does it afterwards</td></tr>
+    </tbody>
+  </table></div>
+  <div class="evidence"><h4>Level transmitter failure, a worked example</h4><p>If <code>AIW22</code> loses its signal, the scaling routine reports −25 %. In the same scan, <code>V2.5</code> sets (fill demand) and <code>V2.4</code> resets (pumps stop). For 5 s, until the signal-failure trip latches, the fill valve opens on a tank whose level is unknown. Once the trip drops Auto, the valve closes. A safer design treats a failed level signal as "high" for filling purposes. Try it in the simulator.</p></div>
+</section>
+
+<!-- ===================== STEP 16 ===================== -->
+<section class="step" id="simulator" data-phase="Prove" data-title="Run the whole plant">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Run the whole plant</h2>
+  <p class="lede">This simulator runs the logic of <code>PLC.awl</code> scan by scan, every 100 ms of plant time, using the real data-block values. The process behind it is a simple model, there to make the program respond. Speed it up to watch long stages.</p>
+  <div class="sim" id="sim">
+    <div class="sim-top">
+      <button class="btn" id="sm-run" type="button">Pause</button>
+      <button class="btn" id="sm-power" type="button">Power cycle</button>
+      <span class="seg" role="group" aria-label="Speed"><button type="button" data-speed="1">1×</button><button type="button" data-speed="10" aria-pressed="true">10×</button><button type="button" data-speed="60">60×</button><button type="button" data-speed="600">600×</button></span>
+      <span class="clock" id="sm-clock">00:00:00</span>
+    </div>
+    <div class="sim-body">
+      <aside class="sim-ctrl">
+        <div><h5>HMI</h5><div class="grid2">
+          <button class="btn primary" type="button" data-hmi="start">Start</button>
+          <button class="btn" type="button" data-hmi="stop">Stop</button>
+          <button class="btn" type="button" data-hmi="sanStart">Sanitise</button>
+          <button class="btn" type="button" data-hmi="sanStop">San. stop</button>
+          <button class="btn" type="button" data-hmi="reset" style="grid-column:1/3">Alarm reset</button>
+        </div></div>
+        <div><h5>Field signals</h5><div class="stack">
+          <label class="tog"><input type="checkbox" data-in="I1.2" checked><span></span>I1.2 system enable</label>
+          <label class="tog"><input type="checkbox" data-in="I1.3" checked><span></span>I1.3 start permissive</label>
+          <label class="tog"><input type="checkbox" data-in="I1.4" checked><span></span>I1.4 pump 1 drive healthy</label>
+          <label class="tog"><input type="checkbox" data-in="I1.5" checked><span></span>I1.5 pump 2 drive healthy</label>
+          <label class="tog"><input type="checkbox" data-in="I0.4" checked><span></span>I0.4 run proving</label>
+          <label class="tog"><input type="checkbox" data-in="I0.5" checked><span></span>I0.5 product permissive</label>
+        </div></div>
+        <div><h5>Process and faults</h5><div class="stack">
+          <label class="tog"><input type="checkbox" data-f="supply" checked><span></span>Feed water supply</label>
+          <label class="tog"><input type="checkbox" data-f="levelFail"><span></span>Level transmitter wire break</label>
+          <label class="tog"><input type="checkbox" data-f="spike"><span></span>Pump 1 pressure spike</label>
+          <label class="tog"><input type="checkbox" data-f="fouling"><span></span>Stage 1 membrane fouling</label>
+          <label class="fld">Water temperature <span class="readout" id="sm-temp-t">18 °C</span><input type="range" id="sm-temp" min="10" max="35" step="0.5" value="18"></label>
+        </div></div>
+      </aside>
+      <div class="sim-view">
+        <div class="chips" id="sm-chips"></div>
+        <div class="pid-svg">
+        <svg class="s" viewBox="0 0 980 340" role="img" aria-label="Live plant mimic">
+          <path class="pipe" id="pp-feed" d="M20 110 H70"/><path class="pipe" id="pp-fill" d="M92 110 H112"/>
+          <polygon class="vlv" id="vv-q16" points="70,100 70,120 81,110"/><polygon class="vlv" id="vv-q16b" points="92,100 92,120 81,110"/>
+          <text x="81" y="92" text-anchor="middle" class="lb">Q1.6 fill</text><text x="20" y="98" class="lb">feed</text>
+          <rect x="112" y="50" width="88" height="200" rx="4" class="eq" id="tk-box"/>
+          <rect x="113" y="150" width="86" height="99" class="lvl" id="sm-lvlrect"/>
+          <line x1="200" y1="100" x2="208" y2="100" class="tick"/><text x="211" y="103" class="lb">75</text>
+          <line x1="200" y1="120" x2="208" y2="120" class="tick"/><text x="211" y="123" class="lb">65</text>
+          <line x1="200" y1="200" x2="208" y2="200" class="tick"/><text x="211" y="198" class="lb">25</text>
+          <line x1="200" y1="210" x2="208" y2="210" class="tick"/><text x="211" y="216" class="lb">20</text>
+          <text x="156" y="270" text-anchor="middle" class="v" id="tx-level">50.0 %</text><text x="156" y="284" text-anchor="middle" class="lb">AIW22 level</text>
+          <path class="pipe" id="pp-a" d="M200 230 H240"/>
+          <circle cx="260" cy="230" r="20" class="eq" id="eq-p1"/><polygon class="ptri" points="253,220 253,240 271,230"/>
+          <text x="260" y="268" text-anchor="middle">P1 · Q0.0</text><text x="260" y="283" text-anchor="middle" class="v" id="tx-u1">0 %</text>
+          <path class="pipe" id="pp-b" d="M280 230 H330"/>
+          <text x="305" y="200" text-anchor="middle" class="v" id="tx-pf">0.0 bar</text><text x="305" y="186" text-anchor="middle" class="lb">AIW12</text>
+          <rect x="330" y="200" width="110" height="60" rx="4" class="eq" id="eq-s1"/><text x="385" y="226" text-anchor="middle">Stage 1</text><text x="385" y="246" text-anchor="middle" class="v" id="tx-rej1">rej 98 %</text>
+          <path class="pipe" id="pp-c" d="M440 230 H500"/>
+          <text x="470" y="200" text-anchor="middle" class="v" id="tx-pi">0.00</text><text x="470" y="186" text-anchor="middle" class="lb">AIW14</text>
+          <circle cx="520" cy="230" r="20" class="eq" id="eq-p2"/><polygon class="ptri" points="513,220 513,240 531,230"/>
+          <text x="520" y="268" text-anchor="middle">P2 · Q0.1</text><text x="520" y="283" text-anchor="middle" class="v" id="tx-u2">0 %</text>
+          <path class="pipe" id="pp-d" d="M540 230 H590"/>
+          <text x="565" y="200" text-anchor="middle" class="v" id="tx-f2">0 l/h</text><text x="565" y="186" text-anchor="middle" class="lb">AIW24</text>
+          <rect x="590" y="200" width="110" height="60" rx="4" class="eq" id="eq-s2"/><text x="645" y="226" text-anchor="middle">Stage 2</text><text x="645" y="246" text-anchor="middle" class="v" id="tx-p2">0.0 bar</text>
+          <path class="pipe" id="pp-e" d="M700 230 H740 M740 145 V315 M740 145 H770 M740 315 H770"/>
+          <rect x="770" y="118" width="130" height="54" rx="4" class="eq" id="eq-e1"/><text x="835" y="138" text-anchor="middle">Polishing 1 · Q0.4</text><text x="835" y="157" text-anchor="middle" class="v" id="tx-e1">0 V · 0.0 A</text>
+          <rect x="770" y="288" width="130" height="50" rx="4" class="eq" id="eq-e2"/><text x="835" y="307" text-anchor="middle">Polishing 2 · Q0.5</text><text x="835" y="325" text-anchor="middle" class="v" id="tx-e2">0 V · 0.0 A</text>
+          <path class="pipe" id="pp-f" d="M900 145 H930 M900 315 H930 M930 145 V315 M930 230 H940"/>
+          <polygon class="vlv" id="vv-q06" points="940,220 940,240 951,230"/><polygon class="vlv" id="vv-q06b" points="962,220 962,240 951,230"/>
+          <text x="951" y="210" text-anchor="middle" class="lb">Q0.6</text><text x="951" y="258" text-anchor="middle" class="lb">product</text>
+          <text x="770" y="100" class="lb" id="tx-conc">polishing flows 0 / 0 l/h</text>
+        </svg>
+        </div>
+        <div class="lamps" id="sm-lamps"></div>
+      </div>
+    </div>
+    <div class="sim-low">
+      <div><h5>Timers</h5><div id="sm-timers"></div></div>
+      <div><h5>Key bits</h5><div class="bits" id="sm-bits"></div><h5 style="margin-top:12px">Active alarms</h5><ul class="alist" id="sm-alarms"></ul></div>
+      <div><h5>Event log (plant time)</h5><ul class="elog" id="sm-log"></ul></div>
+    </div>
+  </div>
+  <div class="cols">
+    <div class="think"><h4>Things to try</h4><ul style="margin:0;padding-left:1.2em"><li>Press <b>Start</b> and follow the timers: flush, pump 1 at 10 s, pump 2, polishing at about 137 s.</li><li>Untick <b>Feed water supply</b>: the tank drains to 20 %, the pumps pause and Auto stays selected. Tick it again and the plant restarts by itself.</li><li>Untick <b>I1.4</b> for a moment: pump 1 stops, the alarm latches, and the pump restarts when I1.4 returns.</li><li>Tick <b>Level transmitter wire break</b> and watch the fill valve during the 5 s before the trip.</li><li>Raise the temperature above 30 °C: a high-temperature alarm, and the product valve closes.</li><li>Run <b>Sanitise</b> at 600× and watch the three stages count down.</li></ul></div>
+    <div class="evidence"><h4>What is real and what is modelled</h4><ul style="margin:0;padding-left:1.2em"><li>Real: the logic of SBR0, SBR2, SBR5 and SBR7, the alarm and horn behaviour, the scaling maths, every timer preset, setpoint, limit and the PID tuning.</li><li>Modelled: the pumps, pressures, flows, conductivities and tank, and the PID algorithm (the wizard's code is locked).</li><li>Simplified: hand mode is not wired into the simulator, and the power-up reset behaves as intended (finding F3 fixed).</li></ul></div>
+  </div>
+</section>
+
+<!-- ===================== STEP 17 ===================== -->
+<section class="step" id="checklist" data-phase="Prove" data-title="Checklist for a robust program">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Checklist for a robust S7-200 program</h2>
+  <p class="lede">The habits this project shows, good and bad, condensed into a list you can apply to your next PLC project.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Do this</th><th>Why</th><th>Step</th></tr></thead>
+    <tbody>
+      <tr><td>Write the requirements and the I/O list before any code</td><td>The program can only be as clear as the problem statement</td><td>1, 2</td></tr>
+      <tr><td>Wire safety and permissive inputs fail-safe (healthy = 1)</td><td>A broken wire then stops the plant instead of hiding a fault</td><td>2</td></tr>
+      <tr><td>Plan V memory in blocks by owner and keep alarms contiguous</td><td>HMI, SCADA and wizards never collide; one block move publishes all alarms</td><td>3</td></tr>
+      <tr><td>Give every setting a default in the data block</td><td>A memory reset never leaves the plant with zero setpoints</td><td>3</td></tr>
+      <tr><td>Layer the program: inputs, requests, outputs, services</td><td>Interlocks live in one place and every mode respects them</td><td>4, 10</td></tr>
+      <tr><td>Mask alarms during power-up and before equipment is proven</td><td>No nuisance alarms, so real ones are taken seriously</td><td>5, 13</td></tr>
+      <tr><td>Write maths once as a parameterised subroutine, and test it at the edges</td><td>One fix repairs 24 channels; edge tests catch latent bugs</td><td>6</td></tr>
+      <tr><td>Use hysteresis on every analog on/off decision</td><td>Stops relays and valves chattering</td><td>7</td></tr>
+      <tr><td>Chain sequence steps so a lost step drops all later ones</td><td>Shutdown happens in the same scan, without extra code</td><td>8</td></tr>
+      <tr><td>Make hand mode bumpless and keep safety interlocks active in it</td><td>Maintenance can't hurt the plant or surprise the process</td><td>9</td></tr>
+      <tr><td>Force controller outputs to a known value when the actuator stops</td><td>No wind-up, no jump on restart</td><td>11</td></tr>
+      <tr><td>Pick data types that fit the range (DINT seconds, not 100 ms timers, for hours)</td><td>Timers and counters never overflow silently</td><td>12</td></tr>
+      <tr><td>Build every alarm from condition, enable, delay, latch and action</td><td>Consistent behaviour; easy to review</td><td>13</td></tr>
+      <tr><td>Give every communication partner a heartbeat and one time master</td><td>Frozen data is detected, and timestamps agree</td><td>14</td></tr>
+      <tr><td>Name symbols and write comments as you go</td><td>This project has none, and every reader pays for that</td><td>15</td></tr>
+      <tr><td>Test what the current plant doesn't use: Low limits, long timers, failed signals</td><td>That is where the latent bugs here were hiding</td><td>15, 16</td></tr>
+    </tbody>
+  </table></div>
+  <p class="srcnote">Sources: <code>PLC.awl</code> (program listing) and <code>Water Plant.mwp</code> (unpacked data block pages, wizard records and metadata). Signal functions and units are inferred from ranges and logic, and marked as such.</p>
+</section>
+
+    <nav class="navbar" aria-label="Step navigation">
+      <button class="btn" id="nav-prev" type="button">← Previous</button>
+      <button class="btn primary" id="nav-next" type="button">Next →</button>
+    </nav>
+  </main>
+</div>
+<div id="tip" role="tooltip" aria-hidden="true"></div>
+
+<script>
+// Water Plant PLC engine: a scan-by-scan model of the S7-200 program in PLC.awl,
+// using the data-block values stored in Water Plant.mwp. All hand bits stay in auto.
+const PLC = (function () {
+  'use strict';
+
+  // Data block pages "Data Block" and "COMM" (Water Plant.mwp)
+  const DB = {
+    VW22: 1800, VW24: 5400, VW26: 21600, VW30: 600, VW32: 300, VW34: 300, VW36: 600, VW38: 100,
+    VW40: 30, VW42: 1, VW50: 50, VD64: 2.0, VD70: 0.2, VD74: 0.032, VD82: 1.0, VD350: 0.1, VD356: 100,
+    VD360: 5.0, VD754: 6500, VD758: 0.15, VD762: 0.045, VD770: 1.0, VD368: 25, VD372: 20, VD376: 65,
+    VD380: 75, VD392: 20, VD396: 19, VD934: 7900, VD938: 6500, VW932: 1800, VD944: 6800, VD948: 6000,
+    VW942: 1800, VD956: 300, VD960: 100, VW952: 200, VD966: 300, VD970: 100, VW964: 200, VD974: 98,
+    VD978: 100, VD982: 15, VD986: 10, VD990: 18, VD994: 3, VD998: 6, VD1002: 0.5, VD1006: 19,
+    VD1010: 6, VD1014: 6, VD1018: 90, VD1022: 15,
+  };
+
+  // 4-20 mA channels: input, value, High limit (page ANOL_RANGE), simulated signal
+  const CH = [
+    ['AIW0', 'VD100', 2000, 'feedCond'], ['AIW2', 'VD104', 100, 'temp'], ['AIW4', 'VD108', 50, 'p1Cond'],
+    ['AIW6', 'VD112', 100, 'temp'], ['AIW8', 'VD116', 5, 'p2Cond'], ['AIW10', 'VD120', 100, 'temp'],
+    ['AIW12', 'VD124', 25, 'pFeed'], ['AIW14', 'VD128', 10, 'pInter'], ['AIW16', 'VD132', 9999, 'flow1'],
+    ['AIW22', 'VD144', 100, 'level'], ['AIW24', 'VD530', 9999, 'flow2'], ['AIW26', 'VD534', 500, 'c1'],
+    ['AIW28', 'VD538', 500, 'c2'], ['AIW30', 'VD542', 25, 'p2'], ['AIW40', 'VD562', 5, 'p2Cond'],
+    ['AIW42', 'VD566', 100, 'temp'], ['AIW44', 'VD570', 10, 'pEdi'],
+  ];
+  // 0-10 V channels (SBR9)
+  const CHV = [['AIW32', 'VD550', 5.5, 'i1'], ['AIW34', 'VD546', 600, 'v1'], ['AIW36', 'VD558', 5.5, 'i2'], ['AIW38', 'VD554', 600, 'v2']];
+
+  const SIGFAIL = {
+    AIW0: 'V150.6', AIW2: 'V153.5', AIW4: 'V151.7', AIW6: 'V153.1', AIW8: 'V152.7', AIW10: 'V152.5',
+    AIW12: 'V151.1', AIW14: 'V152.2', AIW16: 'V151.5', AIW22: 'V154.2', AIW24: 'V155.6', AIW26: 'V150.2',
+    AIW28: 'V150.3', AIW30: 'V155.2', AIW40: 'V150.4', AIW42: 'V150.7', AIW44: 'V152.1',
+  };
+
+  const ALARMS = {
+    'V150.0': 'Feed temperature high (AIW2 ≥ 30.0)', 'V150.1': 'I0.2 lost for 60 s', 'V150.5': 'I0.3 lost',
+    'V151.0': 'Pump 1 pressure high (AIW12 ≥ 18.0)', 'V151.1': 'AIW12 signal failure', 'V151.2': 'Pump 1 drive fault (I1.4)',
+    'V151.3': 'Stage 1 flow low (AIW16)', 'V151.4': 'Stage 1 flow high (AIW16)', 'V151.6': 'I0.4 lost',
+    'V152.0': 'AIW14 pressure high (≥ 6.0)', 'V152.2': 'AIW14 signal failure', 'V152.4': 'Product temperature high (AIW10 ≥ 30.0)',
+    'V152.6': 'I0.5 lost', 'V153.0': 'AIW6 temperature high (≥ 30.0)', 'V153.2': 'System enable lost (I1.2)',
+    'V153.3': 'AIW14 pressure low', 'V153.4': 'Start permissive lost (I1.3)', 'V153.6': 'Stage 1 rejection low (≤ 90 %)',
+    'V154.0': 'Tank level high', 'V154.1': 'Tank level low', 'V154.2': 'Tank level signal failure (AIW22)',
+    'V154.4': 'AIW12 pressure low', 'V154.6': 'AIW30 pressure low', 'V155.0': 'Pump 2 drive fault (I1.5)',
+    'V155.1': 'Pump 2 pressure high (AIW30 ≥ 19.0)', 'V155.3': 'Stage 2 rejection low (≤ 15 %)',
+    'V155.4': 'Stage 2 flow low (AIW24)', 'V155.5': 'Stage 2 flow high (AIW24)', 'V156.0': 'Polishing 1 flow high',
+    'V156.1': 'Polishing 1 flow low', 'V156.2': 'Polishing 2 flow high', 'V156.3': 'Polishing 2 flow low',
+    'V158.4': 'AIW42 temperature high (≥ 30.0)',
+  };
+  for (const ai in SIGFAIL) if (!ALARMS[SIGFAIL[ai]]) ALARMS[SIGFAIL[ai]] = ai + ' signal failure';
+
+  const TRIPS = ['V151.0', 'V151.1', 'V153.2', 'V152.0', 'V152.2', 'V154.2', 'V155.1', 'V155.2', 'V153.7', 'V152.1', 'V153.4'];
+
+  const WATCH = [
+    ['M0.0', 'Power-up inhibit started (T36, 45 s)', ''], ['V0.2', 'Auto selected', 'Auto dropped'],
+    ['V0.7', 'Running: tank level OK', 'Run demand off'], ['Q1.2', 'Flush valve A (Q1.2) open', 'Flush valve A closed'],
+    ['Q1.3', 'Flush valve B (Q1.3) open', 'Flush valve B closed'], ['Q0.0', 'Pump 1 started', 'Pump 1 stopped'],
+    ['M2.3', 'Pump 2 permissive made (M2.3)', 'Pump 2 permissive lost'], ['Q0.1', 'Pump 2 started', 'Pump 2 stopped'],
+    ['Q0.4', 'Polishing 1 energised', 'Polishing 1 off'], ['Q0.5', 'Polishing 2 energised', 'Polishing 2 off'],
+    ['Q0.6', 'Product valve open', 'Product valve closed'], ['Q1.6', 'Fill valve open', 'Fill valve closed'],
+    ['Q1.4', 'Q1.4 on', 'Q1.4 off'], ['M0.2', 'TRIP: shutdown group active', 'Trip condition cleared'],
+    ['V10.3', 'Sanitise started', 'Sanitise ended'], ['V12.0', 'Sanitise stage 1 done', ''],
+    ['V12.1', 'Sanitise stage 2 done', ''], ['V12.2', 'Sanitise complete: press Stop/reset', ''],
+    ['Q0.7', 'Horn on', 'Horn silenced'],
+  ];
+
+  const TIMERS = 'T36:TOF:45 T41:TON:2.5 T42:TOF:1 T43:TON:60 T44:TON:30 T45:TOF:30 T50:TON:30 T55:TON:3 ' +
+    'T56:TOF:3 T60:TON:1800 T61:TON:60 T101:TON:60 T102:TON:60 T103:TON:10 T106:TON:5 T119:TOF:10 T40:TON:5 ' +
+    'T46:TON:5 T49:TON:5 T52:TON:10 T53:TON:5 T54:TON:15 T63:TON:15 T105:TON:5 T112:TON:30 T113:TON:30 ' +
+    'T114:TON:30 T117:TON:10 T121:TON:3 T39:TON:180 T107:TON:180 T109:TON:20 T110:TON:20';
+
+  const clamp01 = (x) => Math.max(0, Math.min(1, x));
+
+  function run(t, inp, dt) {
+    if (t.type === 'TON') {
+      if (inp) { t.et = Math.min(t.et + dt, t.pt); t.q = t.et >= t.pt - 1e-9; } else { t.et = 0; t.q = false; }
+    } else if (inp) { t.q = true; t.et = 0; } else if (t.q) {
+      t.et += dt; if (t.et >= t.pt - 1e-9) { t.q = false; t.et = 0; }
+    }
+    return t.q;
+  }
+
+  // S7-200 PID form: Mn = Kc*e + MX, MX += Kc*(Ts/Ti)*e, Ti in minutes, values normalised 0..1
+  function pid(auto, sp, pv, kc, ts, ti, mx, m) {
+    if (!auto) return [0, 0];
+    const e = sp - pv;
+    mx = clamp01(mx + kc * (ts / 60 / ti) * e);
+    return [clamp01(kc * e + mx), mx];
+  }
+
+  function create() {
+    const P = {
+      t: 0, first: true, b: {}, a: { VD204: 0, VD212: 0, VD224: 0 }, T: {}, raw: {},
+      p: { level: 50, pFeed: 0, pInter: 0, flow1: 0, flow2: 0, p2: 0, c1: 0, c2: 0, v1: 0, i1: 0, v2: 0, i2: 0, pEdi: 0, feedCond: 400, p1Cond: 8, p2Cond: 0.5, temp: 18 },
+      f: { levelFail: false, spike: false, fouling: false, supply: true, ediFollow: true },
+      hmi: { start: 0, stop: 0, reset: 0, sanStart: 0, sanStop: 0 },
+      u1: 0, u2: 0, m1: 0, m2: 0, mx1: 0, mx2: 0, pidAcc: 0, snap: new Array(10).fill(0),
+      cmpPrev: new Array(10).fill(false), prevAllZero: true, prev: {}, events: [],
+    };
+    ['I0.2', 'I0.3', 'I0.4', 'I0.5', 'I1.2', 'I1.3', 'I1.4', 'I1.5', 'I1.6', 'I1.7', 'I2.0', 'I2.1', 'I2.2'].forEach((k) => { P.b[k] = true; });
+    TIMERS.split(' ').forEach((s) => { const [n, type, pt] = s.split(':'); P.T[n] = { type, pt: +pt, et: 0, q: false }; });
+    return P;
+  }
+
+  function log(P, msg, key, kind) {
+    P.events.unshift({ t: P.t, msg, key, kind: kind || 'event' });
+    if (P.events.length > 80) P.events.length = 80;
+  }
+
+  function model(P, dt) {
+    const s = P.p, b = P.b, f = P.f;
+    const lag = (x, target, tau) => x + (target - x) * Math.min(1, dt / tau);
+    s.pFeed = lag(s.pFeed, f.spike ? 19.5 : (b['Q0.0'] ? 16 * P.u1 : 0), 2.5);
+    s.pInter = Math.max(0, Math.min(10, (s.pFeed - 4) * 0.45));
+    s.flow1 = b['Q0.0'] ? Math.max(0, ((s.pFeed - 2) / 6.44) * 7200) : 0;
+    s.flow2 = lag(s.flow2, b['Q0.1'] ? 11000 * P.u2 : 0, 3);
+    s.p2 = lag(s.p2, b['Q0.1'] ? 4 + 14 * P.u2 : 0, 1.5);
+    s.c1 = lag(s.c1, b['Q0.1'] ? 200 : 0, 5);
+    s.c2 = lag(s.c2, b['Q0.1'] ? 200 : 0, 5);
+    s.v1 = b['Q0.4'] ? 120 : 0; s.i1 = b['Q0.4'] ? 2.5 : 0;
+    s.v2 = b['Q0.5'] ? 120 : 0; s.i2 = b['Q0.5'] ? 2.5 : 0;
+    s.pEdi = lag(s.pEdi, b['Q0.1'] ? 3.2 : 0, 2);
+    const inflow = b['Q1.6'] && f.supply ? 0.6 : 0;
+    const draw = b['Q0.0'] ? (b['V10.3'] ? 0 : 0.35) : 0; // sanitise recirculates to the tank
+    s.level = Math.max(0, Math.min(100, s.level + (inflow - draw) * dt));
+    s.p1Cond = f.fouling ? 45 : 8;
+    s.p2Cond = s.p1Cond * 0.0625;
+    if (f.ediFollow) { b['I0.6'] = !!b['Q0.4']; b['I0.7'] = !!b['Q0.5']; }
+  }
+
+  function scan(P, dt) {
+    const b = P.b, a = P.a, T = P.T, s = P.p, f = P.f;
+    const g = (k) => !!b[k];
+    P.t += dt;
+
+    b['V0.0'] = P.hmi.start > 0; b['V0.1'] = P.hmi.stop > 0;
+    b['V10.0'] = P.hmi.sanStart > 0; b['V10.1'] = P.hmi.sanStop > 0;
+
+    model(P, dt);
+
+    // SBR4 / SBR3 / SBR9: scaling exactly as coded ((raw - 6400) / 25600 * High; all Low limits are 0.0)
+    for (const [ai, vd, hi, sig] of CH) {
+      let raw = Math.round(6400 + (s[sig] / hi) * 25600);
+      raw = Math.max(0, Math.min(32767, raw));
+      if (ai === 'AIW22' && f.levelFail) raw = 0;
+      P.raw[ai] = raw; a[vd] = ((raw - 6400) / 25600) * hi;
+    }
+    for (const [ai, vd, hi, sig] of CHV) {
+      const raw = Math.max(0, Math.min(32000, Math.round((s[sig] / hi) * 32000)));
+      P.raw[ai] = raw; a[vd] = (raw / 32000) * hi;
+    }
+
+    // OB1 N2-N5: power-up inhibit and alarm reset pulse (N5 as intended, with count 1)
+    if (P.first) b['M0.0'] = false;
+    const t36In = !g('M0.0');
+    run(T.T36, t36In, dt);
+    if (t36In && T.T36.q) b['M0.0'] = true;
+    b['M0.1'] = T.T36.q || P.hmi.reset > 0;
+    // OB1 N13-N14 flasher, N34 option bits
+    run(T.T41, !T.T42.q, dt); run(T.T42, T.T41.q, dt);
+    b['M1.1'] = true; b['M1.2'] = false; b['M1.4'] = true; b['M5.1'] = true;
+
+    // SBR0 Auto
+    b['V0.2'] = ((g('V0.0') && g('I1.3')) || g('V0.2')) && !g('V0.1') && !g('M0.2') && g('I1.2') && !g('V10.3');
+    b['V0.7'] = g('V0.2') && g('V2.4');
+    b['V1.5'] = g('V0.7');
+    b['V2.0'] = run(T.T103, g('V0.7') && !g('V1.1'), dt);
+    b['V2.1'] = run(T.T106, g('V2.0') && !g('V1.3'), dt);
+    run(T.T101, g('V2.1') && T.T50.q && a.VD534 >= DB.VD356, dt); b['V2.7'] = T.T101.q && !g('V1.2');
+    run(T.T102, g('V2.1') && T.T50.q && g('M1.4') && a.VD538 >= DB.VD356, dt); b['V2.2'] = T.T102.q && !g('V1.2');
+    run(T.T60, ((g('I1.7') && !g('V1.3')) || T.T60.q) && !T.T61.q, dt); b['M3.7'] = T.T60.q;
+    run(T.T61, T.T60.q, dt);
+    b['V1.7'] = g('V2.0') && g('V2.1') && !g('V1.2') && g('I1.7') && g('I0.5') && !g('V152.4') && !T.T60.q;
+    b['V1.4'] = g('V2.0') && ((g('V1.7') && g('I1.7')) || g('V4.5'));
+    run(T.T45, g('V0.7') && (!g('V2.0') || (!g('I0.4') && !T.T45.q)), dt);
+    b['V1.3'] = run(T.T55, T.T45.q, dt);
+    b['V1.2'] = run(T.T56, T.T45.q, dt);
+    b['V1.0'] = g('M1.1') && g('V0.7') && T.T43.q;
+    if (a.VD144 >= DB.VD368) b['V2.4'] = true;
+    if (a.VD144 <= DB.VD372) b['V2.4'] = false;
+    if (a.VD144 >= DB.VD380) b['V2.5'] = false;
+    if (a.VD144 <= DB.VD376) b['V2.5'] = true;
+    b['V2.6'] = (g('V0.2') || g('V10.6')) && g('V2.5') && !g('V1.0') && !g('V150.1');
+    if (g('V0.2')) { if (a.VD112 >= DB.VD392) b['V4.5'] = true; if (a.VD112 <= DB.VD396) b['V4.5'] = false; }
+
+    // SBR2 Run: the only place that writes outputs
+    b['Q1.0'] = g('V1.0') && g('M1.1');
+    b['Q1.6'] = g('V2.6');
+    b['Q1.1'] = g('V1.1');
+    b['Q1.4'] = g('V1.4') || g('V10.6');
+    b['Q1.5'] = g('V1.5') || g('V10.6');
+    b['Q1.2'] = g('V1.2'); b['Q1.3'] = g('V1.3');
+    b['Q1.7'] = g('V1.7') && !g('V10.3');
+    b['Q0.0'] = (g('V2.0') || g('V10.4')) && g('I1.4') && g('V2.4');
+    b['Q0.1'] = (g('V2.1') || g('V10.4')) && g('I1.5') && g('M2.3') && g('V2.4');
+    b['M2.1'] = g('Q0.0') && a.VD128 >= DB.VD350;
+    run(T.T119, a.VD128 <= DB.VD350, dt);
+    b['M2.3'] = (g('M2.1') || g('M2.3')) && !T.T119.q;
+    b['Q0.4'] = g('V2.7'); b['Q0.5'] = g('V2.2');
+    b['Q0.6'] = g('V2.0') && g('V2.1') && !g('V1.2') && g('I0.5') && !g('V152.4');
+
+    // SBR5 Sanitise
+    b['V10.3'] = !g('V0.6') && (g('V10.0') || g('V10.3')) && !g('V10.1') && !g('V12.2') && g('I1.2') && !g('M0.2');
+    b['V10.4'] = g('V10.3') && (!g('V12.0') || g('V12.1')) && !g('V12.2');
+    if (g('V10.0')) { a.VD204 = DB.VW22; a.VD212 = DB.VW24; a.VD224 = DB.VW26; }
+    const secEdge = Math.floor(P.t + 1e-9) !== Math.floor(P.t - dt + 1e-9);
+    if (secEdge && g('V10.3') && !g('V12.0')) a.VD204--;
+    if (a.VD204 <= 0 && g('V10.3')) b['V12.0'] = true;
+    if (secEdge && g('V12.0') && !g('V12.1')) a.VD212--;
+    if (a.VD212 <= 0 && g('V10.3') && g('V12.0')) b['V12.1'] = true;
+    if (secEdge && g('V12.1')) a.VD224--;
+    if (a.VD224 <= 0 && g('V10.3') && g('V12.1')) b['V12.2'] = true;
+    if (g('V10.1')) { b['V12.0'] = false; b['V12.1'] = false; b['V12.2'] = false; }
+    b['V12.3'] = g('V10.3') && !g('V12.0');
+    b['V10.5'] = g('V10.3') && g('V12.0') && !g('V12.1');
+    b['V10.6'] = g('V10.3') && g('V12.0') && g('V12.1') && !g('V12.2');
+
+    // SBR7 Alarms
+    run(T.T44, g('Q0.0'), dt); run(T.T50, g('Q0.1'), dt);
+    const t44 = T.T44.q, t50 = T.T50.q, M01 = g('M0.1'), t36 = T.T36.q;
+    const latch = (k, set) => { b[k] = !!set || (g(k) && !M01); };
+    const hyst = (k, set, clear) => { b[k] = !!set || (!(clear && M01) && g(k)); };
+    run(T.T43, !g('I0.2') && g('M1.1'), dt); b['V150.1'] = T.T43.q;
+    const fail = (ai) => P.raw[ai] <= 5000;
+    run(T.T40, CH.some(([ai]) => fail(ai)), dt);
+    for (const ai in SIGFAIL) latch(SIGFAIL[ai], fail(ai) && T.T40.q && (ai !== 'AIW40' || !t36));
+    run(T.T46, !g('I0.3') && t44 && !g('V10.3'), dt);
+    b['V150.5'] = ((!g('I0.3') && T.T46.q) || (g('V150.5') && !M01)) && t44;
+    b['V151.6'] = (!g('I0.4') || (g('V151.6') && !M01)) && !g('V10.3') && t44;
+    run(T.T53, !g('I0.5') && t44 && !g('V10.3'), dt);
+    b['V152.6'] = ((!g('I0.5') && T.T53.q) || (g('V152.6') && !M01)) && t50;
+    latch('V153.2', !g('I1.2') && !t36);
+    latch('V151.2', !g('I1.4') && !t36);
+    latch('V155.0', !g('I1.5') && !t36);
+    run(T.T105, !g('I1.3'), dt); latch('V153.4', T.T105.q);
+    hyst('V150.0', a.VD104 >= 30 && t44, a.VD104 <= 28);
+    run(T.T49, a.VD112 >= 30 && t44, dt); hyst('V153.0', a.VD112 >= 30 && T.T49.q && t44, a.VD112 <= 28);
+    run(T.T52, a.VD120 >= 30 && t44, dt); hyst('V152.4', a.VD120 >= 30 && T.T52.q && t50, a.VD120 <= 28);
+    run(T.T117, a.VD566 >= 30 && t44, dt); hyst('V158.4', a.VD566 >= 30 && T.T117.q && t50, a.VD566 <= 28);
+    latch('V151.0', a.VD124 >= DB.VD990);
+    run(T.T112, a.VD124 <= DB.VD994 && g('V2.0') && t44, dt); latch('V154.4', T.T112.q);
+    latch('V152.0', a.VD128 >= DB.VD998);
+    run(T.T113, a.VD128 <= DB.VD1002 && g('V2.0') && t50, dt); latch('V153.3', T.T113.q);
+    latch('V155.1', a.VD542 >= DB.VD1006);
+    run(T.T114, a.VD542 <= DB.VD1010 && g('V2.1') && t50, dt); latch('V154.6', T.T114.q);
+    latch('V153.7', a.VD570 >= DB.VD1014);
+    run(T.T39, (a.VD132 >= DB.VD934 || a.VD132 <= DB.VD938) && g('V2.0'), dt);
+    latch('V151.4', a.VD132 >= DB.VD934 && T.T39.q);
+    b['V151.3'] = ((a.VD132 <= DB.VD938 && T.T39.q) || (g('V151.3') && !M01)) && t44;
+    run(T.T107, (a.VD530 >= DB.VD944 || a.VD530 <= DB.VD948) && g('V2.1'), dt);
+    latch('V155.5', a.VD530 >= DB.VD944 && T.T107.q);
+    b['V155.4'] = ((a.VD530 <= DB.VD948 && T.T107.q) || (g('V155.4') && !M01)) && t50;
+    run(T.T109, (a.VD534 >= DB.VD956 || a.VD534 <= DB.VD960) && g('I0.6'), dt);
+    latch('V156.0', a.VD534 >= DB.VD956 && T.T109.q);
+    b['V156.1'] = ((a.VD534 <= DB.VD960 && T.T109.q) || (g('V156.1') && !M01)) && t50;
+    run(T.T110, (a.VD538 >= DB.VD966 || a.VD538 <= DB.VD970) && g('I0.7'), dt);
+    latch('V156.2', a.VD538 >= DB.VD966 && T.T110.q);
+    b['V156.3'] = ((a.VD538 <= DB.VD970 && T.T110.q) || (g('V156.3') && !M01)) && t50;
+    a.VD192 = Math.max(0, Math.min(100, 100 - (a.VD108 / a.VD100) * 100));
+    run(T.T63, a.VD192 <= DB.VD1018 && !g('V10.3') && t44 && g('Q0.0'), dt);
+    b['V153.6'] = ((a.VD192 <= DB.VD1018 && T.T63.q) || (g('V153.6') && !M01)) && t44;
+    a.VD200 = Math.max(0, Math.min(100, 100 - (a.VD562 / a.VD108) * 100));
+    run(T.T54, a.VD200 <= DB.VD1022 && !g('V10.3') && g('Q0.1'), dt);
+    b['V155.3'] = ((a.VD200 <= DB.VD1022 && T.T54.q) || (g('V155.3') && !M01)) && t50;
+    b['M0.2'] = TRIPS.some(g);
+    // Tank alarms exactly as coded (hold comparisons reversed, finding F5)
+    b['V154.0'] = a.VD144 >= DB.VD978 || (g('V154.0') && a.VD144 <= DB.VD974 && !M01);
+    b['V154.1'] = a.VD144 <= DB.VD986 || (g('V154.1') && a.VD144 >= DB.VD982 && !M01);
+    // New-alarm detection, horn and lamps (N75-N87)
+    const live = [];
+    for (let n = 150; n <= 159; n++) { let v = 0; for (let i = 0; i < 8; i++) if (b['V' + n + '.' + i]) v |= 1 << i; live.push(v); }
+    let rise = false;
+    for (let i = 0; i < 10; i++) { const c = live[i] > P.snap[i]; if (c && !P.cmpPrev[i]) rise = true; P.cmpPrev[i] = c; }
+    if (rise) b['V14.0'] = true;
+    b['Q0.7'] = (g('V14.0') || (g('Q0.7') && !M01)) && g('M5.1');
+    run(T.T121, g('V14.0'), dt);
+    if (T.T121.q || M01) { for (let i = 0; i < 10; i++) P.snap[i] = live[i]; b['V14.0'] = false; }
+    const allZero = live.every((v) => v === 0);
+    if (allZero && !P.prevAllZero) P.snap.fill(0);
+    P.prevAllZero = allZero;
+    b['M10.0'] = P.snap.every((v) => v === 0) && !g('V0.6') && !g('V10.3');
+    b['Q0.3'] = allZero && !g('V0.6') && !g('V10.3');
+    b['Q0.2'] = g('M10.0') || (T.T42.q && !g('M10.0'));
+
+    // OB1 N15-N41: PID loops (INT0 every 1.0 s), setpoint switch and calculated reject
+    if (P.first) { b['V9.3'] = true; b['V9.7'] = true; }
+    b['V9.0'] = g('Q0.0') && g('V9.3');
+    b['V9.4'] = g('Q0.1') && g('V9.7');
+    a.VD384 = DB.VD360 * (10 / 25);
+    b['M0.5'] = g('V0.7') && g('V1.2');
+    P.pidAcc += dt;
+    if (P.pidAcc >= DB.VD82 - 1e-9) {
+      P.pidAcc = 0;
+      const pv1 = clamp01(((g('M0.5') ? P.raw.AIW12 : P.raw.AIW14) - 6400) / 25600);
+      const sp1 = (g('M0.5') ? a.VD384 : DB.VD64) / 10;
+      [P.m1, P.mx1] = pid(g('V9.0'), sp1, pv1, DB.VD70, DB.VD82, DB.VD74, P.mx1, P.m1);
+      const pv2 = clamp01((P.raw.AIW24 - 6400) / 25600);
+      [P.m2, P.mx2] = pid(g('V9.4'), DB.VD754 / 9999, pv2, DB.VD758, DB.VD770, DB.VD762, P.mx2, P.m2);
+    }
+    P.u1 = g('Q0.0') ? P.m1 : 0; P.u2 = g('Q0.1') ? P.m2 : 0;
+    a.VD578 = g('Q0.1') ? a.VD530 - (a.VD534 + a.VD538) : 0;
+
+    // Event log
+    for (const [k, on, off] of WATCH) {
+      const v = g(k);
+      if (P.prev[k] !== undefined && v !== P.prev[k]) { const msg = v ? on : off; if (msg) log(P, msg, k, k === 'M0.2' && v ? 'alarm' : 'event'); }
+      P.prev[k] = v;
+    }
+    for (const k in ALARMS) {
+      const v = g(k);
+      if (v && !P.prev['A' + k]) log(P, ALARMS[k], k, 'alarm');
+      P.prev['A' + k] = v;
+    }
+    for (const k in P.hmi) if (P.hmi[k] > 0) P.hmi[k]--;
+    P.first = false;
+  }
+
+  function press(P, key) { P.hmi[key] = 3; }
+
+  return { DB, CH, CHV, ALARMS, TRIPS, SIGFAIL, create, scan, press };
+})();
+
+
+</script>
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } } };
+
+  /* ---------- STL highlighting ---------- */
+  const ADDR = /^(?:SM|AIW|AQW|AC|HC|I|Q|V|M|T|C|L|S)[BWD]?\d+(?:\.\d)?$|^(?:SBR|INT)\d+$/;
+  $$('pre.stl').forEach((pre) => {
+    const lines = pre.textContent.replace(/\s+$/, '').split('\n');
+    pre.innerHTML = lines.map((l) => {
+      if (/^\s*Network/.test(l) || /^\s*\.\.\./.test(l)) return '<span class="nw">' + esc(l) + '</span>';
+      const m = l.match(/^(\s*)(\S+)(\s*)(.*)$/);
+      if (!m) return esc(l);
+      const ops = m[4].split(/(,\s*|\s+)/).map((t) => {
+        if (ADDR.test(t)) return '<span class="ad">' + esc(t) + '</span>';
+        if (/^[+-]?\d+(?:\.\d+)?$/.test(t)) return '<span class="nu">' + esc(t) + '</span>';
+        if (/^\(.*\)$/.test(t) || /^\(/.test(t) || /\)$/.test(t)) return '<span class="nw">' + esc(t) + '</span>';
+        return esc(t);
+      }).join('');
+      return esc(m[1]) + '<span class="op">' + esc(m[2]) + '</span>' + esc(m[3]) + ops;
+    }).join('\n');
+  });
+
+  /* ---------- Stepper ---------- */
+  const steps = $$('section.step');
+  const list = $('#rail-list');
+  let phase = '';
+  steps.forEach((s, i) => {
+    if (s.dataset.phase !== phase) { phase = s.dataset.phase; const li = document.createElement('li'); li.className = 'phase'; li.textContent = phase; list.appendChild(li); }
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.idx = i;
+    b.innerHTML = '<span>' + String(i + 1).padStart(2, '0') + '</span>' + esc(s.dataset.title);
+    b.addEventListener('click', () => { show(i, true); if (window.matchMedia('(max-width:980px)').matches) $('#rail').open = false; });
+    li.appendChild(b); list.appendChild(li);
+  });
+  const visited = new Set();
+  let cur = 0;
+  function show(i, scroll) {
+    cur = Math.max(0, Math.min(steps.length - 1, i));
+    steps.forEach((s, k) => { s.hidden = k !== cur; });
+    visited.add(cur);
+    $$('#rail-list button').forEach((b) => { const k = +b.dataset.idx; if (k === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); b.classList.toggle('done', visited.has(k) && k !== cur); });
+    $('#prog-txt').textContent = 'Step ' + (cur + 1) + ' of ' + steps.length;
+    $('#prog-bar').style.width = ((cur + 1) / steps.length * 100) + '%';
+    $('#nav-prev').disabled = cur === 0;
+    $('#nav-next').textContent = cur === steps.length - 1 ? 'Back to start' : 'Next →';
+    if (location.hash.slice(1) !== steps[cur].id) { try { history.replaceState(null, '', '#' + steps[cur].id); } catch (e) { /* ignore */ } }
+    store.set('wp-step', steps[cur].id);
+    if (scroll) { const top = $('#sheet').getBoundingClientRect().top + window.scrollY - 12; window.scrollTo({ top, behavior: window.matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' }); }
+  }
+  $('#nav-prev').addEventListener('click', () => show(cur - 1, true));
+  $('#nav-next').addEventListener('click', () => show(cur === steps.length - 1 ? 0 : cur + 1, true));
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest('input,select,textarea')) return;
+    if (e.key === 'ArrowRight') show(cur + 1, true);
+    if (e.key === 'ArrowLeft') show(cur - 1, true);
+  });
+  const startId = location.hash.slice(1) || store.get('wp-step');
+  const startIdx = steps.findIndex((s) => s.id === startId);
+  if (window.matchMedia('(max-width:980px)').matches) $('#rail').open = false;
+  show(startIdx >= 0 ? startIdx : 0, false);
+  // A deep link makes the browser jump to the section before the other steps are hidden; start at the top instead.
+  const toTop = () => { if (window.scrollY > 0) window.scrollTo(0, 0); };
+  requestAnimationFrame(toTop);
+  window.addEventListener('load', () => setTimeout(toTop, 0), { once: true });
+  window.addEventListener('hashchange', () => { const k = steps.findIndex((s) => s.id === location.hash.slice(1)); if (k >= 0 && k !== cur) show(k, true); });
+
+  /* ---------- Memory map ---------- */
+  const ZONES = [
+    [0, 15, 'Commands, modes, sequence bits', 'V0.x HMI buttons, V1–V4 requests, VB5–VB8 hand bits, V9 PID modes, V10/V12 sanitise, V14.0 new alarm', '--accent'],
+    [22, 54, 'Timer presets and spare values', 'VW22–VW50: sanitise stages (s), delays (0.1 s), Q1.7 cycle (min); VW44, VD46, VD52 unused', '--info'],
+    [62, 90, 'PID 1 operator interface', 'VW62 output, VD64 setpoint, VD70–VD82 tuning, VD86 manual output', '--warn'],
+    [100, 148, 'Scaled analogs 1', 'VD100–VD144: AIW0–AIW22 in engineering units', '--on'],
+    [150, 170, 'Alarm bits and snapshot', 'VB150–VB159 live alarms, VB160–VB169 snapshot for the horn', '--alarm'],
+    [192, 228, 'Calculated values', 'VD192/VD200 rejection, VD204/VD212/VD224 sanitise countdowns', '--info'],
+    [228, 308, 'PID loop 1 table (wizard)', 'VB228–VB307, 80 bytes; gain at VD240, Ts VD244, Ti VD248, Td VD252', '--warn'],
+    [350, 400, 'Process setpoints (page COMM)', 'VD350 pump 2 permissive, VD356 minimum flow, VD360 flush setpoint, VD368–VD396 tank and temperature setpoints', '--accent'],
+    [400, 496, 'Scaling limits 1 (page ANOL_RANGE)', 'VD400–VD492: High/Low pairs for AIW0–AIW22', '--on'],
+    [500, 512, 'Version stamp (page Version)', 'VD500 = 1.2, VD504, VD508', '--muted'],
+    [530, 600, 'Scaled analogs 2 and calculations', 'VD530–VD578: AIW24–AIW46, calculated reject VD578', '--on'],
+    [630, 638, 'Real-time clock', 'VB630–VB637 read by TODR', '--muted'],
+    [638, 718, 'PID loop 2 table (wizard)', 'VB638–VB717, 80 bytes', '--warn'],
+    [752, 780, 'PID 2 interface and heartbeat', 'VW752 output, VD754 setpoint, VD758–VD774 tuning, VW778 HMI heartbeat', '--warn'],
+    [800, 896, 'Scaling limits 2 (page ANOL_RANGE)', 'VD800–VD892: High/Low pairs for AIW24–AIW46', '--on'],
+    [900, 1026, 'Alarm limits and delays', 'VD900–VD1022 limits, VW932–VW964 delays', '--alarm'],
+    [1124, 1182, 'SCADA exchange area', 'VW1124/1126/1176 values, VW1178 heartbeat, VB1148–1167 alarms, V1180 status', '--info'],
+    [1390, 1398, 'Ethernet status and wizard data', 'V1390.0 ready, VW1392 channels, VW1394 error, VB1396 wizard', '--muted'],
+  ];
+  const mm = $('#mm-svg'), mml = $('#mm-list');
+  if (mm) {
+    const X = (a) => 20 + a / 1400 * 860;
+    let svg = '';
+    for (let a = 0; a <= 1400; a += 200) svg += `<line x1="${X(a)}" y1="58" x2="${X(a)}" y2="64" stroke="var(--rule-2)"/><text class="ax" x="${X(a)}" y="78" text-anchor="middle">VB${a}</text>`;
+    svg += `<rect x="20" y="20" width="860" height="36" fill="var(--panel)" stroke="var(--rule-2)"/>`;
+    ZONES.forEach((z, i) => { svg += `<rect class="z" data-i="${i}" x="${X(z[0])}" y="20" width="${Math.max(3, X(z[1]) - X(z[0]))}" height="36" fill="var(${z[4]})" opacity=".75" tabindex="0" role="button" aria-label="${esc(z[2])}"/>`; });
+    mm.innerHTML = svg;
+    mml.innerHTML = ZONES.map((z, i) => `<li data-i="${i}"><i style="background:var(${z[4]})"></i><div><b>VB${z[0]}–VB${z[1] - 1}</b> ${esc(z[2])}<br><span class="srcnote">${esc(z[3])}</span></div></li>`).join('');
+    const sel = (i) => { $$('rect.z', mm).forEach((r) => r.classList.toggle('sel', +r.dataset.i === i)); $$('li', mml).forEach((l) => l.classList.toggle('sel', +l.dataset.i === i)); };
+    mm.addEventListener('click', (e) => { const r = e.target.closest('rect.z'); if (r) sel(+r.dataset.i); });
+    mm.addEventListener('keydown', (e) => { const r = e.target.closest('rect.z'); if (r && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); sel(+r.dataset.i); } });
+    mml.addEventListener('click', (e) => { const l = e.target.closest('li'); if (l) sel(+l.dataset.i); });
+  }
+
+  /* ---------- Scaling widget ---------- */
+  const SC = [
+    ['AIW0', 'Feed conductivity', 2000, 'µS/cm', 'mA'], ['AIW12', 'Pump 1 pressure', 25, 'bar', 'mA'], ['AIW14', 'PID 1 pressure', 10, 'bar', 'mA'],
+    ['AIW22', 'Break-tank level', 100, '%', 'mA'], ['AIW24', 'Stage 2 flow', 9999, 'l/h', 'mA'], ['AIW40', 'Stage 2 product conductivity', 5, 'µS/cm', 'mA'],
+    ['AIW34', 'Polishing 1 voltage (0–10 V)', 600, 'V', 'V'], ['AIW32', 'Polishing 1 current (0–10 V)', 5.5, 'A', 'V'],
+  ];
+  const scCh = $('#sc-ch');
+  if (scCh) {
+    scCh.innerHTML = SC.map((c, i) => `<option value="${i}">${c[0]} · ${esc(c[1])} (0–${c[2]})</option>`).join('');
+    const upd = () => {
+      const c = SC[+scCh.value], low = +$('#sc-low').value || 0, v = +$('#sc-ma').value, volt = c[4] === 'V';
+      $('#sc-ma').max = volt ? 10.5 : 21;
+      const val = Math.min(v, volt ? 10.5 : 21);
+      $('#sc-ma-t').textContent = val.toFixed(2) + (volt ? ' V' : ' mA');
+      const raw = Math.min(32767, Math.round(volt ? val * 3200 : val * 1600));
+      const frac = volt ? raw / 32000 : (raw - 6400) / 25600;
+      const asCoded = frac * c[2];
+      const correct = frac * (c[2] - low) + low;
+      const fail = !volt && raw <= 5000;
+      const fmt = (x) => (Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(2)) + ' ' + c[3];
+      $('#sc-out').innerHTML = `<dt>Raw value (AIW)</dt><dd>${raw}</dd><dt>Fraction of span</dt><dd>${(frac * 100).toFixed(1)} %</dd>` +
+        `<dt>Result as coded (SBR${volt ? 9 : 3})</dt><dd>${fmt(asCoded)}</dd><dt>Result with Low limit honoured</dt><dd>${fmt(correct)}${low !== 0 && Math.abs(correct - asCoded) > 1e-9 ? ' ← differs (F1)' : ''}</dd>` +
+        `<dt>Signal check</dt><dd>${volt ? 'not monitored (0–10 V channel)' : fail ? 'raw ≤ 5000: signal-fail alarm after 5 s' : (val < 4 ? 'below 4 mA: negative reading, not yet a fault' : 'healthy')}</dd>`;
+    };
+    ['input', 'change'].forEach((ev) => { scCh.addEventListener(ev, upd); $('#sc-low').addEventListener(ev, upd); $('#sc-ma').addEventListener(ev, upd); });
+    upd();
+  }
+
+  /* ---------- Seal-in ladder widget ---------- */
+  const ld = { start: false, stop: false, v02: false };
+  const ladUpd = () => {
+    const i13 = $('#sl-i13').checked, i12 = $('#sl-i12').checked, trip = $('#sl-trip').checked, san = $('#sl-san').checked;
+    const p1 = ld.start, p2 = ld.start && i13, seal = ld.v02, J = p2 || seal;
+    const p4 = J && !ld.stop, p5 = p4 && !trip, p6 = p5 && i12, p7 = p6 && !san;
+    const set = (id, on) => { const el = $('#' + id); if (el) el.classList.toggle('pw', !!on); };
+    set('lw0', true); set('lw1', p1); set('lw2', p2); set('lwb0', true); set('lwb1', seal); set('lw3', J); set('lw4', p4); set('lw5', p5); set('lw6', p6); set('lw7', p7); set('lw8', p7);
+    const cl = (id, on) => $('#' + id).classList.toggle('cl', !!on);
+    cl('lc-start', ld.start); cl('lc-i13', i13); cl('lc-seal', seal); cl('lc-stop', !ld.stop); cl('lc-trip', !trip); cl('lc-i12', i12); cl('lc-san', !san);
+    ld.v02 = p7;
+    $('#lcoil').classList.toggle('en', p7);
+    $('#sl-out').classList.toggle('on', p7);
+    const msg = p7 ? (ld.start ? 'Coil energised through the Start branch.' : 'Holding: power flows through the V0.2 seal contact.') :
+      (!i12 ? 'I1.2 open: nothing can start or hold.' : trip ? 'A trip is active: the normally closed M0.2 contact is open.' : san ? 'Sanitise is running: Auto is blocked.' : ld.start && !i13 ? 'Start pressed, but I1.3 is missing: no path.' : 'Off. Press Start.');
+    $('#sl-msg').textContent = msg;
+  };
+  const pulse = (key) => { ld[key] = true; ladUpd(); setTimeout(() => { ld[key] = false; ladUpd(); }, 600); };
+  if ($('#lad')) {
+    $('#sl-start').addEventListener('click', () => pulse('start'));
+    $('#sl-stop').addEventListener('click', () => pulse('stop'));
+    ['#sl-i13', '#sl-i12', '#sl-trip', '#sl-san'].forEach((s) => $(s).addEventListener('change', ladUpd));
+    ladUpd();
+  }
+
+  /* ---------- Tank hysteresis widget ---------- */
+  const tk = { v24: true, v25: true, low: false, run: null };
+  const tkUpd = () => {
+    const L = +$('#tk-lvl').value;
+    if (L >= 25) tk.v24 = true; if (L <= 20) tk.v24 = false;
+    if (L >= 75) tk.v25 = false; if (L <= 65) tk.v25 = true;
+    tk.low = L <= 10;
+    $('#tk-val').textContent = L.toFixed(1) + ' %';
+    const h = L * 2; $('#tk-fill').setAttribute('y', 210 - h); $('#tk-fill').setAttribute('height', Math.max(0, h - 1));
+    $('#tk-v24').classList.toggle('on', tk.v24); $('#tk-v25').classList.toggle('on', tk.v25); $('#tk-low').classList.toggle('al', tk.low);
+    $('#tk-msg').textContent = L > 20 && L < 25 ? (tk.v24 ? 'Between 20 and 25 %: pumps still allowed because the level came down from above.' : 'Between 20 and 25 %: pumps still blocked because the level came up from below.') :
+      L > 65 && L < 75 ? (tk.v25 ? 'Between 65 and 75 %: still filling because the level came up from below.' : 'Between 65 and 75 %: not filling because the level came down from above.') : 'Drag the level into the 20–25 % or 65–75 % band from both directions.';
+  };
+  if ($('#tk-lvl')) {
+    $('#tk-lvl').addEventListener('input', tkUpd);
+    $('#tk-run').addEventListener('click', () => {
+      const btn = $('#tk-run');
+      if (tk.run) { clearInterval(tk.run); tk.run = null; btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Let the plant run'; return; }
+      btn.setAttribute('aria-pressed', 'true'); btn.textContent = 'Stop the demo';
+      tk.run = setInterval(() => { const s = $('#tk-lvl'); let L = +s.value + (tk.v25 ? 0.6 : 0) - (tk.v24 ? 0.35 : 0); s.value = Math.max(0, Math.min(100, L)); tkUpd(); }, 100);
+    });
+    tkUpd();
+  }
+
+  /* ---------- Hand/auto widget ---------- */
+  const hd = { v51: true, q: true };
+  const hdUpd = (fromCmd) => {
+    const autoReq = $('#hd-auto').checked, hand = $('#hd-hand').checked, track = $('#hd-track').checked;
+    if (fromCmd && hand) hd.v51 = !hd.v51;
+    const q = hand ? hd.v51 : autoReq;
+    if (!hand && track) hd.v51 = q;
+    const bump = hd.q !== q && !fromCmd;
+    hd.q = q;
+    $('#hd-v51').classList.toggle('on', hd.v51); $('#hd-q').classList.toggle('on', q);
+    $('#hd-cmd').disabled = !hand;
+    $('#hd-msg').textContent = hand ? (bump ? 'The output changed the moment hand was selected: that is the bump tracking prevents.' : 'In hand: the output follows V5.1. Switching to hand caused no change.') :
+      track ? 'In auto: V5.1 copies the output every scan, ready for a bumpless switch.' : 'In auto without tracking: V5.1 keeps its old value. Switch to hand to see the bump.';
+  };
+  if ($('#hd-auto')) {
+    ['#hd-auto', '#hd-hand', '#hd-track'].forEach((s) => $(s).addEventListener('change', () => hdUpd(false)));
+    $('#hd-cmd').addEventListener('click', () => hdUpd(true));
+    hdUpd(false);
+  }
+
+  /* ---------- Alarm widget ---------- */
+  const al = { et: 0, v: false, horn: false, reset: 0 };
+  if ($('#al-run')) {
+    $('#al-reset').addEventListener('click', () => { al.reset = 3; });
+    setInterval(() => {
+      const run = $('#al-run').checked, sig = $('#al-i03').checked, m01 = al.reset > 0;
+      if (!sig && run) al.et = Math.min(5, al.et + 0.1); else al.et = 0;
+      const q = al.et >= 5 - 1e-9, was = al.v;
+      al.v = ((!sig && q) || (al.v && !m01)) && run;
+      if (al.v && !was) al.horn = true;
+      if (m01) al.horn = false;
+      if (al.reset > 0) al.reset--;
+      $('#al-tmr i').style.width = (al.et / 5 * 100) + '%';
+      $('#al-tmr').classList.toggle('q', q);
+      $('#al-tmr .tv').textContent = al.et.toFixed(1) + ' / 5.0 s';
+      $('#al-v').classList.toggle('al', al.v); $('#al-horn').classList.toggle('al', al.horn);
+      $('#al-msg').textContent = al.v ? (sig ? 'Condition gone, but the alarm stays latched until you press reset.' : 'Alarm latched. Reset does nothing while I0.3 is still missing.') :
+        (!sig && run ? 'Condition present: the delay timer is running.' : !run ? 'Enable off: pump not proven, so no judgement is made (and a latched alarm clears).' : 'Healthy. Switch off I0.3 to start.');
+    }, 100);
+  }
+
+  /* ---------- Simulator ---------- */
+  let P = PLC.create(), speed = 10, running = true;
+  const chips = [['V0.2', 'Auto'], ['V0.7', 'Running'], ['V1.2', 'Flush'], ['V2.0', 'Pump 1 step'], ['M2.3', 'P2 permissive'], ['V2.1', 'Pump 2 step'], ['V2.7', 'Polishing'], ['Q0.6', 'Product'], ['V10.3', 'Sanitise'], ['M0.2', 'TRIP']];
+  const lampsDef = [['Q0.0', 'pump 1'], ['Q0.1', 'pump 2'], ['Q0.2', 'status'], ['Q0.3', 'healthy'], ['Q0.4', 'polish 1'], ['Q0.5', 'polish 2'], ['Q0.6', 'product'], ['Q0.7', 'horn'], ['Q1.0', ''], ['Q1.1', ''], ['Q1.2', 'flush A'], ['Q1.3', 'flush B'], ['Q1.4', ''], ['Q1.5', 'inlet'], ['Q1.6', 'fill'], ['Q1.7', '']];
+  const bitsDef = ['V0.2', 'V0.7', 'V2.4', 'V2.5', 'V1.2', 'V1.3', 'V2.0', 'V2.1', 'M2.3', 'V2.7', 'M0.5', 'M0.1', 'M0.2', 'V10.3', 'V12.3', 'V10.5', 'V10.6', 'V14.0'];
+  const timersDef = [['T36', 'power-up inhibit'], ['T103', 'pump 1 delay (VW38)'], ['T45', 'flush, off-delay (VW34)'], ['T106', 'pump 2 delay (VW50)'], ['T119', 'P2 permissive debounce'], ['T44', 'pump 1 proven (VW32)'], ['T50', 'pump 2 proven (VW32)'], ['T101', 'polishing flow proving (VW36)'], ['T40', 'signal-fail delay'], ['T63', 'rejection 1 delay'], ['T121', 'horn snapshot']];
+  $('#sm-chips').innerHTML = chips.map(([k, l]) => `<span class="chip" data-k="${k}">${esc(l)}</span>`).join('');
+  $('#sm-lamps').innerHTML = lampsDef.map(([k, l]) => `<span class="lamp" data-k="${k}">${k}${l ? ' ' + esc(l) : ''}</span>`).join('');
+  $('#sm-bits').innerHTML = bitsDef.map((k) => `<span class="lamp" data-k="${k}">${k}</span>`).join('');
+  $('#sm-timers').innerHTML = timersDef.map(([k, l]) => `<div class="tmr" data-k="${k}"><b>${k}</b><span class="tb"><i></i></span><span class="tv"></span><small>${esc(l)}</small></div>`).join('');
+  const fmtT = (t) => { const s = Math.floor(t); return [Math.floor(s / 3600), Math.floor(s / 60) % 60, s % 60].map((x) => String(x).padStart(2, '0')).join(':'); };
+  const cls = (el, c, on) => el.classList.toggle(c, !!on);
+  let lastEvt = null;
+  function render() {
+    const b = P.b, a = P.a, s = P.p;
+    $('#sm-clock').textContent = fmtT(P.t);
+    $$('#sm-chips .chip').forEach((el) => { const k = el.dataset.k; cls(el, k === 'M0.2' ? 'al' : 'on', b[k]); });
+    $$('#sm-lamps .lamp').forEach((el) => { const k = el.dataset.k; cls(el, k === 'Q0.7' ? 'al' : 'on', b[k]); });
+    $$('#sm-bits .lamp').forEach((el) => { const k = el.dataset.k; cls(el, k === 'M0.2' ? 'al' : 'on', b[k]); });
+    $$('#sm-timers .tmr').forEach((el) => { const t = P.T[el.dataset.k]; const frac = t.type === 'TON' ? t.et / t.pt : (t.q ? 1 - t.et / t.pt : 0); el.querySelector('i').style.width = Math.max(0, Math.min(1, frac)) * 100 + '%'; cls(el, 'q', t.q); el.querySelector('.tv').textContent = (t.type === 'TOF' && t.q ? (t.pt - t.et).toFixed(1) + ' left' : t.et.toFixed(1)) + ' / ' + t.pt + ' s'; });
+    const lvl = Math.max(0, Math.min(100, s.level));
+    $('#sm-lvlrect').setAttribute('y', 249 - lvl * 1.98); $('#sm-lvlrect').setAttribute('height', Math.max(0, lvl * 1.98));
+    $('#tx-level').textContent = a.VD144.toFixed(1) + ' %';
+    $('#tx-u1').textContent = 'speed ' + Math.round(P.u1 * 100) + ' %';
+    $('#tx-u2').textContent = 'speed ' + Math.round(P.u2 * 100) + ' %';
+    $('#tx-pf').textContent = a.VD124.toFixed(1) + ' bar';
+    $('#tx-pi').textContent = a.VD128.toFixed(2);
+    $('#tx-f2').textContent = Math.round(a.VD530) + ' l/h';
+    $('#tx-p2').textContent = a.VD542.toFixed(1) + ' bar';
+    $('#tx-rej1').textContent = 'rejection ' + a.VD192.toFixed(1) + ' %';
+    $('#tx-e1').textContent = Math.round(a.VD546) + ' V · ' + a.VD550.toFixed(1) + ' A';
+    $('#tx-e2').textContent = Math.round(a.VD554) + ' V · ' + a.VD558.toFixed(1) + ' A';
+    $('#tx-conc').textContent = 'polishing flows ' + Math.round(a.VD534) + ' / ' + Math.round(a.VD538) + ' l/h';
+    cls($('#eq-p1'), 'on', b['Q0.0']); cls($('#eq-p2'), 'on', b['Q0.1']);
+    cls($('#eq-e1'), 'on', b['Q0.4']); cls($('#eq-e2'), 'on', b['Q0.5']);
+    cls($('#eq-s1'), 'on', b['Q0.0']); cls($('#eq-s2'), 'on', b['Q0.1']);
+    cls($('#eq-s1'), 'al', b['V153.6'] || b['V151.0']);
+    cls($('#tk-box'), 'al', b['V154.2'] || b['V154.1'] || b['V154.0']);
+    ['#vv-q16', '#vv-q16b'].forEach((id) => cls($(id), 'on', b['Q1.6']));
+    ['#vv-q06', '#vv-q06b'].forEach((id) => cls($(id), 'on', b['Q0.6']));
+    cls($('#pp-feed'), 'flow', b['Q1.6'] && P.f.supply); cls($('#pp-fill'), 'flow', b['Q1.6'] && P.f.supply);
+    ['#pp-a', '#pp-b', '#pp-c'].forEach((id) => cls($(id), 'flow', b['Q0.0']));
+    ['#pp-d', '#pp-e'].forEach((id) => cls($(id), 'flow', b['Q0.1']));
+    cls($('#pp-f'), 'flow', b['Q0.6']);
+    const act = Object.keys(PLC.ALARMS).filter((k) => b[k]);
+    $('#sm-alarms').innerHTML = act.length ? act.map((k) => `<li class="${PLC.TRIPS.includes(k) ? 'trip' : ''}">${PLC.TRIPS.includes(k) ? 'TRIP · ' : ''}${esc(PLC.ALARMS[k])} <span class="srcnote">${k}</span></li>`).join('') : '<li class="empty">No active alarms</li>';
+    if (P.events[0] !== lastEvt) {
+      lastEvt = P.events[0];
+      $('#sm-log').innerHTML = P.events.slice(0, 60).map((e) => `<li class="${e.kind}"><span>${fmtT(e.t)}</span><span>${esc(e.msg)}</span></li>`).join('');
+    }
+  }
+  function syncInputs() {
+    $$('[data-in]').forEach((el) => { el.checked = !!P.b[el.dataset.in]; });
+    $$('[data-f]').forEach((el) => { el.checked = !!P.f[el.dataset.f]; });
+    $('#sm-temp').value = P.p.temp; $('#sm-temp-t').textContent = P.p.temp + ' °C';
+  }
+  $$('[data-hmi]').forEach((el) => el.addEventListener('click', () => { PLC.press(P, el.dataset.hmi); if (!running) { PLC.scan(P, 0.1); render(); } }));
+  $$('[data-in]').forEach((el) => el.addEventListener('change', () => { P.b[el.dataset.in] = el.checked; }));
+  $$('[data-f]').forEach((el) => el.addEventListener('change', () => { P.f[el.dataset.f] = el.checked; }));
+  $('#sm-temp').addEventListener('input', (e) => { P.p.temp = +e.target.value; $('#sm-temp-t').textContent = P.p.temp + ' °C'; });
+  $$('.seg [data-speed]').forEach((el) => el.addEventListener('click', () => { speed = +el.dataset.speed; $$('.seg [data-speed]').forEach((x) => x.setAttribute('aria-pressed', x === el ? 'true' : 'false')); }));
+  $('#sm-run').addEventListener('click', () => { running = !running; $('#sm-run').textContent = running ? 'Pause' : 'Run'; });
+  $('#sm-power').addEventListener('click', () => { const t = P.p.temp, f = Object.assign({}, P.f); P = PLC.create(); P.p.temp = t; Object.assign(P.f, f); lastEvt = null; PLC.scan(P, 0); syncInputs(); render(); });
+  setInterval(() => {
+    if (!running) return;
+    for (let i = 0; i < speed; i++) PLC.scan(P, 0.1);
+    render();
+  }, 100);
+  PLC.scan(P, 0); syncInputs(); render();
+
+  /* ---------- Tooltips for memory map ---------- */
+  const tip = $('#tip');
+  if (mm) {
+    mm.addEventListener('pointermove', (e) => { const r = e.target.closest('rect.z'); if (!r) { tip.style.opacity = 0; return; } const z = ZONES[+r.dataset.i]; tip.textContent = `VB${z[0]}–VB${z[1] - 1}: ${z[2]}`; tip.style.opacity = 1; const w = tip.offsetWidth; let L = e.clientX + 12; if (L + w > window.innerWidth - 8) L = e.clientX - w - 12; tip.style.left = L + 'px'; tip.style.top = (e.clientY - tip.offsetHeight - 10) + 'px'; });
+    mm.addEventListener('pointerleave', () => { tip.style.opacity = 0; });
+  }
+})();
+</script>
+
+</html>

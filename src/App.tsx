@@ -30,6 +30,17 @@ const SPECIAL: Record<string, string> = {
 export const platformName = (s: string) =>
   SPECIAL[s] ?? s.split(" ").map((w) => (KEEP_UPPER.has(w) ? w : w.charAt(0) + w.slice(1).toLowerCase())).join(" ");
 
+type Project = { slug: string; tag: string; title: string; platform: string; summary: string; steps: number; src: string };
+const PROJECTS: Project[] = [
+  {
+    slug: "water-plant", tag: "CPU 226",
+    title: "Building a water treatment PLC program",
+    platform: "Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0",
+    summary: "Seventeen steps from the process and I/O list to alarms, SCADA links and commissioning, reconstructed from a real project file. It ends with a scan-by-scan simulator of the finished program.",
+    steps: 17, src: "projects/water-plant/index.html",
+  },
+];
+
 const minutes = (a: Article) => Math.max(1, Math.round(a.words / 220));
 const href = (a: Article) => `#/a/${encodeURIComponent(a.key)}`;
 const groupHref = (g: string) => `#/g/${encodeURIComponent(g)}`;
@@ -62,17 +73,23 @@ export default function App() {
 
   useEffect(() => { setTreeOpen(false); setQ(""); window.scrollTo({ top: 0 }); }, [hash]);
   useEffect(() => { if (article) setRecent((r) => [article.key, ...r.filter((x) => x !== article.key)].slice(0, 8)); }, [article?.key]);
+  const projMatch = hash.match(/^\/projects\/([^/]+)(?:\/([\w-]+))?$/);
+  const project = projMatch ? PROJECTS.find((p) => p.slug === projMatch[1]) : undefined;
+
   useEffect(() => {
-    document.title = article ? `${article.title} | PLC Academy` : group ? `${group} | PLC Academy` : hash === "/sims" ? "Simulators | PLC Academy" : "PLC Academy";
-  }, [article, group, hash]);
+    document.title = article ? `${article.title} | PLC Academy` : group ? `${group} | PLC Academy` : hash === "/sims" ? "Simulators | PLC Academy"
+      : project ? `${project.title} | PLC Academy` : hash === "/projects" ? "Projects | PLC Academy" : "PLC Academy";
+  }, [article, group, hash, project]);
 
   const toggle = (arr: string[], set: (v: string[]) => void, k: string) => set(arr.includes(k) ? arr.filter((x) => x !== k) : [...arr, k]);
-  const section = hash === "/sims" ? "sims" : "library";
+  const section = hash === "/sims" ? "sims" : hash.startsWith("/projects") ? "projects" : "library";
 
   let main: React.ReactElement;
   if (q.trim()) main = <Results q={q.trim()} hits={hits} />;
   else if (hash === "/" ) main = <Home list={list} done={done} recent={recent} marks={marks} />;
   else if (hash === "/sims") main = <Sims />;
+  else if (hash === "/projects") main = <ProjectIndex />;
+  else if (project) main = <ProjectView p={project} step={projMatch?.[2]} />;
   else if (group && list.some((a) => a.group === group)) main = <GroupPage group={group} list={list} done={done} />;
   else if (article) main = (
     <div className="reader-layout">
@@ -91,6 +108,7 @@ export default function App() {
         <a className="brand" href="#/" aria-label="PLC Academy home"><Mark /><span>PLC Academy</span></a>
         <nav className="topnav" aria-label="Main">
           <a className="lib-link" href="#/" aria-current={section === "library" && !q ? "page" : undefined}>Library</a>
+          <a href="#/projects" aria-current={section === "projects" && !q ? "page" : undefined}>Projects</a>
           <a href="#/sims" aria-current={section === "sims" && !q ? "page" : undefined}>Simulators</a>
         </nav>
         <div className="search" role="search">
@@ -211,7 +229,13 @@ function Home({ list, done, recent, marks }: { list: Article[]; done: string[]; 
           )}
           {marked.length > 0 && (<><h2 style={{ marginTop: 32 }}>Bookmarks</h2><ReadingList items={marked} done={done} /></>)}
         </section>
-        <section aria-labelledby="sim-title">
+        <section aria-label="Projects and simulators">
+          <h2 id="build-title">Follow a real build</h2>
+          <div className="faceplate-links" style={{ marginBottom: 32 }}>
+            {PROJECTS.map((p) => (
+              <a key={p.slug} className="faceplate-link" href={`#/projects/${p.slug}`}><span className="tag">{p.tag}</span><p><b>{p.title}</b>{p.steps} steps from process to commissioning, with a live plant simulator.</p></a>
+            ))}
+          </div>
           <h2 id="sim-title">Practise on a process</h2>
           <div className="faceplate-links">
             <a className="faceplate-link" href="#/sims"><span className="tag">SFC-101</span><p><b>Sequence chart</b>Step a five-stage tank batch through its GRAFCET transitions.</p></a>
@@ -436,6 +460,56 @@ function Results({ q, hits }: { q: string; hits: Article[] }) {
           );
         })}
       </ul>
+    </div>
+  );
+}
+
+/* ---------------- projects ---------------- */
+
+const PROJECT_STEPS: [string, string][] = [
+  ["process", "The process and requirements"], ["io", "I/O list and hardware"], ["memory", "Memory map"], ["sequence", "Timed start sequence"],
+  ["pid", "PID control"], ["alarms", "Alarms"], ["test", "Review findings"], ["simulator", "Full plant simulator"],
+];
+
+function ProjectIndex() {
+  return (
+    <div className="page">
+      <header className="sims-head">
+        <h1>Projects</h1>
+        <p>Complete PLC programs taken apart step by step: the process, the design decisions, the code, and what a review found. Each one runs in the browser.</p>
+      </header>
+      {PROJECTS.map((p) => (
+        <article className="project-card" key={p.slug} aria-labelledby={`pj-${p.slug}`}>
+          <div className="project-card-main">
+            <span className="tag">{p.tag}</span>
+            <h2 id={`pj-${p.slug}`}><a href={`#/projects/${p.slug}`}>{p.title}</a></h2>
+            <p className="muted">{p.platform}</p>
+            <p>{p.summary}</p>
+            <div className="home-actions">
+              <a className="btn" href={`#/projects/${p.slug}`}>Start the walkthrough</a>
+              <a className="btn quiet" href={`#/projects/${p.slug}/simulator`}>Go to the simulator</a>
+            </div>
+          </div>
+          <nav className="project-jumps" aria-label={`Jump into ${p.title}`}>
+            <h3>Jump to a step</h3>
+            <ul>{PROJECT_STEPS.map(([id, label]) => <li key={id}><a href={`#/projects/${p.slug}/${id}`}>{label}</a></li>)}</ul>
+          </nav>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function ProjectView({ p, step }: { p: Project; step?: string }) {
+  const src = p.src + (step ? `#${step}` : "");
+  return (
+    <div className="project-view">
+      <div className="project-bar">
+        <nav className="crumbs" aria-label="Breadcrumb"><a href="#/projects">Projects</a><span aria-hidden="true">/</span><span>{p.tag}</span></nav>
+        <h1>{p.title}</h1>
+        <a className="linkbtn" href={src} target="_blank" rel="noreferrer">Open on its own page</a>
+      </div>
+      <iframe key={src} className="project-frame" src={src} title={`${p.title}: interactive walkthrough`} />
     </div>
   );
 }

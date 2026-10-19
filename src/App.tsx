@@ -30,7 +30,7 @@ const SPECIAL: Record<string, string> = {
 export const platformName = (s: string) =>
   SPECIAL[s] ?? s.split(" ").map((w) => (KEEP_UPPER.has(w) ? w : w.charAt(0) + w.slice(1).toLowerCase())).join(" ");
 
-type Project = { slug: string; tag: string; title: string; platform: string; summary: string; steps: number; src: string };
+type Project = { slug: string; tag: string; title: string; platform: string; summary: string; steps: number; src: string; jumps: [string, string][] };
 const PROJECTS: Project[] = [
   {
     slug: "water-plant", tag: "CPU 226",
@@ -38,6 +38,17 @@ const PROJECTS: Project[] = [
     platform: "Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0",
     summary: "Seventeen steps from the process and I/O list to alarms, SCADA links and commissioning, reconstructed from a real project file. It ends with a scan-by-scan simulator of the finished program.",
     steps: 17, src: "projects/water-plant/index.html",
+    jumps: [["process", "The process and requirements"], ["io", "I/O list and hardware"], ["memory", "Memory map"], ["sequence", "Timed start sequence"],
+      ["pid", "PID control"], ["alarms", "Alarms"], ["test", "Review findings"], ["simulator", "Full plant simulator"]],
+  },
+  {
+    slug: "autoclave", tag: "CPU 226",
+    title: "Basic Autoclave project: a steam sterilizer PLC program",
+    platform: "Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0 · anonymised example",
+    summary: "A pre-vacuum autoclave taken apart in seventeen steps: pass-through door interlocks, vacuum pulses, pressure control on the steam table, F0, drying, and an alarm byte per fault. It ends with a simulator of the full sterilisation cycle.",
+    steps: 17, src: "projects/autoclave/index.html",
+    jumps: [["process", "The process and requirements"], ["start", "Start conditions and doors"], ["pulses", "Air removal: vacuum pulses"], ["control", "Pressure control and steam table"],
+      ["f0", "Exposure time and F0"], ["alarms", "Alarms"], ["test", "Review findings"], ["simulator", "Sterilizer simulator"]],
   },
 ];
 
@@ -466,11 +477,6 @@ function Results({ q, hits }: { q: string; hits: Article[] }) {
 
 /* ---------------- projects ---------------- */
 
-const PROJECT_STEPS: [string, string][] = [
-  ["process", "The process and requirements"], ["io", "I/O list and hardware"], ["memory", "Memory map"], ["sequence", "Timed start sequence"],
-  ["pid", "PID control"], ["alarms", "Alarms"], ["test", "Review findings"], ["simulator", "Full plant simulator"],
-];
-
 function ProjectIndex() {
   return (
     <div className="page">
@@ -479,7 +485,7 @@ function ProjectIndex() {
         <p>Complete PLC programs taken apart step by step: the process, the design decisions, the code, and what a review found. Each one runs in the browser.</p>
       </header>
       {PROJECTS.map((p) => (
-        <article className="project-card" key={p.slug} aria-labelledby={`pj-${p.slug}`}>
+        <article className="project-card" key={p.slug} aria-labelledby={`pj-${p.slug}`} style={{ marginBottom: 24 }}>
           <div className="project-card-main">
             <span className="tag">{p.tag}</span>
             <h2 id={`pj-${p.slug}`}><a href={`#/projects/${p.slug}`}>{p.title}</a></h2>
@@ -492,7 +498,7 @@ function ProjectIndex() {
           </div>
           <nav className="project-jumps" aria-label={`Jump into ${p.title}`}>
             <h3>Jump to a step</h3>
-            <ul>{PROJECT_STEPS.map(([id, label]) => <li key={id}><a href={`#/projects/${p.slug}/${id}`}>{label}</a></li>)}</ul>
+            <ul>{p.jumps.map(([id, label]) => <li key={id}><a href={`#/projects/${p.slug}/${id}`}>{label}</a></li>)}</ul>
           </nav>
         </article>
       ))}

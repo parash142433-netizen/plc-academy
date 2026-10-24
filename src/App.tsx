@@ -34,21 +34,21 @@ type Project = { slug: string; tag: string; title: string; platform: string; sum
 const PROJECTS: Project[] = [
   {
     slug: "water-plant", tag: "CPU 226",
-    title: "Building a water treatment PLC program",
+    title: "Build a water treatment PLC program",
     platform: "Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0",
-    summary: "Seventeen steps from the process and I/O list to alarms, SCADA links and commissioning, reconstructed from a real project file. It ends with a scan-by-scan simulator of the finished program.",
+    summary: "Build the program for a water purification skid in seventeen steps, from the process and I/O list to PID loops, alarms, SCADA links and commissioning. It ends with a scan-by-scan simulator of the finished program.",
     steps: 17, src: "projects/water-plant/index.html",
     jumps: [["process", "The process and requirements"], ["io", "I/O list and hardware"], ["memory", "Memory map"], ["sequence", "Timed start sequence"],
-      ["pid", "PID control"], ["alarms", "Alarms"], ["test", "Review findings"], ["simulator", "Full plant simulator"]],
+      ["pid", "PID control"], ["alarms", "Alarms"], ["test", "Test and common mistakes"], ["simulator", "Full plant simulator"]],
   },
   {
     slug: "autoclave", tag: "CPU 226",
-    title: "Basic Autoclave project: a steam sterilizer PLC program",
-    platform: "Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0 · anonymised example",
-    summary: "A pre-vacuum autoclave taken apart in seventeen steps: pass-through door interlocks, vacuum pulses, pressure control on the steam table, F0, drying, and an alarm byte per fault. It ends with a simulator of the full sterilisation cycle.",
+    title: "Basic Autoclave project: build a steam sterilizer PLC program",
+    platform: "Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0",
+    summary: "Build a pre-vacuum steam sterilizer program in seventeen steps: pass-through door interlocks, vacuum pulses, pressure control on the steam table, F0, drying, and an alarm byte per fault. It ends with a simulator of the full sterilisation cycle.",
     steps: 17, src: "projects/autoclave/index.html",
     jumps: [["process", "The process and requirements"], ["start", "Start conditions and doors"], ["pulses", "Air removal: vacuum pulses"], ["control", "Pressure control and steam table"],
-      ["f0", "Exposure time and F0"], ["alarms", "Alarms"], ["test", "Review findings"], ["simulator", "Sterilizer simulator"]],
+      ["f0", "Exposure time and F0"], ["alarms", "Alarms"], ["test", "Test and common mistakes"], ["simulator", "Sterilizer simulator"]],
   },
 ];
 
@@ -241,7 +241,7 @@ function Home({ list, done, recent, marks }: { list: Article[]; done: string[]; 
           {marked.length > 0 && (<><h2 style={{ marginTop: 32 }}>Bookmarks</h2><ReadingList items={marked} done={done} /></>)}
         </section>
         <section aria-label="Projects and simulators">
-          <h2 id="build-title">Follow a real build</h2>
+          <h2 id="build-title">Follow a build tutorial</h2>
           <div className="faceplate-links" style={{ marginBottom: 32 }}>
             {PROJECTS.map((p) => (
               <a key={p.slug} className="faceplate-link" href={`#/projects/${p.slug}`}><span className="tag">{p.tag}</span><p><b>{p.title}</b>{p.steps} steps from process to commissioning, with a live plant simulator.</p></a>
@@ -482,7 +482,7 @@ function ProjectIndex() {
     <div className="page">
       <header className="sims-head">
         <h1>Projects</h1>
-        <p>Complete PLC programs taken apart step by step: the process, the design decisions, the code, and what a review found. Each one runs in the browser.</p>
+        <p>Step-by-step tutorials that build complete PLC programs: the process, the design decisions, the code and how to test it. Each one ends with a simulator of the finished program.</p>
       </header>
       {PROJECTS.map((p) => (
         <article className="project-card" key={p.slug} aria-labelledby={`pj-${p.slug}`} style={{ marginBottom: 24 }}>

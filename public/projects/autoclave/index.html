@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Basic Autoclave PLC Build-Up</title>
-<meta name="description" content="An anonymised, step-by-step reconstruction of a Siemens S7-200 steam sterilizer (autoclave) program, with a live simulator of the finished logic.">
+<title>Basic Autoclave PLC Tutorial</title>
+<meta name="description" content="A step-by-step tutorial: build the control program for a Siemens S7-200 steam sterilizer (autoclave), with a live simulator of the finished program.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <style>
 @font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
@@ -273,8 +273,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 </style>
 <header class="top">
   <div class="eyebrow">Basic Autoclave project · Siemens S7-200 · CPU 226</div>
-  <h1>Building a steam sterilizer PLC program from scratch</h1>
-  <p>A step-by-step reconstruction of how an automation engineer would design and write the control program for a pre-vacuum steam sterilizer (autoclave). It is an anonymised example based on a real program listing (<code>.awl</code>) and its project file (<code>.mwp</code>). Each step explains the problem, the thinking, the real code and how to make it robust. It ends with a live simulator of the finished program.</p>
+  <h1>Build a steam sterilizer PLC program, step by step</h1>
+  <p>In this tutorial you build the control program for a pre-vacuum steam sterilizer (autoclave) on a Siemens S7-200. Each step states the problem, the design thinking, the code for that step and the habits that make it robust. The last steps test the program, and a simulator runs everything you have built.</p>
   <div class="progress"><span id="prog-txt">Step 1 of 17</span><span class="bar"><i id="prog-bar"></i></span></div>
 </header>
 
@@ -328,37 +328,37 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <line x1="560" y1="224" x2="560" y2="290" class="ln"/><line x1="560" y1="290" x2="760" y2="290" class="ln" marker-end="url(#m1)"/>
       <polygon points="640,282 640,298 650,290" class="box"/><polygon points="660,282 660,298 650,290" class="box"/>
       <text x="650" y="274" text-anchor="middle" class="tm">V13.2 exhaust</text><text x="770" y="294">to drain above 1 atm</text>
-      <text x="16" y="350" class="ts">Ranges are the stored scaling limits. Valve functions are inferred from the logic; confirm against the P&amp;ID.</text>
+      <text x="16" y="350" class="ts">Ranges are the scaling limits set in the data block (step 6).</text>
     </svg>
     </div>
-    <figcaption>The machine as the program sees it. A pass-through chamber with a steam jacket, two doors, one proportional steam valve and a liquid-ring vacuum pump. Valve names are assumed from how the program uses them.</figcaption>
+    <figcaption>The machine you will program: a pass-through chamber with a steam jacket, two doors, one proportional steam valve and a liquid-ring vacuum pump.</figcaption>
   </figure>
 
   <figure>
     <div class="fig">
-    <svg class="d" viewBox="0 0 940 300" role="img" aria-label="Cycle profile from the simulator running the real program: three vacuum pulses, heat-up to 121 degrees, 20 minutes exposure, vacuum drying, end at 38 minutes.">
+    <svg class="d" viewBox="0 0 940 300" role="img" aria-label="Cycle profile from the simulator: first vacuum, three vacuum pulses, heat-up to 121 degrees, 20 minutes exposure, vacuum drying, end at 40 minutes.">
       <g class="tm"><text x="62" y="64" text-anchor="end">2000</text><text x="62" y="144" text-anchor="end">1000</text><text x="62" y="224" text-anchor="end">0</text><text x="62" y="264" text-anchor="end">mbar</text></g>
       <g class="tm"><text x="890" y="60">125 °C</text><text x="890" y="140">60 °C</text></g>
       <g class="guide"><line x1="70" y1="60" x2="880" y2="60"/><line x1="70" y1="140" x2="880" y2="140"/><line x1="70" y1="260" x2="880" y2="260"/></g>
-      <rect x="70" y="40" width="5.1" height="220" fill="var(--accent-wash)" opacity=".55"/><rect x="75.1" y="40" width="78.8" height="220" fill="var(--panel)" opacity=".55"/><text x="114.5" y="54" text-anchor="middle" class="ts">Vacuum pulses</text><rect x="153.9" y="40" width="39.1" height="220" fill="var(--accent-wash)" opacity=".55"/><text x="173.4" y="54" text-anchor="middle" class="ts">Heat-up</text><rect x="193" y="40" width="404.8" height="220" fill="var(--panel)" opacity=".55"/><text x="395.4" y="54" text-anchor="middle" class="ts">Sterilisation</text><rect x="597.8" y="40" width="229.2" height="220" fill="var(--accent-wash)" opacity=".55"/><text x="712.4" y="54" text-anchor="middle" class="ts">Drying</text><rect x="827" y="40" width="21.4" height="220" fill="var(--panel)" opacity=".55"/>
-      <polyline points="71.7,179.0 73.4,179.0 75.1,179.0 76.8,187.2 78.4,204.0 80.1,216.8 81.8,226.6 83.5,234.0 85.2,239.7 86.9,244.1 88.6,247.4 90.3,249.8 91.9,251.8 93.6,231.4 95.3,221.7 97.0,217.2 98.7,214.9 100.4,213.4 102.1,212.5 103.7,211.7 105.4,211.0 107.1,210.3 108.8,209.7 110.5,209.0 112.2,208.4 113.9,207.8 115.6,207.1 117.2,206.5 118.9,205.8 120.6,204.4 122.3,200.6 124.0,195.5 125.7,189.9 127.4,207.0 129.1,233.5 130.7,241.9 132.4,245.8 134.1,248.6 135.8,250.9 137.5,240.7 139.2,209.2 140.9,193.0 142.6,201.0 144.2,227.8 145.9,237.3 147.6,242.2 149.3,245.9 151.0,248.8 152.7,251.0 154.4,237.4 156.1,205.4 157.7,188.2 159.4,176.7 161.1,167.8 162.8,160.3 164.5,153.5 166.2,147.3 167.9,141.4 169.6,135.8 171.3,130.4 172.9,125.3 174.6,120.3 176.3,115.6 178.0,111.1 179.7,106.8 181.4,102.7 183.1,98.8 184.8,96.7 186.4,96.2 188.1,95.8 189.8,95.4 191.5,95.0 193.2,94.6 194.9,93.6 196.6,93.3 198.3,93.0 199.9,92.6 201.6,92.4 203.3,92.2 205.0,91.9 206.7,91.8 208.4,91.6 210.1,91.4 211.8,91.2 213.4,91.1 215.1,90.9 216.8,90.8 218.5,90.7 220.2,90.6 221.9,90.5 223.6,90.4 225.3,90.2 226.9,90.2 228.6,90.1 230.3,89.9 232.0,89.8 233.7,89.8 235.4,89.7 237.1,89.6 238.8,89.6 240.4,89.4 242.1,89.4 243.8,89.4 245.5,89.4 247.2,89.4 248.9,89.4 250.6,89.4 252.3,89.4 253.9,89.3 255.6,89.4 257.3,89.3 259.0,89.3 260.7,89.3 262.4,89.3 264.1,89.3 265.8,89.3 267.4,89.3 269.1,89.3 270.8,89.2 272.5,89.3 274.2,89.3 275.9,89.2 277.6,89.3 279.3,89.2 280.9,89.3 282.6,89.3 284.3,89.2 286.0,89.2 287.7,89.3 289.4,89.3 291.1,89.2 292.8,89.3 294.4,89.2 296.1,89.3 297.8,89.2 299.5,89.2 301.2,89.2 302.9,89.2 304.6,89.2 306.3,89.2 307.9,89.3 309.6,89.2 311.3,89.3 313.0,89.3 314.7,89.3 316.4,89.2 318.1,89.2 319.8,89.3 321.4,89.2 323.1,89.2 324.8,89.3 326.5,89.2 328.2,89.2 329.9,89.2 331.6,89.2 333.3,89.2 334.9,89.2 336.6,89.2 338.3,89.3 340.0,89.3 341.7,89.2 343.4,89.2 345.1,89.2 346.8,89.3 348.4,89.2 350.1,89.2 351.8,89.3 353.5,89.2 355.2,89.3 356.9,89.2 358.6,89.2 360.3,89.2 361.9,89.2 363.6,89.3 365.3,89.2 367.0,89.3 368.7,89.2 370.4,89.3 372.1,89.2 373.8,89.3 375.4,89.2 377.1,89.3 378.8,89.2 380.5,89.3 382.2,89.2 383.9,89.3 385.6,89.2 387.3,89.3 388.9,89.2 390.6,89.2 392.3,89.2 394.0,89.2 395.7,89.2 397.4,89.2 399.1,89.3 400.8,89.2 402.4,89.3 404.1,89.2 405.8,89.2 407.5,89.2 409.2,89.2 410.9,89.3 412.6,89.2 414.3,89.2 415.9,89.2 417.6,89.2 419.3,89.3 421.0,89.2 422.7,89.3 424.4,89.2 426.1,89.2 427.8,89.3 429.4,89.2 431.1,89.2 432.8,89.2 434.5,89.2 436.2,89.3 437.9,89.2 439.6,89.2 441.3,89.2 442.9,89.2 444.6,89.3 446.3,89.2 448.0,89.2 449.7,89.3 451.4,89.2 453.1,89.2 454.8,89.2 456.4,89.2 458.1,89.3 459.8,89.2 461.5,89.2 463.2,89.3 464.9,89.2 466.6,89.2 468.3,89.3 469.9,89.2 471.6,89.2 473.3,89.2 475.0,89.2 476.7,89.3 478.4,89.2 480.1,89.2 481.7,89.3 483.4,89.2 485.1,89.2 486.8,89.3 488.5,89.2 490.2,89.2 491.9,89.3 493.6,89.2 495.2,89.2 496.9,89.3 498.6,89.2 500.3,89.2 502.0,89.2 503.7,89.2 505.4,89.3 507.1,89.2 508.7,89.2 510.4,89.3 512.1,89.2 513.8,89.2 515.5,89.3 517.2,89.2 518.9,89.2 520.6,89.3 522.2,89.2 523.9,89.2 525.6,89.3 527.3,89.2 529.0,89.2 530.7,89.3 532.4,89.2 534.1,89.2 535.7,89.3 537.4,89.2 539.1,89.2 540.8,89.3 542.5,89.2 544.2,89.2 545.9,89.3 547.6,89.2 549.2,89.2 550.9,89.3 552.6,89.2 554.3,89.2 556.0,89.3 557.7,89.2 559.4,89.2 561.1,89.3 562.7,89.2 564.4,89.2 566.1,89.3 567.8,89.2 569.5,89.2 571.2,89.3 572.9,89.2 574.6,89.2 576.2,89.3 577.9,89.2 579.6,89.2 581.3,89.3 583.0,89.2 584.7,89.2 586.4,89.3 588.1,89.2 589.7,89.2 591.4,89.3 593.1,89.2 594.8,89.2 596.5,89.3 598.2,89.7 599.9,108.7 601.6,124.1 603.2,136.3 604.9,146.2 606.6,154.1 608.3,160.4 610.0,165.5 611.7,169.6 613.4,178.3 615.1,197.2 616.7,211.6 618.4,222.6 620.1,231.0 621.8,237.4 623.5,242.3 625.2,246.0 626.9,248.9 628.6,251.0 630.2,252.6 631.9,253.9 633.6,254.9 635.3,255.6 637.0,256.2 638.7,256.6 640.4,257.0 642.1,257.2 643.7,257.4 645.4,257.5 647.1,257.6 648.8,257.8 650.5,257.8 652.2,257.8 653.9,257.8 655.6,257.9 657.2,257.9 658.9,257.9 660.6,257.9 662.3,258.0 664.0,258.0 665.7,258.0 667.4,258.0 669.1,258.0 670.7,258.0 672.4,258.0 674.1,258.0 675.8,258.0 677.5,258.0 679.2,258.0 680.9,258.0 682.6,258.0 684.2,258.0 685.9,258.0 687.6,258.0 689.3,258.0 691.0,258.0 692.7,258.0 694.4,258.0 696.1,258.0 697.7,258.0 699.4,258.0 701.1,258.0 702.8,258.0 704.5,258.0 706.2,258.0 707.9,258.0 709.6,258.0 711.2,258.0 712.9,258.0 714.6,258.0 716.3,258.0 718.0,258.0 719.7,258.0 721.4,258.0 723.1,258.0 724.7,258.0 726.4,258.0 728.1,258.0 729.8,258.0 731.5,258.0 733.2,258.0 734.9,258.0 736.6,258.0 738.2,258.0 739.9,258.0 741.6,258.0 743.3,258.0 745.0,258.0 746.7,258.0 748.4,258.0 750.1,258.0 751.7,258.0 753.4,258.0 755.1,258.0 756.8,258.0 758.5,258.0 760.2,258.0 761.9,258.0 763.6,258.0 765.2,258.0 766.9,258.0 768.6,258.0 770.3,258.0 772.0,258.0 773.7,258.0 775.4,258.0 777.1,258.0 778.7,258.0 780.4,258.0 782.1,258.0 783.8,258.0 785.5,258.0 787.2,258.0 788.9,258.0 790.6,258.0 792.2,258.0 793.9,258.0 795.6,258.0 797.3,258.0 799.0,258.0 800.7,258.0 802.4,258.0 804.1,258.0 805.7,258.0 807.4,258.0 809.1,258.0 810.8,258.0 812.5,258.0 814.2,258.0 815.9,258.0 817.6,258.0 819.2,258.0 820.9,258.0 822.6,258.0 824.3,258.0 826.0,258.0 827.7,255.1 829.4,243.5 831.1,232.2 832.7,221.4 834.4,210.8 836.1,200.6 837.8,190.7 839.5,183.8 841.2,183.8 842.9,183.8 844.6,183.8 846.2,183.8 847.9,183.8" class="sig"/>
-      <polyline points="71.7,195.4 73.4,196.8 75.1,198.1 76.8,214.6 78.4,226.9 80.1,228.2 81.8,227.7 83.5,227.2 85.2,226.7 86.9,226.2 88.6,225.8 90.3,225.3 91.9,224.8 93.6,187.2 95.3,152.6 97.0,139.5 98.7,134.2 100.4,131.5 102.1,130.1 103.7,129.0 105.4,128.0 107.1,127.2 108.8,126.6 110.5,125.8 112.2,125.0 113.9,124.3 115.6,123.7 117.2,122.9 118.9,122.2 120.6,121.3 122.3,119.0 124.0,115.5 125.7,111.5 127.4,112.8 129.1,137.4 130.7,159.8 132.4,172.3 134.1,181.6 135.8,190.1 137.5,190.2 139.2,141.6 140.9,117.8 142.6,109.9 144.2,127.8 145.9,146.4 147.6,158.2 149.3,168.0 151.0,177.0 152.7,185.3 154.4,182.9 156.1,136.5 157.7,113.8 159.4,102.9 161.1,96.6 162.8,92.3 164.5,89.0 166.2,86.1 167.9,83.5 169.6,81.1 171.3,79.0 172.9,77.1 174.6,75.4 176.3,73.8 178.0,72.2 179.7,70.9 181.4,69.4 183.1,68.3 184.8,67.4 186.4,67.0 188.1,66.7 189.8,66.7 191.5,66.6 193.2,66.4 194.9,66.2 196.6,66.1 198.3,65.9 199.9,65.9 201.6,65.8 203.3,65.8 205.0,65.6 206.7,65.6 208.4,65.6 210.1,65.4 211.8,65.4 213.4,65.4 215.1,65.3 216.8,65.3 218.5,65.3 220.2,65.3 221.9,65.1 223.6,65.1 225.3,65.1 226.9,65.1 228.6,65.1 230.3,65.1 232.0,65.0 233.7,65.0 235.4,65.0 237.1,65.0 238.8,65.0 240.4,65.0 242.1,65.0 243.8,64.8 245.5,64.8 247.2,64.8 248.9,64.8 250.6,64.8 252.3,64.8 253.9,64.8 255.6,64.8 257.3,64.8 259.0,64.8 260.7,64.8 262.4,64.8 264.1,64.8 265.8,64.8 267.4,64.8 269.1,64.8 270.8,64.8 272.5,64.8 274.2,64.8 275.9,64.8 277.6,64.8 279.3,64.8 280.9,64.8 282.6,64.8 284.3,64.8 286.0,64.8 287.7,64.8 289.4,64.8 291.1,64.8 292.8,64.8 294.4,64.8 296.1,64.8 297.8,64.8 299.5,64.8 301.2,64.8 302.9,64.8 304.6,64.8 306.3,64.8 307.9,64.8 309.6,64.8 311.3,64.8 313.0,64.8 314.7,64.8 316.4,64.8 318.1,64.8 319.8,64.8 321.4,64.8 323.1,64.8 324.8,64.8 326.5,64.8 328.2,64.8 329.9,64.8 331.6,64.8 333.3,64.8 334.9,64.8 336.6,64.8 338.3,64.8 340.0,64.8 341.7,64.8 343.4,64.8 345.1,64.8 346.8,64.8 348.4,64.8 350.1,64.8 351.8,64.8 353.5,64.8 355.2,64.8 356.9,64.8 358.6,64.8 360.3,64.8 361.9,64.8 363.6,64.8 365.3,64.8 367.0,64.8 368.7,64.8 370.4,64.8 372.1,64.8 373.8,64.8 375.4,64.8 377.1,64.8 378.8,64.8 380.5,64.8 382.2,64.8 383.9,64.8 385.6,64.8 387.3,64.8 388.9,64.8 390.6,64.8 392.3,64.8 394.0,64.8 395.7,64.8 397.4,64.8 399.1,64.8 400.8,64.8 402.4,64.8 404.1,64.8 405.8,64.8 407.5,64.8 409.2,64.8 410.9,64.8 412.6,64.8 414.3,64.8 415.9,64.8 417.6,64.8 419.3,64.8 421.0,64.8 422.7,64.8 424.4,64.8 426.1,64.8 427.8,64.8 429.4,64.8 431.1,64.8 432.8,64.8 434.5,64.8 436.2,64.8 437.9,64.8 439.6,64.8 441.3,64.8 442.9,64.8 444.6,64.8 446.3,64.8 448.0,64.8 449.7,64.8 451.4,64.8 453.1,64.8 454.8,64.8 456.4,64.8 458.1,64.8 459.8,64.8 461.5,64.8 463.2,64.8 464.9,64.8 466.6,64.8 468.3,64.8 469.9,64.8 471.6,64.8 473.3,64.8 475.0,64.8 476.7,64.8 478.4,64.8 480.1,64.8 481.7,64.8 483.4,64.8 485.1,64.8 486.8,64.8 488.5,64.8 490.2,64.8 491.9,64.8 493.6,64.8 495.2,64.8 496.9,64.8 498.6,64.8 500.3,64.8 502.0,64.8 503.7,64.8 505.4,64.8 507.1,64.8 508.7,64.8 510.4,64.8 512.1,64.8 513.8,64.8 515.5,64.8 517.2,64.8 518.9,64.8 520.6,64.8 522.2,64.8 523.9,64.8 525.6,64.8 527.3,64.8 529.0,64.8 530.7,64.8 532.4,64.8 534.1,64.8 535.7,64.8 537.4,64.8 539.1,64.8 540.8,64.8 542.5,64.8 544.2,64.8 545.9,64.8 547.6,64.8 549.2,64.8 550.9,64.8 552.6,64.8 554.3,64.8 556.0,64.8 557.7,64.8 559.4,64.8 561.1,64.8 562.7,64.8 564.4,64.8 566.1,64.8 567.8,64.8 569.5,64.8 571.2,64.8 572.9,64.8 574.6,64.8 576.2,64.8 577.9,64.8 579.6,64.8 581.3,64.8 583.0,64.8 584.7,64.8 586.4,64.8 588.1,64.8 589.7,64.8 591.4,64.8 593.1,64.8 594.8,64.8 596.5,64.8 598.2,64.8 599.9,68.0 601.6,72.8 603.2,77.4 604.9,81.6 606.6,85.3 608.3,88.3 610.0,91.0 611.7,93.3 613.4,95.8 615.1,104.6 616.7,115.7 618.4,126.7 620.1,137.4 621.8,147.8 623.5,157.8 625.2,167.2 626.9,176.2 628.6,184.5 630.2,192.3 631.9,199.4 633.6,205.8 635.3,211.5 637.0,216.5 638.7,220.8 640.4,224.5 642.1,227.5 643.7,230.1 645.4,232.2 647.1,232.8 648.8,232.3 650.5,231.8 652.2,231.2 653.9,230.7 655.6,230.2 657.2,229.8 658.9,229.3 660.6,228.6 662.3,228.2 664.0,227.7 665.7,227.2 667.4,226.7 669.1,226.2 670.7,225.8 672.4,225.3 674.1,224.8 675.8,224.3 677.5,223.8 679.2,223.4 680.9,222.9 682.6,222.4 684.2,221.9 685.9,221.4 687.6,221.1 689.3,220.6 691.0,220.2 692.7,219.7 694.4,219.2 696.1,218.7 697.7,218.4 699.4,217.9 701.1,217.4 702.8,217.0 704.5,216.6 706.2,216.2 707.9,215.7 709.6,215.4 711.2,214.9 712.9,214.4 714.6,214.1 716.3,213.6 718.0,213.1 719.7,212.8 721.4,212.3 723.1,212.0 724.7,211.5 726.4,211.2 728.1,210.7 729.8,210.4 731.5,209.9 733.2,209.6 734.9,209.1 736.6,208.8 738.2,208.3 739.9,208.0 741.6,207.7 743.3,207.2 745.0,206.9 746.7,206.4 748.4,206.1 750.1,205.8 751.7,205.3 753.4,205.0 755.1,204.6 756.8,204.3 758.5,203.8 760.2,203.5 761.9,203.2 763.6,202.9 765.2,202.4 766.9,202.1 768.6,201.8 770.3,201.4 772.0,201.1 773.7,200.6 775.4,200.3 777.1,200.0 778.7,199.7 780.4,199.4 782.1,199.0 783.8,198.7 785.5,198.4 787.2,197.9 788.9,197.6 790.6,197.3 792.2,197.0 793.9,196.6 795.6,196.3 797.3,196.0 799.0,195.7 800.7,195.4 802.4,195.0 804.1,194.7 805.7,194.4 807.4,194.1 809.1,193.9 810.8,193.6 812.5,193.3 814.2,193.0 815.9,192.6 817.6,192.3 819.2,192.0 820.9,191.7 822.6,191.5 824.3,191.2 826.0,190.9 827.7,190.6 829.4,190.2 831.1,190.1 832.7,189.8 834.4,189.4 836.1,189.1 837.8,189.0 839.5,188.6 841.2,188.3 842.9,188.2 844.6,187.8 846.2,187.5 847.9,187.4" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="5 3"/>
+      <rect x="70" y="40" width="5.1" height="220" fill="var(--accent-wash)" opacity=".55"/><rect x="75.1" y="40" width="11.8" height="220" fill="var(--panel)" opacity=".55"/><rect x="86.9" y="40" width="104.1" height="220" fill="var(--accent-wash)" opacity=".55"/><text x="138.9" y="54" text-anchor="middle" class="ts">Vacuum pulses</text><rect x="191" y="40" width="38.3" height="220" fill="var(--panel)" opacity=".55"/><text x="210.2" y="54" text-anchor="middle" class="ts">Heat-up</text><rect x="229.3" y="40" width="404.7" height="220" fill="var(--accent-wash)" opacity=".55"/><text x="431.6" y="54" text-anchor="middle" class="ts">Sterilisation</text><rect x="634" y="40" width="229.1" height="220" fill="var(--panel)" opacity=".55"/><text x="748.5" y="54" text-anchor="middle" class="ts">Drying</text><rect x="863.1" y="40" width="21.5" height="220" fill="var(--accent-wash)" opacity=".55"/>
+      <polyline points="71.7,179.0 73.4,179.0 75.1,179.0 76.8,190.5 78.4,206.5 80.1,218.7 81.8,228.0 83.5,235.1 85.2,240.6 86.9,244.7 88.6,219.9 90.3,212.8 91.9,209.4 93.6,207.8 95.3,206.7 97.0,205.9 98.7,205.4 100.4,204.8 102.1,204.2 103.7,203.8 105.4,203.2 107.1,202.7 108.8,202.2 110.5,201.6 112.2,201.0 113.9,200.5 115.6,199.9 117.2,199.4 118.9,198.8 120.6,198.2 122.3,197.6 124.0,197.0 125.7,196.4 127.4,195.8 129.1,195.1 130.7,194.5 132.4,193.8 134.1,193.2 135.8,192.6 137.5,191.9 139.2,191.3 140.9,190.6 142.6,190.0 144.2,189.3 145.9,188.6 147.6,188.0 149.3,227.5 151.0,243.7 152.7,247.4 154.4,249.9 156.1,251.8 157.7,224.1 159.4,206.6 161.1,195.4 162.8,187.0 164.5,220.9 166.2,236.8 167.9,242.1 169.6,245.8 171.3,248.7 172.9,250.9 174.6,239.6 176.3,207.8 178.0,191.0 179.7,207.2 181.4,229.8 183.1,237.6 184.8,242.5 186.4,246.2 188.1,249.0 189.8,251.1 191.5,234.5 193.2,203.6 194.9,186.8 196.6,175.3 198.3,166.4 199.9,159.0 201.6,152.2 203.3,146.0 205.0,140.2 206.7,134.6 208.4,129.2 210.1,124.2 211.8,119.2 213.4,114.6 215.1,110.1 216.8,105.8 218.5,101.8 220.2,97.9 221.9,96.6 223.6,96.1 225.3,95.6 226.9,95.3 228.6,94.9 230.3,94.4 232.0,93.5 233.7,93.2 235.4,92.9 237.1,92.6 238.8,92.4 240.4,92.2 242.1,91.9 243.8,91.8 245.5,91.6 247.2,91.4 248.9,91.2 250.6,91.1 252.3,90.9 253.9,90.8 255.6,90.7 257.3,90.5 259.0,90.5 260.7,90.3 262.4,90.2 264.1,90.2 265.8,90.1 267.4,89.9 269.1,89.8 270.8,89.8 272.5,89.7 274.2,89.6 275.9,89.6 277.6,89.4 279.3,89.4 280.9,89.4 282.6,89.4 284.3,89.4 286.0,89.4 287.7,89.4 289.4,89.3 291.1,89.3 292.8,89.3 294.4,89.4 296.1,89.3 297.8,89.3 299.5,89.3 301.2,89.3 302.9,89.3 304.6,89.2 306.3,89.3 307.9,89.2 309.6,89.2 311.3,89.3 313.0,89.3 314.7,89.3 316.4,89.3 318.1,89.3 319.8,89.3 321.4,89.3 323.1,89.2 324.8,89.2 326.5,89.3 328.2,89.2 329.9,89.2 331.6,89.2 333.3,89.2 334.9,89.2 336.6,89.2 338.3,89.2 340.0,89.2 341.7,89.2 343.4,89.3 345.1,89.2 346.8,89.2 348.4,89.2 350.1,89.2 351.8,89.2 353.5,89.3 355.2,89.2 356.9,89.2 358.6,89.3 360.3,89.3 361.9,89.2 363.6,89.2 365.3,89.2 367.0,89.3 368.7,89.3 370.4,89.2 372.1,89.2 373.8,89.2 375.4,89.2 377.1,89.2 378.8,89.3 380.5,89.2 382.2,89.2 383.9,89.2 385.6,89.2 387.3,89.3 388.9,89.2 390.6,89.3 392.3,89.2 394.0,89.2 395.7,89.2 397.4,89.2 399.1,89.2 400.8,89.2 402.4,89.3 404.1,89.2 405.8,89.3 407.5,89.2 409.2,89.2 410.9,89.3 412.6,89.2 414.3,89.3 415.9,89.2 417.6,89.2 419.3,89.3 421.0,89.2 422.7,89.2 424.4,89.2 426.1,89.2 427.8,89.3 429.4,89.2 431.1,89.2 432.8,89.3 434.5,89.2 436.2,89.2 437.9,89.3 439.6,89.2 441.3,89.2 442.9,89.2 444.6,89.2 446.3,89.3 448.0,89.2 449.7,89.2 451.4,89.3 453.1,89.2 454.8,89.2 456.4,89.3 458.1,89.2 459.8,89.2 461.5,89.3 463.2,89.2 464.9,89.2 466.6,89.3 468.3,89.2 469.9,89.2 471.6,89.3 473.3,89.2 475.0,89.2 476.7,89.2 478.4,89.2 480.1,89.2 481.7,89.2 483.4,89.2 485.1,89.3 486.8,89.2 488.5,89.2 490.2,89.3 491.9,89.2 493.6,89.2 495.2,89.3 496.9,89.2 498.6,89.2 500.3,89.3 502.0,89.2 503.7,89.2 505.4,89.3 507.1,89.2 508.7,89.2 510.4,89.3 512.1,89.2 513.8,89.2 515.5,89.3 517.2,89.2 518.9,89.2 520.6,89.3 522.2,89.2 523.9,89.2 525.6,89.3 527.3,89.2 529.0,89.2 530.7,89.3 532.4,89.2 534.1,89.2 535.7,89.3 537.4,89.2 539.1,89.2 540.8,89.3 542.5,89.2 544.2,89.2 545.9,89.3 547.6,89.2 549.2,89.2 550.9,89.3 552.6,89.2 554.3,89.2 556.0,89.3 557.7,89.2 559.4,89.2 561.1,89.3 562.7,89.2 564.4,89.2 566.1,89.3 567.8,89.2 569.5,89.2 571.2,89.3 572.9,89.2 574.6,89.2 576.2,89.3 577.9,89.2 579.6,89.2 581.3,89.3 583.0,89.2 584.7,89.2 586.4,89.3 588.1,89.2 589.7,89.2 591.4,89.3 593.1,89.2 594.8,89.2 596.5,89.3 598.2,89.2 599.9,89.2 601.6,89.2 603.2,89.2 604.9,89.2 606.6,89.2 608.3,89.2 610.0,89.2 611.7,89.2 613.4,89.3 615.1,89.2 616.7,89.2 618.4,89.3 620.1,89.2 621.8,89.2 623.5,89.3 625.2,89.2 626.9,89.2 628.6,89.3 630.2,89.2 631.9,89.2 633.6,89.3 635.3,101.6 637.0,118.3 638.7,131.8 640.4,142.5 642.1,151.1 643.7,158.1 645.4,163.6 647.1,168.1 648.8,171.6 650.5,190.2 652.2,206.3 653.9,218.6 655.6,227.9 657.2,235.0 658.9,240.5 660.6,244.6 662.3,247.8 664.0,250.2 665.7,252.1 667.4,253.4 669.1,254.6 670.7,255.4 672.4,256.0 674.1,256.5 675.8,256.8 677.5,257.1 679.2,257.3 680.9,257.4 682.6,257.6 684.2,257.7 685.9,257.8 687.6,257.8 689.3,257.8 691.0,257.9 692.7,257.9 694.4,257.9 696.1,257.9 697.7,258.0 699.4,258.0 701.1,258.0 702.8,258.0 704.5,258.0 706.2,258.0 707.9,258.0 709.6,258.0 711.2,258.0 712.9,258.0 714.6,258.0 716.3,258.0 718.0,258.0 719.7,258.0 721.4,258.0 723.1,258.0 724.7,258.0 726.4,258.0 728.1,258.0 729.8,258.0 731.5,258.0 733.2,258.0 734.9,258.0 736.6,258.0 738.2,258.0 739.9,258.0 741.6,258.0 743.3,258.0 745.0,258.0 746.7,258.0 748.4,258.0 750.1,258.0 751.7,258.0 753.4,258.0 755.1,258.0 756.8,258.0 758.5,258.0 760.2,258.0 761.9,258.0 763.6,258.0 765.2,258.0 766.9,258.0 768.6,258.0 770.3,258.0 772.0,258.0 773.7,258.0 775.4,258.0 777.1,258.0 778.7,258.0 780.4,258.0 782.1,258.0 783.8,258.0 785.5,258.0 787.2,258.0 788.9,258.0 790.6,258.0 792.2,258.0 793.9,258.0 795.6,258.0 797.3,258.0 799.0,258.0 800.7,258.0 802.4,258.0 804.1,258.0 805.7,258.0 807.4,258.0 809.1,258.0 810.8,258.0 812.5,258.0 814.2,258.0 815.9,258.0 817.6,258.0 819.2,258.0 820.9,258.0 822.6,258.0 824.3,258.0 826.0,258.0 827.7,258.0 829.4,258.0 831.1,258.0 832.7,258.0 834.4,258.0 836.1,258.0 837.8,258.0 839.5,258.0 841.2,258.0 842.9,258.0 844.6,258.0 846.2,258.0 847.9,258.0 849.6,258.0 851.3,258.0 853.0,258.0 854.7,258.0 856.4,258.0 858.1,258.0 859.7,258.0 861.4,258.0 863.1,258.0 864.8,248.3 866.5,236.9 868.2,225.8 869.9,215.2 871.6,204.8 873.2,194.8 874.9,185.2 876.6,183.8 878.3,183.8 880.0,183.8 881.7,183.8 883.4,183.8" class="sig"/>
+      <polyline points="71.7,195.4 73.4,196.8 75.1,198.1 76.8,198.4 78.4,198.2 80.1,197.9 81.8,197.6 83.5,197.3 85.2,197.0 86.9,196.6 88.6,168.3 90.3,146.7 91.9,137.9 93.6,133.9 95.3,131.8 97.0,130.6 98.7,129.4 100.4,128.6 102.1,127.8 103.7,127.0 105.4,126.2 107.1,125.4 108.8,124.8 110.5,124.0 112.2,123.4 113.9,122.7 115.6,121.9 117.2,121.3 118.9,120.6 120.6,119.8 122.3,119.2 124.0,118.6 125.7,117.9 127.4,117.3 129.1,116.6 130.7,116.0 132.4,115.4 134.1,114.7 135.8,114.1 137.5,113.4 139.2,113.0 140.9,112.3 142.6,111.7 144.2,111.2 145.9,110.6 147.6,109.9 149.3,128.5 151.0,163.2 152.7,182.9 154.4,193.3 156.1,201.4 157.7,166.7 159.4,132.5 161.1,117.3 162.8,109.1 164.5,119.8 166.2,143.4 167.9,158.6 169.6,169.0 171.3,178.1 172.9,186.4 174.6,186.1 176.3,139.0 178.0,115.8 179.7,111.4 181.4,130.6 183.1,147.2 184.8,158.4 186.4,168.0 188.1,177.0 189.8,185.3 191.5,179.4 193.2,134.1 194.9,112.3 196.6,101.9 198.3,95.8 199.9,91.5 201.6,88.2 203.3,85.4 205.0,82.9 206.7,80.6 208.4,78.6 210.1,76.8 211.8,75.0 213.4,73.4 215.1,71.8 216.8,70.4 218.5,69.1 220.2,68.0 221.9,67.2 223.6,66.9 225.3,66.7 226.9,66.6 228.6,66.6 230.3,66.4 232.0,66.1 233.7,66.1 235.4,65.9 237.1,65.8 238.8,65.8 240.4,65.8 242.1,65.6 243.8,65.6 245.5,65.4 247.2,65.4 248.9,65.4 250.6,65.4 252.3,65.3 253.9,65.3 255.6,65.3 257.3,65.1 259.0,65.1 260.7,65.1 262.4,65.1 264.1,65.1 265.8,65.1 267.4,65.0 269.1,65.0 270.8,65.0 272.5,65.0 274.2,65.0 275.9,65.0 277.6,65.0 279.3,64.8 280.9,64.8 282.6,64.8 284.3,64.8 286.0,64.8 287.7,64.8 289.4,64.8 291.1,64.8 292.8,64.8 294.4,64.8 296.1,64.8 297.8,64.8 299.5,64.8 301.2,64.8 302.9,64.8 304.6,64.8 306.3,64.8 307.9,64.8 309.6,64.8 311.3,64.8 313.0,64.8 314.7,64.8 316.4,64.8 318.1,64.8 319.8,64.8 321.4,64.8 323.1,64.8 324.8,64.8 326.5,64.8 328.2,64.8 329.9,64.8 331.6,64.8 333.3,64.8 334.9,64.8 336.6,64.8 338.3,64.8 340.0,64.8 341.7,64.8 343.4,64.8 345.1,64.8 346.8,64.8 348.4,64.8 350.1,64.8 351.8,64.8 353.5,64.8 355.2,64.8 356.9,64.8 358.6,64.8 360.3,64.8 361.9,64.8 363.6,64.8 365.3,64.8 367.0,64.8 368.7,64.8 370.4,64.8 372.1,64.8 373.8,64.8 375.4,64.8 377.1,64.8 378.8,64.8 380.5,64.8 382.2,64.8 383.9,64.8 385.6,64.8 387.3,64.8 388.9,64.8 390.6,64.8 392.3,64.8 394.0,64.8 395.7,64.8 397.4,64.8 399.1,64.8 400.8,64.8 402.4,64.8 404.1,64.8 405.8,64.8 407.5,64.8 409.2,64.8 410.9,64.8 412.6,64.8 414.3,64.8 415.9,64.8 417.6,64.8 419.3,64.8 421.0,64.8 422.7,64.8 424.4,64.8 426.1,64.8 427.8,64.8 429.4,64.8 431.1,64.8 432.8,64.8 434.5,64.8 436.2,64.8 437.9,64.8 439.6,64.8 441.3,64.8 442.9,64.8 444.6,64.8 446.3,64.8 448.0,64.8 449.7,64.8 451.4,64.8 453.1,64.8 454.8,64.8 456.4,64.8 458.1,64.8 459.8,64.8 461.5,64.8 463.2,64.8 464.9,64.8 466.6,64.8 468.3,64.8 469.9,64.8 471.6,64.8 473.3,64.8 475.0,64.8 476.7,64.8 478.4,64.8 480.1,64.8 481.7,64.8 483.4,64.8 485.1,64.8 486.8,64.8 488.5,64.8 490.2,64.8 491.9,64.8 493.6,64.8 495.2,64.8 496.9,64.8 498.6,64.8 500.3,64.8 502.0,64.8 503.7,64.8 505.4,64.8 507.1,64.8 508.7,64.8 510.4,64.8 512.1,64.8 513.8,64.8 515.5,64.8 517.2,64.8 518.9,64.8 520.6,64.8 522.2,64.8 523.9,64.8 525.6,64.8 527.3,64.8 529.0,64.8 530.7,64.8 532.4,64.8 534.1,64.8 535.7,64.8 537.4,64.8 539.1,64.8 540.8,64.8 542.5,64.8 544.2,64.8 545.9,64.8 547.6,64.8 549.2,64.8 550.9,64.8 552.6,64.8 554.3,64.8 556.0,64.8 557.7,64.8 559.4,64.8 561.1,64.8 562.7,64.8 564.4,64.8 566.1,64.8 567.8,64.8 569.5,64.8 571.2,64.8 572.9,64.8 574.6,64.8 576.2,64.8 577.9,64.8 579.6,64.8 581.3,64.8 583.0,64.8 584.7,64.8 586.4,64.8 588.1,64.8 589.7,64.8 591.4,64.8 593.1,64.8 594.8,64.8 596.5,64.8 598.2,64.8 599.9,64.8 601.6,64.8 603.2,64.8 604.9,64.8 606.6,64.8 608.3,64.8 610.0,64.8 611.7,64.8 613.4,64.8 615.1,64.8 616.7,64.8 618.4,64.8 620.1,64.8 621.8,64.8 623.5,64.8 625.2,64.8 626.9,64.8 628.6,64.8 630.2,64.8 631.9,64.8 633.6,64.8 635.3,66.2 637.0,70.9 638.7,75.7 640.4,80.0 642.1,83.8 643.7,87.2 645.4,90.1 647.1,92.5 648.8,94.4 650.5,100.6 652.2,111.2 653.9,122.4 655.6,133.3 657.2,143.8 658.9,153.9 660.6,163.5 662.3,172.6 664.0,181.3 665.7,189.3 667.4,196.6 669.1,203.2 670.7,209.3 672.4,214.6 674.1,219.2 675.8,223.0 677.5,226.4 679.2,229.1 680.9,231.4 682.6,233.0 684.2,232.5 685.9,232.0 687.6,231.5 689.3,230.9 691.0,230.4 692.7,229.9 694.4,229.4 696.1,229.0 697.7,228.5 699.4,227.8 701.1,227.4 702.8,226.9 704.5,226.4 706.2,225.9 707.9,225.4 709.6,225.0 711.2,224.5 712.9,224.0 714.6,223.5 716.3,223.0 718.0,222.6 719.7,222.1 721.4,221.8 723.1,221.3 724.7,220.8 726.4,220.3 728.1,219.8 729.8,219.4 731.5,219.0 733.2,218.6 734.9,218.1 736.6,217.6 738.2,217.1 739.9,216.8 741.6,216.3 743.3,215.8 745.0,215.5 746.7,215.0 748.4,214.6 750.1,214.2 751.7,213.8 753.4,213.3 755.1,213.0 756.8,212.5 758.5,212.2 760.2,211.7 761.9,211.4 763.6,210.9 765.2,210.6 766.9,210.1 768.6,209.8 770.3,209.3 772.0,209.0 773.7,208.5 775.4,208.2 777.1,207.8 778.7,207.4 780.4,207.0 782.1,206.6 783.8,206.2 785.5,205.9 787.2,205.4 788.9,205.1 790.6,204.8 792.2,204.3 793.9,204.0 795.6,203.7 797.3,203.4 799.0,202.9 800.7,202.6 802.4,202.2 804.1,201.9 805.7,201.6 807.4,201.1 809.1,200.8 810.8,200.5 812.5,200.2 814.2,199.8 815.9,199.5 817.6,199.2 819.2,198.7 820.9,198.4 822.6,198.1 824.3,197.8 826.0,197.4 827.7,197.1 829.4,196.8 831.1,196.5 832.7,196.2 834.4,195.8 836.1,195.5 837.8,195.2 839.5,194.9 841.2,194.6 842.9,194.2 844.6,193.9 846.2,193.6 847.9,193.4 849.6,193.1 851.3,192.8 853.0,192.5 854.7,192.2 856.4,191.8 858.1,191.5 859.7,191.2 861.4,191.0 863.1,190.7 864.8,190.4 866.5,190.1 868.2,189.8 869.9,189.6 871.6,189.3 873.2,189.0 874.9,188.8 876.6,188.5 878.3,188.2 880.0,188.0 881.7,187.7 883.4,187.4" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="5 3"/>
       <g class="tm"><text x="70" y="282">0</text><text x="272" y="282" text-anchor="middle">10 min</text><text x="475" y="282" text-anchor="middle">20 min</text><text x="677" y="282" text-anchor="middle">30 min</text><text x="880" y="282" text-anchor="end">40 min</text></g>
       <g class="ts"><line x1="600" y1="18" x2="630" y2="18" class="sig"/><text x="636" y="22">chamber pressure</text>
       <line x1="760" y1="18" x2="790" y2="18" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="5 3"/><text x="796" y="22">temperature</text></g>
     </svg>
     </div>
-    <figcaption>One wrapped-goods cycle at the stored recipe (121.0 °C, 20.0 min, three vacuum pulses, one 10 min drying pulse), drawn from the engine in step 16 running the program's logic. Total time 38.4 min.</figcaption>
+    <figcaption>The result you are working towards: one wrapped-goods cycle at the default recipe (121.0 °C, 20.0 min, first vacuum, three vacuum pulses, one 10 min drying pulse), drawn from the simulator in step 16 running the finished program. Total time 40.2 min.</figcaption>
   </figure>
 
   <div class="think">
     <h4>Engineer's thinking</h4>
     <dl>
-      <dt>What must happen, and in what order?</dt><dd>Lock the doors, remove the air with vacuum pulses, heat to the sterilisation temperature, hold it for the exposure time, then dry under vacuum (or cool, for liquids), vent to atmosphere and release the load.</dd>
-      <dt>What decides success?</dt><dd>Temperature at or above setpoint for the whole exposure, or an equivalent lethality (F0). The program must measure both and record that they were reached.</dd>
-      <dt>What can hurt people?</dt><dd>A door opened under pressure or vacuum, or onto 120 °C steam. Door interlocks are the most important logic in the machine.</dd>
+      <dt>What must happen, and in what order?</dt><dd>Lock the doors, remove the air with a first vacuum and vacuum pulses, heat to the sterilisation temperature, hold it for the exposure time, then dry under vacuum (or cool, for liquids), vent to atmosphere and release the load.</dd>
+      <dt>What decides success?</dt><dd>Temperature at or above setpoint for the whole exposure, and the lethality (F0) the load received. The program measures both and flags the load sterile only when both targets are met.</dd>
+      <dt>What can hurt people?</dt><dd>A door opened under pressure or vacuum, or onto 120 °C steam. The door interlocks are the most important logic in the machine.</dd>
       <dt>What protects the product?</dt><dd>A pass-through rule: load from the loading side, unload only from the sterile side, and never have both doors open.</dd>
-      <dt>Who else needs data?</dt><dd>An operator panel for recipes and alarms, and a supervisory system (two Ethernet modules) for cycle records.</dd>
+      <dt>Who else needs data?</dt><dd>An operator panel for recipes and alarms, and a supervisory system on Ethernet for cycle records.</dd>
     </dl>
   </div>
 
@@ -368,43 +368,34 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     <tbody>
       <tr><td class="a">R1</td><td>Start only when the doors are closed and locked, services are present and no fault is active</td><td>8</td></tr>
       <tr><td class="a">R2</td><td>Doors open only near atmospheric pressure, below 80 °C, one at a time; unload only on the sterile side</td><td>8</td></tr>
-      <tr><td class="a">R3</td><td>Remove air with a set number of vacuum pulses</td><td>10</td></tr>
+      <tr><td class="a">R3</td><td>Remove air with a first vacuum and a set number of vacuum pulses</td><td>10</td></tr>
       <tr><td class="a">R4</td><td>Hold the sterilisation temperature without overshoot</td><td>11</td></tr>
       <tr><td class="a">R5</td><td>Measure exposure time and F0; flag the load sterile only when both are met</td><td>12</td></tr>
       <tr><td class="a">R6</td><td>Dry wrapped goods under vacuum, cool liquids under counter-pressure</td><td>13</td></tr>
       <tr><td class="a">R7</td><td>Reject recipe entries outside safe limits</td><td>7</td></tr>
-      <tr><td class="a">R8</td><td>Detect faults, sound the horn, hold or finish the cycle safely</td><td>14</td></tr>
-      <tr><td class="a">R9</td><td>Report phase and values to the panel and supervisory system</td><td>9, 14</td></tr>
+      <tr><td class="a">R8</td><td>Detect faults, sound the horn, and either hold the cycle or finish it safely; let the operator cancel a held cycle</td><td>13, 14</td></tr>
+      <tr><td class="a">R9</td><td>Report phase and values to the panel and supervisory system</td><td>2, 9, 14</td></tr>
     </tbody>
   </table></div>
 
-  <div class="evidence">
-    <h4>Evidence from the files</h4>
-    <ul>
-      <li>Project "Basic Autoclave project" (the real project and site names are replaced), saved with STEP 7-Micro/WIN <code>4.0.9.25</code> (V4.0 SP9) for a <code>CPU 226</code> with firmware <code>02.01</code>.</li>
-      <li>One main block and 35 subroutines. Two are password-protected Ethernet wizard blocks (<code>ETH0_CTRL</code>, <code>ETH3_CTRL</code>).</li>
-      <li>The user symbol table is empty and every network comment is the default text. Block names are in Spanish (<code>Ciclo_Vapor</code> = steam cycle, <code>Puertas</code> = doors, <code>Alarmas</code> = alarms); this page translates them.</li>
-      <li>The data block has one page of 89 recipe, limit and scaling values, plus the Ethernet wizard's page.</li>
-    </ul>
-  </div>
-  <div class="decision"><h4>How this example is anonymised</h4><ul><li>The project is called "Basic Autoclave project"; the real project and site names are not used.</li><li>The Ethernet module's IP address is shown as <code>xx.xx.xx.xx</code>.</li><li>Wherever a user or password value is needed as an example, it is <code>1234</code> or <code>xxxx</code>. The program's own user and password blocks hold no stored credentials (step 4).</li></ul></div>
+  <div class="decision"><h4>What you need</h4><ul><li>STEP 7-Micro/WIN 4.0 and a CPU 226 with digital and analog expansion modules (step 2).</li><li>One CP 243-1 Ethernet module, set up with the Ethernet wizard.</li><li>An operator panel that reads and writes V and M memory.</li><li>The example names used throughout: the project is the <b>Basic Autoclave project</b>, network addresses are written <code>xx.xx.xx.xx</code>, and example logins use <code>1234</code> and <code>xxxx</code>.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 2 ===================== -->
 <section class="step" id="io" data-phase="Understand" data-title="I/O list and hardware">
   <div class="step-eyebrow">Understand</div>
   <h2>List the I/O and choose the hardware</h2>
-  <p class="lede">An autoclave has many more valves than sensors. Count the signals first: they decide the CPU, the expansion modules and how the program is layered.</p>
+  <p class="lede">An autoclave has many more valves than sensors. Count the signals first: they decide the CPU, the expansion modules and how you layer the program.</p>
   <div class="cols">
     <div class="decision"><h4>The count</h4><ul><li>35 digital inputs: door positions and locks, pushbuttons, service pressure switches, valve position feedbacks, safety switches</li><li>47 digital outputs: valves, door drives and seals, vacuum pump, lamps, beacon and horn</li><li>6 analog inputs: temperatures and pressures</li><li>1 analog output: the proportional steam valve</li></ul></div>
-    <div class="decision"><h4>The hardware it implies</h4><ul><li><b>CPU 226</b>: 24 DI / 16 DO on board, so the rest sits on expansion modules (addresses I2–I4, I10–I11, Q2–Q5, Q10)</li><li><b>Analog module(s)</b> for <code>AIW0</code>–<code>AIW10</code> and <code>AQW0</code></li><li><b>Two CP 243-1</b> Ethernet modules (wizard blocks for positions 0 and 3)</li><li>An operator panel writing recipes and commands into V memory</li></ul></div>
+    <div class="decision"><h4>The hardware it needs</h4><ul><li><b>CPU 226</b>: 24 DI / 16 DO on board; the rest on expansion modules (addresses I2–I4, I10–I11, Q2–Q5, Q10)</li><li><b>Analog modules</b> for <code>AIW0</code>–<code>AIW10</code> and <code>AQW0</code></li><li><b>CP 243-1</b> Ethernet module at module position 3</li><li>An operator panel writing recipes and commands into V and M memory</li></ul></div>
   </div>
-  <div class="pitfall"><h4>Watch the expansion limit</h4><p>A CPU 226 accepts at most seven expansion modules. Digital expansion for 11 more inputs and 31 more outputs, analog modules and two Ethernet modules use most of that budget. Count modules, not just points, before promising a customer "one more valve".</p></div>
+  <div class="pitfall"><h4>Watch the expansion limit</h4><p>A CPU 226 accepts at most seven expansion modules. Digital expansion for 11 more inputs and 31 more outputs, the analog modules and the Ethernet module use most of that budget. Count modules, not just points, before promising "one more valve".</p></div>
 
-  <h3>Two Ethernet modules, one in use</h3>
-  <p>The Ethernet wizard generated a control block for a CP 243-1 at module positions 0 and 3. Only <code>ETH3_CTRL</code> is called, from <code>Aux</code> every scan. Its status goes to <code>V1390.0</code> (module ready), <code>VW1392</code> (channel status) and <code>VW1394</code> (error code) for the panel.</p>
+  <h3>The Ethernet module</h3>
+  <p>Run the Ethernet wizard for a CP 243-1 at module position 3. It generates the control block <code>ETH3_CTRL</code>, which you call once per scan from a small <code>Comms</code> subroutine. Its status goes to <code>V1390.0</code> (module ready), <code>VW1392</code> (channel status) and <code>VW1394</code> (error code) for the panel.</p>
   <div class="code">
-    <div class="code-h">Aux (SBR0) · Networks 1–2 <small>Ethernet control block and the clock for the panel</small></div>
+    <div class="code-h">Comms (SBR15) · Networks 1–2 <small>Ethernet control block and the clock for the panel</small></div>
     <div class="code-body">
 <pre class="stl">Network 1
 LD     SM0.0
@@ -419,26 +410,25 @@ CALL   SBR57, VB1453, VW1464
 CALL   SBR57, VB1454, VW1466
 CALL   SBR57, VB1455, VW1468</pre>
       <ol class="notes">
-        <li><b>N1</b> The wizard block must run every scan to keep the module's connections alive. Both blocks are password-protected, so only their interface is visible.</li>
+        <li><b>N1</b> The wizard block must run every scan to keep the module's connections alive. Call it once per scan, from one place only.</li>
         <li><b>N2</b> <code>TODR</code> reads the PLC clock into <code>VB1450</code>–<code>VB1457</code> in BCD. <code>Cnv_Bcd1ToInt</code> turns year, month, day, hour, minute and second into integers for the panel.</li>
       </ol>
     </div>
   </div>
   <div class="tbl"><table>
-    <thead><tr><th>Wizard data page ETH3_DATA</th><th>Stored value</th><th>Reading (layout assumed)</th></tr></thead>
+    <thead><tr><th>Wizard data page ETH3_DATA</th><th>Value</th><th>Meaning</th></tr></thead>
     <tbody>
-      <tr><td class="a">VD1215</td><td class="a">xx.xx.xx.xx</td><td>Module IP address (masked in this example)</td></tr>
+      <tr><td class="a">VD1215</td><td class="a">xx.xx.xx.xx</td><td>Module IP address: use the address your network administrator assigns</td></tr>
       <tr><td class="a">VD1219</td><td class="a">16#FFFFFF00</td><td>Subnet mask 255.255.255.0</td></tr>
       <tr><td class="a">VD1223</td><td class="a">0</td><td>No gateway</td></tr>
-      <tr><td class="a">VB1200–VB1330</td><td>131 bytes</td><td>The rest of the module configuration written by the wizard</td></tr>
+      <tr><td class="a">VB1200–VB1330</td><td>131 bytes</td><td>The rest of the module configuration, written by the wizard</td></tr>
     </tbody>
   </table></div>
-  <div class="pitfall"><h4>Two traps with wizard blocks</h4><ul><li><code>ETH0_CTRL</code> exists but is never called. If a module really sits at position 0, it is configured but never serviced; if not, the block is clutter that confuses the next engineer.</li><li><code>Aux</code> is called twice per scan (step 4), so <code>ETH3_CTRL</code> runs twice too. Check that the wizard block tolerates that, or move the call out of <code>Aux</code>.</li></ul></div>
 
   <h3>A wiring layer: the logic never touches I or Q</h3>
-  <p>Two blocks stand between the field and the logic. <code>Ent_Cliente</code> (customer inputs) copies every physical input into V memory, inverting the normally-closed ones. <code>Sal_Cliente</code> (customer outputs) is the only block that writes <code>Q</code>, from demand bits <code>V10.0</code>–<code>V17.7</code>. All other logic reads and writes V bits only.</p>
+  <p>Put two blocks between the field and the logic. <code>Ent_Cliente</code> (field inputs) copies every physical input into V memory, inverting the normally-closed ones. <code>Sal_Cliente</code> (field outputs) is the only block that writes <code>Q</code>, from demand bits <code>V10.0</code>–<code>V17.7</code>. All other logic reads and writes V bits only.</p>
   <div class="code">
-    <div class="code-h">Ent_Cliente (SBR2) · Network 3, excerpt <small>inputs to V memory, NC contacts inverted</small></div>
+    <div class="code-h">Ent_Cliente (SBR2) · Network 3 <small>inputs to V memory, NC contacts inverted</small></div>
     <div class="code-body">
 <pre class="stl">Network 3
 LD     SM0.0
@@ -482,23 +472,23 @@ LPP
 A      SM0.0
 =      V7.6</pre>
       <ol class="notes">
-        <li><b>A</b> loads a normally-open signal as it is: <code>I1.1</code> becomes <code>V7.0</code> (control power healthy, assumed).</li>
-        <li><b>AN</b> inverts a normally-closed one: <code>I1.7</code> and <code>I2.0</code> become <code>V2.7</code> and <code>V4.7</code>, the jacket and chamber over-pressure switches (assumed). A broken wire then reads as "over-pressure".</li>
-        <li><b>LPP / A SM0.0</b> at the end forces <code>V7.6</code> on: a service input that this machine doesn't have, satisfied in software.</li>
+        <li><b>A</b> copies a normally-open signal as it is: <code>I1.1</code>, control power healthy, becomes <code>V7.0</code>.</li>
+        <li><b>AN</b> inverts a normally-closed one: the jacket and chamber over-pressure switches on <code>I1.7</code> and <code>I2.0</code> become <code>V2.7</code> and <code>V4.7</code>. A broken wire then reads as "over-pressure".</li>
+        <li><b>LPP / A SM0.0</b> at the end forces <code>V7.6</code> on: a service input this machine doesn't have, satisfied in software so the logic that reads it doesn't need changing.</li>
       </ol>
     </div>
   </div>
   <div class="robust"><h4>Why the layer pays</h4><ul><li>A machine wired differently, or a moved input, changes two blocks and nothing else.</li><li>Every signal can be simulated or forced in V memory without touching the physical image.</li><li>Fail-safe inversion happens once, in one place, so the logic always reads "1 = healthy".</li></ul></div>
 
-  <h3>Analog channels stored in the project</h3>
+  <h3>Analog channels</h3>
   <div class="tbl"><table>
-    <thead><tr><th>Input</th><th>Value</th><th>Range (stored)</th><th>Signal (inferred)</th><th>Enabled by</th></tr></thead>
+    <thead><tr><th>Input</th><th>Value</th><th>Range</th><th>Signal</th><th>Enabled by</th></tr></thead>
     <tbody>
       <tr><td class="a">AIW0</td><td class="a">VW400</td><td class="n">0–1500 (0–150.0 °C)</td><td>Chamber temperature, the control probe</td><td>always</td></tr>
       <tr><td class="a">AIW2</td><td class="a">VW402</td><td class="n">0–1500</td><td>Second temperature probe (load or filter)</td><td><code>V806.1</code> (set at power-up)</td></tr>
       <tr><td class="a">AIW4</td><td class="a">VW406</td><td class="n">0–4000 mbar abs</td><td>Jacket pressure</td><td>always</td></tr>
       <tr><td class="a">AIW6</td><td class="a">VW408</td><td class="n">0–4000 mbar abs</td><td>Chamber pressure</td><td>always</td></tr>
-      <tr><td class="a">AIW10 / AIW8</td><td class="a">VW404 / VW410</td><td class="n">0–1500</td><td>Optional probes</td><td><code>V806.2</code> / <code>V806.3</code>, off</td></tr>
+      <tr><td class="a">AIW10 / AIW8</td><td class="a">VW404 / VW410</td><td class="n">0–1500</td><td>Spare probes for larger chambers</td><td><code>V806.2</code> / <code>V806.3</code>, off</td></tr>
       <tr><td class="a">AQW0</td><td class="a">VW432</td><td class="n">0–100 %</td><td>Proportional steam valve, 4–20 mA</td><td>–</td></tr>
     </tbody>
   </table></div>
@@ -521,40 +511,40 @@ A      SM0.0
     <dl>
       <dt>Integers with a fixed scale</dt><dd>Temperatures are tenths of a degree (<code>1210</code> = 121.0 °C), times are tenths of a minute (<code>200</code> = 20.0 min), pressures are whole mbar absolute. INT maths is fast and exact on an S7-200, and the panel shows the decimal point.</dd>
       <dt>One byte per alarm</dt><dd><code>VB600</code>–<code>VB689</code> give every alarm its own byte: the live condition, its history, horn and acknowledgement bits. One generic subroutine handles them all (step 14).</dd>
-      <dt>An auto/manual pair for every output</dt><dd><code>VB20</code>–<code>VB27</code> hold an "auto" bit for each demand bit and <code>VB30</code>–<code>VB37</code> a "manual on" bit. The data block stores <code>VB20</code>–<code>VB27</code> = 255: everything in auto.</dd>
-      <dt>Options as bits</dt><dd><code>VB800</code>–<code>VB808</code> switch features on or off for this machine variant (second door, second probe, liquids counter-pressure).</dd>
+      <dt>An auto/manual pair for every output</dt><dd><code>VB20</code>–<code>VB27</code> hold an "auto" bit for each demand bit and <code>VB30</code>–<code>VB37</code> a "manual on" bit. The data block sets <code>VB20</code>–<code>VB27</code> to 255: everything starts in auto.</dd>
+      <dt>Options as bits</dt><dd><code>VB800</code>–<code>VB808</code> switch features on or off for a machine variant: second door, second probe, liquids counter-pressure.</dd>
     </dl>
   </div>
-  <div class="evidence">
-    <h4>Evidence: the stored recipe</h4>
-    <div class="tbl" style="margin:6px 0 0"><table>
-      <thead><tr><th>Address</th><th>Value</th><th>Meaning (assumed from use)</th><th>Address</th><th>Value</th><th>Meaning (assumed from use)</th></tr></thead>
-      <tbody>
-        <tr><td class="a">VW112</td><td class="n">3</td><td>Number of vacuum pulses</td><td class="a">VW124</td><td class="n">1210</td><td>Sterilisation temperature, 121.0 °C</td></tr>
-        <tr><td class="a">VW114</td><td class="n">100</td><td>Pulse vacuum level, mbar</td><td class="a">VW126</td><td class="n">1220</td><td>Control temperature, 122.0 °C</td></tr>
-        <tr><td class="a">VW116</td><td class="n">900</td><td>Pulse steam level, mbar</td><td class="a">VW128</td><td class="n">1240</td><td>Over-temperature limit, 124.0 °C</td></tr>
-        <tr><td class="a">VW108 / VW110</td><td class="n">200 / 0</td><td>First vacuum level / hold time</td><td class="a">VW130</td><td class="n">200</td><td>Exposure time, 20.0 min</td></tr>
-        <tr><td class="a">VW118</td><td class="n">0</td><td>Positive (over-pressure) pulses: none</td><td class="a">VW132</td><td class="n">0</td><td>F0 target (0 = time only)</td></tr>
-        <tr><td class="a">VW134 / VW136</td><td class="n">100 / 200</td><td>Drying time 10.0 min, at 200 mbar</td><td class="a">VW140</td><td class="n">800</td><td>Liquids end temperature, 80.0 °C</td></tr>
-        <tr><td class="a">VW810</td><td class="n">1000</td><td>Atmospheric reference, mbar</td><td class="a">VW812</td><td class="n">800</td><td>Door-open temperature limit, 80.0 °C</td></tr>
-        <tr><td class="a">VW820–VW826</td><td class="n">70, 50, 100, 13</td><td>Leak test: 70 mbar, 5 + 10 min, 13 mbar limit</td><td class="a">VW816</td><td class="n">1340</td><td>Highest allowed setpoint, 134.0 °C</td></tr>
-      </tbody>
-    </table></div>
-  </div>
-  <div class="pitfall"><h4>Options nobody can switch on</h4><p>Several option bits are read but never written by the program or stored in the data block, such as <code>V801.3</code>, <code>V803.0</code>, <code>V804.0</code> and <code>V806.4</code>. If the panel doesn't write them either, their branches are dead code. Step 15 shows one that would break the machine if someone did switch it on.</p></div>
+  <h3>The recipe you start with</h3>
+  <p>Enter these values in the data block, so a new CPU or a memory reset starts with a working recipe instead of zeros.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Address</th><th>Value</th><th>Meaning</th><th>Address</th><th>Value</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td class="a">VW112</td><td class="n">3</td><td>Number of vacuum pulses</td><td class="a">VW124</td><td class="n">1210</td><td>Sterilisation temperature, 121.0 °C</td></tr>
+      <tr><td class="a">VW114</td><td class="n">100</td><td>Pulse vacuum level, mbar</td><td class="a">VW126</td><td class="n">1220</td><td>Control temperature, 122.0 °C</td></tr>
+      <tr><td class="a">VW116</td><td class="n">900</td><td>Pulse steam level, mbar</td><td class="a">VW128</td><td class="n">1240</td><td>Over-temperature limit, 124.0 °C</td></tr>
+      <tr><td class="a">VW108 / VW110</td><td class="n">200 / 0</td><td>First vacuum level, mbar / hold time (0 = no hold)</td><td class="a">VW130</td><td class="n">200</td><td>Exposure time, 20.0 min</td></tr>
+      <tr><td class="a">VW118</td><td class="n">0</td><td>Positive (over-pressure) pulses: none</td><td class="a">VW132</td><td class="n">0</td><td>F0 target (0 = exposure time only)</td></tr>
+      <tr><td class="a">VW134 / VW136</td><td class="n">100 / 200</td><td>Drying time 10.0 min, at 200 mbar</td><td class="a">VW154</td><td class="n">1</td><td>Drying pulses (0 = liquids cycle)</td></tr>
+      <tr><td class="a">VW810</td><td class="n">1000</td><td>Atmospheric reference, mbar</td><td class="a">VW140</td><td class="n">800</td><td>Liquids end temperature, 80.0 °C</td></tr>
+      <tr><td class="a">VW812</td><td class="n">800</td><td>Door-open temperature limit, 80.0 °C</td><td class="a">VW816</td><td class="n">1340</td><td>Highest allowed setpoint, 134.0 °C</td></tr>
+      <tr><td class="a">VW820–VW826</td><td class="n">70, 50, 100, 13</td><td colspan="4">Leak test: evacuate to 70 mbar, stabilise 5.0 min, measure 10.0 min, fail above a 13 mbar rise</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pitfall"><h4>Options that stay off</h4><p>Some option bits are read by the logic but left off on this machine: <code>V801.3</code> (wait for services before start), <code>V803.0</code>, <code>V804.0</code> and the spare probes <code>V806.2</code>–<code>V806.5</code>. Their branches stay inactive. Before you switch one on, read every network it enables and test it in the simulator or on the bench. An option branch that nobody has run is untested code.</p></div>
 </section>
 
 <!-- ===================== STEP 4 ===================== -->
 <section class="step" id="structure" data-phase="Plan" data-title="Design the program structure">
   <div class="step-eyebrow">Plan</div>
   <h2>Design the program structure</h2>
-  <p class="lede">OB1 is ten networks long. It reads like a table of contents: wiring in, protections, doors and start conditions, the three cycles, the actuator logic, and wiring out. Almost everything waits for a 10-second power-up timer.</p>
+  <p class="lede">Keep OB1 short enough to read like a table of contents: wiring in, protections, doors and start conditions, the cycles, the actuator logic, wiring out. Almost everything waits for a 10-second power-up timer.</p>
   <figure>
     <div class="fig">
-    <svg class="d" viewBox="0 0 900 300" role="img" aria-label="OB1 call order: Aux, Aux2, inputs, analog always; after T32: alarms; doors always; start conditions, cycles, Aux again, jacket, chamber, outputs, wiring out after T32; limits and phases always.">
+    <svg class="d" viewBox="0 0 900 300" role="img" aria-label="OB1 call order: Comms, Aux, Aux2, inputs and analog every scan; doors, limits and phases every scan; after the power-up timer: alarms, start conditions, cycles, Aux again, jacket, chamber, outputs and wiring out.">
       <defs><marker id="m4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs>
-      <text x="20" y="30" class="th tacc">Every scan</text><text x="20" y="150" class="th tacc">Only after T32 (10 s after power-up)</text>
-      <rect x="20" y="42" width="130" height="46" rx="4" class="box"/><text x="85" y="62" text-anchor="middle" class="th">Aux, Aux2</text><text x="85" y="78" text-anchor="middle" class="ts">flags, clocks, options</text>
+      <text x="20" y="30" class="th tacc">Every scan</text><text x="20" y="150" class="th tacc">Only after T50 (10 s after power-up)</text>
+      <rect x="20" y="42" width="130" height="46" rx="4" class="box"/><text x="85" y="62" text-anchor="middle" class="th">Comms, Aux, Aux2</text><text x="85" y="78" text-anchor="middle" class="ts">Ethernet, flags, clocks</text>
       <rect x="165" y="42" width="130" height="46" rx="4" class="box-acc"/><text x="230" y="62" text-anchor="middle" class="th">Ent_Cliente</text><text x="230" y="78" text-anchor="middle" class="ts">I → V wiring layer</text>
       <rect x="310" y="42" width="130" height="46" rx="4" class="box"/><text x="375" y="62" text-anchor="middle" class="th">Ent_Analog</text><text x="375" y="78" text-anchor="middle" class="ts">scaling</text>
       <rect x="455" y="42" width="130" height="46" rx="4" class="box"/><text x="520" y="62" text-anchor="middle" class="th">Puertas</text><text x="520" y="78" text-anchor="middle" class="ts">doors</text>
@@ -572,7 +562,7 @@ A      SM0.0
       <text x="20" y="270" class="ts">Helpers: scaling, clamp, steam table, F0, time accumulator, alarm handler, ASCII and BCD conversions.</text>
     </svg>
     </div>
-    <figcaption>The scan order. The second call to <code>Aux</code> sits right after the cycle blocks so the actuator logic sees cycle flags that match the step bits just changed.</figcaption>
+    <figcaption>The scan order. <code>Aux</code>, which only computes the cycle flags, is called a second time right after the cycle blocks, so the actuator logic sees flags that match the step bits just changed.</figcaption>
   </figure>
   <div class="tbl"><table>
     <thead><tr><th>Block</th><th>The question it answers</th><th>Why it is a separate block</th></tr></thead>
@@ -584,10 +574,13 @@ A      SM0.0
       <tr><td class="a">Ciclo_Vapor / Test / Filtro</td><td>Which step are we in, and is it done?</td><td>Each cycle is a sequence of step bits that knows nothing about valves</td></tr>
       <tr><td class="a">Cámara / Recámara / Salidas</td><td>What should each valve and the pump do now?</td><td>Translates steps into valve demands, with ramps, interlocks and auto/manual</td></tr>
       <tr><td class="a">GP_Limites / GP_Fases</td><td>Are the recipe values safe? What do we show?</td><td>Validation and reporting, run every scan</td></tr>
+      <tr><td class="a">Comms / Aux / Aux2</td><td>Ethernet, cycle flags, clocks and options</td><td>Services everything else relies on</td></tr>
     </tbody>
   </table></div>
-  <h3>Operator users and passwords: a library nobody calls</h3>
-  <p>Three subroutines manage operator logins in tables of user numbers, passwords, access levels and failed attempts, addressed through pointers. They are generic: they hold no users or passwords of their own, and the data block stores none. And according to the cross-reference, no block in this program calls them.</p>
+  <div class="think"><h4>Engineer's thinking: why call Aux twice?</h4><p>When a cycle's last step clears the step bits, the "cycle running" flags computed at the top of the scan are already out of date. Calling <code>Aux</code> again right after the cycle blocks recomputes them, so the chamber block never runs a scan with stale flags. That is also why <code>Aux</code> holds nothing else: anything that must run exactly once per scan, such as the Ethernet block, lives in <code>Comms</code>. Leave a comment on the second call so the next reader doesn't remove it as a duplicate.</p></div>
+
+  <h3>Optional: operator logins in the PLC</h3>
+  <p>The panel handles logins in this design. If a panel can't, the PLC can keep tables of user numbers, passwords, access levels and failed attempts, addressed through pointers: <code>Aux_GP_PassEsc</code> writes an entry, <code>Aux_GP_PassLee</code> reads one, and <code>Aux_GP_PassErr</code> validates a request. They hold no users or passwords of their own. Call them from the routine that serves the panel's login screen; the program in this tutorial doesn't need them.</p>
   <div class="code">
     <div class="code-h">Aux_GP_PassErr (SBR29) · Networks 3–10 <small>inputs: Usuario, Password, Accion, PassUsu, PassNue, PassCon, UsuMod, Ind, Max · output: Error</small></div>
     <div class="code-body">
@@ -635,17 +628,16 @@ AW=    LW0, LW2
 MOVW   +8, LW17</pre>
       <ol class="notes">
         <li><b>N3</b> Error 1: the new password (<code>LW7</code>) and its confirmation (<code>LW9</code>) differ. Example: new <code>1234</code>, confirmation <code>1243</code>.</li>
-        <li><b>N4</b> Error 2: the password typed (<code>LW2</code>) is not the stored one (<code>LW5</code>). Example: user <code>1234</code> types <code>xxxx</code> against a stored <code>1234</code>.</li>
+        <li><b>N4</b> Error 2: the password typed (<code>LW2</code>) is not the one in the table (<code>LW5</code>). Example: user <code>1234</code> types <code>xxxx</code> when the table holds <code>1234</code>.</li>
         <li><b>N5</b> Error 3: the new password equals the old one.</li>
-        <li><b>N6–N7</b> Errors 4 and 5: the user index check (table full, or user not found; meaning assumed).</li>
+        <li><b>N6–N7</b> Errors 4 and 5: index checks (<code>Ind</code> against <code>Max</code>) for the request types that work on a table entry.</li>
         <li><b>N8–N9</b> Errors 6 and 7: a password of 0 or a user number of 0 is refused.</li>
         <li><b>N10</b> Error 8: the password equals the user number, so user <code>1234</code> may not have password <code>1234</code>.</li>
-        <li>Each network overwrites the previous result, so the last failing check wins. The action bits in <code>Accion</code> (log in, change password, add, modify, delete) are assumed from use.</li>
+        <li>Each network overwrites the previous result, so the last failing check wins. Each bit of <code>Accion</code> selects one request type (log in, change password, add, modify, delete); define them in your panel interface.</li>
       </ol>
     </div>
   </div>
-  <div class="pitfall"><h4>Passwords in a PLC</h4><p>Passwords here are integers (at most 32767, digits only) kept in V memory, which any panel or supervisory connection can read. An S7-200 can't protect them, and it can't keep an audit trail of who did what. Keep user management on the panel or supervisory system, which can. Remove unused library blocks, so nobody assumes the PLC is enforcing access.</p></div>
-  <div class="pitfall"><h4>A call that looks like a mistake</h4><p>OB1 calls <code>Aux</code> twice per scan: in network 1 and again at the end of network 5. It looks like a copy-paste error, but it isn't. When a cycle's last step clears the step bits, the second call updates the "cycle running" flags in the same scan. Without it, the chamber block runs one scan with stale flags. In the simulator that briefly starts the vacuum pump after every cycle. The side effect is that <code>ETH3_CTRL</code> and the clock read inside <code>Aux</code> also run twice. A one-line comment would have saved every reader the doubt.</p></div>
+  <div class="pitfall"><h4>Passwords in a PLC</h4><p>Passwords here are integers (at most 32767, digits only) kept in V memory, which any panel or supervisory connection can read. An S7-200 can't protect them, and it can't keep an audit trail of who did what. Prefer the panel's or supervisory system's user management, which can. If you don't use these helpers, leave them out of the project so nobody assumes the PLC is enforcing access.</p></div>
 </section>
 
 
@@ -653,13 +645,13 @@ MOVW   +8, LW17</pre>
 <section class="step" id="startup" data-phase="Build" data-title="Power-up, clocks and options">
   <div class="step-eyebrow">Build</div>
   <h2>Power-up, clocks and machine options</h2>
-  <p class="lede">Before any process logic, the program sets up what everything else relies on: a quiet period after power-up, a once-a-second pulse for counting, the machine's option bits, and one flag per cycle family.</p>
+  <p class="lede">Before any process logic, write what everything else relies on: a quiet period after power-up, a once-a-second pulse for counting, the machine's option bits, and one flag per cycle family.</p>
   <div class="code">
     <div class="code-h">Aux2 (SBR1) · Networks 1–3 <small>power-up timer, option bits, 1 s pulses</small></div>
     <div class="code-body">
 <pre class="stl">Network 1
 LD     SM0.0
-TON    T32, +10000
+TON    T50, +100
 Network 2
 LD     SM0.1
 FILL   +0, VW800, 4
@@ -680,16 +672,22 @@ AN     M9.0
 A      V7.0
 =      M0.5</pre>
       <ol class="notes">
-        <li><b>N1</b> <code>T32</code> runs 10 000 × 1 ms = <b>10 s</b> after power-up. OB1 calls alarms, cycles, valves and outputs only once it is done, so devices finish booting before anything acts.</li>
-        <li><b>N2</b> On the first scan the option bytes <code>VB800</code>–<code>VB807</code> are cleared and this machine's options set: second door (<code>V801.0</code>), liquids counter-pressure (<code>V802.0</code>), second probe (<code>V806.1</code>) and others.</li>
+        <li><b>N1</b> <code>T50</code> is a 100 ms timer: 100 × 100 ms = <b>10 s</b> after power-up. OB1 calls alarms, cycles, valves and outputs only once it is done, so devices finish booting before anything acts.</li>
+        <li><b>N2</b> On the first scan, clear the option bytes <code>VB800</code>–<code>VB807</code> and set this machine's options: second door (<code>V801.0</code>), liquids counter-pressure (<code>V802.0</code>), second probe (<code>V806.1</code>) and the rest.</li>
         <li><b>N3</b> <code>M0.0</code> is a one-scan pulse every second (rising edge of <code>SM0.5</code>). <code>M0.5</code> is the same pulse, but only while there is no abort (<code>M9.0</code>) and control power is on (<code>V7.0</code>). Phase timers count on <code>M0.5</code>, so they freeze during an abort.</li>
       </ol>
     </div>
   </div>
   <div class="code">
-    <div class="code-h">Aux (SBR0) · Networks 4–5 <small>one flag per cycle family, cycle type for the panel</small></div>
+    <div class="code-h">Aux (SBR0) · Networks 1–3 <small>cancel request, one flag per cycle family, cycle type</small></div>
     <div class="code-body">
-<pre class="stl">Network 4
+<pre class="stl">Network 1
+LD     M8.4
+MOVD   +0, MD10
+MOVB   0, MB14
+MOVB   0, MB15
+R      M8.4, 1
+Network 2
 LDD&lt;&gt;  MD10, +0
 OD&lt;&gt;   MD14, +0
 LPS
@@ -705,7 +703,7 @@ AB&lt;&gt;   MB15, 0
 LPP
 NOT
 R      M9.0, 3
-Network 5
+Network 3
 LD     SM0.0
 LPS
 A      M20.1
@@ -717,21 +715,21 @@ LPP
 A      M20.3
 MOVW   +2, VW1018</pre>
       <ol class="notes">
-        <li><b>N4</b> Each cycle keeps its steps in its own bytes: steam cycle in <code>MD10</code> (<code>M10.0</code>–<code>M13.7</code>), leak test in <code>MB14</code>, filter cycle in <code>MB15</code>. "Byte not zero" gives <code>M20.1</code>, <code>M20.2</code>, <code>M20.3</code>, and any of them gives <code>M20.0</code>, cycle running.</li>
-        <li><b>N4</b> With no cycle running, <code>R M9.0, 3</code> clears the abort, advance and forced-finish bits (<code>M9.0</code>–<code>M9.2</code>) in one instruction.</li>
-        <li><b>N5</b> The cycle type goes to <code>VW1018</code> for the panel and the start conditions.</li>
+        <li><b>N1</b> The panel's "cancel cycle" request <code>M8.4</code> clears every step byte, then clears itself. Step 13 explains when the operator needs it.</li>
+        <li><b>N2</b> Each cycle keeps its steps in its own bytes: steam cycle in <code>MD10</code> (<code>M10.0</code>–<code>M13.7</code>), leak test in <code>MB14</code>, filter cycle in <code>MB15</code>. "Not zero" gives <code>M20.1</code>, <code>M20.2</code>, <code>M20.3</code>, and any of them gives <code>M20.0</code>, cycle running. With no cycle running, <code>R M9.0, 3</code> clears the abort, advance and forced-finish bits (<code>M9.0</code>–<code>M9.2</code>) in one instruction.</li>
+        <li><b>N3</b> The cycle type goes to <code>VW1018</code> for the panel and the start conditions.</li>
       </ol>
     </div>
   </div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Give I/O, drives and panels time to boot before trusting them. Gate the protections and the outputs, not just the alarms.</li><li>Count phase times on a pulse that stops during an abort, so a held cycle doesn't keep "earning" time.</li><li>Keep machine options in one block of bits, set in one place.</li></ul></div>
-  <div class="pitfall"><h4>Two traps in five lines</h4><ul><li><code>T32</code> is a 1 ms timer. These update asynchronously, so its bit can change between two OB1 networks in the same scan: one block runs, the next doesn't. A 100 ms timer (<code>T37</code> and up, preset 100) gives the same 10 s without that.</li><li>Setting options on the first scan overrides anything the panel stored. That's fine for fixed hardware options. For anything an operator may change, keep the value in the data block instead.</li></ul></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Give I/O, drives and panels time to boot before trusting them. Gate the protections and the outputs, not just the alarms.</li><li>Count phase times on a pulse that stops during an abort, so a held cycle doesn't keep earning time.</li><li>Keep machine options in one block of bits, set in one place.</li></ul></div>
+  <div class="pitfall"><h4>Why a 100 ms timer for the gate</h4><ul><li>A 1 ms timer (<code>T32</code>, <code>T96</code>) updates asynchronously, every millisecond, so its bit can change between two OB1 networks in the same scan: one block runs, the next doesn't. A 100 ms timer updates once per scan, when its instruction executes.</li><li>Setting options on the first scan overrides anything the panel wrote. That's right for fixed hardware options. For anything an operator may change, keep the value in the data block instead.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 6 ===================== -->
 <section class="step" id="analog" data-phase="Build" data-title="Analog scaling done right">
   <div class="step-eyebrow">Build</div>
   <h2>Analog scaling done right</h2>
-  <p class="lede">Every measurement goes through one general scaling subroutine: map an input range onto an output range. The parameters live in data-block blocks of five words per channel, so ranges change without touching code.</p>
+  <p class="lede">Send every measurement through one general scaling subroutine: map an input range onto an output range. Keep the parameters in data-block blocks of five words per channel, so ranges change without touching code.</p>
   <div class="code">
     <div class="code-h">Aux_Escalado (SBR20) · Networks 2–4 <small>inputs: Entrada, Emin, Emax, Smin, Smax · output: Salida</small></div>
     <div class="code-body">
@@ -768,7 +766,7 @@ O      L63.7
 MOVR   AC0, AC1
 +R     LD24, AC1</pre>
       <ol class="notes">
-        <li><b>N2</b> <code>AC0</code> = input − Emin; <code>AC1</code> = Smax − Smin (the output span). The five INT inputs were converted to REAL in network 1.</li>
+        <li><b>N2</b> <code>AC0</code> = input − Emin; <code>AC1</code> = Smax − Smin (the output span). Network 1 converted the five INT inputs to REAL.</li>
         <li><b>N3</b> <code>AC2</code> = Emax − Emin (the input span); <code>AC3</code> = AC0 × AC1.</li>
         <li><b>N4</b> If the input span is not zero, divide; if it is zero, the result is 0 instead of a math fault. Then add Smin back. Network 5 rounds to INT.</li>
       </ol>
@@ -789,37 +787,36 @@ Network 2   (Alarmas)
 LD     SM0.0
 LPS
 LDW&lt;=  VW440, +2000
-OW&gt;=   VW440, +32000
+OW&gt;    VW440, +32000
 ALD
 =      V600.0
 LPP
 CALL   SBR26, LB0, VB600, M24.0, M24.1</pre>
       <ol class="notes">
         <li><b>Ent_Analog N1</b> Channel 1: raw <code>VW440</code> with Emin 6400 (<code>VW442</code>), Emax 32000 (<code>VW446</code>), Smin 0 (<code>VW444</code>) and Smax 1500 (<code>VW448</code>) gives <code>VW400</code> in tenths of a degree. <code>Aux_Min_Max</code> then clamps it to 0–1500.</li>
-        <li><b>Ent_Analog N2</b> The second probe is only scaled when its option <code>V806.1</code> is set.</li>
-        <li><b>Alarmas N2</b> Raw ≤ 2000 (1.25 mA) or ≥ 32000 (20 mA) sets the channel's alarm condition <code>V600.0</code>. The byte handler <code>SBR26</code> does the rest (step 14).</li>
+        <li><b>Ent_Analog N2</b> The second probe is scaled only when its option <code>V806.1</code> is set.</li>
+        <li><b>Alarmas N2</b> Raw ≤ 2000 (1.25 mA, a broken loop) or above 32000 (more than 20 mA, a shorted or saturated loop) sets the channel's alarm condition <code>V600.0</code>. The byte handler <code>SBR26</code> does the rest (step 14).</li>
       </ol>
     </div>
   </div>
   <div class="widget" id="w-scale">
-    <div class="widget-h"><b>Try it: scale a 4–20 mA signal</b><span>Real channel parameters from the data block</span></div>
+    <div class="widget-h"><b>Try it: scale a 4–20 mA signal</b><span>Channel parameters from the data block</span></div>
     <div class="widget-b">
       <div class="wrow"><label class="fld">Channel<select id="sc-ch"></select></label></div>
       <label class="fld">Loop current: <span class="readout" id="sc-ma-t">12.00 mA</span><input type="range" id="sc-ma" min="0" max="21" step="0.05" value="12"></label>
       <dl class="kv" id="sc-out"></dl>
     </div>
   </div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Write the general linear map once (input range to output range), with a guard for a zero span.</li><li>Clamp the result. A slightly under-range transmitter shouldn't produce a negative temperature that some comparison later misreads.</li><li>Detect both a broken loop (under-range) and a shorted or saturated one (over-range).</li></ul></div>
-  <div class="pitfall"><h4>Where to put the over-range limit</h4><p>The check treats raw ≥ 32000 as a failure. That is exactly 20.0 mA, a legitimate full-scale reading. With ranges of 150 °C and 4000 mbar the process never gets there, so it is harmless here. In general, put the over-range limit above full scale (NAMUR NE 43 uses about 21 mA, raw 33600).</p></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Write the general linear map once (input range to output range), with a guard for a zero span.</li><li>Clamp the result, so a slightly under-range transmitter can't produce a negative temperature that a later comparison misreads.</li><li>Detect both a broken loop (under-range) and a shorted or saturated one (over-range). Put the over-range limit above full scale: a reading of exactly 20 mA is a valid 100 %.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 7 ===================== -->
 <section class="step" id="limits" data-phase="Build" data-title="Recipe entries the PLC can trust">
   <div class="step-eyebrow">Build</div>
   <h2>Recipe entries the PLC can trust</h2>
-  <p class="lede">Operators type recipe values on a panel. The panel may have its own limits, but the PLC can't rely on them. <code>GP_Limites</code> clamps every entry, every scan. Some limits depend on other entries.</p>
+  <p class="lede">Operators type recipe values on a panel. The panel may have its own limits, but the PLC can't rely on them. <code>GP_Limites</code> clamps every entry, every scan, and some limits depend on other entries.</p>
   <div class="code">
-    <div class="code-h">GP_Limites (SBR58) · Network 2 <small>temperatures that must stay in order</small></div>
+    <div class="code-h">GP_Limites (SBR58) · Networks 2 and 4 <small>temperatures that must stay in order, drying and cooling entries</small></div>
     <div class="code-body">
 <pre class="stl">Network 2
 LD     SM0.0
@@ -845,12 +842,21 @@ CALL   SBR25, LW0, LW2, VW128
 LRD
 CALL   SBR25, 0, 9990, VW130
 LPP
-CALL   SBR25, 0, 999, VW132</pre>
+CALL   SBR25, 0, 999, VW132
+Network 4
+LD     SM0.0
+CALL   SBR25, 0, 9990, VW134
+CALL   SBR25, 70, 200, VW136
+CALL   SBR25, 0, 99, VW148
+CALL   SBR25, 500, VW846, VW138
+CALL   SBR25, 400, 950, VW140
+CALL   SBR25, 0, 2, VW142
+CALL   SBR25, 0, 9, VW154</pre>
       <ol class="notes">
-        <li>The sterilisation temperature <code>VW124</code> is held between 100.0 °C and <code>VW816</code> (134.0 °C).</li>
-        <li>The control temperature <code>VW126</code> is held 0.5–1.5 °C above it. The program controls slightly above the sterilisation temperature so the measured value doesn't dip below it.</li>
-        <li>The over-temperature limit <code>VW128</code> is held 1.0–3.0 °C above the control temperature.</li>
-        <li>Exposure time <code>VW130</code> is limited to 999.0 min and the F0 target <code>VW132</code> to 999.</li>
+        <li><b>N2</b> The sterilisation temperature <code>VW124</code> is held between 100.0 °C and <code>VW816</code> (134.0 °C).</li>
+        <li><b>N2</b> The control temperature <code>VW126</code> is held 0.5–1.5 °C above it. The program controls slightly above the sterilisation temperature so the measured value doesn't dip below it.</li>
+        <li><b>N2</b> The over-temperature limit <code>VW128</code> is held 1.0–3.0 °C above the control temperature. Exposure time <code>VW130</code> is limited to 999.0 min and the F0 target <code>VW132</code> to 999.</li>
+        <li><b>N4</b> Drying time <code>VW134</code>, drying vacuum <code>VW136</code>, <code>VW148</code>, the air-break level <code>VW138</code> (up to <code>VW846</code>, which network 3 sets from the liquids option), the liquids end temperature <code>VW140</code>, the unload side <code>VW142</code> and the number of drying pulses <code>VW154</code> (0–9). Network 1 clamps the vacuum and pulse entries and network 5 the filter-cycle entries.</li>
       </ol>
     </div>
   </div>
@@ -862,19 +868,19 @@ CALL   SBR25, 0, 999, VW132</pre>
         <label class="fld">Control temp VW126<input type="number" id="lm-126" value="1220" step="1" style="width:130px"></label>
         <label class="fld">Over-temp VW128<input type="number" id="lm-128" value="1240" step="1" style="width:130px"></label>
         <label class="fld">Vacuum pulses VW112<input type="number" id="lm-112" value="3" step="1" style="width:110px"></label>
+        <label class="fld">Drying pulses VW154<input type="number" id="lm-154" value="1" step="1" style="width:110px"></label>
       </div>
       <div class="tbl" style="margin:0"><table><thead><tr><th>Entry</th><th>You typed</th><th>PLC uses</th><th>Rule</th></tr></thead><tbody id="lm-out"></tbody></table></div>
     </div>
   </div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Validate in the PLC, every scan, even when the panel validates too. Panels get replaced and supervisory systems write directly.</li><li>Derive dependent limits from the value they depend on, so the order "sterilise &lt; control &lt; over-temperature" can never be broken.</li><li>Clamp rather than reject when the safe value is obvious, and show the operator the value actually in use.</li></ul></div>
-  <div class="pitfall"><h4>The one entry that isn't checked</h4><p>The number of drying pulses <code>VW154</code> (stored value 1) is the only recipe value with no clamp. A typing slip of 10 makes drying ten times longer, and a negative value ends drying after one pulse.</p></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Validate in the PLC, every scan, even when the panel validates too. Panels get replaced and supervisory systems write directly.</li><li>Derive dependent limits from the value they depend on, so the order "sterilise &lt; control &lt; over-temperature" can never be broken.</li><li>Clamp every entry, including counts. A typing slip of 10 drying pulses would make drying ten times longer.</li><li>Clamp rather than reject when the safe value is obvious, and show the operator the value actually in use.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 8 ===================== -->
 <section class="step" id="start" data-phase="Build" data-title="Start conditions and doors">
   <div class="step-eyebrow">Build</div>
   <h2>Start conditions and the pass-through doors</h2>
-  <p class="lede">Two questions guard the machine: may a door open, and may a cycle start? Both are answered in one place each. The start answer is a word in which every bit is one reason not to start, which the panel can show.</p>
+  <p class="lede">Two questions guard the machine: may a door open, and may a cycle start? Answer each in one place. The start answer is a word in which every bit is one reason not to start, so the panel can show it.</p>
   <div class="code">
     <div class="code-h">Puertas (SBR5) · Networks 1, 3, 4 <small>which door was last used, and may a door open?</small></div>
     <div class="code-body">
@@ -908,10 +914,11 @@ A      M1.1
       <ol class="notes">
         <li><b>N1</b> While idle, opening door 1 (loading side) resets <code>M1.0</code> and opening door 2 (sterile side) sets it. <code>M1.0</code> remembers which side was used last.</li>
         <li><b>N3</b> <code>M1.1</code> (doors may open) needs no cycle running, compressed air for the door seals (<code>V7.1</code>), chamber pressure within ±100 mbar of atmospheric (<code>VW1000</code>–<code>VW1006</code>) and chamber temperature ≤ 80.0 °C (<code>VW812</code>), all for 3 s.</li>
-        <li><b>N4</b> Door 1 may open (<code>M1.2</code>) only if door 2 is closed and locked (<code>M2.1</code>, <code>M2.3</code>) and not opening (<code>M3.1</code>). Network 5 is the mirror image for door 2. The two doors can never be open together.</li>
+        <li><b>N4</b> Door 1 may open (<code>M1.2</code>) only if door 2 is closed and locked (<code>M2.1</code>, <code>M2.3</code>) and not opening (<code>M3.1</code>). Network 5 is the mirror image for door 2, so the two doors can never be open together.</li>
       </ol>
     </div>
   </div>
+  <p>Networks 7–9 add which side is <i>enabled</i>. While a steam cycle runs and the load has been flagged sterile, door 1 is disabled (<code>M1.6</code> off) and door 2 enabled (<code>M1.7</code> on). Door 1 is enabled again only after door 2 has been opened, that is, after the load has been taken out on the sterile side.</p>
   <div class="code">
     <div class="code-h">Cond_Inicio (SBR6) · Networks 2–7, 15 <small>every reason not to start is a bit of MW4</small></div>
     <div class="code-body">
@@ -963,9 +970,9 @@ R      M8.0, 1</pre>
       <ol class="notes">
         <li><b>N2</b> Clear the whole reason word <code>MW4</code>, then set one bit per reason found this scan.</li>
         <li><b>N3–N4</b> A door not closed and locked, or opening, blocks the start.</li>
-        <li><b>N5–N6</b> The loading rule: with <code>VW100</code> = 0 (stored), a steam cycle may only start if the last door used was door 1. A load can't go in through the sterile side.</li>
-        <li><b>N7</b> A load already flagged sterile (<code>M0.2</code>) blocks a new cycle until a door has been opened. Nobody can sterilise the same load twice and miss the unloading.</li>
-        <li><b>N15</b> The panel's start request <code>M8.0</code> sets the first step <code>M10.0</code> only when <code>MW4</code> = 0, then clears itself.</li>
+        <li><b>N5–N6</b> The loading rule: with <code>VW100</code> = 0, a steam cycle may only start if the last door used was door 1, so a load can't go in through the sterile side.</li>
+        <li><b>N7</b> A load already flagged sterile (<code>M0.2</code>) blocks a new cycle until a door has been opened. Nobody can sterilise the same load twice and skip the unloading.</li>
+        <li><b>N15</b> The panel's start request <code>M8.0</code> sets the first step <code>M10.0</code> only when <code>MW4</code> = 0, then is cleared. The panel sets the bit and the PLC clears it, so a request made during the power-up delay is acted on as soon as the delay ends.</li>
       </ol>
     </div>
   </div>
@@ -985,14 +992,14 @@ R      M8.0, 1</pre>
       <p class="srcnote" id="dr-msg" style="margin:0"></p>
     </div>
   </div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Make the reason visible. A word of "why not" bits turns "it won't start" into a message the operator can act on.</li><li>Clear the reason word first, then set it. A reason that has gone can't linger.</li><li>Put product rules (loading side, sterile load not yet unloaded) in the same start check as the safety rules, so no path skips them.</li></ul></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Make the reason visible. A word of "why not" bits turns "it won't start" into a message the operator can act on.</li><li>Clear the reason word first, then set it, so a reason that has gone can't linger.</li><li>Put product rules (loading side, sterile load not yet unloaded) in the same start check as the safety rules, so no path skips them.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 9 ===================== -->
 <section class="step" id="steps" data-phase="Build" data-title="The cycle as step bits">
   <div class="step-eyebrow">Build</div>
   <h2>The cycle as one-hot step bits</h2>
-  <p class="lede">The steam cycle is a sequence of 17 steps, one memory bit each. Exactly one is set at a time. A transition resets the current step and sets the next in the same network, usually after a condition has held for one second.</p>
+  <p class="lede">Write the steam cycle as a sequence of 17 steps, one memory bit each, with exactly one set at a time. A transition resets the current step and sets the next in the same network, usually after its condition has held for one second.</p>
   <div class="code">
     <div class="code-h">Ciclo_Vapor (SBR7) · Networks 3–5 and 25 <small>start, first vacuum, and the end of the cycle</small></div>
     <div class="code-body">
@@ -1027,7 +1034,6 @@ AN     M9.0
 TON    T133, +10
 LPP
 LD     T133
-OW&gt;=   VW204, VW110
 O      M9.1
 O      M9.2
 ALD
@@ -1045,19 +1051,19 @@ A      T143
 MOVD   +0, MD10
 R      M9.1, 2</pre>
       <ol class="notes">
-        <li><b>N3–N4</b> Two settling steps check the services. With option <code>V801.3</code> off, step <code>M10.0</code> passes at once, then <code>M10.1</code> waits 15 s with compressed air present.</li>
-        <li><b>N5</b> The pattern for every step. A condition (pressure ≤ <code>VW108</code>), held for 1 s by a TON that stops on abort (<code>AN M9.0</code>), or a time limit, or the operator's "advance" (<code>M9.1</code>), or a forced finish (<code>M9.2</code>), moves to the next step.</li>
+        <li><b>N3–N4</b> Two settling steps check the services. With option <code>V801.3</code> off, step <code>M10.0</code> passes at once; <code>M10.1</code> then waits 15 s with compressed air present.</li>
+        <li><b>N5</b> The pattern for every step: a condition (here pressure ≤ <code>VW108</code>), held for 1 s by a TON that stops on abort (<code>AN M9.0</code>), or the operator's advance (<code>M9.1</code>), or a forced finish (<code>M9.2</code>), moves to the next step.</li>
         <li><b>N25</b> The last step waits for 30 s near atmospheric pressure (<code>M22.2</code>), then clears all 32 step bits at once with <code>MOVD +0, MD10</code>.</li>
       </ol>
     </div>
   </div>
   <div class="tbl"><table>
-    <thead><tr><th>Step</th><th>Phase code</th><th>What happens</th><th>Leaves when (stored values)</th></tr></thead>
+    <thead><tr><th>Step</th><th>Phase code</th><th>What happens</th><th>Leaves when (default recipe)</th></tr></thead>
     <tbody>
       <tr><td class="a">M10.0, M10.1</td><td class="n">1</td><td>Start: services check, settle</td><td>15 s with compressed air</td></tr>
-      <tr><td class="a">M10.2, M10.3</td><td class="n">2</td><td>First vacuum and hold</td><td>≤ 200 mbar for 1 s, or hold time 0 (see step 10)</td></tr>
+      <tr><td class="a">M10.2, M10.3</td><td class="n">2</td><td>First vacuum, then hold</td><td>≤ 200 mbar for 1 s; hold time 0 = no hold</td></tr>
       <tr><td class="a">M10.4, M10.5</td><td class="n">3</td><td>Vacuum pulses: steam in, vacuum</td><td>≥ 900 mbar / ≤ 100 mbar; 3 pulses</td></tr>
-      <tr><td class="a">M10.6, M10.7</td><td class="n">4</td><td>Positive pulses</td><td>0 pulses stored, skipped</td></tr>
+      <tr><td class="a">M10.6, M10.7</td><td class="n">4</td><td>Positive pulses</td><td>0 pulses set, skipped</td></tr>
       <tr><td class="a">M11.0</td><td class="n">5</td><td>Heat-up</td><td>Temperature ≥ 121.0 °C for 1 s</td></tr>
       <tr><td class="a">M11.1</td><td class="n">6</td><td>Sterilisation (exposure)</td><td>20.0 min at temperature and F0 ≥ target</td></tr>
       <tr><td class="a">M11.2–M11.5</td><td class="n">7</td><td>Drying: vacuum, hold, air break, air hold</td><td>10.0 min at ≤ 200 mbar, × 1 pulse</td></tr>
@@ -1085,7 +1091,7 @@ MOVW   LW0, VW1494
   </div>
   <div class="think">
     <h4>Engineer's thinking: why step bits and not a step number?</h4>
-    <p>Step bits make every transition a self-contained network: <code>R</code> the old step, <code>S</code> the new one. Branches (more pulses, or drying, or cooling) are just two <code>S</code> instructions under different conditions. The price is that nothing stops two steps being set at once except discipline. That's why <code>GP_Fases</code> exists, and why a step number is easier to log and to check.</p>
+    <p>Step bits make every transition a self-contained network: <code>R</code> the old step, <code>S</code> the new one. Branches (more pulses, or drying, or cooling) are just two <code>S</code> instructions under different conditions. The price is that nothing stops two steps being set at once except discipline. That is one reason <code>GP_Fases</code> exists, and why a step number is easier to log and to check.</p>
   </div>
 </section>
 
@@ -1093,11 +1099,11 @@ MOVW   LW0, VW1494
 <!-- ===================== STEP 10 ===================== -->
 <section class="step" id="pulses" data-phase="Build" data-title="Air removal: vacuum pulses">
   <div class="step-eyebrow">Build</div>
-  <h2>Air removal: vacuum pulses</h2>
-  <p class="lede">Steam only reaches its saturation temperature where there is no air. One deep vacuum isn't enough for porous loads, so the program alternates vacuum and steam: each pulse dilutes the remaining air.</p>
+  <h2>Air removal: first vacuum and vacuum pulses</h2>
+  <p class="lede">Steam only reaches its saturation temperature where there is no air. One deep vacuum isn't enough for porous loads, so after the first vacuum the program alternates steam and vacuum: each pulse dilutes the air that is left.</p>
   <div class="think">
     <h4>Engineer's thinking: why air is the enemy</h4>
-    <p>Pressure in the chamber is the sum of the steam and air partial pressures (Dalton's law). The thermometer sees the saturation temperature of the <i>steam</i> part only. At 2057 mbar with 10 % air left, the steam is at 1851 mbar, which saturates at about 118 °C instead of 121 °C. Pressure says "sterilising", but the load isn't. Three pulses from 900 to 100 mbar cut the air to roughly (100/900)³, about 0.1 % of what was there.</p>
+    <p>Pressure in the chamber is the sum of the steam and air partial pressures (Dalton's law). The thermometer sees the saturation temperature of the <i>steam</i> part only. At 2057 mbar with 10 % air left, the steam is at 1851 mbar, which saturates at about 118 °C instead of 121 °C. Pressure says "sterilising", but the load isn't. Each pulse from 900 to 100 mbar keeps about 100/900 of the air, so three pulses leave roughly (100/900)³, about 0.1 % of what was there.</p>
   </div>
   <div class="code">
     <div class="code-h">Ciclo_Vapor (SBR7) · Networks 7–9 <small>branch after the hold, the pulse loop and its counter</small></div>
@@ -1168,7 +1174,7 @@ S      M10.6, 1
 LPP
 R      M9.1, 1</pre>
       <ol class="notes">
-        <li><b>N7</b> After the vacuum hold, branch three ways: more vacuum pulses to do (<code>VW208</code> &lt; <code>VW112</code>), positive pulses to do (<code>VW218</code> &lt; <code>VW118</code>), or straight to heat-up.</li>
+        <li><b>N7</b> After the hold (<code>VW204</code> ≥ <code>VW110</code>), branch three ways: vacuum pulses still to do (<code>VW208</code> &lt; <code>VW112</code>), positive pulses to do (<code>VW218</code> &lt; <code>VW118</code>), or straight to heat-up.</li>
         <li><b>N8</b> Steam in until the chamber reaches <code>VW116</code> (900 mbar) for 1 s.</li>
         <li><b>N9</b> Vacuum down to <code>VW114</code> (100 mbar) for 1 s. The rising edge of that confirmation counts the pulse (<code>INCW VW208</code>), then the loop either goes back to <code>M10.4</code> or moves on.</li>
       </ol>
@@ -1203,20 +1209,20 @@ LPP
 AW&gt;=   VW408, VW1056
 TON    T252, +10</pre>
       <ol class="notes">
-        <li>At the start of each evacuation the target <code>VW1056</code> is either the current pressure (ramp) or 1 mbar (no ramp). With <code>VW102</code> = 20 (stored, the maximum), it is "no ramp".</li>
-        <li>Each second the target falls by <code>VW102</code> mbar, but never more than 50 mbar below the actual pressure. The vacuum valve opens only while the pressure is above the target (<code>T252</code>). A slow ramp protects liquids and fragile packs from boiling or bursting.</li>
+        <li>At the start of each evacuation the target <code>VW1056</code> is either the current pressure (ramp) or 1 mbar (no ramp). With <code>VW102</code> = 20, the maximum, there is no ramp.</li>
+        <li>With a ramp, the target falls by <code>VW102</code> mbar every second, but never more than 50 mbar below the actual pressure. The vacuum valve opens only while the pressure is above the target (<code>T252</code>). A slow ramp protects liquids and fragile packs from boiling or bursting.</li>
       </ol>
     </div>
   </div>
-  <div class="pitfall"><h4>The first vacuum that never happens</h4><p>Network 5 leaves the first-vacuum step <code>M10.2</code> when the pressure is reached <i>or</i> when <code>VW204</code> ≥ <code>VW110</code>. But <code>VW204</code> only counts in the next step, and the stored hold time <code>VW110</code> is 0. So 0 ≥ 0 at once: the first vacuum and its hold pass in one scan, whatever the pressure. The first pulse's vacuum does the job instead, so the cycle still works, but the "first vacuum level" <code>VW108</code> has no effect. Watch the event log in the simulator.</p></div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Count repeats with a counter that is cleared at cycle start (here by <code>Aux_Borra</code>, which zeroes <code>VW200</code>–<code>VW399</code>), never by a retentive value left from the last cycle.</li><li>Confirm every pressure target for a second before acting, so a pressure spike doesn't end a step.</li><li>Give each exit condition its own counter. A shared one couples steps in ways nobody intended.</li></ul></div>
+  <div class="pitfall"><h4>Common mistake: one counter, two steps</h4><p>The hold counter <code>VW204</code> runs only in the hold step <code>M10.3</code>. If you also used "<code>VW204</code> ≥ <code>VW110</code>" as an exit of the first-vacuum step <code>M10.2</code>, a hold time of 0 would make 0 ≥ 0 true at once, and the first vacuum would be skipped whatever the pressure. Give each step's exit its own condition. In the simulator's event log, the first vacuum runs for about 35 s before the first steam pulse.</p></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Count repeats with a counter that is cleared at every cycle start (here <code>Aux_Borra</code> zeroes <code>VW200</code>–<code>VW399</code>), never one left over from the last cycle.</li><li>Confirm every pressure target for a second before acting, so a pressure spike can't end a step.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 11 ===================== -->
 <section class="step" id="control" data-phase="Build" data-title="Hold 121 °C by controlling pressure">
   <div class="step-eyebrow">Build</div>
   <h2>Hold 121 °C by controlling pressure</h2>
-  <p class="lede">Once the air is out, temperature and pressure are tied together by the steam table. Pressure responds in seconds, while a temperature probe in a drain lags by much more. So the program controls the chamber <i>pressure</i>, and only uses temperature to trim the pressure setpoint slowly.</p>
+  <p class="lede">Once the air is out, temperature and pressure are tied together by the steam table. Pressure responds in seconds, while a temperature probe in a drain lags by much more. So the program controls the chamber <i>pressure</i>, and uses temperature only to trim the pressure setpoint slowly.</p>
   <div class="code">
     <div class="code-h">Aux_Temp_Pres (SBR21) · Networks 1, 4, 9 <small>steam table as 12 straight lines, 80–140 °C</small></div>
     <div class="code-body">
@@ -1232,8 +1238,8 @@ LDW&gt;=  LW0, +1200
 AW&lt;    LW0, +1250
 CALL   SBR20, LW0, +1200, +1250, +1990, +2323, LW2</pre>
       <ol class="notes">
-        <li>Each network covers 5 °C and interpolates between two table points with <code>Aux_Escalado</code>: 100.0 °C → 1014 mbar, 120.0 °C → 1990, 125.0 °C → 2323 mbar.</li>
-        <li>Below 85 °C the first segment is used and above 135 °C the last one, extrapolated.</li>
+        <li>Each network covers 5 °C and interpolates between two table points with <code>Aux_Escalado</code>: 100.0 °C → 1014 mbar, 120.0 °C → 1990 mbar, 125.0 °C → 2323 mbar.</li>
+        <li>Below 85 °C the first segment is used and above 135 °C the last one, extended in a straight line.</li>
       </ol>
     </div>
   </div>
@@ -1293,21 +1299,21 @@ LD     SM0.0
 CALL   SBR25, 0, 100, VW432
 CALL   SBR20, VW432, +0, +100, +6400, +32000, AQW0</pre>
       <ol class="notes">
-        <li><b>N23</b> When the recipe changes or a cycle starts, three pressures come from the table: at the sterilisation temperature (<code>VW1030</code>, the low clamp), at the control temperature (<code>VW1032</code>, the setpoint) and at the over-temperature limit (<code>VW1034</code>, the high clamp).</li>
-        <li><b>N26–N29</b> Every 15 s the measured temperature nudges the pressure setpoint: +10 mbar if at or below 121.0 °C, +2 if below 122.0, −2 if above 122.0, −10 if 0.5 °C or more above it. This is a slow integral action on temperature. Network 30 clamps the result between the two table pressures.</li>
-        <li><b>N31</b> The steam valve opening is the pressure error in mbar, 1 % per mbar (proportional only). 30 mbar below setpoint gives 30 % open.</li>
-        <li><b>N33</b> Clamp 0–100 % and scale to 6400–32000 for the 4–20 mA output.</li>
+        <li><b>N23</b> When the recipe changes or a cycle starts, take three pressures from the table: at the sterilisation temperature (<code>VW1030</code>, the low clamp), at the control temperature (<code>VW1032</code>, the setpoint) and at the over-temperature limit (<code>VW1034</code>, the high clamp).</li>
+        <li><b>N26–N29</b> Every 15 s the measured temperature nudges the pressure setpoint: +10 mbar if at or below 121.0 °C, +2 if below 122.0, −2 if above 122.0, −10 if 0.5 °C or more above it. This is slow integral action on temperature. Network 30 clamps the result between the two table pressures.</li>
+        <li><b>N31</b> The steam valve opening is the pressure error in mbar, 1 % per mbar (proportional only): 30 mbar below setpoint gives 30 % open.</li>
+        <li><b>N33</b> Clamp to 0–100 % and scale to 6400–32000 for the 4–20 mA output.</li>
       </ol>
     </div>
   </div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Control the fast variable and trim it with the slow one: here a pressure loop with a temperature-driven setpoint.</li><li>Clamp a trimmed setpoint between physically meaningful limits, here the pressures of the sterilisation and over-temperature limits.</li><li>Close the valve outright on abort, over-temperature, over-pressure or a lost steam supply (network 32), whatever the loop wants.</li></ul></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Control the fast variable and trim it with the slow one: here a pressure loop with a temperature-driven setpoint.</li><li>Clamp a trimmed setpoint between physically meaningful limits, here the pressures of the sterilisation and over-temperature limits.</li><li>Close the valve outright on abort, over-temperature, over-pressure, or a clean-steam supply missing for 45 s (network 32), whatever the loop wants, and keep it closed until the supply is back.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 12 ===================== -->
 <section class="step" id="f0" data-phase="Build" data-title="Exposure time and F0">
   <div class="step-eyebrow">Build</div>
   <h2>Exposure time and F0</h2>
-  <p class="lede">Two numbers decide whether the load is sterile: minutes at or above the sterilisation temperature, and F0, the equivalent minutes at 121 °C that every second of the cycle contributes. Both are counted in integers.</p>
+  <p class="lede">Two numbers decide whether the load is sterile: minutes at or above the sterilisation temperature, and F0, the equivalent minutes at 121.1 °C that every second of the cycle contributes. Count both in integers.</p>
   <div class="code">
     <div class="code-h">Ciclo_Vapor (SBR7) · Networks 13–15 <small>exposure time, F0 and the end of exposure</small></div>
     <div class="code-body">
@@ -1319,7 +1325,7 @@ CALL   SBR24, +6, +1, VW232, VW234
 Network 14
 LD     M20.1
 A      M0.0
-CALL   SBR23, VW1020, 1210, 10, VW1060
+CALL   SBR23, VW1020, 1211, 10, VW1060
 CALL   SBR24, +6000, VW1060, VW236, VW238
 Network 15
 LD     M11.1
@@ -1341,8 +1347,8 @@ LPP
 R      M9.2, 1</pre>
       <ol class="notes">
         <li><b>N13</b> Exposure counts only while the control temperature is at or above 121.0 °C. A dip stops the clock without resetting it. Six one-second pulses make one tenth of a minute in <code>VW232</code>.</li>
-        <li><b>N14</b> F0 counts during the whole steam cycle: <code>Aux_Fx</code> gives the lethal rate × 100 each second, and <code>Aux_Cuenta</code> adds it up, carrying one F0 minute into <code>VW236</code> every 6000.</li>
-        <li><b>N15</b> Exposure ends when both targets are met (or on advance / forced finish). Then the load goes to drying if drying pulses are set (<code>VW154</code> ≠ 0), or to liquids cooling.</li>
+        <li><b>N14</b> F0 counts during the whole steam cycle: <code>Aux_Fx</code> gives the lethal rate × 100 each second against the reference temperature 121.1 °C (<code>1211</code>), and <code>Aux_Cuenta</code> adds it up, carrying one F0 minute into <code>VW236</code> every 6000.</li>
+        <li><b>N15</b> Exposure ends when both targets are met (or on advance or forced finish). The load then goes to drying if drying pulses are set (<code>VW154</code> ≠ 0), or to liquids cooling.</li>
       </ol>
     </div>
   </div>
@@ -1371,21 +1377,21 @@ LDW&gt;=  LW6, LW0
 -I     LW0, LW6
 +I     +1, LW4</pre>
       <ol class="notes">
-        <li><b>Aux_Fx</b> L = 10<sup>(T − Tref)/z</sup>, computed as <code>EXP(LN(10) × ΔT/z)</code> because the S7-200 has no power function. Called with Tref = 121.0 °C and z = 10 °C. The pharmacopoeia reference is 121.1 °C, so this F0 reads about 2 % high: say which one the specification means. At 121 °C, L × 100 = 100; at 124 °C, 200.</li>
-        <li><b>Aux_Cuenta</b> Add the increment to the seconds accumulator. If it reaches the base, subtract the base and add one to the minutes. With base 6000 and 100 per second at 121 °C, one F0 minute is added each minute.</li>
+        <li><b>Aux_Fx</b> L = 10<sup>(T − Tref)/z</sup>, computed as <code>EXP(LN(10) × ΔT/z)</code> because the S7-200 has no power function. Called with Tref = 121.1 °C and z = 10 °C, the pharmacopoeia's definition of F0. At 121.1 °C, L × 100 = 100; at 124.1 °C it is 200.</li>
+        <li><b>Aux_Cuenta</b> Add the increment to the seconds accumulator. If it reaches the base, subtract the base and add one to the minutes. With base 6000 and 100 per second at 121.1 °C, one F0 minute is added each minute.</li>
       </ol>
     </div>
   </div>
   <div class="widget" id="w-f0">
-    <div class="widget-h"><b>Try it: F0 the way the PLC counts it</b><span>Aux_Fx and Aux_Cuenta, z = 10 °C</span></div>
+    <div class="widget-h"><b>Try it: F0 the way the PLC counts it</b><span>Aux_Fx and Aux_Cuenta, Tref 121.1 °C, z = 10 °C</span></div>
     <div class="widget-b">
-      <label class="fld">Temperature held <span class="readout" id="f0-t-t">121.0 °C</span><input type="range" id="f0-t" min="1100" max="1350" step="1" value="1210"></label>
+      <label class="fld">Temperature held <span class="readout" id="f0-t-t">121.1 °C</span><input type="range" id="f0-t" min="1100" max="1350" step="1" value="1211"></label>
       <label class="fld">Minutes held <span class="readout" id="f0-m-t">20 min</span><input type="range" id="f0-m" min="1" max="60" step="1" value="20"></label>
       <dl class="kv" id="f0-out"></dl>
     </div>
   </div>
-  <div class="pitfall"><h4>Two clocks</h4><p>Exposure and F0 count on <code>M0.0</code>, the raw one-second pulse. Every other phase counts on <code>M0.5</code>, which stops during an abort (step 5). If a cycle is held at temperature after an alarm, exposure and F0 keep growing. Whether held time should count is a validation decision. Make it deliberately and write it down.</p></div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Count exposure only while the condition holds, and say in the specification whether a dip pauses or restarts it (here it pauses).</li><li>Integer accumulators with a carry keep long counts exact. The remainder in <code>VW238</code> is never lost.</li><li>Use a time base that can't overflow: one carry per call is enough as long as one second never adds more than the base (true up to about 138 °C here).</li></ul></div>
+  <div class="think"><h4>Engineer's thinking: which clock?</h4><p>Exposure and F0 count on <code>M0.0</code>, the plain one-second pulse, not on the abort-gated <code>M0.5</code>. F0 is the lethality the load physically received, so it should keep counting. And an abort before the exposure is complete can't produce a sterile load: the aborted cycle can only end by being cancelled (step 13), and the sterile flag is set only while the cycle is still running with both targets reached. Write that decision into your specification; validators will ask.</p></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Count exposure only while the condition holds, and say in the specification whether a dip pauses or restarts it (here it pauses).</li><li>Integer accumulators with a carry keep long counts exact; the remainder in <code>VW238</code> is never lost.</li><li>Use a time base that can't overflow. One carry per call is enough as long as one second never adds more than the base, which holds up to about 138 °C here.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 13 ===================== -->
@@ -1478,14 +1484,16 @@ AN     M9.0
       </ol>
     </div>
   </div>
-  <div class="pitfall"><h4>An abort with no way out</h4><p>An abort sets <code>M9.0</code>. <code>Aux</code> clears it only when no cycle is running, but the only way the steam cycle ends is network 25's 30 s timer, and that timer has <code>AN M9.0</code> in it. So after an abort the program can never return to idle by itself: something outside it, most likely the panel, must clear the step bits or <code>M9.0</code>. If the panel does, document it in the specification. If not, it is a lock-up. The simulator's "Cancel cycle" button plays that panel's part.</p></div>
+  <h3>Getting out of an abort</h3>
+  <p>An abort (<code>M9.0</code>, step 14) freezes the cycle where it is: phase timers stop and the valves close. That is the safe reaction, but the cycle can't finish by itself, because the final step's 30 s timer is also stopped by <code>M9.0</code>. So give the operator a way out. The panel's "cancel cycle" button sets <code>M8.4</code>, and <code>Aux</code> network 1 (step 5) clears every step byte. With no cycle running, <code>Aux</code> clears <code>M9.0</code>, and the idle chamber logic takes over: it exhausts pressure above atmospheric and lets sterile air in below it. The doors unlock once the chamber is near atmospheric and below 80 °C.</p>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Give every abort a defined way back to idle, inside the program. A machine shouldn't depend on an engineer with a laptop to recover.</li><li>Make idle a safe state in its own right: here, idle with the doors closed always brings the chamber back to atmospheric pressure.</li><li>Record why a cycle ended. An abort after the exposure has finished leaves a sterile but possibly wet load; the panel should say the drying was not completed.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 14 ===================== -->
 <section class="step" id="alarms" data-phase="Build" data-title="Alarms: one byte each">
   <div class="step-eyebrow">Build</div>
   <h2>Alarms: one byte each, one handler for all</h2>
-  <p class="lede">Every alarm owns a byte in <code>VB600</code>–<code>VB689</code>. The detecting network writes only bit 0, the live condition. One generic subroutine, <code>Aux_Alm</code>, turns that into everything else: active, new, horn, unacknowledged, beacon.</p>
+  <p class="lede">Give every alarm a byte in <code>VB600</code>–<code>VB689</code>. The detecting network writes only bit 0, the live condition. One generic subroutine, <code>Aux_Alm</code>, turns that into everything else: active, new, horn, unacknowledged, beacon.</p>
   <div class="code">
     <div class="code-h">Aux_Alm (SBR26) · Networks 2–4 <small>ByteCtrl (in/out), ByteAlm (in/out), Optica, Bocina</small></div>
     <div class="code-body">
@@ -1587,66 +1595,65 @@ CALL   SBR26, LB0, VB643, M24.0, M24.1</pre>
       <ol class="notes">
         <li><b>N12</b> Over-temperature for 10 s during a steam cycle raises <code>V621.0</code>, and its rising edge sets <code>M9.2</code>, forced finish. Every step's transition ORs <code>M9.2</code>, so the cycle runs on to drying and the end, and the load is <i>not</i> flagged sterile.</li>
         <li><b>N14</b> Control power lost (<code>V7.0</code>) during a cycle sets <code>M9.0</code>, abort. Timers stop and valves close.</li>
-        <li><b>N15</b> A service loss is timed with a retentive timer (<code>TONR T6</code>, 60 s). Short blips add up instead of resetting, and the timer only resets when the service is back.</li>
+        <li><b>N15</b> A service loss is timed with a retentive timer (<code>TONR T6</code>, 60 s). Short blips add up instead of resetting, and the timer resets only when the service is back.</li>
       </ol>
     </div>
   </div>
   <div class="tbl"><table>
     <thead><tr><th>Reaction</th><th>Bit</th><th>Raised by</th><th>What the cycle does</th></tr></thead>
     <tbody>
-      <tr><td>Abort</td><td class="a">M9.0</td><td>Chamber probe or pressure transmitter failure (network 50), control power lost (network 14)</td><td>Freezes: phase timers stop, valves close, needs the panel to recover (step 13)</td></tr>
-      <tr><td>Forced finish</td><td class="a">M9.2</td><td>Over-temperature (network 12)</td><td>Runs to the end without the load being flagged sterile</td></tr>
-      <tr><td>Operator advance</td><td class="a">M9.1</td><td>The panel (assumed)</td><td>Skips the current step</td></tr>
+      <tr><td>Abort</td><td class="a">M9.0</td><td>Chamber probe or pressure transmitter failure (network 50), control power lost (network 14), the panel's abort button</td><td>Freezes: phase timers stop, valves close; the operator cancels it (step 13)</td></tr>
+      <tr><td>Forced finish</td><td class="a">M9.2</td><td>Over-temperature (network 12)</td><td>Runs to the end without flagging the load sterile</td></tr>
+      <tr><td>Advance</td><td class="a">M9.1</td><td>The panel's advance button</td><td>Skips the current step</td></tr>
       <tr><td>Warning only</td><td>–</td><td>Low temperature in exposure, valve feedback mismatch, service loss, vacuum pump fault</td><td>Horn and beacon. A pump fault stops the pump, so the step simply waits</td></tr>
     </tbody>
   </table></div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>One byte and one handler per alarm makes 40 alarms behave identically and lets the panel read them as a block.</li><li>Distinguish "stop where you are" (abort) from "finish safely" (forced finish). Both are needed in a batch machine.</li><li>Use retentive timers for intermittent faults, so a supply that keeps dropping out still raises the alarm.</li></ul></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>One byte and one handler per alarm makes 40 alarms behave the same way and lets the panel read them as a block.</li><li>Distinguish "stop where you are" (abort) from "finish safely" (forced finish). A batch machine needs both.</li><li>Use retentive timers for intermittent faults, so a supply that keeps dropping out still raises the alarm. Close the valves that need a supply once it has been missing for 45 s, and keep them closed after the 60 s alarm until the supply returns.</li></ul></div>
 </section>
 
 
 <!-- ===================== STEP 15 ===================== -->
-<section class="step" id="test" data-phase="Prove" data-title="Test, commission, review">
+<section class="step" id="test" data-phase="Prove" data-title="Test and commission">
   <div class="step-eyebrow">Prove</div>
-  <h2>Test, commission and review</h2>
-  <p class="lede">A sterilizer is proven with instruments that don't belong to the PLC. Here is the order a careful engineer follows, and what a fresh review of this program found.</p>
+  <h2>Test and commission</h2>
+  <p class="lede">A sterilizer is proven with instruments that don't belong to the PLC. Work through the program in this order, then check it against the list of common mistakes below.</p>
   <ol>
     <li><b>Desk check.</b> Read every network against the requirements in step 1. Compile, and clear every warning.</li>
     <li><b>Simulate.</b> Force inputs on the bench and walk every step, every transition and every interlock with the status chart.</li>
-    <li><b>I/O and loop check.</b> Prove each wire and valve feedback. Check each analog at 4, 12 and 20 mA against a calibrator, including the over- and under-range alarms.</li>
+    <li><b>I/O and loop check.</b> Prove each wire and valve feedback. Check each analog input at 4, 12 and 20 mA against a calibrator, including the under- and over-range alarms.</li>
     <li><b>Door challenge.</b> Try to open each door under pressure, under vacuum, above 80 °C and with the other door open. Every attempt must be refused.</li>
-    <li><b>Leak and air-removal tests.</b> Run the vacuum leak test (step 16's "Start leak test") and an air-removal test pack. Both must pass before any load cycle.</li>
-    <li><b>Temperature studies.</b> Empty-chamber distribution and loaded heat penetration with independent thermocouples. Compare against the PLC's temperature, exposure time and F0 for the same cycle.</li>
-    <li><b>Alarm challenge.</b> Trigger every abort and forced-finish condition on purpose, and check what the cycle and the load-sterile flag do.</li>
-    <li><b>Archive.</b> Upload the final program and data block, record the versions, and read the recipe back from the running PLC: the stored values on this page are download values, not necessarily what runs.</li>
+    <li><b>Leak and air-removal tests.</b> Run the vacuum leak test (the "Leak test" button in step 16) and an air-removal test pack. Both must pass before any load cycle.</li>
+    <li><b>Temperature studies.</b> Empty-chamber distribution and loaded heat penetration with independent thermocouples. Compare them with the PLC's temperature, exposure time and F0 for the same cycle.</li>
+    <li><b>Alarm challenge.</b> Trigger every abort and forced-finish condition on purpose, check what the cycle and the load-sterile flag do, and cancel each aborted cycle back to idle.</li>
+    <li><b>Archive.</b> Upload the final program and data block, record the versions, and read the recipe back from the running PLC so the record shows what actually runs.</li>
   </ol>
-  <h3>What a fresh review found</h3>
-  <p>None of these stop the machine running normal cycles, which is how they survived. Several only matter if an option is switched on or a fault happens.</p>
+  <h3>Common mistakes to check for</h3>
+  <p>These slip into batch-machine programs easily and survive normal cycles, because they only show up after a fault, an option change or an unusual entry. This tutorial's code avoids each of them; check your own the same way.</p>
   <div class="tbl"><table>
-    <thead><tr><th>ID</th><th>Finding</th><th>Where</th><th>Consequence</th><th>Severity</th></tr></thead>
+    <thead><tr><th>Mistake</th><th>What goes wrong</th><th>How to catch it</th><th>Step</th></tr></thead>
     <tbody>
-      <tr><td class="a">F1</td><td>After an abort the program has no path back to idle</td><td>Aux N4, Ciclo_Vapor N25</td><td><code>M9.0</code> clears only when idle, but the cycle can only end through a timer that <code>M9.0</code> blocks. Recovery depends on the panel (confirm and document)</td><td>Medium</td></tr>
-      <tr><td class="a">F2</td><td>Supply-loss interlocks re-open once the alarm is up</td><td>Recámara N4, Cámara N19 and N32, Salidas N8 and N10</td><td>"Timer ≤ 45 s (5 s for compressed air) or timer done" blocks the valves only until the 60 s alarm timer is done, then releases them while the supply is still missing (confirm intent)</td><td>Medium</td></tr>
-      <tr><td class="a">F3</td><td>Optional probes read words nothing writes</td><td>Ciclo_Vapor N2 (<code>VW412</code>, <code>VW414</code>); Alarmas N8–N10 (<code>VW500</code>–<code>VW520</code>)</td><td>Switching on probe options 4–6 would give a control temperature of 0 and immediate probe alarms</td><td>High if enabled</td></tr>
-      <tr><td class="a">F4</td><td>First vacuum skipped</td><td>Ciclo_Vapor N5</td><td>The exit test uses a counter that only runs in the next step; with hold time 0 the first vacuum level has no effect</td><td>Low</td></tr>
-      <tr><td class="a">F5</td><td>Exposure and F0 keep counting during an abort hold</td><td>Ciclo_Vapor N13–N14</td><td>They count on <code>M0.0</code>, not on the abort-gated <code>M0.5</code>; decide whether held time counts</td><td>Low (validation)</td></tr>
-      <tr><td class="a">F6</td><td>F0 reference is 121.0 °C</td><td>Ciclo_Vapor N14</td><td>F0 reads about 2 % higher than against the 121.1 °C reference</td><td>Low</td></tr>
-      <tr><td class="a">F7</td><td>On/off steam valve demand goes nowhere</td><td>Cámara N16 (<code>V14.2</code>)</td><td>Computed every scan but not mapped to any output in Sal_Cliente: dead logic or a missing wire</td><td>Low</td></tr>
-      <tr><td class="a">F8</td><td>One Ethernet block never called, the other called twice</td><td>ETH0_CTRL; Aux (called twice)</td><td>Confirm module position 0 is unused and that a double call of <code>ETH3_CTRL</code> per scan is acceptable</td><td>Low</td></tr>
-      <tr><td class="a">F9</td><td>Drying pulses not limited</td><td>GP_Limites (<code>VW154</code>)</td><td>The only recipe entry without a clamp</td><td>Low</td></tr>
-      <tr><td class="a">F10</td><td>Full scale counts as a failed signal</td><td>Alarmas N2–N10</td><td>Raw ≥ 32000 is exactly 20 mA; harmless with these ranges</td><td>Low</td></tr>
-      <tr><td class="a">F11</td><td>Dead networks</td><td>GP_Fases N14–N15</td><td>Disabled with <code>LDN SM0.0</code>: phase codes 13 and 14 never appear</td><td>Low</td></tr>
-      <tr><td class="a">F12</td><td>User and password library never called</td><td>Aux_GP_PassEsc, PassLee, PassErr (SBR27–29)</td><td>Dead code that suggests the PLC enforces access when it doesn't; remove it or call it</td><td>Low</td></tr>
-      <tr><td class="a">F13</td><td>No documentation in the project</td><td>Symbol table, comments</td><td>Empty symbol table and default comments in all 36 blocks</td><td>Process</td></tr>
+      <tr><td>An abort with no way back to idle</td><td>The final step's timer is blocked by the abort bit, and the abort bit only clears when idle: the machine locks up</td><td>Abort every step in simulation and get back to idle without editing memory</td><td>13</td></tr>
+      <tr><td>An interlock that re-opens when the alarm timer finishes</td><td>"Timer ≤ 45 s <i>or</i> timer done" blocks a valve only until the alarm is raised, then releases it with the supply still missing</td><td>Remove the supply for 90 s and watch the valve</td><td>11, 14</td></tr>
+      <tr><td>Two steps sharing one counter</td><td>A hold counter used in another step's exit makes that step pass at once when the hold time is 0</td><td>Set every time to 0 and to its maximum, and watch each step run</td><td>10</td></tr>
+      <tr><td>Option branches that read values nothing writes</td><td>Switching on a spare probe would give a control temperature of 0</td><td>Cross-reference: list addresses read but never written, and run every option once</td><td>3</td></tr>
+      <tr><td>F0 against the wrong reference temperature</td><td>Using 121.0 °C instead of 121.1 °C reads about 2 % high</td><td>Compare the PLC's F0 with an independent calculation for one profile</td><td>12</td></tr>
+      <tr><td>Held time counted without a decision</td><td>Exposure keeps growing during a hold and nobody can say whether it should</td><td>Write the rule in the specification and test it</td><td>12</td></tr>
+      <tr><td>A demand bit that drives no output</td><td>Logic computes a valve demand that no output network uses</td><td>Cross-reference: list addresses written but never read</td><td>2</td></tr>
+      <tr><td>Wizard blocks not called, or called twice</td><td>A configured module never serviced, or serviced twice per scan</td><td>Check every wizard block has exactly one call per scan</td><td>2, 4</td></tr>
+      <tr><td>A recipe entry without a clamp</td><td>One typing slip multiplies a phase time</td><td>Type the minimum, the maximum and nonsense into every entry</td><td>7</td></tr>
+      <tr><td>Over-range limit at exactly full scale</td><td>A valid 100 % reading raises a probe alarm</td><td>Inject 20.0 mA and then 21 mA</td><td>6</td></tr>
+      <tr><td>Disabled networks and unused library blocks left in</td><td><code>LDN SM0.0</code> networks and uncalled blocks mislead the next reader</td><td>Search for <code>LDN SM0.0</code> and for blocks with no caller</td><td>4</td></tr>
+      <tr><td>No symbols, no comments</td><td>Every reader has to decode absolute addresses</td><td>Fill the symbol table and the network comments as you write</td><td>17</td></tr>
     </tbody>
   </table></div>
-  <div class="robust"><h4>What this program does well</h4><ul><li>A wiring layer on both sides, so the logic never touches I or Q.</li><li>One general scaling routine with a zero-span guard, and every result clamped.</li><li>Every recipe entry validated in the PLC, with limits that keep dependent values in order.</li><li>A "reasons not to start" word, and a pass-through door barrier in the same place as the safety interlocks.</li><li>One byte and one handler per alarm, with separate abort and forced-finish reactions.</li><li>Pressure control on the saturation curve with a temperature trim, clamped between table pressures.</li></ul></div>
+  <div class="robust"><h4>Patterns this tutorial uses</h4><ul><li>A wiring layer on both sides, so the logic never touches I or Q.</li><li>One general scaling routine with a zero-span guard, and every result clamped.</li><li>Every recipe entry validated in the PLC, with limits that keep dependent values in order.</li><li>A "reasons not to start" word, and a pass-through door barrier in the same place as the safety interlocks.</li><li>One byte and one handler per alarm, with separate abort and forced-finish reactions, and a cancel path back to idle.</li><li>Pressure control on the saturation curve with a temperature trim, clamped between table pressures.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 16 ===================== -->
 <section class="step" id="simulator" data-phase="Prove" data-title="Run the sterilizer">
   <div class="step-eyebrow">Prove</div>
   <h2>Run the sterilizer</h2>
-  <p class="lede">This simulator runs the program's logic scan by scan, every 100 ms of machine time, with the stored recipe and limits. The chamber behind it is a simple model of air, steam and heat, there to make the program respond. Use 60× or 600× to watch a whole cycle.</p>
+  <p class="lede">This simulator runs the program you have built, scan by scan, every 100 ms of machine time, with the data-block recipe and limits. The chamber behind it is a simple model of air, steam and heat, there to make the program respond. Use 60× or 600× to watch a whole cycle.</p>
   <div class="sim" id="sim">
     <div class="sim-top">
       <button class="btn" id="sm-run" type="button">Pause</button>
@@ -1663,10 +1670,10 @@ CALL   SBR26, LB0, VB643, M24.0, M24.1</pre>
           <button class="btn danger" type="button" data-hmi="abort">Abort</button>
           <button class="btn" type="button" data-hmi="cancel">Cancel cycle</button>
           <button class="btn" type="button" data-hmi="ack">Acknowledge</button>
-        </div><p class="srcnote" style="margin:6px 0 0">Advance, abort and cancel are panel writes the program expects but doesn't contain (assumed).</p></div>
+        </div><p class="srcnote" style="margin:6px 0 0">These buttons write the panel command bits: M9.1 advance, M9.0 abort, M8.4 cancel (step 13).</p></div>
         <div><h5>Recipe</h5><div class="stack">
           <label class="fld">Load<select id="sm-load"><option value="0">Wrapped goods: vacuum drying</option><option value="1">Liquids: cooling under counter-pressure</option></select></label>
-          <label class="fld">Sterilisation temperature<select id="sm-temp"><option value="1210">121.0 °C (stored)</option><option value="1340">134.0 °C</option></select></label>
+          <label class="fld">Sterilisation temperature<select id="sm-temp"><option value="1210">121.0 °C (default)</option><option value="1340">134.0 °C</option></select></label>
           <label class="fld">Exposure time, min<input type="number" id="sm-time" value="20" min="0" max="999" step="0.5"></label>
           <span class="srcnote" id="sm-recipe"></span>
         </div></div>
@@ -1740,8 +1747,8 @@ CALL   SBR26, LB0, VB643, M24.0, M24.1</pre>
     </div>
   </div>
   <div class="cols">
-    <div class="think"><h4>Things to try</h4><ul style="margin:0;padding-left:1.2em"><li>Press <b>Start cycle</b> at 60×. Watch three vacuum pulses, heat-up, 20 min exposure and drying in the trend, about 38 min of machine time.</li><li>Watch the log at the start: the first vacuum steps pass in the same instant (finding F4).</li><li>Tick <b>Steam valve stuck</b> during exposure: over-temperature forces a finish, and the load is never flagged sterile.</li><li>Tick <b>Chamber probe wire break</b> mid-cycle: the abort freezes everything until you press <b>Cancel cycle</b> (finding F1).</li><li>After a good cycle, door 1 stays disabled (<code>M1.6</code> off): only the sterile side can open. Open door 2, close it and press <b>Start</b>: refused, because the next load must go in through door 1.</li><li>Run the <b>Leak test</b> with and without the leak fault.</li></ul></div>
-    <div class="evidence"><h4>What is real and what is modelled</h4><ul style="margin:0;padding-left:1.2em"><li>Real: the logic of the steam cycle, leak test, start conditions, door permissives, chamber and jacket valves, steam table, F0, recipe limits and the alarm reactions, with the stored values.</li><li>Modelled: steam, air and heat in the chamber and jacket, the load, valve travel and every field device.</li><li>Simplified: doors are closed/open inputs (their motors and seals are not simulated), the filter cycle and manual mode are left out, and the panel's advance, abort and cancel are assumed.</li></ul></div>
+    <div class="think"><h4>Things to try</h4><ul style="margin:0;padding-left:1.2em"><li>Press <b>Start cycle</b> at 60×. Watch the first vacuum, three vacuum pulses, heat-up, 20 min of exposure and drying in the trend: about 40 min of machine time.</li><li>Tick <b>Steam valve stuck</b> during exposure: over-temperature forces a finish, and the load is never flagged sterile.</li><li>Tick <b>Chamber probe wire break</b> mid-cycle: the abort freezes the cycle. Press <b>Cancel cycle</b> and watch the idle logic bring the chamber back to atmospheric pressure.</li><li>Untick <b>V7.4 clean steam</b> during heat-up: after 45 s the steam valve closes, after 60 s the alarm sounds, and the valve stays closed until you tick it again.</li><li>After a good cycle, door 1 stays disabled (<code>M1.6</code> off): only the sterile side can open. Open door 2, close it and press <b>Start cycle</b>: refused, because the next load must go in through door 1.</li><li>Run the <b>Leak test</b> with and without the leak fault.</li></ul></div>
+    <div class="evidence"><h4>What the simulator runs and what it models</h4><ul style="margin:0;padding-left:1.2em"><li>Runs: the logic from steps 5–14 — the steam cycle, leak test, start conditions, door permissives, chamber and jacket valves, steam table, F0, recipe limits and the alarm reactions — with the data-block values.</li><li>Models: steam, air and heat in the chamber and jacket, the load, valve travel and every field device.</li><li>Left out: door motors and seals (doors are closed/open inputs), the filter cycle and manual mode.</li></ul></div>
   </div>
 </section>
 
@@ -1749,7 +1756,7 @@ CALL   SBR26, LB0, VB643, M24.0, M24.1</pre>
 <section class="step" id="checklist" data-phase="Prove" data-title="Checklist for a robust program">
   <div class="step-eyebrow">Prove</div>
   <h2>Checklist for a robust batch-machine program</h2>
-  <p class="lede">The habits this program shows, good and bad, condensed into a list for the next sterilizer, washer or reactor you write.</p>
+  <p class="lede">The habits from this tutorial, condensed into a list for the next sterilizer, washer or reactor you write.</p>
   <div class="tbl"><table>
     <thead><tr><th>Do this</th><th>Why</th><th>Step</th></tr></thead>
     <tbody>
@@ -1760,16 +1767,16 @@ CALL   SBR26, LB0, VB643, M24.0, M24.1</pre>
       <tr><td>Validate every recipe entry in the PLC, with dependent limits</td><td>Panels and supervisory systems can write anything</td><td>7</td></tr>
       <tr><td>Publish the reasons a start is refused</td><td>Operators fix the cause instead of calling engineering</td><td>8</td></tr>
       <tr><td>Keep product rules (pass-through, sterile load) next to safety rules</td><td>No path can start a cycle that skips them</td><td>8</td></tr>
-      <tr><td>Give every step exit a one-second confirmation and its own counter</td><td>Spikes don't end steps; steps don't share state by accident</td><td>9, 10</td></tr>
+      <tr><td>Give every step exit a one-second confirmation and its own condition</td><td>Spikes don't end steps; steps don't share state by accident</td><td>9, 10</td></tr>
       <tr><td>Control the fast variable, trim with the slow one, clamp the trim</td><td>Stable temperature without overshoot</td><td>11</td></tr>
-      <tr><td>Decide in writing whether held time counts towards exposure and F0</td><td>It is a validation question, not a coding detail</td><td>12</td></tr>
-      <tr><td>Give every abort a way back to idle inside the program</td><td>A machine shouldn't depend on a panel to recover</td><td>13</td></tr>
+      <tr><td>Use the defined F0 reference and decide in writing what held time counts</td><td>These are validation questions, not coding details</td><td>12</td></tr>
+      <tr><td>Give every abort a way back to idle inside the program</td><td>A machine shouldn't depend on a laptop to recover</td><td>13</td></tr>
       <tr><td>Separate abort from forced finish, and keep the load-sterile flag honest</td><td>The record must show why a cycle ended</td><td>14</td></tr>
-      <tr><td>Remove or document dead options, dead outputs and dead networks</td><td>Someone will switch them on</td><td>15</td></tr>
-      <tr><td>Name symbols and write comments as you go</td><td>This program has none, and every reader pays for that</td><td>15</td></tr>
+      <tr><td>Keep supply interlocks closed until the supply is back</td><td>An alarm is not a reason to re-open a valve</td><td>11, 14</td></tr>
+      <tr><td>Name symbols and write comments as you go</td><td>A few minutes now save every future reader hours</td><td>15</td></tr>
     </tbody>
   </table></div>
-  <p class="srcnote">Sources: the program listing and project file of the "Basic Autoclave project", a real S7-200 steam sterilizer, anonymised. Signal functions and valve roles are inferred from the logic and marked as such. Values are the stored download values.</p>
+  <p class="srcnote">Example values in this tutorial: project "Basic Autoclave project"; IP addresses are written xx.xx.xx.xx; example logins use 1234 and xxxx.</p>
 </section>
 
     <nav class="navbar" aria-label="Step navigation">
@@ -1781,12 +1788,12 @@ CALL   SBR26, LB0, VB643, M24.0, M24.1</pre>
 <div id="tip" role="tooltip" aria-hidden="true"></div>
 
 <script>
-// Steam sterilizer PLC engine: a scan-by-scan model of the S7-200 program (anonymised example),
-// using the data-block values stored in the project file. Hand/auto selectors stay in auto (VB20-VB27 = 255).
+// Basic Autoclave project - PLC engine for the tutorial's simulator: a scan-by-scan model of the S7-200 program
+// built in the tutorial, using its data-block values. Hand/auto selectors stay in auto (VB20-VB27 = 255).
 const PLC = (function () {
   'use strict';
 
-  // Data block page "Todos" (recipe, limits, scaling) - stored download values
+  // Data block page "Todos": recipe, limits and scaling
   const DB = {
     VW100: 0, VW102: 20, VW104: 20, VW106: 0, VW108: 200, VW110: 0, VW112: 3, VW114: 100, VW116: 900, VW118: 0,
     VW120: 1300, VW122: 1500, VW124: 1210, VW126: 1220, VW128: 1240, VW130: 200, VW132: 0, VW134: 100, VW136: 200,
@@ -1831,9 +1838,9 @@ const PLC = (function () {
     'V600.0': 'Chamber temperature probe failure (AIW0)', 'V601.0': 'Load/filter probe failure (AIW2)',
     'V603.0': 'Jacket pressure transmitter failure (AIW4)', 'V604.0': 'Chamber pressure transmitter failure (AIW6)',
     'V620.0': 'Temperature below sterilisation setpoint during exposure', 'V621.0': 'Over-temperature in chamber (VW128)',
-    'V642.0': 'Control power / emergency stop (V7.0)', 'V643.0': 'Compressed air lost for 60 s (V7.1, assumed)',
-    'V644.0': 'Water supply lost for 60 s (V7.2, assumed)', 'V645.0': 'Plant steam lost for 60 s (V7.3, assumed)',
-    'V646.0': 'Clean steam lost for 60 s (V7.4, assumed)', 'V650.0': 'Vacuum pump fault during cycle (V5.0)',
+    'V642.0': 'Control power / emergency stop (V7.0)', 'V643.0': 'Compressed air lost for 60 s (V7.1)',
+    'V644.0': 'Water supply lost for 60 s (V7.2)', 'V645.0': 'Plant steam lost for 60 s (V7.3)',
+    'V646.0': 'Clean steam lost for 60 s (V7.4)', 'V650.0': 'Vacuum pump fault during cycle (V5.0)',
     'V651.0': 'Chamber over-pressure', 'V652.0': 'Jacket over-pressure', 'V653.0': 'Leak test failed: pressure rise above limit',
   };
   const ABORTS = ['V600.0', 'V603.0', 'V604.0', 'V642.0'];
@@ -1850,7 +1857,7 @@ const PLC = (function () {
   const PHASES = ['Idle', 'Start', 'First vacuum', 'Vacuum pulses', 'Positive pulses', 'Heat-up', 'Sterilisation', 'Drying',
     'Cooling / venting', 'Test: evacuate', 'Test: stabilise', 'Test: measure', 'M23.7', '-', '-', 'End'];
 
-  const TIMERS = ('T32:TON:10 T37:TON:3 T40:TON:2 T41:TON:3 T101:TON:15 T102:TON:15 T103:TON:5 T104:TON:30 T120:TON:1 T121:TON:1 ' +
+  const TIMERS = ('T50:TON:10 T37:TON:3 T40:TON:2 T41:TON:3 T101:TON:15 T102:TON:15 T103:TON:5 T104:TON:30 T120:TON:1 T121:TON:1 ' +
     'T122:TON:15 T123:TON:15 T124:TON:15 T125:TON:15 T126:TON:15 T131:TON:15 T132:TON:15 T133:TON:1 T134:TON:1 ' +
     'T135:TON:1 T136:TON:1 T137:TON:1 T138:TON:1 T139:TON:1 T140:TON:1 T141:TON:1 T142:TON:1 T143:TON:30 T144:TON:1 ' +
     'T145:TON:1 T149:TON:0.1 T160:TON:10 T161:TON:10 T162:TON:1 T163:TON:1 T172:TON:5 T174:TON:5 T252:TON:1 T253:TON:1 ' +
@@ -1869,7 +1876,7 @@ const PLC = (function () {
       'VW260', 'VW262', 'VW264', 'VW266', 'VW280', 'VW282', 'VW400', 'VW402', 'VW404', 'VW406', 'VW408', 'VW410', 'VW412', 'VW414',
       'VW432', 'VW1000', 'VW1002', 'VW1004', 'VW1006', 'VW1012', 'VW1018', 'VW1020', 'VW1030', 'VW1032', 'VW1034', 'VW1036',
       'VW1038', 'VW1042', 'VW1044', 'VW1048', 'VW1052', 'VW1056', 'VW1060', 'VW1062', 'VW1490', 'VW1492', 'VW1494', 'AQW0'].forEach((k) => { w[k] = 0; });
-    // scaling parameter blocks (Emin 6400, Smin 0, Emax 32000, Smax) as stored
+    // scaling parameter blocks (Emin 6400, Smin 0, Emax 32000, Smax) from the data block
     [['VW440', 1500], ['VW450', 1500], ['VW460', 1500], ['VW470', 4000], ['VW480', 4000], ['VW490', 1500]].forEach(([b, smax]) => {
       const n = +b.slice(2); w['VW' + (n + 2)] = 6400; w['VW' + (n + 4)] = 0; w['VW' + (n + 6)] = 32000; w['VW' + (n + 8)] = smax; w[b] = 0;
     });
@@ -1936,12 +1943,12 @@ const PLC = (function () {
     const edge = (k, v) => { const r = v && !P.edge[k]; P.edge[k] = v; return r; };
     P.t += dt;
     model(P, dt);
-    // HMI writes (assumed HMI behaviour): recipe entries, buttons, heartbeat
+    // Panel writes: recipe entries and command buttons
     w.VW124 = P.cmd.temp; w.VW130 = P.cmd.time; w.VW154 = P.cmd.liquids ? 0 : 1;
     if (P.hmi.start === 3) b['M8.0'] = true; if (P.hmi.test === 3) b['M8.1'] = true; b['V6.0'] = P.hmi.ack > 0;   // panel sets the request bit; Cond_Inicio clears it
     if (P.hmi.advance > 0) b['M9.1'] = true;
     if (P.hmi.abort > 0 && g('M20.0')) b['M9.0'] = true;
-    if (P.hmi.cancel > 0) { for (let i = 0; i < 8; i++) { b['M10.' + i] = b['M11.' + i] = b['M12.' + i] = b['M13.' + i] = b['M14.' + i] = b['M15.' + i] = false; } }
+    if (P.hmi.cancel === 3) b['M8.4'] = true;             // panel: cancel-cycle request, cleared by Aux
 
     // raw analog values (model -> 4-20 mA), wire break forces raw 0
     const sig = { tch: s.tch * 10, tload: s.tload * 10, pj: s.pj, p: s.pa + s.ps };
@@ -1952,8 +1959,8 @@ const PLC = (function () {
     }
 
     aux(P);                                            // OB1 N1 -> SBR0 Aux: cycle flags and cycle type
-    // SBR1 Aux2: 10 s power-up inhibit (T32), first-scan option bits, 1 s pulses
-    run(T.T32, true, dt);
+    // SBR1 Aux2: 10 s power-up inhibit (T50, 100 ms timer), first-scan option bits, 1 s pulses
+    run(T.T50, true, dt);
     if (P.first) {
       for (let n = 800; n <= 807; n++) for (let i = 0; i < 8; i++) b['V' + n + '.' + i] = false;
       ['V800.0', 'V800.4', 'V800.5', 'V800.6', 'V801.0', 'V802.0', 'V802.1', 'V803.1', 'V805.1', 'V806.1'].forEach((k) => { b[k] = true; });
@@ -1970,17 +1977,17 @@ const PLC = (function () {
     // GP_Limites (SBR58) runs late in OB1, but clamp here too so the recipe is valid before use (same rules)
     limits(P);
 
-    if (T.T32.q) alarms(P, dt);                       // OB1 N2  SBR4 Alarmas
+    if (T.T50.q) alarms(P, dt);                       // OB1 N2  SBR4 Alarmas
     doors(P, dt);                                      // OB1 N3  SBR5 Puertas
-    if (T.T32.q) startConditions(P);                   // OB1 N4  SBR6 Cond_Inicio
-    if (T.T32.q && g('M20.1')) steamCycle(P, dt);      // OB1 N5  SBR7 Ciclo_Vapor
-    if (T.T32.q && g('M20.2')) testCycle(P, dt);       //         SBR8 Ciclo_Test
-    if (T.T32.q) aux(P);                               //         second CALL SBR0: refresh M20.x after the steps changed
-    if (T.T32.q) jacket(P, dt);                        // OB1 N6  SBR11 Recamara
-    if (T.T32.q) chamber(P, dt, Pch, Tch);             // OB1 N7  SBR10 Camara
-    if (T.T32.q) outputs(P, dt);                       // OB1 N8  SBR12 Salidas
+    if (T.T50.q) startConditions(P);                   // OB1 N4  SBR6 Cond_Inicio
+    if (T.T50.q && g('M20.1')) steamCycle(P, dt);      // OB1 N5  SBR7 Ciclo_Vapor
+    if (T.T50.q && g('M20.2')) testCycle(P, dt);       //         SBR8 Ciclo_Test
+    if (T.T50.q) aux(P);                               //         second CALL SBR0: refresh M20.x after the steps changed
+    if (T.T50.q) jacket(P, dt);                        // OB1 N6  SBR11 Recamara
+    if (T.T50.q) chamber(P, dt, Pch, Tch);             // OB1 N7  SBR10 Camara
+    if (T.T50.q) outputs(P, dt);                       // OB1 N8  SBR12 Salidas
     phases(P);                                         // OB1 N9  SBR59 GP_Fases
-    if (T.T32.q) mapOutputs(P);                        // OB1 N10 SBR16 Sal_Cliente
+    if (T.T50.q) mapOutputs(P);                        // OB1 N10 SBR16 Sal_Cliente
 
     // event log
     for (const [k, label] of STEPS) { const v = g(k); if (P.prev[k] !== undefined && v && !P.prev[k]) log(P, label + ' (' + k + ')', k); P.prev[k] = v; }
@@ -1999,6 +2006,8 @@ const PLC = (function () {
   // SBR0 Aux N4-N5: one flag per cycle family from the step bytes; no cycle -> clear abort/advance/finish
   function aux(P) {
     const b = P.b, w = P.w, g = (k) => !!b[k];
+    // N3: cancel request from the panel clears every step byte; the flags below then clear M9.0-M9.2
+    if (g('M8.4')) { for (let i = 0; i < 8; i++) { b['M10.' + i] = b['M11.' + i] = b['M12.' + i] = b['M13.' + i] = b['M14.' + i] = b['M15.' + i] = false; } b['M8.4'] = false; }
     const md10 = [10, 11, 12, 13].some((n) => [0, 1, 2, 3, 4, 5, 6, 7].some((i) => g('M' + n + '.' + i)));
     const mb14 = [0, 1, 2, 3, 4, 5, 6, 7].some((i) => g('M14.' + i)), mb15 = [0, 1, 2, 3, 4, 5, 6, 7].some((i) => g('M15.' + i));
     b['M20.0'] = md10 || mb14 || mb15; b['M20.1'] = md10; b['M20.2'] = mb14; b['M20.3'] = mb15;
@@ -2019,7 +2028,7 @@ const PLC = (function () {
     w.VW128 = minmax(w.VW126 + 10, w.VW126 + 30, w.VW128);
     w.VW130 = minmax(0, 9990, w.VW130); w.VW132 = minmax(0, 999, w.VW132);
     w.VW846 = P.b['V802.0'] ? 1200 : w.VW1002;
-    w.VW134 = minmax(0, 9990, w.VW134); w.VW136 = minmax(70, 200, w.VW136); w.VW148 = minmax(0, 99, w.VW148);
+    w.VW134 = minmax(0, 9990, w.VW134); w.VW154 = minmax(0, 9, w.VW154); w.VW136 = minmax(70, 200, w.VW136); w.VW148 = minmax(0, 99, w.VW148);
     w.VW138 = minmax(500, w.VW846 || 900, w.VW138); w.VW140 = minmax(400, 950, w.VW140); w.VW142 = minmax(0, 2, w.VW142);
   }
 
@@ -2027,7 +2036,7 @@ const PLC = (function () {
   function alarms(P, dt) {
     const b = P.b, w = P.w, T = P.T, g = (k) => !!b[k];
     b['M24.0'] = false; b['M24.1'] = false;               // N1 MOVB 0, MB24
-    const fail = (raw) => raw <= 2000 || raw >= 32000;
+    const fail = (raw) => raw <= 2000 || raw > 32000;
     b['V600.0'] = fail(w.VW440); b['V601.0'] = fail(w.VW450) && g('V806.1');
     b['V603.0'] = fail(w.VW470); b['V604.0'] = fail(w.VW480);
     run(T.T161, w.VW400 < w.VW124 && g('M11.1'), dt); b['V620.0'] = T.T161.q;                    // N11
@@ -2076,7 +2085,7 @@ const PLC = (function () {
     b['M1.1'] = P.T.T37.q;
     // N6: load sterile flag
     b['M0.2'] = ((g('M20.1') && !g('M11.1') && w.VW232 >= w.VW130 && w.VW236 >= w.VW132) || (g('M0.2') && !g('M10.0'))) && g('M2.0') && g('M2.1');
-    // N7-N9: which side is enabled. VW142 = 2 (stored): a sterile load is unloaded on the sterile side (door 2)
+    // N7-N9: which side is enabled. VW142 = 2: a sterile load is unloaded on the sterile side (door 2)
     b['M3.6'] = g('M20.1') && (w.VW142 <= 1 || !g('V801.0'));
     b['M3.7'] = g('M20.1') && g('V801.0') && w.VW142 >= 1;
     if (g('V7.0')) {
@@ -2127,9 +2136,9 @@ const PLC = (function () {
     if (g('M10.0') && (T.T131.q || !g('V801.3'))) go('M10.0', 'M10.1');
     run(T.T132, g('M10.1') && !g('V643.0') && !g('M9.0'), dt);
     if (g('M10.1') && T.T132.q) go('M10.1', 'M10.2');
-    // N5: first vacuum - exit also when VW204 >= VW110 (finding: VW204 only counts in M10.3)
+    // N5: first vacuum to VW108, confirmed for 1 s
     run(T.T133, g('M10.2') && w.VW408 <= w.VW108 && !g('M9.0'), dt);
-    if (g('M10.2') && (T.T133.q || w.VW204 >= w.VW110 || sk())) { go('M10.2', 'M10.3'); b['M9.1'] = false; }
+    if (g('M10.2') && (T.T133.q || sk())) { go('M10.2', 'M10.3'); b['M9.1'] = false; }
     // N6-N7: vacuum hold, then choose pulses / positive pulses / heat-up
     if (g('M10.3') && g('M0.5')) cuenta(w, 6, 1, 'VW204', 'VW206');
     if (g('M10.3') && (w.VW204 >= w.VW110 || sk())) {
@@ -2149,7 +2158,7 @@ const PLC = (function () {
       b['M9.1'] = false;
     }
     P.edge.t135 = T.T135.q;
-    // N10-N11: positive pulses (VW118 = 0 stored, so skipped)
+    // N10-N11: positive pulses (VW118 = 0, so skipped)
     run(T.T136, g('M10.6') && w.VW408 >= w.VW122 && !g('M9.0'), dt);
     if (g('M10.6') && (w.VW218 >= w.VW118 || T.T136.q || sk())) { go('M10.6', 'M10.7'); b['M9.1'] = false; }
     run(T.T137, g('M10.7') && w.VW408 <= w.VW120 && !g('M9.0'), dt);
@@ -2167,7 +2176,7 @@ const PLC = (function () {
     // N13: exposure time counts only while the temperature is at or above setpoint (on M0.0, the raw pulse)
     if (g('M11.1') && w.VW1020 >= w.VW124 && g('M0.0')) cuenta(w, 6, 1, 'VW232', 'VW234');
     // N14: F0 counts every second of the steam cycle
-    if (g('M20.1') && g('M0.0')) { w.VW1060 = fx(w.VW1020, 1210, 10); cuenta(w, 6000, w.VW1060, 'VW236', 'VW238'); }
+    if (g('M20.1') && g('M0.0')) { w.VW1060 = fx(w.VW1020, 1211, 10); cuenta(w, 6000, w.VW1060, 'VW236', 'VW238'); }
     // N15: end of exposure -> drying (VW154 <> 0) or liquids cooling
     if (g('M11.1') && ((w.VW232 >= w.VW130 && w.VW236 >= w.VW132) || sk())) {
       b['M11.1'] = false; if (w.VW154 !== 0) b['M11.2'] = true; else b['M12.0'] = true; b['M9.1'] = false; b['M9.2'] = false;
@@ -2191,7 +2200,7 @@ const PLC = (function () {
     if (g('M12.0') && (T.T141.q || sk())) { go('M12.0', 'M12.1'); b['M9.1'] = false; }
     run(T.T142, g('M12.1') && w.VW1020 <= w.VW140 && !g('M9.0'), dt);
     if (g('M12.1') && (T.T142.q || sk())) { go('M12.1', 'M13.7'); b['M9.1'] = false; b['M9.2'] = false; }
-    // N25: 30 s at atmospheric pressure ends the cycle (blocked while M9.0 is set - finding)
+    // N25: 30 s at atmospheric pressure ends the cycle (not while aborted; the panel cancels an aborted cycle)
     run(T.T143, g('M13.7') && g('M22.2') && !g('M9.0'), dt);
     if (g('M13.7') && g('M22.2') && T.T143.q) { for (let n = 10; n <= 13; n++) for (let i = 0; i < 8; i++) b['M' + n + '.' + i] = false; b['M9.1'] = false; b['M9.2'] = false; }
   }
@@ -2222,7 +2231,7 @@ const PLC = (function () {
     b['V1041.0'] = ['M10.2', 'M10.3', 'M10.4', 'M10.5', 'M10.6', 'M10.7', 'M11.0', 'M11.1', 'M11.2', 'M11.3', 'M11.4', 'M11.5'].some(g);
     w.VW1042 = w.VW1030; w.VW1048 = w.VW1030;                                   // N2 with V803.0 = 0
     const L00 = w.VW406 <= w.VW814 && g('V7.0');
-    const L01 = (T.T9.et <= 45 || T.T9.q) && g('V1041.0');
+    const L01 = T.T9.et <= 45 && g('V1041.0');            // plant steam missing 45 s -> keep jacket valves shut
     run(T.T120, L01 && w.VW406 <= w.VW1042, dt);
     b['V12.0'] = T.T120.q && g('V22.0') && !g('M9.0') && L00;
     run(T.T121, L01 && w.VW406 <= w.VW1048, dt);
@@ -2266,7 +2275,7 @@ const PLC = (function () {
     run(T.T253, grp && w.VW408 <= w.VW1052, dt);
     // N11: steam valve opening = pressure error, 1 % per mbar
     if (g('M23.2') && g('V24.2')) w.VW432 = escalado(w.VW1052 - w.VW408, 0, 100, 0, 100);
-    // N12: chamber drain V13.0 (assumed) - open in steam steps, follows the ramp while evacuating
+    // N12: chamber drain V13.0 - open in steam steps, follows the ramp while evacuating
     b['M6.4'] = g('M23.0') && !g('M9.0') && g('V23.0');
     b['V13.0'] = ((!g('M23.1') || T.T252.q) && g('M6.4') && T.T40.q && g('V23.0')) && g('V7.0');
     // N13-N15: vacuum valve V13.1 below/near atmosphere, exhaust V13.2 above it
@@ -2274,10 +2283,8 @@ const PLC = (function () {
     b['M6.2'] = L01 && g('V23.1');
     b['V13.1'] = g('M6.2') && T.T252.q && T.T40.q && g('V23.1') && g('V7.0');
     b['V13.2'] = L02 && T.T252.q && g('V23.2') && g('V7.0');
-    // N16: on/off steam valve demand V14.2 (finding: not mapped to any output)
-    b['V14.2'] = g('M23.2') && T.T253.q && !g('M9.0') && g('V24.2') && w.VW408 <= w.VW814 && g('V7.0');
     // N19-N21: air admission permissive and valves
-    b['M21.3'] = (T.T6.et <= 5 || T.T6.q) && ((g('V802.0') && w.VW408 <= w.VW814) || (!g('V802.0') && g('M22.1'))) && g('V7.0') && !g('V604.0');
+    b['M21.3'] = T.T6.et <= 5 && ((g('V802.0') && w.VW408 <= w.VW814) || (!g('V802.0') && g('M22.1'))) && g('V7.0') && !g('V604.0');
     b['V14.0'] = (g('M23.5') || (g('M23.6') && !g('V802.1'))) && T.T253.q && g('M21.3') && g('V24.0') && g('V7.0');
     b['V14.1'] = g('M23.6') && g('V802.1') && T.T253.q && g('M21.3') && g('V24.1') && g('V7.0');
     // N23-N30: pressure setpoints from the steam table, trimmed every 15 s on temperature
@@ -2293,7 +2300,7 @@ const PLC = (function () {
     // N31: heat-up and exposure: valve opening = pressure-setpoint error
     if ((g('M11.0') || g('M11.1')) && (w.VW104 >= 20 || w.VW408 >= w.VW1042 || g('V1040.0')) && g('V24.2')) w.VW432 = escalado(w.VW1032 - w.VW408, 0, 100, 0, 100);
     // N32: close the valve outside steam steps, on abort, over-temperature or over-pressure
-    if (((!g('M10.3') && !g('M23.2')) || !g('M20.0') || g('M13.7') || g('M9.0') || (T.T10.et >= 45 && !T.T10.q)) && g('V24.2') ||
+    if (((!g('M10.3') && !g('M23.2')) || !g('M20.0') || g('M13.7') || g('M9.0') || T.T10.et >= 45) && g('V24.2') ||
       w.VW400 >= w.VW128 || w.VW408 >= w.VW814 || g('V4.7') || !g('V803.1')) w.VW432 = 0;
     // N33: clamp and output 4-20 mA
     w.VW432 = minmax(0, 100, w.VW432);
@@ -2311,7 +2318,7 @@ const PLC = (function () {
     b['V15.0'] = a && c;
     run(T.T40, g('V15.0'), dt);
     run(T.T109, (g('V13.1') || g('V13.0')) && w.VW400 >= 600, dt);                       // N9
-    b['V15.1'] = (T.T109.q || g('M11.2')) && (T.T5.et <= 45 || T.T5.q) && !g('M9.0') && g('V25.1') && g('V7.0'); // N10
+    b['V15.1'] = (T.T109.q || g('M11.2')) && T.T5.et <= 45 && !g('M9.0') && g('V25.1') && g('V7.0'); // N10
   }
 
   // SBR59 GP_Fases: phase code for the HMI and the recorder
@@ -2418,7 +2425,7 @@ const PLC = (function () {
   /* ---------- Memory map ---------- */
   const ZONES = [
     [0, 18, 'Field inputs and demand bits', 'V0–V7 inputs copied from I by Ent_Cliente; V10–V17 valve and output demands written to Q by Sal_Cliente', '--accent'],
-    [20, 38, 'Auto / manual per output', 'VB20–VB27 auto bits (stored 255: all auto), VB30–VB37 manual-on commands', '--info'],
+    [20, 38, 'Auto / manual per output', 'VB20–VB27 auto bits (255 at start: all auto), VB30–VB37 manual-on commands', '--info'],
     [90, 92, 'Spare alarm control bits', 'V90.0, V90.1 cleared every scan', '--muted'],
     [100, 156, 'Recipe (operator entries)', 'VW100–VW154: vacuum levels, pulses, temperatures, times, F0 target, drying; clamped by GP_Limites', '--warn'],
     [200, 300, 'Cycle counters', 'VW204–VW292: hold, pulse, exposure, F0, drying and test counters; cleared at every cycle start by Aux_Borra', '--on'],
@@ -2428,7 +2435,8 @@ const PLC = (function () {
     [600, 690, 'Alarm bytes', 'VB600–VB689: one byte per alarm, handled by Aux_Alm', '--alarm'],
     [800, 848, 'Machine options and limits', 'VB800–VB808 option bits; VW810–VW846 atmospheric reference, door limits, leak test and filter settings', '--accent'],
     [1000, 1064, 'Working setpoints', 'VW1000–VW1006 pressure bands, VW1030–VW1034 table pressures, VW1052/VW1056 ramps, VW1060 lethal rate', '--warn'],
-    [1390, 1400, 'Ethernet status (wizard)', 'V1390.0 ready, VW1392 channels, VW1394 error; configuration omitted from this example', '--muted'],
+    [1200, 1331, 'Ethernet configuration (wizard)', 'ETH3_DATA: module IP address xx.xx.xx.xx, mask and connections', '--muted'],
+    [1390, 1400, 'Ethernet status', 'V1390.0 ready, VW1392 channels, VW1394 error', '--muted'],
     [1450, 1470, 'Clock for the panel', 'VB1450 read by TODR, VW1458–VW1468 decoded from BCD', '--muted'],
     [1490, 1496, 'Phase code', 'VW1490 phase, VW1492 sub-phase, VW1494 combined', '--info'],
     [1510, 1512, 'Panel watchdog', 'VW1510 written by the panel; unchanged for 180 s raises V640.0', '--alarm'],
@@ -2463,10 +2471,10 @@ const PLC = (function () {
       const sc = PLC.escalado(raw, 6400, 32000, 0, c[2]);
       const cl = Math.max(0, Math.min(c[2], sc));
       const fmt = (v) => c[3] === 'temp' ? f1(v) + ' °C' : v + ' mbar abs';
-      const fail = raw <= 2000 || raw >= 32000;
+      const fail = raw <= 2000 || raw > 32000;
       $('#sc-out').innerHTML = `<dt>Raw value</dt><dd>${raw}</dd><dt>Aux_Escalado result</dt><dd>${sc} (${fmt(sc)})</dd>` +
         `<dt>After Aux_Min_Max 0–${c[2]}</dt><dd>${cl} (${fmt(cl)})${cl !== sc ? ' ← clamped' : ''}</dd>` +
-        `<dt>Signal check (Alarmas)</dt><dd>${fail ? (raw <= 2000 ? 'raw ≤ 2000: probe alarm' : 'raw ≥ 32000: probe alarm, even at exactly 20 mA') : 'healthy'}</dd>`;
+        `<dt>Signal check (Alarmas)</dt><dd>${fail ? (raw <= 2000 ? 'raw ≤ 2000: probe alarm (broken loop)' : 'raw > 32000: probe alarm (above 20 mA)') : 'healthy'}</dd>`;
     };
     ['input', 'change'].forEach((ev) => { scCh.addEventListener(ev, upd); $('#sc-ma').addEventListener(ev, upd); });
     upd();
@@ -2474,14 +2482,14 @@ const PLC = (function () {
 
   /* ---------- Recipe limits widget ---------- */
   if ($('#lm-124')) {
-    const ids = ['124', '126', '128', '112'];
-    const NAMES = { 124: 'Sterilisation temperature', 126: 'Control temperature', 128: 'Over-temperature limit', 112: 'Vacuum pulses' };
+    const ids = ['124', '126', '128', '112', '154'];
+    const NAMES = { 124: 'Sterilisation temperature', 126: 'Control temperature', 128: 'Over-temperature limit', 112: 'Vacuum pulses', 154: 'Drying pulses' };
     const upd = () => {
       const P = PLC.create(); const typed = {};
       ids.forEach((k) => { typed[k] = Math.round(+$('#lm-' + k).value || 0); P.w['VW' + k] = typed[k]; });
       PLC.limits(P);
-      const rule = { 124: '1000 … VW816 (1340)', 126: `VW124+5 … VW124+15 (${P.w.VW124 + 5}…${P.w.VW124 + 15})`, 128: `VW126+10 … VW126+30 (${P.w.VW126 + 10}…${P.w.VW126 + 30})`, 112: '0 … 5' };
-      $('#lm-out').innerHTML = ids.map((k) => { const u = P.w['VW' + k], t = typed[k], show = (v) => k === '112' ? v : f1(v) + ' °C';
+      const rule = { 124: '1000 … VW816 (1340)', 126: `VW124+5 … VW124+15 (${P.w.VW124 + 5}…${P.w.VW124 + 15})`, 128: `VW126+10 … VW126+30 (${P.w.VW126 + 10}…${P.w.VW126 + 30})`, 112: '0 … 5', 154: '0 … 9' };
+      $('#lm-out').innerHTML = ids.map((k) => { const u = P.w['VW' + k], t = typed[k], show = (v) => k === '112' || k === '154' ? v : f1(v) + ' °C';
         return `<tr><td>${NAMES[k]} <span class="srcnote">VW${k}</span></td><td class="n">${show(t)}</td><td class="n"><b>${show(u)}</b>${u !== t ? ' ←' : ''}</td><td>${rule[k]}</td></tr>`; }).join('');
     };
     ids.forEach((k) => $('#lm-' + k).addEventListener('input', upd));
@@ -2544,11 +2552,11 @@ const PLC = (function () {
     const upd = () => {
       const t = +$('#f0-t').value, m = +$('#f0-m').value;
       $('#f0-t-t').textContent = f1(t) + ' °C'; $('#f0-m-t').textContent = m + ' min';
-      const fx = PLC.fx(t, 1210, 10), total = fx * 60 * m;
-      const exact = Math.pow(10, (t / 10 - 121) / 10) * m, exact1211 = Math.pow(10, (t / 10 - 121.1) / 10) * m;
+      const fx = PLC.fx(t, 1211, 10), total = fx * 60 * m;
+      const exact = Math.pow(10, (t / 10 - 121.1) / 10) * m;
       $('#f0-out').innerHTML = `<dt>Aux_Fx lethal rate × 100</dt><dd>${fx} per second</dd><dt>Added to VW238 in ${m} min</dt><dd>${total} (base 6000)</dd>` +
         `<dt>F0 in VW236 (PLC)</dt><dd>${Math.floor(total / 6000)} min, remainder ${total % 6000} kept in VW238</dd>` +
-        `<dt>Exact, Tref 121.0 °C</dt><dd>${exact.toFixed(2)} min</dd><dt>Exact, Tref 121.1 °C</dt><dd>${exact1211.toFixed(2)} min</dd>`;
+        `<dt>Exact F0 (Tref 121.1 °C, z 10 °C)</dt><dd>${exact.toFixed(2)} min</dd>`;
     };
     $('#f0-t').addEventListener('input', upd); $('#f0-m').addEventListener('input', upd); upd();
   }
@@ -2579,7 +2587,7 @@ const PLC = (function () {
   let P = PLC.create(), speed = 60, running = true;
   const chips = [['M20.1', 'Steam cycle'], ['M20.2', 'Leak test'], ['M23.1', 'Evacuating'], ['M23.2', 'Steam phase'], ['M23.5', 'Air in'], ['V1040.0', 'Near setpoint'], ['M0.2', 'Load sterile'], ['M9.2', 'Forced finish'], ['M9.0', 'ABORT']];
   const lampsDef = [['Q1.0', 'vacuum pump'], ['Q1.1', 'jacket V12.0'], ['Q10.0', 'jacket V12.1'], ['Q1.2', 'vacuum V13.1'], ['Q1.3', 'drain V13.0'], ['Q1.7', 'exhaust V13.2'], ['Q1.4', 'air V14.0'], ['Q4.6', 'air V14.1'], ['Q2.0', 'condenser V15.1'], ['Q3.5', 'beacon'], ['Q3.6', 'horn']];
-  const timersDef = [['T32', 'power-up inhibit (1 ms timer)'], ['T132', 'start settle'], ['T134', 'pulse: pressure reached'], ['T135', 'pulse: vacuum reached'], ['T138', 'heat-up: at temperature'], ['T122', 'near setpoint, trim enable'], ['T123', 'trim +10 mbar every 15 s'], ['T143', 'end: 30 s at atmospheric'], ['T37', 'door permissive 3 s'], ['T6', 'compressed air loss (TONR)'], ['T160', 'over-temperature 10 s']];
+  const timersDef = [['T50', 'power-up inhibit (100 ms timer)'], ['T132', 'start settle'], ['T134', 'pulse: pressure reached'], ['T135', 'pulse: vacuum reached'], ['T138', 'heat-up: at temperature'], ['T122', 'near setpoint, trim enable'], ['T123', 'trim +10 mbar every 15 s'], ['T143', 'end: 30 s at atmospheric'], ['T37', 'door permissive 3 s'], ['T6', 'compressed air loss (TONR)'], ['T160', 'over-temperature 10 s']];
   const WHY = { 'M4.0': 'Door 1 not closed and locked', 'M4.1': 'Door 2 not closed and locked', 'M4.2': 'Next load must come through door 1', 'M4.3': 'Sterile load not yet unloaded',
     'M4.4': 'Water supply missing (V7.2)', 'M4.5': 'Compressed air missing (V7.1)', 'M4.6': 'Plant steam missing (V7.3)', 'M4.7': 'Clean steam missing (V7.4)', 'M5.0': 'Vacuum pump fault (V5.0)', 'M5.1': 'Control power off (V7.0)', 'M5.2': 'A cycle is running' };
   $('#sm-chips').innerHTML = chips.map(([k, l]) => `<span class="chip" data-k="${k}">${esc(l)}</span>`).join('');

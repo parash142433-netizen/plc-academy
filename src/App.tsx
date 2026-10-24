@@ -1,7 +1,10 @@
 import type React from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Fuse from "fuse.js";
-import { articles, render, type Article } from "./content";
+import { articles, render, spanishImages, type Article } from "./content";
+
+/** Published copy of the site: images are fetched from here by the image translator */
+const PUBLIC_SITE = "https://parash142433-netizen.github.io/plc-academy/";
 import { GrafSim } from "./sims/GrafSim";
 import { ThermalPID } from "./sims/ThermalPID";
 import { ColorBatch } from "./sims/ColorBatch";
@@ -367,6 +370,34 @@ function Reader({ a, list, done, marked, onDone, onMark }: { a: Article; list: A
         });
       };
       pre.appendChild(b);
+    });
+    // Screenshots with Spanish on-screen text: keep the image as published, add an English key below it
+    ref.current?.querySelectorAll("img").forEach((img) => {
+      if (img.dataset.es) return;
+      const m = (img.getAttribute("src") || "").match(/assets\/images\/(.+)$/);
+      if (!m) return;
+      let rel = m[1];
+      try { rel = decodeURIComponent(rel); } catch { /* keep as is */ }
+      const terms = spanishImages[rel];
+      if (!terms) return;
+      img.dataset.es = "1";
+      const box = document.createElement("div");
+      box.className = "img-es";
+      const label = document.createElement("span");
+      label.className = "img-es-label"; label.textContent = "Spanish on this screen: ";
+      box.appendChild(label);
+      terms.forEach(([es, en], i) => {
+        const term = document.createElement("span");
+        term.lang = "es"; term.textContent = es;
+        box.append(i ? "; " : "", term, ` = ${en}`);
+      });
+      const url = PUBLIC_SITE + "assets/images/" + rel.split("/").map(encodeURIComponent).join("/");
+      const link = document.createElement("a");
+      link.href = "https://lens.google.com/uploadbyurl?url=" + encodeURIComponent(url);
+      link.target = "_blank"; link.rel = "noopener noreferrer";
+      link.textContent = "Translate the whole image";
+      box.append(" ", link);
+      img.insertAdjacentElement("afterend", box);
     });
   }, [html]);
   const exportMd = () => {

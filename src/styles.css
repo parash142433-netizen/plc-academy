@@ -477,3 +477,9 @@ kbd { font: 500 12px var(--font-mono); padding: 1px 5px; border: 1px solid var(-
   .project-bar { padding: 8px 16px; }
   .project-bar h1 { flex-basis: 100%; order: 2; font-size: 17px; }
 }
+
+/* English key under screenshots that show Spanish on-screen text (the image itself is unchanged) */
+.prose .img-es { margin-top: 6px; padding: 6px 10px; font-size: 14px; line-height: 1.5; color: var(--ink-2); background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+.prose .img-es-label { font-weight: 600; color: var(--ink); }
+.prose .img-es span[lang="es"] { font-style: italic; color: var(--ink); }
+.prose .img-es a { margin-left: 4px; white-space: nowrap; }

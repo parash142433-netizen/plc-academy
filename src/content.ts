@@ -36,3 +36,7 @@ export const articles: Article[] = Object.entries(files).map(([p, raw]) => {
 }).sort((a, b) => a.group.localeCompare(b.group) || a.sub.localeCompare(b.sub) || a.title.localeCompare(b.title, undefined, { numeric: true }));
 
 export const render = (md: string) => marked.parse(md, { async: false }) as string;
+
+/** Screenshots whose on-screen text is Spanish: image path under assets/images -> [Spanish term, English meaning][] */
+const esFiles = import.meta.glob("./content/image-es.json", { eager: true, import: "default" }) as Record<string, Record<string, [string, string][]>>;
+export const spanishImages: Record<string, [string, string][]> = esFiles["./content/image-es.json"] ?? {};

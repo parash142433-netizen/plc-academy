@@ -25,7 +25,7 @@ SSRS SQLite WinCC Unified ODBC Report Builder
 
 **Introduction**
 
-In our [previous article](#/a/en%2Fblog-iis-reverse-proxy-reporting-services-wincc-unified), we configured an IIS Reverse Proxy to embed SSRS in WinCC Unified without CORS policy conflicts. Now that the infrastructure is in place, the next step is to **build custom reports** that read directly from the Unified historical SQLite database.
+In our previous article, we configured an IIS Reverse Proxy to embed SSRS in WinCC Unified without CORS policy conflicts. Now that the infrastructure is in place, the next step is to **build custom reports** that read directly from the Unified historical SQLite database.
 
 WinCC Unified stores **datalogs** (historical tag values) and **alarms** in SQLite databases. SSRS Report Builder can connect to these sources through **ODBC**. In this guide, we follow the real workflow, from file discovery to the final validated report in the viewer.
 

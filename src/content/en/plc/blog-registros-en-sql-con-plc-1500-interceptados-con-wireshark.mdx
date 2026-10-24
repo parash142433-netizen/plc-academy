@@ -27,7 +27,7 @@ PLC SIEMENS PLC NETWORKS SQL Vulnerabilities Wireshark
 
 This time we will use the blocks from the LSQL library based on the example that Siemens has posted on their [page](https://support.industry.siemens.com/cs/document/109779336/connecting-a-s7-1200-plc-s7-1500-plc-to-a-sql-database-?dti=0&lc=en-ES), to register in a SQL database with S7-1500 PLC, later intercepted with Wireshark.
 
-We will do this quickly to focus later on how to capture the packets that the PLC sends to the database and try to gain access to it, similar to what we did with [Modbus](#/a/en%2Fblog-espionage-modbus-communications). We can perform it on a local network, or all on localhost; for the example, it doesn't matter.
+We will do this quickly to focus later on how to capture the packets that the PLC sends to the database and try to gain access to it, similar to what we did with [Modbus](#/a/en%2Fblog-espiando-comunicaciones-modbus). We can perform it on a local network, or all on localhost; for the example, it doesn't matter.
 
 **Writing variables**
 
@@ -45,7 +45,7 @@ In this example, we use a simulated 1515-2 PN to send queries to a database wher
 
 *   You can pass fixed values directly or parameterize it with PLC variables (which is the idea); for this, I had to create a function that does all this:
 
-[QueryFormat](#/a/en%2Fblog-wp-content-uploads-2024-06-queryformat-txt) [Download](#/a/en%2Fblog-wp-content-uploads-2024-06-queryformat-txt)
+QueryFormat Download
 
 As can be seen, the last lines generate the string that I will pass when I make the corresponding INSERT.
 

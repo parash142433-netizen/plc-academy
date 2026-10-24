@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Water Plant PLC Build-Up</title>
+<title>Water Plant PLC Tutorial</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="A 17-step walkthrough of how a Siemens S7-200 water treatment PLC program was designed, with a live simulator of the finished program.">
+<meta name="description" content="A step-by-step tutorial: build the PLC program for a Siemens S7-200 water purification skid, with a live simulator of the finished program.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <style>
 @font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
@@ -269,8 +269,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 
 <header class="top">
   <div class="eyebrow">Siemens S7-200 · CPU 226 · STEP 7-Micro/WIN 4.0</div>
-  <h1>Building the Water Plant PLC program from scratch</h1>
-  <p>A step-by-step reconstruction of how an automation engineer would design and write this real project. It is based on the project file <code>Water Plant.mwp</code> and its program listing <code>PLC.awl</code>. Each step explains the problem, the thinking, the code that solved it and how to make it robust. It ends with a live simulator of the finished program.</p>
+  <h1>Build a water treatment PLC program, step by step</h1>
+  <p>In this tutorial you build the PLC program for a water purification skid on a Siemens S7-200, step by step. Each step explains the problem, the thinking, the code for that step and how to make it robust. It ends with a live simulator of the finished program.</p>
   <div class="progress"><span id="prog-txt">Step 1 of 17</span><span class="bar"><i id="prog-bar"></i></span></div>
 </header>
 
@@ -340,11 +340,11 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <line x1="822" y1="250" x2="760" y2="250" class="ln" marker-end="url(#m1)"/>
       <text x="834" y="236" text-anchor="middle" class="tm">Q0.6 product</text>
       <text x="752" y="254" text-anchor="end">to users</text>
-      <text x="16" y="262" class="ts">Ranges are the real scaling limits stored in the project (data page ANOL_RANGE).</text>
-      <text x="16" y="276" class="ts">Instrument types and units are inferred from those ranges; confirm against the P&amp;ID.</text>
+      <text x="16" y="262" class="ts">Ranges are the scaling limits on data page ANOL_RANGE (step 6).</text>
+      <text x="16" y="276" class="ts">Check every range and unit against your P&amp;ID and instrument datasheets.</text>
     </svg>
     </div>
-    <figcaption>The plant as the program sees it. Two pressure stages (most likely double-pass reverse osmosis) feed two polishing modules. The polishing modules' 10–250 V and 0.25–5 A limits are typical of EDI power supplies.</figcaption>
+    <figcaption>The plant you will control: a two-pass reverse osmosis skid. Two pressure stages feed two EDI polishing modules, each with its own 10–250 V, 0.25–5 A power supply.</figcaption>
   </figure>
 
   <div class="think">
@@ -373,32 +373,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     </tbody>
   </table></div>
 
-  <h3>What the project file tells us</h3>
-  <p>The <code>.mwp</code> file is a compressed STEP 7-Micro/WIN project. Unpacked, it holds more than the program listing: the data block with every commissioning value, the wizard configurations, and timestamps that show how the project grew.</p>
-  <figure class="tline">
-    <div class="fig">
-    <svg class="d" viewBox="0 0 900 150" role="img" aria-label="Project timeline: PID loop 1 configured June 2006, PID loop 2 November 2011, Ethernet module October 2013, last changes February 2014.">
-      <line x1="40" y1="70" x2="860" y2="70" class="ln"/>
-      <g class="tm"><text x="40" y="92" text-anchor="middle">2006</text><text x="142" y="92" text-anchor="middle">2007</text><text x="245" y="92" text-anchor="middle">2008</text><text x="347" y="92" text-anchor="middle">2009</text><text x="450" y="92" text-anchor="middle">2010</text><text x="552" y="92" text-anchor="middle">2011</text><text x="655" y="92" text-anchor="middle">2012</text><text x="757" y="92" text-anchor="middle">2013</text><text x="860" y="92" text-anchor="middle">2014</text></g>
-      <g class="guide"><line x1="40" y1="64" x2="40" y2="76"/><line x1="142" y1="64" x2="142" y2="76"/><line x1="245" y1="64" x2="245" y2="76"/><line x1="347" y1="64" x2="347" y2="76"/><line x1="450" y1="64" x2="450" y2="76"/><line x1="552" y1="64" x2="552" y2="76"/><line x1="655" y1="64" x2="655" y2="76"/><line x1="757" y1="64" x2="757" y2="76"/><line x1="860" y1="64" x2="860" y2="76"/></g>
-      <circle cx="78" cy="70" r="7" class="box-acc"/><text x="78" y="44" text-anchor="middle" class="th">Jun 2006</text><text x="78" y="58" text-anchor="middle" class="ts">PID loop 1 set up</text>
-      <circle cx="642" cy="70" r="7" class="box-acc"/><text x="642" y="44" text-anchor="middle" class="th">Nov 2011</text><text x="642" y="58" text-anchor="middle" class="ts">PID loop 2 added</text>
-      <circle cx="834" cy="70" r="7" class="box-acc"/><text x="770" y="118" text-anchor="middle" class="th">Oct 2013</text><text x="770" y="132" text-anchor="middle" class="ts">Ethernet (CP 243-1) added</text>
-      <line x1="834" y1="77" x2="790" y2="106" class="guide"/>
-      <circle cx="873" cy="70" r="7" class="box"/><text x="873" y="44" text-anchor="end" class="th">Feb 2014</text><text x="873" y="58" text-anchor="end" class="ts">last edit</text>
-    </svg>
-    </div>
-    <figcaption>Dates come from the wizard records inside <code>Water Plant.mwp</code>. The program grew over eight years. That history explains its shape: option bits, a second PID loop and a network block added later.</figcaption>
-  </figure>
-  <div class="evidence">
-    <h4>Evidence from the files</h4>
-    <ul>
-      <li>Saved with STEP 7-Micro/WIN <code>4.0.9.25</code> (V4.0 SP9) for a <code>CPU 226</code> with firmware <code>02.01</code>. Project name "Water Plant"; data page "Version" stores <code>1.2</code>.</li>
-      <li>One main block, 14 subroutines and one interrupt. Six blocks were generated by wizards or supplied locked (password-protected).</li>
-      <li>The user symbol table is empty and every network comment is the default text. The original programmer worked with absolute addresses and left no comments. This reconstruction adds the explanation that was never written down.</li>
-      <li>The data block is organised in pages: <code>Data Block</code> (60 values), <code>ANOL_RANGE</code> (48 scaling limits), <code>COMM</code> (7 commissioning setpoints), <code>Version</code>, plus pages the PID and Ethernet wizards created.</li>
-    </ul>
-  </div>
+  <div class="decision"><h4>What you need</h4><ul><li>STEP 7-Micro/WIN 4.0 and a CPU 226 with six 4-channel analog modules and a CP 243-1 Ethernet module (step 2).</li><li>The PID wizard (two loops) and the Ethernet wizard.</li><li>A touch panel that reads and writes V memory, and a SCADA or BMS on Ethernet.</li></ul><p>You will write one main block, 14 subroutines and one interrupt; step 4 shows how they fit together.</p></div>
 </section>
 
 <!-- ===================== STEP 2 ===================== -->
@@ -413,9 +388,9 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   <div class="pitfall"><h4>Watch the expansion limit</h4><p>A CPU 226 accepts at most seven expansion modules. This design uses all seven (six analog plus the CP 243-1). Any future signal needs a different solution, so leave spare capacity when you can.</p></div>
 
   <h3>Fail-safe signal design</h3>
-  <p>Look at how the digital inputs are used: the program alarms when <code>I1.2</code>, <code>I1.3</code>, <code>I1.4</code> and <code>I1.5</code> go <b>off</b>. These are "healthy" signals wired normally closed. A broken wire, a blown fuse or a pulled connector then looks exactly like a fault, so the plant stops instead of carrying on blind.</p>
+  <p>Wire the "healthy" signals <code>I1.2</code>, <code>I1.3</code>, <code>I1.4</code> and <code>I1.5</code> normally closed, and alarm when they go <b>off</b>. A broken wire, a blown fuse or a pulled connector then looks exactly like a fault, so the plant stops instead of carrying on blind.</p>
   <div class="tbl"><table>
-    <thead><tr><th>Input</th><th>Signal (inferred from use)</th><th>What the program does with it</th></tr></thead>
+    <thead><tr><th>Input</th><th>Signal</th><th>What the program does with it</th></tr></thead>
     <tbody>
       <tr><td class="a">I1.2</td><td>System enable / emergency-stop healthy</td><td>Needed for Auto and Sanitise; loss clears all hand selections and trips</td></tr>
       <tr><td class="a">I1.3</td><td>Start permissive</td><td>Needed to start; loss for 5 s trips</td></tr>
@@ -423,12 +398,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <tr><td class="a">I0.4</td><td>Run-proving switch</td><td>Loss restarts the flush and raises an alarm</td></tr>
       <tr><td class="a">I0.5</td><td>Product-path permissive</td><td>Needed for the product valve</td></tr>
       <tr><td class="a">I0.6 / I0.7</td><td>Polishing module running feedbacks</td><td>Enable the module's flow and voltage/current alarms</td></tr>
-      <tr><td class="a">I0.2, I0.3, I1.6, I1.7, I2.0–I2.2</td><td>Further monitored signals (function not recorded)</td><td>Alarms, one cycle timer (I1.7)</td></tr>
+      <tr><td class="a">I0.2, I0.3, I1.6, I1.7, I2.0–I2.2</td><td>Other monitored contacts: wire them to whatever else your skid supervises</td><td>Alarms, one cycle timer (I1.7)</td></tr>
     </tbody>
   </table></div>
-  <h3>Analog ranges stored in the project</h3>
+  <h3>Analog channels and ranges</h3>
   <div class="tbl"><table>
-    <thead><tr><th>Channel</th><th>Range</th><th>Likely signal</th><th>Channel</th><th>Range</th><th>Likely signal</th></tr></thead>
+    <thead><tr><th>Channel</th><th>Range</th><th>Signal</th><th>Channel</th><th>Range</th><th>Signal</th></tr></thead>
     <tbody>
       <tr><td class="a">AIW0</td><td class="n">0–2000</td><td>Feed conductivity</td><td class="a">AIW24</td><td class="n">0–9999</td><td>Stage 2 flow (PID 2)</td></tr>
       <tr><td class="a">AIW2</td><td class="n">0–100</td><td>Feed temperature</td><td class="a">AIW26</td><td class="n">0–500</td><td>Polishing 1 flow</td></tr>
@@ -439,7 +414,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <tr><td class="a">AIW12</td><td class="n">0–25</td><td>Pump 1 pressure</td><td class="a">AIW40</td><td class="n">0–5</td><td>Stage 2 product conductivity</td></tr>
       <tr><td class="a">AIW14</td><td class="n">0–10</td><td>Pressure (PID 1)</td><td class="a">AIW42</td><td class="n">0–100</td><td>Temperature</td></tr>
       <tr><td class="a">AIW16</td><td class="n">0–9999</td><td>Stage 1 flow</td><td class="a">AIW44</td><td class="n">0–10</td><td>Polishing inlet pressure</td></tr>
-      <tr><td class="a">AIW22</td><td class="n">0–100</td><td>Break-tank level (%)</td><td class="a">AIW18 / 20 / 46</td><td class="n">–</td><td>Disabled or unused</td></tr>
+      <tr><td class="a">AIW22</td><td class="n">0–100</td><td>Break-tank level (%)</td><td class="a">AIW18 / 20 / 46</td><td class="n">–</td><td>Spare</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -461,12 +436,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     <dl>
       <dt>Group by owner and purpose</dt><dd>Commands and sequence bits low (<code>VB0</code>–<code>VB14</code>), scaled values together (<code>VD100</code>–<code>VD144</code>), setpoints together (<code>VD350</code>–<code>VD396</code>), alarm limits together (<code>VD900</code>–<code>VD1022</code>). The HMI designer then maps whole blocks, not scattered tags.</dd>
       <dt>Make alarms contiguous</dt><dd>All alarm bits sit in <code>VB150</code>–<code>VB159</code>. One block move (<code>BMD VD150, VD1148, 5</code>) sends every alarm to SCADA, and comparing those bytes with a snapshot detects new alarms for the horn.</dd>
-      <dt>Reserve space for the wizards</dt><dd>The PID wizard needs an 80-byte loop table. It was given <code>VB228</code>–<code>VB307</code> and <code>VB638</code>–<code>VB717</code>, wedged between other areas with no spare bytes.</dd>
+      <dt>Reserve space for the wizards</dt><dd>The PID wizard needs an 80-byte loop table per loop: here <code>VB228</code>–<code>VB307</code> and <code>VB638</code>–<code>VB717</code>. Leave spare bytes around wizard tables; with none to spare, a third loop is awkward to add.</dd>
       <dt>Store every default in the data block</dt><dd>Timers, setpoints, ranges and limits all have starting values in data block pages. A new CPU or a memory reset then starts with sensible values, not zeros.</dd>
     </dl>
   </div>
   <div class="evidence">
-    <h4>Evidence: the real commissioning values</h4>
+    <h4>The starting values in the data block</h4>
     <div class="tbl" style="margin:6px 0 0"><table>
       <thead><tr><th>Address</th><th>Value</th><th>Meaning</th><th>Address</th><th>Value</th><th>Meaning</th></tr></thead>
       <tbody>
@@ -480,17 +455,17 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       </tbody>
     </table></div>
   </div>
-  <div class="pitfall"><h4>Gaps the data block can't fill</h4><p>Three values in the data block are never used by the program: <code>VW44</code> = 1200, <code>VD46</code> = 150.0 and <code>VD52</code> = 60.0. They are probably left over from an earlier version or meant for the HMI. Unused memory with values in it confuses the next engineer, so document it or remove it.</p></div>
+  <div class="pitfall"><h4>Keep the data block honest</h4><p>Every value in the data block should be used by the program or documented as spare. Here <code>VW44</code>, <code>VD46</code> and <code>VD52</code> are spare, and the memory map says so. A value nobody reads, with no note, leaves the next engineer guessing whether it is spare, obsolete or used somewhere they haven't found.</p></div>
 </section>
 
 <!-- ===================== STEP 4 ===================== -->
 <section class="step" id="structure" data-phase="Plan" data-title="Design the program structure">
   <div class="step-eyebrow">Plan</div>
   <h2>Design the program structure</h2>
-  <p class="lede">Split the program by the question each part answers. The key idea in this project is layering. Auto, Manual and Sanitise only produce <b>requests</b> in V memory; one routine, Run, decides what the physical outputs actually do.</p>
+  <p class="lede">Split the program by the question each part answers. The key idea is layering. Auto, Manual and Sanitise only produce <b>requests</b> in V memory; one routine, Run, decides what the physical outputs actually do.</p>
   <figure>
     <div class="fig">
-    <svg class="d" viewBox="0 0 900 330" role="img" aria-label="Call structure: OB1 calls Auto, Manual, Run, Analogue Processing, Sanitise, Alarms and Network; Analogue Processing calls Analogue_In and Analogue_In_V; Network calls S_RTI and ETH6_CTRL; OB1 also calls PID1_INIT, PID2_INIT and Time_WinCE; INT0 runs the PID loops.">
+    <svg class="d" viewBox="0 0 900 330" role="img" aria-label="Call structure: OB1 calls Analogue Processing, Auto, Manual, Run, Sanitise, Alarms and Network; Analogue Processing calls Analogue_In and Analogue_In_V; Network calls S_RTI and ETH6_CTRL; OB1 also calls PID1_INIT, PID2_INIT and Time_WinCE; INT0 runs the PID loops.">
       <defs><marker id="m4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs>
       <rect x="370" y="14" width="160" height="44" rx="5" class="box-acc"/>
       <text x="450" y="34" text-anchor="middle" class="th">OB1 Main</text>
@@ -528,10 +503,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <tr><td class="a">SBR5 Sanitise</td><td>What does the cleaning cycle need?</td><td>A batch sequence with its own timers that must never mix with production logic</td></tr>
       <tr><td class="a">SBR2 Run</td><td>Should this output be on right now?</td><td>Each output is written once, so interlocks cannot be bypassed by any mode</td></tr>
       <tr><td class="a">SBR7 Alarms</td><td>Is anything wrong, and how bad?</td><td>One home for detection, delays, latching and the shutdown decision</td></tr>
-      <tr><td class="a">SBR11 Network</td><td>Who else needs the data?</td><td>Communication changes (added in 2013) touched only this block</td></tr>
+      <tr><td class="a">SBR11 Network</td><td>Who else needs the data?</td><td>Communication changes touch only this block</td></tr>
     </tbody>
   </table></div>
-  <div class="pitfall"><h4>Scan order matters</h4><p>OB1 calls Auto → Manual → Run → Analogue → Sanitise → Alarms → Network. So Run decides with analog values from the <i>previous</i> scan, and alarm interlocks act one scan late. At scan times of a few milliseconds this is harmless. In a new design, use Inputs → Alarms → Requests → Outputs → Comms, so every decision in a scan uses the same fresh data.</p></div>
+  <div class="think"><h4>Engineer's thinking: the scan order</h4><p>OB1 calls Analogue → Auto → Manual → Run → Sanitise → Alarms → Network. Scaling the analog inputs first means every decision in the scan uses this scan's values. The alarms run after Run, so an alarm interlock reaches the outputs one scan later, a few milliseconds here. If an output must drop in the same scan as its alarm, call Alarms before Run.</p></div>
 </section>
 
 <!-- ===================== STEP 5 ===================== -->
@@ -558,12 +533,12 @@ S      M0.1, 1
 Network 5
 LDN    T36
 EU
-R      M0.1, 0</pre>
+R      M0.1, 1</pre>
       <ol class="notes">
         <li><b>N2</b> On the first scan (<code>SM0.1</code>) or a power-up restart (<code>SM0.3</code>), clear the "already started" flag <code>M0.0</code>.</li>
         <li><b>N3</b> With <code>M0.0</code> off, the off-delay <code>T36</code> switches on at once and <code>M0.0</code> latches. T36 then stays on for 4500 × 10 ms = <b>45 s</b>. This is the power-up window.</li>
         <li><b>N4</b> When the window opens, set the alarm reset <code>M0.1</code>. Alarms that are only "wrong" because devices are still booting get cleared.</li>
-        <li><b>N5</b> When the window closes, release the reset. The count here is <code>0</code>, which an S7-200 does not accept as a valid reset length (finding F3, step 15).</li>
+        <li><b>N5</b> When the window closes, release the reset with <code>R M0.1, 1</code>. The count must be 1–255: a count of 0 resets nothing.</li>
       </ol>
     </div>
   </div>
@@ -608,7 +583,7 @@ MOVW   +0, VW778</pre>
 <section class="step" id="analog" data-phase="Build" data-title="Analog inputs: one routine, 24 calls">
   <div class="step-eyebrow">Build</div>
   <h2>Analog inputs: one routine, 24 calls</h2>
-  <p class="lede">Every decision in this plant depends on measurements, so they come first. The programmer wrote one parameterised subroutine that converts a raw module value into engineering units, then called it once per channel.</p>
+  <p class="lede">Every decision in this plant depends on measurements, so they come first. Write one parameterised subroutine that converts a raw module value into engineering units, then call it once per channel.</p>
   <div class="code">
     <div class="code-h">SBR3 Analogue_In <small>inputs: Input (WORD), High_Limit, Low_Limit · output: Eng_out</small></div>
     <div class="code-body">
@@ -630,18 +605,18 @@ LD     SM0.0
 MOVR   LD2, LD26
 AENO
 -R     LD6, LD26
-AENO
-MOVR   LD26, LD30
-+R     LD6, LD30
 Network 5
 LD     SM0.0
 MOVR   LD22, LD10
-*R     LD30, LD10</pre>
+AENO
+*R     LD26, LD10
+AENO
++R     LD6, LD10</pre>
       <ol class="notes">
         <li><b>N1</b> Convert the 16-bit raw value to a real number. Local memory <code>L</code> means every call has its own private workspace.</li>
         <li><b>N2–3</b> The module reads 4 mA as 6400 and 20 mA as 32000, so subtract 6400 and divide by 25600. This gives the fraction of span, 0.0 to 1.0.</li>
-        <li><b>N4</b> Intended: span = High − Low. As written, it adds Low back again, so the result is just High.</li>
-        <li><b>N5</b> Engineering value = fraction × span. Because of N4, the Low limit is ignored. This is harmless here only because every Low limit in the project is 0.0 (finding F1).</li>
+        <li><b>N4</b> Span = High − Low, into <code>LD26</code>.</li>
+        <li><b>N5</b> Engineering value = fraction × span + Low, into the output <code>LD10</code>. Every Low limit here is 0.0, but adding Low back is what keeps the routine right for a range such as −20 to 80 °C.</li>
       </ol>
     </div>
   </div>
@@ -672,7 +647,7 @@ OLD
     </div>
   </div>
   <div class="widget" id="w-scale">
-    <div class="widget-h"><b>Try it: scale a 4–20 mA signal</b><span>Real channel ranges from the project</span></div>
+    <div class="widget-h"><b>Try it: scale a 4–20 mA signal</b><span>Channel ranges from the data block</span></div>
     <div class="widget-b">
       <div class="wrow">
         <label class="fld">Channel<select id="sc-ch"></select></label>
@@ -682,7 +657,7 @@ OLD
       <dl class="kv" id="sc-out"></dl>
     </div>
   </div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Write reusable maths once, with parameters, and test it once: 4 mA, 12 mA and 20 mA, plus a non-zero Low limit.</li><li>Keep ranges in data, not code.</li><li>Detect under-range (below about 3.6 mA) as a fault. Never let a dead transmitter look like a real low reading.</li><li>Decide what a failed signal should do to the process. Step 16 shows what this plant does when its level transmitter fails.</li></ul></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Write reusable maths once, with parameters, and test it once: 4 mA, 12 mA and 20 mA, plus a non-zero Low limit.</li><li>Keep ranges in data, not code.</li><li>Detect under-range (below about 3.6 mA) as a fault. Never let a dead transmitter look like a real low reading.</li><li>Decide what a failed signal should do to the process. Step 15 has an exercise on what this plant does when its level transmitter fails.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 7 ===================== -->
@@ -784,7 +759,7 @@ AN     V150.1
     </div>
   </div>
   <div class="widget" id="w-tank">
-    <div class="widget-h"><b>Try it: level control with hysteresis</b><span>Real setpoints 20/25 % and 65/75 %</span></div>
+    <div class="widget-h"><b>Try it: level control with hysteresis</b><span>Setpoints 20/25 % and 65/75 %</span></div>
     <div class="widget-b">
       <div class="cols" style="margin:0;grid-template-columns:120px minmax(0,1fr)">
         <svg id="tk-svg" viewBox="0 0 120 220" style="width:120px;height:auto" role="img" aria-label="Tank level gauge">
@@ -814,7 +789,7 @@ AN     V150.1
 <section class="step" id="sequence" data-phase="Build" data-title="Auto: the timed start sequence">
   <div class="step-eyebrow">Build</div>
   <h2>Auto mode: the timed start sequence</h2>
-  <p class="lede">With run demand decided, the plant must come up in a safe order. The programmer chained timers: each step starts only when the previous one is done. A flush at low pressure runs first to rinse the membranes.</p>
+  <p class="lede">With run demand decided, the plant must come up in a safe order. Chain the timers: each step starts only when the previous one is done. A flush at low pressure runs first to rinse the membranes.</p>
   <figure>
     <div class="fig">
     <svg class="d" viewBox="0 0 900 400" role="img" aria-label="Timing diagram to scale: flush valves from 0 s, pump 1 at 10 s, flush ends at 40 s, flush valve A closes at 43 s, pump 2 at 47 s, product valve at 45 s, polishing at 137 s.">
@@ -845,7 +820,7 @@ AN     V150.1
       <text x="222" y="390" text-anchor="middle" class="tm">VW38 10 s</text><text x="310" y="390" text-anchor="middle" class="tm">VW34 flush 30 s</text><text x="387" y="390" text-anchor="middle" class="tm">5 s</text><text x="473" y="390" text-anchor="middle" class="tm">VW32 proven 30 s</text><text x="671" y="390" text-anchor="middle" class="tm">VW36 flow proving 60 s</text>
     </svg>
     </div>
-    <figcaption>Drawn to scale from the engine running the real program with the real data-block times. Pump 2 waits for its delay (VW50, 5 s after flush valve B closes) and also for the permissive M2.3, which needs 10 s of stage 1 pressure. That is why it starts at 47 s, not 45 s.</figcaption>
+    <figcaption>Drawn to scale from the simulator running this program with the data-block times. Pump 2 waits for its delay (VW50, 5 s after flush valve B closes) and also for the permissive M2.3, which needs 10 s of stage 1 pressure. That is why it starts at 47 s, not 45 s.</figcaption>
   </figure>
   <div class="code">
     <div class="code-h">SBR0 Auto · Networks 4–7, 16–19 <small>step timers and the flush</small></div>
@@ -967,7 +942,7 @@ MOVB   0, VB8</pre>
       <p class="srcnote" id="hd-msg" style="margin:0"></p>
     </div>
   </div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Hand mode is still subject to safety interlocks. Only the sequence is bypassed, never the protection.</li><li>Clear hand selections on an emergency stop.</li><li>Use the same pattern for every output, so one review covers all twelve.</li><li>Six outputs (Q1.1–Q1.6) have no interlock in hand at all. Review that in a risk assessment.</li></ul></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Hand mode is still subject to safety interlocks. Only the sequence is bypassed, never the protection.</li><li>Clear hand selections on an emergency stop.</li><li>Use the same pattern for every output, so one review covers all twelve.</li><li>In this design six outputs (Q1.1–Q1.6) have no interlock in hand mode. Do a risk assessment before you allow that.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 10 ===================== -->
@@ -1035,18 +1010,17 @@ LPP
     </div>
   </div>
   <div class="decision"><h4>The design rule</h4><p>Write every output in exactly one network. With one place per output, an interlock added there protects the output in every mode, and anyone investigating "why is this pump off?" has only one network to read.</p></div>
-  <div class="pitfall"><h4>Auto-restart after a drive fault</h4><p>If <code>I1.4</code> drops, pump 1 stops at once. But Auto stays selected and <code>V2.0</code> stays on, so the pump restarts by itself the moment the healthy signal returns. Some plants want exactly that; many want an operator restart after a drive trip. Decide deliberately (try "Pump 1 drive fault" in the simulator).</p></div>
+  <div class="pitfall"><h4>Auto-restart after a drive fault</h4><p>If <code>I1.4</code> drops, pump 1 stops at once. But Auto stays selected and <code>V2.0</code> stays on, so the pump restarts by itself the moment the healthy signal returns. Some plants want exactly that; many want an operator restart after a drive trip. Decide deliberately (untick "I1.4 pump 1 drive healthy" in the simulator).</p></div>
 </section>
 
 <!-- ===================== STEP 11 ===================== -->
 <section class="step" id="pid" data-phase="Build" data-title="PID control with the wizard">
   <div class="step-eyebrow">Build</div>
   <h2>Closed-loop control with the PID wizard</h2>
-  <p class="lede">The pumps run on variable-speed drives. The programmer used the Micro/WIN PID wizard instead of writing PID code. The wizard generates an init subroutine, a timed interrupt that runs the loop, and a loop table in V memory.</p>
+  <p class="lede">The pumps run on variable-speed drives. Use the Micro/WIN PID wizard instead of writing PID code. The wizard generates an init subroutine, a timed interrupt that runs the loop, and a loop table in V memory.</p>
   <div class="tbl"><table>
-    <thead><tr><th>Wizard setting (from the project file)</th><th>Loop 1 (pump 1)</th><th>Loop 2 (pump 2)</th></tr></thead>
+    <thead><tr><th>Wizard setting</th><th>Loop 1 (pump 1)</th><th>Loop 2 (pump 2)</th></tr></thead>
     <tbody>
-      <tr><td>Created</td><td>15 June 2006</td><td>15 November 2011</td></tr>
       <tr><td>Loop table</td><td class="a">VB228</td><td class="a">VB638</td></tr>
       <tr><td>Setpoint range</td><td>0.0–10.0</td><td>0.0–9999.0</td></tr>
       <tr><td>Process value input</td><td>4–20 mA, raw 6400–32000</td><td>4–20 mA, raw 6400–32000</td></tr>
@@ -1130,7 +1104,7 @@ A      V1.2
     </div>
     <figcaption>Loop 1 as built. Loop 2 is the same shape with one measurement (AIW24 flow), one setpoint (6500) and output AQW4.</figcaption>
   </figure>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Use the wizard for the algorithm, but keep the operator interface (setpoints, tuning, auto/manual) in your own V memory.</li><li>Force the controller output to a known value whenever the actuator is off.</li><li>When switching measurements, convert setpoints so the same physical meaning is kept.</li><li>The wizard also stored autotune parameters (deviation 0.08, hysteresis 0.02, initial step 0.1, 7200 s watchdog), so the PID Tune Control Panel was available at commissioning.</li></ul></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Use the wizard for the algorithm, but keep the operator interface (setpoints, tuning, auto/manual) in your own V memory.</li><li>Force the controller output to a known value whenever the actuator is off.</li><li>When switching measurements, convert setpoints so the same physical meaning is kept.</li><li>The wizard also stores autotune parameters (deviation 0.08, hysteresis 0.02, initial step 0.1, 7200 s watchdog), so the PID Tune Control Panel is ready for commissioning.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 12 ===================== -->
@@ -1200,7 +1174,7 @@ AN     V12.2
     <h4>Engineer's thinking: why not just use timers?</h4>
     <p>An S7-200 100 ms timer counts to 32767, which is 3276.7 s or about 54 minutes. Stage 2 lasts 90 minutes and stage 3 six hours. Neither fits in one timer. A DINT counted down once per second fits easily, and the HMI can show the remaining time directly from <code>VD204</code>, <code>VD212</code> and <code>VD224</code>.</p>
   </div>
-  <div class="pitfall"><h4>Points to decide</h4><ul><li>Once complete, <code>V12.2</code> blocks a new cycle until someone presses Stop/reset. That may be intended as an acknowledgement, but it must be explained to operators.</li><li>If a trip or loss of I1.2 aborts the cycle, the finished stages stay flagged and a restart skips them. Only Stop/reset clears them.</li><li>The cycle is purely time-based. Nothing checks temperature or chemical strength, so the cleaning effect must be proven another way.</li></ul></div>
+  <div class="pitfall"><h4>Points to decide</h4><ul><li>Once complete, <code>V12.2</code> blocks a new cycle until someone presses Stop/reset. It acts as an acknowledgement; explain it to operators.</li><li>If a trip or loss of I1.2 aborts the cycle, the finished stages stay flagged and a restart skips them. Only Stop/reset clears them.</li><li>The cycle is purely time-based. Nothing checks temperature or chemical strength, so the cleaning effect must be proven another way.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 13 ===================== -->
@@ -1281,7 +1255,7 @@ O      V153.4
     </div>
   </div>
   <h3>The horn: noticing new alarms</h3>
-  <p>The horn should sound for a <i>new</i> alarm, not keep sounding for old ones. Networks 83–87 compare each live alarm byte (<code>VB150</code>–<code>VB159</code>) with a snapshot (<code>VB160</code>–<code>VB169</code>). A rising difference sets <code>V14.0</code>, which latches the horn. After 3 s (<code>T121</code>) the snapshot is updated; when every alarm has cleared, it is zeroed.</p>
+  <p>The horn should sound for a <i>new</i> alarm, not keep sounding for old ones. Networks 83–87 compare each live alarm byte (<code>VB150</code>–<code>VB159</code>) with a snapshot (<code>VB160</code>–<code>VB169</code>) bit by bit: invert the snapshot byte (<code>INVB</code>) and AND it with the live byte (<code>ANDB</code>). Any bit left is an alarm that wasn't in the snapshot; its appearance sets <code>V14.0</code>, which latches the horn. After 3 s (<code>T121</code>) the snapshot is updated; when every alarm has cleared, it is zeroed.</p>
   <div class="robust"><h4>Robustness habits</h4><ul><li>Every alarm needs an enable. An alarm that fires every time the plant starts teaches operators to ignore alarms.</li><li>Separate warnings from trips, and keep the trip list in one network so it can be reviewed in one glance.</li><li>Latch alarms so a short event is never missed, and only allow a reset once the condition has cleared.</li><li>Detect new alarms bit by bit. A byte "greater than" compare can miss one when another bit in the same byte clears in the same scan.</li></ul></div>
 </section>
 
@@ -1289,7 +1263,7 @@ O      V153.4
 <section class="step" id="comms" data-phase="Build" data-title="Talking to the HMI and SCADA">
   <div class="step-eyebrow">Build</div>
   <h2>Talking to the HMI and SCADA</h2>
-  <p class="lede">The last layer shares data. The HMI reads and writes V memory directly. SCADA arrived in 2013 through a CP 243-1 Ethernet module, configured with the Ethernet wizard. All of its data is packed in one subroutine.</p>
+  <p class="lede">The last layer shares data. The HMI reads and writes V memory directly. SCADA connects through a CP 243-1 Ethernet module, configured with the Ethernet wizard. All of its data is packed in one subroutine.</p>
   <div class="code">
     <div class="code-h">OB1 N36–38 and SBR11 Network <small>clock sync, scaling for SCADA, alarm block move</small></div>
     <div class="code-body">
@@ -1322,44 +1296,44 @@ BMD    VD150, VD1148, 5</pre>
       </ol>
     </div>
   </div>
-  <div class="robust"><h4>Robustness habits</h4><ul><li>Put everything that leaves the PLC in one exchange area (here <code>VB1124</code>–<code>VB1180</code>). The SCADA engineer gets one contiguous range.</li><li>Give each consumer a heartbeat and make it alarm when the heartbeat stops.</li><li>Keep a single time master and synchronise the others from it.</li><li>Check your reset logic: SBR11 N6 resets the heartbeat when <code>VW3898</code> exceeds 9999. That should be <code>VW1178</code> (finding F2).</li></ul></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Put everything that leaves the PLC in one exchange area (here <code>VB1124</code>–<code>VB1180</code>). The SCADA engineer gets one contiguous range.</li><li>Give each consumer a heartbeat and make it alarm when the heartbeat stops.</li><li>Keep a single time master and synchronise the others from it.</li><li>Check your reset logic: SBR11 N6 resets the heartbeat <code>VW1178</code> when it exceeds 9999. Make sure the reset tests the counter's own address; a typo there leaves the counter to overflow.</li></ul></div>
 </section>
 
 <!-- ===================== STEP 15 ===================== -->
 <section class="step" id="test" data-phase="Prove" data-title="Test, commission, review">
   <div class="step-eyebrow">Prove</div>
   <h2>Test, commission and review</h2>
-  <p class="lede">A program is only robust once it has been proven. This is the order a careful engineer follows, then what a fresh review of this project found.</p>
+  <p class="lede">A program is only robust once it has been proven. Here is the order a careful engineer follows, then the mistakes to check for.</p>
   <ol>
     <li><b>Desk check.</b> Read every network against the requirements list from step 1. Compile, and clear every warning.</li>
     <li><b>Simulate.</b> Force inputs with the PLC on the bench and watch the status chart: start sequence, every interlock, every alarm.</li>
     <li><b>I/O check on site.</b> Prove each wire: every input from the field device, every output to its actuator, each analog at 4, 12 and 20 mA.</li>
-    <li><b>Loop check and tuning.</b> Run each PID in manual, then auto. Use the PID Tune Control Panel and record the final values in the data block. This project keeps them on a page named <code>COMM</code>.</li>
+    <li><b>Loop check and tuning.</b> Run each PID in manual, then auto. Use the PID Tune Control Panel and record the final values in the data block, on a page named <code>COMM</code>.</li>
     <li><b>Sequence and alarm challenge.</b> Run the start sequence and the sanitise cycle with real water. Trigger every trip on purpose.</li>
     <li><b>Archive.</b> Upload the final program and data block, save the project with a version number (here <code>VD500</code> = 1.2), and store a backup off the machine.</li>
   </ol>
-  <h3>What a fresh review found</h3>
-  <p>None of these stop the plant working day to day, which is why they survived. They are good examples of what testing should catch.</p>
+  <h3>Common mistakes to check for</h3>
+  <p>These mistakes survive normal running because they only show up with an unusual value, a fault or a second alarm. This tutorial's code avoids each of them; check your own program the same way.</p>
   <div class="tbl"><table>
-    <thead><tr><th>ID</th><th>Finding</th><th>Evidence from the project file</th><th>Lesson</th></tr></thead>
+    <thead><tr><th>Mistake</th><th>What goes wrong</th><th>How to catch it</th><th>Step</th></tr></thead>
     <tbody>
-      <tr><td class="a">F1</td><td>Scaling ignores the Low limit</td><td>Every Low limit in <code>ANOL_RANGE</code> is 0.0, so it never shows</td><td>Test reusable code with values the current plant doesn't use</td></tr>
-      <tr><td class="a">F3</td><td><code>R M0.1, 0</code> resets nothing</td><td>Power-up reset release depends on the HMI clearing M0.1</td><td>Treat a zero count or length as a bug</td></tr>
-      <tr><td class="a">F5</td><td>Tank level alarms don't latch</td><td>High alarm sets at 100 %, holds only while ≤ 98 %; low alarm sets at 10 %, holds only while ≥ 15 %</td><td>Test each latch by clearing the condition before resetting</td></tr>
-      <tr><td class="a">F2</td><td>Heartbeat reset checks the wrong word</td><td><code>VW3898</code> is used nowhere else</td><td>Search for addresses used only once; they are usually typos</td></tr>
-      <tr><td class="a">F4</td><td>New-alarm detection by byte compare</td><td>Ten alarm bytes compared with "greater than"</td><td>Compare bit by bit</td></tr>
-      <tr><td class="a">F6</td><td>Minute timers overflow above 54 min</td><td><code>VW40</code> = 30, safely below; an HMI entry of 60 would break it</td><td>Limit every operator entry to what the code can handle</td></tr>
-      <tr><td class="a">F15</td><td>No documentation in the project</td><td>Empty symbol table, default comments in all 14 blocks</td><td>Name and comment as you go; nobody does it afterwards</td></tr>
+      <tr><td>A scaling routine that ignores the Low limit</td><td>Span computed as High instead of High − Low; hidden while every Low limit is 0</td><td>Test reusable code with values the current plant doesn't use, such as a non-zero Low</td><td>6</td></tr>
+      <tr><td>A set or reset with a count of 0</td><td><code>R M0.1, 0</code> resets nothing</td><td>Treat a zero count or length as a bug; search for it</td><td>5</td></tr>
+      <tr><td>A latch whose hold comparison points the wrong way</td><td>A high alarm that holds only while the level is below its reset limit never latches</td><td>Clear each condition before pressing reset, and check the alarm stays</td><td>13</td></tr>
+      <tr><td>A reset that tests the wrong address</td><td>A heartbeat counter that is never reset runs on to overflow</td><td>List addresses used only once; they are usually typos</td><td>14</td></tr>
+      <tr><td>New-alarm detection by byte compare</td><td>A byte "greater than" misses a new bit when another bit in the same byte clears in the same scan</td><td>Detect new bits with AND NOT, bit by bit</td><td>13</td></tr>
+      <tr><td>Timer presets that can overflow</td><td>Minutes × 600 exceeds 32767 above 54 min</td><td>Limit every operator entry to what the code can handle</td><td>12</td></tr>
+      <tr><td>No symbols, no comments</td><td>Every reader has to decode absolute addresses</td><td>Name and comment as you write; nobody does it afterwards</td><td>17</td></tr>
     </tbody>
   </table></div>
-  <div class="evidence"><h4>Level transmitter failure, a worked example</h4><p>If <code>AIW22</code> loses its signal, the scaling routine reports −25 %. In the same scan, <code>V2.5</code> sets (fill demand) and <code>V2.4</code> resets (pumps stop). For 5 s, until the signal-failure trip latches, the fill valve opens on a tank whose level is unknown. Once the trip drops Auto, the valve closes. A safer design treats a failed level signal as "high" for filling purposes. Try it in the simulator.</p></div>
+  <div class="evidence"><h4>Exercise: a failed level transmitter</h4><p>If <code>AIW22</code> loses its signal, the scaling routine reports −25 %. In the same scan, <code>V2.5</code> sets (fill demand) and <code>V2.4</code> resets (pumps stop). For 5 s, until the signal-failure trip latches, the fill valve opens on a tank whose level is unknown. Once the trip drops Auto, the valve closes. Watch it in the simulator, then improve the design: treat a failed level signal as "high" for filling.</p></div>
 </section>
 
 <!-- ===================== STEP 16 ===================== -->
 <section class="step" id="simulator" data-phase="Prove" data-title="Run the whole plant">
   <div class="step-eyebrow">Prove</div>
   <h2>Run the whole plant</h2>
-  <p class="lede">This simulator runs the logic of <code>PLC.awl</code> scan by scan, every 100 ms of plant time, using the real data-block values. The process behind it is a simple model, there to make the program respond. Speed it up to watch long stages.</p>
+  <p class="lede">This simulator runs the program you have built, scan by scan, every 100 ms of plant time, with the data-block values. The process behind it is a simple model, there to make the program respond. Speed it up to watch long stages.</p>
   <div class="sim" id="sim">
     <div class="sim-top">
       <button class="btn" id="sm-run" type="button">Pause</button>
@@ -1439,7 +1413,7 @@ BMD    VD150, VD1148, 5</pre>
   </div>
   <div class="cols">
     <div class="think"><h4>Things to try</h4><ul style="margin:0;padding-left:1.2em"><li>Press <b>Start</b> and follow the timers: flush, pump 1 at 10 s, pump 2, polishing at about 137 s.</li><li>Untick <b>Feed water supply</b>: the tank drains to 20 %, the pumps pause and Auto stays selected. Tick it again and the plant restarts by itself.</li><li>Untick <b>I1.4</b> for a moment: pump 1 stops, the alarm latches, and the pump restarts when I1.4 returns.</li><li>Tick <b>Level transmitter wire break</b> and watch the fill valve during the 5 s before the trip.</li><li>Raise the temperature above 30 °C: a high-temperature alarm, and the product valve closes.</li><li>Run <b>Sanitise</b> at 600× and watch the three stages count down.</li></ul></div>
-    <div class="evidence"><h4>What is real and what is modelled</h4><ul style="margin:0;padding-left:1.2em"><li>Real: the logic of SBR0, SBR2, SBR5 and SBR7, the alarm and horn behaviour, the scaling maths, every timer preset, setpoint, limit and the PID tuning.</li><li>Modelled: the pumps, pressures, flows, conductivities and tank, and the PID algorithm (the wizard's code is locked).</li><li>Simplified: hand mode is not wired into the simulator, and the power-up reset behaves as intended (finding F3 fixed).</li></ul></div>
+    <div class="evidence"><h4>What the simulator runs and what it models</h4><ul style="margin:0;padding-left:1.2em"><li>Runs: the logic of SBR0, SBR2, SBR5 and SBR7 from this tutorial, the alarm and horn behaviour, the scaling maths, every timer preset, setpoint, limit and the PID tuning.</li><li>Models: the pumps, pressures, flows, conductivities and tank, and the PID algorithm (the wizard's generated code is password-protected).</li><li>Left out: hand mode (step 9) is not wired into the simulator.</li></ul></div>
   </div>
 </section>
 
@@ -1447,7 +1421,7 @@ BMD    VD150, VD1148, 5</pre>
 <section class="step" id="checklist" data-phase="Prove" data-title="Checklist for a robust program">
   <div class="step-eyebrow">Prove</div>
   <h2>Checklist for a robust S7-200 program</h2>
-  <p class="lede">The habits this project shows, good and bad, condensed into a list you can apply to your next PLC project.</p>
+  <p class="lede">The habits from this tutorial, condensed into a list you can apply to your next PLC project.</p>
   <div class="tbl"><table>
     <thead><tr><th>Do this</th><th>Why</th><th>Step</th></tr></thead>
     <tbody>
@@ -1465,11 +1439,10 @@ BMD    VD150, VD1148, 5</pre>
       <tr><td>Pick data types that fit the range (DINT seconds, not 100 ms timers, for hours)</td><td>Timers and counters never overflow silently</td><td>12</td></tr>
       <tr><td>Build every alarm from condition, enable, delay, latch and action</td><td>Consistent behaviour; easy to review</td><td>13</td></tr>
       <tr><td>Give every communication partner a heartbeat and one time master</td><td>Frozen data is detected, and timestamps agree</td><td>14</td></tr>
-      <tr><td>Name symbols and write comments as you go</td><td>This project has none, and every reader pays for that</td><td>15</td></tr>
-      <tr><td>Test what the current plant doesn't use: Low limits, long timers, failed signals</td><td>That is where the latent bugs here were hiding</td><td>15, 16</td></tr>
+      <tr><td>Name symbols and write comments as you go</td><td>A few minutes now save every future reader hours</td><td>15</td></tr>
+      <tr><td>Test what the current plant doesn't use: Low limits, long timers, failed signals</td><td>That is where latent bugs hide</td><td>15, 16</td></tr>
     </tbody>
   </table></div>
-  <p class="srcnote">Sources: <code>PLC.awl</code> (program listing) and <code>Water Plant.mwp</code> (unpacked data block pages, wizard records and metadata). Signal functions and units are inferred from ranges and logic, and marked as such.</p>
 </section>
 
     <nav class="navbar" aria-label="Step navigation">
@@ -1481,12 +1454,12 @@ BMD    VD150, VD1148, 5</pre>
 <div id="tip" role="tooltip" aria-hidden="true"></div>
 
 <script>
-// Water Plant PLC engine: a scan-by-scan model of the S7-200 program in PLC.awl,
-// using the data-block values stored in Water Plant.mwp. All hand bits stay in auto.
+// Water Plant tutorial engine: a scan-by-scan model of the S7-200 program built in the tutorial,
+// using its data-block values. All hand bits stay in auto.
 const PLC = (function () {
   'use strict';
 
-  // Data block pages "Data Block" and "COMM" (Water Plant.mwp)
+  // Data block pages "Data Block" and "COMM"
   const DB = {
     VW22: 1800, VW24: 5400, VW26: 21600, VW30: 600, VW32: 300, VW34: 300, VW36: 600, VW38: 100,
     VW40: 30, VW42: 1, VW50: 50, VD64: 2.0, VD70: 0.2, VD74: 0.032, VD82: 1.0, VD350: 0.1, VD356: 100,
@@ -1620,7 +1593,7 @@ const PLC = (function () {
 
     model(P, dt);
 
-    // SBR4 / SBR3 / SBR9: scaling exactly as coded ((raw - 6400) / 25600 * High; all Low limits are 0.0)
+    // SBR4 / SBR3 / SBR9: scaling (raw - 6400) / 25600 * (High - Low) + Low; every Low limit is 0.0
     for (const [ai, vd, hi, sig] of CH) {
       let raw = Math.round(6400 + (s[sig] / hi) * 25600);
       raw = Math.max(0, Math.min(32767, raw));
@@ -1632,7 +1605,7 @@ const PLC = (function () {
       P.raw[ai] = raw; a[vd] = (raw / 32000) * hi;
     }
 
-    // OB1 N2-N5: power-up inhibit and alarm reset pulse (N5 as intended, with count 1)
+    // OB1 N2-N5: power-up inhibit and alarm reset pulse (N5 releases with R M0.1, 1)
     if (P.first) b['M0.0'] = false;
     const t36In = !g('M0.0');
     run(T.T36, t36In, dt);
@@ -1745,14 +1718,14 @@ const PLC = (function () {
     run(T.T54, a.VD200 <= DB.VD1022 && !g('V10.3') && g('Q0.1'), dt);
     b['V155.3'] = ((a.VD200 <= DB.VD1022 && T.T54.q) || (g('V155.3') && !M01)) && t50;
     b['M0.2'] = TRIPS.some(g);
-    // Tank alarms exactly as coded (hold comparisons reversed, finding F5)
-    b['V154.0'] = a.VD144 >= DB.VD978 || (g('V154.0') && a.VD144 <= DB.VD974 && !M01);
-    b['V154.1'] = a.VD144 <= DB.VD986 || (g('V154.1') && a.VD144 >= DB.VD982 && !M01);
+    // Tank alarms: latched; reset only works once the level is back past the reset limit
+    b['V154.0'] = a.VD144 >= DB.VD978 || (g('V154.0') && !(M01 && a.VD144 <= DB.VD974));
+    b['V154.1'] = a.VD144 <= DB.VD986 || (g('V154.1') && !(M01 && a.VD144 >= DB.VD982));
     // New-alarm detection, horn and lamps (N75-N87)
     const live = [];
     for (let n = 150; n <= 159; n++) { let v = 0; for (let i = 0; i < 8; i++) if (b['V' + n + '.' + i]) v |= 1 << i; live.push(v); }
     let rise = false;
-    for (let i = 0; i < 10; i++) { const c = live[i] > P.snap[i]; if (c && !P.cmpPrev[i]) rise = true; P.cmpPrev[i] = c; }
+    for (let i = 0; i < 10; i++) { const c = (live[i] & ~P.snap[i] & 255) !== 0; if (c && !P.cmpPrev[i]) rise = true; P.cmpPrev[i] = c; } // new bits: live AND NOT snapshot
     if (rise) b['V14.0'] = true;
     b['Q0.7'] = (g('V14.0') || (g('Q0.7') && !M01)) && g('M5.1');
     run(T.T121, g('V14.0'), dt);
@@ -1801,6 +1774,8 @@ const PLC = (function () {
 
   return { DB, CH, CHV, ALARMS, TRIPS, SIGFAIL, create, scan, press };
 })();
+
+
 
 
 </script>
@@ -1878,7 +1853,7 @@ const PLC = (function () {
   /* ---------- Memory map ---------- */
   const ZONES = [
     [0, 15, 'Commands, modes, sequence bits', 'V0.x HMI buttons, V1–V4 requests, VB5–VB8 hand bits, V9 PID modes, V10/V12 sanitise, V14.0 new alarm', '--accent'],
-    [22, 54, 'Timer presets and spare values', 'VW22–VW50: sanitise stages (s), delays (0.1 s), Q1.7 cycle (min); VW44, VD46, VD52 unused', '--info'],
+    [22, 54, 'Timer presets and spare values', 'VW22–VW50: sanitise stages (s), delays (0.1 s), Q1.7 cycle (min); VW44, VD46, VD52 spare', '--info'],
     [62, 90, 'PID 1 operator interface', 'VW62 output, VD64 setpoint, VD70–VD82 tuning, VD86 manual output', '--warn'],
     [100, 148, 'Scaled analogs 1', 'VD100–VD144: AIW0–AIW22 in engineering units', '--on'],
     [150, 170, 'Alarm bits and snapshot', 'VB150–VB159 live alarms, VB160–VB169 snapshot for the horn', '--alarm'],
@@ -1932,7 +1907,7 @@ const PLC = (function () {
       const fail = !volt && raw <= 5000;
       const fmt = (x) => (Math.abs(x) >= 100 ? x.toFixed(0) : x.toFixed(2)) + ' ' + c[3];
       $('#sc-out').innerHTML = `<dt>Raw value (AIW)</dt><dd>${raw}</dd><dt>Fraction of span</dt><dd>${(frac * 100).toFixed(1)} %</dd>` +
-        `<dt>Result as coded (SBR${volt ? 9 : 3})</dt><dd>${fmt(asCoded)}</dd><dt>Result with Low limit honoured</dt><dd>${fmt(correct)}${low !== 0 && Math.abs(correct - asCoded) > 1e-9 ? ' ← differs (F1)' : ''}</dd>` +
+        `<dt>Result (SBR${volt ? 9 : 3})</dt><dd>${fmt(correct)}</dd><dt>If the span were taken as High (a common mistake)</dt><dd>${fmt(asCoded)}${low !== 0 && Math.abs(correct - asCoded) > 1e-9 ? ' ← wrong' : ''}</dd>` +
         `<dt>Signal check</dt><dd>${volt ? 'not monitored (0–10 V channel)' : fail ? 'raw ≤ 5000: signal-fail alarm after 5 s' : (val < 4 ? 'below 4 mA: negative reading, not yet a fault' : 'healthy')}</dd>`;
     };
     ['input', 'change'].forEach((ev) => { scCh.addEventListener(ev, upd); $('#sc-low').addEventListener(ev, upd); $('#sc-ma').addEventListener(ev, upd); });

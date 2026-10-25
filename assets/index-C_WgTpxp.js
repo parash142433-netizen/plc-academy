@@ -4586,6 +4586,411 @@ Its main features are: extremely lightweight, supports quality of service (QoS 0
 ---
 *Source: [MQTT](https://www.plc-hmi-scadas.com/en/MQTT/) — Jose Manuel*
 `,I0=`---
+title: "RealTerm Serial Terminal: Step-by-Step Tutorial"
+slug: "realterm-serial-terminal-tutorial"
+locale: "en"
+category: "communications"
+originalUrl: "https://realterm.sourceforge.io/"
+author: "PLC Academy"
+date: "25 Oct, 2026"
+breadcrumbs: ["Home","Communications","SERIAL"]
+tags: ["RealTerm","Serial","RS-232","RS-485","Modbus RTU","Tutorial"]
+downloads: []
+credit: "Tutorial written for PLC Academy from the RealTerm documentation (realterm.sourceforge.io) and the RealTerm 2.0.0.70 program. Screenshots: SparkFun Electronics, CC BY-SA 4.0. Full source list at the end of the page."
+note: "Tutorial written for PLC Academy from the official RealTerm documentation and the program itself. Each screenshot is credited under the image, and every source is listed at the end."
+---
+[Home](#/a/en%2Fhome) › [Communications](#/a/en%2Fcommunications) › RealTerm
+
+# RealTerm Serial Terminal: Step-by-Step Tutorial
+
+PLC Academy 25 Oct, 2026
+
+RealTerm Serial RS-232 RS-485 Modbus RTU Tutorial
+
+## What you will learn
+
+RealTerm is a free Windows terminal built for engineers who need to see **every byte** on a serial line, not only readable text. In this tutorial you will:
+
+1.  Find your COM port and open it with the right settings.
+2.  Prove the port works with a loopback test, with or without hardware.
+3.  Show received data as hex, so control characters and binary values are visible.
+4.  Send text, binary values and a complete **Modbus RTU** request with its CRC.
+5.  Capture traffic to a file with timestamps.
+6.  Drive and watch the RS-232 handshake pins.
+7.  Watch both directions of a link, and save your setup as a one-click shortcut.
+
+#### See every byte
+
+Hex, decimal, binary and 16-bit views of incoming data. Nothing is hidden, not even NUL or CR.
+
+#### Send binary easily
+
+Type \`0x01 0x03 0x00 0x00\` and send it. No ASCII tables, no awkward key combinations.
+
+#### Modbus CRC built in
+
+One tick appends the Modbus CRC-16 to anything you send.
+
+#### Capture and log
+
+Save traffic to a file, as raw bytes or as hex, with a timestamp on every line.
+
+This tutorial uses **RealTerm 2.0.0.70**, the release the standard installer puts in \`C:\\Program Files (x86)\\BEL\\Realterm\`. The button names below are the ones that version shows. Newer 3.x beta versions add features (for example custom timestamp formats), but the steps here work the same way.
+
+## Before you start
+
+You need:
+
+*   A Windows PC with RealTerm installed.
+*   A serial port. This can be a built-in COM port, a USB-to-serial adapter or a USB-to-RS-485 adapter. If your adapter uses an FTDI chip and Windows does not install a driver by itself, install the FTDI driver **before** you plug it in.
+*   Optional: a **loopback plug**, which is just a wire between pin 2 and pin 3 of a 9-pin D connector. A paper clip in a female DB9 plug works for a quick test.
+*   Optional: the device you want to talk to (PLC port, drive, meter, Modbus slave) and its manual, with its baud rate and data format.
+
+Two habits save hours with RealTerm:
+
+*   **Read the tooltips.** Hover over any control and a hint pops up. The hint is also copied to the status bar at the bottom; double-click the status bar to see all of it. Tooltips are RealTerm's main help.
+*   **Press F1** for RealTerm's help screen and links.
+
+## Step 1: Find your COM port number
+
+Windows gives every serial port a number: COM1, COM3, COM7 and so on.
+
+1.  Open **Device Manager** and expand **Ports (COM & LPT)**. Note the number next to your adapter, for example *USB Serial Port (COM3)*.
+2.  Start RealTerm and click the **Port** tab.
+3.  Open the **Port** drop-down. RealTerm lists the ports it found in the Windows registry, in the form \`number = \\device name\`, for example \`23 = \\VCP0\`.
+
+![RealTerm 2.0.0.70 Port tab with the Port drop-down open, listing 1 = \\Serial0, 23 = \\VCP0, two Bluetooth ports, and the telnet entries server:telnet and 127.0.0.1:telnet](./assets/images/realterm/realterm-port-tab.png)
+
+The Port tab with the port list open. Real ports come first, then the network entries. Screenshot: [SparkFun Electronics, Serial Terminal Basics](https://learn.sparkfun.com/tutorials/terminal-basics/real-term-windows), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+Good to know:
+
+*   **Double-click the Port box** to scan for ports again, for example after plugging in an adapter.
+*   A USB adapter often gets a **different COM number on a different USB socket**. If your port "disappears", check Device Manager again.
+*   You can also type the device name instead of the number, for example \`\\VCP0\`. That name follows the adapter whichever socket it is in.
+*   The same box accepts network addresses such as \`192.168.0.50:4001\` (a serial-to-Ethernet converter) and \`server:telnet\`. You will use those in Step 4.
+
+## Step 2: Get to know the window
+
+The RealTerm window has four areas.
+
+| Area | What it does |
+| --- | --- |
+| **Terminal** (black, top) | Shows received data. Click inside it, then type to send characters. |
+| **Tabs** (middle) | All settings: Display, Port, Capture, Pins, Send, Echo Port, I2C, I2C-2, I2CMisc, Misc. |
+| **Status lights** (right) | Connected, RXD (2), TXD (3), CTS (8), DCD (1), DSR (6), Ring (9), BREAK and Error. They flash as signals change. |
+| **Status bar** (bottom) | The current hint, **Char Count**, **CPS** (characters per second) and the port summary, for example \`Port: 3 9600 8N1 None\`. |
+
+The four buttons beside the tabs act on the terminal: **\\\\n** moves to a new line, **Clear** empties the screen, **Freeze** stops the display while data keeps arriving (leave it on too long and the buffer overflows), and **?** opens the pop-up menu. Right-clicking the terminal opens the same menu.
+
+The tabs you will use most:
+
+| Tab | Use it to |
+| --- | --- |
+| **Display** | Choose how received bytes are shown (ASCII, hex, numbers). |
+| **Port** | Pick the port, baud rate, data bits, parity, stop bits and flow control. |
+| **Capture** | Save received data to a file. |
+| **Pins** | Set or clear RTS and DTR, send a break, see the pin-out. |
+| **Send** | Send strings, numbers, files, and add a CRC. |
+| **Echo Port** | Connect a second port, to bridge or to monitor a link. |
+
+The I2C tabs are for the I2C2PC and BL233B I2C/SPI/1-Wire adapters from I2CChip, so this tutorial does not use them.
+
+## Step 3: Open the port with the right settings
+
+Both ends of a serial link must use **exactly the same** baud rate, data bits, parity and stop bits. Take them from the device manual or its configuration.
+
+1.  On the **Port** tab, choose your port in the **Port** box.
+2.  Choose the **Baud** rate from the list, or type any value. RealTerm passes any rate to Windows; whether it works depends on your hardware.
+3.  Set **Data Bits**, **Parity** and **Stop Bits**.
+4.  Leave **Hardware Flow Control** on **None** and the **Software Flow Control** boxes unticked for now. With no handshaking, data flows even if the handshake wires are missing, which is the best way to get *something* working first.
+5.  Click **Change**. RealTerm only applies new settings when you click it.
+6.  Check the status bar: it should show your settings, for example \`Port: 3 19200 8E1 None\`.
+
+If **Change** does not seem to take effect the first time you pick a port, click **Open** twice: the first click closes the port, the second reopens it with the new settings.
+
+Common settings in industry:
+
+| Device / protocol | Typical setting |
+| --- | --- |
+| Modbus RTU (spec default) | **19200, 8 data bits, Even parity, 1 stop bit** (8E1) |
+| Modbus RTU without parity | 8 data bits, No parity, **2** stop bits (8N2) |
+| Many meters and barcode readers | 9600 8N1 |
+
+The Modbus serial-line specification requires 9600 and 19200 baud, makes 19200 the default, makes even parity the default, and says that **no parity needs 2 stop bits**. Many devices still ship at 9600 8N1, so always check the manual.
+
+What the flow-control options mean:
+
+*   **None**: no handshaking. Start here.
+*   **RTS/CTS**: the most common hardware handshake, but only if both sides have the RTS and CTS wires connected.
+*   **DTR/DSR**: the same idea using the DTR and DSR wires.
+*   **RS485-rts**: RealTerm switches RTS on while it transmits, for RS-485 converters that need RTS to change direction. Many USB-to-RS-485 adapters switch direction by themselves, so leave this on None unless your adapter's manual asks for it. The RealTerm documentation also warns that Windows can release RTS too late for devices that reply very quickly.
+
+## Step 4: Prove the port works (loopback test)
+
+Before you blame a device, prove that RealTerm, the driver and the port work. Pick one of these tests.
+
+### Test A: loopback plug (tests the real port)
+
+1.  Fit the loopback plug (a wire from pin 2, RXD, to pin 3, TXD) to the port. The pin numbers are listed on the **Pins** tab.
+2.  Open the port as in Step 3.
+3.  Click inside the black terminal and type \`hello\`.
+4.  Each character goes out on TXD, comes straight back on RXD and appears on the screen. The **TXD** and **RXD** lights flash and **Char Count** goes up.
+
+If nothing comes back, the problem is the port, driver, cable or plug, not your device.
+
+Note that RealTerm does **not** show what you type unless **Half Duplex** is ticked on the **Display** tab. Without a loopback, typing into an open port leaves the screen blank. That is normal.
+
+### Test B: two RealTerms, no hardware at all
+
+RealTerm can also open a network connection, so two copies can talk to each other on the same PC:
+
+1.  Start RealTerm. On the **Port** tab, type \`server:telnet\` in the **Port** box and open it. This window now waits for a connection on the telnet port (23).
+2.  Start a **second** RealTerm. Set its **Port** box to \`127.0.0.1:telnet\` and open it. 127.0.0.1 always means "this PC".
+3.  The **Connected** light turns on in both windows.
+4.  Click into one terminal and type. The text appears in the other window, and the other way round.
+
+Windows Firewall may ask about network access for the first window, because it is now a server. The test itself never leaves your PC.
+
+This is a handy way to practise the Send and Display tabs before you have hardware. To make RealTerm talk to **another program on the same PC**, for example a SCADA driver or a Modbus master simulator, you need a pair of virtual COM ports such as the free **com0com**. Your program opens one port of the pair and RealTerm opens the other.
+
+## Step 5: See every byte with the Display tab
+
+Text terminals hide control characters and cannot show binary values. RealTerm's **Display As** list on the **Display** tab fixes that. It changes only how bytes are **shown**; captured files always receive the raw bytes.
+
+| Display As | Shows |
+| --- | --- |
+| **Ascii** | Every character, including control codes, which RealTerm's hex font draws as small symbols. Codes such as backspace, tab and form feed are shown, not acted on. |
+| **Ansi** | A classic VT100 terminal: control codes move the cursor and clear the screen. Use it for menus and text-based device consoles. |
+| **Hex[space]** | Each byte as two hex digits with a space, for example \`48 65 6C\`. The best choice for binary protocols such as Modbus RTU. |
+| **Hex + Ascii** | Hex and the matching character side by side. |
+| **uint8 / int8** | Each byte as an unsigned (0 to 255) or signed (−128 to 127) decimal number. |
+| **int16 / uint16** | Pairs of bytes as 16-bit numbers. Tick **Big Endian** if the high byte comes first, as it does in Modbus registers. |
+| **Binary / Nibble** | Each byte as 8 bits, for example \`01001000\`. Nibble puts a dot between the two halves: \`0100.1000\`. |
+| **Float4** | Groups of four bytes as a floating-point number. |
+
+![RealTerm Display tab with Display As set to Hex[space]; the terminal shows 48 65 6C 6C 6F 2C 20 57 6F 72 6C 64 and the status bar shows Char Count 12](./assets/images/realterm/realterm-display-hex.png)
+
+Display As set to **Hex[space]**. Screenshot: [SparkFun Electronics, Serial Terminal Basics](https://learn.sparkfun.com/tutorials/terminal-basics/real-term-windows), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+Exercise: decode the screenshot. \`48 65 6C 6C 6F 2C 20 57 6F 72 6C 64\` is 12 bytes (look at **Char Count: 12**). Look each one up in an ASCII table: \`48\` = H, \`65\` = e, \`6C\` = l, \`6F\` = o, \`2C\` = comma, \`20\` = space, \`57\` = W, \`72\` = r, \`64\` = d. The message is **Hello, World**.
+
+Other useful Display tab controls:
+
+*   **Half Duplex**: also shows what you send.
+*   **newLine mode**: every LF starts a new line, and a lone CR does too when the next character arrives. Good for devices that end lines with CR only.
+*   **7Bits**: clears the top bit of each received byte, for devices whose parity bit shows up as bit 8.
+*   **Data Frames → Bytes**: in hex modes, fits a whole number of frames on each line, for fixed-length telegrams. Press **Gulp** to drop one byte at a time until each frame starts at the left edge.
+*   **Binary Sync Chars**: in the hex and number modes, starts a new line whenever a chosen byte pattern arrives, so variable-length frames line up. Enter the pattern in **Data** (for example \`0xA5 0x5A\`), set **Sync is** to *Number* or *ASCII*, and click **Change**.
+*   **Rows**, **Cols** and **Scrollback** set the terminal size and how much history it keeps.
+
+## Step 6: Send text and numbers with the Send tab
+
+The **Send** tab has two send boxes. Each has two buttons:
+
+*   **Send ASCII** sends the text as characters.
+*   **Send Numbers** reads the box as a list of byte values and sends those bytes.
+
+![RealTerm Send tab: the first send box contains 126 0x7E $7E 255 0x01, next to the Send Numbers and Send ASCII buttons, the EOL +CR/+LF/+crc boxes, the \\n Before/After boxes and the Dump File to Port section](./assets/images/realterm/realterm-send-tab.png)
+
+The Send tab. The first box holds five numbers written in three styles. Screenshot: [SparkFun Electronics, Serial Terminal Basics](https://learn.sparkfun.com/tutorials/terminal-basics/real-term-windows), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+### Sending numbers
+
+Separate the values with spaces or commas. Each value is a decimal number from 0 to 255, or a hex number starting with \`0x\` or \`$\`. The box in the screenshot, \`126 0x7E $7E 255 0x01\`, sends five bytes: \`7E 7E 7E FF 01\`. 126, 0x7E and $7E are the same value.
+
+The small unlabelled box at the bottom left sends **each number as soon as you press Space**. That is good for poking a device one byte at a time, but **not** for Modbus RTU, as you will see in Step 7.
+
+### Sending text
+
+Type text and press **Send ASCII**. Tick **+CR** and/or **+LF** beside that box to add a line ending. Many devices only act on a command when it ends with CR (0x0D) or CR LF (0x0D 0x0A).
+
+In the terminal itself, **Enter** sends CR and **Ctrl+Enter** sends LF.
+
+Send ASCII also understands these backslash codes, unless you tick **Literal**:
+
+| Code | Sends |
+| --- | --- |
+| \`\\r\` | CR, carriage return (0x0D) |
+| \`\\n\` | LF, line feed (0x0A) |
+| \`\\t\` | TAB (0x09) |
+| \`\\a\`, \`\\b\`, \`\\f\`, \`\\v\` | BEL (0x07), BS (0x08), FF (0x0C), VT (0x0B) |
+| \`\\xhh\` | Any byte, as two hex digits, for example \`\\x02\` for STX |
+| \`\\\\\`, \`\\"\`, \`\\'\` | A backslash, double quote, single quote |
+
+For example, \`\\x02READ\\x03\` sends STX, the letters READ and ETX. In version 2.0.0.70, prefer \`\\xhh\` for single bytes: the official documentation notes that number codes such as \`\\002\` were read as decimal before version 3.0.0.30, not as octal like Python.
+
+### The other Send controls
+
+*   **Repeats**: sends the string this many times. Large numbers can lock the program up while it sends.
+*   **\\\\n Before / After**: moves the terminal to a new line before or after each send, so every request and its reply sit on their own line.
+*   **Strip Spaces**: removes spaces from ASCII text before sending.
+*   **0**, **^C** and **LF** send NUL (0x00), Ctrl-C (0x03) and LF (0x0A) with one click.
+*   **Dump File to Port**: sends a file's bytes exactly as they are, with optional **Delays** after each character and each line, and **Repeats**.
+
+## Step 7: Send a Modbus RTU request with +crc
+
+A Modbus RTU frame is the slave address, a function code, data, and a **CRC-16** of all those bytes, sent low byte first. RealTerm can calculate the CRC for you.
+
+We will read **2 holding registers** starting at address **0** from slave **1** (function code 03):
+
+| Byte(s) | Meaning |
+| --- | --- |
+| \`01\` | Slave address 1 |
+| \`03\` | Function 03, Read Holding Registers |
+| \`00 00\` | Starting address 0 (Modbus register 40001) |
+| \`00 02\` | Quantity: 2 registers |
+| \`C4 0B\` | CRC-16, low byte first (RealTerm adds this) |
+
+1.  Open the port with the slave's settings (Step 3), for example 19200 8E1.
+2.  On the **Display** tab, choose **Hex[space]**.
+3.  On the **Send** tab, tick **+crc** and choose **Modbus16** in the CRC list beside it. The list starts on *SMBUS 8*, which is a different, 1-byte CRC, so this choice matters.
+4.  Tick **\\\\n After**, so each reply starts on a fresh line.
+5.  Type \`0x01 0x03 0x00 0x00 0x00 0x02\` in the first send box and click **Send Numbers**.
+6.  RealTerm sends \`01 03 00 00 00 02 C4 0B\`. To see the sent bytes on screen too, tick **Half Duplex** on the Display tab.
+
+A healthy slave replies like this (your values will differ):
+
+\`\`\`
+01 03 04 00 FA 01 2C DA 4F
+\`\`\`
+
+| Byte(s) | Meaning |
+| --- | --- |
+| \`01 03\` | From slave 1, answering function 03 |
+| \`04\` | 4 data bytes follow |
+| \`00 FA\` | Register 0 = 0x00FA = **250** |
+| \`01 2C\` | Register 1 = 0x012C = **300** |
+| \`DA 4F\` | The slave's CRC |
+
+If the slave **does not accept** the request, it sends an exception: the function code plus 0x80, then an error code. For example, \`01 83 02 C0 F1\` means "function 03 failed, code 02: illegal data address". Check your register address.
+
+Why use the send box and **Send Numbers**? In RTU mode a frame must arrive as one unbroken burst; the specification separates frames by a silence of at least 3.5 character times. Send Numbers sends the whole frame in one go. The space-to-send box puts a pause between bytes, and the slave may treat each pause as the end of a frame.
+
+The CRC list also offers **Checksum8** and **Checksum16** (byte sums) and two 1-byte CRCs for SMBus and Dallas 1-Wire. Those are for other protocols. To see Modbus done from the PLC side, read [Modbus RTU / TCP](#/a/en%2Fmodbus), [CB1241 (RS-485) and CM1241 (RS-232) Modbus RTU configuration](#/a/en%2Ftia-portal-modbus-rtu), [Micrologix Modbus Master RTU](#/a/en%2Frslogix500-micrologix-master-modbus) and [Modbus RTU Network Simulation](#/a/en%2F058).
+
+## Step 8: Capture data to a file
+
+The **Capture** tab saves received data to disk, for example to log a device for a whole night or to keep evidence of a fault.
+
+1.  In **File**, type a full path or click **...** to choose one. The default is \`c:\\temp\\capture.txt\`, so make sure the folder exists.
+2.  Under **End After**, choose **Bytes** or **Secs** and enter the limit. **0** means no limit.
+3.  Choose the options:
+    *   **Direct Capture** (ticked): writes the bytes straight to the file and turns off the terminal display. It is faster and best for long or fast logs. Untick it to capture what the terminal shows instead.
+    *   **Capture as Hex**: writes every byte as two hex characters, so a binary log can be read in Notepad. The documentation says it only works with Direct Capture.
+    *   **TimeStamp**: puts the time at the start of each line, where lines end with CR or LF. *Unix* is seconds since 1 January 1970; *Matlab* is a day number with a fraction; *YMDHS* uses your Windows date format. **Delimiter** puts a comma or a space after the timestamp, which is handy for opening the file in Excel.
+4.  Click **Start: Overwrite** to begin a new file, or **Start: Append** to add to an existing one.
+5.  Click **Stop Capture** when you are done, if the End After limit has not stopped it already.
+
+While capturing, the RealTerm icon shows a red dot that turns as bytes arrive. Timestamps only make sense for text data that ends lines with CR or LF.
+
+For difficult problems, the **Diagnostic Files** box on the same tab writes a **Trace** file (characters sent and received) and a **Log** file (timing of each event), named realterm.trc and realterm.log, in the RealTerm folder or the current folder. Click **Dump** to write them out and **Clear** to start again.
+
+## Step 9: Drive and watch the handshake pins
+
+RS-232 has more than data wires. The **Pins** tab shows the standard pin-out from the PC's point of view:
+
+| Signal | DB9 pin | Direction at the PC | DB25 pin |
+| --- | --- | --- | --- |
+| DCD | 1 | In | 8 |
+| RXD | 2 | In | 3 |
+| TXD | 3 | Out | 2 |
+| DTR | 4 | Out | 20 |
+| GND | 5 | — | 7 |
+| DSR | 6 | In | 6 |
+| RTS | 7 | Out | 4 |
+| CTS | 8 | In | 5 |
+| RING | 9 | In | 22 |
+
+On the **Pins** tab:
+
+*   **RTS (7)** and **DTR (4)** have **Set** and **Clear** buttons. *Set* drives the pin positive, *Clear* negative. Use them to wake a modem, signal a device, or check that the other side reacts to a pin change. The buttons do nothing for a pin while hardware handshaking uses it (RTS/CTS or DTR/DSR on the Port tab).
+*   **TXD (3)** has **Set Break**, **Clear Break** and **500ms Break**. A break holds the TXD line in its "space" state for longer than a character; some devices use it as a reset or wake-up signal.
+
+The **Status** lights on the right show the inputs: CTS, DSR, DCD and Ring, plus **BREAK** when the incoming line is held in break and **Error** when RealTerm detects a receive error. Hover over **Error** to read the cause, and double-click its label to clear it. Framing or parity errors almost always mean a wrong baud rate or parity setting.
+
+## Step 10: Watch both directions (Spy and Monitor)
+
+Sometimes you need to see a conversation between two other parties, for example a SCADA PC and a PLC. RealTerm has two ways to do it, and both show the two directions interleaved in different colours.
+
+*   **Spy** (button on the Port tab): watches a COM port that **another program on this PC** is using. It needs a separate spy driver to be installed. Turn Spy on **before** opening the port, and close the port before turning it off. You can copy from the terminal, but spy data cannot be captured to a file.
+*   **Monitor** (on the Echo Port tab): watches a cable between **two external devices** using two COM ports on your PC and a tap cable. At the PC end, connect **only RXD and GND** of each port: one port's RXD listens to the TXD wire of one device, the other port's RXD listens to the TXD wire of the other. Open the first port on the **Port** tab and the second on the **Echo Port** tab, then tick **Echo On** and **Monitor**.
+
+Treat the order on screen as approximate: Windows adds unpredictable delays, so very fast exchanges may appear slightly out of sequence.
+
+The **Echo Port** can also pass the main port through to a network port. For example, a PC next to a machine can share its COM1 over the network:
+
+\`\`\`
+realterm port=1 baud=9600 echo=server:9876
+\`\`\`
+
+A colleague then runs \`realterm port=<that PC's IP address>:9876\` and works with the serial device from their desk.
+
+## Step 11: Save your setup as a shortcut
+
+RealTerm **does not save its settings**. Instead, you put them on the command line, usually in a Windows shortcut:
+
+1.  Right-click the desktop and choose **New → Shortcut**.
+2.  As the location, enter the program path in quotes followed by the options, for example:
+
+\`\`\`
+"C:\\Program Files (x86)\\BEL\\Realterm\\realterm.exe" port=3 baud=19200 data=8E1 display=2 tab=Send caption=Modbus_COM3
+\`\`\`
+
+3.  Name the shortcut, for example *Modbus test COM3*. Double-click it and RealTerm opens with COM3 at 19200 8E1, the display in Hex[space], the Send tab in front, and your title in the title bar.
+
+Options that version 2.0.0.70 understands (no \`/\` or \`-\` in front, and quotes around values with spaces):
+
+| Option | Example | Meaning |
+| --- | --- | --- |
+| \`port\` | \`port=3\` | COM port number, device name or \`ip:port\` |
+| \`baud\` | \`baud=9600\` | Baud rate |
+| \`data\` | \`data=8E1\` | Data bits, parity (N, O, E, M, S), stop bits |
+| \`flow\` | \`flow=2\` | Hardware flow control: 0 None, 1 DTR/DSR, 2 RTS/CTS, 3 RS485-rts |
+| \`display\` | \`display=2\` | Display As item, counted from 0: 0 Ascii, 1 Ansi, 2 Hex[space], 3 Hex + Ascii |
+| \`half\` | \`half=1\` | Half Duplex on |
+| \`tab\` | \`tab=Capture\` | Tab to show at start |
+| \`caption\` | \`caption=Line3_Scale\` | Window title, useful when several copies are running |
+| \`capture\` | \`capture=c:\\logs\\scale.txt\` | Start capturing to this file at once |
+| \`capsecs\` | \`capsecs=3600\` | Stop capturing after this many seconds |
+| \`sendfile\` | \`sendfile=c:\\logs\\cmd.txt\` | File to send |
+| \`sendrep\`, \`senddly\` | \`sendrep=0 senddly=10000\` | Send the file again and again (0 = forever), waiting 10 000 ms between sends |
+| \`echo\` | \`echo=server:9876\` | Echo port |
+
+The [official documentation](https://realterm.sourceforge.io/) has the full table of options. Some of them only exist in newer versions.
+
+**A data logger in one line.** Put the command your instrument expects (for example a "read value" command ending in CR) in \`cmd.txt\`, then run:
+
+\`\`\`
+"C:\\Program Files (x86)\\BEL\\Realterm\\realterm.exe" port=3 baud=9600 sendfile=c:\\logs\\cmd.txt sendrep=0 senddly=10000 capture=c:\\logs\\results.txt
+\`\`\`
+
+RealTerm sends the command every 10 seconds, forever, and saves every reply. That turns an RS-232 meter into a simple data logger with no other software.
+
+## Test and common mistakes
+
+| Symptom | Likely cause and fix |
+| --- | --- |
+| Port will not open | Another program (a PLC tool, a SCADA driver, a second RealTerm) already has it open. Only one program can open a COM port at a time. Close the other program. |
+| Port missing from the list | Adapter unplugged or moved to another USB socket. Double-click the Port box to scan, and check Device Manager. |
+| Nothing received at all | Wrong COM number; TX and RX not crossed (you may need a null-modem cable); handshaking set but the wires are missing, so set flow control to None; device needs a CR at the end of each command, so tick +CR. |
+| Garbage characters, Error light on | Baud rate, parity or stop bits do not match the device. Check all three. |
+| Modbus slave never answers | Wrong slave address; +crc not ticked, or the CRC list not on **Modbus16**; wrong parity; on RS-485, A and B swapped or the line not terminated. |
+| Modbus reply is \`xx 83 02 …\` | Exception 02: the register address does not exist in that slave. |
+| Bytes 0xFF missing or doubled on a network port | The connection is using telnet rules. Set **Winsock is: Raw** on the Port tab and reopen the port. |
+| Nothing appears when you type | Normal without a loopback or device. Tick **Half Duplex** to see what you send. |
+
+## Sources and credits
+
+This tutorial was written for PLC Academy. The facts come from these sources:
+
+*   **RealTerm documentation**: [realterm.sourceforge.io](https://realterm.sourceforge.io/), by Broadcast Equipment Ltd and the RealTerm project. Display modes, send escape codes, capture, monitoring, echo port and command-line usage.
+*   **RealTerm 2.0.0.70 program files**: the Readme, the change log, and the button labels and tooltips of the installed program. RealTerm is open source and its installer includes the source code.
+*   **SparkFun Electronics**, [Serial Terminal Basics: RealTerm (Windows)](https://learn.sparkfun.com/tutorials/terminal-basics/real-term-windows), by Jimb0, Joel_E_B and Maettu_this. The three screenshots on this page, used unchanged under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+*   **Modbus Organization**, *MODBUS over Serial Line Specification and Implementation Guide V1.02*. Default 19200 baud and even parity, 2 stop bits without parity, RTU frame spacing. The CRC values in Step 7 were calculated with the same CRC-16 routine that RealTerm uses.
+
+RealTerm is free software. Download it from its [SourceForge project page](https://sourceforge.net/projects/realterm/).
+`,_0=`---
 title: "Industrial Ethernet Networks"
 slug: "redes"
 locale: "en"
@@ -4621,7 +5026,7 @@ Industrial Ethernet networks are the backbone of communication between PLCs, HMI
 
 ---
 *Source: [Industrial Ethernet Networks](https://www.plc-hmi-scadas.com/en/REDES.php) — Jose Manuel*
-`,_0=`---
+`,x0=`---
 title: "REST API"
 slug: "rest-api"
 locale: "en"
@@ -4652,7 +5057,7 @@ Content under preparation — coming soon: articles about creating REST APIs for
 
 ---
 *Source: [REST API](https://www.plc-hmi-scadas.com/en/REST-API/) — Jose Manuel*
-`,x0=`---
+`,M0=`---
 title: "SNMP"
 slug: "snmp"
 locale: "en"
@@ -4683,7 +5088,7 @@ SNMP is the standard protocol for monitoring and managing network devices: switc
 
 ---
 *Source: [SNMP](https://www.plc-hmi-scadas.com/en/SNMP.php) — Jose Manuel*
-`,M0=`---
+`,W0=`---
 title: "Register PLC Data in Database with OPC Server and VB.NET"
 slug: "004"
 locale: "en"
@@ -4774,7 +5179,7 @@ July 2012
 
 ---
 *Source: [Register PLC Data in Database with OPC Server and VB.NET](https://www.plc-hmi-scadas.com/en/004.php) — Jose Manuel Luque*
-`,W0=`---
+`,L0=`---
 title: "OPC Communication S7-200 with KepServer"
 slug: "007"
 locale: "en"
@@ -4871,7 +5276,7 @@ July 29, 2012
 
 ---
 *Source: [OPC Communication S7-200 with KepServer](https://www.plc-hmi-scadas.com/en/007.php) — Jose Manuel Luque*
-`,L0=`---
+`,E0=`---
 title: "OPC Factory Server OFS Configuration"
 slug: "018"
 locale: "en"
@@ -4934,7 +5339,7 @@ August 15, 2012
 
 ---
 *Source: [OPC Factory Server OFS Configuration](https://www.plc-hmi-scadas.com/en/018.php) — Jose Manuel Luque*
-`,E0=`---
+`,D0=`---
 title: "Modbus RTU Network Simulation"
 slug: "058"
 locale: "en"
@@ -5005,7 +5410,7 @@ With this, we have simulated our virtual network, which can be useful when we wa
 
 ---
 *Source: [Modbus RTU Network Simulation](https://www.plc-hmi-scadas.com/en/058.php) — Jose Manuel Luque*
-`,D0=`---
+`,k0=`---
 title: "OPC KepServer Configuration with Omron CQM1 PLC"
 slug: "069"
 locale: "en"
@@ -5074,7 +5479,7 @@ February 3, 2013
 
 ---
 *Source: [OPC KepServer Configuration with Omron CQM1 PLC](https://www.plc-hmi-scadas.com/en/069.php) — Jose Manuel Luque*
-`,k0=`---
+`,O0=`---
 title: "CodeSys OPC Server"
 slug: "071"
 locale: "en"
@@ -5133,7 +5538,7 @@ February 5, 2013
 
 ---
 *Source: [CodeSys OPC Server](https://www.plc-hmi-scadas.com/en/071.php) — Jose Manuel Luque*
-`,O0=`---
+`,F0=`---
 title: "OPC TwinCAT Server Configuration"
 slug: "073"
 locale: "en"
@@ -5192,7 +5597,7 @@ February 7, 2013
 
 ---
 *Source: [OPC TwinCAT Server Configuration](https://www.plc-hmi-scadas.com/en/073.php) — Jose Manuel Luque*
-`,F0=`---
+`,R0=`---
 title: "DASSIDirect Configuration with S7-1200"
 slug: "088"
 locale: "en"
@@ -5249,7 +5654,7 @@ March 22, 2013
 
 ---
 *Source: [DASSIDirect Configuration with S7-1200](https://www.plc-hmi-scadas.com/en/088.php) — Jose Manuel Luque*
-`,R0=`---
+`,N0=`---
 title: "DASABCIP Configuration with SoftLogix"
 slug: "119"
 locale: "en"
@@ -5335,7 +5740,7 @@ If you liked it or found the information useful, share it ...
 
 ---
 *Source: [DASABCIP Configuration with SoftLogix](https://www.plc-hmi-scadas.com/en/119.php) — Jose Manuel Luque*
-`,N0=`---
+`,V0=`---
 title: "KepServer Configuration with SoftLogix5800"
 slug: "121"
 locale: "en"
@@ -5421,7 +5826,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [KepServer Configuration with SoftLogix5800](https://www.plc-hmi-scadas.com/en/121.php) — Jose Manuel Luque*
-`,V0=`---
+`,U0=`---
 title: "Docker: OPC UA Server and Web Client"
 slug: "blog-docker-servidor-opc-ua"
 locale: "en"
@@ -5659,7 +6064,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Docker: OPC UA Server and Web Client](https://www.plc-hmi-scadas.com/en/blog/docker-servidor-opc-ua/) — Pedro Pagán Pallarés*
-`,U0=`---
+`,j0=`---
 title: "Committed to the Cause"
 slug: "blog-entregados-a-la-causa"
 locale: "en"
@@ -5714,7 +6119,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Committed to the Cause](https://www.plc-hmi-scadas.com/en/blog/entregados-a-la-causa/) — Pedro Pagán Pallarés*
-`,j0=`---
+`,H0=`---
 title: "Analyzing Modbus TCP Communications"
 slug: "blog-espiando-comunicaciones-modbus"
 locale: "en"
@@ -5875,7 +6280,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Analyzing Modbus TCP Communications](https://www.plc-hmi-scadas.com/en/blog/espiando-comunicaciones-modbus/) — Pedro Pagán Pallarés*
-`,H0=`---
+`,B0=`---
 title: "Exploiting Modbus TCP Vulnerabilities"
 slug: "blog-explotando-vulnerabilidades-modbus-tcp"
 locale: "en"
@@ -5998,7 +6403,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Exploiting Modbus TCP Vulnerabilities](https://www.plc-hmi-scadas.com/en/blog/explotando-vulnerabilidades-modbus-tcp/) — Pedro Pagán Pallarés*
-`,B0=`---
+`,q0=`---
 title: "PPS: The Heart (and the Limit) of EtherNet/IP"
 slug: "blog-pps-ethernet-ip-omron-eip21"
 locale: "en"
@@ -6163,7 +6568,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [PPS: The Heart (and the Limit) of EtherNet/IP](https://www.plc-hmi-scadas.com/en/blog/pps-ethernet-ip-omron-eip21/) — Pedro Pagán Pallarés*
-`,q0=`---
+`,G0=`---
 title: "Networks: GNS3, Broadcast Storm and STP Protocol"
 slug: "blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp"
 locale: "en"
@@ -6319,7 +6724,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Networks: GNS3, Broadcast Storm and STP Protocol](https://www.plc-hmi-scadas.com/en/blog/redes-gns3-tormenta-de-broadcast-y-protocolo-stp/) — Pedro Pagán Pallarés*
-`,G0=`---
+`,z0=`---
 title: "OPC UA Server and Client + Copilot Edits"
 slug: "blog-servidor-opc-flask-co-pilot"
 locale: "en"
@@ -6571,7 +6976,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [OPC UA Server and Client + Copilot Edits](https://www.plc-hmi-scadas.com/en/blog/servidor-opc-flask-co-pilot/) — Pedro Pagán Pallarés*
-`,z0=`---
+`,J0=`---
 title: "Temperature Control System (III)"
 slug: "blog-sistema-de-control-de-temperatura-iii"
 locale: "en"
@@ -6880,7 +7285,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Temperature Control System (III)](https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-iii/) — Pedro Pagán Pallarés*
-`,J0=`---
+`,X0=`---
 title: "SNMP (Simple Network Management Protocol)"
 slug: "blog-snmp-simple-network-management-protocol"
 locale: "en"
@@ -6982,7 +7387,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [SNMP (Simple Network Management Protocol)](https://www.plc-hmi-scadas.com/en/blog/snmp-simple-network-management-protocol/) — Jose Manuel Luque*
-`,X0=`---
+`,Q0=`---
 title: "How to Set Up a VPN in Your Home Lab with WireGuard"
 slug: "blog-vpn-home-lab-wireguard"
 locale: "en"
@@ -7610,7 +8015,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [How to Set Up a VPN in Your Home Lab with WireGuard](https://www.plc-hmi-scadas.com/en/blog/vpn-home-lab-wireguard/) — Pedro Pagán Pallarés*
-`,Q0=`---
+`,K0=`---
 title: "DAServer Manager BackUp - Restore"
 slug: "intouch-daserver"
 locale: "en"
@@ -7670,7 +8075,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [DAServer Manager BackUp - Restore](https://www.plc-hmi-scadas.com/en/Intouch_DAServer.php) — Jose Manuel Luque*
-`,K0=`---
+`,Y0=`---
 title: "Intouch - DASMBTCP Configuration"
 slug: "intouch-dasmbtcp"
 locale: "en"
@@ -7746,7 +8151,7 @@ November 24, 2013
 
 ---
 *Source: [Intouch - DASMBTCP Configuration](https://www.plc-hmi-scadas.com/en/Intouch_DASMBTCP.php) — Jose Manuel Luque*
-`,Y0=`---
+`,Z0=`---
 title: "KepServer with S7-1500"
 slug: "kepserver-1500"
 locale: "en"
@@ -7806,7 +8211,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [KepServer with S7-1500](https://www.plc-hmi-scadas.com/en/KepServer_1500.php) — Jose Manuel Luque*
-`,Z0=`---
+`,$0=`---
 title: "Simatic Net - Load PC Station Configuration"
 slug: "simaticnet-cargar-configuracion-pcstation"
 locale: "en"
@@ -7879,7 +8284,7 @@ August 20, 2017
 
 ---
 *Source: [Simatic Net - Load PC Station Configuration](https://www.plc-hmi-scadas.com/en/SimaticNet_Cargar_Configuracion_PCStation.php) — Jose Manuel Luque*
-`,$0=`---
+`,ey=`---
 title: "PC Station Simatic Net Configuration"
 slug: "simaticnet-vdf"
 locale: "en"
@@ -7981,7 +8386,7 @@ August 13, 2017
 
 ---
 *Source: [PC Station Simatic Net Configuration](https://www.plc-hmi-scadas.com/en/SimaticNet_VDF.php) — Jose Manuel Luque*
-`,ey=`---
+`,ny=`---
 title: "Wonderware OI.Gateway.2"
 slug: "ww-oigateway"
 locale: "en"
@@ -8036,7 +8441,7 @@ January 12, 2018
 
 ---
 *Source: [Wonderware OI.Gateway.2](https://www.plc-hmi-scadas.com/en/WW_OIGateway.php) — Jose Manuel Luque*
-`,ny=`---
+`,ty=`---
 title: "Cookie policy"
 slug: "cookie-policy"
 locale: "en"
@@ -8106,7 +8511,7 @@ For more information about personal data processing, providers, retention and in
 
 ---
 *Source: [Cookie policy](https://www.plc-hmi-scadas.com/en/cookie-policy.php) — Jose Manuel*
-`,ty=`---
+`,ay=`---
 title: "Print Files from WinCC Flexible PC Runtime"
 slug: "003"
 locale: "en"
@@ -8163,7 +8568,7 @@ July 2012
 
 ---
 *Source: [Print Files from WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/003.php) — Jose Manuel Luque*
-`,ay=`---
+`,iy=`---
 title: "Registering Variables in WinCC Flexible PC Runtime"
 slug: "005"
 locale: "en"
@@ -8212,7 +8617,7 @@ July 2012
 
 ---
 *Source: [Registering Variables in WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/005.php) — Jose Manuel Luque*
-`,iy=`---
+`,oy=`---
 title: "Vijeo Designer Simulation"
 slug: "013"
 locale: "en"
@@ -8287,7 +8692,7 @@ August 9, 2012
 
 ---
 *Source: [Vijeo Designer Simulation](https://www.plc-hmi-scadas.com/en/013.php) — Jose Manuel Luque*
-`,oy=`---
+`,sy=`---
 title: "Transfer Project to a Runtime PC"
 slug: "015"
 locale: "en"
@@ -8370,7 +8775,7 @@ August 11, 2012
 
 ---
 *Source: [Transfer Project to a Runtime PC](https://www.plc-hmi-scadas.com/en/015.php) — Jose Manuel Luque*
-`,sy=`---
+`,ry=`---
 title: "S7-2xx (PPI) Link with WinCC Flexible PC Runtime"
 slug: "016"
 locale: "en"
@@ -8423,7 +8828,7 @@ August 14, 2012
 
 ---
 *Source: [S7-2xx (PPI) Link with WinCC Flexible PC Runtime](https://www.plc-hmi-scadas.com/en/016.php) — Jose Manuel Luque*
-`,ry=`---
+`,cy=`---
 title: "Backup with Prosafe"
 slug: "019"
 locale: "en"
@@ -8484,7 +8889,7 @@ August 19, 2012
 
 ---
 *Source: [Backup with Prosafe](https://www.plc-hmi-scadas.com/en/019.php) — Jose Manuel Luque*
-`,cy=`---
+`,ly=`---
 title: "WinCC Flexible as Web Server"
 slug: "025"
 locale: "en"
@@ -8581,7 +8986,7 @@ August 29, 2012
 
 ---
 *Source: [WinCC Flexible as Web Server](https://www.plc-hmi-scadas.com/en/025.php) — Jose Manuel Luque*
-`,ly=`---
+`,dy=`---
 title: "Backup Panel View with PanelBuilder32"
 slug: "026"
 locale: "en"
@@ -8636,7 +9041,7 @@ August 30, 2012
 
 ---
 *Source: [Backup Panel View with PanelBuilder32](https://www.plc-hmi-scadas.com/en/026.php) — Jose Manuel Luque*
-`,dy=`---
+`,hy=`---
 title: "Update Operating System on OP/TP/MP"
 slug: "029"
 locale: "en"
@@ -8685,7 +9090,7 @@ September 3, 2012
 
 ---
 *Source: [Update Operating System on OP/TP/MP](https://www.plc-hmi-scadas.com/en/029.php) — Jose Manuel Luque*
-`,hy=`---
+`,uy=`---
 title: "ProTool PC Runtime Link with MicroLogix"
 slug: "033"
 locale: "en"
@@ -8742,7 +9147,7 @@ September 7, 2012
 
 ---
 *Source: [ProTool PC Runtime Link with MicroLogix](https://www.plc-hmi-scadas.com/en/033.php) — Jose Manuel Luque*
-`,uy=`---
+`,my=`---
 title: "Recipes in TIA WinCC Runtime Professional"
 slug: "040"
 locale: "en"
@@ -8805,7 +9210,7 @@ September 20, 2012
 
 ---
 *Source: [Recipes in TIA WinCC Runtime Professional](https://www.plc-hmi-scadas.com/en/040.php) — Jose Manuel Luque*
-`,my=`---
+`,gy=`---
 title: "Starting Vijeo Runtime on PC"
 slug: "044"
 locale: "en"
@@ -8888,7 +9293,7 @@ October 16, 2012
 
 ---
 *Source: [Starting Vijeo Runtime on PC](https://www.plc-hmi-scadas.com/en/044.php) — Jose Manuel Luque*
-`,gy=`---
+`,py=`---
 title: "Link between Omron CQM1 PLC and WinCC Advanced RT V.11"
 slug: "046"
 locale: "en"
@@ -8951,7 +9356,7 @@ October 28, 2012
 
 ---
 *Source: [Link between Omron CQM1 PLC and WinCC Advanced RT V.11](https://www.plc-hmi-scadas.com/en/046.php) — Jose Manuel Luque*
-`,py=`---
+`,wy=`---
 title: "Automatic Screen Change"
 slug: "047"
 locale: "en"
@@ -9042,7 +9447,7 @@ November 1, 2012
 
 ---
 *Source: [Automatic Screen Change](https://www.plc-hmi-scadas.com/en/047.php) — Jose Manuel Luque*
-`,wy=`---
+`,fy=`---
 title: "S7-2xx (PPI) Link with WinCC RT Advanced PC (TIA)"
 slug: "049"
 locale: "en"
@@ -9099,7 +9504,7 @@ November 13, 2012
 
 ---
 *Source: [S7-2xx (PPI) Link with WinCC RT Advanced PC (TIA)](https://www.plc-hmi-scadas.com/en/049.php) — Jose Manuel Luque*
-`,fy=`---
+`,Cy=`---
 title: "DELTA DOP-B Screen Editor Alarm Configuration"
 slug: "063"
 locale: "en"
@@ -9184,7 +9589,7 @@ January 12, 2012
 
 ---
 *Source: [DELTA DOP-B Screen Editor Alarm Configuration](https://www.plc-hmi-scadas.com/en/063.php) — Jose Manuel Luque*
-`,Cy=`---
+`,by=`---
 title: "FactoryTalk View ME communicating with RSLogix Emulate 5000"
 slug: "076"
 locale: "en"
@@ -9275,7 +9680,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [FactoryTalk View ME communicating with RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/076.php) — Jose Manuel Luque*
-`,by=`---
+`,vy=`---
 title: "User and Security Configuration in Factory Talk View ME"
 slug: "077"
 locale: "en"
@@ -9352,7 +9757,7 @@ February 14, 2013
 
 ---
 *Source: [User and Security Configuration in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/077.php) — Jose Manuel Luque*
-`,vy=`---
+`,yy=`---
 title: "Macro Configuration in Factory Talk View ME"
 slug: "078"
 locale: "en"
@@ -9409,7 +9814,7 @@ February 16, 2013
 
 ---
 *Source: [Macro Configuration in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/078.php) — Jose Manuel Luque*
-`,yy=`---
+`,Sy=`---
 title: "Data Log Configuration in Factory Talk View ME"
 slug: "079"
 locale: "en"
@@ -9474,7 +9879,7 @@ February 17, 2013
 
 ---
 *Source: [Data Log Configuration in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/079.php) — Jose Manuel Luque*
-`,Sy=`---
+`,Ay=`---
 title: "Configuration of PlaceHolders and Parameters"
 slug: "080"
 locale: "en"
@@ -9523,7 +9928,7 @@ February 20, 2013
 
 ---
 *Source: [Configuration of PlaceHolders and Parameters](https://www.plc-hmi-scadas.com/en/080.php) — Jose Manuel Luque*
-`,Ay=`---
+`,Py=`---
 title: "Configuration of Information Messages in Factory Talk View ME"
 slug: "081"
 locale: "en"
@@ -9586,7 +9991,7 @@ February 22, 2013
 
 ---
 *Source: [Configuration of Information Messages in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/081.php) — Jose Manuel Luque*
-`,Py=`---
+`,Ty=`---
 title: "RSLinx Enterprise Configuration"
 slug: "085"
 locale: "en"
@@ -9643,7 +10048,7 @@ March 11, 2013
 
 ---
 *Source: [RSLinx Enterprise Configuration](https://www.plc-hmi-scadas.com/en/085.php) — Jose Manuel Luque*
-`,Ty=`---
+`,Iy=`---
 title: "KepServer Enterprise"
 slug: "087"
 locale: "en"
@@ -9724,7 +10129,7 @@ March 17, 2013
 
 ---
 *Source: [KepServer Enterprise](https://www.plc-hmi-scadas.com/en/087.php) — Jose Manuel Luque*
-`,Iy=`---
+`,_y=`---
 title: "Vijeo Designer Configuration with S7-1200"
 slug: "090"
 locale: "en"
@@ -9809,7 +10214,7 @@ March 27, 2013
 
 ---
 *Source: [Vijeo Designer Configuration with S7-1200](https://www.plc-hmi-scadas.com/en/090.php) — Jose Manuel Luque*
-`,_y=`---
+`,xy=`---
 title: "Comfort Panels control Media Player"
 slug: "095"
 locale: "en"
@@ -9848,7 +10253,7 @@ April 3, 2013
 
 ---
 *Source: [Comfort Panels control Media Player](https://www.plc-hmi-scadas.com/en/095.php) — Jose Manuel Luque*
-`,xy=`---
+`,My=`---
 title: "Sm@rt Server"
 slug: "097"
 locale: "en"
@@ -9917,7 +10322,7 @@ April 8, 2013
 
 ---
 *Source: [Sm@rt Server](https://www.plc-hmi-scadas.com/en/097.php) — Jose Manuel Luque*
-`,My=`---
+`,Wy=`---
 title: "Sm@rt Client Viewer Control"
 slug: "101"
 locale: "en"
@@ -9966,7 +10371,7 @@ April 20, 2013
 
 ---
 *Source: [Sm@rt Client Viewer Control](https://www.plc-hmi-scadas.com/en/101.php) — Jose Manuel Luque*
-`,Wy=`---
+`,Ly=`---
 title: "OPC Server Comfort Panels"
 slug: "102"
 locale: "en"
@@ -10029,7 +10434,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [OPC Server Comfort Panels](https://www.plc-hmi-scadas.com/en/102.php) — Jose Manuel Luque*
-`,Ly=`---
+`,Ey=`---
 title: "ProTool OP3"
 slug: "106"
 locale: "en"
@@ -10142,7 +10547,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [ProTool OP3](https://www.plc-hmi-scadas.com/en/106.php) — Jose Manuel Luque*
-`,Ey=`---
+`,Dy=`---
 title: "ProTool PC Runtime with S7-200 (PPI)"
 slug: "107"
 locale: "en"
@@ -10205,7 +10610,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [ProTool PC Runtime with S7-200 (PPI)](https://www.plc-hmi-scadas.com/en/107.php) — Jose Manuel Luque*
-`,Dy=`---
+`,ky=`---
 title: "WinCC RT Advanced (Profibus)"
 slug: "114"
 locale: "en"
@@ -10284,7 +10689,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [WinCC RT Advanced (Profibus)](https://www.plc-hmi-scadas.com/en/114.php) — Jose Manuel Luque*
-`,ky=`---
+`,Oy=`---
 title: "HMI HTTP Server"
 slug: "115"
 locale: "en"
@@ -10383,7 +10788,7 @@ If you liked it or the information was useful to you, share it ...
 
 ---
 *Source: [HMI HTTP Server](https://www.plc-hmi-scadas.com/en/115.php) — Jose Manuel Luque*
-`,Oy=`---
+`,Fy=`---
 title: "Vijeo Designer Configuration with SoftLogix"
 slug: "122"
 locale: "en"
@@ -10453,7 +10858,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Vijeo Designer Configuration with SoftLogix](https://www.plc-hmi-scadas.com/en/122.php) — Jose Manuel Luque*
-`,Fy=`---
+`,Ry=`---
 title: "Update Firmware Panel View Plus 600"
 slug: "123"
 locale: "en"
@@ -10537,7 +10942,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Update Firmware Panel View Plus 600](https://www.plc-hmi-scadas.com/en/123.php) — Jose Manuel Luque*
-`,Ry=`---
+`,Ny=`---
 title: "HMI Simulation of Automation Studio"
 slug: "132"
 locale: "en"
@@ -10631,7 +11036,7 @@ If you liked it or found the information useful, share it.
 
 ---
 *Source: [HMI Simulation of Automation Studio](https://www.plc-hmi-scadas.com/en/132.php) — Jose Manuel Luque*
-`,Ny=`---
+`,Vy=`---
 title: "Time Conversion Script in HMI"
 slug: "134"
 locale: "en"
@@ -10707,7 +11112,7 @@ If you liked it, or if the information was useful to you, share it...
 
 ---
 *Source: [Time Conversion Script in HMI](https://www.plc-hmi-scadas.com/en/134.php) — Jose Manuel Luque*
-`,Vy=`---
+`,Uy=`---
 title: "ActiveX Control Windows Media Player"
 slug: "factorytalkviewme-activex-wmp"
 locale: "en"
@@ -10763,7 +11168,7 @@ July 20, 2013
 
 ---
 *Source: [ActiveX Control Windows Media Player](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_ActiveX_WMP.php) — Jose Manuel Luque*
-`,Uy=`---
+`,jy=`---
 title: "Factory Talk View ME Alarm Configuration"
 slug: "factorytalkviewme-alarmas"
 locale: "en"
@@ -10827,7 +11232,7 @@ July 19, 2013
 
 ---
 *Source: [Factory Talk View ME Alarm Configuration](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_Alarmas.php) — Jose Manuel Luque*
-`,jy=`---
+`,Hy=`---
 title: "Global Connection Date and Time"
 slug: "factorytalkviewme-globalconnection-dt"
 locale: "en"
@@ -10895,7 +11300,7 @@ July 20, 2013
 
 ---
 *Source: [Global Connection Date and Time](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_GlobalConnection_DT.php) — Jose Manuel Luque*
-`,Hy=`---
+`,By=`---
 title: "Changing Languages in Factory Talk View ME"
 slug: "factorytalkviewme-lenguages"
 locale: "en"
@@ -10971,7 +11376,7 @@ June 22, 2013
 
 ---
 *Source: [Changing Languages in Factory Talk View ME](https://www.plc-hmi-scadas.com/en/FactoryTalkViewME_Lenguages.php) — Jose Manuel Luque*
-`,By=`---
+`,qy=`---
 title: "Allen Bradley / Rockwell — HMI"
 slug: "hmi-allen-bradley"
 locale: "en"
@@ -11033,7 +11438,7 @@ Show more
 
 ---
 *Source: [Allen Bradley / Rockwell — HMI](https://www.plc-hmi-scadas.com/en/HMI-ALLEN-BRADLEY/) — Jose Manuel*
-`,qy=`---
+`,Gy=`---
 title: "Omron — HMI"
 slug: "hmi-omron"
 locale: "en"
@@ -11071,7 +11476,7 @@ Show more
 
 ---
 *Source: [Omron — HMI](https://www.plc-hmi-scadas.com/en/HMI-OMRON/) — Jose Manuel*
-`,Gy=`---
+`,zy=`---
 title: "Schneider Electric — HMI"
 slug: "hmi-schneider"
 locale: "en"
@@ -11119,7 +11524,7 @@ Section under construction — XBT-L1000 articles coming soon.
 
 ---
 *Source: [Schneider Electric — HMI](https://www.plc-hmi-scadas.com/en/HMI-SCHNEIDER/) — Jose Manuel*
-`,zy=`---
+`,Jy=`---
 title: "Siemens Simatic — HMI"
 slug: "hmi-siemens"
 locale: "en"
@@ -11198,7 +11603,7 @@ Show more
 
 ---
 *Source: [Siemens Simatic — HMI](https://www.plc-hmi-scadas.com/en/HMI-SIEMENS/) — Jose Manuel*
-`,Jy=`---
+`,Xy=`---
 title: "Communication between Omron N3BQ-TW01B and S7-200"
 slug: "omron-s7-200"
 locale: "en"
@@ -11275,7 +11680,7 @@ August 26, 2017
 
 ---
 *Source: [Communication between Omron N3BQ-TW01B and S7-200](https://www.plc-hmi-scadas.com/en/Omron_S7-200.php) — Jose Manuel Luque*
-`,Xy=`---
+`,Qy=`---
 title: "Transfer of the project to NB3Q"
 slug: "omron-transfer-hmi"
 locale: "en"
@@ -11340,7 +11745,7 @@ August 27, 2017
 
 ---
 *Source: [Transfer of the project to NB3Q](https://www.plc-hmi-scadas.com/en/Omron_Transfer_HMI.php) — Jose Manuel Luque*
-`,Qy=`---
+`,Ky=`---
 title: "Other HMIs"
 slug: "other-hmis"
 locale: "en"
@@ -11385,7 +11790,7 @@ Show more
 
 ---
 *Source: [Other HMIs](https://www.plc-hmi-scadas.com/en/Other-HMIs/) — Jose Manuel*
-`,Ky=`---
+`,Yy=`---
 title: "PanelBuilder32 Configuration Communications Setup"
 slug: "panelbuilder-communications"
 locale: "en"
@@ -11479,7 +11884,7 @@ July 23, 2013
 
 ---
 *Source: [PanelBuilder32 Configuration Communications Setup](https://www.plc-hmi-scadas.com/en/PanelBuilder_communications.php) — Jose Manuel Luque*
-`,Yy=`---
+`,Zy=`---
 title: "PanelBuilder32 Tag Editor"
 slug: "panelbuilder32-tageditor"
 locale: "en"
@@ -11533,7 +11938,7 @@ August 5, 2013
 
 ---
 *Source: [PanelBuilder32 Tag Editor](https://www.plc-hmi-scadas.com/en/PanelBuilder32_TagEditor.php) — Jose Manuel Luque*
-`,Zy=`---
+`,$y=`---
 title: "Restore to Factory Settings"
 slug: "simatic-restaurar-ktp"
 locale: "en"
@@ -11587,7 +11992,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Restore to Factory Settings](https://www.plc-hmi-scadas.com/en/Simatic_Restaurar_KTP.php) — Jose Manuel Luque*
-`,$y=`---
+`,eS=`---
 title: "Script Conversion S5Time format (Milliseconds) to H_M_S"
 slug: "tia-portal-conversion-tiempos-2"
 locale: "en"
@@ -11635,7 +12040,7 @@ January 26, 2014
 
 ---
 *Source: [Script Conversion S5Time format (Milliseconds) to H_M_S](https://www.plc-hmi-scadas.com/en/TIA_Portal_Conversion_Tiempos_2.php) — Jose Manuel Luque*
-`,eS=`---
+`,nS=`---
 title: "Script Conversion from S5Time format (BCD_I) to H_M_S"
 slug: "tia-portal-conversion-tiempos"
 locale: "en"
@@ -11691,7 +12096,7 @@ January 26, 2014
 
 ---
 *Source: [Script Conversion from S5Time format (BCD_I) to H_M_S](https://www.plc-hmi-scadas.com/en/TIA_Portal_Conversion_Tiempos.php) — Jose Manuel Luque*
-`,nS=`---
+`,tS=`---
 title: "VBScript Change Object Properties"
 slug: "tia-portal-vbscript-propiedades"
 locale: "en"
@@ -11739,7 +12144,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [VBScript Change Object Properties](https://www.plc-hmi-scadas.com/en/TIA_Portal_VBScript_Propiedades.php) — Jose Manuel Luque*
-`,tS=`---
+`,aS=`---
 title: "WinCC Flexible Logged User Name"
 slug: "winccflexible-currentuser"
 locale: "en"
@@ -11802,7 +12207,7 @@ June 1, 2018
 
 ---
 *Source: [WinCC Flexible Logged User Name](https://www.plc-hmi-scadas.com/en/WinCCFlexible_CurrentUser.php) — Jose Manuel Luque*
-`,aS=`---
+`,iS=`---
 title: "WinCC Flexible Simotion"
 slug: "winccflexible-simotion"
 locale: "en"
@@ -11903,7 +12308,7 @@ June 5, 2018
 
 ---
 *Source: [WinCC Flexible Simotion](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion.php) — Jose Manuel Luque*
-`,iS=`---
+`,oS=`---
 title: "Artificial Intelligence"
 slug: "ai"
 locale: "en"
@@ -11966,7 +12371,7 @@ Read more
 
 ---
 *Source: [Artificial Intelligence](https://www.plc-hmi-scadas.com/en/AI/) — Pedro Pagán Pallarés*
-`,oS=`---
+`,sS=`---
 title: "Article library"
 slug: "articles"
 locale: "en"
@@ -12059,7 +12464,7 @@ credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mir
 
 ---
 *Source: [Article library](https://www.plc-hmi-scadas.com/en/Articles/) — Jose Manuel*
-`,sS=`---
+`,rS=`---
 title: "Jose Manuel Luque"
 slug: "blog-author-jose-manuel"
 locale: "en"
@@ -12123,7 +12528,7 @@ _«Never regard study as a duty, but as the enviable opportunity to learn to kno
 
 ---
 *Source: [Jose Manuel Luque](https://www.plc-hmi-scadas.com/en/blog/author/jose-manuel/) — Jose Manuel Luque*
-`,rS=`---
+`,cS=`---
 title: "Pedro Pagán Pallarés"
 slug: "blog-author-pedro"
 locale: "en"
@@ -12189,7 +12594,7 @@ _«Silent gratitude isn't much use to anyone.»_ \\- Gladys Berthe Stern
 
 ---
 *Source: [Pedro Pagán Pallarés](https://www.plc-hmi-scadas.com/en/blog/author/pedro/) — Pedro Pagán Pallarés*
-`,cS=`---
+`,lS=`---
 title: "Let's Talk"
 slug: "contact"
 locale: "en"
@@ -12255,7 +12660,7 @@ By submitting you agree that we use your email only to reply. No spam, ever.
 
 ---
 *Source: [Let's Talk](https://www.plc-hmi-scadas.com/en/Contact) — Jose Manuel Luque & Pedro Pagán Pallarés*
-`,lS=`---
+`,dS=`---
 title: "Databases"
 slug: "databases"
 locale: "en"
@@ -12295,7 +12700,7 @@ SCADA systems and industrial historians rely on robust databases for storing pro
 
 ---
 *Source: [Databases](https://www.plc-hmi-scadas.com/en/Databases/) — Jose Manuel*
-`,dS=`---
+`,hS=`---
 title: "HMI — Human Machine Interface"
 slug: "hmi"
 locale: "en"
@@ -12402,7 +12807,7 @@ Complete automation engineer workflow: from FDS to commissioning in 10 phases. P
 
 ---
 *Source: [HMI — Human Machine Interface](https://www.plc-hmi-scadas.com/en/HMI/) — Jose Manuel*
-`,hS=`---
+`,uS=`---
 title: "Industrial automation resources"
 slug: "home"
 locale: "en"
@@ -12429,7 +12834,7 @@ I decided to create this space (July 2012) in the great cloud of the internet to
 
 ---
 *Source: [Industrial automation resources](https://www.plc-hmi-scadas.com/en/Home/) — Jose Manuel*
-`,uS=`---
+`,mS=`---
 title: "Industrial automation resources"
 slug: "index"
 locale: "en"
@@ -12456,7 +12861,7 @@ I decided to create this space (July 2012) in the great cloud of the internet to
 
 ---
 *Source: [Industrial automation resources](https://www.plc-hmi-scadas.com/en/) — Jose Manuel*
-`,mS=`---
+`,gS=`---
 title: "Industrial Communications"
 slug: "industrial-communications"
 locale: "en"
@@ -12563,7 +12968,7 @@ Read more
 
 ---
 *Source: [Industrial Communications](https://www.plc-hmi-scadas.com/en/Industrial-Communications/) — Jose Manuel*
-`,gS=`---
+`,pS=`---
 title: "OPC Servers"
 slug: "opc"
 locale: "en"
@@ -12678,7 +13083,7 @@ Intouch FSGateway, successor to the former OPCLinx.
 
 ---
 *Source: [OPC Servers](https://www.plc-hmi-scadas.com/en/OPC/) — Jose Manuel*
-`,pS=`---
+`,wS=`---
 title: "PLC — Programmable Logic Controllers"
 slug: "plc"
 locale: "en"
@@ -12816,7 +13221,7 @@ What is GRAFCET, elements, evolution rules, structures, GEMMA and step-by-step t
 
 ---
 *Source: [PLC — Programmable Logic Controllers](https://www.plc-hmi-scadas.com/en/PLC/) — Jose Manuel*
-`,wS=`---
+`,fS=`---
 title: "Article Series"
 slug: "series"
 locale: "en"
@@ -12839,7 +13244,7 @@ credit: "Original content (c) its authors at https://www.plc-hmi-scadas.com. Mir
 
 ---
 *Source: [Article Series](https://www.plc-hmi-scadas.com/en/Series/) — Jose Manuel*
-`,fS=`---
+`,CS=`---
 title: "Software & Development"
 slug: "software"
 locale: "en"
@@ -12908,7 +13313,7 @@ Read more
 
 ---
 *Source: [Software & Development](https://www.plc-hmi-scadas.com/en/Software/) — Pedro Pagán Pallarés*
-`,CS=`---
+`,bS=`---
 title: "Tools for automation technicians"
 slug: "tools"
 locale: "en"
@@ -12933,7 +13338,7 @@ Web editor and simulator for designing GRAFCET, defining steps, transitions, act
 
 ---
 *Source: [Tools for automation technicians](https://www.plc-hmi-scadas.com/en/Tools/) — Pedro Pagan Pallares*
-`,bS=`---
+`,vS=`---
 title: "Legal notice"
 slug: "legal-notice"
 locale: "en"
@@ -12970,7 +13375,7 @@ See the [privacy policy](#/a/en%2Fprivacy-policy) and the [cookie policy](#/a/en
 
 ---
 *Source: [Legal notice](https://www.plc-hmi-scadas.com/en/legal-notice.php) — Jose Manuel*
-`,vS=`---
+`,yS=`---
 title: "PC/PG Communication and S7-2xx CPU"
 slug: "001"
 locale: "en"
@@ -13040,7 +13445,7 @@ July 2012
 
 ---
 *Source: [PC/PG Communication and S7-2xx CPU](https://www.plc-hmi-scadas.com/en/001.php) — Jose Manuel Luque*
-`,yS=`---
+`,SS=`---
 title: "Communication between PC/PG and S5-100 CPU"
 slug: "002"
 locale: "en"
@@ -13121,7 +13526,7 @@ July 2012
 
 ---
 *Source: [Communication between PC/PG and S5-100 CPU](https://www.plc-hmi-scadas.com/en/002.php) — Jose Manuel Luque*
-`,SS=`---
+`,AS=`---
 title: "PC/PG Communication with S5 PLC using USB-RS232 Adapter"
 slug: "006"
 locale: "en"
@@ -13208,7 +13613,7 @@ July 26, 2012
 
 ---
 *Source: [PC/PG Communication with S5 PLC using USB-RS232 Adapter](https://www.plc-hmi-scadas.com/en/006.php) — Jose Manuel Luque*
-`,AS=`---
+`,PS=`---
 title: "Scale Analog Input in Twido"
 slug: "010"
 locale: "en"
@@ -13279,7 +13684,7 @@ July 29, 2012
 
 ---
 *Source: [Scale Analog Input in Twido](https://www.plc-hmi-scadas.com/en/010.php) — Jose Manuel Luque*
-`,PS=`---
+`,TS=`---
 title: "RSLogix Emulate 5000"
 slug: "011"
 locale: "en"
@@ -13402,7 +13807,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/011.php) — Jose Manuel Luque*
-`,TS=`---
+`,IS=`---
 title: "Simulation with Unity"
 slug: "012"
 locale: "en"
@@ -13499,7 +13904,7 @@ Update: May 18, 2013. Video of the detailed description above in conjunction wit
 
 ---
 *Source: [Simulation with Unity](https://www.plc-hmi-scadas.com/en/012.php) — Jose Manuel Luque*
-`,IS=`---
+`,_S=`---
 title: "RSLogix Emulate 500 Configuration"
 slug: "023"
 locale: "en"
@@ -13594,7 +13999,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [RSLogix Emulate 500 Configuration](https://www.plc-hmi-scadas.com/en/023.php) — Jose Manuel Luque*
-`,_S=`---
+`,xS=`---
 title: "Configuration of the 1747 PIC-AIC+ Driver"
 slug: "024"
 locale: "en"
@@ -13656,7 +14061,7 @@ August 29, 2012
 
 ---
 *Source: [Configuration of the 1747 PIC-AIC+ Driver](https://www.plc-hmi-scadas.com/en/024.php) — Jose Manuel Luque*
-`,xS=`---
+`,MS=`---
 title: "Configuration of the Ethernet Devices Driver"
 slug: "027"
 locale: "en"
@@ -13702,7 +14107,7 @@ September 1, 2012
 
 ---
 *Source: [Configuration of the Ethernet Devices Driver](https://www.plc-hmi-scadas.com/en/027.php) — Jose Manuel Luque*
-`,MS=`---
+`,WS=`---
 title: "CX-Simulator"
 slug: "036"
 locale: "en"
@@ -13777,7 +14182,7 @@ September 11, 2012
 
 ---
 *Source: [CX-Simulator](https://www.plc-hmi-scadas.com/en/036.php) — Jose Manuel Luque*
-`,WS=`---
+`,LS=`---
 title: "FIFO Function in CX-Programmer"
 slug: "037"
 locale: "en"
@@ -13818,7 +14223,7 @@ September 13, 2012
 
 ---
 *Source: [FIFO Function in CX-Programmer](https://www.plc-hmi-scadas.com/en/037.php) — Jose Manuel Luque*
-`,LS=`---
+`,ES=`---
 title: "Profibus Configuration between S7-300 and S7-200 EM277"
 slug: "041"
 locale: "en"
@@ -13903,7 +14308,7 @@ September 22, 2012
 
 ---
 *Source: [Profibus Configuration between S7-300 and S7-200 EM277](https://www.plc-hmi-scadas.com/en/041.php) — Jose Manuel Luque*
-`,ES=`---
+`,DS=`---
 title: "Communication between PC and Omron CQM1 PLC"
 slug: "045"
 locale: "en"
@@ -13964,7 +14369,7 @@ October 20, 2012
 
 ---
 *Source: [Communication between PC and Omron CQM1 PLC](https://www.plc-hmi-scadas.com/en/045.php) — Jose Manuel Luque*
-`,DS=`---
+`,kS=`---
 title: "WinAC / WinLC"
 slug: "050"
 locale: "en"
@@ -14055,7 +14460,7 @@ November 21, 2012
 
 ---
 *Source: [WinAC / WinLC](https://www.plc-hmi-scadas.com/en/050.php) — Jose Manuel Luque*
-`,kS=`---
+`,OS=`---
 title: "Reading and Writing Date and Time from PLC and WinCC RT Advanced"
 slug: "053"
 locale: "en"
@@ -14128,7 +14533,7 @@ November 28, 2012
 
 ---
 *Source: [Reading and Writing Date and Time from PLC and WinCC RT Advanced](https://www.plc-hmi-scadas.com/en/053.php) — Jose Manuel Luque*
-`,OS=`---
+`,FS=`---
 title: "Simulation with PLCSIM and FLUIDSIM"
 slug: "056"
 locale: "en"
@@ -14159,7 +14564,7 @@ December 15, 2012
 
 ---
 *Source: [Simulation with PLCSIM and FLUIDSIM](https://www.plc-hmi-scadas.com/en/056.php) — Jose Manuel Luque*
-`,FS=`---
+`,RS=`---
 title: "S7-200 Modbus Slave"
 slug: "059"
 locale: "en"
@@ -14242,7 +14647,7 @@ December 29, 2012
 
 ---
 *Source: [S7-200 Modbus Slave](https://www.plc-hmi-scadas.com/en/059.php) — Jose Manuel Luque*
-`,RS=`---
+`,NS=`---
 title: "S7-200 Modbus Master"
 slug: "060"
 locale: "en"
@@ -14297,7 +14702,7 @@ December 30, 2012
 
 ---
 *Source: [S7-200 Modbus Master](https://www.plc-hmi-scadas.com/en/060.php) — Jose Manuel Luque*
-`,NS=`---
+`,VS=`---
 title: "Creation of a Multi-instance FB"
 slug: "065"
 locale: "en"
@@ -14386,7 +14791,7 @@ January 16, 2012
 
 ---
 *Source: [Creation of a Multi-instance FB](https://www.plc-hmi-scadas.com/en/065.php) — Jose Manuel Luque*
-`,VS=`---
+`,US=`---
 title: "First Project with ABB Control Builder"
 slug: "066"
 locale: "en"
@@ -14497,7 +14902,7 @@ January 25, 2013
 
 ---
 *Source: [First Project with ABB Control Builder](https://www.plc-hmi-scadas.com/en/066.php) — Jose Manuel Luque*
-`,US=`---
+`,jS=`---
 title: "Create FB in Control Builder Plus"
 slug: "067"
 locale: "en"
@@ -14610,7 +15015,7 @@ January 27, 2013
 
 ---
 *Source: [Create FB in Control Builder Plus](https://www.plc-hmi-scadas.com/en/067.php) — Jose Manuel Luque*
-`,jS=`---
+`,HS=`---
 title: "Create Backup of a GE 90-30 PLC with VersaPro"
 slug: "068"
 locale: "en"
@@ -14699,7 +15104,7 @@ January 30, 2013
 
 ---
 *Source: [Create Backup of a GE 90-30 PLC with VersaPro](https://www.plc-hmi-scadas.com/en/068.php) — Jose Manuel Luque*
-`,HS=`---
+`,BS=`---
 title: "CodeSys"
 slug: "070"
 locale: "en"
@@ -14802,7 +15207,7 @@ February 5, 2013
 
 ---
 *Source: [CodeSys](https://www.plc-hmi-scadas.com/en/070.php) — Jose Manuel Luque*
-`,BS=`---
+`,qS=`---
 title: "First Project in Beckhoff TwinCat"
 slug: "072"
 locale: "en"
@@ -14875,7 +15280,7 @@ February 7, 2013
 
 ---
 *Source: [First Project in Beckhoff TwinCat](https://www.plc-hmi-scadas.com/en/072.php) — Jose Manuel Luque*
-`,qS=`---
+`,GS=`---
 title: "Remote Device Linx Gateway"
 slug: "075"
 locale: "en"
@@ -14964,7 +15369,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [Remote Device Linx Gateway](https://www.plc-hmi-scadas.com/en/075.php) — Jose Manuel Luque*
-`,GS=`---
+`,zS=`---
 title: "S7 OpenModbus/TCP Simulation"
 slug: "082"
 locale: "en"
@@ -15049,7 +15454,7 @@ March 3, 2012
 
 ---
 *Source: [S7 OpenModbus/TCP Simulation](https://www.plc-hmi-scadas.com/en/082.php) — Jose Manuel Luque*
-`,zS=`---
+`,JS=`---
 title: "Simatic 1200 ModbusTCP Server"
 slug: "083"
 locale: "en"
@@ -15110,7 +15515,7 @@ March 6, 2013
 
 ---
 *Source: [Simatic 1200 ModbusTCP Server](https://www.plc-hmi-scadas.com/en/083.php) — Jose Manuel Luque*
-`,JS=`---
+`,XS=`---
 title: "Simatic 1200 ModbusTCP Client"
 slug: "084"
 locale: "en"
@@ -15177,7 +15582,7 @@ March 10, 2013
 
 ---
 *Source: [Simatic 1200 ModbusTCP Client](https://www.plc-hmi-scadas.com/en/084.php) — Jose Manuel Luque*
-`,XS=`---
+`,QS=`---
 title: "Example FB14-15 SFB14-15 GET-PUT"
 slug: "086"
 locale: "en"
@@ -15244,7 +15649,7 @@ March 17, 2013
 
 ---
 *Source: [Example FB14-15 SFB14-15 GET-PUT](https://www.plc-hmi-scadas.com/en/086.php) — Jose Manuel Luque*
-`,QS=`---
+`,KS=`---
 title: "BOOTP/DHCP Server"
 slug: "089"
 locale: "en"
@@ -15305,7 +15710,7 @@ March 25, 2013
 
 ---
 *Source: [BOOTP/DHCP Server](https://www.plc-hmi-scadas.com/en/089.php) — Jose Manuel Luque*
-`,KS=`---
+`,YS=`---
 title: "S7-1200 Web Server"
 slug: "091"
 locale: "en"
@@ -15360,7 +15765,7 @@ March 28, 2013
 
 ---
 *Source: [S7-1200 Web Server](https://www.plc-hmi-scadas.com/en/091.php) — Jose Manuel Luque*
-`,YS=`---
+`,ZS=`---
 title: "Update Firmware on a ControlLogix"
 slug: "092"
 locale: "en"
@@ -15423,7 +15828,7 @@ March 29, 2013
 
 ---
 *Source: [Update Firmware on a ControlLogix](https://www.plc-hmi-scadas.com/en/092.php) — Jose Manuel Luque*
-`,ZS=`---
+`,$S=`---
 title: "System Diagnosis and Diagnostic Viewer"
 slug: "093"
 locale: "en"
@@ -15504,7 +15909,7 @@ April 2, 2013
 
 ---
 *Source: [System Diagnosis and Diagnostic Viewer](https://www.plc-hmi-scadas.com/en/093.php) — Jose Manuel Luque*
-`,$S=`---
+`,eA=`---
 title: "RSLinx DF1"
 slug: "094"
 locale: "en"
@@ -15563,7 +15968,7 @@ April 3, 2013
 
 ---
 *Source: [RSLinx DF1](https://www.plc-hmi-scadas.com/en/094.php) — Jose Manuel Luque*
-`,eA=`---
+`,nA=`---
 title: "Indexed Text to Display Messages on HMI"
 slug: "096"
 locale: "en"
@@ -15610,7 +16015,7 @@ April 5, 2013
 
 ---
 *Source: [Indexed Text to Display Messages on HMI](https://www.plc-hmi-scadas.com/en/096.php) — Jose Manuel Luque*
-`,nA=`---
+`,tA=`---
 title: "Indexed Text to Display Alerts on HMI II"
 slug: "098"
 locale: "en"
@@ -15663,7 +16068,7 @@ April 10, 2013
 
 ---
 *Source: [Indexed Text to Display Alerts on HMI II](https://www.plc-hmi-scadas.com/en/098.php) — Jose Manuel Luque*
-`,tA=`---
+`,aA=`---
 title: "Read Time Simatic 1200"
 slug: "099"
 locale: "en"
@@ -15724,7 +16129,7 @@ April 8, 2013
 
 ---
 *Source: [Read Time Simatic 1200](https://www.plc-hmi-scadas.com/en/099.php) — Jose Manuel Luque*
-`,aA=`---
+`,iA=`---
 title: "TIA Portal Global Libraries"
 slug: "100"
 locale: "en"
@@ -15779,7 +16184,7 @@ April 13, 2013
 
 ---
 *Source: [TIA Portal Global Libraries](https://www.plc-hmi-scadas.com/en/100.php) — Jose Manuel Luque*
-`,iA=`---
+`,oA=`---
 title: "Create Backup with Unity Pro"
 slug: "103"
 locale: "en"
@@ -15844,7 +16249,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Create Backup with Unity Pro](https://www.plc-hmi-scadas.com/en/103.php) — Jose Manuel Luque*
-`,oA=`---
+`,sA=`---
 title: "Function Block TIA Portal"
 slug: "104"
 locale: "en"
@@ -15897,7 +16302,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Function Block TIA Portal](https://www.plc-hmi-scadas.com/en/104.php) — Jose Manuel Luque*
-`,sA=`---
+`,rA=`---
 title: "PLCSIM V.12"
 slug: "105"
 locale: "en"
@@ -15986,7 +16391,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [PLCSIM V.12](https://www.plc-hmi-scadas.com/en/105.php) — Jose Manuel Luque*
-`,rA=`---
+`,cA=`---
 title: "SoftLogix"
 slug: "111"
 locale: "en"
@@ -16093,7 +16498,7 @@ If you liked it or the information was useful to you, share it...
 
 ---
 *Source: [SoftLogix](https://www.plc-hmi-scadas.com/en/111.php) — Jose Manuel Luque*
-`,cA=`---
+`,lA=`---
 title: "Logix5000 – Consumed and Produced Tags"
 slug: "117"
 locale: "en"
@@ -16178,7 +16583,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Logix5000 – Consumed and Produced Tags](https://www.plc-hmi-scadas.com/en/117.php) — Jose Manuel Luque*
-`,lA=`---
+`,dA=`---
 title: "Configuration of a Logix5000 Message"
 slug: "118"
 locale: "en"
@@ -16274,7 +16679,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Configuration of a Logix5000 Message](https://www.plc-hmi-scadas.com/en/118.php) — Jose Manuel Luque*
-`,dA=`---
+`,hA=`---
 title: "GSV/SSV Instructions"
 slug: "120"
 locale: "en"
@@ -16340,7 +16745,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [GSV/SSV Instructions](https://www.plc-hmi-scadas.com/en/120.php) — Jose Manuel Luque*
-`,hA=`---
+`,uA=`---
 title: "Introduction to RSLogix 5000"
 slug: "124"
 locale: "en"
@@ -16507,7 +16912,7 @@ The configuration consists of selecting the module type and the slot number wher
 
 ---
 *Source: [Introduction to RSLogix 5000](https://www.plc-hmi-scadas.com/en/124.php) — Jose Manuel Luque*
-`,uA=`---
+`,mA=`---
 title: "Logix5000 – Read Barcode Codes"
 slug: "125"
 locale: "en"
@@ -16569,7 +16974,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Logix5000 – Read Barcode Codes](https://www.plc-hmi-scadas.com/en/125.php) — Jose Manuel Luque*
-`,mA=`---
+`,gA=`---
 title: "CP 340 RS232 Configuration"
 slug: "128"
 locale: "en"
@@ -16657,7 +17062,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [CP 340 RS232 Configuration](https://www.plc-hmi-scadas.com/en/128.php) — Jose Manuel Luque*
-`,gA=`---
+`,pA=`---
 title: "PLC Simulation with Automation Studio"
 slug: "130"
 locale: "en"
@@ -16743,7 +17148,7 @@ If you liked it or found the information useful, share it ...
 
 ---
 *Source: [PLC Simulation with Automation Studio](https://www.plc-hmi-scadas.com/en/130.php) — Jose Manuel Luque*
-`,pA=`---
+`,wA=`---
 title: "Factory Talk Transaction Manager"
 slug: "135"
 locale: "en"
@@ -16867,7 +17272,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Factory Talk Transaction Manager](https://www.plc-hmi-scadas.com/en/135.php) — Jose Manuel Luque*
-`,wA=`---
+`,fA=`---
 title: "Prosoft AN-X2-AB-DHRIO Gateway Configuration"
 slug: "ab-gateway-dhrio"
 locale: "en"
@@ -16966,7 +17371,7 @@ August 23, 2017
 
 ---
 *Source: [Prosoft AN-X2-AB-DHRIO Gateway Configuration](https://www.plc-hmi-scadas.com/en/AB_Gateway_DHRIO.php) — Jose Manuel Luque*
-`,fA=`---
+`,CA=`---
 title: "First Test with Micro830 and Component Workbench"
 slug: "ab-micro830"
 locale: "en"
@@ -17046,7 +17451,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [First Test with Micro830 and Component Workbench](https://www.plc-hmi-scadas.com/en/AB_Micro830.php) — Jose Manuel Luque*
-`,CA=`---
+`,bA=`---
 title: "Micrologix Master Modbus PowerFlex 4 Slave Modbus"
 slug: "ab-micrologix-modbus-powerflex"
 locale: "en"
@@ -17098,7 +17503,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [Micrologix Master Modbus PowerFlex 4 Slave Modbus](https://www.plc-hmi-scadas.com/en/AB_Micrologix_Modbus_PowerFlex.php) — Jose Manuel Luque*
-`,bA=`---
+`,vA=`---
 title: "Parameterizing PowerFlex525 with Component Workbench"
 slug: "ab-powerflex525"
 locale: "en"
@@ -17150,7 +17555,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [Parameterizing PowerFlex525 with Component Workbench](https://www.plc-hmi-scadas.com/en/AB_PowerFlex525.php) — Jose Manuel Luque*
-`,vA=`---
+`,yA=`---
 title: "Enable Source Protection"
 slug: "ab-source-protection"
 locale: "en"
@@ -17197,7 +17602,7 @@ January 28, 2019
 
 ---
 *Source: [Enable Source Protection](https://www.plc-hmi-scadas.com/en/AB_Source_Protection.php) — Jose Manuel Luque*
-`,yA=`---
+`,SA=`---
 title: "RSLogix 500 - Upload Project"
 slug: "ab-upload"
 locale: "en"
@@ -17250,7 +17655,7 @@ January 21, 2018
 
 ---
 *Source: [RSLogix 500 - Upload Project](https://www.plc-hmi-scadas.com/en/AB_Upload.php) — Jose Manuel Luque*
-`,SA=`---
+`,AA=`---
 title: "Beckhoff CERHOST"
 slug: "beckhoff-cerhost"
 locale: "en"
@@ -17303,7 +17708,7 @@ Depending on the changes we make, we need to restart the device and we do this w
 
 ---
 *Source: [Beckhoff CERHOST](https://www.plc-hmi-scadas.com/en/Beckhoff_CERHOST.php) — Jose Manuel Luque*
-`,AA=`---
+`,PA=`---
 title: "Online Hardware Configuration - Twincat System Manager"
 slug: "beckhoff-create-config"
 locale: "en"
@@ -17404,7 +17809,7 @@ We save the project with the name we are interested in, and we are ready to crea
 
 ---
 *Source: [Online Hardware Configuration - Twincat System Manager](https://www.plc-hmi-scadas.com/en/Beckhoff_Create_Config.php) — Jose Manuel Luque*
-`,PA=`---
+`,TA=`---
 title: "Download TwinCAT PLC Project"
 slug: "beckhoff-download-plc"
 locale: "en"
@@ -17457,7 +17862,7 @@ With an open project, we can modify the download options; by default, the select
 
 ---
 *Source: [Download TwinCAT PLC Project](https://www.plc-hmi-scadas.com/en/Beckhoff_Download_PLC.php) — Jose Manuel Luque*
-`,TA=`---
+`,IA=`---
 title: "Beckhoff OPC UA Server - CE"
 slug: "beckhoff-server-opc-ua"
 locale: "en"
@@ -17540,7 +17945,7 @@ And here we check that everything works perfectly, we can now establish communic
 
 ---
 *Source: [Beckhoff OPC UA Server - CE](https://www.plc-hmi-scadas.com/en/Beckhoff_Server_OPC_UA.php) — Jose Manuel Luque*
-`,IA=`---
+`,_A=`---
 title: "Upload TwinCAT System Manager Configuration"
 slug: "beckhoff-upload-config"
 locale: "en"
@@ -17621,7 +18026,7 @@ And we have now downloaded all the hardware configuration in a new project, also
 
 ---
 *Source: [Upload TwinCAT System Manager Configuration](https://www.plc-hmi-scadas.com/en/Beckhoff_Upload_Config.php) — Jose Manuel Luque*
-`,_A=`---
+`,xA=`---
 title: "Upload PLC TwinCAT Project"
 slug: "beckhoff-upload-plc"
 locale: "en"
@@ -17674,7 +18079,7 @@ Once downloaded, we can save it with the name that interests us. And note how we
 
 ---
 *Source: [Upload PLC TwinCAT Project](https://www.plc-hmi-scadas.com/en/Beckhoff_Upload_PLC.php) — Jose Manuel Luque*
-`,xA=`---
+`,MA=`---
 title: "OPC UA Security: Siemens S7-1500 and UA Expert Client"
 slug: "blog-certificados-opc-ua-plc-siemens-uaexpert"
 locale: "en"
@@ -17998,7 +18403,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [OPC UA Security: Siemens S7-1500 and UA Expert Client](https://www.plc-hmi-scadas.com/en/blog/certificados-opc-ua-plc-siemens-uaexpert/) — PLC-HMI-SCADAS*
-`,MA=`---
+`,WA=`---
 title: "PLC scan cycle: when milliseconds become distance"
 slug: "blog-ciclo-scan-plc"
 locale: "en"
@@ -18124,7 +18529,7 @@ That is why it is worth measuring the cycle, understanding how it grows and desi
 
 ---
 *Source: [PLC scan cycle: when milliseconds become distance](https://www.plc-hmi-scadas.com/en/blog/ciclo-scan-plc/)*
-`,WA=`---
+`,LA=`---
 title: "PROFINET Basics"
 slug: "blog-conceptos-basicos-profinet"
 locale: "en"
@@ -18241,7 +18646,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [PROFINET Basics](https://www.plc-hmi-scadas.com/en/blog/conceptos-basicos-profinet/) — Jose Manuel Luque*
-`,LA=`---
+`,EA=`---
 title: "Common Industrial Protocol (CIP) Ethernet/IP"
 slug: "blog-ethernet-ip-cip-common-industrial-protocol"
 locale: "en"
@@ -18310,7 +18715,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Common Industrial Protocol (CIP) Ethernet/IP](https://www.plc-hmi-scadas.com/en/blog/ethernet-ip-cip-common-industrial-protocol/) — Jose Manuel Luque*
-`,EA=`---
+`,DA=`---
 title: "FactoryTalk Echo: Simulate Two Rockwell PLCs"
 slug: "blog-factorytalk-echo-simular-dos-plc-rockwell"
 locale: "en"
@@ -18429,7 +18834,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [FactoryTalk Echo: Simulate Two Rockwell PLCs](https://www.plc-hmi-scadas.com/en/blog/factorytalk-echo-simular-dos-plc-rockwell/) — Pedro Pagán Pallarés*
-`,DA=`---
+`,kA=`---
 title: "FactoryTalk Echo - Update firmware v.37"
 slug: "blog-factorytalk-echo-update-firmware-v-37"
 locale: "en"
@@ -18483,7 +18888,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [FactoryTalk Echo - Update firmware v.37](https://www.plc-hmi-scadas.com/en/blog/factorytalk-echo-update-firmware-v-37/) — Jose Manuel Luque*
-`,kA=`---
+`,OA=`---
 title: "Optimizing Industry: Version Control and TIA Portal (Part 1)"
 slug: "blog-gittialportal"
 locale: "en"
@@ -18615,7 +19020,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Optimizing Industry: Version Control and TIA Portal (Part 1)](https://www.plc-hmi-scadas.com/en/blog/gittialportal/) — Jhon Chuquimarca Castillo*
-`,OA=`---
+`,FA=`---
 title: "Logix Designer SDK: Automating Rockwell Projects"
 slug: "blog-logix-designer-sdk-automatizacion-proyectos"
 locale: "en"
@@ -18727,7 +19132,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Logix Designer SDK: Automating Rockwell Projects](https://www.plc-hmi-scadas.com/en/blog/logix-designer-sdk-automatizacion-proyectos/) — Pedro Pagán Pallarés*
-`,FA=`---
+`,RA=`---
 title: "Optimizing Industry: Version Control and TIA Portal (Part 2)"
 slug: "blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2"
 locale: "en"
@@ -18872,7 +19277,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Optimizing Industry: Version Control and TIA Portal (Part 2)](https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/) — Jhon Chuquimarca Castillo*
-`,RA=`---
+`,NA=`---
 title: "Optimizing Industry: Version Control and TIA Portal (Part 3)"
 slug: "blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3"
 locale: "en"
@@ -19041,7 +19446,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Optimizing Industry: Version Control and TIA Portal (Part 3)](https://www.plc-hmi-scadas.com/en/blog/optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/) — Jhon Chuquimarca Castillo*
-`,NA=`---
+`,VA=`---
 title: "Prosoft PLX31-EIP-SIE"
 slug: "blog-prosoft-plx31-eip-sie"
 locale: "en"
@@ -19168,7 +19573,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Prosoft PLX31-EIP-SIE](https://www.plc-hmi-scadas.com/en/blog/prosoft-plx31-eip-sie/) — Jose Manuel Luque*
-`,VA=`---
+`,UA=`---
 title: "SQL Records with Siemens S7-1500 PLC, Intercepted with Wireshark"
 slug: "blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark"
 locale: "en"
@@ -19288,7 +19693,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [SQL Records with Siemens S7-1500 PLC, Intercepted with Wireshark](https://www.plc-hmi-scadas.com/en/blog/registros-en-sql-con-plc-1500-interceptados-con-wireshark/) — Pedro Pagán Pallarés*
-`,UA=`---
+`,jA=`---
 title: "RSLogix 5000 - Studio 5000 - Electronic Data Sheet (EDS)"
 slug: "blog-rslogix-5000-studio-5000-electronic-data-sheet-eds"
 locale: "en"
@@ -19356,7 +19761,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [RSLogix 5000 - Studio 5000 - Electronic Data Sheet (EDS)](https://www.plc-hmi-scadas.com/en/blog/rslogix-5000-studio-5000-electronic-data-sheet-eds/) — Jose Manuel Luque*
-`,jA=`---
+`,HA=`---
 title: "Time server for Siemens S7-1500 PLC with NTP"
 slug: "blog-servidor-hora-plc-siemens"
 locale: "en"
@@ -19538,7 +19943,7 @@ Practical summary: do not leave the PLC clock depending only on a PG/PC download
 
 ---
 *Source: [Time server for Siemens S7-1500 PLC with NTP](https://www.plc-hmi-scadas.com/en/blog/servidor-hora-plc-siemens/) — Pedro Pagán Pallarés*
-`,HA=`---
+`,BA=`---
 title: "Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM"
 slug: "blog-servidor-opc-ua-plc-siemens"
 locale: "en"
@@ -19686,7 +20091,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [Siemens S7-1500 OPC UA Server: TIA Portal V20 and PLCSIM](https://www.plc-hmi-scadas.com/en/blog/servidor-opc-ua-plc-siemens/) — PLC-HMI-SCADAS*
-`,BA=`---
+`,qA=`---
 title: "Temperature Control System (I)"
 slug: "blog-simulador-de-temperatura"
 locale: "en"
@@ -19806,7 +20211,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Temperature Control System (I)](https://www.plc-hmi-scadas.com/en/blog/simulador-de-temperatura/) — Pedro Pagán Pallarés*
-`,qA=`---
+`,GA=`---
 title: "Temperature Control System (II)"
 slug: "blog-sistema-de-control-de-temperatura-ii"
 locale: "en"
@@ -19930,7 +20335,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Temperature Control System (II)](https://www.plc-hmi-scadas.com/en/blog/sistema-de-control-de-temperatura-ii/) — Pedro Pagán Pallarés*
-`,GA=`---
+`,zA=`---
 title: "Syslog in Siemens PLCs: traceability and cybersecurity from the controller"
 slug: "blog-syslog-plc-siemens-linux"
 locale: "en"
@@ -20159,7 +20564,7 @@ Thanks to this structure, a Siemens PLC can send events with date, origin, sever
 
 ---
 *Source: [Syslog in Siemens PLCs: traceability and cybersecurity from the controller](https://www.plc-hmi-scadas.com/en/blog/syslog-plc-siemens-linux/) — Jose Manuel Luque*
-`,zA=`---
+`,JA=`---
 title: "TIA Portal 19 - Get / Put"
 slug: "blog-tia-portal-19-get-put"
 locale: "en"
@@ -20222,7 +20627,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [TIA Portal 19 - Get / Put](https://www.plc-hmi-scadas.com/en/blog/tia-portal-19-get-put/) — Jose Manuel Luque*
-`,JA=`---
+`,XA=`---
 title: "TIA Portal (Central User Management)"
 slug: "blog-tia-portal-central-user-management"
 locale: "en"
@@ -20320,7 +20725,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [TIA Portal (Central User Management)](https://www.plc-hmi-scadas.com/en/blog/tia-portal-central-user-management) — Jose Manuel Luque*
-`,XA=`---
+`,QA=`---
 title: "TIA Portal — Configuration Time in MRP Ring with Cisco Switch"
 slug: "blog-tia-portal-configuration-time-mpr"
 locale: "en"
@@ -20383,7 +20788,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [TIA Portal — Configuration Time in MRP Ring with Cisco Switch](https://www.plc-hmi-scadas.com/en/blog/tia-portal-configuration-time-mpr/) — Jose Manuel Luque*
-`,QA=`---
+`,KA=`---
 title: "Trace in TIA Portal: how to find a phantom fault"
 slug: "blog-trace-tia-portal-plc-siemens"
 locale: "en"
@@ -20560,7 +20965,7 @@ When it happens again, we will now have a visible alarm on the HMI. Once the pro
 
 ---
 *Source: [Trace in TIA Portal: how to find a phantom fault](https://www.plc-hmi-scadas.com/en/blog/trace-tia-portal-plc-siemens/) — Jose Manuel Luque*
-`,KA=`---
+`,YA=`---
 title: "Siemens S7-1500 Web Server"
 slug: "blog-web-server-siemens-s7-1500-https-view-of-things"
 locale: "en"
@@ -20746,7 +21151,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Siemens S7-1500 Web Server](https://www.plc-hmi-scadas.com/en/blog/web-server-siemens-s7-1500-https-view-of-things/) — Pedro Pagán Pallarés*
-`,YA=`---
+`,ZA=`---
 title: "Cognex Insight Explorer"
 slug: "cognex-insight-explorer"
 locale: "en"
@@ -20817,7 +21222,7 @@ February 4, 2018
 
 ---
 *Source: [Cognex Insight Explorer](https://www.plc-hmi-scadas.com/en/Cognex_Insight_Explorer.php) — Jose Manuel Luque*
-`,ZA=`---
+`,$A=`---
 title: "UnityPro-ControlExpert CANOpen"
 slug: "controlexpert-canopen"
 locale: "en"
@@ -20888,7 +21293,7 @@ As information, the latest version of SyCon is v.11.
 
 ---
 *Source: [UnityPro-ControlExpert CANOpen](https://www.plc-hmi-scadas.com/en/ControlExpert_CanOpen.php) — Jose Manuel Luque*
-`,$A=`---
+`,eP=`---
 title: "ControlExpert PLC Simulator"
 slug: "controlexpertplcsim"
 locale: "en"
@@ -20957,7 +21362,7 @@ Finally, to understand the addressing, this is how it works. We will not go into
 
 ---
 *Source: [ControlExpert PLC Simulator](https://www.plc-hmi-scadas.com/en/ControlExpertPLCSim.php) — Jose Manuel Luque*
-`,eP=`---
+`,nP=`---
 title: "IBH Link S5++"
 slug: "ibh-s5"
 locale: "en"
@@ -21017,7 +21422,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [IBH Link S5++](https://www.plc-hmi-scadas.com/en/IBH_S5.php) — Jose Manuel Luque*
-`,nP=`---
+`,tP=`---
 title: "Logix5000 – Digital Alarms ALMD"
 slug: "logix5000-almd"
 locale: "en"
@@ -21085,7 +21490,7 @@ I have forced the variable of my Maximum level sensor and have the Alarm active;
 
 ---
 *Source: [Logix5000 – Digital Alarms ALMD](https://www.plc-hmi-scadas.com/en/Logix5000_ALMD.php) — Jose Manuel Luque*
-`,tP=`---
+`,aP=`---
 title: "Logix5000 Red Ethernet with PowerFlex 525"
 slug: "logix5000-powerflex-ethernet"
 locale: "en"
@@ -21189,7 +21594,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Logix5000 Red Ethernet with PowerFlex 525](https://www.plc-hmi-scadas.com/en/Logix5000_PowerFlex_Ethernet.php) — Jose Manuel Luque*
-`,aP=`---
+`,iP=`---
 title: "Syswin 3.4 Upload Backup of the Project"
 slug: "omron-syswin"
 locale: "en"
@@ -21248,7 +21653,7 @@ January 28, 2019
 
 ---
 *Source: [Syswin 3.4 Upload Backup of the Project](https://www.plc-hmi-scadas.com/en/Omron_Syswin.php) — Jose Manuel Luque*
-`,iP=`---
+`,oP=`---
 title: "Other PLCs"
 slug: "other-plcs"
 locale: "en"
@@ -21312,7 +21717,7 @@ Show more
 
 ---
 *Source: [Other PLCs](https://www.plc-hmi-scadas.com/en/Other-PLCs/) — Jose Manuel*
-`,oP=`---
+`,sP=`---
 title: "PV550 Communication with PLC5-30 on DH+ Network"
 slug: "panelbuilder32-pv550-rslogix5-plc5"
 locale: "en"
@@ -21360,7 +21765,7 @@ August 5, 2013
 
 ---
 *Source: [PV550 Communication with PLC5-30 on DH+ Network](https://www.plc-hmi-scadas.com/en/PanelBuilder32_PV550_RSLogix5_PLC5.php) — Jose Manuel Luque*
-`,sP=`---
+`,rP=`---
 title: "Allen Bradley / Rockwell — PLC"
 slug: "plc-allen-bradley"
 locale: "en"
@@ -21472,7 +21877,7 @@ Regardless of the PLC, the RSLinx software is essential for configuring the driv
 
 ---
 *Source: [Allen Bradley / Rockwell — PLC](https://www.plc-hmi-scadas.com/en/PLC-ALLEN-BRADLEY/) — Jose Manuel*
-`,rP=`---
+`,cP=`---
 title: "Beckhoff TwinCAT — PLC"
 slug: "plc-beckhoff"
 locale: "en"
@@ -21523,7 +21928,7 @@ Section under construction — TwinCAT 3 articles coming soon.
 
 ---
 *Source: [Beckhoff TwinCAT — PLC](https://www.plc-hmi-scadas.com/en/PLC-BECKHOFF/) — Jose Manuel Luque*
-`,cP=`---
+`,lP=`---
 title: "Omron — PLC"
 slug: "plc-omron"
 locale: "en"
@@ -21571,7 +21976,7 @@ Show more
 
 ---
 *Source: [Omron — PLC](https://www.plc-hmi-scadas.com/en/PLC-OMRON/) — Jose Manuel*
-`,lP=`---
+`,dP=`---
 title: "Schneider Electric — PLC"
 slug: "plc-schneider"
 locale: "en"
@@ -21632,7 +22037,7 @@ Show more
 
 ---
 *Source: [Schneider Electric — PLC](https://www.plc-hmi-scadas.com/en/PLC-SCHNEIDER/) — Jose Manuel*
-`,dP=`---
+`,hP=`---
 title: "Siemens Simatic — PLC"
 slug: "plc-siemens"
 locale: "en"
@@ -21759,7 +22164,7 @@ Ver más
 
 ---
 *Source: [Siemens Simatic — PLC](https://www.plc-hmi-scadas.com/en/PLC-SIEMENS/) — Jose Manuel*
-`,hP=`---
+`,uP=`---
 title: "RSLinx SoftLogix5 Driver Configuration"
 slug: "rslinx-softlogix5"
 locale: "en"
@@ -21813,7 +22218,7 @@ August 13, 2013
 
 ---
 *Source: [RSLinx SoftLogix5 Driver Configuration](https://www.plc-hmi-scadas.com/en/RSLinx_SoftLogix5.php) — Jose Manuel Luque*
-`,uP=`---
+`,mP=`---
 title: "Backup PLC5 with RSLogix5"
 slug: "rslogix5-backup"
 locale: "en"
@@ -21871,7 +22276,7 @@ August 4, 2013
 
 ---
 *Source: [Backup PLC5 with RSLogix5](https://www.plc-hmi-scadas.com/en/RSLogix5_Backup.php) — Jose Manuel Luque*
-`,mP=`---
+`,gP=`---
 title: "Hardware Configuration in RSLogix5"
 slug: "rslogix5-configuracion-hardware"
 locale: "en"
@@ -21939,7 +22344,7 @@ August 5, 2013
 
 ---
 *Source: [Hardware Configuration in RSLogix5](https://www.plc-hmi-scadas.com/en/RSLogix5_Configuracion_Hardware.php) — Jose Manuel Luque*
-`,gP=`---
+`,pP=`---
 title: "Micrologix Modbus Master RTU"
 slug: "rslogix500-micrologix-master-modbus"
 locale: "en"
@@ -22007,7 +22412,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Micrologix Modbus Master RTU](https://www.plc-hmi-scadas.com/en/RsLogix500_Micrologix_Master_Modbus.php) — Jose Manuel Luque*
-`,pP=`---
+`,wP=`---
 title: "Upload S7-200 Microwin"
 slug: "s7-200-upload"
 locale: "en"
@@ -22050,7 +22455,7 @@ September 3, 2017
 
 ---
 *Source: [Upload S7-200 Microwin](https://www.plc-hmi-scadas.com/en/S7-200_Upload.php) — Jose Manuel Luque*
-`,wP=`---
+`,fP=`---
 title: "Data Exchange between Siemens and Schneider via Modbus TCP"
 slug: "siemens-modbus-schneider"
 locale: "en"
@@ -22115,7 +22520,7 @@ This information belongs to the help of the function and the allowed values for 
 
 ---
 *Source: [Data Exchange between Siemens and Schneider via Modbus TCP](https://www.plc-hmi-scadas.com/en/Siemens_Modbus_Schneider.php) — Jose Manuel Luque*
-`,fP=`---
+`,CP=`---
 title: "Download program from an S7-300 Step7"
 slug: "simatic-cargar-en-pg"
 locale: "en"
@@ -22185,7 +22590,7 @@ If you liked it or found it helpful, share it...
 
 ---
 *Source: [Download program from an S7-300 Step7](https://www.plc-hmi-scadas.com/en/Simatic_Cargar_en_PG.php) — Jose Manuel Luque*
-`,CP=`---
+`,bP=`---
 title: "SoftLogix 5"
 slug: "softlogix5"
 locale: "en"
@@ -22275,7 +22680,7 @@ August 15, 2013
 
 ---
 *Source: [SoftLogix 5](https://www.plc-hmi-scadas.com/en/SoftLogix5.php) — Jose Manuel Luque*
-`,bP=`---
+`,vP=`---
 title: "SoMachine Communications Simulation"
 slug: "somachine-simulacion-comunicaciones"
 locale: "en"
@@ -22332,7 +22737,7 @@ Conclusion, we will wait to see if the next update of SoMachine enables it just 
 
 ---
 *Source: [SoMachine Communications Simulation](https://www.plc-hmi-scadas.com/en/SoMachine_Simulacion_Comunicaciones.php) — Jose Manuel Luque*
-`,vP=`---
+`,yP=`---
 title: "Step 7 Conversion Big Little Indian"
 slug: "stept7-big-litle-indian"
 locale: "en"
@@ -22380,7 +22785,7 @@ December 7, 2013
 
 ---
 *Source: [Step 7 Conversion Big Little Indian](https://www.plc-hmi-scadas.com/en/Stept7_Big_Litle_Indian.php) — Jose Manuel Luque*
-`,yP=`---
+`,SP=`---
 title: "TIA Portal - PLCSIM Advanced Simulation"
 slug: "tia-plcsimadvanced"
 locale: "en"
@@ -22473,7 +22878,7 @@ January 11, 2018
 
 ---
 *Source: [TIA Portal - PLCSIM Advanced Simulation](https://www.plc-hmi-scadas.com/en/TIA_PLCSimAdvanced.php) — Jose Manuel Luque*
-`,SP=`---
+`,AP=`---
 title: "Send SMS with CP 1242-7"
 slug: "tia-portal-1200-sms"
 locale: "en"
@@ -22549,7 +22954,7 @@ October 13, 2013
 
 ---
 *Source: [Send SMS with CP 1242-7](https://www.plc-hmi-scadas.com/en/TIA_Portal_1200_SMS.php) — Jose Manuel Luque*
-`,AP=`---
+`,PP=`---
 title: "TIA Portal \\"AT\\""
 slug: "tia-portal-at"
 locale: "en"
@@ -22607,7 +23012,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [TIA Portal "AT"](https://www.plc-hmi-scadas.com/en/TIA_Portal_AT.php) — Jose Manuel Luque*
-`,PP=`---
+`,TP=`---
 title: "TIA Portal - Cognex Camera (Profinet)"
 slug: "tia-portal-camaras-cognex"
 locale: "en"
@@ -22692,7 +23097,7 @@ February 4, 2018
 
 ---
 *Source: [TIA Portal - Cognex Camera (Profinet)](https://www.plc-hmi-scadas.com/en/TIA_Portal_Camaras_Cognex.php) — Jose Manuel Luque*
-`,TP=`---
+`,IP=`---
 title: "TIA Portal - Hour Counter"
 slug: "tia-portal-contador-horas"
 locale: "en"
@@ -22760,7 +23165,7 @@ January 11, 2014
 
 ---
 *Source: [TIA Portal - Hour Counter](https://www.plc-hmi-scadas.com/en/TIA_Portal_Contador_Horas.php) — Jose Manuel Luque*
-`,IP=`---
+`,_P=`---
 title: "TIA Portal - GSD Installation for Cognex Cameras"
 slug: "tia-portal-gsd-cognex"
 locale: "en"
@@ -22829,7 +23234,7 @@ February 4, 2018
 
 ---
 *Source: [TIA Portal - GSD Installation for Cognex Cameras](https://www.plc-hmi-scadas.com/en/TIA_Portal_GSD_Cognex.php) — Jose Manuel Luque*
-`,_P=`---
+`,xP=`---
 title: "CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration"
 slug: "tia-portal-modbus-rtu"
 locale: "en"
@@ -22913,7 +23318,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [CB1241(RS-485) - CM1241(RS-232) Modbus RTU Configuration](https://www.plc-hmi-scadas.com/en/TIA_Portal_Modbus_RTU.php) — Jose Manuel Luque*
-`,xP=`---
+`,MP=`---
 title: "TIA Portal - Upload project"
 slug: "tia-portal-upload"
 locale: "en"
@@ -22988,7 +23393,7 @@ January 9, 2018
 
 ---
 *Source: [TIA Portal - Upload project](https://www.plc-hmi-scadas.com/en/TIA_Portal_Upload.php) — Jose Manuel Luque*
-`,MP=`---
+`,WP=`---
 title: "Example of the READ_VAR Function"
 slug: "unity-varread"
 locale: "en"
@@ -23058,7 +23463,7 @@ September 9, 2013
 
 ---
 *Source: [Example of the READ_VAR Function](https://www.plc-hmi-scadas.com/en/Unity_VarRead.php) — Jose Manuel Luque*
-`,WP=`---
+`,LP=`---
 title: "Simotion Project - OPC Symbols Export"
 slug: "winccflexible-simotion-opc"
 locale: "en"
@@ -23167,7 +23572,7 @@ June 8, 2018
 
 ---
 *Source: [Simotion Project - OPC Symbols Export](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC.php) — Jose Manuel Luque*
-`,LP=`---
+`,EP=`---
 title: "Privacy policy"
 slug: "privacy-policy"
 locale: "en"
@@ -23223,7 +23628,7 @@ See the [cookie policy](#/a/en%2Fcookie-policy) for technical details about cons
 
 ---
 *Source: [Privacy policy](https://www.plc-hmi-scadas.com/en/privacy-policy.php) — Jose Manuel*
-`,EP=`---
+`,DP=`---
 title: "Intouch Communication and S7-2xx"
 slug: "008"
 locale: "en"
@@ -23302,7 +23707,7 @@ July 31, 2012
 
 ---
 *Source: [Intouch Communication and S7-2xx](https://www.plc-hmi-scadas.com/en/008.php) — Jose Manuel Luque*
-`,DP=`---
+`,kP=`---
 title: "OPC Server Communication with WinCC RT Professional 11"
 slug: "009"
 locale: "en"
@@ -23357,7 +23762,7 @@ July 29, 2012
 
 ---
 *Source: [OPC Server Communication with WinCC RT Professional 11](https://www.plc-hmi-scadas.com/en/009.php) — Jose Manuel Luque*
-`,kP=`---
+`,OP=`---
 title: "Logging Data in Access Database with Intouch"
 slug: "014"
 locale: "en"
@@ -23436,7 +23841,7 @@ August 5, 2012
 
 ---
 *Source: [Logging Data in Access Database with Intouch](https://www.plc-hmi-scadas.com/en/014.php) — Jose Manuel Luque*
-`,OP=`---
+`,FP=`---
 title: "Security and User Management in Intouch"
 slug: "020"
 locale: "en"
@@ -23521,7 +23926,7 @@ August 22, 2012
 
 ---
 *Source: [Security and User Management in Intouch](https://www.plc-hmi-scadas.com/en/020.php) — Jose Manuel Luque*
-`,FP=`---
+`,RP=`---
 title: "InTouch with RSLogix Emulate 5000 through FSGateway"
 slug: "022"
 locale: "en"
@@ -23608,7 +24013,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [InTouch with RSLogix Emulate 5000 through FSGateway](https://www.plc-hmi-scadas.com/en/022.php) — Jose Manuel Luque*
-`,RP=`---
+`,NP=`---
 title: "Language Configuration in Intouch"
 slug: "028"
 locale: "en"
@@ -23683,7 +24088,7 @@ September 1, 2012
 
 ---
 *Source: [Language Configuration in Intouch](https://www.plc-hmi-scadas.com/en/028.php) — Jose Manuel Luque*
-`,NP=`---
+`,VP=`---
 title: "User Management and Security in RSView32"
 slug: "030"
 locale: "en"
@@ -23762,7 +24167,7 @@ September 5, 2012
 
 ---
 *Source: [User Management and Security in RSView32](https://www.plc-hmi-scadas.com/en/030.php) — Jose Manuel Luque*
-`,VP=`---
+`,UP=`---
 title: "RSView32 Connection with OPC Server"
 slug: "031"
 locale: "en"
@@ -23833,7 +24238,7 @@ September 6, 2012
 
 ---
 *Source: [RSView32 Connection with OPC Server](https://www.plc-hmi-scadas.com/en/031.php) — Jose Manuel Luque*
-`,UP=`---
+`,jP=`---
 title: "Channel Configuration in RSView32"
 slug: "032"
 locale: "en"
@@ -23914,7 +24319,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [Channel Configuration in RSView32](https://www.plc-hmi-scadas.com/en/032.php) — Jose Manuel Luque*
-`,jP=`---
+`,HP=`---
 title: "Send Emails from Vijeo Citect"
 slug: "034"
 locale: "en"
@@ -23983,7 +24388,7 @@ September 8, 2012
 
 ---
 *Source: [Send Emails from Vijeo Citect](https://www.plc-hmi-scadas.com/en/034.php) — Jose Manuel Luque*
-`,HP=`---
+`,BP=`---
 title: "CitectScada Link with OPC OFS Server"
 slug: "035"
 locale: "en"
@@ -24050,7 +24455,7 @@ September 9, 2012
 
 ---
 *Source: [CitectScada Link with OPC OFS Server](https://www.plc-hmi-scadas.com/en/035.php) — Jose Manuel Luque*
-`,BP=`---
+`,qP=`---
 title: "Recipes in TIA WinCC Runtime Professional"
 slug: "039"
 locale: "en"
@@ -24121,7 +24526,7 @@ September 20, 2012
 
 ---
 *Source: [Recipes in TIA WinCC Runtime Professional](https://www.plc-hmi-scadas.com/en/039.php) — Jose Manuel Luque*
-`,qP=`---
+`,GP=`---
 title: "Recording Data in CitectScada"
 slug: "042"
 locale: "en"
@@ -24204,7 +24609,7 @@ October 12, 2012
 
 ---
 *Source: [Recording Data in CitectScada](https://www.plc-hmi-scadas.com/en/042.php) — Jose Manuel Luque*
-`,GP=`---
+`,zP=`---
 title: "Popup window for controlling elements in WinCC V7.0"
 slug: "043"
 locale: "en"
@@ -24309,7 +24714,7 @@ October 8, 2012
 
 ---
 *Source: [Popup window for controlling elements in WinCC V7.0](https://www.plc-hmi-scadas.com/en/043.php) — Jose Manuel Luque*
-`,zP=`---
+`,JP=`---
 title: "Popup Window for Controlling Multiple Motors in TIA WinCC RT Professional"
 slug: "048"
 locale: "en"
@@ -24392,7 +24797,7 @@ Below is a small video of the final operation of the configuration made.
 
 ---
 *Source: [Popup Window for Controlling Multiple Motors in TIA WinCC RT Professional](https://www.plc-hmi-scadas.com/en/048.php) — Jose Manuel Luque*
-`,JP=`---
+`,XP=`---
 title: "Getting Started with ArchestrA Application Server"
 slug: "051"
 locale: "en"
@@ -24497,7 +24902,7 @@ November 23, 2012
 
 ---
 *Source: [Getting Started with ArchestrA Application Server](https://www.plc-hmi-scadas.com/en/051.php) — Jose Manuel Luque*
-`,XP=`---
+`,QP=`---
 title: "ArchestrA Application Server"
 slug: "052"
 locale: "en"
@@ -24580,7 +24985,7 @@ November 25, 2012
 
 ---
 *Source: [ArchestrA Application Server](https://www.plc-hmi-scadas.com/en/052.php) — Jose Manuel Luque*
-`,QP=`---
+`,KP=`---
 title: "Getting Started with ArchestrA Application Server Part 3"
 slug: "054"
 locale: "en"
@@ -24663,7 +25068,7 @@ December 3, 2012
 
 ---
 *Source: [Getting Started with ArchestrA Application Server Part 3](https://www.plc-hmi-scadas.com/en/054.php) — Jose Manuel Luque*
-`,KP=`---
+`,YP=`---
 title: "WinCC WebNavigator Configuration"
 slug: "055"
 locale: "en"
@@ -24824,7 +25229,7 @@ December 9, 2012
 
 ---
 *Source: [WinCC WebNavigator Configuration](https://www.plc-hmi-scadas.com/en/055.php) — Jose Manuel Luque*
-`,YP=`---
+`,ZP=`---
 title: "Infilink Configuration with OPC KepServer"
 slug: "057"
 locale: "en"
@@ -24901,7 +25306,7 @@ December 19, 2012
 
 ---
 *Source: [Infilink Configuration with OPC KepServer](https://www.plc-hmi-scadas.com/en/057.php) — Jose Manuel Luque*
-`,ZP=`---
+`,$P=`---
 title: "Intouch Simulation with PLCSIM via NETTOPLCSIM"
 slug: "061"
 locale: "en"
@@ -25006,7 +25411,7 @@ Wednesday, January 2, 2013
 
 ---
 *Source: [Intouch Simulation with PLCSIM via NETTOPLCSIM](https://www.plc-hmi-scadas.com/en/061.php) — Jose Manuel Luque*
-`,$P=`---
+`,e2=`---
 title: "WinCC Simulation with PLCSIM"
 slug: "062"
 locale: "en"
@@ -25079,7 +25484,7 @@ January 10, 2012
 
 ---
 *Source: [WinCC Simulation with PLCSIM](https://www.plc-hmi-scadas.com/en/062.php) — Jose Manuel Luque*
-`,e2=`---
+`,n2=`---
 title: "ArchestrA, Importing .Net Controls"
 slug: "064"
 locale: "en"
@@ -25136,7 +25541,7 @@ January 15, 2012
 
 ---
 *Source: [ArchestrA, Importing .Net Controls](https://www.plc-hmi-scadas.com/en/064.php) — Jose Manuel Luque*
-`,n2=`---
+`,t2=`---
 title: "FactoryTalk View SE communicating with RSLogix Emulate 5000"
 slug: "074"
 locale: "en"
@@ -25234,7 +25639,7 @@ Industrial automation technician and original author of this practice.
 
 ---
 *Source: [FactoryTalk View SE communicating with RSLogix Emulate 5000](https://www.plc-hmi-scadas.com/en/074.php) — Jose Manuel Luque*
-`,t2=`---
+`,a2=`---
 title: "Factory Talk View SE"
 slug: "108"
 locale: "en"
@@ -25377,7 +25782,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [Factory Talk View SE](https://www.plc-hmi-scadas.com/en/108.php) — Jose Manuel Luque*
-`,a2=`---
+`,i2=`---
 title: "Factory Talk View Client"
 slug: "109"
 locale: "en"
@@ -25450,7 +25855,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [Factory Talk View Client](https://www.plc-hmi-scadas.com/en/109.php) — Jose Manuel Luque*
-`,i2=`---
+`,o2=`---
 title: "WinCC RT Professional V.12 with S7-1200"
 slug: "110"
 locale: "en"
@@ -25541,7 +25946,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [WinCC RT Professional V.12 with S7-1200](https://www.plc-hmi-scadas.com/en/110.php) — Jose Manuel Luque*
-`,o2=`---
+`,s2=`---
 title: "VBScript in WinCC V.7"
 slug: "112"
 locale: "en"
@@ -25656,7 +26061,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [VBScript in WinCC V.7](https://www.plc-hmi-scadas.com/en/112.php) — Jose Manuel Luque*
-`,s2=`---
+`,r2=`---
 title: "VBScript with Excel in WinCC"
 slug: "113"
 locale: "en"
@@ -25725,7 +26130,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [VBScript with Excel in WinCC](https://www.plc-hmi-scadas.com/en/113.php) — Jose Manuel Luque*
-`,r2=`---
+`,c2=`---
 title: "Intouch, WWPoke() - WWRequest() Functions"
 slug: "116"
 locale: "en"
@@ -25803,7 +26208,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Intouch, WWPoke() - WWRequest() Functions](https://www.plc-hmi-scadas.com/en/116.php) — Jose Manuel Luque*
-`,c2=`---
+`,l2=`---
 title: "Vijeo Citect Simulation with Unity"
 slug: "126"
 locale: "en"
@@ -25897,7 +26302,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Vijeo Citect Simulation with Unity](https://www.plc-hmi-scadas.com/en/126.php) — Jose Manuel Luque*
-`,l2=`---
+`,d2=`---
 title: "Configuration of the I/O Driver ABCLX in Vijeo Citect"
 slug: "127"
 locale: "en"
@@ -25971,7 +26376,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [Configuration of the I/O Driver ABCLX in Vijeo Citect](https://www.plc-hmi-scadas.com/en/127.php) — Jose Manuel Luque*
-`,d2=`---
+`,h2=`---
 title: "ActiveX Controls in Intouch"
 slug: "129"
 locale: "en"
@@ -26055,7 +26460,7 @@ If you liked or found the information useful, share it ...
 
 ---
 *Source: [ActiveX Controls in Intouch](https://www.plc-hmi-scadas.com/en/129.php) — Jose Manuel Luque*
-`,h2=`---
+`,u2=`---
 title: "Introduction to Wonderware Information Server"
 slug: "131"
 locale: "en"
@@ -26097,7 +26502,7 @@ If you liked it or found the information useful, share it ...
 
 ---
 *Source: [Introduction to Wonderware Information Server](https://www.plc-hmi-scadas.com/en/131.php) — Jose Manuel Luque*
-`,u2=`---
+`,m2=`---
 title: "Information Server Win-XML"
 slug: "133"
 locale: "en"
@@ -26177,7 +26582,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [Information Server Win-XML](https://www.plc-hmi-scadas.com/en/133.php) — Jose Manuel Luque*
-`,m2=`---
+`,g2=`---
 title: "Factory Talk Alarm and Events Database"
 slug: "137"
 locale: "en"
@@ -26243,7 +26648,7 @@ If you liked or found the information useful, share it ...
 
 ---
 *Source: [Factory Talk Alarm and Events Database](https://www.plc-hmi-scadas.com/en/137.php) — Jose Manuel Luque*
-`,g2=`---
+`,p2=`---
 title: "Historian Client Trend Symbol Configuration"
 slug: "archestra-aahistclienttrendcontrol"
 locale: "en"
@@ -26289,7 +26694,7 @@ Note: It is possible that if the Historian Client or ActiveFactory is not instal
 
 ---
 *Source: [Historian Client Trend Symbol Configuration](https://www.plc-hmi-scadas.com/en/ArchestrA_aaHistClientTrendControl.php) — Jose Manuel Luque*
-`,p2=`---
+`,w2=`---
 title: "Application Server - Distributed Application"
 slug: "archestra-aplicacion-distribuida"
 locale: "en"
@@ -26365,7 +26770,7 @@ August 5, 2013
 
 ---
 *Source: [Application Server - Distributed Application](https://www.plc-hmi-scadas.com/en/ArchestrA_Aplicacion_Distribuida.php) — Jose Manuel Luque*
-`,w2=`---
+`,f2=`---
 title: "DataGrid Control"
 slug: "archestra-datagrid"
 locale: "en"
@@ -26445,7 +26850,7 @@ Now, we can press the Retrieve button to get the results of the query we assigne
 
 ---
 *Source: [DataGrid Control](https://www.plc-hmi-scadas.com/en/ArchestrA_DataGrid.php) — Jose Manuel Luque*
-`,f2=`---
+`,C2=`---
 title: "ArchestrA Control DataGridView .Net"
 slug: "archestra-datagridview"
 locale: "en"
@@ -26495,7 +26900,7 @@ August 26, 2013
 
 ---
 *Source: [ArchestrA Control DataGridView .Net](https://www.plc-hmi-scadas.com/en/ArchestrA_DataGridView.php) — Jose Manuel Luque*
-`,C2=`---
+`,b2=`---
 title: "Wonderware Historian I/O Server II"
 slug: "archestra-fsgateway-historian"
 locale: "en"
@@ -26567,7 +26972,7 @@ August 18, 2013
 
 ---
 *Source: [Wonderware Historian I/O Server II](https://www.plc-hmi-scadas.com/en/ArchestrA_FSGateway_Historian.php) — Jose Manuel Luque*
-`,b2=`---
+`,v2=`---
 title: "Instances in ArchestrA Application Server"
 slug: "archestra-instancias"
 locale: "en"
@@ -26651,7 +27056,7 @@ August 25, 2013
 
 ---
 *Source: [Instances in ArchestrA Application Server](https://www.plc-hmi-scadas.com/en/ArchestrA_Instancias.php) — Jose Manuel Luque*
-`,v2=`---
+`,y2=`---
 title: "Wonderware Historian I/O Server"
 slug: "archestra-ioserver-historian"
 locale: "en"
@@ -26695,7 +27100,7 @@ August 18, 2013
 
 ---
 *Source: [Wonderware Historian I/O Server](https://www.plc-hmi-scadas.com/en/ArchestrA_IOServer_Historian.php) — Jose Manuel Luque*
-`,y2=`---
+`,S2=`---
 title: "ArchestrA TrendClient"
 slug: "archestra-trendclient"
 locale: "en"
@@ -26757,7 +27162,7 @@ September 3, 2013
 
 ---
 *Source: [ArchestrA TrendClient](https://www.plc-hmi-scadas.com/en/ArchestrA_TrendClient.php) — Jose Manuel Luque*
-`,S2=`---
+`,A2=`---
 title: "ArchestrA - SQL Queries"
 slug: "archestra-webbrowser-sql"
 locale: "en"
@@ -26817,7 +27222,7 @@ August 14, 2013
 
 ---
 *Source: [ArchestrA - SQL Queries](https://www.plc-hmi-scadas.com/en/ArchestrA_WebBrowser_SQL.php) — Jose Manuel Luque*
-`,A2=`---
+`,P2=`---
 title: "WebBrowser Configuration within Application Server (ArchestrA)"
 slug: "archestra-webbrowser"
 locale: "en"
@@ -26885,7 +27290,7 @@ August 11, 2013
 
 ---
 *Source: [WebBrowser Configuration within Application Server (ArchestrA)](https://www.plc-hmi-scadas.com/en/ArchestrA_WebBrowser.php) — Jose Manuel Luque*
-`,P2=`---
+`,T2=`---
 title: "Sending WinCC Alarms via Whatsapp"
 slug: "blog-alarmas-wincc-por-whatsapp"
 locale: "en"
@@ -27186,7 +27591,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Sending WinCC Alarms via Whatsapp](https://www.plc-hmi-scadas.com/en/blog/alarmas-wincc-por-whatsapp/) — Pedro Pagán Pallarés*
-`,T2=`---
+`,I2=`---
 title: "AVEVA ArchestrA – Write to the Logger from C#"
 slug: "blog-aveva-archestra-logger-csharp"
 locale: "en"
@@ -27386,7 +27791,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [AVEVA ArchestrA – Write to the Logger from C#](https://www.plc-hmi-scadas.com/en/blog/aveva-archestra-logger-csharp/) — Jose Manuel Luque*
-`,I2=`---
+`,_2=`---
 title: "AVEVA Driver Redundancy"
 slug: "blog-aveva-driver-redundancy"
 locale: "en"
@@ -27509,7 +27914,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Driver Redundancy](https://www.plc-hmi-scadas.com/en/blog/aveva-driver-redundancy/) — Jose Manuel Luque*
-`,_2=`---
+`,x2=`---
 title: "AVEVA SNMP Driver"
 slug: "blog-aveva-driver-snmp"
 locale: "en"
@@ -27578,7 +27983,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA SNMP Driver](https://www.plc-hmi-scadas.com/en/blog/aveva-driver-snmp/) — Jose Manuel Luque*
-`,x2=`---
+`,M2=`---
 title: "AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)"
 slug: "blog-aveva-historian-client-factory-talk-view-se"
 locale: "en"
@@ -27673,7 +28078,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Historian Client - ActiveX Controls - .Net (Factory Talk View SE)](https://www.plc-hmi-scadas.com/en/blog/aveva-historian-client-factory-talk-view-se/) — Jose Manuel Luque*
-`,M2=`---
+`,W2=`---
 title: "AVEVA Intouch 2023R2 - News"
 slug: "blog-aveva-intouch-2023r2-novedades"
 locale: "en"
@@ -27720,7 +28125,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch 2023R2 - News](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-2023r2-novedades/) — Jose Manuel Luque*
-`,W2=`---
+`,L2=`---
 title: "AVEVA Intouch Client Controls"
 slug: "blog-aveva-intouch-client-controls-net"
 locale: "en"
@@ -27795,7 +28200,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Client Controls](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-client-controls-net/) — Jose Manuel Luque*
-`,L2=`---
+`,E2=`---
 title: "AVEVA Intouch BarcodeLib"
 slug: "blog-aveva-intouch-codebarlib"
 locale: "en"
@@ -27877,7 +28282,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch BarcodeLib](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-codebarlib/) — Jose Manuel Luque*
-`,E2=`---
+`,D2=`---
 title: "AVEVA Intouch Control .Net"
 slug: "blog-aveva-intouch-control-net"
 locale: "en"
@@ -28065,7 +28470,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Control .Net](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-control-net/) — Jose Manuel Luque*
-`,D2=`---
+`,k2=`---
 title: "AVEVA Intouch Historical Data Access System (HistData Part 2)"
 slug: "blog-aveva-intouch-historical-data-access-system-histdata-parte-2"
 locale: "en"
@@ -28140,7 +28545,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Historical Data Access System (HistData Part 2)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-access-system-histdata-parte-2/) — Jose Manuel Luque*
-`,k2=`---
+`,O2=`---
 title: "AVEVA Intouch Historical Data (Part 2)"
 slug: "blog-aveva-intouch-historical-data-parte-2"
 locale: "en"
@@ -28207,7 +28612,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Historical Data (Part 2)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data-parte-2/) — Jose Manuel Luque*
-`,O2=`---
+`,F2=`---
 title: "AVEVA Intouch Historical Data (Part 1)"
 slug: "blog-aveva-intouch-historical-data"
 locale: "en"
@@ -28294,7 +28699,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Historical Data (Part 1)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-historical-data/) — Jose Manuel Luque*
-`,F2=`---
+`,R2=`---
 title: "AVEVA Intouch Read Alarms"
 slug: "blog-aveva-intouch-leer-alarmas"
 locale: "en"
@@ -28371,7 +28776,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Read Alarms](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-leer-alarmas/) — Jose Manuel Luque*
-`,R2=`---
+`,N2=`---
 title: "AVEVA Intouch RDS - CMD"
 slug: "blog-aveva-intouch-rds-cmd"
 locale: "en"
@@ -28430,7 +28835,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch RDS - CMD](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-cmd/) — Jose Manuel Luque*
-`,N2=`---
+`,V2=`---
 title: "AVEVA Intouch RDS - Query Events and 21 CFR Part 11"
 slug: "blog-aveva-intouch-rds-query-events"
 locale: "en"
@@ -28499,7 +28904,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch RDS - Query Events and 21 CFR Part 11](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-rds-query-events/) — Jose Manuel Luque*
-`,V2=`---
+`,U2=`---
 title: "AVEVA Intouch - SQLite"
 slug: "blog-aveva-intouch-sqlite"
 locale: "en"
@@ -28634,7 +29039,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch - SQLite](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-sqlite/) — Jose Manuel Luque*
-`,U2=`---
+`,j2=`---
 title: "AVEVA Intouch Widgets (Custom Widgets Package)"
 slug: "blog-aveva-intouch-widgets-custom-widgets-package"
 locale: "en"
@@ -28687,7 +29092,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Widgets (Custom Widgets Package)](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-widgets-custom-widgets-package/) — Jose Manuel Luque*
-`,j2=`---
+`,H2=`---
 title: "AVEVA Intouch Widgets"
 slug: "blog-aveva-intouch-widgets"
 locale: "en"
@@ -28752,7 +29157,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch Widgets](https://www.plc-hmi-scadas.com/en/blog/aveva-intouch-widgets/) — Jose Manuel Luque*
-`,H2=`---
+`,B2=`---
 title: "Secure Siemens PLC Communication with HMI and PC/PG"
 slug: "blog-comunicacion-plc-hmi-pc-pg-segura"
 locale: "en"
@@ -28979,7 +29384,7 @@ Is the communication encrypted? Yes: it uses an internal certificate generated b
 
 ---
 *Source: [Secure Siemens PLC Communication with HMI and PC/PG](https://www.plc-hmi-scadas.com/en/blog/comunicacion-plc-hmi-pc-pg-segura/)*
-`,B2=`---
+`,q2=`---
 title: "Web Embedding in WinCC Unified: Browser, iFrames and Security Policies"
 slug: "blog-embebido-web-wincc-unified-iframe-politicas-seguridad"
 locale: "en"
@@ -29149,7 +29554,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [Web Embedding in WinCC Unified: Browser, iFrames and Security Policies](https://www.plc-hmi-scadas.com/en/blog/embebido-web-wincc-unified-iframe-politicas-seguridad/) — Jose Manuel Luque*
-`,q2=`---
+`,G2=`---
 title: "Factory Talk Historian - FTLD"
 slug: "blog-factory-talk-historian-ftld-interface"
 locale: "en"
@@ -29218,7 +29623,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk Historian - FTLD](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-ftld-interface/) — Jose Manuel Luque*
-`,G2=`---
+`,z2=`---
 title: "Factory Talk Historian - License"
 slug: "blog-factory-talk-historian-license"
 locale: "en"
@@ -29278,7 +29683,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk Historian - License](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-license/) — Jose Manuel Luque*
-`,z2=`---
+`,J2=`---
 title: "Factory Talk Historian - PIPerfMon (Performance Counters)"
 slug: "blog-factory-talk-historian-piperfmon-performance-counters"
 locale: "en"
@@ -29336,7 +29741,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk Historian - PIPerfMon (Performance Counters)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historian-piperfmon-performance-counters/) — Jose Manuel Luque*
-`,J2=`---
+`,X2=`---
 title: "Factory Talk Historian - PIPerfMon (Interface Performance Monitor)"
 slug: "blog-factory-talk-historin-piperfmon"
 locale: "en"
@@ -29410,7 +29815,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk Historian - PIPerfMon (Interface Performance Monitor)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-historin-piperfmon/) — Jose Manuel Luque*
-`,X2=`---
+`,Q2=`---
 title: "Factory Talk View SE - Factory Talk Historian Status (FTLD)"
 slug: "blog-factory-talk-view-se-factory-talk-historian-status-ftld"
 locale: "en"
@@ -29499,7 +29904,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk View SE - Factory Talk Historian Status (FTLD)](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-factory-talk-historian-status-ftld/) — Jose Manuel Luque*
-`,Q2=`---
+`,K2=`---
 title: "Factory Talk View SE - Global Object Runtime Optimization"
 slug: "blog-factory-talk-view-se-global-object-runtime-optimization"
 locale: "en"
@@ -29546,7 +29951,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk View SE - Global Object Runtime Optimization](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-global-object-runtime-optimization/) — Jose Manuel Luque*
-`,K2=`---
+`,Y2=`---
 title: "FactoryTalk View SE - InfluxDB"
 slug: "blog-factory-talk-view-se-influxdb"
 locale: "en"
@@ -29675,7 +30080,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [FactoryTalk View SE - InfluxDB](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-influxdb/) — Jose Manuel Luque*
-`,Y2=`---
+`,Z2=`---
 title: "Factory Talk View SE - SQLite"
 slug: "blog-factory-talk-view-se-sqlite"
 locale: "en"
@@ -29831,7 +30236,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Factory Talk View SE - SQLite](https://www.plc-hmi-scadas.com/en/blog/factory-talk-view-se-sqlite/) — Jose Manuel Luque*
-`,Z2=`---
+`,$2=`---
 title: "Factory Talk View SE - DataLogPro Error"
 slug: "blog-factorytalk-view-se-error-datalogpro"
 locale: "en"
@@ -29914,7 +30319,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [Factory Talk View SE - DataLogPro Error](https://www.plc-hmi-scadas.com/en/blog/factorytalk-view-se-error-datalogpro/) — Jose Manuel Luque*
-`,$2=`---
+`,e1=`---
 title: "AVEVA Intouch RDP - Alarms & Events"
 slug: "blog-intouch-rdp-a"
 locale: "en"
@@ -30070,7 +30475,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch RDP - Alarms & Events](https://www.plc-hmi-scadas.com/en/blog/intouch-rdp-a/) — Jose Manuel Luque*
-`,e1=`---
+`,n1=`---
 title: "AVEVA Intouch RDS - NAD"
 slug: "blog-intouch-rds-nad"
 locale: "en"
@@ -30146,7 +30551,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch RDS - NAD](https://www.plc-hmi-scadas.com/en/blog/intouch-rds-nad/) — Jose Manuel Luque*
-`,n1=`---
+`,t1=`---
 title: "AVEVA Intouch 2023 - News"
 slug: "blog-novedades-scada-aveva-intouch-2023"
 locale: "en"
@@ -30221,7 +30626,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [AVEVA Intouch 2023 - News](https://www.plc-hmi-scadas.com/en/blog/novedades-scada-aveva-intouch-2023/) — Jose Manuel Luque*
-`,t1=`---
+`,a1=`---
 title: "PM-Analyze (Part - 2)"
 slug: "blog-pm-analyze-parte-2"
 locale: "en"
@@ -30325,7 +30730,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [PM-Analyze (Part - 2)](https://www.plc-hmi-scadas.com/en/blog/pm-analyze-parte-2/) — Jose Manuel Luque*
-`,a1=`---
+`,i1=`---
 title: "PM-Analyze (Part - 1)"
 slug: "blog-pm-analyze"
 locale: "en"
@@ -30471,7 +30876,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [PM-Analyze (Part - 1)](https://www.plc-hmi-scadas.com/en/blog/pm-analyze/) — Jose Manuel Luque*
-`,i1=`---
+`,o1=`---
 title: "SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)"
 slug: "blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023"
 locale: "en"
@@ -30549,7 +30954,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [SCADA Retrofits with MS Controls ActiveX VB6 (IFix 2023)](https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023/) — Jose Manuel Luque*
-`,o1=`---
+`,s1=`---
 title: "SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)"
 slug: "blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8"
 locale: "en"
@@ -30646,7 +31051,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [SCADA Retrofits with MS Controls ActiveX VB6 (WinCC V8)](https://www.plc-hmi-scadas.com/en/blog/retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8/) — Jose Manuel Luque*
-`,s1=`---
+`,r1=`---
 title: "SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)"
 slug: "blog-scadas-con-ms-controls-activex-vb6"
 locale: "en"
@@ -30833,7 +31238,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [SCADA Retrofits with MS ActiveX Controls VB6 (Factory Talk View)](https://www.plc-hmi-scadas.com/en/blog/scadas-con-ms-controls-activex-vb6/) — Jose Manuel Luque*
-`,r1=`---
+`,c1=`---
 title: "Network Segmentation - S7 1500 & WinCC Unified"
 slug: "blog-segmentacion-de-redes-s71500-wincc-unified"
 locale: "en"
@@ -30946,7 +31351,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [Network Segmentation - S7 1500 & WinCC Unified](https://www.plc-hmi-scadas.com/en/blog/segmentacion-de-redes-s71500-wincc-unified/) — Jose Manuel Luque*
-`,c1=`---
+`,l1=`---
 title: "How to Create WinCC Unified SQLite Reports in SSRS"
 slug: "blog-ssrs-wincc-unified-sqlite"
 locale: "en"
@@ -31067,7 +31472,7 @@ With these 12 steps, we covered the complete path from ODBC driver configuration
 
 ---
 *Source: [How to Create WinCC Unified SQLite Reports in SSRS](https://www.plc-hmi-scadas.com/en/blog/ssrs-wincc-unified-sqlite/) — Pedro Pagan Pallares*
-`,l1=`---
+`,d1=`---
 title: "UMC Admin Studio: guided console for Siemens Central User Management"
 slug: "blog-umc-admin-studio"
 locale: "en"
@@ -31284,7 +31689,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [UMC Admin Studio: guided console for Siemens Central User Management](https://www.plc-hmi-scadas.com/en/blog/umc-admin-studio/) — Jose Manuel Luque*
-`,d1=`---
+`,h1=`---
 title: "UMC Redundancy (User Management Component)"
 slug: "blog-umc-redundancy-user-management-component"
 locale: "en"
@@ -31455,7 +31860,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [UMC Redundancy (User Management Component)](https://www.plc-hmi-scadas.com/en/blog/umc-redundancy-user-management-component) — Jose Manuel Luque*
-`,h1=`---
+`,u1=`---
 title: "UMC (User Management Control)"
 slug: "blog-umc-user-management-control"
 locale: "en"
@@ -31591,7 +31996,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [UMC (User Management Control)](https://www.plc-hmi-scadas.com/en/blog/umc-user-management-control) — Jose Manuel Luque*
-`,u1=`---
+`,m1=`---
 title: "WinCC 8.1 Backup in Runtime"
 slug: "blog-wincc-8-1-backup-en-runtime"
 locale: "en"
@@ -31661,7 +32066,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC 8.1 Backup in Runtime](https://www.plc-hmi-scadas.com/en/blog/wincc-8-1-backup-en-runtime/) — Jose Manuel Luque*
-`,m1=`---
+`,g1=`---
 title: "WinCC 8.1 News"
 slug: "blog-wincc-8-1-novedades"
 locale: "en"
@@ -31762,7 +32167,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC 8.1 News](https://www.plc-hmi-scadas.com/en/blog/wincc-8-1-novedades/) — Jose Manuel Luque*
-`,g1=`---
+`,p1=`---
 title: "WinCC #ifdef RUN_ON_WEBNAVIGATOR"
 slug: "blog-wincc-ifdef-run-on-webnavigator"
 locale: "en"
@@ -31853,7 +32258,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC #ifdef RUN_ON_WEBNAVIGATOR](https://www.plc-hmi-scadas.com/en/blog/wincc-ifdef-run_on_webnavigator/) — Jose Manuel Luque*
-`,p1=`---
+`,w1=`---
 title: "WinCC - SQLite"
 slug: "blog-wincc-sqlite"
 locale: "en"
@@ -31980,7 +32385,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC - SQLite](https://www.plc-hmi-scadas.com/en/blog/wincc-sqlite/) — Jose Manuel Luque*
-`,w1=`---
+`,f1=`---
 title: "WinCC Unified Collaboration in WinCC 8.1"
 slug: "blog-wincc-unified-collaboration-wincc-8-1"
 locale: "en"
@@ -32085,7 +32490,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [WinCC Unified Collaboration in WinCC 8.1](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration-wincc-8-1/) — Jose Manuel Luque*
-`,f1=`---
+`,C1=`---
 title: "WinCC Unified Collaboration: sharing Screens between Runtimes"
 slug: "blog-wincc-unified-collaboration"
 locale: "en"
@@ -32234,7 +32639,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [WinCC Unified Collaboration: sharing Screens between Runtimes](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-collaboration/) — Jose Manuel Luque*
-`,C1=`---
+`,b1=`---
 title: "WinCC Unified — CWC and Open Pipe"
 slug: "blog-wincc-unified-cwc-open-pipe"
 locale: "en"
@@ -32329,7 +32734,7 @@ Técnico en Automatización Industrial.
 
 ---
 *Source: [WinCC Unified — CWC and Open Pipe](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-cwc-open-pipe/) — Jose Manuel Luque*
-`,b1=`---
+`,v1=`---
 title: "WinCC Unified Open Pipe"
 slug: "blog-wincc-unified-open-pipe"
 locale: "en"
@@ -32485,7 +32890,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC Unified Open Pipe](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-open-pipe/) — Jose Manuel Luque*
-`,v1=`---
+`,y1=`---
 title: "WinCC Unified Redundancy V20"
 slug: "blog-wincc-unified-redundancy-v20"
 locale: "en"
@@ -32632,7 +33037,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC Unified Redundancy V20](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-redundancy-v20/) — Jose Manuel Luque*
-`,y1=`---
+`,S1=`---
 title: "WinCC Unified RT GraphQL"
 slug: "blog-wincc-unified-rt-graphql"
 locale: "en"
@@ -32809,7 +33214,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC Unified RT GraphQL](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-rt-graphql/) — Jose Manuel Luque*
-`,S1=`---
+`,A1=`---
 title: "WinCC Unified (User Management Component)"
 slug: "blog-wincc-unified-user-management-component"
 locale: "en"
@@ -32892,7 +33297,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC Unified (User Management Component)](https://www.plc-hmi-scadas.com/en/blog/wincc-unified-user-management-component) — Jose Manuel Luque*
-`,A1=`---
+`,P1=`---
 title: "WinCC V8.0 News"
 slug: "blog-wincc-v8-0-novedades"
 locale: "en"
@@ -32950,7 +33355,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC V8.0 News](https://www.plc-hmi-scadas.com/en/blog/wincc-v8-0-novedades/) — Jose Manuel Luque*
-`,P1=`---
+`,T1=`---
 title: "WinCC v8.1 Read Alarms"
 slug: "blog-wincc-v8-1-leer-alarmas"
 locale: "en"
@@ -33123,7 +33528,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC v8.1 Read Alarms](https://www.plc-hmi-scadas.com/en/blog/wincc-v8-1-leer-alarmas/) — Jose Manuel Luque*
-`,T1=`---
+`,I1=`---
 title: "WinCC - WebNavigator \\"Failed to load https://Sever:4430/Main.PD_\\""
 slug: "blog-wincc-webnavigaror-failed-to-load-https-sever4430-main-pd"
 locale: "en"
@@ -33166,7 +33571,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC - WebNavigator "Failed to load https://Sever:4430/Main.PD_"](https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigaror-failed-to-load-https-sever4430-main-pd_/) — Jose Manuel Luque*
-`,I1=`---
+`,_1=`---
 title: "WinCC - WebNavigator \\"No Connection to server\\""
 slug: "blog-wincc-webnavigaror-no-connection-to-server"
 locale: "en"
@@ -33221,7 +33626,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC - WebNavigator "No Connection to server"](https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigaror-no-connection-to-server/) — Jose Manuel Luque*
-`,_1=`---
+`,x1=`---
 title: "WinCC WebNavigator/WebUx HTTPS Certificates"
 slug: "blog-wincc-webnavigator-webux-certificados-https"
 locale: "en"
@@ -33383,7 +33788,7 @@ Industrial Automation Technician.
 
 ---
 *Source: [WinCC WebNavigator/WebUx HTTPS Certificates](https://www.plc-hmi-scadas.com/en/blog/wincc-webnavigator-webux-certificados-https/) — Jose Manuel Luque*
-`,x1=`---
+`,M1=`---
 title: "CitectSCADA DataBase"
 slug: "citectscada-database"
 locale: "en"
@@ -33488,7 +33893,7 @@ However, with Cicode code, the function is called directly.
 
 ---
 *Source: [CitectSCADA DataBase](https://www.plc-hmi-scadas.com/en/CitectScada_DataBase.php) — Jose Manuel Luque*
-`,M1=`---
+`,W1=`---
 title: "Factory Talk View ActiveX Controls Microsoft ADO - Microsoft DataGrid"
 slug: "factorytalk-activex-adodc"
 locale: "en"
@@ -33552,7 +33957,7 @@ July 14, 2013
 
 ---
 *Source: [Factory Talk View ActiveX Controls Microsoft ADO - Microsoft DataGrid](https://www.plc-hmi-scadas.com/en/FactoryTalk_ActiveX_ADODC.php) — Jose Manuel Luque*
-`,W1=`---
+`,L1=`---
 title: "Factory Talk Alarm and Events"
 slug: "factorytalk-alarmevents"
 locale: "en"
@@ -33638,7 +34043,7 @@ And now a short video to see its operation.
 
 ---
 *Source: [Factory Talk Alarm and Events](https://www.plc-hmi-scadas.com/en/FactoryTalk_AlarmEvents.php) — Jose Manuel Luque*
-`,L1=`---
+`,E1=`---
 title: "Factory Talk View Flash, GIF Animations"
 slug: "factorytalkview-animaciones"
 locale: "en"
@@ -33702,7 +34107,7 @@ September 15, 2013
 
 ---
 *Source: [Factory Talk View Flash, GIF Animations](https://www.plc-hmi-scadas.com/en/FactoryTalkView_Animaciones.php) — Jose Manuel Luque*
-`,E1=`---
+`,D1=`---
 title: "Factory Talk View Send Email"
 slug: "factorytalkview-sendemail"
 locale: "en"
@@ -33756,7 +34161,7 @@ Update 26-3-2015 "If you get an error when sending the email and you are using G
 
 ---
 *Source: [Factory Talk View Send Email](https://www.plc-hmi-scadas.com/en/FactoryTalkView_SendEmail.php) — Jose Manuel Luque*
-`,D1=`---
+`,k1=`---
 title: "Import Factory Talk View SE Project"
 slug: "factorytalkviewse-importar"
 locale: "en"
@@ -33812,7 +34217,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [Import Factory Talk View SE Project](https://www.plc-hmi-scadas.com/en/FactoryTalkViewSE_Importar.php) — Jose Manuel Luque*
-`,k1=`---
+`,O1=`---
 title: "Driver SI7"
 slug: "fix32-driver-si7"
 locale: "en"
@@ -33874,7 +34279,7 @@ August 12, 2017
 
 ---
 *Source: [Driver SI7](https://www.plc-hmi-scadas.com/en/Fix32_Driver_SI7.php) — Jose Manuel Luque*
-`,O1=`---
+`,F1=`---
 title: "Factory Talk View SE - DataLog Configuration"
 slug: "ftvse-datalog"
 locale: "en"
@@ -33978,7 +34383,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Factory Talk View SE - DataLog Configuration](https://www.plc-hmi-scadas.com/en/FTVSE_DataLog.php) — Jose Manuel Luque*
-`,F1=`---
+`,R1=`---
 title: "VBA Code to Save Data in Excel"
 slug: "ftvse-excel"
 locale: "en"
@@ -34038,7 +34443,7 @@ If you liked it or found it helpful, share it :-)
 
 ---
 *Source: [VBA Code to Save Data in Excel](https://www.plc-hmi-scadas.com/en/FTVSE_Excel.php) — Jose Manuel Luque*
-`,R1=`---
+`,N1=`---
 title: "Introduction to the VBA Object Model in Factory Talk View SE"
 slug: "ftvse-introduccion-vba"
 locale: "en"
@@ -34100,7 +34505,7 @@ If you liked it, or it was useful to you, share it ... :-)
 
 ---
 *Source: [Introduction to the VBA Object Model in Factory Talk View SE](https://www.plc-hmi-scadas.com/en/FTVSE_Introduccion_VBA.php) — Jose Manuel Luque*
-`,N1=`---
+`,V1=`---
 title: "Factory Talk View send e-mail"
 slug: "ftvse-mail"
 locale: "en"
@@ -34150,7 +34555,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Factory Talk View send e-mail](https://www.plc-hmi-scadas.com/en/FTVSE_Mail.php) — Jose Manuel Luque*
-`,V1=`---
+`,U1=`---
 title: "FTVSE - Load Recipes and Sort Them"
 slug: "ftvse-recepis"
 locale: "en"
@@ -34206,7 +34611,7 @@ If you liked or found the information useful, share it...
 
 ---
 *Source: [FTVSE - Load Recipes and Sort Them](https://www.plc-hmi-scadas.com/en/FTVSE_Recepis.php) — Jose Manuel Luque*
-`,U1=`---
+`,j1=`---
 title: "Object Reference with VBA in Factory Talk View SE"
 slug: "ftvse-vba-referencia-objetos"
 locale: "en"
@@ -34262,7 +34667,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Object Reference with VBA in Factory Talk View SE](https://www.plc-hmi-scadas.com/en/FTVSE_VBA_Referencia_Objetos.php) — Jose Manuel Luque*
-`,j1=`---
+`,H1=`---
 title: "iFix 6.0 - Open DataBase Connectivity (ODBC)"
 slug: "ifix-database"
 locale: "en"
@@ -34317,7 +34722,7 @@ The data we have in our Database for this example.
 
 ---
 *Source: [iFix 6.0 - Open DataBase Connectivity (ODBC)](https://www.plc-hmi-scadas.com/en/IFix_DataBase.php) — Jose Manuel Luque*
-`,H1=`---
+`,B1=`---
 title: "AVEVA Intouch 2020 Import Industrial Graphics"
 slug: "intouch-2020-industrialgraphics"
 locale: "en"
@@ -34364,7 +34769,7 @@ After a few seconds, we now have the two directories with all the symbols.
 
 ---
 *Source: [AVEVA Intouch 2020 Import Industrial Graphics](https://www.plc-hmi-scadas.com/en/Intouch_2020_IndustrialGraphics.php) — Jose Manuel Luque*
-`,B1=`---
+`,q1=`---
 title: "AVEVA Intouch 2020 Unlock application"
 slug: "intouch-2020-unlock"
 locale: "en"
@@ -34409,7 +34814,7 @@ If we click the button, we see that it deletes that file and we can now edit our
 
 ---
 *Source: [AVEVA Intouch 2020 Unlock application](https://www.plc-hmi-scadas.com/en/Intouch_2020_Unlock.php) — Jose Manuel Luque*
-`,q1=`---
+`,G1=`---
 title: "AVEVA Intouch 2020 Widget (Wonderware)"
 slug: "intouch-2020-widget"
 locale: "en"
@@ -34492,7 +34897,7 @@ Basic questions. How do we create these symbols?
 
 ---
 *Source: [AVEVA Intouch 2020 Widget (Wonderware)](https://www.plc-hmi-scadas.com/en/Intouch_2020_Widget.php) — Jose Manuel Luque*
-`,G1=`---
+`,z1=`---
 title: "Alarm DB Logger Manager Configuration"
 slug: "intouch-alarms"
 locale: "en"
@@ -34568,7 +34973,7 @@ If you liked it or found it helpful, share it :-)
 
 ---
 *Source: [Alarm DB Logger Manager Configuration](https://www.plc-hmi-scadas.com/en/Intouch_Alarms.php) — Jose Manuel Luque*
-`,z1=`---
+`,J1=`---
 title: "Intouch"
 slug: "intouch-bit-integer"
 locale: "en"
@@ -34610,7 +35015,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [Intouch](https://www.plc-hmi-scadas.com/en/Intouch_Bit_Integer.php) — Jose Manuel Luque*
-`,J1=`---
+`,X1=`---
 title: "AVEVA Intouch 2020 (Import Client Controls)"
 slug: "intouch-controls-net"
 locale: "en"
@@ -34677,7 +35082,7 @@ We start the Runtime and here we have our control functioning correctly.
 
 ---
 *Source: [AVEVA Intouch 2020 (Import Client Controls)](https://www.plc-hmi-scadas.com/en/Intouch_Controls_Net.php) — Jose Manuel Luque*
-`,X1=`---
+`,Q1=`---
 title: "DAServer Manager BackUp - Restore"
 slug: "intouch-daserver-items"
 locale: "en"
@@ -34731,7 +35136,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [DAServer Manager BackUp - Restore](https://www.plc-hmi-scadas.com/en/Intouch_DAServer_Items.php) — Jose Manuel Luque*
-`,Q1=`---
+`,K1=`---
 title: "Intouch - Oracle DataBase"
 slug: "intouch-db-oracle"
 locale: "en"
@@ -34792,7 +35197,7 @@ Now we are going to test our code, we insert our symbol into a new screen and mo
 
 ---
 *Source: [Intouch - Oracle DataBase](https://www.plc-hmi-scadas.com/en/Intouch_DB_Oracle.php) — Jose Manuel Luque*
-`,K1=`---
+`,Y1=`---
 title: "Intouch GetNodeName"
 slug: "intouch-functions"
 locale: "en"
@@ -34846,7 +35251,7 @@ September 17, 2013
 
 ---
 *Source: [Intouch GetNodeName](https://www.plc-hmi-scadas.com/en/Intouch_Functions.php) — Jose Manuel Luque*
-`,Y1=`---
+`,Z1=`---
 title: "Wonderware Historian"
 slug: "intouch-historian"
 locale: "en"
@@ -34940,7 +35345,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Wonderware Historian](https://www.plc-hmi-scadas.com/en/Intouch_Historian.php) — Jose Manuel Luque*
-`,Z1=`---
+`,$1=`---
 title: "Intouch  - MySQL DataBase"
 slug: "intouch-mysql"
 locale: "en"
@@ -35007,7 +35412,7 @@ And the values that are in the Database.
 
 ---
 *Source: [Intouch  - MySQL DataBase](https://www.plc-hmi-scadas.com/en/Intouch_MySQL.php) — Jose Manuel Luque*
-`,$1=`---
+`,eT=`---
 title: "Intouch  - Open DataBase Connectivity (ODBC)"
 slug: "intouch-odbc"
 locale: "en"
@@ -35074,7 +35479,7 @@ And the values that are in the Database
 
 ---
 *Source: [Intouch  - Open DataBase Connectivity (ODBC)](https://www.plc-hmi-scadas.com/en/Intouch_ODBC.php) — Jose Manuel Luque*
-`,eT=`---
+`,nT=`---
 title: "Intouch System Platform"
 slug: "intouch-system-platform"
 locale: "en"
@@ -35134,7 +35539,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [Intouch System Platform](https://www.plc-hmi-scadas.com/en/Intouch_System_Platform.php) — Jose Manuel Luque*
-`,nT=`---
+`,tT=`---
 title: "Indirect Tags in Intouch"
 slug: "intouch-tagsindirectos"
 locale: "en"
@@ -35220,7 +35625,7 @@ September 5, 2013
 
 ---
 *Source: [Indirect Tags in Intouch](https://www.plc-hmi-scadas.com/en/Intouch_TagsIndirectos.php) — Jose Manuel Luque*
-`,tT=`---
+`,aT=`---
 title: "Intouch Simulation with Unity Pro"
 slug: "intouch-unitypro"
 locale: "en"
@@ -35270,7 +35675,7 @@ November 24, 2013
 
 ---
 *Source: [Intouch Simulation with Unity Pro](https://www.plc-hmi-scadas.com/en/Intouch_UnityPro.php) — Jose Manuel Luque*
-`,aT=`---
+`,iT=`---
 title: "Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500"
 slug: "intouchedgehmi"
 locale: "en"
@@ -35351,7 +35756,7 @@ January 29, 2019
 
 ---
 *Source: [Intouch Edge HMI - Intouch Machine Edition - InduSoft Web Studio - Vijeo XL - Communication S7-1500](https://www.plc-hmi-scadas.com/en/IntouchEdgeHMI.php) — Jose Manuel Luque*
-`,iT=`---
+`,oT=`---
 title: "ODBC Configuration for Oracle Database"
 slug: "odbc-remote-oracle"
 locale: "en"
@@ -35410,7 +35815,7 @@ We have now configured our Data Sources and now we move on to how to [use it](#/
 
 ---
 *Source: [ODBC Configuration for Oracle Database](https://www.plc-hmi-scadas.com/en/ODBC_Remote_Oracle.php) — Jose Manuel Luque*
-`,oT=`---
+`,sT=`---
 title: "Oracle Data Access Components (ODAC)"
 slug: "oracle-drivers"
 locale: "en"
@@ -35471,7 +35876,7 @@ But next, [configure the ODBC](#/a/en%2Fodbc-remote-oracle) for more information
 
 ---
 *Source: [Oracle Data Access Components (ODAC)](https://www.plc-hmi-scadas.com/en/Oracle_Drivers.php) — Jose Manuel Luque*
-`,sT=`---
+`,rT=`---
 title: "Other SCADAs"
 slug: "other-scadas"
 locale: "en"
@@ -35535,7 +35940,7 @@ Show more
 
 ---
 *Source: [Other SCADAs](https://www.plc-hmi-scadas.com/en/Other-SCADAs/) — Jose Manuel*
-`,rT=`---
+`,cT=`---
 title: "DDE Server Configuration with Microsoft Excel"
 slug: "rsview-dde"
 locale: "en"
@@ -35589,7 +35994,7 @@ July 24, 2013
 
 ---
 *Source: [DDE Server Configuration with Microsoft Excel](https://www.plc-hmi-scadas.com/en/RSView_DDE.php) — Jose Manuel Luque*
-`,cT=`---
+`,lT=`---
 title: "Tag Monitor Configuration"
 slug: "rsview-monitortag"
 locale: "en"
@@ -35627,7 +36032,7 @@ August 4, 2013
 
 ---
 *Source: [Tag Monitor Configuration](https://www.plc-hmi-scadas.com/en/RSView_MonitorTag.php) — Jose Manuel Luque*
-`,lT=`---
+`,dT=`---
 title: "RSView32, Scan Class Configuration"
 slug: "rsview-scanclass"
 locale: "en"
@@ -35669,7 +36074,7 @@ July 24, 2013
 
 ---
 *Source: [RSView32, Scan Class Configuration](https://www.plc-hmi-scadas.com/en/RSView_ScanClass.php) — Jose Manuel Luque*
-`,dT=`---
+`,hT=`---
 title: "RSView32 Tag DataBase"
 slug: "rsview-tagdatabase"
 locale: "en"
@@ -35729,7 +36134,7 @@ August 4, 2013
 
 ---
 *Source: [RSView32 Tag DataBase](https://www.plc-hmi-scadas.com/en/RSView_TagDataBase.php) — Jose Manuel Luque*
-`,hT=`---
+`,uT=`---
 title: "RSView32 DDE Server"
 slug: "rsview32-dde-excel"
 locale: "en"
@@ -35775,7 +36180,7 @@ July 27, 2013
 
 ---
 *Source: [RSView32 DDE Server](https://www.plc-hmi-scadas.com/en/RSView32_DDE_Excel.php) — Jose Manuel Luque*
-`,uT=`---
+`,mT=`---
 title: "Rockwell Automation — SCADA"
 slug: "scada-allen-bradley"
 locale: "en"
@@ -35859,7 +36264,7 @@ Show more
 
 ---
 *Source: [Rockwell Automation — SCADA](https://www.plc-hmi-scadas.com/en/SCADA-ALLEN-BRADLEY/) — Jose Manuel*
-`,mT=`---
+`,gT=`---
 title: "Wonderware / AVEVA — SCADA"
 slug: "scada-intouch"
 locale: "en"
@@ -36011,7 +36416,7 @@ Within the architectures, we can find what is called StandAlone (everything incl
 
 ---
 *Source: [Wonderware / AVEVA — SCADA](https://www.plc-hmi-scadas.com/en/SCADA-INTOUCH/) — Jose Manuel*
-`,gT=`---
+`,pT=`---
 title: "Schneider Electric — SCADA"
 slug: "scada-schneider"
 locale: "en"
@@ -36061,7 +36466,7 @@ Show more
 
 ---
 *Source: [Schneider Electric — SCADA](https://www.plc-hmi-scadas.com/en/SCADA-SCHNEIDER/) — Jose Manuel*
-`,pT=`---
+`,wT=`---
 title: "Siemens WinCC — SCADA"
 slug: "scada-siemens"
 locale: "en"
@@ -36450,7 +36855,7 @@ WinCC RT Professional 16 — 2019
 
 ---
 *Source: [Siemens WinCC — SCADA](https://www.plc-hmi-scadas.com/en/SCADA-SIEMENS/) — Jose Manuel*
-`,wT=`---
+`,fT=`---
 title: "Introduction to TopKapi"
 slug: "scada-topkapi"
 locale: "en"
@@ -36484,7 +36889,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Introduction to TopKapi](https://www.plc-hmi-scadas.com/en/Scada_TopKapi.php) — Jose Manuel Luque*
-`,fT=`---
+`,CT=`---
 title: "Simatic Logon"
 slug: "simatic-logon"
 locale: "en"
@@ -36560,7 +36965,7 @@ June 13, 2016
 
 ---
 *Source: [Simatic Logon](https://www.plc-hmi-scadas.com/en/Simatic_Logon.php) — Jose Manuel Luque*
-`,CT=`---
+`,bT=`---
 title: "Tag Alarm and Event Server ..."
 slug: "tagalarmeventserver"
 locale: "en"
@@ -36616,7 +37021,7 @@ July 19, 2013
 
 ---
 *Source: [Tag Alarm and Event Server ...](https://www.plc-hmi-scadas.com/en/TagAlarmEventServer.php) — Jose Manuel Luque*
-`,bT=`---
+`,vT=`---
 title: "WinCC RT Professional Manually Transfer Project"
 slug: "tia-portal-wincc-rt-transfer"
 locale: "en"
@@ -36716,7 +37121,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC RT Professional Manually Transfer Project](https://www.plc-hmi-scadas.com/en/TIA_Portal_WinCC_RT_Transfer.php) — Jose Manuel Luque*
-`,vT=`---
+`,yT=`---
 title: "WinCC ActiveX Spreadsheet"
 slug: "wincc-activex-excel"
 locale: "en"
@@ -36780,7 +37185,7 @@ November 17, 2013
 
 ---
 *Source: [WinCC ActiveX Spreadsheet](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_Excel.php) — Jose Manuel Luque*
-`,yT=`---
+`,ST=`---
 title: "View PDF files in WinCC"
 slug: "wincc-activex-pdf"
 locale: "en"
@@ -36843,7 +37248,7 @@ Once in Runtime, after pressing the button, we have our document.
 
 ---
 *Source: [View PDF files in WinCC](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_pdf.php) — Jose Manuel Luque*
-`,ST=`---
+`,AT=`---
 title: "WinCC ActiveX WebBrowser - .Net WebBrowser"
 slug: "wincc-activex-webbrowser"
 locale: "en"
@@ -36894,7 +37299,7 @@ The operation is correct and can be a solution. Experiment with it, and if you f
 
 ---
 *Source: [WinCC ActiveX WebBrowser - .Net WebBrowser](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX_WebBrowser.php) — Jose Manuel Luque*
-`,AT=`---
+`,PT=`---
 title: "WinCC Create ActiveX Controls"
 slug: "wincc-activex"
 locale: "en"
@@ -36962,7 +37367,7 @@ If you liked it or found it useful... share it :-)
 
 ---
 *Source: [WinCC Create ActiveX Controls](https://www.plc-hmi-scadas.com/en/WinCC_ActiveX.php) — Jose Manuel Luque*
-`,PT=`---
+`,TT=`---
 title: "WinCC Simatic Time"
 slug: "wincc-administrador-variables-timer"
 locale: "en"
@@ -37014,7 +37419,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC Simatic Time](https://www.plc-hmi-scadas.com/en/WinCC_Administrador_Variables_Timer.php) — Jose Manuel Luque*
-`,TT=`---
+`,IT=`---
 title: "WinCC Independent Screen Design and Current Screen Name"
 slug: "wincc-arquitectura-2"
 locale: "en"
@@ -37074,7 +37479,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC Independent Screen Design and Current Screen Name](https://www.plc-hmi-scadas.com/en/WinCC_Arquitectura_2.php) — Jose Manuel Luque*
-`,IT=`---
+`,_T=`---
 title: "WinCC Design with Independent Screens and Current Screen Name"
 slug: "wincc-arquitectura"
 locale: "en"
@@ -37128,7 +37533,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC Design with Independent Screens and Current Screen Name](https://www.plc-hmi-scadas.com/en/WinCC_Arquitectura.php) — Jose Manuel Luque*
-`,_T=`---
+`,xT=`---
 title: "WinCC (AS Symbols)"
 slug: "wincc-as-symbols"
 locale: "en"
@@ -37177,7 +37582,7 @@ If we now create a structure in the PLC and a DB Motors, once transferred to the
 
 ---
 *Source: [WinCC (AS Symbols)](https://www.plc-hmi-scadas.com/en/WinCC_AS_Symbols.php) — Jose Manuel Luque*
-`,xT=`---
+`,MT=`---
 title: "Control.Net Connect BackUp TagLogging in Clients"
 slug: "wincc-backup-taglogging"
 locale: "en"
@@ -37257,7 +37662,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Control.Net Connect BackUp TagLogging in Clients](https://www.plc-hmi-scadas.com/en/WinCC_BackUp_TagLogging.php) — Jose Manuel Luque*
-`,MT=`---
+`,WT=`---
 title: "Backup & Restore WinCC Project Online"
 slug: "wincc-backup-winccruntime"
 locale: "en"
@@ -37303,7 +37708,7 @@ July 7, 2015 - Link 12-11-2015
 
 ---
 *Source: [Backup & Restore WinCC Project Online](https://www.plc-hmi-scadas.com/en/WinCC_Backup_WinCCRuntime.php) — Jose Manuel Luque*
-`,WT=`---
+`,LT=`---
 title: "WinCC - Life Bit"
 slug: "wincc-bit-de-vida"
 locale: "en"
@@ -37363,7 +37768,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC - Life Bit](https://www.plc-hmi-scadas.com/en/WinCC_Bit_de_Vida.php) — Jose Manuel Luque*
-`,LT=`---
+`,ET=`---
 title: "WinCC MQTT Publish - Broker - Codesys Subscriber"
 slug: "wincc-broker-codesys"
 locale: "en"
@@ -37414,7 +37819,7 @@ So let's keep learning...
 
 ---
 *Source: [WinCC MQTT Publish - Broker - Codesys Subscriber](https://www.plc-hmi-scadas.com/en/WinCC_Broker_Codesys.php) — Jose Manuel Luque*
-`,ET=`---
+`,DT=`---
 title: "WinCC ChipCard Option"
 slug: "wincc-chipcard"
 locale: "en"
@@ -37476,7 +37881,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [WinCC ChipCard Option](https://www.plc-hmi-scadas.com/en/WinCC_Chipcard.php) — Jose Manuel Luque*
-`,DT=`---
+`,kT=`---
 title: "OPC UA WinCC Channel Driver"
 slug: "wincc-cliente-opcua-beckhoff"
 locale: "en"
@@ -37585,7 +37990,7 @@ Once we have moved it, and restarted the runtime, we can check that the operatio
 
 ---
 *Source: [OPC UA WinCC Channel Driver](https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCUA_Beckhoff.php) — Jose Manuel Luque*
-`,kT=`---
+`,OT=`---
 title: "WinCC OPC UA Client"
 slug: "wincc-cliente-opcua"
 locale: "en"
@@ -37667,7 +38072,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC OPC UA Client](https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCUA.php) — Jose Manuel Luque*
-`,OT=`---
+`,FT=`---
 title: "WinCC OPC XML Client Server"
 slug: "wincc-cliente-opcxml"
 locale: "en"
@@ -37749,7 +38154,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [WinCC OPC XML Client Server](https://www.plc-hmi-scadas.com/en/WinCC_Cliente_OPCXML.php) — Jose Manuel Luque*
-`,FT=`---
+`,RT=`---
 title: "WinCC Client"
 slug: "wincc-cliente"
 locale: "en"
@@ -37852,7 +38257,7 @@ March 25, 2014
 
 ---
 *Source: [WinCC Client](https://www.plc-hmi-scadas.com/en/WinCC_Cliente.php) — Jose Manuel Luque*
-`,RT=`---
+`,NT=`---
 title: "WinCC Tags Option Computer-Local"
 slug: "wincc-computer-local"
 locale: "en"
@@ -37907,7 +38312,7 @@ Conclusion: We will activate this option when we are interested in the client/cl
 
 ---
 *Source: [WinCC Tags Option Computer-Local](https://www.plc-hmi-scadas.com/en/WinCC_Computer_Local.php) — Jose Manuel Luque*
-`,NT=`---
+`,VT=`---
 title: "WinCC Confirm the input value of process tag with a button"
 slug: "wincc-confirm-tagvalue-us"
 locale: "en"
@@ -37990,7 +38395,7 @@ March 8, 2018
 
 ---
 *Source: [WinCC Confirm the input value of process tag with a button](https://www.plc-hmi-scadas.com/en/WinCC_Confirm_TagValue_US.php) — Jose Manuel Luque*
-`,VT=`---
+`,UT=`---
 title: "WinCC Confirm the entry of a process value"
 slug: "wincc-confirm-tagvalue"
 locale: "en"
@@ -38067,7 +38472,7 @@ March 8, 2018
 
 ---
 *Source: [WinCC Confirm the entry of a process value](https://www.plc-hmi-scadas.com/en/WinCC_Confirm_TagValue.php) — Jose Manuel Luque*
-`,UT=`---
+`,jT=`---
 title: "WinCC Basic Knowledge"
 slug: "wincc-conocimientosbasicos-ii"
 locale: "en"
@@ -38108,7 +38513,7 @@ June 8, 2016
 
 ---
 *Source: [WinCC Basic Knowledge](https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos_II.php) — Jose Manuel Luque*
-`,jT=`---
+`,HT=`---
 title: "WinCC Basic Knowledge"
 slug: "wincc-conocimientosbasicos-iii"
 locale: "en"
@@ -38153,7 +38558,7 @@ June 8, 2016
 
 ---
 *Source: [WinCC Basic Knowledge](https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos_III.php) — Jose Manuel Luque*
-`,HT=`---
+`,BT=`---
 title: "WinCC Basic Knowledge"
 slug: "wincc-conocimientosbasicos"
 locale: "en"
@@ -38194,7 +38599,7 @@ June 3, 2016
 
 ---
 *Source: [WinCC Basic Knowledge](https://www.plc-hmi-scadas.com/en/WinCC_ConocimientosBasicos.php) — Jose Manuel Luque*
-`,BT=`---
+`,qT=`---
 title: "WinCC Control .Net KeyBoard"
 slug: "wincc-control-keyboard"
 locale: "en"
@@ -38251,7 +38656,7 @@ July 2, 2016
 
 ---
 *Source: [WinCC Control .Net KeyBoard](https://www.plc-hmi-scadas.com/en/WinCC_Control_KeyBoard.php) — Jose Manuel Luque*
-`,qT=`---
+`,GT=`---
 title: "WinCC DataMonitor"
 slug: "wincc-datamonitor"
 locale: "en"
@@ -38331,7 +38736,7 @@ To avoid prolonging this practice too much, I will divide it into several parts,
 
 ---
 *Source: [WinCC DataMonitor](https://www.plc-hmi-scadas.com/en/WinCC_DataMonitor.php) — Jose Manuel Luque*
-`,GT=`---
+`,zT=`---
 title: "WinCC - Oracle DataBase"
 slug: "wincc-db-oracle"
 locale: "en"
@@ -38398,7 +38803,7 @@ Here we have the two buttons, and now we move to Runtime to check it.
 
 ---
 *Source: [WinCC - Oracle DataBase](https://www.plc-hmi-scadas.com/en/WinCC_DB_Oracle.php) — Jose Manuel Luque*
-`,zT=`---
+`,JT=`---
 title: "WinCC DDE Communication with Intouch"
 slug: "wincc-dde"
 locale: "en"
@@ -38460,7 +38865,7 @@ November 16, 2013
 
 ---
 *Source: [WinCC DDE Communication with Intouch](https://www.plc-hmi-scadas.com/en/WinCC_DDE.php) — Jose Manuel Luque*
-`,JT=`---
+`,XT=`---
 title: "WinCC Debugger VBScript"
 slug: "wincc-debugger-vbscript"
 locale: "en"
@@ -38537,7 +38942,7 @@ Conclusion: This is how we debug all the scripts we are interested in but with t
 
 ---
 *Source: [WinCC Debugger VBScript](https://www.plc-hmi-scadas.com/en/WinCC_Debugger_VBScript.php) — Jose Manuel Luque*
-`,XT=`---
+`,QT=`---
 title: "OPC Driver Configuration WinCC"
 slug: "wincc-driver-opc"
 locale: "en"
@@ -38611,7 +39016,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [OPC Driver Configuration WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Driver_OPC.php) — Jose Manuel Luque*
-`,QT=`---
+`,KT=`---
 title: "S7-1500 Driver Configuration"
 slug: "wincc-driver-s71500"
 locale: "en"
@@ -38667,7 +39072,7 @@ June 1, 2016
 
 ---
 *Source: [S7-1500 Driver Configuration](https://www.plc-hmi-scadas.com/en/WinCC_Driver_S71500.php) — Jose Manuel Luque*
-`,KT=`---
+`,YT=`---
 title: "WinCC Dynamic Wizard"
 slug: "wincc-dynamic-wizard"
 locale: "en"
@@ -38719,7 +39124,7 @@ If you liked it or found it useful... Share it :-)
 
 ---
 *Source: [WinCC Dynamic Wizard](https://www.plc-hmi-scadas.com/en/WinCC_Dynamic_Wizard.php) — Jose Manuel Luque*
-`,YT=`---
+`,ZT=`---
 title: "WinCC Equipment Properties"
 slug: "wincc-equipo"
 locale: "en"
@@ -38803,7 +39208,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC Equipment Properties](https://www.plc-hmi-scadas.com/en/WinCC_Equipo.php) — Jose Manuel Luque*
-`,ZT=`---
+`,$T=`---
 title: "Error Code Ox8000152100000084 -Driver 1200-1500"
 slug: "wincc-error-driver-s71500"
 locale: "en"
@@ -38855,7 +39260,7 @@ June 30, 2016
 
 ---
 *Source: [Error Code Ox8000152100000084 -Driver 1200-1500](https://www.plc-hmi-scadas.com/en/WinCC_Error_Driver_S71500.php) — Jose Manuel Luque*
-`,$T=`---
+`,eI=`---
 title: "WinCC Events Screen (Graphics Designer)"
 slug: "wincc-eventos-pdl"
 locale: "en"
@@ -38910,7 +39315,7 @@ Subsequently, we change the trigger to Windows Cycle so that it executes accordi
 
 ---
 *Source: [WinCC Events Screen (Graphics Designer)](https://www.plc-hmi-scadas.com/en/WinCC_Eventos_PDL.php) — Jose Manuel Luque*
-`,eI=`---
+`,nI=`---
 title: "VBScript Function to Activate/Deactivate Bit"
 slug: "wincc-funcion-activar-desactivar-bits"
 locale: "en"
@@ -38960,7 +39365,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [VBScript Function to Activate/Deactivate Bit](https://www.plc-hmi-scadas.com/en/WinCC_Funcion_Activar_Desactivar_Bits.php) — Jose Manuel Luque*
-`,nI=`---
+`,tI=`---
 title: "WinCC Function GetTagRaw"
 slug: "wincc-funcion-gettagraw"
 locale: "en"
@@ -39008,7 +39413,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC Function GetTagRaw](https://www.plc-hmi-scadas.com/en/WinCC_Funcion_GetTagRaw.php) — Jose Manuel Luque*
-`,tI=`---
+`,aI=`---
 title: "Graphic Designer Image Window"
 slug: "wincc-graphic-designer-vi"
 locale: "en"
@@ -39076,7 +39481,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Graphic Designer Image Window](https://www.plc-hmi-scadas.com/en/WinCC_Graphic_Designer_VI.php) — Jose Manuel Luque*
-`,aI=`---
+`,iI=`---
 title: "Communication CPU S5 with WinCC via the IBH Link S5++ Gateway"
 slug: "wincc-ibh-link"
 locale: "en"
@@ -39138,7 +39543,7 @@ If you liked it or found it useful, share it ...
 
 ---
 *Source: [Communication CPU S5 with WinCC via the IBH Link S5++ Gateway](https://www.plc-hmi-scadas.com/en/WinCC_IBH_Link.php) — Jose Manuel Luque*
-`,iI=`---
+`,oI=`---
 title: "WinCC ActiveX Controls Microsoft"
 slug: "wincc-instalacion-activex"
 locale: "en"
@@ -39184,7 +39589,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC ActiveX Controls Microsoft](https://www.plc-hmi-scadas.com/en/WinCC_Instalacion_ActiveX.php) — Jose Manuel Luque*
-`,oI=`---
+`,sI=`---
 title: "WinCC V7.3 Installation on Windows 10 Pro"
 slug: "wincc-instalacion"
 locale: "en"
@@ -39254,7 +39659,7 @@ If you found this useful or liked it, share it :-)
 
 ---
 *Source: [WinCC V7.3 Installation on Windows 10 Pro](https://www.plc-hmi-scadas.com/en/WinCC_Instalacion.php) — Jose Manuel Luque*
-`,sI=`---
+`,rI=`---
 title: "WinCC Automate Tasks with VBA"
 slug: "wincc-keyboard-vba"
 locale: "en"
@@ -39304,7 +39709,7 @@ If you liked it or found it useful, share it ...
 
 ---
 *Source: [WinCC Automate Tasks with VBA](https://www.plc-hmi-scadas.com/en/WinCC_KeyBoard_VBA.php) — Jose Manuel Luque*
-`,rI=`---
+`,cI=`---
 title: "WinCC KeyBoard"
 slug: "wincc-keyboard"
 locale: "en"
@@ -39364,7 +39769,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC KeyBoard](https://www.plc-hmi-scadas.com/en/WinCC_KeyBoard.php) — Jose Manuel Luque*
-`,cI=`---
+`,lI=`---
 title: "VBScript Library WinCC"
 slug: "wincc-libreria-us"
 locale: "en"
@@ -39703,7 +40108,7 @@ March 8, 2017
 
 ---
 *Source: [VBScript Library WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Libreria_US.php) — Jose Manuel Luque*
-`,lI=`---
+`,dI=`---
 title: "WinCC Login/Logout with VBScript"
 slug: "wincc-libreria-useradministrator"
 locale: "en"
@@ -39740,7 +40145,7 @@ January 19, 2017
 
 ---
 *Source: [WinCC Login/Logout with VBScript](https://www.plc-hmi-scadas.com/en/WinCC_Libreria_UserAdministrator.php) — Jose Manuel Luque*
-`,dI=`---
+`,hI=`---
 title: "VBScript Library WinCC"
 slug: "wincc-libreria"
 locale: "en"
@@ -40071,7 +40476,7 @@ March 8, 2017
 
 ---
 *Source: [VBScript Library WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Libreria.php) — Jose Manuel Luque*
-`,hI=`---
+`,uI=`---
 title: "Using External Libraries in VBScript"
 slug: "wincc-librerias-dll"
 locale: "en"
@@ -40130,7 +40535,7 @@ July 25, 2016
 
 ---
 *Source: [Using External Libraries in VBScript](https://www.plc-hmi-scadas.com/en/WinCC_Librerias_Dll.php) — Jose Manuel Luque*
-`,uI=`---
+`,mI=`---
 title: "C++ Libraries in WinCC"
 slug: "wincc-librerias-plus-plus"
 locale: "en"
@@ -40212,7 +40617,7 @@ January 14, 2017
 
 ---
 *Source: [C++ Libraries in WinCC](https://www.plc-hmi-scadas.com/en/WinCC_Librerias_Plus_Plus.php) — Jose Manuel Luque*
-`,mI=`---
+`,gI=`---
 title: "WinCC Licenses"
 slug: "wincc-license"
 locale: "en"
@@ -40315,7 +40720,7 @@ As there are only 3 PLCs connected, we do not need the Simatic Net license
 
 ---
 *Source: [WinCC Licenses](https://www.plc-hmi-scadas.com/en/WinCC_License.php) — Jose Manuel Luque*
-`,gI=`---
+`,pI=`---
 title: "WinCC LogOn - LogOut"
 slug: "wincc-loginusuario"
 locale: "en"
@@ -40375,7 +40780,7 @@ June 13, 2016
 
 ---
 *Source: [WinCC LogOn - LogOut](https://www.plc-hmi-scadas.com/en/WinCC_LoginUsuario.php) — Jose Manuel Luque*
-`,pI=`---
+`,wI=`---
 title: "WinCC Menu Configuration with VBScript (Login, Logout, Restart, ShutDown)"
 slug: "wincc-menu-vbs"
 locale: "en"
@@ -40433,7 +40838,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [WinCC Menu Configuration with VBScript (Login, Logout, Restart, ShutDown)](https://www.plc-hmi-scadas.com/en/WinCC_Menu_VBS.php) — Jose Manuel Luque*
-`,wI=`---
+`,fI=`---
 title: "WinCC Modbus TCP Driver"
 slug: "wincc-modbustcp"
 locale: "en"
@@ -40510,7 +40915,7 @@ An image to illustrate read-only variables and read/write variables.
 
 ---
 *Source: [WinCC Modbus TCP Driver](https://www.plc-hmi-scadas.com/en/WinCC_ModbusTCP.php) — Jose Manuel Luque*
-`,fI=`---
+`,CI=`---
 title: "WinCC Stand-Alone Project"
 slug: "wincc-monopuesto"
 locale: "en"
@@ -40551,7 +40956,7 @@ March 25, 2014
 
 ---
 *Source: [WinCC Stand-Alone Project](https://www.plc-hmi-scadas.com/en/WinCC_Monopuesto.php) — Jose Manuel Luque*
-`,CI=`---
+`,bI=`---
 title: "WinCC MQTT Publisher"
 slug: "wincc-mqtt"
 locale: "en"
@@ -40670,7 +41075,7 @@ IMPORTANT: WinCC does not allow receiving values from the broker.
 
 ---
 *Source: [WinCC MQTT Publisher](https://www.plc-hmi-scadas.com/en/WinCC_MQTT.php) — Jose Manuel Luque*
-`,bI=`---
+`,vI=`---
 title: "WinCC - MS Excel - Office Web Component"
 slug: "wincc-msexcel-owc"
 locale: "en"
@@ -40721,7 +41126,7 @@ February 11, 2018
 
 ---
 *Source: [WinCC - MS Excel - Office Web Component](https://www.plc-hmi-scadas.com/en/WinCC_MSExcel_OWC.php) — Jose Manuel Luque*
-`,vI=`---
+`,yI=`---
 title: "This computer is not in the client list of the server project"
 slug: "wincc-multipuesto-error"
 locale: "en"
@@ -40797,7 +41202,7 @@ _
 
 ---
 *Source: [This computer is not in the client list of the server project](https://www.plc-hmi-scadas.com/en/WinCC_Multipuesto_Error.php) — Jose Manuel Luque*
-`,yI=`---
+`,SI=`---
 title: "WinCC Multi-User Project"
 slug: "wincc-multipuesto"
 locale: "en"
@@ -40888,7 +41293,7 @@ March 25, 2014
 
 ---
 *Source: [WinCC Multi-User Project](https://www.plc-hmi-scadas.com/en/WinCC_Multipuesto.php) — Jose Manuel Luque*
-`,SI=`---
+`,AI=`---
 title: "WinCC - MySQL DataBase"
 slug: "wincc-mysql"
 locale: "en"
@@ -40975,7 +41380,7 @@ And the values that are in the Database.
 
 ---
 *Source: [WinCC - MySQL DataBase](https://www.plc-hmi-scadas.com/en/WinCC_MySQL.php) — Jose Manuel Luque*
-`,AI=`---
+`,PI=`---
 title: "WinCC Create .Net Controls"
 slug: "wincc-net"
 locale: "en"
@@ -41053,7 +41458,7 @@ If you liked it or found it useful, share it ... :)
 
 ---
 *Source: [WinCC Create .Net Controls](https://www.plc-hmi-scadas.com/en/WinCC_Net.php) — Jose Manuel Luque*
-`,PI=`---
+`,TI=`---
 title: "WinCC V7.4 News"
 slug: "wincc-new-7-4"
 locale: "en"
@@ -41217,7 +41622,7 @@ June 23, 2016
 
 ---
 *Source: [WinCC V7.4 News](https://www.plc-hmi-scadas.com/en/WinCC_New_7_4.php) — Jose Manuel Luque*
-`,TI=`---
+`,II=`---
 title: "New Features of WinCC 7.5"
 slug: "wincc-new-7-5"
 locale: "en"
@@ -41398,7 +41803,7 @@ These have been some of the new functions, but I reiterate that the best thing i
 
 ---
 *Source: [New Features of WinCC 7.5](https://www.plc-hmi-scadas.com/en/WinCC_New_7_5.php) — Jose Manuel Luque*
-`,II=`---
+`,_I=`---
 title: "WinCC Active Alarms Number / Unacknowledged Alarms Number"
 slug: "wincc-numero-alarmas"
 locale: "en"
@@ -41452,7 +41857,7 @@ If you liked it or found it useful, share it...
 
 ---
 *Source: [WinCC Active Alarms Number / Unacknowledged Alarms Number](https://www.plc-hmi-scadas.com/en/WinCC_Numero_Alarmas.php) — Jose Manuel Luque*
-`,_I=`---
+`,xI=`---
 title: "WinCC - PLCSIM Advanced Simulation"
 slug: "wincc-plcsimadvanced"
 locale: "en"
@@ -41503,7 +41908,7 @@ January 11, 2018
 
 ---
 *Source: [WinCC - PLCSIM Advanced Simulation](https://www.plc-hmi-scadas.com/en/WinCC_PLCSimAdvanced.php) — Jose Manuel Luque*
-`,xI=`---
+`,MI=`---
 title: "WinCC - PM Quality (Introduction)."
 slug: "wincc-pm-quality-1"
 locale: "en"
@@ -41623,7 +42028,7 @@ Now we are going to configure the PM-Server project; we will continue in the nex
 
 ---
 *Source: [WinCC - PM Quality (Introduction).](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_1.php) — Jose Manuel Luque*
-`,MI=`---
+`,WI=`---
 title: "WinCC - PM Quality (PM-Server & Stations)"
 slug: "wincc-pm-quality-2"
 locale: "en"
@@ -41736,7 +42141,7 @@ We do not have the Runtime started but for now, all the configuration is correct
 
 ---
 *Source: [WinCC - PM Quality (PM-Server & Stations)](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_2.php) — Jose Manuel Luque*
-`,WI=`---
+`,LI=`---
 title: "WinCC - PM Quality (Topology - Phase - Trends)"
 slug: "wincc-pm-quality-3"
 locale: "en"
@@ -41869,7 +42274,7 @@ Now to finish, we would need to print the Report with all the necessary informat
 
 ---
 *Source: [WinCC - PM Quality (Topology - Phase - Trends)](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_3.php) — Jose Manuel Luque*
-`,LI=`---
+`,EI=`---
 title: "WinCC - PM Quality (Reports)"
 slug: "wincc-pm-quality-4"
 locale: "en"
@@ -41938,7 +42343,7 @@ At a minimum, we now have a more global concept of this Add-On.
 
 ---
 *Source: [WinCC - PM Quality (Reports)](https://www.plc-hmi-scadas.com/en/WinCC_PM_Quality_4.php) — Jose Manuel Luque*
-`,EI=`---
+`,DI=`---
 title: "WinCC Redundancy"
 slug: "wincc-redundancy"
 locale: "en"
@@ -42030,7 +42435,7 @@ If you liked it or found it useful... Share it....
 
 ---
 *Source: [WinCC Redundancy](https://www.plc-hmi-scadas.com/en/WinCC_Redundancy.php) — Jose Manuel Luque*
-`,DI=`---
+`,kI=`---
 title: "WinCC RT Professional Load Project Runtime Station"
 slug: "wincc-rt-cargar-proyecto"
 locale: "en"
@@ -42168,7 +42573,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC RT Professional Load Project Runtime Station](https://www.plc-hmi-scadas.com/en/WinCC_RT_Cargar_Proyecto.php) — Jose Manuel Luque*
-`,kI=`---
+`,OI=`---
 title: "WinCC Read / Write Tags (Ansi C - VBScript)"
 slug: "wincc-rw-tag"
 locale: "en"
@@ -42225,7 +42630,7 @@ January 28, 2018
 
 ---
 *Source: [WinCC Read / Write Tags (Ansi C - VBScript)](https://www.plc-hmi-scadas.com/en/WinCC_RW_Tag.php) — Jose Manuel Luque*
-`,OI=`---
+`,FI=`---
 title: "WinCC Send Mail VBScript"
 slug: "wincc-sendmail"
 locale: "en"
@@ -42270,7 +42675,7 @@ February 11, 2018
 
 ---
 *Source: [WinCC Send Mail VBScript](https://www.plc-hmi-scadas.com/en/WinCC_SendMail.php) — Jose Manuel Luque*
-`,FI=`---
+`,RI=`---
 title: "WinCC Server not available"
 slug: "wincc-server-not-available"
 locale: "en"
@@ -42315,7 +42720,7 @@ September 3, 2017
 
 ---
 *Source: [WinCC Server not available](https://www.plc-hmi-scadas.com/en/WinCC_Server_Not_available.php) — Jose Manuel Luque*
-`,RI=`---
+`,NI=`---
 title: "WinCC OPC Server"
 slug: "wincc-servidor-opc"
 locale: "en"
@@ -42414,7 +42819,7 @@ August 26, 2014
 
 ---
 *Source: [WinCC OPC Server](https://www.plc-hmi-scadas.com/en/WinCC_Servidor_OPC.php) — Jose Manuel Luque*
-`,NI=`---
+`,VI=`---
 title: "Simatic Logon Configuration with Active Directory"
 slug: "wincc-simatic-logon"
 locale: "en"
@@ -42514,7 +42919,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [Simatic Logon Configuration with Active Directory](https://www.plc-hmi-scadas.com/en/WinCC_Simatic_Logon.php) — Jose Manuel Luque*
-`,VI=`---
+`,UI=`---
 title: "WinCC Driver Allen Bradley-Ethernet IP"
 slug: "wincc-softlogix"
 locale: "en"
@@ -42572,7 +42977,7 @@ July 26, 2016
 
 ---
 *Source: [WinCC Driver Allen Bradley-Ethernet IP](https://www.plc-hmi-scadas.com/en/WinCC_Softlogix.php) — Jose Manuel Luque*
-`,UI=`---
+`,jI=`---
 title: "WinCC Driver System Info Configuration"
 slug: "wincc-system-info"
 locale: "en"
@@ -42646,7 +43051,7 @@ November 17, 2013
 
 ---
 *Source: [WinCC Driver System Info Configuration](https://www.plc-hmi-scadas.com/en/WinCC_System_Info.php) — Jose Manuel Luque*
-`,jI=`---
+`,HI=`---
 title: "WinCC - No access points found"
 slug: "wincc-tagmanagement"
 locale: "en"
@@ -42691,7 +43096,7 @@ Problem solved, we can now select S7ONLINE.
 
 ---
 *Source: [WinCC - No access points found](https://www.plc-hmi-scadas.com/en/WinCC_TagManagement.php) — Jose Manuel Luque*
-`,HI=`---
+`,BI=`---
 title: "WinCC Unified User Management"
 slug: "wincc-unified-administracion-usuarios"
 locale: "en"
@@ -42764,7 +43169,7 @@ If we now log in as Operator, we have been able to log in and I have assigned ad
 
 ---
 *Source: [WinCC Unified User Management](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Administracion_Usuarios.php) — Jose Manuel Luque*
-`,BI=`---
+`,qI=`---
 title: "WinCC Unified Configuration"
 slug: "wincc-unified-configuration"
 locale: "en"
@@ -42819,7 +43224,7 @@ We finish the wizard and its time to execute this configuration. Once this step 
 
 ---
 *Source: [WinCC Unified Configuration](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Configuration.php) — Jose Manuel Luque*
-`,qI=`---
+`,GI=`---
 title: "WinCC Unified Connection OPC UA"
 slug: "wincc-unified-connection-opcua"
 locale: "en"
@@ -42870,7 +43275,7 @@ We just need to use the tags where appropriate and simulate our process to trans
 
 ---
 *Source: [WinCC Unified Connection OPC UA](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Connection_OPCUA.php) — Jose Manuel Luque*
-`,GI=`---
+`,zI=`---
 title: "WinCC Unified Custom Web Controls"
 slug: "wincc-unified-custom-web-controls"
 locale: "en"
@@ -42967,7 +43372,7 @@ To avoid extending this article too much, we already have the basis of how it wo
 
 ---
 *Source: [WinCC Unified Custom Web Controls](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Custom_Web_Controls.php) — Jose Manuel Luque*
-`,zI=`---
+`,JI=`---
 title: "WinCC Unified JavaScript Synchronous/ Asynchronous"
 slug: "wincc-unified-js"
 locale: "en"
@@ -43028,7 +43433,7 @@ With this, it is clear what function we need to assign to the execution of our s
 
 ---
 *Source: [WinCC Unified JavaScript Synchronous/ Asynchronous](https://www.plc-hmi-scadas.com/en/WinCC_Unified_JS.php) — Jose Manuel Luque*
-`,JI=`---
+`,XI=`---
 title: "WinCC Unified OPC Server UA"
 slug: "wincc-unified-servidor-opc-ua"
 locale: "en"
@@ -43107,7 +43512,7 @@ If we check the State variable of the Server, we can see that we are in running.
 
 ---
 *Source: [WinCC Unified OPC Server UA](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Servidor_OPC_UA.php) — Jose Manuel Luque*
-`,XI=`---
+`,QI=`---
 title: "WinCC Unified Trace JavaScript"
 slug: "wincc-unified-trace-javascript"
 locale: "en"
@@ -43162,7 +43567,7 @@ If we are only interested in the Scripts, it is ideal to filter by Filter --> Mo
 
 ---
 *Source: [WinCC Unified Trace JavaScript](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Trace_JavaScript.php) — Jose Manuel Luque*
-`,QI=`---
+`,KI=`---
 title: "WinCC Unified Transfer Project"
 slug: "wincc-unified-transferir-proyecto"
 locale: "en"
@@ -43235,7 +43640,7 @@ Here we have another novelty, and we will have to work on it for better understa
 
 ---
 *Source: [WinCC Unified Transfer Project](https://www.plc-hmi-scadas.com/en/WinCC_Unified_Transferir_Proyecto.php) — Jose Manuel Luque*
-`,KI=`---
+`,YI=`---
 title: "Visual Basic Application Macro AddIn in Graphic Designer WinCC"
 slug: "wincc-vba"
 locale: "en"
@@ -43302,7 +43707,7 @@ We start WinCC and at the same time the Graphics Designer, we go to Tools --> Ma
 
 ---
 *Source: [Visual Basic Application Macro AddIn in Graphic Designer WinCC](https://www.plc-hmi-scadas.com/en/WinCC_VBA.php) — Jose Manuel Luque*
-`,YI=`---
+`,ZI=`---
 title: "WinCC - GetTagRaw / SetTagRaw in VBScript"
 slug: "wincc-vbs-gettagraw"
 locale: "en"
@@ -43393,7 +43798,7 @@ January 21, 2018
 
 ---
 *Source: [WinCC - GetTagRaw / SetTagRaw in VBScript](https://www.plc-hmi-scadas.com/en/WinCC_VBS_GetTagRaw.php) — Jose Manuel Luque*
-`,ZI=`---
+`,$I=`---
 title: "WinCC VBScript Print Files"
 slug: "wincc-vbs-imprimir"
 locale: "en"
@@ -43439,7 +43844,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WinCC VBScript Print Files](https://www.plc-hmi-scadas.com/en/WinCC_VBS_Imprimir.php) — Jose Manuel Luque*
-`,$I=`---
+`,e_=`---
 title: "WinCC VBScript InvertBitInVariable"
 slug: "wincc-vbs-invertir-bits"
 locale: "en"
@@ -43488,7 +43893,7 @@ May 28, 2018
 
 ---
 *Source: [WinCC VBScript InvertBitInVariable](https://www.plc-hmi-scadas.com/en/WinCC_VBS_Invertir_Bits.php) — Jose Manuel Luque*
-`,e_=`---
+`,n_=`---
 title: "WinCC VBS Ping"
 slug: "wincc-vbs-ping"
 locale: "en"
@@ -43542,7 +43947,7 @@ If you liked it or found it useful ... Share it :-)
 
 ---
 *Source: [WinCC VBS Ping](https://www.plc-hmi-scadas.com/en/WinCC_VBS_Ping.php) — Jose Manuel Luque*
-`,n_=`---
+`,t_=`---
 title: "VBScript Execute in WinCC Server / WebNavigator Client"
 slug: "wincc-vbs-webnavigator"
 locale: "en"
@@ -43584,7 +43989,7 @@ If you liked it or found it useful, share it ... :)
 
 ---
 *Source: [VBScript Execute in WinCC Server / WebNavigator Client](https://www.plc-hmi-scadas.com/en/WinCC_VBS_WebNavigator.php) — Jose Manuel Luque*
-`,t_=`---
+`,a_=`---
 title: "WebNavigator HTTPS Configuration"
 slug: "wincc-webnavigator-https"
 locale: "en"
@@ -43656,7 +44061,7 @@ If you liked it or found it useful, share it :-)
 
 ---
 *Source: [WebNavigator HTTPS Configuration](https://www.plc-hmi-scadas.com/en/WinCC_WebNavigator_https.php) — Jose Manuel Luque*
-`,a_=`---
+`,i_=`---
 title: "WinCC WebUX"
 slug: "wincc-webux-ii"
 locale: "en"
@@ -43709,7 +44114,7 @@ Siemens notes that Windows 10 limits the number of connections; the maximum is 1
 
 ---
 *Source: [WinCC WebUX](https://www.plc-hmi-scadas.com/en/WinCC_WebUX_II.php) — Jose Manuel Luque*
-`,i_=`---
+`,o_=`---
 title: "WinCC New WebUX Server V7.3"
 slug: "wincc-webux"
 locale: "en"
@@ -43797,7 +44202,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [WinCC New WebUX Server V7.3](https://www.plc-hmi-scadas.com/en/WinCC_WebUX.php) — Jose Manuel Luque*
-`,o_=`---
+`,s_=`---
 title: "WinCC Create WPF Controls"
 slug: "wincc-wpf"
 locale: "en"
@@ -43873,7 +44278,7 @@ If you liked it or found it useful, share it ... :-)
 
 ---
 *Source: [WinCC Create WPF Controls](https://www.plc-hmi-scadas.com/en/WinCC_WPF.php) — Jose Manuel Luque*
-`,s_=`---
+`,r_=`---
 title: "WinCC"
 slug: "wincc"
 locale: "en"
@@ -43949,7 +44354,7 @@ March 25, 2014
 
 ---
 *Source: [WinCC](https://www.plc-hmi-scadas.com/en/WinCC.php) — Jose Manuel Luque*
-`,r_=`---
+`,c_=`---
 title: "WinCC - OPC SimaticNet (Simotion)"
 slug: "winccflexible-simotion-opc-2"
 locale: "en"
@@ -44026,7 +44431,7 @@ June 10, 2018
 
 ---
 *Source: [WinCC - OPC SimaticNet (Simotion)](https://www.plc-hmi-scadas.com/en/WinCCFlexible_Simotion_OPC_2.php) — Jose Manuel Luque*
-`,c_=`---
+`,l_=`---
 title: "Active Factory/Historian Client Trends"
 slug: "wonderware-activefactory"
 locale: "en"
@@ -44100,7 +44505,7 @@ September 10, 2013
 
 ---
 *Source: [Active Factory/Historian Client Trends](https://www.plc-hmi-scadas.com/en/Wonderware_ActiveFactory.php) — Jose Manuel Luque*
-`,l_=`---
+`,d_=`---
 title: "Historian AutoStart"
 slug: "wwhistorian-autostart"
 locale: "en"
@@ -44150,7 +44555,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [Historian AutoStart](https://www.plc-hmi-scadas.com/en/WWHistorian_AutoStart.php) — Jose Manuel Luque*
-`,d_=`---
+`,h_=`---
 title: "Configurator WWHistorian"
 slug: "wwhistorian-configurator"
 locale: "en"
@@ -44200,7 +44605,7 @@ If you liked it or found it useful, share it... :-)
 
 ---
 *Source: [Configurator WWHistorian](https://www.plc-hmi-scadas.com/en/WWHistorian_Configurator.php) — Jose Manuel Luque*
-`,h_=`---
+`,u_=`---
 title: "InduSoft Web Studio - Intouch Machine Edition - Intouch Edge HMI"
 slug: "wwintouchmachineedition"
 locale: "en"
@@ -44245,7 +44650,7 @@ The latest version of Intouch Machine Edition is currently called Intouch Edge H
 
 ---
 *Source: [InduSoft Web Studio - Intouch Machine Edition - Intouch Edge HMI](https://www.plc-hmi-scadas.com/en/WWIntouchMachineEdition.php) — Jose Manuel Luque*
-`,u_=`---
+`,m_=`---
 title: "SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500"
 slug: "zenon-driver-tia"
 locale: "en"
@@ -44322,7 +44727,7 @@ January 21, 2019
 
 ---
 *Source: [SCADA ZENON Supervisor (COPA-DATA) Driver Siemens s7-1200/1500](https://www.plc-hmi-scadas.com/en/Zenon_Driver_TIA.php) — Jose Manuel Luque*
-`,m_=`---
+`,g_=`---
 title: "Introduction to SCADA ZENON Supervisor (COPA-DATA)"
 slug: "zenon-introduccion"
 locale: "en"
@@ -44389,7 +44794,7 @@ This has been a small introduction that we will explore with examples later, to 
 
 ---
 *Source: [Introduction to SCADA ZENON Supervisor (COPA-DATA)](https://www.plc-hmi-scadas.com/en/Zenon_Introduccion.php) — Jose Manuel Luque*
-`,g_=`---
+`,p_=`---
 title: "SQL Databases in SCADAs"
 slug: "136"
 locale: "en"
@@ -44479,7 +44884,7 @@ If you liked it or found the information useful, share it...
 
 ---
 *Source: [SQL Databases in SCADAs](https://www.plc-hmi-scadas.com/en/136.php) — Jose Manuel Luque*
-`,p_=`---
+`,w_=`---
 title: "Version Control with Git, GitHub and TIA Portal V21"
 slug: "blog-control-versiones-git-tia-portal-v21"
 locale: "en"
@@ -44683,7 +45088,7 @@ Industrial automation and version control applied to PLC projects.
 
 ---
 *Source: [Version Control with Git, GitHub and TIA Portal V21](https://www.plc-hmi-scadas.com/en/blog/control-versiones-git-tia-portal-v21/) — Pedro Pagán Pallarés*
-`,w_=`---
+`,f_=`---
 title: "Set Up a Development Environment with VS Code, GitHub Copilot and AI Agents"
 slug: "blog-entorno-desarrollo-vscode-copilot-agentes"
 locale: "en"
@@ -45180,7 +45585,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Set Up a Development Environment with VS Code, GitHub Copilot and AI Agents](https://www.plc-hmi-scadas.com/en/blog/entorno-desarrollo-vscode-copilot-agentes/) — Pedro Pagán Pallarés*
-`,f_=`---
+`,C_=`---
 title: "Git & GitHub for Teams:Interactive Guide to Collaborative Workflows with VS Code"
 slug: "blog-git-github-flujo-colaborativo-vscode"
 locale: "en"
@@ -45669,7 +46074,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [Git & GitHub for Teams:Interactive Guide to Collaborative Workflows with VS Code](https://www.plc-hmi-scadas.com/en/blog/git-github-flujo-colaborativo-vscode/) — Pedro Pagán Pallarés*
-`,C_=`---
+`,b_=`---
 title: "Version Control — Git & GitHub"
 slug: "git"
 locale: "en"
@@ -45701,7 +46106,7 @@ Version control and collaborative workflow applied to industrial automation proj
 
 ---
 *Source: [Version Control — Git & GitHub](https://www.plc-hmi-scadas.com/en/Git/) — Jose Manuel*
-`,b_=`---
+`,v_=`---
 title: "Framework — VS Code & Copilot"
 slug: "vscode"
 locale: "en"
@@ -45732,7 +46137,7 @@ Professional development environment with VS Code and GitHub Copilot for industr
 
 ---
 *Source: [Framework — VS Code & Copilot](https://www.plc-hmi-scadas.com/en/VSCode/) — Jose Manuel*
-`,v_=`---
+`,y_=`---
 title: "GrafSim · GRAFCET editor and simulator"
 slug: "blog-grafsim"
 locale: "en"
@@ -45906,7 +46311,7 @@ Automation and industrial organisation engineer specialised in data and applied 
 
 ---
 *Source: [GrafSim · GRAFCET editor and simulator](https://www.plc-hmi-scadas.com/en/blog/grafsim/) — Pedro Pagán Pallarés*
-`,y_=`---
+`,S_=`---
 title: "PHS Color Batch Simulator: pigment dosing with PLC and OPC UA"
 slug: "blog-phs-color-batch-simulator-opc-ua"
 locale: "en"
@@ -46126,7 +46531,7 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [PHS Color Batch Simulator: pigment dosing with PLC and OPC UA](https://www.plc-hmi-scadas.com/en/blog/phs-color-batch-simulator-opc-ua/) — Pedro Pagán Pallarés*
-`,S_=`---
+`,A_=`---
 title: "PHS Thermal Process Simulator: simulate processes and control them through OPC UA"
 slug: "blog-phs-thermal-process-simulator-opc-ua"
 locale: "en"
@@ -46346,10 +46751,10 @@ Automation and industrial organization engineer specialized in data and applied 
 
 ---
 *Source: [PHS Thermal Process Simulator: simulate processes and control them through OPC UA](https://www.plc-hmi-scadas.com/en/blog/phs-thermal-process-simulator-opc-ua/) — Pedro Pagán Pallarés*
-`,A_={"001/003.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Comunicación","Communication"],["Estado","Status"]],"001/005.jpg":[["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Tabla de estado","Status chart"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"001/006.jpg":[["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Comunicación","Communication"],["Proyecto","Project"],["Guardar","Save"],["Buscar","Search"],["Velocidad","Speed"]],"001/008.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"001/009.jpg":[["Bloque de datos","Data block"],["Dirección","Address"],["Programa","Program"],["Nuevo","New"],["Seleccionar","Select"],["Opciones","Options"],["Cargar","Load"]],"001/011.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Comunicación","Communication"]],"001/014.jpg":[["Bloque de datos","Data block"],["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Proyecto","Project"],["Guardar","Save"]],"001/015.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Comunicación","Communication"]],"003/Barcode05.jpg":[["Archivo","File"],["Proyecto","Project"],["Seleccionar","Select"],["Ejecutar","Run"]],"003/Barcode08.jpg":[["Archivo","File"],["Ayuda","Help"],["Dirección","Address"],["Ver","View"]],"004/OPC VB-004.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Usuario","User"],["Datos","Data"],["Equipo","Computer / station"]],"004/OPC VB-005.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Datos","Data"],["Equipo","Computer / station"]],"004/OPC VB-013.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Estado","Status"],["Ver","View"]],"004/OPC VB-018.jpg":[["Conexión","Connection"],["Datos","Data"]],"004/OPC VB-024.jpg":[["Nombre","Name"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Datos","Data"]],"004/OPC VB-17.jpg":[["Base de datos","Database"]],"005/WCF-DataLog02.jpg":[["Base de datos","Database"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Usuario","User"],["Información","Information"],["Origen","Source"]],"005/WCF-DataLog04.jpg":[["Nombre","Name"],["Fecha","Date"],["Hora","Time"],["Inicio","Start"],["Datos","Data"]],"006/VirtualBox-Com01.jpg":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Dispositivo","Device"],["Puerto","Port"],["Crear","Create"],["Ruta","Path"]],"006/VirtualBox-Com08.jpg":[["Ayuda","Help"],["Proyecto","Project"],["Programa","Program"],["Siguiente","Next"],["Dispositivo","Device"],["Histórico","Historical"]],"006/VirtualBox-Com12.jpg":[["Cancelar","Cancel"],["Nuevo","New"],["Buscar","Search"],["Siguiente","Next"],["Dispositivo","Device"],["Equipo","Computer / station"]],"006/VirtualBox-Com17.jpg":[["Ayuda","Help"],["Proyecto","Project"],["Programa","Program"],["Siguiente","Next"],["Histórico","Historical"]],"006/VirtualBox-Com19.jpg":[["Ayuda","Help"],["Proyecto","Project"],["Programa","Program"],["Siguiente","Next"],["Dispositivo","Device"],["Estado","Status"],["Histórico","Historical"],["Ver","View"]],"006/VirtualBox-Com20.jpg":[["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Conexión","Connection"],["Seleccione","Select"],["Dispositivo","Device"],["Puerto","Port"],["Pantalla","Screen"]],"006/VirtualBox-Com21.jpg":[["Proyecto","Project"],["Programa","Program"],["Siguiente","Next"],["Histórico","Historical"]],"007/KepServer S7-2xx-19.jpg":[["Ayuda","Help"],["Dirección","Address"],["Siguiente","Next"]],"008/Intouch-AccessName-05.jpg":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Dirección","Address"],["Ver","View"]],"011/RSLoxix5000 Emulate-05.jpg":[["Entrada","Input"],["Salida","Output"]],"012/Unity-02.jpg":[["Cancelar","Cancel"],["Proyecto","Project"],["Nuevo","New"],["Descripción","Description"]],"012/Unity-03.jpg":[["Proyecto","Project"],["Programa","Program"],["Datos","Data"],["Evento","Event"]],"012/Unity-06.jpg":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Comunicación","Communication"],["Nuevo","New"],["Dispositivo","Device"],["Entrada","Input"]],"012/Unity-08.jpg":[["Proyecto","Project"],["Datos","Data"],["Agregar","Add"]],"012/Unity-11.jpg":[["Conexión","Connection"],["Datos","Data"]],"012/Unity-12.jpg":[["Programa","Program"],["Usuario","User"],["Agregar","Add"],["Crear","Create"],["Evento","Event"]],"012/Unity-15.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Ver","View"]],"012/Unity-16.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Ver","View"]],"012/Unity-17.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Proyecto","Project"],["Ver","View"]],"012/Unity-18.jpg":[["Nombre","Name"],["Proyecto","Project"],["Valor","Value"]],"012/Unity-21.jpg":[["Dirección IP","IP address"],["Nombre","Name"],["Proyecto","Project"],["Datos","Data"],["Ver","View"]],"012/Unity-22.jpg":[["Dirección IP","IP address"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Usuario","User"]],"013/Vijeo with Unity-46.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Alarma","Alarm"],["Datos","Data"],["Informe","Report"],["Ver","View"]],"013/Vijeo with Unity-47.jpg":[["Ventana","Window"],["Nuevo","New"],["Alarma","Alarm"],["Datos","Data"],["Informe","Report"]],"013/Vijeo with Unity-49.jpg":[["Nuevo","New"],["Equipo","Computer / station"],["Controlador","Driver / controller"]],"013/Vijeo with Unity-50.jpg":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"]],"013/Vijeo with Unity-51.jpg":[["Dirección IP","IP address"],["Comunicación","Communication"],["Equipo","Computer / station"],["Mostrar","Show"]],"013/Vijeo with Unity-52.jpg":[["Ventana","Window"],["Alarma","Alarm"],["Datos","Data"],["Informe","Report"]],"013/Vijeo with Unity-58.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Alarma","Alarm"]],"013/Vijeo with Unity-59.jpg":[["Edición","Edit"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Seleccione","Select"],["Alarma","Alarm"],["Descripción","Description"]],"013/Vijeo with Unity-66.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Seleccionar","Select"]],"013/Vijeo with Unity-67.jpg":[["Nombre","Name"],["Dirección","Address"],["Datos","Data"],["Origen","Source"]],"014/Intouch-BindList-02.jpg":[["Ayuda","Help"],["Nombre","Name"],["Fecha","Date"]],"014/Intouch-BindList-06.jpg":[["Base de datos","Database"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Dirección","Address"]],"014/Intouch-BindList-11.jpg":[["Base de datos","Database"]],"015/WCF Transfer 21.jpg":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"]],"015/WCF Transfer-00.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"]],"015/WCF Transfer-01.jpg":[["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"],["Borrar","Clear"]],"015/WCF Transfer-12.jpg":[["Estado","Status"],["Equipo","Computer / station"]],"015/WCF Transfer-15.jpg":[["Puerta de enlace","Gateway"],["Dirección","Address"],["Conexión","Connection"]],"015/WCF Transfer-17.jpg":[["Archivo","File"],["Configuración","Configuration"],["Programa","Program"],["Datos","Data"]],"015/WCF Transfer-22.jpg":[["Ayuda","Help"],["Ventana","Window"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"],["Hora","Time"],["Estado","Status"],["Equipo","Computer / station"]],"015/WCF Transfer-25.jpg":[["Puerta de enlace","Gateway"],["Conexión","Connection"],["Datos","Data"]],"015/WCF Transfer-26.jpg":[["Dirección IP","IP address"],["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Configuración","Configuration"],["Cancelar","Cancel"],["Aplicar","Apply"],["Nombre","Name"]],"016/WCF S7-2xx-05.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Comunicación","Communication"]],"016/WCF S7-2xx-06.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"]],"016/WCF S7-2xx-07.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"]],"018/OPC OFS-10.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"019/Protool-Backup-01.jpg":[["Archivo","File"],["Ayuda","Help"],["Conexión","Connection"],["Velocidad","Speed"],["Equipo","Computer / station"]],"019/Protool-Backup-02.jpg":[["Archivo","File"],["Ayuda","Help"],["Configuración","Configuration"],["Guardar","Save"],["Datos","Data"]],"019/Protool-Backup-04.jpg":[["Archivo","File"],["Guardar","Save"],["Datos","Data"]],"019/Protool-Backup-06.jpg":[["Archivo","File"],["Guardar","Save"],["Datos","Data"]],"019/Protool-Backup-07.jpg":[["Archivo","File"],["Configuración","Configuration"],["Guardar","Save"],["Datos","Data"]],"019/Protool-Backup-08.jpg":[["Archivo","File"],["Guardar","Save"],["Datos","Data"]],"024/AIC+ -05.jpg":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dispositivo","Device"]],"025/WebServer WCF-1.jpg":[["Edición","Edit"],["Ventana","Window"],["Configuración","Configuration"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"],["Opciones","Options"]],"025/WebServer WCF-18a.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ver","View"]],"025/WebServer WCF-18b.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ver","View"]],"025/WebServer WCF-18c.jpg":[["Edición","Edit"],["Ayuda","Help"],["Listo","Ready"],["Ver","View"]],"025/WebServer WCF-2.jpg":[["Programa","Program"],["Servidor","Server"],["Pantalla","Screen"],["Informe","Report"]],"025/WebServer WCF-3.jpg":[["Edición","Edit"],["Ayuda","Help"],["Insertar","Insert"],["Opciones","Options"],["Estado","Status"]],"025/WebServer WCF-30.jpg":[["Eliminar","Delete"],["Dispositivo","Device"],["Inicio","Start"],["Estado","Status"],["Puerto","Port"],["Equipo","Computer / station"],["Crear","Create"],["Destino","Destination"]],"025/WebServer WCF-4.jpg":[["Archivo","File"],["Edición","Edit"],["Ventana","Window"],["Cancelar","Cancel"],["Nuevo","New"],["Opciones","Options"],["Estado","Status"],["Equipo","Computer / station"]],"025/WebServer WCF-5.jpg":[["Puerta de enlace","Gateway"],["Conexión","Connection"]],"025/WebServer WCF-6.jpg":[["Ayuda","Help"],["Configuración","Configuration"],["Ver","View"]],"025/WebServer WCF-67.jpg":[["Ayuda","Help"],["Dirección","Address"],["Opciones","Options"]],"025/WebServer WCF-7.jpg":[["Opciones","Options"],["Dispositivo","Device"],["Pantalla","Screen"],["Ver","View"]],"025/WebServer WCF-8.jpg":[["Edición","Edit"],["Configuración","Configuration"],["Dispositivo","Device"],["Ver","View"]],"025/WebServer WCF-9.jpg":[["Configuración","Configuration"],["Dirección","Address"],["Opciones","Options"],["Dispositivo","Device"],["Pantalla","Screen"]],"033/ProTool AB -00.jpg":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Destino","Destination"]],"033/ProTool AB -01.jpg":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"]],"033/ProTool AB -02.jpg":[["Ayuda","Help"],["Nombre","Name"],["Velocidad","Speed"]],"033/ProTool AB -04.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"]],"033/ProTool AB -06.jpg":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"]],"033/ProTool AB -07.jpg":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Cancelar","Cancel"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"]],"033/ProTool AB -11.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Proyecto","Project"]],"033/ProTool AB -12.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Aplicar","Apply"],["Nombre","Name"],["Insertar","Insert"],["Salida","Output"]],"034/Citect e-mail -00.jpg":[["Archivo","File"],["Herramientas","Tools"],["Nuevo","New"],["Fecha","Date"],["Entrada","Input"],["Informe","Report"],["Ver","View"]],"034/Citect e-mail -01.jpg":[["Opciones","Options"],["Informe","Report"],["Mensaje","Message"]],"034/Citect Email-01.jpg":[["Estado","Status"],["Etiqueta","Tag / label"],["Mensaje","Message"]],"034/Citect Email-03.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Abrir","Open"],["Ruta","Path"],["Ver","View"]],"034/Citect Email-04.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Cancelar","Cancel"],["Proyecto","Project"],["Abrir","Open"],["Nuevo","New"],["Ver","View"]],"034/Citect Email-07.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Insertar","Insert"],["Entrada","Input"],["Mensaje","Message"]],"034/Citect Email-13.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Abrir","Open"],["Usuario","User"]],"034/Citect Email-14.jpg":[["Nombre","Name"],["Dirección","Address"],["Usuario","User"],["Datos","Data"],["Informe","Report"],["Mensaje","Message"]],"035/Citect OPC-1.jpg":[["Configuración","Configuration"],["Dispositivo","Device"],["Alarma","Alarm"],["Tendencia","Trend"],["Listo","Ready"],["Ver","View"]],"035/Citect OPC-10.jpg":[["Archivo","File"],["Etiqueta","Tag / label"]],"035/Citect OPC-12.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dispositivo","Device"],["Servidor","Server"],["Alarma","Alarm"]],"035/Citect OPC-13.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Dispositivo","Device"],["Alarma","Alarm"]],"035/Citect OPC-2.jpg":[["Nombre","Name"],["Nuevo","New"],["Dispositivo","Device"],["Crear","Create"]],"035/Citect OPC-3.jpg":[["Nombre","Name"],["Dispositivo","Device"]],"035/Citect OPC-5.jpg":[["Ayuda","Help"],["Dirección","Address"],["Dispositivo","Device"]],"035/Citect OPC-7.jpg":[["Base de datos","Database"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Seleccione","Select"],["Dispositivo","Device"],["Servidor","Server"]],"035/Citect OPC-8.jpg":[["Base de datos","Database"],["Seleccione","Select"],["Dispositivo","Device"]],"035/Citect OPC-9.jpg":[["Configuración","Configuration"],["Dirección","Address"],["Guardar","Save"],["Nuevo","New"],["Servidor","Server"],["Velocidad","Speed"],["Datos","Data"]],"036/CX-Simulator15.jpg":[["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Dispositivo","Device"]],"036/CX-Simulator16.jpg":[["Ayuda","Help"],["Cancelar","Cancel"],["Dirección","Address"],["Destino","Destination"],["Controlador","Driver / controller"]],"036/CX-Simulator18.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Conexión","Connection"],["Proyecto","Project"]],"036/CX-Simulator19.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"]],"037/CX-Programmer Fifo-00.jpg":[["Dirección","Address"],["Datos","Data"],["Destino","Destination"]],"037/CX-Programmer-Fifo-03.gif":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Programa","Program"],["Insertar","Insert"],["Salir","Exit"]],"039/WCR Recipes-00.jpg":[["Referencias cruzadas","Cross reference"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"]],"039/WCR Recipes-01.jpg":[["Nombre","Name"],["Valor","Value"]],"039/WCR Recipes-02.jpg":[["Nombre","Name"],["Datos","Data"]],"039/WCR Recipes-03.jpg":[["Herramientas","Tools"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"]],"039/WCR Recipes-06.jpg":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"039/WCR Recipes-07.jpg":[["Nombre","Name"],["Datos","Data"]],"039/WCR Recipes-12.jpg":[["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Borrar","Clear"],["Siguiente","Next"],["Anterior","Back"],["Estado","Status"]],"039/WCR Recipes-14.jpg":[["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Fila","Row"],["Columna","Column"]],"040/WCAdvanced Recipes-00.jpg":[["Referencias cruzadas","Cross reference"],["Edición","Edit"],["Herramientas","Tools"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"]],"040/WCAdvanced Recipes-02.jpg":[["Herramientas","Tools"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"040/WCAdvanced Recipes-03.jpg":[["Nombre","Name"],["Datos","Data"],["Ruta","Path"]],"040/WCAdvanced Recipes-05.jpg":[["Opciones","Options"],["Objeto","Object"]],"040/WCAdvanced Recipes-07.jpg":[["Propiedades","Properties"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"],["Mostrar","Show"],["Agregar","Add"],["Objeto","Object"],["Evento","Event"]],"041/S7-300-08.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Programa","Program"]],"041/S7-300-09.jpg":[["Tabla de símbolos","Symbol table"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"041/S7-300-10.jpg":[["Ayuda","Help"],["Informe","Report"]],"041/S7-300-11.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"],["Ver","View"]],"041/S7-300-12.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Cancelar","Cancel"],["Nuevo","New"],["Insertar","Insert"],["Velocidad","Speed"]],"041/S7-300-14.jpg":[["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"041/S7-300-16.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"]],"041/S7-300-17.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Tabla de estado","Status chart"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"041/S7-300-18.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Destino","Destination"],["Ver","View"]],"041/S7-300-22.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"],["Ver","View"]],"041/S7-300-23.jpg":[["Programa","Program"],["Datos","Data"]],"041/S7-300-25.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Buscar","Search"],["Insertar","Insert"],["Equipo","Computer / station"]],"041/S7-300-26.jpg":[["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Entrada","Input"]],"042/Citect DB03.jpg":[["Base de datos","Database"],["Archivo","File"],["Crear","Create"]],"042/Citect DB04.jpg":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Insertar","Insert"],["Datos","Data"]],"042/Citect DB11.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Alarma","Alarm"],["Ver","View"]],"042/Citect DB12.jpg":[["Base de datos","Database"],["Archivo","File"],["Herramientas","Tools"],["Ventana","Window"]],"042/Citect DB13.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Objeto","Object"],["Ver","View"]],"042/Citect DB19.jpg":[["Base de datos","Database"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Listo","Ready"]],"042/Citect DB20.jpg":[["Base de datos","Database"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Listo","Ready"]],"042/Citect DB21.jpg":[["Base de datos","Database"],["Archivo","File"],["Ventana","Window"],["Insertar","Insert"],["Crear","Create"],["Objeto","Object"]],"043/WinCC Control Motores-010.jpg":[["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-011.jpg":[["Ventana","Window"],["Propiedades","Properties"],["Evento","Event"]],"043/WinCC Control Motores-04.jpg":[["Nombre","Name"],["Valor","Value"],["Equipo","Computer / station"]],"043/WinCC Control Motores-05.jpg":[["Ventana","Window"],["Estado","Status"]],"043/WinCC Control Motores-06.jpg":[["Propiedades","Properties"],["Estado","Status"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-07.jpg":[["Propiedades","Properties"],["Aceptar","OK"],["Estado","Status"],["Evento","Event"]],"043/WinCC Control Motores-10.jpg":[["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-11.jpg":[["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-12.jpg":[["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-13.jpg":[["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-14.jpg":[["Propiedades","Properties"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-15.jpg":[["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-17.jpg":[["Ventana","Window"],["Proyecto","Project"],["Guardar","Save"],["Copiar","Copy"],["Evento","Event"],["Columna","Column"]],"043/WinCCMotor-02.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Nombre","Name"],["Nuevo","New"]],"043/WinCCMotor-03.jpg":[["Valor","Value"],["Equipo","Computer / station"]],"044/VJD Runtime-1.jpg":[["Dirección IP","IP address"],["Nombre","Name"],["Usuario","User"],["Alarma","Alarm"],["Velocidad","Speed"],["Datos","Data"],["Ruta","Path"],["Destino","Destination"]],"044/VJD Runtime-13.jpg":[["Archivo","File"],["Nombre","Name"],["Usuario","User"],["Ruta","Path"]],"044/VJD Runtime-16.jpg":[["Archivo","File"],["Aceptar","OK"],["Nombre","Name"],["Usuario","User"],["Ruta","Path"]],"044/VJD Runtime-1a.jpg":[["Alarma","Alarm"],["Puerto","Port"]],"044/VJD Runtime-2.jpg":[["Alarma","Alarm"],["Datos","Data"]],"044/VJD Runtime-3.jpg":[["Configuración","Configuration"],["Alarma","Alarm"],["Datos","Data"]],"044/VJD Runtime-4.jpg":[["Nuevo","New"],["Mostrar","Show"]],"044/VJD Runtime-5a.jpg":[["Ventana","Window"],["Usuario","User"],["Servidor","Server"],["Alarma","Alarm"],["Datos","Data"],["Pantalla","Screen"],["Ruta","Path"],["Destino","Destination"]],"044/VJD Runtime-6.jpg":[["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Eliminar","Delete"],["Opciones","Options"],["Dispositivo","Device"],["Usuario","User"],["Servidor","Server"]],"044/VJD Runtime-8.jpg":[["Archivo","File"],["Nombre","Name"],["Fecha","Date"],["Carpeta","Folder"]],"045/Omron-Com-03.jpg":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Insertar","Insert"],["Dispositivo","Device"],["Lectura","Read"]],"045/Omron-Com-04.jpg":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Insertar","Insert"],["Dispositivo","Device"],["Puerto","Port"],["Velocidad","Speed"]],"045/Omron-Com-05.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"]],"045/Omron-Com-06.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Programa","Program"]],"045/Omron-Com-07.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"]],"045/Omron-Com-08.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"]],"045/Omron-Com-09.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Programa","Program"]],"046/Omron TIA-06a.jpg":[["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Dispositivo","Device"],["Puerto","Port"],["Velocidad","Speed"]],"046/Omron TIA-10.jpg":[["Fecha","Date"],["Entrada","Input"],["Salida","Output"],["Estado","Status"]],"046/Omron TIA-11.jpg":[["Fecha","Date"],["Entrada","Input"],["Salida","Output"],["Estado","Status"]],"048/TIA-WinCC RT-VentanaImagen-01.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"]],"048/TIA-WinCC RT-VentanaImagen-02.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Opciones","Options"],["Inicio","Start"],["Objeto","Object"]],"048/TIA-WinCC RT-VentanaImagen-03.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Opciones","Options"],["Inicio","Start"],["Evento","Event"]],"048/TIA-WinCC RT-VentanaImagen-04.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Ver","View"]],"048/TIA-WinCC RT-VentanaImagen-05.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Ver","View"]],"048/TIA-WinCC RT-VentanaImagen-06.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Ver","View"]],"048/TIA-WinCC RT-VentanaImagen-07.jpg":[["Proyecto","Project"],["Copiar","Copy"],["Pegar","Paste"],["Opciones","Options"],["Agregar","Add"],["Carpeta","Folder"]],"048/TIA-WinCC RT-VentanaImagen-08.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"048/TIA-WinCC RT-VentanaImagen-09.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Estado","Status"],["Ver","View"]],"048/TIA-WinCC RT-VentanaImagen-11.jpg":[["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Inicio","Start"]],"048/TIA-WinCC RT-VentanaImagen-12.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Valor","Value"],["Inicio","Start"]],"048/TIA-WinCC RT-VentanaImagen-13.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Opciones","Options"],["Inicio","Start"],["Ver","View"]],"049/S7-200 TIA WinCC Advanced RT-08.jpg":[["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Velocidad","Speed"],["Avanzado","Advanced"]],"053/CPU2xx Clock-0.jpg":[["Tiempo real","Real time"],["Siguiente","Next"],["Fecha","Date"],["Hora","Time"],["Entrada","Input"],["Salida","Output"],["Datos","Data"]],"053/CPU2xx Clock-01.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"053/CPU2xx Clock-04.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Tabla de símbolos","Symbol table"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"053/CPU2xx Clock-05.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"053/CPU2xx Clock-06.png":[["Dirección","Address"],["Nuevo","New"],["Valor","Value"]],"053/CPU2xx Clock-07.png":[["Fecha","Date"],["Hora","Time"]],"053/CPU2xx Clock-13.png":[["Fecha","Date"],["Hora","Time"]],"055/WinCC WebNavigator-000.png":[["Cancelar","Cancel"],["Siguiente","Next"],["Descripción","Description"],["Equipo","Computer / station"],["Agregar","Add"],["Ver","View"]],"055/WinCC WebNavigator-001.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"055/WinCC WebNavigator-002.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Conexión","Connection"],["Usuario","User"],["Entrada","Input"]],"055/WinCC WebNavigator-003.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Conexión","Connection"],["Opciones","Options"],["Usuario","User"]],"055/WinCC WebNavigator-03.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"055/WinCC WebNavigator-04.png":[["Configuración","Configuration"],["Cancelar","Cancel"],["Siguiente","Next"],["Finalizar","Finish"],["Modificar","Modify"],["Crear","Create"]],"055/WinCC WebNavigator-05.png":[["Finalizar","Finish"],["Agregar","Add"],["Crear","Create"]],"055/WinCC WebNavigator-07.png":[["Dirección IP","IP address"],["Configuración","Configuration"],["Nombre","Name"],["Conexión","Connection"],["Finalizar","Finish"]],"055/WinCC WebNavigator-09.png":[["Conexión","Connection"],["Finalizar","Finish"],["Seleccione","Select"]],"055/WinCC WebNavigator-10.png":[["Ayuda","Help"],["Configuración","Configuration"],["Seleccione","Select"],["Opciones","Options"],["Equipo","Computer / station"]],"055/WinCC WebNavigator-11.png":[["Archivo","File"],["Configuración","Configuration"],["Conexión","Connection"],["Opciones","Options"],["Estado","Status"],["Información","Information"],["Agregar","Add"],["Crear","Create"]],"055/WinCC WebNavigator-12.png":[["Seleccione","Select"],["Servidor","Server"]],"055/WinCC WebNavigator-14.png":[["Dirección IP","IP address"],["Nombre","Name"],["Opciones","Options"],["Servidor","Server"],["Puerto","Port"],["Descripción","Description"],["Equipo","Computer / station"]],"055/WinCC WebNavigator-16.png":[["Dirección IP","IP address"],["Nombre","Name"],["Servidor","Server"],["Puerto","Port"],["Descripción","Description"],["Equipo","Computer / station"]],"055/WinCC WebNavigator-18.png":[["Conexión","Connection"],["Siguiente","Next"],["Finalizar","Finish"],["Seleccione","Select"],["Ver","View"]],"055/WinCC WebNavigator-19.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Conexión","Connection"],["Finalizar","Finish"],["Opciones","Options"]],"055/WinCC WebNavigator-22.png":[["Dirección IP","IP address"],["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Estado","Status"],["Descripción","Description"],["Equipo","Computer / station"]],"055/WinCC WebNavigator-24.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"055/WinCC WebNavigator-25.png":[["Proyecto","Project"],["Hora","Time"],["Pantalla","Screen"],["Carpeta","Folder"]],"055/WinCC WebNavigator-26.png":[["Proyecto","Project"],["Seleccionar","Select"],["Mostrar","Show"],["Carpeta","Folder"],["Ruta","Path"]],"055/WinCC WebNavigator-29.png":[["Nombre","Name"],["Finalizar","Finish"],["Estado","Status"],["Información","Information"]],"055/WinCC WebNavigator-30.png":[["Aceptar","OK"],["Nombre","Name"],["Finalizar","Finish"],["Estado","Status"],["Información","Information"]],"055/WinCC WebNavigator-32.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Inicio","Start"],["Objeto","Object"],["Ver","View"]],"055/WinCC WebNavigator-38.png":[["Herramientas","Tools"],["Nombre","Name"],["Usuario","User"],["Servidor","Server"],["Advertencia","Warning"]],"055/WinCC WebNavigator-42.png":[["Configuración","Configuration"],["Ejecutar","Run"]],"055/WinCC WebNavigator-43.png":[["Herramientas","Tools"],["Siguiente","Next"],["Anterior","Back"]],"055/WinCC WebNavigator-45.png":[["Herramientas","Tools"],["Nombre","Name"],["Programa","Program"],["Siguiente","Next"],["Anterior","Back"],["Equipo","Computer / station"],["Ejecutar","Run"],["Advertencia","Warning"]],"055/WinCC WebNavigator-46.png":[["Herramientas","Tools"],["Usuario","User"],["Estado","Status"]],"057/Infilink 1 24.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Ver","View"]],"057/Infilink 1 25.png":[["Ayuda","Help"],["Nombre","Name"],["Cerrar","Close"],["Estado","Status"],["Descripción","Description"]],"057/Infilink 1 26.png":[["Propiedades","Properties"],["Avanzado","Advanced"]],"057/Infilink 1 31.png":[["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Alarma","Alarm"],["Lectura","Read"],["Descripción","Description"],["Avanzado","Advanced"],["Ruta","Path"]],"057/Infilink 1 32.png":[["Ayuda","Help"],["Nombre","Name"],["Cerrar","Close"],["Servidor","Server"]],"057/Infilink 1 33.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Ver","View"]],"057/Infilink 1 34.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Cerrar","Close"],["Valor","Value"],["Mostrar","Show"]],"057/Infilink 1 35.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"]],"057/Infilink 1 36.png":[["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Usuario","User"]],"057/Infilink 1 37.png":[["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Usuario","User"]],"057/Infilink 1 39.png":[["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Alarma","Alarm"],["Lectura","Read"],["Descripción","Description"],["Avanzado","Advanced"],["Ruta","Path"]],"058/Simulation Modbus-04.png":[["Ayuda","Help"],["Propiedades","Properties"],["Eliminar","Delete"],["Dispositivo","Device"],["Ver","View"]],"058/Simulation Modbus-07.png":[["Dispositivo","Device"],["Puerto","Port"],["Velocidad","Speed"]],"058/Simulation Modbus-08.png":[["Ayuda","Help"],["Dispositivo","Device"],["Listo","Ready"],["Ver","View"]],"059/S7-200 Esclavo Modbus-09.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"059/S7-200 Esclavo Modbus-10.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"059/S7-200 Esclavo Modbus-11.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"060/S7-200 Master Modbus-16.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"060/S7-200 Master Modbus-17.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"060/S7-200 Master Modbus-18.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"061/Intouch PLCSIM -01.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"]],"061/Intouch PLCSIM -02.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"]],"061/Intouch PLCSIM -03.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"061/Intouch PLCSIM -04.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ejecutar","Run"],["Ver","View"]],"061/Intouch PLCSIM -16.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Datos","Data"]],"061/Intouch PLCSIM -17.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Datos","Data"]],"062/WinCC PLCSIM-02.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Buscar","Search"]],"062/WinCC PLCSIM-03.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nombre","Name"],["Comunicación","Communication"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"062/WinCC PLCSIM-05.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Buscar","Search"]],"062/WinCC PLCSIM-06.png":[["Propiedades","Properties"],["Nombre","Name"]],"062/WinCC PLCSIM-07.png":[["Bloque de datos","Data block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"]],"062/WinCC PLCSIM-08.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Ver","View"]],"062/WinCC PLCSIM-09.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"062/WinCC PLCSIM-10.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"]],"062/WinCC PLCSIM-12.png":[["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Seleccionar","Select"],["Seleccione","Select"],["Valor","Value"],["Datos","Data"]],"062/WinCC PLCSIM-13.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Valor","Value"]],"062/WinCC PLCSIM-15.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ejecutar","Run"]],"062/WinCC PLCSIM-16.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ejecutar","Run"]],"062/WinCC PLCSIM-18.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Borrar","Clear"],["Copiar","Copy"],["Ver","View"]],"062/WinCC PLCSIM-19.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Entrada","Input"],["Ver","View"]],"065/FB Multiestancia -100.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"]],"065/FB Multiestancia -101.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"]],"065/FB Multiestancia -103.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -104.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"]],"065/FB Multiestancia -105.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"]],"065/FB Multiestancia -106.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -108.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -109a.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -110.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"]],"065/FB Multiestancia -112.png":[["Bloque de datos","Data block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"]],"065/FB Multiestancia -113.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"]],"065/FB Multiestancia -114.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Valor","Value"],["Datos","Data"],["Destino","Destination"]],"065/FB Multiestancia -115.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -119.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -120.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Valor","Value"],["Datos","Data"],["Destino","Destination"]],"068/Versa Pro -09.png":[["Administrador de dispositivos","Device Manager"],["Ayuda","Help"],["Dispositivo","Device"],["Ver","View"]],"068/Versa Pro -10.png":[["Propiedades","Properties"],["Puerto","Port"],["Datos","Data"]],"069/Omron Kepserver02.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"069/Omron Kepserver03.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"069/Omron Kepserver04.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"069/Omron Kepserver05.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"069/Omron Kepserver06.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Finalizar","Finish"]],"069/Omron Kepserver18.png":[["Entrada","Input"],["Salida","Output"],["Datos","Data"]],"072/Beckoff Start -12.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Opciones","Options"],["Dispositivo","Device"],["Ver","View"]],"072/Beckoff Start -13.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"072/Beckoff Start -14.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Proyecto","Project"],["Opciones","Options"],["Dispositivo","Device"],["Ver","View"]],"072/Beckoff Start -15.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Entrada","Input"]],"072/Beckoff Start -18.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Opciones","Options"],["Dispositivo","Device"],["Servidor","Server"],["Entrada","Input"]],"073/Beckoff OPC -24.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Opciones","Options"],["Dispositivo","Device"],["Servidor","Server"],["Puerto","Port"]],"083/1200ModbusServer01.png":[["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Avanzado","Advanced"],["Agregar","Add"]],"083/1200ModbusServer02.png":[["Bloque de datos","Data block"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"]],"083/1200ModbusServer03.png":[["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"]],"083/1200ModbusServer04.png":[["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Abrir","Open"],["Nuevo","New"],["Usuario","User"]],"083/1200ModbusServer08.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Nuevo","New"],["Insertar","Insert"],["Opciones","Options"]],"083/1200ModbusServer09.png":[["Referencias cruzadas","Cross reference"],["Programa","Program"],["Compilar","Compile"]],"083/1200ModbusServer13.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"083/1200ModbusServer14.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Usuario","User"]],"086/SFB14-15 GET-PUT-05.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"],["Usuario","User"],["Destino","Destination"]],"086/SFB14-15 GET-PUT-06.png":[["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Seleccione","Select"],["Servidor","Server"],["Destino","Destination"],["Listo","Ready"],["Ver","View"]],"086/SFB14-15 GET-PUT-07.png":[["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"]],"086/SFB14-15 GET-PUT-08.png":[["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Estado","Status"]],"086/SFB14-15 GET-PUT-09.png":[["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Destino","Destination"],["Listo","Ready"],["Ver","View"]],"086/SFB14-15 GET-PUT-16.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Datos","Data"]],"086/SFB14-15 GET-PUT-17.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Datos","Data"],["Ver","View"]],"086/SFB14-15 GET-PUT-18.png":[["Referencias cruzadas","Cross reference"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Estado","Status"],["Información","Information"],["Ver","View"]],"086/SFB14-15 GET-PUT-19.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Información","Information"],["Destino","Destination"],["Ver","View"]],"086/SFB14-15 GET-PUT-20.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"],["Datos","Data"],["Destino","Destination"]],"086/SFB14-15 GET-PUT-21.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"],["Datos","Data"],["Destino","Destination"]],"090/VijeoDesigner-S7120001.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Inicio","Start"],["Informe","Report"]],"090/VijeoDesigner-S7120003.png":[["Configuración","Configuration"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Crear","Create"]],"090/VijeoDesigner-S7120004.png":[["Proyecto","Project"],["Nuevo","New"],["Crear","Create"],["Destino","Destination"]],"090/VijeoDesigner-S7120005.png":[["Dirección IP","IP address"],["Ayuda","Help"],["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Crear","Create"],["Destino","Destination"]],"090/VijeoDesigner-S7120006.png":[["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Eliminar","Delete"],["Equipo","Computer / station"],["Crear","Create"],["Destino","Destination"]],"090/VijeoDesigner-S7120007.png":[["Proyecto","Project"],["Nuevo","New"],["Crear","Create"]],"090/VijeoDesigner-S7120008.png":[["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Finalizar","Finish"],["Equipo","Computer / station"],["Crear","Create"],["Destino","Destination"]],"090/VijeoDesigner-S7120010.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Proyecto","Project"],["Datos","Data"],["Equipo","Computer / station"]],"090/VijeoDesigner-S7120011.png":[["Nombre","Name"],["Datos","Data"],["Origen","Source"]],"090/VijeoDesigner-S7120013.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Salida","Output"],["Datos","Data"]],"090/VijeoDesigner-S7120014.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Dirección","Address"],["Lectura","Read"],["Datos","Data"],["Origen","Source"]],"090/VijeoDesigner-S7120015.png":[["Nombre","Name"],["Salida","Output"],["Datos","Data"],["Origen","Source"]],"091/S7-1200-WebServer-00.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"091/S7-1200-WebServer-02.png":[["Dirección IP","IP address"],["Propiedades","Properties"],["Comunicación","Communication"],["Proyecto","Project"],["Opciones","Options"],["Puerto","Port"],["Agregar","Add"]],"091/S7-1200-WebServer-03.png":[["Dirección IP","IP address"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Opciones","Options"],["Puerto","Port"],["Agregar","Add"]],"091/S7-1200-WebServer-04.png":[["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Usuario","User"],["Servidor","Server"],["Hora","Time"],["Salida","Output"]],"093/WinCC-Advanced-VisorDeDiagnostico-00.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Alarma","Alarm"],["Datos","Data"],["Cargar","Load"]],"093/WinCC-Advanced-VisorDeDiagnostico-01.png":[["Propiedades","Properties"],["Conexión","Connection"],["Alarma","Alarm"],["Cargar","Load"]],"093/WinCC-Advanced-VisorDeDiagnostico-03.png":[["Herramientas","Tools"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Fecha","Date"],["Hora","Time"]],"093/WinCC-Advanced-VisorDeDiagnostico-04.png":[["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Servidor","Server"],["Alarma","Alarm"],["Descripción","Description"]],"093/WinCC-Advanced-VisorDeDiagnostico-05.png":[["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Alarma","Alarm"],["Estado","Status"],["Datos","Data"],["Avanzado","Advanced"],["Consulta","Query"]],"093/WinCC-Advanced-VisorDeDiagnostico-06.png":[["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Servidor","Server"],["Alarma","Alarm"]],"093/WinCC-Advanced-VisorDeDiagnostico-07.png":[["Cancelar","Cancel"],["Estado","Status"],["Cargar","Load"],["Compilar","Compile"],["Mensaje","Message"],["Listo","Ready"]],"093/WinCC-Advanced-VisorDeDiagnostico-11.png":[["Configuración","Configuration"],["Programa","Program"],["Agregar","Add"]],"093/WinCC-Advanced-VisorDeDiagnostico-13.png":[["Propiedades","Properties"],["Nombre","Name"],["Instalación","Installation"],["Estado","Status"],["Evento","Event"],["Columna","Column"]],"093/WinCC-Advanced-VisorDeDiagnostico-14.png":[["Propiedades","Properties"],["Dirección","Address"],["Instalación","Installation"],["Dispositivo","Device"],["Estado","Status"],["Descripción","Description"],["Evento","Event"]],"094/RSLinx-DF1-11.png":[["Administrador de dispositivos","Device Manager"],["Ayuda","Help"],["Dispositivo","Device"],["Puerto","Port"],["Ver","View"]],"095/WinCC-Advanced-Media-Player-04.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Dispositivo","Device"],["Agregar","Add"]],"095/WinCC-Advanced-Media-Player-05.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"]],"096/S7-1200-Texto-Indexado-20.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Datos","Data"],["Ejecutar","Run"]],"096/S7-1200-Texto-Indexado-21.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Datos","Data"],["Ejecutar","Run"]],"096/S7-1200-Texto-Indexado-23.png":[["Valor","Value"],["Datos","Data"]],"097/097-TIA-WinCC-00.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Dispositivo","Device"],["Agregar","Add"],["Ver","View"]],"097/097-TIA-WinCC-01.png":[["Puerta de enlace","Gateway"],["Dirección","Address"],["Conexión","Connection"]],"097/097-TIA-WinCC-24.png":[["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Servidor","Server"]],"098/098-TextoIndexado-00.png":[["Borrar","Clear"],["Valor","Value"],["Datos","Data"],["Ejecutar","Run"]],"098/098-TextoIndexado-01.png":[["Buscar","Search"],["Valor","Value"]],"099/099-ProgHoraria-03.png":[["Dirección IP","IP address"],["Aplicar","Apply"],["Nombre","Name"],["Hora","Time"]],"099/099-ProgHoraria-04.png":[["Dirección IP","IP address"],["Aplicar","Apply"],["Nombre","Name"],["Hora","Time"]],"099/099-ProgHoraria-07.png":[["Programa","Program"],["Valor","Value"],["Hora","Time"],["Salida","Output"],["Inicio","Start"],["Datos","Data"]],"099/099-ProgHoraria-09.png":[["Hora","Time"],["Salida","Output"],["Inicio","Start"]],"099/099-ProgHoraria-51.png":[["Valor","Value"],["Hora","Time"],["Salida","Output"],["Inicio","Start"]],"099/099-ProgHoraria-53.png":[["Programa","Program"],["Valor","Value"],["Hora","Time"],["Salida","Output"],["Inicio","Start"],["Datos","Data"]],"099/099-ProgHoraria-54.png":[["Hora","Time"],["Salida","Output"],["Inicio","Start"]],"100/100-TIA-Libreria-50.png":[["Edición","Edit"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"],["Advertencia","Warning"]],"100/100-TIA-Libreria-51.png":[["Nombre","Name"],["Crear","Create"],["Ruta","Path"]],"100/100-TIA-Libreria-54.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Abrir","Open"],["Insertar","Insert"]],"100/100-TIA-Libreria-55.png":[["Edición","Edit"],["Herramientas","Tools"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"101/101-TIA-Sm@rtClient-50.png":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Agregar","Add"]],"101/101-TIA-Sm@rtClient-51.png":[["Edición","Edit"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"]],"101/101-TIA-Sm@rtClient-52.png":[["Datos","Data"],["Destino","Destination"]],"102/102-Comfort-Panels-Servidor-OPC-01.png":[["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Servidor","Server"]],"102/102-Comfort-Panels-Servidor-OPC-03.png":[["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Datos","Data"]],"102/102-Comfort-Panels-Servidor-OPC-06.png":[["Nombre","Name"],["Dirección","Address"],["Servidor","Server"],["Valor","Value"]],"102/102-Comfort-Panels-Servidor-OPC-08.png":[["Nombre","Name"],["Dirección","Address"],["Servidor","Server"],["Valor","Value"]],"103/103-Backup-UnityPro-10.png":[["Ventana","Window"],["Datos","Data"],["Ver","View"]],"103/103-Backup-UnityPro-12.png":[["Ventana","Window"],["Datos","Data"],["Ver","View"]],"104/104-ControlDeposito-00.png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"104/104-ControlDeposito-01.png":[["Valor","Value"],["Estado","Status"]],"105/105-PLCSIMv.12-03.png":[["Configuración","Configuration"],["Proyecto","Project"],["Dispositivo","Device"]],"105/105-PLCSIMv.12-04.png":[["Interfaz PG/PC","PG/PC interface"],["Dirección","Address"],["Conexión","Connection"],["Dispositivo","Device"],["Estado","Status"],["Información","Information"],["Destino","Destination"]],"105/105-PLCSIMv.12-05.png":[["Configuración","Configuration"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"],["Agregar","Add"],["Ver","View"]],"105/105-PLCSIMv.12-06.png":[["Nombre","Name"],["Abrir","Open"],["Dispositivo","Device"],["Servidor","Server"],["Datos","Data"],["Descripción","Description"],["Agregar","Add"]],"105/105-PLCSIMv.12-07.png":[["Herramientas","Tools"],["Ventana","Window"],["Configuración","Configuration"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"]],"105/105-PLCSIMv.12-08.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"]],"105/105-PLCSIMv.12-09.png":[["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"]],"105/105-PLCSIMv.12-10.png":[["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Nombre","Name"],["Conexión","Connection"],["Proyecto","Project"],["Guardar","Save"],["Abrir","Open"]],"105/105-PLCSIMv.12-11.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Ejecutar","Run"]],"105/105-PLCSIMv.12-12.png":[["Cancelar","Cancel"],["Estado","Status"],["Cargar","Load"],["Destino","Destination"],["Mensaje","Message"],["Listo","Ready"]],"105/105-PLCSIMv.12-13.png":[["Configuración","Configuration"],["Cancelar","Cancel"],["Aplicar","Apply"],["Proyecto","Project"],["Dispositivo","Device"],["Estado","Status"],["Cargar","Load"],["Información","Information"]],"105/105-PLCSIMv.12-14.png":[["Configuración","Configuration"],["Cancelar","Cancel"],["Aplicar","Apply"],["Dispositivo","Device"],["Cargar","Load"],["Información","Information"],["Listo","Ready"]],"105/105-PLCSIMv.12-15.png":[["Cancelar","Cancel"],["Dispositivo","Device"],["Estado","Status"],["Cargar","Load"],["Destino","Destination"],["Mensaje","Message"],["Listo","Ready"]],"105/105-PLCSIMv.12-16.png":[["Cancelar","Cancel"],["Finalizar","Finish"],["Estado","Status"],["Cargar","Load"],["Mensaje","Message"]],"105/105-PLCSIMv.12-17.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Agregar","Add"]],"105/105-PLCSIMv.12-18.png":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Dispositivo","Device"],["Agregar","Add"]],"106/106-OP3-00-(5).png":[["Bloque de programa","Program block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Fila","Row"],["Herramienta","Tool"]],"106/106-OP3-21.png":[["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Objeto","Object"]],"106/106-OP3-22.png":[["Nombre","Name"],["Proyecto","Project"],["Objeto","Object"]],"106/106-OP301.png":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Destino","Destination"]],"106/106-OP303.png":[["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Comunicación","Communication"],["Velocidad","Speed"]],"106/106-OP306.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"]],"106/106-OP315.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"]],"106/106-OP316.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ver","View"]],"106/106-OP317.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Nuevo","New"],["Insertar","Insert"],["Ver","View"]],"106/106-OP318.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Insertar","Insert"],["Opciones","Options"]],"106/106-OP320.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Opciones","Options"],["Entrada","Input"],["Salida","Output"]],"106/106-OP321.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"],["Nuevo","New"]],"106/106-OP322.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"]],"106/106-OP323.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"],["Insertar","Insert"],["Opciones","Options"]],"107/106-OP3-00-(10).png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"]],"107/106-OP3-00-(2).png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Insertar","Insert"],["Entrada","Input"]],"107/106-OP3-00-(4).png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"]],"112/115-VBScriptWinCC-17.png":[["Archivo","File"],["Modificar","Modify"]],"112/115-VBScriptWinCC-20.png":[["Nombre","Name"],["Valor","Value"]],"112/115-VBScriptWinCC-21.png":[["Archivo","File"],["Ruta","Path"]],"112/115-VBScriptWinCC-22.png":[["Ventana","Window"],["Seleccionar","Select"],["Ruta","Path"]],"112/115-VBScriptWinCC-24.png":[["Archivo","File"],["Nombre","Name"],["Lectura","Read"],["Ruta","Path"]],"112/115-VBScriptWinCC-33.png":[["Base de datos","Database"],["Valor","Value"]],"112/115-VBScriptWinCC-40.png":[["Base de datos","Database"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"112/115-VBScriptWinCC-43.png":[["Nuevo","New"],["Agregar","Add"]],"113/113-VBScriptWinCC-Excel-40a.png":[["Nombre","Name"],["Fila","Row"],["Columna","Column"]],"114/WinCC-RT-Advanced-Profibus-04.png":[["Ayuda","Help"],["Nombre","Name"],["Proyecto","Project"],["Abrir","Open"],["Crear","Create"],["Ruta","Path"]],"114/WinCC-RT-Advanced-Profibus-05.png":[["Nombre","Name"],["Dispositivo","Device"],["Usuario","User"],["Agregar","Add"]],"114/WinCC-RT-Advanced-Profibus-06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Opciones","Options"],["Dispositivo","Device"]],"114/WinCC-RT-Advanced-Profibus-07.png":[["Propiedades","Properties"],["Agregar","Add"]],"114/WinCC-RT-Advanced-Profibus-08.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"]],"114/WinCC-RT-Advanced-Profibus-12.png":[["Nombre","Name"],["Controlador","Driver / controller"]],"114/WinCC-RT-Advanced-Profibus-13.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Agregar","Add"]],"114/WinCC-RT-Advanced-Profibus-16.png":[["Nombre","Name"],["Datos","Data"]],"114/WinCC-RT-Advanced-Profibus-21.png":[["Propiedades","Properties"],["Nombre","Name"],["Agregar","Add"],["Evento","Event"]],"114/WinCC-RT-Advanced-Profibus-22.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"114/WinCC-RT-Advanced-Profibus-23.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"115/115-Servicios-HTTP-Servidor00.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Servidor","Server"]],"115/115-Servicios-HTTP-Servidor03.png":[["Dirección IP","IP address"],["Puerta de enlace","Gateway"],["Conexión","Connection"]],"115/115-Servicios-HTTP-Servidor09.png":[["Fecha","Date"],["Estado","Status"]],"115/115-Servicios-HTTP-Servidor2.png":[["Propiedades","Properties"],["Dispositivo","Device"],["Agregar","Add"]],"115/115-Servicios-HTTP-Servidor31.png":[["Nombre","Name"],["Dispositivo","Device"],["Usuario","User"],["Agregar","Add"]],"115/115-Servicios-HTTP-Servidor32.png":[["Proyecto","Project"],["Dispositivo","Device"],["Servidor","Server"],["Datos","Data"],["Agregar","Add"]],"115/115-Servicios-HTTP-Servidor33.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Usuario","User"],["Servidor","Server"]],"115/115-Servicios-HTTP-Servidor35.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Datos","Data"],["Evento","Event"],["Ver","View"]],"115/115-Servicios-HTTP-Servidor36.png":[["Propiedades","Properties"],["Servidor","Server"],["Estado","Status"]],"115/115-Servicios-HTTP-Servidor37.png":[["Propiedades","Properties"],["Servidor","Server"],["Fecha","Date"],["Estado","Status"],["Agregar","Add"],["Evento","Event"]],"115/115-Servicios-HTTP-Servidor3b.png":[["Dispositivo","Device"],["Servidor","Server"],["Estado","Status"],["Agregar","Add"],["Informe","Report"]],"115/115-Servicios-HTTP-Servidor41.png":[["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Servidor","Server"],["Datos","Data"],["Agregar","Add"],["Ver","View"]],"115/115-Servicios-HTTP-Servidor42.png":[["Fecha","Date"],["Estado","Status"]],"115/115-Servicios-HTTP-Servidor43.png":[["Referencias cruzadas","Cross reference"],["Propiedades","Properties"],["Proyecto","Project"],["Abrir","Open"],["Nuevo","New"],["Copiar","Copy"],["Dispositivo","Device"],["Servidor","Server"]],"115/115-Servivios-Servidor-HTTP-53.png":[["Siguiente","Next"],["Servidor","Server"],["Fecha","Date"],["Hora","Time"],["Estado","Status"]],"115/115-Servivios-Servidor-HTTP-54.png":[["Aplicar","Apply"],["Siguiente","Next"],["Servidor","Server"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Estado","Status"],["Controlador","Driver / controller"]],"116/115-Funciones-Intouch-08.png":[["Insertar","Insert"],["Pegar","Paste"],["Inicio","Start"],["Datos","Data"],["Modificar","Modify"],["Listo","Ready"]],"117/117-ComunicacionSoftLogix-13.png":[["Usuario","User"],["Datos","Data"]],"122/122-VijeoDesigner-SoftLogix-02.png":[["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Crear","Create"],["Destino","Destination"]],"122/122-VijeoDesigner-SoftLogix-04.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"],["Estado","Status"]],"122/122-VijeoDesigner-SoftLogix-05.png":[["Nuevo","New"],["Equipo","Computer / station"],["Controlador","Driver / controller"]],"122/122-VijeoDesigner-SoftLogix-06.png":[["Ayuda","Help"],["Controlador","Driver / controller"]],"122/122-VijeoDesigner-SoftLogix-07.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Abrir","Open"],["Pegar","Paste"],["Usuario","User"]],"122/122-VijeoDesigner-SoftLogix-08.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Buscar","Search"],["Alarma","Alarm"]],"122/122-VijeoDesigner-SoftLogix-09.png":[["Archivo","File"],["Nombre","Name"],["Equipo","Computer / station"],["Agregar","Add"],["Carpeta","Folder"]],"122/122-VijeoDesigner-SoftLogix-10.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Estado","Status"],["Datos","Data"],["Origen","Source"]],"122/122-VijeoDesigner-SoftLogix-11.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Hora","Time"],["Estado","Status"]],"123/123-UpdateFirmwarePV-00.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-03.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-04.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-05.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Programa","Program"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-06.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-07.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Finalizar","Finish"]],"123/123-UpdateFirmwarePV-08.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Finalizar","Finish"]],"123/123-UpdateFirmwarePV-12.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Finalizar","Finish"]],"126/126-VijeoCitect-Unity-28.png":[["Propiedades","Properties"],["Estado","Status"]],"128/128-CP340-30.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"128/128-CP340-31.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"128/128-CP340-32.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Comunicación","Communication"],["Conexión","Connection"],["Buscar","Search"]],"128/128-CP340-33.png":[["Ayuda","Help"],["Propiedades","Properties"],["Cancelar","Cancel"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Equipo","Computer / station"]],"128/128-CP340-34.png":[["Ayuda","Help"],["Propiedades","Properties"],["Cancelar","Cancel"],["Entrada","Input"]],"128/128-CP340-37.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ver","View"]],"128/128-CP340-38.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Velocidad","Speed"],["Datos","Data"]],"128/128-CP340-39.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Programa","Program"],["Insertar","Insert"],["Datos","Data"],["Destino","Destination"]],"128/128-CP340-40.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Insertar","Insert"],["Datos","Data"],["Información","Information"]],"128/128-CP340-41.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Información","Information"]],"128/128-CP340-44.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Datos","Data"]],"128/128-CP340-46.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Datos","Data"]],"128/128-CP340-47.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Datos","Data"]],"128/128-CP340-49.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Guardar","Save"],["Cerrar","Close"],["Insertar","Insert"],["Fecha","Date"]],"130/AutomationStudio-20.png":[["Proyecto","Project"],["Programa","Program"]],"130/AutomationStudio-30.png":[["Proyecto","Project"],["Programa","Program"],["Entrada","Input"]],"130/AutomationStudio-52.png":[["Programa","Program"],["Entrada","Input"],["Salida","Output"]],"132/132-AutomationStudio-HMI-00.png":[["Proyecto","Project"],["Programa","Program"],["Entrada","Input"],["Salida","Output"]],"132/132-AutomationStudio-HMI-13.png":[["Proyecto","Project"],["Programa","Program"]],"134/134-Tiempo-10.png":[["Valor","Value"],["Entrada","Input"],["Agregar","Add"],["Informe","Report"]],"134/134-Tiempo-11.png":[["Nombre","Name"],["Conexión","Connection"],["Datos","Data"]],"134/134-Tiempo-12.png":[["Propiedades","Properties"],["Dirección","Address"],["Entrada","Input"],["Evento","Event"]],"134/134-Tiempo-2.png":[["Nombre","Name"],["Conexión","Connection"],["Datos","Data"]],"134/134-Tiempo-3.png":[["Propiedades","Properties"],["Dirección","Address"],["Entrada","Input"],["Salida","Output"],["Evento","Event"]],"134/134-Tiempo-5.png":[["Propiedades","Properties"],["Entrada","Input"],["Salida","Output"]],"ab-gateway-dhrio/AB_RIO_6.png":[["Archivo","File"],["Pegar","Paste"],["Inicio","Start"],["Listo","Ready"]],"ab-micro830/AB_Micro830_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dispositivo","Device"],["Datos","Data"],["Listo","Ready"]],"ab-micro830/AB_Micro830_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Ver","View"]],"ab-micro830/AB_Micro830_03.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Datos","Data"],["Ver","View"]],"ab-micro830/AB_Micro830_04.png":[["Referencias cruzadas","Cross reference"],["Propiedades","Properties"],["Nombre","Name"],["Copiar","Copy"],["Pegar","Paste"],["Datos","Data"]],"ab-micro830/AB_Micro830_05.png":[["Nombre","Name"],["Valor","Value"]],"ab-micro830/AB_Micro830_09.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Datos","Data"],["Mostrar","Show"],["Ver","View"]],"ab-micro830/AB_Micro830_10.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"ab-micro830/AB_Micro830_11.png":[["Programa","Program"],["Controlador","Driver / controller"]],"ab-micro830/AB_Micro830_13.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"ab-micro830/AB_Micro830_14.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Datos","Data"],["Ver","View"]],"ab-micro830/AB_Micro830_15.png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"ab-micrologix-modbus-powerflex/Micrologix_Modbus_PowerFlex_01.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"]],"ab-powerflex525/AB_PowerFlex_00.png":[["Nombre","Name"],["Abrir","Open"],["Fecha","Date"],["Carpeta","Folder"]],"ab-powerflex525/AB_PowerFlex_05.png":[["Archivo","File"],["Propiedades","Properties"],["Usuario","User"],["Puerto","Port"],["Datos","Data"],["Cargar","Load"]],"ab-powerflex525/AB_PowerFlex_07.png":[["Nombre","Name"],["Valor","Value"],["Mostrar","Show"],["Listo","Ready"]],"archestra-aahistclienttrendcontrol/170-SymbolTrend-00.png":[["Cancelar","Cancel"],["Nombre","Name"],["Programa","Program"],["Buscar","Search"],["Fecha","Date"],["Carpeta","Folder"]],"archestra-webbrowser-sql/AplicationServer-WebBrowserSQL-07.png":[["Nombre","Name"],["Consulta","Query"]],"blog-alarmas-wincc-por-whatsapp/image-24.png":[["Propiedades","Properties"],["Valor","Value"],["Entrada","Input"],["Salida","Output"],["Estado","Status"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"blog-alarmas-wincc-por-whatsapp/image-29.png":[["Salida","Output"],["Alarma","Alarm"],["Mensaje","Message"]],"blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-14-db-interfaz-generado.png":[["Alarma","Alarm"],["Estado","Status"],["Velocidad","Speed"]],"blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-19-prueba-lectura.png":[["Alarma","Alarm"],["Estado","Status"],["Velocidad","Speed"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/01-codesys-installer-control-win.png":[["Archivo","File"],["Lectura","Read"],["Inicio","Start"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/03-codesys-gvl-variables-globales.png":[["Nombre","Name"],["Datos","Data"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/04-codesys-symbol-configuration-opcua.png":[["Herramientas","Tools"],["Configuración","Configuration"],["Ejecutar","Run"],["Crear","Create"],["Ver","View"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/05-codesys-runtime-security-policies.png":[["Puerta de enlace","Gateway"],["Configuración","Configuration"],["Estado","Status"],["Destino","Destination"],["Objeto","Object"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/06-codesys-anonymous-access-runtime.png":[["Aceptar","OK"],["Conexión","Connection"],["Usuario","User"],["Inicio","Start"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/07-codesys-download-softplc.png":[["Configuración","Configuration"],["Ejecutar","Run"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/codesys-softplc-servidor-opc-ua-siemens-cliente-arquitectura.png":[["Servidor","Server"],["Crear","Create"],["Ver","View"]],"blog-entorno-desarrollo-vscode-copilot-agentes/VisuaCodeProyectoAgentes.PNG":[["Herramientas","Tools"],["Configuración","Configuration"],["Etiqueta","Tag / label"],["Ver","View"]],"blog-entorno-desarrollo-vscode-copilot-agentes/vscode-clonar-repo.png":[["Proyecto","Project"],["Abrir","Open"],["Usuario","User"],["Carpeta","Folder"],["Listo","Ready"]],"blog-entorno-desarrollo-vscode-copilot-agentes/vscode-copilot-extension.png":[["Abrir","Open"],["Buscar","Search"],["Seleccionar","Select"],["Estado","Status"]],"blog-entorno-desarrollo-vscode-copilot-agentes/vscode-git-config.png":[["Configuración","Configuration"],["Nombre","Name"],["Agregar","Add"]],"blog-entorno-desarrollo-vscode-copilot-agentes/vscode-instalacion.png":[["Abrir","Open"],["Instalación","Installation"],["Ejecutar","Run"],["Agregar","Add"]],"blog-espiando-comunicaciones-modbus/modbus-wireshark-portada-final.png":[["Servidor","Server"],["Valor","Value"],["Puerto","Port"],["Datos","Data"]],"blog-factory-talk-view-se-sqlite/FactoryTalkView_SQLite-5.png":[["Conexión","Connection"],["Abrir","Open"],["Cerrar","Close"]],"blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-01.png":[["Tiempo real","Real time"],["Servidor","Server"],["Datos","Data"],["Modificar","Modify"],["Origen","Source"],["Mensaje","Message"]],"blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-02.png":[["Tiempo real","Real time"],["Comunicación","Communication"],["Conexión","Connection"],["Hora","Time"],["Puerto","Port"],["Datos","Data"]],"blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-09.png":[["Comunicación","Communication"],["Conexión","Connection"],["Abrir","Open"],["Eliminar","Delete"],["Dispositivo","Device"],["Hora","Time"],["Puerto","Port"],["Datos","Data"]],"blog-flujo-trabajo-ingeniero-automatizacion/ProyectoIngenieria.PNG":[["Base de datos","Database"],["Proyecto","Project"],["Instalación","Installation"]],"blog-gittialportal/image-28.png":[["Configuración","Configuration"],["Proyecto","Project"],["Programa","Program"],["Nuevo","New"],["Dispositivo","Device"],["Datos","Data"],["Agregar","Add"]],"blog-logix-designer-sdk-automatizacion-proyectos/01-flujo-logix-designer-sdk.png":[["Archivo","File"],["Proyecto","Project"],["Datos","Data"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-23-1024x314.png":[["Nombre","Name"],["Ruta","Path"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-23.png":[["Archivo","File"],["Proyecto","Project"],["Programa","Program"],["Estado","Status"],["Datos","Data"],["Ruta","Path"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-24-1024x424.png":[["Archivo","File"],["Entrada","Input"],["Datos","Data"],["Ruta","Path"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-34.png":[["Programa","Program"],["Abrir","Open"],["Ruta","Path"],["Objeto","Object"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-40.png":[["Programa","Program"],["Abrir","Open"],["Ruta","Path"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-44.png":[["Programa","Program"],["Anterior","Back"],["Entrada","Input"],["Salida","Output"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-45.png":[["Nombre","Name"],["Abrir","Open"],["Pegar","Paste"],["Fecha","Date"],["Inicio","Start"],["Equipo","Computer / station"],["Carpeta","Folder"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-22.png":[["Archivo","File"],["Cancelar","Cancel"],["Nombre","Name"],["Programa","Program"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-25.png":[["Archivo","File"],["Proyecto","Project"],["Programa","Program"],["Abrir","Open"],["Entrada","Input"],["Salida","Output"],["Estado","Status"],["Datos","Data"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-30.png":[["Abrir","Open"],["Ruta","Path"]],"blog-phs-color-batch-simulator-opc-ua/captura-16.png":[["Salir","Exit"],["Siguiente","Next"]],"blog-phs-thermal-process-simulator-opc-ua/captura-10.png":[["Programa","Program"],["Estado","Status"],["Equipo","Computer / station"],["Ruta","Path"]],"blog-phs-thermal-process-simulator-opc-ua/captura-16.png":[["Alarma","Alarm"],["Tendencia","Trend"]],"blog-phs-thermal-process-simulator-opc-ua/captura-20.png":[["Salir","Exit"],["Ruta","Path"]],"blog-registro-datos-plc-influxdb/Portada InfluxDB.png":[["Base de datos","Database"],["Servidor","Server"],["Lectura","Read"],["Puerto","Port"]],"blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-06-bridge-conexion-opc-ua.png":[["Aplicar","Apply"],["Nombre","Name"],["Conexión","Connection"],["Abrir","Open"],["Borrar","Clear"],["Seleccionar","Select"],["Servidor","Server"],["Estado","Status"]],"blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-07-measurement-arbol-opc.png":[["Aplicar","Apply"],["Nombre","Name"],["Conexión","Connection"],["Guardar","Save"],["Abrir","Open"],["Servidor","Server"]],"blog-servidor-hora-plc-siemens/00-servidor-ntp-siemens-v2.png":[["Servidor","Server"],["Hora","Time"]],"blog-servidor-hora-plc-siemens/03-w32tm-source-status.png":[["Advertencia","Warning"],["Origen","Source"]],"blog-servidor-hora-plc-siemens/04-configurar-windows-ntp.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Servidor","Server"],["Ver","View"]],"blog-servidor-hora-plc-siemens/09-cambiar-hora-servidor-plc.png":[["Usuario","User"],["Fecha","Date"],["Hora","Time"],["Datos","Data"]],"blog-servidor-opc-flask-co-pilot/image-62.png":[["Archivo","File"],["Servidor","Server"],["Ejecutar","Run"],["Crear","Create"]],"blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-02-arquitectura-buena.png":[["Usuario","User"],["Servidor","Server"],["Evento","Event"]],"blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-04-dashboard-resultados.png":[["Buscar","Search"],["Usuario","User"],["Hora","Time"],["Estado","Status"],["Origen","Source"],["Evento","Event"]],"blog-web-server-siemens-s7-1500-https-view-of-things/04-web-server-informacion-cpu.png":[["Nombre","Name"],["Hora","Time"]],"blog-web-server-siemens-s7-1500-https-view-of-things/07-login-web-server-no-seguro.png":[["Cerrar","Close"],["Usuario","User"],["Inicio","Start"]],"blog-web-server-siemens-s7-1500-https-view-of-things/08-menu-web-server-s7-1500.png":[["Aceptar","OK"],["Nombre","Name"],["Proyecto","Project"],["Cerrar","Close"],["Usuario","User"],["Estado","Status"],["Datos","Data"],["Equipo","Computer / station"]],"blog-web-server-siemens-s7-1500-https-view-of-things/09-diagnostico-web-server.png":[["Cerrar","Close"],["Usuario","User"],["Fecha","Date"],["Entrada","Input"],["Estado","Status"],["Datos","Data"],["Evento","Event"]],"blog-web-server-siemens-s7-1500-https-view-of-things/22-wireshark-https-cifrado-plc.png":[["Aceptar","OK"],["Nombre","Name"],["Proyecto","Project"],["Cerrar","Close"],["Usuario","User"],["Hora","Time"],["Estado","Status"],["Datos","Data"]],"blog-wincc-sqlite/WinCC_SQLite-5.png":[["Conexión","Connection"],["Abrir","Open"],["Cerrar","Close"]],"blog-wincc-unified-open-pipe/image-18.png":[["Archivo","File"],["Proyecto","Project"],["Copiar","Copy"],["Servidor","Server"],["Ejecutar","Run"],["Crear","Create"]],"blog-wincc-unified-open-pipe/image-19.png":[["Archivo","File"],["Proyecto","Project"],["Copiar","Copy"],["Servidor","Server"],["Ejecutar","Run"],["Crear","Create"]],"cognex-insight-explorer/Cognex_02.png":[["Dispositivo","Device"],["Agregar","Add"]],"factorytalk-activex-adodc/FTView-ActiveX-05.png":[["Archivo","File"],["Nombre","Name"],["Conexión","Connection"],["Alarma","Alarm"],["Datos","Data"],["Origen","Source"]],"factorytalkview-animaciones/FTView-ActiveX-Flash-00.png":[["Aceptar","OK"],["Inicio","Start"]],"factorytalkview-sendemail/FTView-Alarm-SendMail-23.png":[["Servidor","Server"],["Alarma","Alarm"],["Puerto","Port"],["Datos","Data"]],"factorytalkview-sendemail/FTView-Alarm-SendMail-25.png":[["Archivo","File"],["Eliminar","Delete"],["Alarma","Alarm"],["Etiqueta","Tag / label"],["Mensaje","Message"],["Ver","View"]],"factorytalkviewme-lenguages/FTViewME-Lenguaje-11.png":[["Salir","Exit"],["Usuario","User"],["Hora","Time"],["Alarma","Alarm"],["Pantalla","Screen"]],"factorytalkviewme-lenguages/FTViewME-Lenguaje-26.png":[["Usuario","User"],["Hora","Time"],["Alarma","Alarm"]],"factorytalkviewse-importar/FactoryTalkViewSE_08.png":[["Configuración","Configuration"],["Aceptar","OK"],["Alarma","Alarm"]],"ftvse-excel/FTVSE_Excel_06.png":[["Archivo","File"],["Guardar","Save"],["Nuevo","New"],["Crear","Create"]],"ftvse-excel/FTVSE_Excel_07.png":[["Abrir","Open"],["Pegar","Paste"],["Hora","Time"],["Entrada","Input"],["Inicio","Start"],["Datos","Data"],["Modificar","Modify"],["Listo","Ready"]],"ftvse-introduccion-vba/FTVSE_ObjectModel_01.png":[["Ayuda","Help"],["Nombre","Name"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-introduccion-vba/FTVSE_ObjectModel_03.png":[["Ayuda","Help"],["Nombre","Name"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-introduccion-vba/FTVSE_ObjectModel_04.png":[["Nombre","Name"],["Pantalla","Screen"],["Mostrar","Show"],["Objeto","Object"]],"ftvse-mail/FTVSE_MailCDO_00.png":[["Ayuda","Help"],["Dispositivo","Device"],["Inicio","Start"]],"ftvse-mail/FTVSE_MailCDO_05.png":[["Archivo","File"],["Configuración","Configuration"],["Alarma","Alarm"]],"ftvse-recepis/FTVSE_Recipes_00.png":[["Nombre","Name"],["Objeto","Object"]],"ftvse-recepis/FTVSE_Recipes_01.png":[["Nombre","Name"],["Objeto","Object"]],"ftvse-recepis/FTVSE_Recipes_04.png":[["Nombre","Name"],["Objeto","Object"]],"ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_1.png":[["Ayuda","Help"],["Nombre","Name"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_2.png":[["Ayuda","Help"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_6.png":[["Ayuda","Help"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_7.png":[["Ayuda","Help"],["Pantalla","Screen"],["Objeto","Object"]],"hmi-omron/Omron_S7200_00.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Tabla de símbolos","Symbol table"],["Tabla de estado","Status chart"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"]],"hmi-schneider/122-VijeoDesigner-SoftLogix-02.png":[["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Crear","Create"],["Destino","Destination"]],"hmi-schneider/Vijeo with Unity-46.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Alarma","Alarm"],["Datos","Data"],["Informe","Report"],["Ver","View"]],"hmi-schneider/VijeoDesigner-S7120001.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Inicio","Start"],["Informe","Report"]],"hmi-schneider/VJD Runtime-1.jpg":[["Dirección IP","IP address"],["Nombre","Name"],["Usuario","User"],["Alarma","Alarm"],["Velocidad","Speed"],["Datos","Data"],["Ruta","Path"],["Destino","Destination"]],"hmi-siemens/097-TIA-WinCC-00.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Dispositivo","Device"],["Agregar","Add"],["Ver","View"]],"hmi-siemens/101-TIA-Sm@rtClient-50.png":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Agregar","Add"]],"hmi-siemens/102-Comfort-Panels-Servidor-OPC-01.png":[["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Servidor","Server"]],"hmi-siemens/106-OP301.png":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Destino","Destination"]],"hmi-siemens/Barcode08.jpg":[["Archivo","File"],["Ayuda","Help"],["Dirección","Address"],["Ver","View"]],"hmi-siemens/ProTool AB -00.jpg":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Destino","Destination"]],"hmi-siemens/WCAdvanced Recipes-00.jpg":[["Referencias cruzadas","Cross reference"],["Edición","Edit"],["Herramientas","Tools"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"]],"hmi-siemens/WCF Transfer-00.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"]],"hmi-siemens/WCF-DataLog02.jpg":[["Base de datos","Database"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Usuario","User"],["Información","Information"],["Origen","Source"]],"hmi-siemens/WCFLoginLogout_01.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Proyecto","Project"],["Datos","Data"],["Informe","Report"]],"hmi-siemens/WebServer WCF-1.jpg":[["Edición","Edit"],["Ventana","Window"],["Configuración","Configuration"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"],["Opciones","Options"]],"hmi-siemens/WinCC-Advanced-Media-Player-04.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Dispositivo","Device"],["Agregar","Add"]],"hmi-siemens/WinCC-Advanced-VisorDeDiagnostico-00.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Alarma","Alarm"],["Datos","Data"],["Cargar","Load"]],"industrial-networks/flujo-de-conexion-opc-ua-segura-01.png":[["Tiempo real","Real time"],["Servidor","Server"],["Datos","Data"],["Modificar","Modify"],["Origen","Source"],["Mensaje","Message"]],"intouch-historian/WW_HistorianIDAS_11.png":[["Ayuda","Help"],["Nombre","Name"],["Eliminar","Delete"]],"intouch-historian/WW_HistorianIDAS_18.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"]],"intouch-tagsindirectos/167-ArchestrA-TagsIndirectos-35.png":[["Nombre","Name"],["Velocidad","Speed"],["Pantalla","Screen"]],"logix5000-powerflex-ethernet/PowerFlex_RSLogix5000_20.png":[["Cancelar","Cancel"],["Siguiente","Next"],["Fila","Row"]],"modbus/modbus-wireshark-portada-final-social.jpg":[["Servidor","Server"],["Valor","Value"],["Datos","Data"]],"omron-s7-200/Omron_S7200_00.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Tabla de símbolos","Symbol table"],["Tabla de estado","Status chart"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"]],"omron-s7-200/Omron_S7200_01.png":[["Proyecto","Project"],["Nuevo","New"],["Avanzado","Advanced"],["Ver","View"]],"omron-s7-200/Omron_S7200_03.png":[["Ventana","Window"],["Proyecto","Project"],["Objeto","Object"],["Ver","View"]],"omron-s7-200/Omron_S7200_04.png":[["Puerto","Port"],["Velocidad","Speed"],["Datos","Data"],["Histórico","Historical"],["Evento","Event"]],"omron-s7-200/Omron_S7200_05.png":[["Puerto","Port"],["Velocidad","Speed"]],"omron-s7-200/Omron_S7200_06.png":[["Ventana","Window"],["Proyecto","Project"],["Puerto","Port"],["Objeto","Object"],["Ver","View"]],"omron-s7-200/Omron_S7200_11.png":[["Ventana","Window"],["Dispositivo","Device"],["Puerto","Port"],["Pantalla","Screen"],["Ver","View"]],"omron-s7-200/Omron_S7200_18.png":[["Archivo","File"],["Ventana","Window"],["Propiedades","Properties"],["Dirección","Address"],["Proyecto","Project"],["Lectura","Read"],["Puerto","Port"],["Pantalla","Screen"]],"omron-s7-200/Omron_S7200_19.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Configuración","Configuration"],["Proyecto","Project"],["Borrar","Clear"],["Inicio","Start"],["Pantalla","Screen"]],"omron-s7-200/Omron_S7200_21.png":[["Puerto","Port"],["Ruta","Path"]],"omron-transfer-hmi/Omron_S7200_27.png":[["Archivo","File"],["Herramientas","Tools"],["Configuración","Configuration"],["Proyecto","Project"],["Borrar","Clear"],["Inicio","Start"],["Pantalla","Screen"],["Objeto","Object"]],"omron-transfer-hmi/Omron_S7200_28.png":[["Proyecto","Project"],["Opciones","Options"],["Puerto","Port"]],"omron-transfer-hmi/Omron_S7200_29.png":[["Proyecto","Project"],["Opciones","Options"]],"omron-transfer-hmi/Omron_S7200_31.png":[["Archivo","File"],["Proyecto","Project"],["Seleccionar","Select"],["Evento","Event"]],"omron-transfer-hmi/Omron_S7200_32.png":[["Archivo","File"],["Seleccionar","Select"],["Evento","Event"]],"opc/codesys-softplc-servidor-opc-ua-siemens-cliente-arquitectura.png":[["Servidor","Server"],["Crear","Create"],["Ver","View"]],"opc/Portada InfluxDB.png":[["Base de datos","Database"],["Servidor","Server"],["Lectura","Read"],["Puerto","Port"]],"opc/SimaticNetLoadPCStation_00.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"other-hmis/132-AutomationStudio-HMI-00.png":[["Proyecto","Project"],["Programa","Program"],["Entrada","Input"],["Salida","Output"]],"other-scadas/Infilink 1 24.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Ver","View"]],"plc-allen-bradley/AB_Micro830_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dispositivo","Device"],["Datos","Data"],["Listo","Ready"]],"plc-allen-bradley/Micrologix_Modbus_PowerFlex_01.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"]],"plc-allen-bradley/RSLinx-DF1-11.png":[["Administrador de dispositivos","Device Manager"],["Ayuda","Help"],["Dispositivo","Device"],["Puerto","Port"],["Ver","View"]],"plc-omron/CX-Programmer Fifo-00.jpg":[["Dirección","Address"],["Datos","Data"],["Destino","Destination"]],"plc-schneider/Unity-02.jpg":[["Cancelar","Cancel"],["Proyecto","Project"],["Nuevo","New"],["Descripción","Description"]],"plc-siemens/00-servidor-ntp-siemens-v2.png":[["Servidor","Server"],["Hora","Time"]],"plc-siemens/098-TextoIndexado-00.png":[["Borrar","Clear"],["Valor","Value"],["Datos","Data"],["Ejecutar","Run"]],"plc-siemens/099-ProgHoraria-03.png":[["Dirección IP","IP address"],["Aplicar","Apply"],["Nombre","Name"],["Hora","Time"]],"plc-siemens/100-TIA-Libreria-50.png":[["Edición","Edit"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"],["Advertencia","Warning"]],"plc-siemens/104-ControlDeposito-00.png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"plc-siemens/105-PLCSIMv.12-05.png":[["Configuración","Configuration"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"],["Agregar","Add"],["Ver","View"]],"plc-siemens/1200ModbusServer01.png":[["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Avanzado","Advanced"],["Agregar","Add"]],"plc-siemens/codesys-softplc-servidor-opc-ua-siemens-cliente-arquitectura.png":[["Servidor","Server"],["Crear","Create"],["Ver","View"]],"plc-siemens/CPU2xx Clock-0.jpg":[["Tiempo real","Real time"],["Siguiente","Next"],["Fecha","Date"],["Hora","Time"],["Entrada","Input"],["Salida","Output"],["Datos","Data"]],"plc-siemens/FB Multiestancia -100.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"]],"plc-siemens/image-23.png":[["Archivo","File"],["Proyecto","Project"],["Programa","Program"],["Estado","Status"],["Datos","Data"],["Ruta","Path"]],"plc-siemens/S7-1200-Texto-Indexado-23.png":[["Valor","Value"],["Datos","Data"]],"plc-siemens/S7-1200-WebServer-00.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"plc-siemens/S7-200 Esclavo Modbus-11.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"plc-siemens/S7-200 Master Modbus-16.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"plc-siemens/S7-300-08.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Programa","Program"]],"plc-siemens/SFB14-15 GET-PUT-05.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"],["Usuario","User"],["Destino","Destination"]],"plc-siemens/Simotion_S7_06.png":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Usuario","User"]],"plc-siemens/Step7_BiglitleIndian-01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"plc-siemens/Step7_ISO_00.png":[["Archivo","File"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"plc-siemens/syslog-plc-siemens-linux-02-arquitectura-buena.png":[["Usuario","User"],["Servidor","Server"],["Evento","Event"]],"plc-siemens/VirtualBox-Com20.jpg":[["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Conexión","Connection"],["Seleccione","Select"],["Dispositivo","Device"],["Puerto","Port"],["Pantalla","Screen"]],"plc-siemens/WinCC-Advanced-VisorDeDiagnostico-00.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Alarma","Alarm"],["Datos","Data"],["Cargar","Load"]],"redes/flujo-de-conexion-opc-ua-segura-01.png":[["Tiempo real","Real time"],["Servidor","Server"],["Datos","Data"],["Modificar","Modify"],["Origen","Source"],["Mensaje","Message"]],"rsview-dde/RSView32-Node-DDE-00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Datos","Data"],["Ver","View"]],"rsview-dde/RSView32-Node-DDE-06.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Insertar","Insert"],["Datos","Data"],["Ver","View"]],"rsview-dde/RSView32-Node-DDE-07.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Insertar","Insert"],["Datos","Data"],["Ver","View"]],"rsview32-dde-excel/RSView-DDE-03.png":[["Fecha","Date"],["Hora","Time"]],"scada-allen-bradley/FactoryTalkView_SQLite-5.png":[["Conexión","Connection"],["Abrir","Open"],["Cerrar","Close"]],"scada-allen-bradley/FTView-ActiveX-Flash-00.png":[["Aceptar","OK"],["Inicio","Start"]],"scada-allen-bradley/FTVSE_ObjectModel_VBA_1.png":[["Ayuda","Help"],["Nombre","Name"],["Pantalla","Screen"],["Objeto","Object"]],"scada-allen-bradley/FTVSE_Recipes_00.png":[["Nombre","Name"],["Objeto","Object"]],"scada-allen-bradley/RSView32-Node-DDE-00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Datos","Data"],["Ver","View"]],"scada-intouch/170-SymbolTrend-00.png":[["Cancelar","Cancel"],["Nombre","Name"],["Programa","Program"],["Buscar","Search"],["Fecha","Date"],["Carpeta","Folder"]],"scada-intouch/Intouch PLCSIM -01.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"]],"scada-intouch/Intouch-BindList-02.jpg":[["Ayuda","Help"],["Nombre","Name"],["Fecha","Date"]],"scada-schneider/Citect DB03.jpg":[["Base de datos","Database"],["Archivo","File"],["Crear","Create"]],"scada-schneider/Citect Email-01.jpg":[["Estado","Status"],["Etiqueta","Tag / label"],["Mensaje","Message"]],"scada-schneider/Citect OPC-1.jpg":[["Configuración","Configuration"],["Dispositivo","Device"],["Alarma","Alarm"],["Tendencia","Trend"],["Listo","Ready"],["Ver","View"]],"scada-siemens/113-VBScriptWinCC-Excel-40a.png":[["Nombre","Name"],["Fila","Row"],["Columna","Column"]],"scada-siemens/115-VBScriptWinCC-17.png":[["Archivo","File"],["Modificar","Modify"]],"scada-siemens/BackupWinCCRuntime_00.png":[["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Seleccionar","Select"],["Usuario","User"],["Servidor","Server"],["Datos","Data"],["Equipo","Computer / station"]],"scada-siemens/IBHS5_01.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"scada-siemens/image-18.png":[["Archivo","File"],["Proyecto","Project"],["Copiar","Copy"],["Servidor","Server"],["Ejecutar","Run"],["Crear","Create"]],"scada-siemens/TIA-WinCC RT-VentanaImagen-01.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"]],"scada-siemens/WCR Recipes-00.jpg":[["Referencias cruzadas","Cross reference"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"]],"scada-siemens/WinCC PLCSIM-02.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Buscar","Search"]],"scada-siemens/WinCC WebNavigator-000.png":[["Cancelar","Cancel"],["Siguiente","Next"],["Descripción","Description"],["Equipo","Computer / station"],["Agregar","Add"],["Ver","View"]],"scada-siemens/WinCC-DDE-00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Buscar","Search"]],"scada-siemens/WinCC-Menu-00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Salir","Exit"],["Usuario","User"],["Datos","Data"],["Equipo","Computer / station"]],"scada-siemens/WinCC-SystemInfo-00.png":[["Archivo","File"],["Ayuda","Help"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"scada-siemens/WinCC_00.png":[["Archivo","File"],["Ayuda","Help"],["Proyecto","Project"],["Nuevo","New"],["Ver","View"]],"scada-siemens/WinCC_ActiveX_00.png":[["Proyecto","Project"],["Nuevo","New"],["Mostrar","Show"]],"scada-siemens/WinCC_Bit_de_Vida_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Valor","Value"]],"scada-siemens/WinCC_C_Ping_09.png":[["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"],["Evento","Event"]],"scada-siemens/WinCC_Dynamic_Wizard_00.png":[["Propiedades","Properties"],["Seleccionar","Select"],["Opciones","Options"],["Objeto","Object"]],"scada-siemens/WinCC_Equipo_00.png":[["Archivo","File"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"]],"scada-siemens/WinCC_GetTagRaw_VBS_12.png":[["Propiedades","Properties"],["Dirección","Address"],["Usuario","User"],["Datos","Data"],["Crear","Create"]],"scada-siemens/WinCC_HTTPS_02.png":[["Archivo","File"],["Ayuda","Help"],["Abrir","Open"],["Servidor","Server"],["Pantalla","Screen"],["Detener","Stop"],["Mostrar","Show"],["Controlador","Driver / controller"]],"scada-siemens/WinCC_Imprimir_File_00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Listo","Ready"],["Ver","View"]],"scada-siemens/WinCC_KeyBoard_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"scada-siemens/WinCC_LibraryC++_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Abrir","Open"],["Cerrar","Close"],["Nuevo","New"]],"scada-siemens/WinCC_SQLite-5.png":[["Conexión","Connection"],["Abrir","Open"],["Cerrar","Close"]],"scada-siemens/WinCC_Time_01.png":[["Ayuda","Help"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Destino","Destination"],["Ver","View"]],"scada-siemens/WinCC_VBA_AddIn_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nuevo","New"],["Ejecutar","Run"],["Mostrar","Show"],["Consulta","Query"]],"scada-siemens/WinCC_VBS_Funcion_0.png":[["Crear","Create"],["Objeto","Object"]],"scada-siemens/WinCC_VentanaImagen_03.png":[["Nombre","Name"],["Objeto","Object"]],"scada-siemens/WinCC_WebNavigator_1.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"]],"scada-siemens/WinCC_WPF_00.png":[["Base de datos","Database"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Usuario","User"],["Agregar","Add"]],"simatic-cargar-en-pg/Step7_ISO_00.png":[["Archivo","File"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"simatic-cargar-en-pg/Step7_ISO_01.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Insertar","Insert"],["Datos","Data"],["Destino","Destination"],["Informe","Report"]],"simatic-cargar-en-pg/Step7_ISO_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Copiar","Copy"],["Agregar","Add"],["Ver","View"]],"simatic-cargar-en-pg/Step7_ISO_03.png":[["Cargar en PG","Upload to PG"],["Archivo","File"],["Ventana","Window"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Copiar","Copy"],["Usuario","User"]],"simatic-cargar-en-pg/Step7_ISO_04.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Seleccionar","Select"],["Equipo","Computer / station"]],"simatic-cargar-en-pg/Step7_ISO_05.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"simatic-cargar-en-pg/Step7_ISO_06.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Dirección","Address"],["Insertar","Insert"],["Opciones","Options"],["Datos","Data"]],"simatic-cargar-en-pg/Step7_ISO_07.png":[["Dirección IP","IP address"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"simatic-cargar-en-pg/Step7_ISO_08.png":[["Herramientas","Tools"],["Ventana","Window"],["Cancelar","Cancel"],["Insertar","Insert"],["Equipo","Computer / station"],["Cargar","Load"],["Destino","Destination"],["Ver","View"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_02.png":[["Archivo","File"],["Ayuda","Help"],["Configuración","Configuration"],["Abrir","Open"],["Datos","Data"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_03.png":[["Archivo","File"],["Estado","Status"],["Datos","Data"],["Pantalla","Screen"],["Equipo","Computer / station"],["Información","Information"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_04.png":[["Cancelar","Cancel"],["Datos","Data"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_05.png":[["Archivo","File"],["Cancelar","Cancel"],["Abrir","Open"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_06.png":[["Archivo","File"],["Cancelar","Cancel"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_07.png":[["Archivo","File"],["Ayuda","Help"],["Configuración","Configuration"],["Abrir","Open"],["Datos","Data"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_08.png":[["Dirección IP","IP address"],["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Conexión","Connection"],["Dispositivo","Device"]],"simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_00.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_01(1).png":[["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Insertar","Insert"],["Usuario","User"],["Equipo","Computer / station"],["Ver","View"]],"simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_01.png":[["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Insertar","Insert"],["Usuario","User"],["Equipo","Computer / station"],["Destino","Destination"],["Ver","View"]],"stept7-big-litle-indian/Step7_BiglitleIndian-01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"stept7-big-litle-indian/Step7_BiglitleIndian-04.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ejecutar","Run"],["Ver","View"]],"stept7-big-litle-indian/Step7_BiglitleIndian-05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Insertar","Insert"],["Ver","View"]],"tia-portal-1200-sms/S7-1200-sms-03.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Servidor","Server"],["Puerto","Port"],["Información","Information"]],"tia-portal-1200-sms/S7-1200-sms-04.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Información","Information"]],"tia-portal-1200-sms/S7-1200-sms-05.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Información","Information"]],"tia-portal-1200-sms/S7-1200-sms-06.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Información","Information"]],"tia-portal-conversion-tiempos/Step7_S5Time_10.png":[["Guardar","Save"],["Siguiente","Next"],["Valor","Value"],["Entrada","Input"],["Datos","Data"],["Cargar","Load"]],"tia-portal-conversion-tiempos/Step7_S5Time_13.png":[["Valor","Value"],["Hora","Time"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (10).png":[["Propiedades","Properties"],["Puerto","Port"],["Velocidad","Speed"],["Datos","Data"],["Mensaje","Message"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (11).png":[["Propiedades","Properties"],["Mensaje","Message"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (13).png":[["Propiedades","Properties"],["Inicio","Start"],["Puerto","Port"],["Velocidad","Speed"],["Datos","Data"],["Mensaje","Message"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (14).png":[["Propiedades","Properties"],["Inicio","Start"],["Puerto","Port"],["Mensaje","Message"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (16).png":[["Nombre","Name"],["Programa","Program"],["Nuevo","New"],["Dispositivo","Device"],["Datos","Data"],["Agregar","Add"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (17).png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (7).png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (9).png":[["Programa","Program"],["Nuevo","New"],["Dispositivo","Device"],["Datos","Data"],["Mostrar","Show"],["Agregar","Add"],["Objeto","Object"]],"unity-varread/168-Unity-Read_Var-000.png":[["Herramientas","Tools"],["Ventana","Window"],["Programa","Program"],["Datos","Data"],["Evento","Event"],["Ver","View"]],"unity-varread/168-Unity-Read_Var-001.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Valor","Value"],["Salida","Output"],["Datos","Data"],["Evento","Event"]],"unity-varread/168-Unity-Read_Var-002.png":[["Ayuda","Help"],["Ventana","Window"],["Usuario","User"],["Datos","Data"],["Evento","Event"],["Listo","Ready"],["Ver","View"]],"unity-varread/168-Unity-Read_Var-005.png":[["Herramientas","Tools"],["Ayuda","Help"],["Configuración","Configuration"],["Programa","Program"],["Datos","Data"],["Evento","Event"],["Mensaje","Message"],["Listo","Ready"]],"unity-varread/168-Unity-Read_Var-006.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Evento","Event"],["Listo","Ready"],["Ver","View"]],"unity-varread/168-Unity-Read_Var-010.png":[["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Datos","Data"],["Evento","Event"],["Mensaje","Message"],["Listo","Ready"]],"vscode/VisuaCodeProyectoAgentes.PNG":[["Herramientas","Tools"],["Configuración","Configuration"],["Etiqueta","Tag / label"],["Ver","View"]],"wincc/WinCC_00.png":[["Archivo","File"],["Ayuda","Help"],["Proyecto","Project"],["Nuevo","New"],["Ver","View"]],"wincc/WinCC_06.png":[["Archivo","File"],["Propiedades","Properties"],["Proyecto","Project"],["Fecha","Date"],["Datos","Data"],["Equipo","Computer / station"]],"wincc/WinCC_07.png":[["Propiedades","Properties"],["Proyecto","Project"],["Fecha","Date"],["Datos","Data"]],"wincc/WinCC_08.png":[["Propiedades","Properties"],["Proyecto","Project"]],"wincc/WinCC_09.png":[["Propiedades","Properties"],["Proyecto","Project"],["Pantalla","Screen"]],"wincc/WinCC_10.png":[["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Opciones","Options"]],"wincc/WinCC_11.png":[["Propiedades","Properties"],["Proyecto","Project"],["Estado","Status"]],"wincc/WinCC_12.png":[["Propiedades","Properties"],["Proyecto","Project"]],"wincc/WinCC_13.png":[["Configuración","Configuration"],["Aplicar","Apply"],["Objeto","Object"]],"wincc/WinCC_14.png":[["Configuración","Configuration"],["Objeto","Object"]],"wincc/WinCC_18.png":[["Propiedades","Properties"],["Proyecto","Project"]],"wincc-activex/WinCC_ActiveX_00.png":[["Proyecto","Project"],["Nuevo","New"],["Mostrar","Show"]],"wincc-activex/WinCC_ActiveX_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Usuario","User"],["Datos","Data"],["Ejecutar","Run"],["Consulta","Query"]],"wincc-activex/WinCC_ActiveX_02.png":[["Archivo","File"],["Proyecto","Project"],["Guardar","Save"],["Abrir","Open"],["Nuevo","New"]],"wincc-activex/WinCC_ActiveX_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Valor","Value"],["Objeto","Object"],["Evento","Event"]],"wincc-activex/WinCC_ActiveX_08.png":[["Propiedades","Properties"],["Valor","Value"],["Objeto","Object"],["Evento","Event"]],"wincc-activex-excel/WinCC-office-ActiveX-05.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"wincc-activex-excel/WinCC-office-ActiveX-06.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"wincc-activex-excel/WinCC-office-ActiveX-08.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Valor","Value"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_01.png":[["Ayuda","Help"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Destino","Destination"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_02.png":[["Archivo","File"],["Ayuda","Help"],["Valor","Value"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_03.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_04.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_05.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Destino","Destination"]],"wincc-backup-winccruntime/BackupWinCCRuntime_00.png":[["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Seleccionar","Select"],["Usuario","User"],["Servidor","Server"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Valor","Value"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Proyecto","Project"],["Fila","Row"],["Columna","Column"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_03.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Comunicación","Communication"],["Proyecto","Project"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Ver","View"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Estado","Status"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_06.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Estado","Status"]],"wincc-chipcard/WinCC_ChipCard_09.png":[["Archivo","File"],["Configuración","Configuration"],["Conexión","Connection"],["Usuario","User"],["Entrada","Input"],["Salida","Output"],["Inicio","Start"],["Pantalla","Screen"]],"wincc-chipcard/WinCC_ChipCard_10.png":[["Archivo","File"],["Ayuda","Help"],["Usuario","User"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_02.png":[["Archivo","File"],["Ayuda","Help"],["Propiedades","Properties"],["Servidor","Server"],["Cargar","Load"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_05.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_06.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nuevo","New"],["Valor","Value"],["Datos","Data"],["Agregar","Add"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Entrada","Input"]],"wincc-cliente/WinCC_Cliente_08.png":[["Aceptar","OK"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Origen","Source"]],"wincc-cliente/WinCC_Cliente_09.png":[["Propiedades","Properties"],["Equipo","Computer / station"]],"wincc-cliente/WinCC_MultiPuesto_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_MultiPuesto_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Cargar","Load"]],"wincc-cliente/WinCC_MultiPuesto_03.png":[["Propiedades","Properties"],["Nombre","Name"],["Equipo","Computer / station"]],"wincc-cliente/WinCC_MultiPuesto_04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_MultiPuesto_06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Copiar","Copy"],["Pegar","Paste"]],"wincc-cliente/WinCC_MultiPuesto_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_MultiPuesto_11.png":[["Archivo","File"],["Configuración","Configuration"],["Usuario","User"],["Entrada","Input"],["Salida","Output"],["Pantalla","Screen"],["Listo","Ready"],["Ver","View"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_001.png":[["Archivo","File"],["Herramientas","Tools"],["Nuevo","New"],["Buscar","Search"],["Copiar","Copy"],["Pegar","Paste"],["Agregar","Add"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_002.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Conexión","Connection"],["Copiar","Copy"],["Pegar","Paste"],["Valor","Value"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_003.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Nombre","Name"],["Nuevo","New"],["Copiar","Copy"],["Pegar","Paste"],["Servidor","Server"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_004.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Configuración","Configuration"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Usuario","User"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_005.png":[["Ayuda","Help"],["Configuración","Configuration"],["Aceptar","OK"],["Servidor","Server"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_006.png":[["Ayuda","Help"],["Configuración","Configuration"],["Cancelar","Cancel"],["Servidor","Server"],["Agregar","Add"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_007.png":[["Archivo","File"],["Herramientas","Tools"],["Servidor","Server"],["Cargar","Load"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_008.png":[["Archivo","File"],["Herramientas","Tools"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_009.png":[["Archivo","File"],["Herramientas","Tools"],["Servidor","Server"],["Cargar","Load"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_010.png":[["Archivo","File"],["Herramientas","Tools"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_011.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"],["Ver","View"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_012.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"],["Ver","View"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_013.png":[["Nombre","Name"],["Nuevo","New"],["Copiar","Copy"],["Pegar","Paste"],["Servidor","Server"],["Crear","Create"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_014.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_015.png":[["Archivo","File"],["Herramientas","Tools"],["Listo","Ready"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Servidor","Server"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote02.png":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Nombre","Name"],["Servidor","Server"],["Agregar","Add"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote03.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote04.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Siguiente","Next"],["Servidor","Server"],["Lectura","Read"],["Escritura","Write"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote05.png":[["Datos","Data"],["Mostrar","Show"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote06.png":[["Proyecto","Project"],["Datos","Data"],["Agregar","Add"],["Crear","Create"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote07.png":[["Aceptar","OK"],["Nombre","Name"],["Datos","Data"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote08.png":[["Nombre","Name"],["Siguiente","Next"],["Datos","Data"],["Agregar","Add"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote09.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote10.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Ver","View"]],"wincc-confirm-tagvalue/WinCC_ConfirmTagValue_02.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-confirm-tagvalue-us/WinCC_ConfirmTagValue_02.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-datamonitor/WinCC_DataMonitor_29.png":[["Base de datos","Database"],["Nombre","Name"],["Conexión","Connection"],["Usuario","User"],["Equipo","Computer / station"],["Modificar","Modify"]],"wincc-db-oracle/WinCC_Oracle_DB_04.png":[["Aceptar","OK"],["Proyecto","Project"],["Fila","Row"]],"wincc-db-oracle/WinCC_Oracle_DB_06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"wincc-dde/WinCC-DDE-00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Buscar","Search"]],"wincc-dde/WinCC-DDE-02.png":[["Archivo","File"],["Edición","Edit"],["Comunicación","Communication"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"wincc-dde/WinCC-DDE-03.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Objeto","Object"]],"wincc-dde/WinCC-DDE-04.png":[["Propiedades","Properties"],["Nombre","Name"]],"wincc-dde/WinCC-DDE-05.png":[["Archivo","File"],["Edición","Edit"],["Propiedades","Properties"],["Cancelar","Cancel"],["Nombre","Name"],["Conexión","Connection"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-dde/WinCC-DDE-06.png":[["Cancelar","Cancel"],["Nombre","Name"],["Lectura","Read"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-dde/WinCC-DDE-07.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Borrar","Clear"],["Objeto","Object"]],"wincc-dde/WinCC-DDE-08.png":[["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Seleccione","Select"],["Servidor","Server"],["Valor","Value"],["Datos","Data"]],"wincc-dde/WinCC-DDE-09.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Insertar","Insert"]],"wincc-dynamic-wizard/WinCC_Dynamic_Wizard_00.png":[["Propiedades","Properties"],["Seleccionar","Select"],["Opciones","Options"],["Objeto","Object"]],"wincc-dynamic-wizard/WinCC_Dynamic_Wizard_01.png":[["Ayuda","Help"],["Opciones","Options"]],"wincc-dynamic-wizard/WinCC_Dynamic_Wizard_03.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Pantalla","Screen"],["Objeto","Object"],["Evento","Event"],["Listo","Ready"],["Fila","Row"]],"wincc-equipo/WinCC_Equipo_00.png":[["Archivo","File"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-equipo/WinCC_Equipo_01.png":[["Propiedades","Properties"],["Aplicar","Apply"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"]],"wincc-equipo/WinCC_Equipo_02.png":[["Propiedades","Properties"],["Equipo","Computer / station"],["Agregar","Add"],["Informe","Report"]],"wincc-equipo/WinCC_Equipo_03.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Fecha","Date"],["Hora","Time"],["Información","Information"]],"wincc-equipo/WinCC_Equipo_04.png":[["Archivo","File"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Pantalla","Screen"]],"wincc-equipo/WinCC_Equipo_05.png":[["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Pantalla","Screen"],["Equipo","Computer / station"],["Mostrar","Show"],["Ruta","Path"],["Objeto","Object"]],"wincc-equipo/WinCC_Equipo_06.png":[["Propiedades","Properties"],["Aplicar","Apply"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"]],"wincc-equipo/WinCC_Equipo_07.png":[["Propiedades","Properties"],["Equipo","Computer / station"]],"wincc-equipo/WinCC_Equipo_08.png":[["Propiedades","Properties"],["Servidor","Server"],["Fecha","Date"],["Hora","Time"],["Equipo","Computer / station"],["Información","Information"]],"wincc-equipo/WinCC_Equipo_09.png":[["Archivo","File"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Pantalla","Screen"],["Equipo","Computer / station"]],"wincc-equipo/WinCC_Equipo_10.png":[["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Pantalla","Screen"],["Equipo","Computer / station"],["Mostrar","Show"],["Ruta","Path"],["Objeto","Object"]],"wincc-funcion-activar-desactivar-bits/WinCC_VBS_Funcion_0.png":[["Crear","Create"],["Objeto","Object"]],"wincc-funcion-gettagraw/WinCC_TagRaw_01.png":[["Valor","Value"],["Salida","Output"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_03.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_08.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_09.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_10.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_11.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_12.png":[["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_14.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-ibh-link/IBHS5_01.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"wincc-ibh-link/IBHS5_03 (2).png":[["Nombre","Name"],["Seleccionar","Select"],["Dispositivo","Device"]],"wincc-ibh-link/IBHS5_04 (2).png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ver","View"]],"wincc-ibh-link/IBHS5_06 (2).png":[["Dirección IP","IP address"],["Datos","Data"]],"wincc-ibh-link/IBHS5_10.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"],["Salida","Output"],["Datos","Data"],["Ver","View"]],"wincc-ibh-link/IBH_21b.png":[["Bloque de datos","Data block"],["Dirección IP","IP address"]],"wincc-ibh-link/IBH_24.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"],["Salida","Output"],["Ver","View"]],"wincc-ibh-link/IBH_25.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"],["Salida","Output"],["Ver","View"]],"wincc-instalacion-activex/AcriveX_WinCC_23.png":[["Archivo","File"],["Edición","Edit"],["Cancelar","Cancel"],["Programa","Program"],["Salir","Exit"],["Anterior","Back"],["Instalación","Installation"],["Pantalla","Screen"]],"wincc-instalacion-activex/AcriveX_WinCC_24.png":[["Herramientas","Tools"],["Cancelar","Cancel"],["Seleccionar","Select"],["Seleccione","Select"],["Opciones","Options"],["Datos","Data"],["Descripción","Description"],["Modificar","Modify"]],"wincc-keyboard/WinCC_KeyBoard_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"wincc-keyboard/WinCC_KeyBoard_01.png":[["Configuración","Configuration"],["Proyecto","Project"],["Listo","Ready"],["Fila","Row"],["Columna","Column"]],"wincc-keyboard/WinCC_KeyBoard_06.png":[["Configuración","Configuration"],["Proyecto","Project"],["Listo","Ready"],["Fila","Row"],["Columna","Column"]],"wincc-keyboard-vba/WinCC_KeyBoard_VBA_03.png":[["Entrada","Input"],["Objeto","Object"],["Evento","Event"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Abrir","Open"],["Cerrar","Close"],["Nuevo","New"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_01.png":[["Archivo","File"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Buscar","Search"],["Agregar","Add"],["Crear","Create"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_02.png":[["Archivo","File"],["Ventana","Window"],["Configuración","Configuration"],["Aceptar","OK"],["Cancelar","Cancel"],["Proyecto","Project"],["Anterior","Back"],["Finalizar","Finish"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_04.png":[["Configuración","Configuration"],["Cancelar","Cancel"],["Proyecto","Project"],["Anterior","Back"],["Opciones","Options"],["Información","Information"],["Agregar","Add"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Datos","Data"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Datos","Data"],["Equipo","Computer / station"],["Ver","View"]],"wincc-menu-vbs/WinCC-Menu-00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Salir","Exit"],["Usuario","User"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-menu-vbs/WinCC-Menu-01.png":[["Nombre","Name"],["Usuario","User"],["Datos","Data"]],"wincc-menu-vbs/WinCC-Menu-07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Proyecto","Project"],["Insertar","Insert"],["Valor","Value"],["Ver","View"]],"wincc-monopuesto/WinCC_19.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-mqtt/WinCC_MQTT_101.png":[["Archivo","File"],["Herramientas","Tools"],["Propiedades","Properties"],["Nombre","Name"],["Opciones","Options"],["Valor","Value"],["Escritura","Write"],["Equipo","Computer / station"]],"wincc-mqtt/WinCC_MQTT_102.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Aceptar","OK"],["Nombre","Name"],["Puerto","Port"],["Objeto","Object"]],"wincc-mqtt/WinCC_MQTT_103.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Puerto","Port"],["Objeto","Object"],["Ver","View"]],"wincc-mqtt/WinCC_MQTT_104.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Ver","View"]],"wincc-mqtt/WinCC_MQTT_105.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Velocidad","Speed"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-mqtt/WinCC_MQTT_106.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Listo","Ready"]],"wincc-mqtt/WinCC_MQTT_112.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Valor","Value"],["Puerto","Port"]],"wincc-msexcel-owc/WinCC_Excel_OWC_03.png":[["Abrir","Open"],["Copiar","Copy"],["Crear","Create"]],"wincc-multipuesto/WinCC_MultiPuesto_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Cargar","Load"]],"wincc-multipuesto/WinCC_MultiPuesto_03.png":[["Propiedades","Properties"],["Nombre","Name"],["Equipo","Computer / station"]],"wincc-multipuesto/WinCC_MultiPuesto_04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_05.png":[["Archivo","File"],["Ayuda","Help"],["Proyecto","Project"],["Abrir","Open"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Copiar","Copy"],["Pegar","Paste"]],"wincc-multipuesto/WinCC_MultiPuesto_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_10.png":[["Archivo","File"],["Ayuda","Help"],["Proyecto","Project"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_11.png":[["Archivo","File"],["Configuración","Configuration"],["Usuario","User"],["Entrada","Input"],["Salida","Output"],["Pantalla","Screen"],["Listo","Ready"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_12.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-mysql/WinCC_MySQL_DB_10.png":[["Aceptar","OK"],["Proyecto","Project"],["Fila","Row"]],"wincc-mysql/WinCC_MySQL_DB_11.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"wincc-net/WinCC_NET_01.png":[["Entrada","Input"],["Salida","Output"],["Descripción","Description"],["Etiqueta","Tag / label"]],"wincc-net/WinCC_NET_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Nombre","Name"],["Seleccionar","Select"]],"wincc-net/WinCC_NET_06.png":[["Propiedades","Properties"],["Entrada","Input"],["Salida","Output"],["Objeto","Object"],["Evento","Event"]],"wincc-net/WinCC_NET_07.png":[["Propiedades","Properties"],["Entrada","Input"],["Salida","Output"],["Objeto","Object"],["Evento","Event"]],"wincc-plcsimadvanced/WinCC_PLCSIM_Advanced_01.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"wincc-redundancy/WinCC_Redundancia_00.png":[["Archivo","File"],["Ayuda","Help"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-redundancy/WinCC_Redundancia_02.png":[["Configuración","Configuration"],["Servidor","Server"],["Puerto","Port"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-redundancy/WinCC_Redundancia_03.png":[["Instalación","Installation"],["Servidor","Server"],["Hora","Time"],["Equipo","Computer / station"],["Mostrar","Show"]],"wincc-redundancy/WinCC_Redundancia_04.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Cerrar","Close"],["Seleccionar","Select"]],"wincc-redundancy/WinCC_Redundancia_07.png":[["Nombre","Name"],["Cerrar","Close"],["Siguiente","Next"],["Equipo","Computer / station"]],"wincc-redundancy/WinCC_Redundancia_08.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-redundancy/WinCC_Redundancia_09.png":[["Archivo","File"],["Ayuda","Help"],["Configuración","Configuration"],["Servidor","Server"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-redundancy/WinCC_Redundancia_10.png":[["Archivo","File"],["Ayuda","Help"],["Servidor","Server"],["Equipo","Computer / station"]],"wincc-redundancy/WinCC_Redundancia_11.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-redundancy/WinCC_Redundancia_12.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Ver","View"]],"wincc-redundancy/WinCC_Redundancia_13.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Servidor","Server"],["Equipo","Computer / station"],["Ver","View"]],"wincc-redundancy/WinCC_Redundancia_15.png":[["Archivo","File"],["Ayuda","Help"]],"wincc-system-info/WinCC-SystemInfo-00.png":[["Archivo","File"],["Ayuda","Help"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-01.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nombre","Name"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-02.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-03.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Estado","Status"],["Datos","Data"]],"wincc-system-info/WinCC-SystemInfo-04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Seleccione","Select"],["Valor","Value"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-05.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-06.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Seleccione","Select"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Datos","Data"]],"wincc-system-info/WinCC-SystemInfo-08.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Fecha","Date"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-09.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-10.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-unified-administracion-usuarios/WCCUnified_User_1.png":[["Usuario","User"],["Inicio","Start"]],"wincc-unified-administracion-usuarios/WCCUnified_User_15.png":[["Usuario","User"],["Inicio","Start"]],"wincc-unified-transferir-proyecto/WCCUnified_16.png":[["Usuario","User"],["Inicio","Start"]],"wincc-unified-transferir-proyecto/WCCUnified_8.png":[["Usuario","User"],["Inicio","Start"]],"wincc-vba/WinCC_VBA_AddIn_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nuevo","New"],["Ejecutar","Run"],["Mostrar","Show"],["Consulta","Query"]],"wincc-vba/WinCC_VBA_AddIn_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Usuario","User"]],"wincc-vba/WinCC_VBA_AddIn_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Ejecutar","Run"]],"wincc-vba/WinCC_VBA_AddIn_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"]],"wincc-vba/WinCC_VBA_AddIn_08.png":[["Nombre","Name"],["Proyecto","Project"],["Objeto","Object"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_01.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_02.png":[["Ayuda","Help"],["Propiedades","Properties"],["Dirección","Address"],["Seleccione","Select"],["Datos","Data"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_03.png":[["Proyecto","Project"],["Datos","Data"],["Fila","Row"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_07.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_12.png":[["Propiedades","Properties"],["Dirección","Address"],["Usuario","User"],["Datos","Data"],["Crear","Create"]],"wincc-vbs-imprimir/WinCC_Imprimir_File_00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Listo","Ready"],["Ver","View"]],"wincc-vbs-imprimir/WinCC_Imprimir_File_01.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"]],"wincc-vbs-imprimir/WinCC_Imprimir_File_03.png":[["Archivo","File"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Proyecto","Project"],["Valor","Value"],["Estado","Status"],["Datos","Data"]],"wincc-vbs-ping/WinCC_C_Ping_09.png":[["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"],["Evento","Event"]],"wincc-vbs-ping/WinCC_C_Ping_11.png":[["Archivo","File"],["Cargar","Load"],["Fila","Row"]],"wincc-vbs-webnavigator/WinCC_WebNavigator_1.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"]],"wincc-vbs-webnavigator/WinCC_WebNavigator_2.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Servidor","Server"],["Ejecutar","Run"]],"wincc-webnavigator-https/WinCC_HTTPS_02.png":[["Archivo","File"],["Ayuda","Help"],["Abrir","Open"],["Servidor","Server"],["Pantalla","Screen"],["Detener","Stop"],["Mostrar","Show"],["Controlador","Driver / controller"]],"wincc-webnavigator-https/WinCC_HTTPS_04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Pantalla","Screen"],["Crear","Create"],["Listo","Ready"],["Ver","View"]],"wincc-webnavigator-https/WinCC_HTTPS_05.png":[["Archivo","File"],["Nombre","Name"]],"wincc-webnavigator-https/WinCC_HTTPS_06.png":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Detener","Stop"],["Mostrar","Show"],["Modificar","Modify"],["Listo","Ready"],["Ver","View"]],"wincc-webnavigator-https/WinCC_HTTPS_07.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Puerto","Port"],["Agregar","Add"],["Listo","Ready"],["Ver","View"]],"wincc-webnavigator-https/WinCC_HTTPS_08.png":[["Archivo","File"],["Ayuda","Help"],["Abrir","Open"],["Detener","Stop"],["Mostrar","Show"],["Controlador","Driver / controller"],["Listo","Ready"],["Ver","View"]],"wincc-webnavigator-https/WinCC_HTTPS_09.png":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"],["Pantalla","Screen"],["Modificar","Modify"],["Ruta","Path"]],"wincc-webux/WinCCWebUX_29.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nuevo","New"],["Servidor","Server"]],"wincc-wpf/WinCC_WPF_00.png":[["Base de datos","Database"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Usuario","User"],["Agregar","Add"]],"wincc-wpf/WinCC_WPF_02.png":[["Propiedades","Properties"],["Ruta","Path"]],"wincc-wpf/WinCC_WPF_03.png":[["Archivo","File"],["Herramientas","Tools"],["Ventana","Window"],["Proyecto","Project"],["Datos","Data"],["Equipo","Computer / station"],["Ejecutar","Run"],["Ver","View"]],"wincc-wpf/WinCC_WPF_04.png":[["Propiedades","Properties"],["Opciones","Options"],["Compilar","Compile"],["Ruta","Path"]],"wincc-wpf/WinCC_WPF_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Estado","Status"],["Objeto","Object"],["Ver","View"]],"wincc-wpf/WinCC_WPF_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Seleccionar","Select"],["Estado","Status"],["Objeto","Object"],["Ver","View"]],"wincc-wpf/WinCC_WPF_08.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Estado","Status"],["Objeto","Object"],["Evento","Event"]],"wincc-wpf/WinCC_WPF_09.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Estado","Status"],["Objeto","Object"],["Evento","Event"]],"wincc-wpf/WinCC_WPF_11.png":[["Nombre","Name"],["Datos","Data"]],"winccflexible-currentuser/WCFLoginLogout_01.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Proyecto","Project"],["Datos","Data"],["Informe","Report"]],"winccflexible-currentuser/WCFLoginLogout_03.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Aplicar","Apply"],["Nombre","Name"],["Comunicación","Communication"]],"winccflexible-currentuser/WCFLoginLogout_05.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"]],"winccflexible-currentuser/WCFLoginLogout_06.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"]],"winccflexible-currentuser/WCFLoginLogout_07.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"]],"winccflexible-simotion/WCF_Simotion_06.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"winccflexible-simotion/WCF_Simotion_07.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"],["Nuevo","New"]],"winccflexible-simotion/WCF_Simotion_10.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Comunicación","Communication"],["Conexión","Connection"]],"winccflexible-simotion/WCF_Simotion_14.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"winccflexible-simotion/WCF_Simotion_15.png":[["Dirección IP","IP address"],["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Insertar","Insert"],["Borrar","Clear"],["Seleccionar","Select"]],"winccflexible-simotion/WCF_Simotion_16.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"]],"winccflexible-simotion/WCF_Simotion_17.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Guardar","Save"],["Buscar","Search"],["Insertar","Insert"]],"winccflexible-simotion/WCF_Simotion_18.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Insertar","Insert"],["Borrar","Clear"]],"winccflexible-simotion/WCF_Simotion_19.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Proyecto","Project"]],"winccflexible-simotion/WCF_Simotion_20.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"]],"winccflexible-simotion/WCF_Simotion_21.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"]],"winccflexible-simotion-opc/Simotion_S7_06.png":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Usuario","User"]],"winccflexible-simotion-opc/Simotion_S7_08.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Borrar","Clear"]],"winccflexible-simotion-opc/Simotion_S7_10.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"winccflexible-simotion-opc/Simotion_S7_11.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"winccflexible-simotion-opc/Simotion_S7_12.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"]],"winccflexible-simotion-opc/Simotion_S7_14.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"]],"winccflexible-simotion-opc/Simotion_S7_15.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Abrir","Open"],["Insertar","Insert"],["Destino","Destination"]],"wwhistorian-autostart/WW_Historian_AutoStart_05.png":[["Archivo","File"],["Ayuda","Help"],["Propiedades","Properties"]]};function _d(){return{async:!1,breaks:!1,extensions:null,gfm:!0,hooks:null,pedantic:!1,renderer:null,silent:!1,tokenizer:null,walkTokens:null}}let da=_d();function hw(e){da=e}const uw=/[&<>"']/,P_=new RegExp(uw.source,"g"),mw=/[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/,T_=new RegExp(mw.source,"g"),I_={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},Wu=e=>I_[e];function Ke(e,n){if(n){if(uw.test(e))return e.replace(P_,Wu)}else if(mw.test(e))return e.replace(T_,Wu);return e}const __=/(^|[^\[])\^/g;function $(e,n){let t=typeof e=="string"?e:e.source;n=n||"";const a={replace:(i,o)=>{let s=typeof o=="string"?o:o.source;return s=s.replace(__,"$1"),t=t.replace(i,s),a},getRegex:()=>new RegExp(t,n)};return a}function Lu(e){try{e=encodeURI(e).replace(/%25/g,"%")}catch{return null}return e}const Oi={exec:()=>null};function Eu(e,n){const t=e.replace(/\|/g,(o,s,r)=>{let c=!1,d=s;for(;--d>=0&&r[d]==="\\";)c=!c;return c?"|":" |"}),a=t.split(/ \|/);let i=0;if(a[0].trim()||a.shift(),a.length>0&&!a[a.length-1].trim()&&a.pop(),n)if(a.length>n)a.splice(n);else for(;a.length<n;)a.push("");for(;i<a.length;i++)a[i]=a[i].trim().replace(/\\\|/g,"|");return a}function ui(e,n,t){const a=e.length;if(a===0)return"";let i=0;for(;i<a&&e.charAt(a-i-1)===n;)i++;return e.slice(0,a-i)}function x_(e,n){if(e.indexOf(n[1])===-1)return-1;let t=0;for(let a=0;a<e.length;a++)if(e[a]==="\\")a++;else if(e[a]===n[0])t++;else if(e[a]===n[1]&&(t--,t<0))return a;return-1}function Du(e,n,t,a){const i=n.href,o=n.title?Ke(n.title):null,s=e[1].replace(/\\([\[\]])/g,"$1");if(e[0].charAt(0)!=="!"){a.state.inLink=!0;const r={type:"link",raw:t,href:i,title:o,text:s,tokens:a.inlineTokens(s)};return a.state.inLink=!1,r}return{type:"image",raw:t,href:i,title:o,text:Ke(s)}}function M_(e,n){const t=e.match(/^(\s+)(?:```)/);if(t===null)return n;const a=t[1];return n.split(`
+`,P_={"001/003.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Comunicación","Communication"],["Estado","Status"]],"001/005.jpg":[["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Tabla de estado","Status chart"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"001/006.jpg":[["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Comunicación","Communication"],["Proyecto","Project"],["Guardar","Save"],["Buscar","Search"],["Velocidad","Speed"]],"001/008.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"001/009.jpg":[["Bloque de datos","Data block"],["Dirección","Address"],["Programa","Program"],["Nuevo","New"],["Seleccionar","Select"],["Opciones","Options"],["Cargar","Load"]],"001/011.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Comunicación","Communication"]],"001/014.jpg":[["Bloque de datos","Data block"],["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Proyecto","Project"],["Guardar","Save"]],"001/015.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Comunicación","Communication"]],"003/Barcode05.jpg":[["Archivo","File"],["Proyecto","Project"],["Seleccionar","Select"],["Ejecutar","Run"]],"003/Barcode08.jpg":[["Archivo","File"],["Ayuda","Help"],["Dirección","Address"],["Ver","View"]],"004/OPC VB-004.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Usuario","User"],["Datos","Data"],["Equipo","Computer / station"]],"004/OPC VB-005.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Datos","Data"],["Equipo","Computer / station"]],"004/OPC VB-013.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Estado","Status"],["Ver","View"]],"004/OPC VB-018.jpg":[["Conexión","Connection"],["Datos","Data"]],"004/OPC VB-024.jpg":[["Nombre","Name"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Datos","Data"]],"004/OPC VB-17.jpg":[["Base de datos","Database"]],"005/WCF-DataLog02.jpg":[["Base de datos","Database"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Usuario","User"],["Información","Information"],["Origen","Source"]],"005/WCF-DataLog04.jpg":[["Nombre","Name"],["Fecha","Date"],["Hora","Time"],["Inicio","Start"],["Datos","Data"]],"006/VirtualBox-Com01.jpg":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Dispositivo","Device"],["Puerto","Port"],["Crear","Create"],["Ruta","Path"]],"006/VirtualBox-Com08.jpg":[["Ayuda","Help"],["Proyecto","Project"],["Programa","Program"],["Siguiente","Next"],["Dispositivo","Device"],["Histórico","Historical"]],"006/VirtualBox-Com12.jpg":[["Cancelar","Cancel"],["Nuevo","New"],["Buscar","Search"],["Siguiente","Next"],["Dispositivo","Device"],["Equipo","Computer / station"]],"006/VirtualBox-Com17.jpg":[["Ayuda","Help"],["Proyecto","Project"],["Programa","Program"],["Siguiente","Next"],["Histórico","Historical"]],"006/VirtualBox-Com19.jpg":[["Ayuda","Help"],["Proyecto","Project"],["Programa","Program"],["Siguiente","Next"],["Dispositivo","Device"],["Estado","Status"],["Histórico","Historical"],["Ver","View"]],"006/VirtualBox-Com20.jpg":[["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Conexión","Connection"],["Seleccione","Select"],["Dispositivo","Device"],["Puerto","Port"],["Pantalla","Screen"]],"006/VirtualBox-Com21.jpg":[["Proyecto","Project"],["Programa","Program"],["Siguiente","Next"],["Histórico","Historical"]],"007/KepServer S7-2xx-19.jpg":[["Ayuda","Help"],["Dirección","Address"],["Siguiente","Next"]],"008/Intouch-AccessName-05.jpg":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Dirección","Address"],["Ver","View"]],"011/RSLoxix5000 Emulate-05.jpg":[["Entrada","Input"],["Salida","Output"]],"012/Unity-02.jpg":[["Cancelar","Cancel"],["Proyecto","Project"],["Nuevo","New"],["Descripción","Description"]],"012/Unity-03.jpg":[["Proyecto","Project"],["Programa","Program"],["Datos","Data"],["Evento","Event"]],"012/Unity-06.jpg":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Comunicación","Communication"],["Nuevo","New"],["Dispositivo","Device"],["Entrada","Input"]],"012/Unity-08.jpg":[["Proyecto","Project"],["Datos","Data"],["Agregar","Add"]],"012/Unity-11.jpg":[["Conexión","Connection"],["Datos","Data"]],"012/Unity-12.jpg":[["Programa","Program"],["Usuario","User"],["Agregar","Add"],["Crear","Create"],["Evento","Event"]],"012/Unity-15.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Ver","View"]],"012/Unity-16.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Ver","View"]],"012/Unity-17.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Proyecto","Project"],["Ver","View"]],"012/Unity-18.jpg":[["Nombre","Name"],["Proyecto","Project"],["Valor","Value"]],"012/Unity-21.jpg":[["Dirección IP","IP address"],["Nombre","Name"],["Proyecto","Project"],["Datos","Data"],["Ver","View"]],"012/Unity-22.jpg":[["Dirección IP","IP address"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Usuario","User"]],"013/Vijeo with Unity-46.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Alarma","Alarm"],["Datos","Data"],["Informe","Report"],["Ver","View"]],"013/Vijeo with Unity-47.jpg":[["Ventana","Window"],["Nuevo","New"],["Alarma","Alarm"],["Datos","Data"],["Informe","Report"]],"013/Vijeo with Unity-49.jpg":[["Nuevo","New"],["Equipo","Computer / station"],["Controlador","Driver / controller"]],"013/Vijeo with Unity-50.jpg":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"]],"013/Vijeo with Unity-51.jpg":[["Dirección IP","IP address"],["Comunicación","Communication"],["Equipo","Computer / station"],["Mostrar","Show"]],"013/Vijeo with Unity-52.jpg":[["Ventana","Window"],["Alarma","Alarm"],["Datos","Data"],["Informe","Report"]],"013/Vijeo with Unity-58.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Alarma","Alarm"]],"013/Vijeo with Unity-59.jpg":[["Edición","Edit"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Seleccione","Select"],["Alarma","Alarm"],["Descripción","Description"]],"013/Vijeo with Unity-66.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Seleccionar","Select"]],"013/Vijeo with Unity-67.jpg":[["Nombre","Name"],["Dirección","Address"],["Datos","Data"],["Origen","Source"]],"014/Intouch-BindList-02.jpg":[["Ayuda","Help"],["Nombre","Name"],["Fecha","Date"]],"014/Intouch-BindList-06.jpg":[["Base de datos","Database"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Dirección","Address"]],"014/Intouch-BindList-11.jpg":[["Base de datos","Database"]],"015/WCF Transfer 21.jpg":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"]],"015/WCF Transfer-00.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"]],"015/WCF Transfer-01.jpg":[["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"],["Borrar","Clear"]],"015/WCF Transfer-12.jpg":[["Estado","Status"],["Equipo","Computer / station"]],"015/WCF Transfer-15.jpg":[["Puerta de enlace","Gateway"],["Dirección","Address"],["Conexión","Connection"]],"015/WCF Transfer-17.jpg":[["Archivo","File"],["Configuración","Configuration"],["Programa","Program"],["Datos","Data"]],"015/WCF Transfer-22.jpg":[["Ayuda","Help"],["Ventana","Window"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"],["Hora","Time"],["Estado","Status"],["Equipo","Computer / station"]],"015/WCF Transfer-25.jpg":[["Puerta de enlace","Gateway"],["Conexión","Connection"],["Datos","Data"]],"015/WCF Transfer-26.jpg":[["Dirección IP","IP address"],["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Configuración","Configuration"],["Cancelar","Cancel"],["Aplicar","Apply"],["Nombre","Name"]],"016/WCF S7-2xx-05.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Comunicación","Communication"]],"016/WCF S7-2xx-06.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"]],"016/WCF S7-2xx-07.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"]],"018/OPC OFS-10.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"019/Protool-Backup-01.jpg":[["Archivo","File"],["Ayuda","Help"],["Conexión","Connection"],["Velocidad","Speed"],["Equipo","Computer / station"]],"019/Protool-Backup-02.jpg":[["Archivo","File"],["Ayuda","Help"],["Configuración","Configuration"],["Guardar","Save"],["Datos","Data"]],"019/Protool-Backup-04.jpg":[["Archivo","File"],["Guardar","Save"],["Datos","Data"]],"019/Protool-Backup-06.jpg":[["Archivo","File"],["Guardar","Save"],["Datos","Data"]],"019/Protool-Backup-07.jpg":[["Archivo","File"],["Configuración","Configuration"],["Guardar","Save"],["Datos","Data"]],"019/Protool-Backup-08.jpg":[["Archivo","File"],["Guardar","Save"],["Datos","Data"]],"024/AIC+ -05.jpg":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dispositivo","Device"]],"025/WebServer WCF-1.jpg":[["Edición","Edit"],["Ventana","Window"],["Configuración","Configuration"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"],["Opciones","Options"]],"025/WebServer WCF-18a.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ver","View"]],"025/WebServer WCF-18b.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ver","View"]],"025/WebServer WCF-18c.jpg":[["Edición","Edit"],["Ayuda","Help"],["Listo","Ready"],["Ver","View"]],"025/WebServer WCF-2.jpg":[["Programa","Program"],["Servidor","Server"],["Pantalla","Screen"],["Informe","Report"]],"025/WebServer WCF-3.jpg":[["Edición","Edit"],["Ayuda","Help"],["Insertar","Insert"],["Opciones","Options"],["Estado","Status"]],"025/WebServer WCF-30.jpg":[["Eliminar","Delete"],["Dispositivo","Device"],["Inicio","Start"],["Estado","Status"],["Puerto","Port"],["Equipo","Computer / station"],["Crear","Create"],["Destino","Destination"]],"025/WebServer WCF-4.jpg":[["Archivo","File"],["Edición","Edit"],["Ventana","Window"],["Cancelar","Cancel"],["Nuevo","New"],["Opciones","Options"],["Estado","Status"],["Equipo","Computer / station"]],"025/WebServer WCF-5.jpg":[["Puerta de enlace","Gateway"],["Conexión","Connection"]],"025/WebServer WCF-6.jpg":[["Ayuda","Help"],["Configuración","Configuration"],["Ver","View"]],"025/WebServer WCF-67.jpg":[["Ayuda","Help"],["Dirección","Address"],["Opciones","Options"]],"025/WebServer WCF-7.jpg":[["Opciones","Options"],["Dispositivo","Device"],["Pantalla","Screen"],["Ver","View"]],"025/WebServer WCF-8.jpg":[["Edición","Edit"],["Configuración","Configuration"],["Dispositivo","Device"],["Ver","View"]],"025/WebServer WCF-9.jpg":[["Configuración","Configuration"],["Dirección","Address"],["Opciones","Options"],["Dispositivo","Device"],["Pantalla","Screen"]],"033/ProTool AB -00.jpg":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Destino","Destination"]],"033/ProTool AB -01.jpg":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"]],"033/ProTool AB -02.jpg":[["Ayuda","Help"],["Nombre","Name"],["Velocidad","Speed"]],"033/ProTool AB -04.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"]],"033/ProTool AB -06.jpg":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"]],"033/ProTool AB -07.jpg":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Cancelar","Cancel"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"]],"033/ProTool AB -11.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Proyecto","Project"]],"033/ProTool AB -12.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Aplicar","Apply"],["Nombre","Name"],["Insertar","Insert"],["Salida","Output"]],"034/Citect e-mail -00.jpg":[["Archivo","File"],["Herramientas","Tools"],["Nuevo","New"],["Fecha","Date"],["Entrada","Input"],["Informe","Report"],["Ver","View"]],"034/Citect e-mail -01.jpg":[["Opciones","Options"],["Informe","Report"],["Mensaje","Message"]],"034/Citect Email-01.jpg":[["Estado","Status"],["Etiqueta","Tag / label"],["Mensaje","Message"]],"034/Citect Email-03.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Abrir","Open"],["Ruta","Path"],["Ver","View"]],"034/Citect Email-04.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Cancelar","Cancel"],["Proyecto","Project"],["Abrir","Open"],["Nuevo","New"],["Ver","View"]],"034/Citect Email-07.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Insertar","Insert"],["Entrada","Input"],["Mensaje","Message"]],"034/Citect Email-13.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Abrir","Open"],["Usuario","User"]],"034/Citect Email-14.jpg":[["Nombre","Name"],["Dirección","Address"],["Usuario","User"],["Datos","Data"],["Informe","Report"],["Mensaje","Message"]],"035/Citect OPC-1.jpg":[["Configuración","Configuration"],["Dispositivo","Device"],["Alarma","Alarm"],["Tendencia","Trend"],["Listo","Ready"],["Ver","View"]],"035/Citect OPC-10.jpg":[["Archivo","File"],["Etiqueta","Tag / label"]],"035/Citect OPC-12.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dispositivo","Device"],["Servidor","Server"],["Alarma","Alarm"]],"035/Citect OPC-13.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Dispositivo","Device"],["Alarma","Alarm"]],"035/Citect OPC-2.jpg":[["Nombre","Name"],["Nuevo","New"],["Dispositivo","Device"],["Crear","Create"]],"035/Citect OPC-3.jpg":[["Nombre","Name"],["Dispositivo","Device"]],"035/Citect OPC-5.jpg":[["Ayuda","Help"],["Dirección","Address"],["Dispositivo","Device"]],"035/Citect OPC-7.jpg":[["Base de datos","Database"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Seleccione","Select"],["Dispositivo","Device"],["Servidor","Server"]],"035/Citect OPC-8.jpg":[["Base de datos","Database"],["Seleccione","Select"],["Dispositivo","Device"]],"035/Citect OPC-9.jpg":[["Configuración","Configuration"],["Dirección","Address"],["Guardar","Save"],["Nuevo","New"],["Servidor","Server"],["Velocidad","Speed"],["Datos","Data"]],"036/CX-Simulator15.jpg":[["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Dispositivo","Device"]],"036/CX-Simulator16.jpg":[["Ayuda","Help"],["Cancelar","Cancel"],["Dirección","Address"],["Destino","Destination"],["Controlador","Driver / controller"]],"036/CX-Simulator18.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Conexión","Connection"],["Proyecto","Project"]],"036/CX-Simulator19.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"]],"037/CX-Programmer Fifo-00.jpg":[["Dirección","Address"],["Datos","Data"],["Destino","Destination"]],"037/CX-Programmer-Fifo-03.gif":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Programa","Program"],["Insertar","Insert"],["Salir","Exit"]],"039/WCR Recipes-00.jpg":[["Referencias cruzadas","Cross reference"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"]],"039/WCR Recipes-01.jpg":[["Nombre","Name"],["Valor","Value"]],"039/WCR Recipes-02.jpg":[["Nombre","Name"],["Datos","Data"]],"039/WCR Recipes-03.jpg":[["Herramientas","Tools"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"]],"039/WCR Recipes-06.jpg":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"039/WCR Recipes-07.jpg":[["Nombre","Name"],["Datos","Data"]],"039/WCR Recipes-12.jpg":[["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Borrar","Clear"],["Siguiente","Next"],["Anterior","Back"],["Estado","Status"]],"039/WCR Recipes-14.jpg":[["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Fila","Row"],["Columna","Column"]],"040/WCAdvanced Recipes-00.jpg":[["Referencias cruzadas","Cross reference"],["Edición","Edit"],["Herramientas","Tools"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"]],"040/WCAdvanced Recipes-02.jpg":[["Herramientas","Tools"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"040/WCAdvanced Recipes-03.jpg":[["Nombre","Name"],["Datos","Data"],["Ruta","Path"]],"040/WCAdvanced Recipes-05.jpg":[["Opciones","Options"],["Objeto","Object"]],"040/WCAdvanced Recipes-07.jpg":[["Propiedades","Properties"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"],["Mostrar","Show"],["Agregar","Add"],["Objeto","Object"],["Evento","Event"]],"041/S7-300-08.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Programa","Program"]],"041/S7-300-09.jpg":[["Tabla de símbolos","Symbol table"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"041/S7-300-10.jpg":[["Ayuda","Help"],["Informe","Report"]],"041/S7-300-11.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"],["Ver","View"]],"041/S7-300-12.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Cancelar","Cancel"],["Nuevo","New"],["Insertar","Insert"],["Velocidad","Speed"]],"041/S7-300-14.jpg":[["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"041/S7-300-16.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"]],"041/S7-300-17.jpg":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Tabla de estado","Status chart"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"041/S7-300-18.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Destino","Destination"],["Ver","View"]],"041/S7-300-22.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"],["Ver","View"]],"041/S7-300-23.jpg":[["Programa","Program"],["Datos","Data"]],"041/S7-300-25.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Buscar","Search"],["Insertar","Insert"],["Equipo","Computer / station"]],"041/S7-300-26.jpg":[["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Entrada","Input"]],"042/Citect DB03.jpg":[["Base de datos","Database"],["Archivo","File"],["Crear","Create"]],"042/Citect DB04.jpg":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Insertar","Insert"],["Datos","Data"]],"042/Citect DB11.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Alarma","Alarm"],["Ver","View"]],"042/Citect DB12.jpg":[["Base de datos","Database"],["Archivo","File"],["Herramientas","Tools"],["Ventana","Window"]],"042/Citect DB13.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Objeto","Object"],["Ver","View"]],"042/Citect DB19.jpg":[["Base de datos","Database"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Listo","Ready"]],"042/Citect DB20.jpg":[["Base de datos","Database"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Listo","Ready"]],"042/Citect DB21.jpg":[["Base de datos","Database"],["Archivo","File"],["Ventana","Window"],["Insertar","Insert"],["Crear","Create"],["Objeto","Object"]],"043/WinCC Control Motores-010.jpg":[["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-011.jpg":[["Ventana","Window"],["Propiedades","Properties"],["Evento","Event"]],"043/WinCC Control Motores-04.jpg":[["Nombre","Name"],["Valor","Value"],["Equipo","Computer / station"]],"043/WinCC Control Motores-05.jpg":[["Ventana","Window"],["Estado","Status"]],"043/WinCC Control Motores-06.jpg":[["Propiedades","Properties"],["Estado","Status"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-07.jpg":[["Propiedades","Properties"],["Aceptar","OK"],["Estado","Status"],["Evento","Event"]],"043/WinCC Control Motores-10.jpg":[["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-11.jpg":[["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-12.jpg":[["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-13.jpg":[["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-14.jpg":[["Propiedades","Properties"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-15.jpg":[["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"043/WinCC Control Motores-17.jpg":[["Ventana","Window"],["Proyecto","Project"],["Guardar","Save"],["Copiar","Copy"],["Evento","Event"],["Columna","Column"]],"043/WinCCMotor-02.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Nombre","Name"],["Nuevo","New"]],"043/WinCCMotor-03.jpg":[["Valor","Value"],["Equipo","Computer / station"]],"044/VJD Runtime-1.jpg":[["Dirección IP","IP address"],["Nombre","Name"],["Usuario","User"],["Alarma","Alarm"],["Velocidad","Speed"],["Datos","Data"],["Ruta","Path"],["Destino","Destination"]],"044/VJD Runtime-13.jpg":[["Archivo","File"],["Nombre","Name"],["Usuario","User"],["Ruta","Path"]],"044/VJD Runtime-16.jpg":[["Archivo","File"],["Aceptar","OK"],["Nombre","Name"],["Usuario","User"],["Ruta","Path"]],"044/VJD Runtime-1a.jpg":[["Alarma","Alarm"],["Puerto","Port"]],"044/VJD Runtime-2.jpg":[["Alarma","Alarm"],["Datos","Data"]],"044/VJD Runtime-3.jpg":[["Configuración","Configuration"],["Alarma","Alarm"],["Datos","Data"]],"044/VJD Runtime-4.jpg":[["Nuevo","New"],["Mostrar","Show"]],"044/VJD Runtime-5a.jpg":[["Ventana","Window"],["Usuario","User"],["Servidor","Server"],["Alarma","Alarm"],["Datos","Data"],["Pantalla","Screen"],["Ruta","Path"],["Destino","Destination"]],"044/VJD Runtime-6.jpg":[["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Eliminar","Delete"],["Opciones","Options"],["Dispositivo","Device"],["Usuario","User"],["Servidor","Server"]],"044/VJD Runtime-8.jpg":[["Archivo","File"],["Nombre","Name"],["Fecha","Date"],["Carpeta","Folder"]],"045/Omron-Com-03.jpg":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Insertar","Insert"],["Dispositivo","Device"],["Lectura","Read"]],"045/Omron-Com-04.jpg":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Insertar","Insert"],["Dispositivo","Device"],["Puerto","Port"],["Velocidad","Speed"]],"045/Omron-Com-05.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"]],"045/Omron-Com-06.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Programa","Program"]],"045/Omron-Com-07.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"]],"045/Omron-Com-08.jpg":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"]],"045/Omron-Com-09.jpg":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Programa","Program"]],"046/Omron TIA-06a.jpg":[["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Dispositivo","Device"],["Puerto","Port"],["Velocidad","Speed"]],"046/Omron TIA-10.jpg":[["Fecha","Date"],["Entrada","Input"],["Salida","Output"],["Estado","Status"]],"046/Omron TIA-11.jpg":[["Fecha","Date"],["Entrada","Input"],["Salida","Output"],["Estado","Status"]],"048/TIA-WinCC RT-VentanaImagen-01.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"]],"048/TIA-WinCC RT-VentanaImagen-02.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Opciones","Options"],["Inicio","Start"],["Objeto","Object"]],"048/TIA-WinCC RT-VentanaImagen-03.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Opciones","Options"],["Inicio","Start"],["Evento","Event"]],"048/TIA-WinCC RT-VentanaImagen-04.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Ver","View"]],"048/TIA-WinCC RT-VentanaImagen-05.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Ver","View"]],"048/TIA-WinCC RT-VentanaImagen-06.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Ver","View"]],"048/TIA-WinCC RT-VentanaImagen-07.jpg":[["Proyecto","Project"],["Copiar","Copy"],["Pegar","Paste"],["Opciones","Options"],["Agregar","Add"],["Carpeta","Folder"]],"048/TIA-WinCC RT-VentanaImagen-08.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"048/TIA-WinCC RT-VentanaImagen-09.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Estado","Status"],["Ver","View"]],"048/TIA-WinCC RT-VentanaImagen-11.jpg":[["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Inicio","Start"]],"048/TIA-WinCC RT-VentanaImagen-12.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Valor","Value"],["Inicio","Start"]],"048/TIA-WinCC RT-VentanaImagen-13.jpg":[["Edición","Edit"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Opciones","Options"],["Inicio","Start"],["Ver","View"]],"049/S7-200 TIA WinCC Advanced RT-08.jpg":[["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Velocidad","Speed"],["Avanzado","Advanced"]],"053/CPU2xx Clock-0.jpg":[["Tiempo real","Real time"],["Siguiente","Next"],["Fecha","Date"],["Hora","Time"],["Entrada","Input"],["Salida","Output"],["Datos","Data"]],"053/CPU2xx Clock-01.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"053/CPU2xx Clock-04.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Tabla de símbolos","Symbol table"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"053/CPU2xx Clock-05.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"053/CPU2xx Clock-06.png":[["Dirección","Address"],["Nuevo","New"],["Valor","Value"]],"053/CPU2xx Clock-07.png":[["Fecha","Date"],["Hora","Time"]],"053/CPU2xx Clock-13.png":[["Fecha","Date"],["Hora","Time"]],"055/WinCC WebNavigator-000.png":[["Cancelar","Cancel"],["Siguiente","Next"],["Descripción","Description"],["Equipo","Computer / station"],["Agregar","Add"],["Ver","View"]],"055/WinCC WebNavigator-001.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"055/WinCC WebNavigator-002.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Conexión","Connection"],["Usuario","User"],["Entrada","Input"]],"055/WinCC WebNavigator-003.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Conexión","Connection"],["Opciones","Options"],["Usuario","User"]],"055/WinCC WebNavigator-03.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"055/WinCC WebNavigator-04.png":[["Configuración","Configuration"],["Cancelar","Cancel"],["Siguiente","Next"],["Finalizar","Finish"],["Modificar","Modify"],["Crear","Create"]],"055/WinCC WebNavigator-05.png":[["Finalizar","Finish"],["Agregar","Add"],["Crear","Create"]],"055/WinCC WebNavigator-07.png":[["Dirección IP","IP address"],["Configuración","Configuration"],["Nombre","Name"],["Conexión","Connection"],["Finalizar","Finish"]],"055/WinCC WebNavigator-09.png":[["Conexión","Connection"],["Finalizar","Finish"],["Seleccione","Select"]],"055/WinCC WebNavigator-10.png":[["Ayuda","Help"],["Configuración","Configuration"],["Seleccione","Select"],["Opciones","Options"],["Equipo","Computer / station"]],"055/WinCC WebNavigator-11.png":[["Archivo","File"],["Configuración","Configuration"],["Conexión","Connection"],["Opciones","Options"],["Estado","Status"],["Información","Information"],["Agregar","Add"],["Crear","Create"]],"055/WinCC WebNavigator-12.png":[["Seleccione","Select"],["Servidor","Server"]],"055/WinCC WebNavigator-14.png":[["Dirección IP","IP address"],["Nombre","Name"],["Opciones","Options"],["Servidor","Server"],["Puerto","Port"],["Descripción","Description"],["Equipo","Computer / station"]],"055/WinCC WebNavigator-16.png":[["Dirección IP","IP address"],["Nombre","Name"],["Servidor","Server"],["Puerto","Port"],["Descripción","Description"],["Equipo","Computer / station"]],"055/WinCC WebNavigator-18.png":[["Conexión","Connection"],["Siguiente","Next"],["Finalizar","Finish"],["Seleccione","Select"],["Ver","View"]],"055/WinCC WebNavigator-19.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Conexión","Connection"],["Finalizar","Finish"],["Opciones","Options"]],"055/WinCC WebNavigator-22.png":[["Dirección IP","IP address"],["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Estado","Status"],["Descripción","Description"],["Equipo","Computer / station"]],"055/WinCC WebNavigator-24.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"055/WinCC WebNavigator-25.png":[["Proyecto","Project"],["Hora","Time"],["Pantalla","Screen"],["Carpeta","Folder"]],"055/WinCC WebNavigator-26.png":[["Proyecto","Project"],["Seleccionar","Select"],["Mostrar","Show"],["Carpeta","Folder"],["Ruta","Path"]],"055/WinCC WebNavigator-29.png":[["Nombre","Name"],["Finalizar","Finish"],["Estado","Status"],["Información","Information"]],"055/WinCC WebNavigator-30.png":[["Aceptar","OK"],["Nombre","Name"],["Finalizar","Finish"],["Estado","Status"],["Información","Information"]],"055/WinCC WebNavigator-32.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Inicio","Start"],["Objeto","Object"],["Ver","View"]],"055/WinCC WebNavigator-38.png":[["Herramientas","Tools"],["Nombre","Name"],["Usuario","User"],["Servidor","Server"],["Advertencia","Warning"]],"055/WinCC WebNavigator-42.png":[["Configuración","Configuration"],["Ejecutar","Run"]],"055/WinCC WebNavigator-43.png":[["Herramientas","Tools"],["Siguiente","Next"],["Anterior","Back"]],"055/WinCC WebNavigator-45.png":[["Herramientas","Tools"],["Nombre","Name"],["Programa","Program"],["Siguiente","Next"],["Anterior","Back"],["Equipo","Computer / station"],["Ejecutar","Run"],["Advertencia","Warning"]],"055/WinCC WebNavigator-46.png":[["Herramientas","Tools"],["Usuario","User"],["Estado","Status"]],"057/Infilink 1 24.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Ver","View"]],"057/Infilink 1 25.png":[["Ayuda","Help"],["Nombre","Name"],["Cerrar","Close"],["Estado","Status"],["Descripción","Description"]],"057/Infilink 1 26.png":[["Propiedades","Properties"],["Avanzado","Advanced"]],"057/Infilink 1 31.png":[["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Alarma","Alarm"],["Lectura","Read"],["Descripción","Description"],["Avanzado","Advanced"],["Ruta","Path"]],"057/Infilink 1 32.png":[["Ayuda","Help"],["Nombre","Name"],["Cerrar","Close"],["Servidor","Server"]],"057/Infilink 1 33.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Ver","View"]],"057/Infilink 1 34.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Cerrar","Close"],["Valor","Value"],["Mostrar","Show"]],"057/Infilink 1 35.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"]],"057/Infilink 1 36.png":[["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Usuario","User"]],"057/Infilink 1 37.png":[["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Usuario","User"]],"057/Infilink 1 39.png":[["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Alarma","Alarm"],["Lectura","Read"],["Descripción","Description"],["Avanzado","Advanced"],["Ruta","Path"]],"058/Simulation Modbus-04.png":[["Ayuda","Help"],["Propiedades","Properties"],["Eliminar","Delete"],["Dispositivo","Device"],["Ver","View"]],"058/Simulation Modbus-07.png":[["Dispositivo","Device"],["Puerto","Port"],["Velocidad","Speed"]],"058/Simulation Modbus-08.png":[["Ayuda","Help"],["Dispositivo","Device"],["Listo","Ready"],["Ver","View"]],"059/S7-200 Esclavo Modbus-09.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"059/S7-200 Esclavo Modbus-10.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"059/S7-200 Esclavo Modbus-11.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"060/S7-200 Master Modbus-16.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"060/S7-200 Master Modbus-17.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"060/S7-200 Master Modbus-18.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"]],"061/Intouch PLCSIM -01.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"]],"061/Intouch PLCSIM -02.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"]],"061/Intouch PLCSIM -03.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"061/Intouch PLCSIM -04.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ejecutar","Run"],["Ver","View"]],"061/Intouch PLCSIM -16.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Datos","Data"]],"061/Intouch PLCSIM -17.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Datos","Data"]],"062/WinCC PLCSIM-02.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Buscar","Search"]],"062/WinCC PLCSIM-03.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nombre","Name"],["Comunicación","Communication"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"062/WinCC PLCSIM-05.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Buscar","Search"]],"062/WinCC PLCSIM-06.png":[["Propiedades","Properties"],["Nombre","Name"]],"062/WinCC PLCSIM-07.png":[["Bloque de datos","Data block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"]],"062/WinCC PLCSIM-08.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Ver","View"]],"062/WinCC PLCSIM-09.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"062/WinCC PLCSIM-10.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"]],"062/WinCC PLCSIM-12.png":[["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Seleccionar","Select"],["Seleccione","Select"],["Valor","Value"],["Datos","Data"]],"062/WinCC PLCSIM-13.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Valor","Value"]],"062/WinCC PLCSIM-15.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ejecutar","Run"]],"062/WinCC PLCSIM-16.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ejecutar","Run"]],"062/WinCC PLCSIM-18.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Borrar","Clear"],["Copiar","Copy"],["Ver","View"]],"062/WinCC PLCSIM-19.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Entrada","Input"],["Ver","View"]],"065/FB Multiestancia -100.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"]],"065/FB Multiestancia -101.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"]],"065/FB Multiestancia -103.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -104.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"]],"065/FB Multiestancia -105.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"]],"065/FB Multiestancia -106.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -108.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -109a.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -110.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"]],"065/FB Multiestancia -112.png":[["Bloque de datos","Data block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"]],"065/FB Multiestancia -113.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"]],"065/FB Multiestancia -114.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Valor","Value"],["Datos","Data"],["Destino","Destination"]],"065/FB Multiestancia -115.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -119.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"065/FB Multiestancia -120.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Valor","Value"],["Datos","Data"],["Destino","Destination"]],"068/Versa Pro -09.png":[["Administrador de dispositivos","Device Manager"],["Ayuda","Help"],["Dispositivo","Device"],["Ver","View"]],"068/Versa Pro -10.png":[["Propiedades","Properties"],["Puerto","Port"],["Datos","Data"]],"069/Omron Kepserver02.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"069/Omron Kepserver03.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"069/Omron Kepserver04.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"069/Omron Kepserver05.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"069/Omron Kepserver06.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Finalizar","Finish"]],"069/Omron Kepserver18.png":[["Entrada","Input"],["Salida","Output"],["Datos","Data"]],"072/Beckoff Start -12.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Opciones","Options"],["Dispositivo","Device"],["Ver","View"]],"072/Beckoff Start -13.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"072/Beckoff Start -14.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Proyecto","Project"],["Opciones","Options"],["Dispositivo","Device"],["Ver","View"]],"072/Beckoff Start -15.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Entrada","Input"]],"072/Beckoff Start -18.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Opciones","Options"],["Dispositivo","Device"],["Servidor","Server"],["Entrada","Input"]],"073/Beckoff OPC -24.png":[["Tiempo real","Real time"],["Archivo","File"],["Edición","Edit"],["Configuración","Configuration"],["Opciones","Options"],["Dispositivo","Device"],["Servidor","Server"],["Puerto","Port"]],"083/1200ModbusServer01.png":[["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Avanzado","Advanced"],["Agregar","Add"]],"083/1200ModbusServer02.png":[["Bloque de datos","Data block"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"]],"083/1200ModbusServer03.png":[["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"]],"083/1200ModbusServer04.png":[["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Abrir","Open"],["Nuevo","New"],["Usuario","User"]],"083/1200ModbusServer08.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Nuevo","New"],["Insertar","Insert"],["Opciones","Options"]],"083/1200ModbusServer09.png":[["Referencias cruzadas","Cross reference"],["Programa","Program"],["Compilar","Compile"]],"083/1200ModbusServer13.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"083/1200ModbusServer14.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Usuario","User"]],"086/SFB14-15 GET-PUT-05.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"],["Usuario","User"],["Destino","Destination"]],"086/SFB14-15 GET-PUT-06.png":[["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Seleccione","Select"],["Servidor","Server"],["Destino","Destination"],["Listo","Ready"],["Ver","View"]],"086/SFB14-15 GET-PUT-07.png":[["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"]],"086/SFB14-15 GET-PUT-08.png":[["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Estado","Status"]],"086/SFB14-15 GET-PUT-09.png":[["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Destino","Destination"],["Listo","Ready"],["Ver","View"]],"086/SFB14-15 GET-PUT-16.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Datos","Data"]],"086/SFB14-15 GET-PUT-17.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Datos","Data"],["Ver","View"]],"086/SFB14-15 GET-PUT-18.png":[["Referencias cruzadas","Cross reference"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Estado","Status"],["Información","Information"],["Ver","View"]],"086/SFB14-15 GET-PUT-19.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Información","Information"],["Destino","Destination"],["Ver","View"]],"086/SFB14-15 GET-PUT-20.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"],["Datos","Data"],["Destino","Destination"]],"086/SFB14-15 GET-PUT-21.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"],["Datos","Data"],["Destino","Destination"]],"090/VijeoDesigner-S7120001.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Inicio","Start"],["Informe","Report"]],"090/VijeoDesigner-S7120003.png":[["Configuración","Configuration"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Crear","Create"]],"090/VijeoDesigner-S7120004.png":[["Proyecto","Project"],["Nuevo","New"],["Crear","Create"],["Destino","Destination"]],"090/VijeoDesigner-S7120005.png":[["Dirección IP","IP address"],["Ayuda","Help"],["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Crear","Create"],["Destino","Destination"]],"090/VijeoDesigner-S7120006.png":[["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Eliminar","Delete"],["Equipo","Computer / station"],["Crear","Create"],["Destino","Destination"]],"090/VijeoDesigner-S7120007.png":[["Proyecto","Project"],["Nuevo","New"],["Crear","Create"]],"090/VijeoDesigner-S7120008.png":[["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Finalizar","Finish"],["Equipo","Computer / station"],["Crear","Create"],["Destino","Destination"]],"090/VijeoDesigner-S7120010.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Proyecto","Project"],["Datos","Data"],["Equipo","Computer / station"]],"090/VijeoDesigner-S7120011.png":[["Nombre","Name"],["Datos","Data"],["Origen","Source"]],"090/VijeoDesigner-S7120013.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Salida","Output"],["Datos","Data"]],"090/VijeoDesigner-S7120014.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Dirección","Address"],["Lectura","Read"],["Datos","Data"],["Origen","Source"]],"090/VijeoDesigner-S7120015.png":[["Nombre","Name"],["Salida","Output"],["Datos","Data"],["Origen","Source"]],"091/S7-1200-WebServer-00.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"091/S7-1200-WebServer-02.png":[["Dirección IP","IP address"],["Propiedades","Properties"],["Comunicación","Communication"],["Proyecto","Project"],["Opciones","Options"],["Puerto","Port"],["Agregar","Add"]],"091/S7-1200-WebServer-03.png":[["Dirección IP","IP address"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Opciones","Options"],["Puerto","Port"],["Agregar","Add"]],"091/S7-1200-WebServer-04.png":[["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Usuario","User"],["Servidor","Server"],["Hora","Time"],["Salida","Output"]],"093/WinCC-Advanced-VisorDeDiagnostico-00.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Alarma","Alarm"],["Datos","Data"],["Cargar","Load"]],"093/WinCC-Advanced-VisorDeDiagnostico-01.png":[["Propiedades","Properties"],["Conexión","Connection"],["Alarma","Alarm"],["Cargar","Load"]],"093/WinCC-Advanced-VisorDeDiagnostico-03.png":[["Herramientas","Tools"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Fecha","Date"],["Hora","Time"]],"093/WinCC-Advanced-VisorDeDiagnostico-04.png":[["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Servidor","Server"],["Alarma","Alarm"],["Descripción","Description"]],"093/WinCC-Advanced-VisorDeDiagnostico-05.png":[["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Alarma","Alarm"],["Estado","Status"],["Datos","Data"],["Avanzado","Advanced"],["Consulta","Query"]],"093/WinCC-Advanced-VisorDeDiagnostico-06.png":[["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Servidor","Server"],["Alarma","Alarm"]],"093/WinCC-Advanced-VisorDeDiagnostico-07.png":[["Cancelar","Cancel"],["Estado","Status"],["Cargar","Load"],["Compilar","Compile"],["Mensaje","Message"],["Listo","Ready"]],"093/WinCC-Advanced-VisorDeDiagnostico-11.png":[["Configuración","Configuration"],["Programa","Program"],["Agregar","Add"]],"093/WinCC-Advanced-VisorDeDiagnostico-13.png":[["Propiedades","Properties"],["Nombre","Name"],["Instalación","Installation"],["Estado","Status"],["Evento","Event"],["Columna","Column"]],"093/WinCC-Advanced-VisorDeDiagnostico-14.png":[["Propiedades","Properties"],["Dirección","Address"],["Instalación","Installation"],["Dispositivo","Device"],["Estado","Status"],["Descripción","Description"],["Evento","Event"]],"094/RSLinx-DF1-11.png":[["Administrador de dispositivos","Device Manager"],["Ayuda","Help"],["Dispositivo","Device"],["Puerto","Port"],["Ver","View"]],"095/WinCC-Advanced-Media-Player-04.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Dispositivo","Device"],["Agregar","Add"]],"095/WinCC-Advanced-Media-Player-05.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"]],"096/S7-1200-Texto-Indexado-20.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Datos","Data"],["Ejecutar","Run"]],"096/S7-1200-Texto-Indexado-21.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Datos","Data"],["Ejecutar","Run"]],"096/S7-1200-Texto-Indexado-23.png":[["Valor","Value"],["Datos","Data"]],"097/097-TIA-WinCC-00.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Dispositivo","Device"],["Agregar","Add"],["Ver","View"]],"097/097-TIA-WinCC-01.png":[["Puerta de enlace","Gateway"],["Dirección","Address"],["Conexión","Connection"]],"097/097-TIA-WinCC-24.png":[["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Servidor","Server"]],"098/098-TextoIndexado-00.png":[["Borrar","Clear"],["Valor","Value"],["Datos","Data"],["Ejecutar","Run"]],"098/098-TextoIndexado-01.png":[["Buscar","Search"],["Valor","Value"]],"099/099-ProgHoraria-03.png":[["Dirección IP","IP address"],["Aplicar","Apply"],["Nombre","Name"],["Hora","Time"]],"099/099-ProgHoraria-04.png":[["Dirección IP","IP address"],["Aplicar","Apply"],["Nombre","Name"],["Hora","Time"]],"099/099-ProgHoraria-07.png":[["Programa","Program"],["Valor","Value"],["Hora","Time"],["Salida","Output"],["Inicio","Start"],["Datos","Data"]],"099/099-ProgHoraria-09.png":[["Hora","Time"],["Salida","Output"],["Inicio","Start"]],"099/099-ProgHoraria-51.png":[["Valor","Value"],["Hora","Time"],["Salida","Output"],["Inicio","Start"]],"099/099-ProgHoraria-53.png":[["Programa","Program"],["Valor","Value"],["Hora","Time"],["Salida","Output"],["Inicio","Start"],["Datos","Data"]],"099/099-ProgHoraria-54.png":[["Hora","Time"],["Salida","Output"],["Inicio","Start"]],"100/100-TIA-Libreria-50.png":[["Edición","Edit"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"],["Advertencia","Warning"]],"100/100-TIA-Libreria-51.png":[["Nombre","Name"],["Crear","Create"],["Ruta","Path"]],"100/100-TIA-Libreria-54.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Abrir","Open"],["Insertar","Insert"]],"100/100-TIA-Libreria-55.png":[["Edición","Edit"],["Herramientas","Tools"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"101/101-TIA-Sm@rtClient-50.png":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Agregar","Add"]],"101/101-TIA-Sm@rtClient-51.png":[["Edición","Edit"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"]],"101/101-TIA-Sm@rtClient-52.png":[["Datos","Data"],["Destino","Destination"]],"102/102-Comfort-Panels-Servidor-OPC-01.png":[["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Servidor","Server"]],"102/102-Comfort-Panels-Servidor-OPC-03.png":[["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Datos","Data"]],"102/102-Comfort-Panels-Servidor-OPC-06.png":[["Nombre","Name"],["Dirección","Address"],["Servidor","Server"],["Valor","Value"]],"102/102-Comfort-Panels-Servidor-OPC-08.png":[["Nombre","Name"],["Dirección","Address"],["Servidor","Server"],["Valor","Value"]],"103/103-Backup-UnityPro-10.png":[["Ventana","Window"],["Datos","Data"],["Ver","View"]],"103/103-Backup-UnityPro-12.png":[["Ventana","Window"],["Datos","Data"],["Ver","View"]],"104/104-ControlDeposito-00.png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"104/104-ControlDeposito-01.png":[["Valor","Value"],["Estado","Status"]],"105/105-PLCSIMv.12-03.png":[["Configuración","Configuration"],["Proyecto","Project"],["Dispositivo","Device"]],"105/105-PLCSIMv.12-04.png":[["Interfaz PG/PC","PG/PC interface"],["Dirección","Address"],["Conexión","Connection"],["Dispositivo","Device"],["Estado","Status"],["Información","Information"],["Destino","Destination"]],"105/105-PLCSIMv.12-05.png":[["Configuración","Configuration"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"],["Agregar","Add"],["Ver","View"]],"105/105-PLCSIMv.12-06.png":[["Nombre","Name"],["Abrir","Open"],["Dispositivo","Device"],["Servidor","Server"],["Datos","Data"],["Descripción","Description"],["Agregar","Add"]],"105/105-PLCSIMv.12-07.png":[["Herramientas","Tools"],["Ventana","Window"],["Configuración","Configuration"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"]],"105/105-PLCSIMv.12-08.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"]],"105/105-PLCSIMv.12-09.png":[["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Programa","Program"]],"105/105-PLCSIMv.12-10.png":[["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Nombre","Name"],["Conexión","Connection"],["Proyecto","Project"],["Guardar","Save"],["Abrir","Open"]],"105/105-PLCSIMv.12-11.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Ejecutar","Run"]],"105/105-PLCSIMv.12-12.png":[["Cancelar","Cancel"],["Estado","Status"],["Cargar","Load"],["Destino","Destination"],["Mensaje","Message"],["Listo","Ready"]],"105/105-PLCSIMv.12-13.png":[["Configuración","Configuration"],["Cancelar","Cancel"],["Aplicar","Apply"],["Proyecto","Project"],["Dispositivo","Device"],["Estado","Status"],["Cargar","Load"],["Información","Information"]],"105/105-PLCSIMv.12-14.png":[["Configuración","Configuration"],["Cancelar","Cancel"],["Aplicar","Apply"],["Dispositivo","Device"],["Cargar","Load"],["Información","Information"],["Listo","Ready"]],"105/105-PLCSIMv.12-15.png":[["Cancelar","Cancel"],["Dispositivo","Device"],["Estado","Status"],["Cargar","Load"],["Destino","Destination"],["Mensaje","Message"],["Listo","Ready"]],"105/105-PLCSIMv.12-16.png":[["Cancelar","Cancel"],["Finalizar","Finish"],["Estado","Status"],["Cargar","Load"],["Mensaje","Message"]],"105/105-PLCSIMv.12-17.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Agregar","Add"]],"105/105-PLCSIMv.12-18.png":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Dispositivo","Device"],["Agregar","Add"]],"106/106-OP3-00-(5).png":[["Bloque de programa","Program block"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Fila","Row"],["Herramienta","Tool"]],"106/106-OP3-21.png":[["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Objeto","Object"]],"106/106-OP3-22.png":[["Nombre","Name"],["Proyecto","Project"],["Objeto","Object"]],"106/106-OP301.png":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Destino","Destination"]],"106/106-OP303.png":[["Aceptar","OK"],["Cancelar","Cancel"],["Dirección","Address"],["Comunicación","Communication"],["Velocidad","Speed"]],"106/106-OP306.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"]],"106/106-OP315.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"]],"106/106-OP316.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ver","View"]],"106/106-OP317.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Nuevo","New"],["Insertar","Insert"],["Ver","View"]],"106/106-OP318.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Insertar","Insert"],["Opciones","Options"]],"106/106-OP320.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Opciones","Options"],["Entrada","Input"],["Salida","Output"]],"106/106-OP321.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"],["Nuevo","New"]],"106/106-OP322.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"]],"106/106-OP323.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"],["Insertar","Insert"],["Opciones","Options"]],"107/106-OP3-00-(10).png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"]],"107/106-OP3-00-(2).png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Insertar","Insert"],["Entrada","Input"]],"107/106-OP3-00-(4).png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"]],"112/115-VBScriptWinCC-17.png":[["Archivo","File"],["Modificar","Modify"]],"112/115-VBScriptWinCC-20.png":[["Nombre","Name"],["Valor","Value"]],"112/115-VBScriptWinCC-21.png":[["Archivo","File"],["Ruta","Path"]],"112/115-VBScriptWinCC-22.png":[["Ventana","Window"],["Seleccionar","Select"],["Ruta","Path"]],"112/115-VBScriptWinCC-24.png":[["Archivo","File"],["Nombre","Name"],["Lectura","Read"],["Ruta","Path"]],"112/115-VBScriptWinCC-33.png":[["Base de datos","Database"],["Valor","Value"]],"112/115-VBScriptWinCC-40.png":[["Base de datos","Database"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"]],"112/115-VBScriptWinCC-43.png":[["Nuevo","New"],["Agregar","Add"]],"113/113-VBScriptWinCC-Excel-40a.png":[["Nombre","Name"],["Fila","Row"],["Columna","Column"]],"114/WinCC-RT-Advanced-Profibus-04.png":[["Ayuda","Help"],["Nombre","Name"],["Proyecto","Project"],["Abrir","Open"],["Crear","Create"],["Ruta","Path"]],"114/WinCC-RT-Advanced-Profibus-05.png":[["Nombre","Name"],["Dispositivo","Device"],["Usuario","User"],["Agregar","Add"]],"114/WinCC-RT-Advanced-Profibus-06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Opciones","Options"],["Dispositivo","Device"]],"114/WinCC-RT-Advanced-Profibus-07.png":[["Propiedades","Properties"],["Agregar","Add"]],"114/WinCC-RT-Advanced-Profibus-08.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"]],"114/WinCC-RT-Advanced-Profibus-12.png":[["Nombre","Name"],["Controlador","Driver / controller"]],"114/WinCC-RT-Advanced-Profibus-13.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Agregar","Add"]],"114/WinCC-RT-Advanced-Profibus-16.png":[["Nombre","Name"],["Datos","Data"]],"114/WinCC-RT-Advanced-Profibus-21.png":[["Propiedades","Properties"],["Nombre","Name"],["Agregar","Add"],["Evento","Event"]],"114/WinCC-RT-Advanced-Profibus-22.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"114/WinCC-RT-Advanced-Profibus-23.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"115/115-Servicios-HTTP-Servidor00.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Servidor","Server"]],"115/115-Servicios-HTTP-Servidor03.png":[["Dirección IP","IP address"],["Puerta de enlace","Gateway"],["Conexión","Connection"]],"115/115-Servicios-HTTP-Servidor09.png":[["Fecha","Date"],["Estado","Status"]],"115/115-Servicios-HTTP-Servidor2.png":[["Propiedades","Properties"],["Dispositivo","Device"],["Agregar","Add"]],"115/115-Servicios-HTTP-Servidor31.png":[["Nombre","Name"],["Dispositivo","Device"],["Usuario","User"],["Agregar","Add"]],"115/115-Servicios-HTTP-Servidor32.png":[["Proyecto","Project"],["Dispositivo","Device"],["Servidor","Server"],["Datos","Data"],["Agregar","Add"]],"115/115-Servicios-HTTP-Servidor33.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Usuario","User"],["Servidor","Server"]],"115/115-Servicios-HTTP-Servidor35.png":[["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Datos","Data"],["Evento","Event"],["Ver","View"]],"115/115-Servicios-HTTP-Servidor36.png":[["Propiedades","Properties"],["Servidor","Server"],["Estado","Status"]],"115/115-Servicios-HTTP-Servidor37.png":[["Propiedades","Properties"],["Servidor","Server"],["Fecha","Date"],["Estado","Status"],["Agregar","Add"],["Evento","Event"]],"115/115-Servicios-HTTP-Servidor3b.png":[["Dispositivo","Device"],["Servidor","Server"],["Estado","Status"],["Agregar","Add"],["Informe","Report"]],"115/115-Servicios-HTTP-Servidor41.png":[["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Servidor","Server"],["Datos","Data"],["Agregar","Add"],["Ver","View"]],"115/115-Servicios-HTTP-Servidor42.png":[["Fecha","Date"],["Estado","Status"]],"115/115-Servicios-HTTP-Servidor43.png":[["Referencias cruzadas","Cross reference"],["Propiedades","Properties"],["Proyecto","Project"],["Abrir","Open"],["Nuevo","New"],["Copiar","Copy"],["Dispositivo","Device"],["Servidor","Server"]],"115/115-Servivios-Servidor-HTTP-53.png":[["Siguiente","Next"],["Servidor","Server"],["Fecha","Date"],["Hora","Time"],["Estado","Status"]],"115/115-Servivios-Servidor-HTTP-54.png":[["Aplicar","Apply"],["Siguiente","Next"],["Servidor","Server"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Estado","Status"],["Controlador","Driver / controller"]],"116/115-Funciones-Intouch-08.png":[["Insertar","Insert"],["Pegar","Paste"],["Inicio","Start"],["Datos","Data"],["Modificar","Modify"],["Listo","Ready"]],"117/117-ComunicacionSoftLogix-13.png":[["Usuario","User"],["Datos","Data"]],"122/122-VijeoDesigner-SoftLogix-02.png":[["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Crear","Create"],["Destino","Destination"]],"122/122-VijeoDesigner-SoftLogix-04.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"],["Estado","Status"]],"122/122-VijeoDesigner-SoftLogix-05.png":[["Nuevo","New"],["Equipo","Computer / station"],["Controlador","Driver / controller"]],"122/122-VijeoDesigner-SoftLogix-06.png":[["Ayuda","Help"],["Controlador","Driver / controller"]],"122/122-VijeoDesigner-SoftLogix-07.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Abrir","Open"],["Pegar","Paste"],["Usuario","User"]],"122/122-VijeoDesigner-SoftLogix-08.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Buscar","Search"],["Alarma","Alarm"]],"122/122-VijeoDesigner-SoftLogix-09.png":[["Archivo","File"],["Nombre","Name"],["Equipo","Computer / station"],["Agregar","Add"],["Carpeta","Folder"]],"122/122-VijeoDesigner-SoftLogix-10.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Estado","Status"],["Datos","Data"],["Origen","Source"]],"122/122-VijeoDesigner-SoftLogix-11.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Proyecto","Project"],["Hora","Time"],["Estado","Status"]],"123/123-UpdateFirmwarePV-00.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-03.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-04.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-05.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Programa","Program"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-06.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Siguiente","Next"]],"123/123-UpdateFirmwarePV-07.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Finalizar","Finish"]],"123/123-UpdateFirmwarePV-08.png":[["Ayuda","Help"],["Cancelar","Cancel"],["Finalizar","Finish"]],"123/123-UpdateFirmwarePV-12.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Finalizar","Finish"]],"126/126-VijeoCitect-Unity-28.png":[["Propiedades","Properties"],["Estado","Status"]],"128/128-CP340-30.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"128/128-CP340-31.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"128/128-CP340-32.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Dirección","Address"],["Comunicación","Communication"],["Conexión","Connection"],["Buscar","Search"]],"128/128-CP340-33.png":[["Ayuda","Help"],["Propiedades","Properties"],["Cancelar","Cancel"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Equipo","Computer / station"]],"128/128-CP340-34.png":[["Ayuda","Help"],["Propiedades","Properties"],["Cancelar","Cancel"],["Entrada","Input"]],"128/128-CP340-37.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ver","View"]],"128/128-CP340-38.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Velocidad","Speed"],["Datos","Data"]],"128/128-CP340-39.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Programa","Program"],["Insertar","Insert"],["Datos","Data"],["Destino","Destination"]],"128/128-CP340-40.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Insertar","Insert"],["Datos","Data"],["Información","Information"]],"128/128-CP340-41.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Información","Information"]],"128/128-CP340-44.png":[["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Datos","Data"]],"128/128-CP340-46.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Datos","Data"]],"128/128-CP340-47.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Datos","Data"]],"128/128-CP340-49.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Guardar","Save"],["Cerrar","Close"],["Insertar","Insert"],["Fecha","Date"]],"130/AutomationStudio-20.png":[["Proyecto","Project"],["Programa","Program"]],"130/AutomationStudio-30.png":[["Proyecto","Project"],["Programa","Program"],["Entrada","Input"]],"130/AutomationStudio-52.png":[["Programa","Program"],["Entrada","Input"],["Salida","Output"]],"132/132-AutomationStudio-HMI-00.png":[["Proyecto","Project"],["Programa","Program"],["Entrada","Input"],["Salida","Output"]],"132/132-AutomationStudio-HMI-13.png":[["Proyecto","Project"],["Programa","Program"]],"134/134-Tiempo-10.png":[["Valor","Value"],["Entrada","Input"],["Agregar","Add"],["Informe","Report"]],"134/134-Tiempo-11.png":[["Nombre","Name"],["Conexión","Connection"],["Datos","Data"]],"134/134-Tiempo-12.png":[["Propiedades","Properties"],["Dirección","Address"],["Entrada","Input"],["Evento","Event"]],"134/134-Tiempo-2.png":[["Nombre","Name"],["Conexión","Connection"],["Datos","Data"]],"134/134-Tiempo-3.png":[["Propiedades","Properties"],["Dirección","Address"],["Entrada","Input"],["Salida","Output"],["Evento","Event"]],"134/134-Tiempo-5.png":[["Propiedades","Properties"],["Entrada","Input"],["Salida","Output"]],"ab-gateway-dhrio/AB_RIO_6.png":[["Archivo","File"],["Pegar","Paste"],["Inicio","Start"],["Listo","Ready"]],"ab-micro830/AB_Micro830_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dispositivo","Device"],["Datos","Data"],["Listo","Ready"]],"ab-micro830/AB_Micro830_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Ver","View"]],"ab-micro830/AB_Micro830_03.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Datos","Data"],["Ver","View"]],"ab-micro830/AB_Micro830_04.png":[["Referencias cruzadas","Cross reference"],["Propiedades","Properties"],["Nombre","Name"],["Copiar","Copy"],["Pegar","Paste"],["Datos","Data"]],"ab-micro830/AB_Micro830_05.png":[["Nombre","Name"],["Valor","Value"]],"ab-micro830/AB_Micro830_09.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Datos","Data"],["Mostrar","Show"],["Ver","View"]],"ab-micro830/AB_Micro830_10.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"ab-micro830/AB_Micro830_11.png":[["Programa","Program"],["Controlador","Driver / controller"]],"ab-micro830/AB_Micro830_13.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"ab-micro830/AB_Micro830_14.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Datos","Data"],["Ver","View"]],"ab-micro830/AB_Micro830_15.png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"ab-micrologix-modbus-powerflex/Micrologix_Modbus_PowerFlex_01.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"]],"ab-powerflex525/AB_PowerFlex_00.png":[["Nombre","Name"],["Abrir","Open"],["Fecha","Date"],["Carpeta","Folder"]],"ab-powerflex525/AB_PowerFlex_05.png":[["Archivo","File"],["Propiedades","Properties"],["Usuario","User"],["Puerto","Port"],["Datos","Data"],["Cargar","Load"]],"ab-powerflex525/AB_PowerFlex_07.png":[["Nombre","Name"],["Valor","Value"],["Mostrar","Show"],["Listo","Ready"]],"archestra-aahistclienttrendcontrol/170-SymbolTrend-00.png":[["Cancelar","Cancel"],["Nombre","Name"],["Programa","Program"],["Buscar","Search"],["Fecha","Date"],["Carpeta","Folder"]],"archestra-webbrowser-sql/AplicationServer-WebBrowserSQL-07.png":[["Nombre","Name"],["Consulta","Query"]],"blog-alarmas-wincc-por-whatsapp/image-24.png":[["Propiedades","Properties"],["Valor","Value"],["Entrada","Input"],["Salida","Output"],["Estado","Status"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"blog-alarmas-wincc-por-whatsapp/image-29.png":[["Salida","Output"],["Alarma","Alarm"],["Mensaje","Message"]],"blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-14-db-interfaz-generado.png":[["Alarma","Alarm"],["Estado","Status"],["Velocidad","Speed"]],"blog-cliente-opc-ua-plc-s7-1500/cliente-opc-ua-plc-s7-1500-19-prueba-lectura.png":[["Alarma","Alarm"],["Estado","Status"],["Velocidad","Speed"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/01-codesys-installer-control-win.png":[["Archivo","File"],["Lectura","Read"],["Inicio","Start"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/03-codesys-gvl-variables-globales.png":[["Nombre","Name"],["Datos","Data"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/04-codesys-symbol-configuration-opcua.png":[["Herramientas","Tools"],["Configuración","Configuration"],["Ejecutar","Run"],["Crear","Create"],["Ver","View"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/05-codesys-runtime-security-policies.png":[["Puerta de enlace","Gateway"],["Configuración","Configuration"],["Estado","Status"],["Destino","Destination"],["Objeto","Object"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/06-codesys-anonymous-access-runtime.png":[["Aceptar","OK"],["Conexión","Connection"],["Usuario","User"],["Inicio","Start"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/07-codesys-download-softplc.png":[["Configuración","Configuration"],["Ejecutar","Run"]],"blog-codesys-softplc-servidor-opc-ua-siemens-cliente/codesys-softplc-servidor-opc-ua-siemens-cliente-arquitectura.png":[["Servidor","Server"],["Crear","Create"],["Ver","View"]],"blog-entorno-desarrollo-vscode-copilot-agentes/VisuaCodeProyectoAgentes.PNG":[["Herramientas","Tools"],["Configuración","Configuration"],["Etiqueta","Tag / label"],["Ver","View"]],"blog-entorno-desarrollo-vscode-copilot-agentes/vscode-clonar-repo.png":[["Proyecto","Project"],["Abrir","Open"],["Usuario","User"],["Carpeta","Folder"],["Listo","Ready"]],"blog-entorno-desarrollo-vscode-copilot-agentes/vscode-copilot-extension.png":[["Abrir","Open"],["Buscar","Search"],["Seleccionar","Select"],["Estado","Status"]],"blog-entorno-desarrollo-vscode-copilot-agentes/vscode-git-config.png":[["Configuración","Configuration"],["Nombre","Name"],["Agregar","Add"]],"blog-entorno-desarrollo-vscode-copilot-agentes/vscode-instalacion.png":[["Abrir","Open"],["Instalación","Installation"],["Ejecutar","Run"],["Agregar","Add"]],"blog-espiando-comunicaciones-modbus/modbus-wireshark-portada-final.png":[["Servidor","Server"],["Valor","Value"],["Puerto","Port"],["Datos","Data"]],"blog-factory-talk-view-se-sqlite/FactoryTalkView_SQLite-5.png":[["Conexión","Connection"],["Abrir","Open"],["Cerrar","Close"]],"blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-01.png":[["Tiempo real","Real time"],["Servidor","Server"],["Datos","Data"],["Modificar","Modify"],["Origen","Source"],["Mensaje","Message"]],"blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-02.png":[["Tiempo real","Real time"],["Comunicación","Communication"],["Conexión","Connection"],["Hora","Time"],["Puerto","Port"],["Datos","Data"]],"blog-flujo-de-conexion-opc-ua-segura/flujo-de-conexion-opc-ua-segura-09.png":[["Comunicación","Communication"],["Conexión","Connection"],["Abrir","Open"],["Eliminar","Delete"],["Dispositivo","Device"],["Hora","Time"],["Puerto","Port"],["Datos","Data"]],"blog-flujo-trabajo-ingeniero-automatizacion/ProyectoIngenieria.PNG":[["Base de datos","Database"],["Proyecto","Project"],["Instalación","Installation"]],"blog-gittialportal/image-28.png":[["Configuración","Configuration"],["Proyecto","Project"],["Programa","Program"],["Nuevo","New"],["Dispositivo","Device"],["Datos","Data"],["Agregar","Add"]],"blog-logix-designer-sdk-automatizacion-proyectos/01-flujo-logix-designer-sdk.png":[["Archivo","File"],["Proyecto","Project"],["Datos","Data"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-23-1024x314.png":[["Nombre","Name"],["Ruta","Path"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-23.png":[["Archivo","File"],["Proyecto","Project"],["Programa","Program"],["Estado","Status"],["Datos","Data"],["Ruta","Path"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-24-1024x424.png":[["Archivo","File"],["Entrada","Input"],["Datos","Data"],["Ruta","Path"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-34.png":[["Programa","Program"],["Abrir","Open"],["Ruta","Path"],["Objeto","Object"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-40.png":[["Programa","Program"],["Abrir","Open"],["Ruta","Path"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-44.png":[["Programa","Program"],["Anterior","Back"],["Entrada","Input"],["Salida","Output"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2/image-45.png":[["Nombre","Name"],["Abrir","Open"],["Pegar","Paste"],["Fecha","Date"],["Inicio","Start"],["Equipo","Computer / station"],["Carpeta","Folder"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-22.png":[["Archivo","File"],["Cancelar","Cancel"],["Nombre","Name"],["Programa","Program"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-25.png":[["Archivo","File"],["Proyecto","Project"],["Programa","Program"],["Abrir","Open"],["Entrada","Input"],["Salida","Output"],["Estado","Status"],["Datos","Data"]],"blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3/image-30.png":[["Abrir","Open"],["Ruta","Path"]],"blog-phs-color-batch-simulator-opc-ua/captura-16.png":[["Salir","Exit"],["Siguiente","Next"]],"blog-phs-thermal-process-simulator-opc-ua/captura-10.png":[["Programa","Program"],["Estado","Status"],["Equipo","Computer / station"],["Ruta","Path"]],"blog-phs-thermal-process-simulator-opc-ua/captura-16.png":[["Alarma","Alarm"],["Tendencia","Trend"]],"blog-phs-thermal-process-simulator-opc-ua/captura-20.png":[["Salir","Exit"],["Ruta","Path"]],"blog-registro-datos-plc-influxdb/Portada InfluxDB.png":[["Base de datos","Database"],["Servidor","Server"],["Lectura","Read"],["Puerto","Port"]],"blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-06-bridge-conexion-opc-ua.png":[["Aplicar","Apply"],["Nombre","Name"],["Conexión","Connection"],["Abrir","Open"],["Borrar","Clear"],["Seleccionar","Select"],["Servidor","Server"],["Estado","Status"]],"blog-registro-datos-plc-influxdb/registro-datos-plc-influxdb-07-measurement-arbol-opc.png":[["Aplicar","Apply"],["Nombre","Name"],["Conexión","Connection"],["Guardar","Save"],["Abrir","Open"],["Servidor","Server"]],"blog-servidor-hora-plc-siemens/00-servidor-ntp-siemens-v2.png":[["Servidor","Server"],["Hora","Time"]],"blog-servidor-hora-plc-siemens/03-w32tm-source-status.png":[["Advertencia","Warning"],["Origen","Source"]],"blog-servidor-hora-plc-siemens/04-configurar-windows-ntp.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Servidor","Server"],["Ver","View"]],"blog-servidor-hora-plc-siemens/09-cambiar-hora-servidor-plc.png":[["Usuario","User"],["Fecha","Date"],["Hora","Time"],["Datos","Data"]],"blog-servidor-opc-flask-co-pilot/image-62.png":[["Archivo","File"],["Servidor","Server"],["Ejecutar","Run"],["Crear","Create"]],"blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-02-arquitectura-buena.png":[["Usuario","User"],["Servidor","Server"],["Evento","Event"]],"blog-syslog-plc-siemens-linux/syslog-plc-siemens-linux-04-dashboard-resultados.png":[["Buscar","Search"],["Usuario","User"],["Hora","Time"],["Estado","Status"],["Origen","Source"],["Evento","Event"]],"blog-web-server-siemens-s7-1500-https-view-of-things/04-web-server-informacion-cpu.png":[["Nombre","Name"],["Hora","Time"]],"blog-web-server-siemens-s7-1500-https-view-of-things/07-login-web-server-no-seguro.png":[["Cerrar","Close"],["Usuario","User"],["Inicio","Start"]],"blog-web-server-siemens-s7-1500-https-view-of-things/08-menu-web-server-s7-1500.png":[["Aceptar","OK"],["Nombre","Name"],["Proyecto","Project"],["Cerrar","Close"],["Usuario","User"],["Estado","Status"],["Datos","Data"],["Equipo","Computer / station"]],"blog-web-server-siemens-s7-1500-https-view-of-things/09-diagnostico-web-server.png":[["Cerrar","Close"],["Usuario","User"],["Fecha","Date"],["Entrada","Input"],["Estado","Status"],["Datos","Data"],["Evento","Event"]],"blog-web-server-siemens-s7-1500-https-view-of-things/22-wireshark-https-cifrado-plc.png":[["Aceptar","OK"],["Nombre","Name"],["Proyecto","Project"],["Cerrar","Close"],["Usuario","User"],["Hora","Time"],["Estado","Status"],["Datos","Data"]],"blog-wincc-sqlite/WinCC_SQLite-5.png":[["Conexión","Connection"],["Abrir","Open"],["Cerrar","Close"]],"blog-wincc-unified-open-pipe/image-18.png":[["Archivo","File"],["Proyecto","Project"],["Copiar","Copy"],["Servidor","Server"],["Ejecutar","Run"],["Crear","Create"]],"blog-wincc-unified-open-pipe/image-19.png":[["Archivo","File"],["Proyecto","Project"],["Copiar","Copy"],["Servidor","Server"],["Ejecutar","Run"],["Crear","Create"]],"cognex-insight-explorer/Cognex_02.png":[["Dispositivo","Device"],["Agregar","Add"]],"factorytalk-activex-adodc/FTView-ActiveX-05.png":[["Archivo","File"],["Nombre","Name"],["Conexión","Connection"],["Alarma","Alarm"],["Datos","Data"],["Origen","Source"]],"factorytalkview-animaciones/FTView-ActiveX-Flash-00.png":[["Aceptar","OK"],["Inicio","Start"]],"factorytalkview-sendemail/FTView-Alarm-SendMail-23.png":[["Servidor","Server"],["Alarma","Alarm"],["Puerto","Port"],["Datos","Data"]],"factorytalkview-sendemail/FTView-Alarm-SendMail-25.png":[["Archivo","File"],["Eliminar","Delete"],["Alarma","Alarm"],["Etiqueta","Tag / label"],["Mensaje","Message"],["Ver","View"]],"factorytalkviewme-lenguages/FTViewME-Lenguaje-11.png":[["Salir","Exit"],["Usuario","User"],["Hora","Time"],["Alarma","Alarm"],["Pantalla","Screen"]],"factorytalkviewme-lenguages/FTViewME-Lenguaje-26.png":[["Usuario","User"],["Hora","Time"],["Alarma","Alarm"]],"factorytalkviewse-importar/FactoryTalkViewSE_08.png":[["Configuración","Configuration"],["Aceptar","OK"],["Alarma","Alarm"]],"ftvse-excel/FTVSE_Excel_06.png":[["Archivo","File"],["Guardar","Save"],["Nuevo","New"],["Crear","Create"]],"ftvse-excel/FTVSE_Excel_07.png":[["Abrir","Open"],["Pegar","Paste"],["Hora","Time"],["Entrada","Input"],["Inicio","Start"],["Datos","Data"],["Modificar","Modify"],["Listo","Ready"]],"ftvse-introduccion-vba/FTVSE_ObjectModel_01.png":[["Ayuda","Help"],["Nombre","Name"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-introduccion-vba/FTVSE_ObjectModel_03.png":[["Ayuda","Help"],["Nombre","Name"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-introduccion-vba/FTVSE_ObjectModel_04.png":[["Nombre","Name"],["Pantalla","Screen"],["Mostrar","Show"],["Objeto","Object"]],"ftvse-mail/FTVSE_MailCDO_00.png":[["Ayuda","Help"],["Dispositivo","Device"],["Inicio","Start"]],"ftvse-mail/FTVSE_MailCDO_05.png":[["Archivo","File"],["Configuración","Configuration"],["Alarma","Alarm"]],"ftvse-recepis/FTVSE_Recipes_00.png":[["Nombre","Name"],["Objeto","Object"]],"ftvse-recepis/FTVSE_Recipes_01.png":[["Nombre","Name"],["Objeto","Object"]],"ftvse-recepis/FTVSE_Recipes_04.png":[["Nombre","Name"],["Objeto","Object"]],"ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_1.png":[["Ayuda","Help"],["Nombre","Name"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_2.png":[["Ayuda","Help"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_6.png":[["Ayuda","Help"],["Pantalla","Screen"],["Objeto","Object"]],"ftvse-vba-referencia-objetos/FTVSE_ObjectModel_VBA_7.png":[["Ayuda","Help"],["Pantalla","Screen"],["Objeto","Object"]],"hmi-omron/Omron_S7200_00.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Tabla de símbolos","Symbol table"],["Tabla de estado","Status chart"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"]],"hmi-schneider/122-VijeoDesigner-SoftLogix-02.png":[["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Crear","Create"],["Destino","Destination"]],"hmi-schneider/Vijeo with Unity-46.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Alarma","Alarm"],["Datos","Data"],["Informe","Report"],["Ver","View"]],"hmi-schneider/VijeoDesigner-S7120001.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Inicio","Start"],["Informe","Report"]],"hmi-schneider/VJD Runtime-1.jpg":[["Dirección IP","IP address"],["Nombre","Name"],["Usuario","User"],["Alarma","Alarm"],["Velocidad","Speed"],["Datos","Data"],["Ruta","Path"],["Destino","Destination"]],"hmi-siemens/097-TIA-WinCC-00.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Dispositivo","Device"],["Agregar","Add"],["Ver","View"]],"hmi-siemens/101-TIA-Sm@rtClient-50.png":[["Edición","Edit"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Agregar","Add"]],"hmi-siemens/102-Comfort-Panels-Servidor-OPC-01.png":[["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Servidor","Server"]],"hmi-siemens/106-OP301.png":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Destino","Destination"]],"hmi-siemens/Barcode08.jpg":[["Archivo","File"],["Ayuda","Help"],["Dirección","Address"],["Ver","View"]],"hmi-siemens/ProTool AB -00.jpg":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Destino","Destination"]],"hmi-siemens/WCAdvanced Recipes-00.jpg":[["Referencias cruzadas","Cross reference"],["Edición","Edit"],["Herramientas","Tools"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"]],"hmi-siemens/WCF Transfer-00.jpg":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"]],"hmi-siemens/WCF-DataLog02.jpg":[["Base de datos","Database"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Usuario","User"],["Información","Information"],["Origen","Source"]],"hmi-siemens/WCFLoginLogout_01.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Proyecto","Project"],["Datos","Data"],["Informe","Report"]],"hmi-siemens/WebServer WCF-1.jpg":[["Edición","Edit"],["Ventana","Window"],["Configuración","Configuration"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"],["Opciones","Options"]],"hmi-siemens/WinCC-Advanced-Media-Player-04.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Opciones","Options"],["Dispositivo","Device"],["Agregar","Add"]],"hmi-siemens/WinCC-Advanced-VisorDeDiagnostico-00.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Alarma","Alarm"],["Datos","Data"],["Cargar","Load"]],"industrial-networks/flujo-de-conexion-opc-ua-segura-01.png":[["Tiempo real","Real time"],["Servidor","Server"],["Datos","Data"],["Modificar","Modify"],["Origen","Source"],["Mensaje","Message"]],"intouch-historian/WW_HistorianIDAS_11.png":[["Ayuda","Help"],["Nombre","Name"],["Eliminar","Delete"]],"intouch-historian/WW_HistorianIDAS_18.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"]],"intouch-tagsindirectos/167-ArchestrA-TagsIndirectos-35.png":[["Nombre","Name"],["Velocidad","Speed"],["Pantalla","Screen"]],"logix5000-powerflex-ethernet/PowerFlex_RSLogix5000_20.png":[["Cancelar","Cancel"],["Siguiente","Next"],["Fila","Row"]],"modbus/modbus-wireshark-portada-final-social.jpg":[["Servidor","Server"],["Valor","Value"],["Datos","Data"]],"omron-s7-200/Omron_S7200_00.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Tabla de símbolos","Symbol table"],["Tabla de estado","Status chart"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"]],"omron-s7-200/Omron_S7200_01.png":[["Proyecto","Project"],["Nuevo","New"],["Avanzado","Advanced"],["Ver","View"]],"omron-s7-200/Omron_S7200_03.png":[["Ventana","Window"],["Proyecto","Project"],["Objeto","Object"],["Ver","View"]],"omron-s7-200/Omron_S7200_04.png":[["Puerto","Port"],["Velocidad","Speed"],["Datos","Data"],["Histórico","Historical"],["Evento","Event"]],"omron-s7-200/Omron_S7200_05.png":[["Puerto","Port"],["Velocidad","Speed"]],"omron-s7-200/Omron_S7200_06.png":[["Ventana","Window"],["Proyecto","Project"],["Puerto","Port"],["Objeto","Object"],["Ver","View"]],"omron-s7-200/Omron_S7200_11.png":[["Ventana","Window"],["Dispositivo","Device"],["Puerto","Port"],["Pantalla","Screen"],["Ver","View"]],"omron-s7-200/Omron_S7200_18.png":[["Archivo","File"],["Ventana","Window"],["Propiedades","Properties"],["Dirección","Address"],["Proyecto","Project"],["Lectura","Read"],["Puerto","Port"],["Pantalla","Screen"]],"omron-s7-200/Omron_S7200_19.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Configuración","Configuration"],["Proyecto","Project"],["Borrar","Clear"],["Inicio","Start"],["Pantalla","Screen"]],"omron-s7-200/Omron_S7200_21.png":[["Puerto","Port"],["Ruta","Path"]],"omron-transfer-hmi/Omron_S7200_27.png":[["Archivo","File"],["Herramientas","Tools"],["Configuración","Configuration"],["Proyecto","Project"],["Borrar","Clear"],["Inicio","Start"],["Pantalla","Screen"],["Objeto","Object"]],"omron-transfer-hmi/Omron_S7200_28.png":[["Proyecto","Project"],["Opciones","Options"],["Puerto","Port"]],"omron-transfer-hmi/Omron_S7200_29.png":[["Proyecto","Project"],["Opciones","Options"]],"omron-transfer-hmi/Omron_S7200_31.png":[["Archivo","File"],["Proyecto","Project"],["Seleccionar","Select"],["Evento","Event"]],"omron-transfer-hmi/Omron_S7200_32.png":[["Archivo","File"],["Seleccionar","Select"],["Evento","Event"]],"opc/codesys-softplc-servidor-opc-ua-siemens-cliente-arquitectura.png":[["Servidor","Server"],["Crear","Create"],["Ver","View"]],"opc/Portada InfluxDB.png":[["Base de datos","Database"],["Servidor","Server"],["Lectura","Read"],["Puerto","Port"]],"opc/SimaticNetLoadPCStation_00.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"other-hmis/132-AutomationStudio-HMI-00.png":[["Proyecto","Project"],["Programa","Program"],["Entrada","Input"],["Salida","Output"]],"other-scadas/Infilink 1 24.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Ver","View"]],"plc-allen-bradley/AB_Micro830_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dispositivo","Device"],["Datos","Data"],["Listo","Ready"]],"plc-allen-bradley/Micrologix_Modbus_PowerFlex_01.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"]],"plc-allen-bradley/RSLinx-DF1-11.png":[["Administrador de dispositivos","Device Manager"],["Ayuda","Help"],["Dispositivo","Device"],["Puerto","Port"],["Ver","View"]],"plc-omron/CX-Programmer Fifo-00.jpg":[["Dirección","Address"],["Datos","Data"],["Destino","Destination"]],"plc-schneider/Unity-02.jpg":[["Cancelar","Cancel"],["Proyecto","Project"],["Nuevo","New"],["Descripción","Description"]],"plc-siemens/00-servidor-ntp-siemens-v2.png":[["Servidor","Server"],["Hora","Time"]],"plc-siemens/098-TextoIndexado-00.png":[["Borrar","Clear"],["Valor","Value"],["Datos","Data"],["Ejecutar","Run"]],"plc-siemens/099-ProgHoraria-03.png":[["Dirección IP","IP address"],["Aplicar","Apply"],["Nombre","Name"],["Hora","Time"]],"plc-siemens/100-TIA-Libreria-50.png":[["Edición","Edit"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"],["Advertencia","Warning"]],"plc-siemens/104-ControlDeposito-00.png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"plc-siemens/105-PLCSIMv.12-05.png":[["Configuración","Configuration"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Datos","Data"],["Agregar","Add"],["Ver","View"]],"plc-siemens/1200ModbusServer01.png":[["Propiedades","Properties"],["Proyecto","Project"],["Guardar","Save"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"],["Avanzado","Advanced"],["Agregar","Add"]],"plc-siemens/codesys-softplc-servidor-opc-ua-siemens-cliente-arquitectura.png":[["Servidor","Server"],["Crear","Create"],["Ver","View"]],"plc-siemens/CPU2xx Clock-0.jpg":[["Tiempo real","Real time"],["Siguiente","Next"],["Fecha","Date"],["Hora","Time"],["Entrada","Input"],["Salida","Output"],["Datos","Data"]],"plc-siemens/FB Multiestancia -100.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"]],"plc-siemens/image-23.png":[["Archivo","File"],["Proyecto","Project"],["Programa","Program"],["Estado","Status"],["Datos","Data"],["Ruta","Path"]],"plc-siemens/S7-1200-Texto-Indexado-23.png":[["Valor","Value"],["Datos","Data"]],"plc-siemens/S7-1200-WebServer-00.png":[["Edición","Edit"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Programa","Program"],["Insertar","Insert"],["Opciones","Options"],["Dispositivo","Device"]],"plc-siemens/S7-200 Esclavo Modbus-11.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"plc-siemens/S7-200 Master Modbus-16.png":[["Bloque de programa","Program block"],["Bloque de datos","Data block"],["Bloque de sistema","System block"],["Referencias cruzadas","Cross reference"],["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"]],"plc-siemens/S7-300-08.jpg":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Programa","Program"]],"plc-siemens/SFB14-15 GET-PUT-05.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"],["Usuario","User"],["Destino","Destination"]],"plc-siemens/Simotion_S7_06.png":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Usuario","User"]],"plc-siemens/Step7_BiglitleIndian-01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"plc-siemens/Step7_ISO_00.png":[["Archivo","File"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"plc-siemens/syslog-plc-siemens-linux-02-arquitectura-buena.png":[["Usuario","User"],["Servidor","Server"],["Evento","Event"]],"plc-siemens/VirtualBox-Com20.jpg":[["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Conexión","Connection"],["Seleccione","Select"],["Dispositivo","Device"],["Puerto","Port"],["Pantalla","Screen"]],"plc-siemens/WinCC-Advanced-VisorDeDiagnostico-00.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Alarma","Alarm"],["Datos","Data"],["Cargar","Load"]],"redes/flujo-de-conexion-opc-ua-segura-01.png":[["Tiempo real","Real time"],["Servidor","Server"],["Datos","Data"],["Modificar","Modify"],["Origen","Source"],["Mensaje","Message"]],"rsview-dde/RSView32-Node-DDE-00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Datos","Data"],["Ver","View"]],"rsview-dde/RSView32-Node-DDE-06.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Insertar","Insert"],["Datos","Data"],["Ver","View"]],"rsview-dde/RSView32-Node-DDE-07.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Insertar","Insert"],["Datos","Data"],["Ver","View"]],"rsview32-dde-excel/RSView-DDE-03.png":[["Fecha","Date"],["Hora","Time"]],"scada-allen-bradley/FactoryTalkView_SQLite-5.png":[["Conexión","Connection"],["Abrir","Open"],["Cerrar","Close"]],"scada-allen-bradley/FTView-ActiveX-Flash-00.png":[["Aceptar","OK"],["Inicio","Start"]],"scada-allen-bradley/FTVSE_ObjectModel_VBA_1.png":[["Ayuda","Help"],["Nombre","Name"],["Pantalla","Screen"],["Objeto","Object"]],"scada-allen-bradley/FTVSE_Recipes_00.png":[["Nombre","Name"],["Objeto","Object"]],"scada-allen-bradley/RSView32-Node-DDE-00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Datos","Data"],["Ver","View"]],"scada-intouch/170-SymbolTrend-00.png":[["Cancelar","Cancel"],["Nombre","Name"],["Programa","Program"],["Buscar","Search"],["Fecha","Date"],["Carpeta","Folder"]],"scada-intouch/Intouch PLCSIM -01.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Programa","Program"],["Insertar","Insert"]],"scada-intouch/Intouch-BindList-02.jpg":[["Ayuda","Help"],["Nombre","Name"],["Fecha","Date"]],"scada-schneider/Citect DB03.jpg":[["Base de datos","Database"],["Archivo","File"],["Crear","Create"]],"scada-schneider/Citect Email-01.jpg":[["Estado","Status"],["Etiqueta","Tag / label"],["Mensaje","Message"]],"scada-schneider/Citect OPC-1.jpg":[["Configuración","Configuration"],["Dispositivo","Device"],["Alarma","Alarm"],["Tendencia","Trend"],["Listo","Ready"],["Ver","View"]],"scada-siemens/113-VBScriptWinCC-Excel-40a.png":[["Nombre","Name"],["Fila","Row"],["Columna","Column"]],"scada-siemens/115-VBScriptWinCC-17.png":[["Archivo","File"],["Modificar","Modify"]],"scada-siemens/BackupWinCCRuntime_00.png":[["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Seleccionar","Select"],["Usuario","User"],["Servidor","Server"],["Datos","Data"],["Equipo","Computer / station"]],"scada-siemens/IBHS5_01.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"scada-siemens/image-18.png":[["Archivo","File"],["Proyecto","Project"],["Copiar","Copy"],["Servidor","Server"],["Ejecutar","Run"],["Crear","Create"]],"scada-siemens/TIA-WinCC RT-VentanaImagen-01.jpg":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"]],"scada-siemens/WCR Recipes-00.jpg":[["Referencias cruzadas","Cross reference"],["Herramientas","Tools"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Insertar","Insert"],["Opciones","Options"]],"scada-siemens/WinCC PLCSIM-02.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Buscar","Search"]],"scada-siemens/WinCC WebNavigator-000.png":[["Cancelar","Cancel"],["Siguiente","Next"],["Descripción","Description"],["Equipo","Computer / station"],["Agregar","Add"],["Ver","View"]],"scada-siemens/WinCC-DDE-00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Buscar","Search"]],"scada-siemens/WinCC-Menu-00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Salir","Exit"],["Usuario","User"],["Datos","Data"],["Equipo","Computer / station"]],"scada-siemens/WinCC-SystemInfo-00.png":[["Archivo","File"],["Ayuda","Help"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"scada-siemens/WinCC_00.png":[["Archivo","File"],["Ayuda","Help"],["Proyecto","Project"],["Nuevo","New"],["Ver","View"]],"scada-siemens/WinCC_ActiveX_00.png":[["Proyecto","Project"],["Nuevo","New"],["Mostrar","Show"]],"scada-siemens/WinCC_Bit_de_Vida_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Valor","Value"]],"scada-siemens/WinCC_C_Ping_09.png":[["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"],["Evento","Event"]],"scada-siemens/WinCC_Dynamic_Wizard_00.png":[["Propiedades","Properties"],["Seleccionar","Select"],["Opciones","Options"],["Objeto","Object"]],"scada-siemens/WinCC_Equipo_00.png":[["Archivo","File"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"]],"scada-siemens/WinCC_GetTagRaw_VBS_12.png":[["Propiedades","Properties"],["Dirección","Address"],["Usuario","User"],["Datos","Data"],["Crear","Create"]],"scada-siemens/WinCC_HTTPS_02.png":[["Archivo","File"],["Ayuda","Help"],["Abrir","Open"],["Servidor","Server"],["Pantalla","Screen"],["Detener","Stop"],["Mostrar","Show"],["Controlador","Driver / controller"]],"scada-siemens/WinCC_Imprimir_File_00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Listo","Ready"],["Ver","View"]],"scada-siemens/WinCC_KeyBoard_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"scada-siemens/WinCC_LibraryC++_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Abrir","Open"],["Cerrar","Close"],["Nuevo","New"]],"scada-siemens/WinCC_SQLite-5.png":[["Conexión","Connection"],["Abrir","Open"],["Cerrar","Close"]],"scada-siemens/WinCC_Time_01.png":[["Ayuda","Help"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Destino","Destination"],["Ver","View"]],"scada-siemens/WinCC_VBA_AddIn_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nuevo","New"],["Ejecutar","Run"],["Mostrar","Show"],["Consulta","Query"]],"scada-siemens/WinCC_VBS_Funcion_0.png":[["Crear","Create"],["Objeto","Object"]],"scada-siemens/WinCC_VentanaImagen_03.png":[["Nombre","Name"],["Objeto","Object"]],"scada-siemens/WinCC_WebNavigator_1.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"]],"scada-siemens/WinCC_WPF_00.png":[["Base de datos","Database"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Usuario","User"],["Agregar","Add"]],"simatic-cargar-en-pg/Step7_ISO_00.png":[["Archivo","File"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"simatic-cargar-en-pg/Step7_ISO_01.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Insertar","Insert"],["Datos","Data"],["Destino","Destination"],["Informe","Report"]],"simatic-cargar-en-pg/Step7_ISO_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Copiar","Copy"],["Agregar","Add"],["Ver","View"]],"simatic-cargar-en-pg/Step7_ISO_03.png":[["Cargar en PG","Upload to PG"],["Archivo","File"],["Ventana","Window"],["Programa","Program"],["Guardar","Save"],["Insertar","Insert"],["Copiar","Copy"],["Usuario","User"]],"simatic-cargar-en-pg/Step7_ISO_04.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Dirección","Address"],["Conexión","Connection"],["Seleccionar","Select"],["Equipo","Computer / station"]],"simatic-cargar-en-pg/Step7_ISO_05.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"simatic-cargar-en-pg/Step7_ISO_06.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Dirección","Address"],["Insertar","Insert"],["Opciones","Options"],["Datos","Data"]],"simatic-cargar-en-pg/Step7_ISO_07.png":[["Dirección IP","IP address"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"simatic-cargar-en-pg/Step7_ISO_08.png":[["Herramientas","Tools"],["Ventana","Window"],["Cancelar","Cancel"],["Insertar","Insert"],["Equipo","Computer / station"],["Cargar","Load"],["Destino","Destination"],["Ver","View"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_02.png":[["Archivo","File"],["Ayuda","Help"],["Configuración","Configuration"],["Abrir","Open"],["Datos","Data"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_03.png":[["Archivo","File"],["Estado","Status"],["Datos","Data"],["Pantalla","Screen"],["Equipo","Computer / station"],["Información","Information"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_04.png":[["Cancelar","Cancel"],["Datos","Data"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_05.png":[["Archivo","File"],["Cancelar","Cancel"],["Abrir","Open"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_06.png":[["Archivo","File"],["Cancelar","Cancel"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_07.png":[["Archivo","File"],["Ayuda","Help"],["Configuración","Configuration"],["Abrir","Open"],["Datos","Data"],["Equipo","Computer / station"]],"simatic-restaurar-ktp/Simatic_Restaurar_KTP_08.png":[["Dirección IP","IP address"],["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Conexión","Connection"],["Dispositivo","Device"]],"simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_00.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_01(1).png":[["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Insertar","Insert"],["Usuario","User"],["Equipo","Computer / station"],["Ver","View"]],"simaticnet-cargar-configuracion-pcstation/SimaticNetLoadPCStation_01.png":[["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Insertar","Insert"],["Usuario","User"],["Equipo","Computer / station"],["Destino","Destination"],["Ver","View"]],"stept7-big-litle-indian/Step7_BiglitleIndian-01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"stept7-big-litle-indian/Step7_BiglitleIndian-04.png":[["Archivo","File"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Ejecutar","Run"],["Ver","View"]],"stept7-big-litle-indian/Step7_BiglitleIndian-05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Insertar","Insert"],["Ver","View"]],"tia-portal-1200-sms/S7-1200-sms-03.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Servidor","Server"],["Puerto","Port"],["Información","Information"]],"tia-portal-1200-sms/S7-1200-sms-04.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Información","Information"]],"tia-portal-1200-sms/S7-1200-sms-05.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Información","Information"]],"tia-portal-1200-sms/S7-1200-sms-06.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Información","Information"]],"tia-portal-conversion-tiempos/Step7_S5Time_10.png":[["Guardar","Save"],["Siguiente","Next"],["Valor","Value"],["Entrada","Input"],["Datos","Data"],["Cargar","Load"]],"tia-portal-conversion-tiempos/Step7_S5Time_13.png":[["Valor","Value"],["Hora","Time"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (10).png":[["Propiedades","Properties"],["Puerto","Port"],["Velocidad","Speed"],["Datos","Data"],["Mensaje","Message"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (11).png":[["Propiedades","Properties"],["Mensaje","Message"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (13).png":[["Propiedades","Properties"],["Inicio","Start"],["Puerto","Port"],["Velocidad","Speed"],["Datos","Data"],["Mensaje","Message"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (14).png":[["Propiedades","Properties"],["Inicio","Start"],["Puerto","Port"],["Mensaje","Message"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (16).png":[["Nombre","Name"],["Programa","Program"],["Nuevo","New"],["Dispositivo","Device"],["Datos","Data"],["Agregar","Add"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (17).png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (7).png":[["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"tia-portal-modbus-rtu/TIA Portal Modbus RTU  (9).png":[["Programa","Program"],["Nuevo","New"],["Dispositivo","Device"],["Datos","Data"],["Mostrar","Show"],["Agregar","Add"],["Objeto","Object"]],"unity-varread/168-Unity-Read_Var-000.png":[["Herramientas","Tools"],["Ventana","Window"],["Programa","Program"],["Datos","Data"],["Evento","Event"],["Ver","View"]],"unity-varread/168-Unity-Read_Var-001.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Valor","Value"],["Salida","Output"],["Datos","Data"],["Evento","Event"]],"unity-varread/168-Unity-Read_Var-002.png":[["Ayuda","Help"],["Ventana","Window"],["Usuario","User"],["Datos","Data"],["Evento","Event"],["Listo","Ready"],["Ver","View"]],"unity-varread/168-Unity-Read_Var-005.png":[["Herramientas","Tools"],["Ayuda","Help"],["Configuración","Configuration"],["Programa","Program"],["Datos","Data"],["Evento","Event"],["Mensaje","Message"],["Listo","Ready"]],"unity-varread/168-Unity-Read_Var-006.png":[["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Evento","Event"],["Listo","Ready"],["Ver","View"]],"unity-varread/168-Unity-Read_Var-010.png":[["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Datos","Data"],["Evento","Event"],["Mensaje","Message"],["Listo","Ready"]],"vscode/VisuaCodeProyectoAgentes.PNG":[["Herramientas","Tools"],["Configuración","Configuration"],["Etiqueta","Tag / label"],["Ver","View"]],"wincc/WinCC_00.png":[["Archivo","File"],["Ayuda","Help"],["Proyecto","Project"],["Nuevo","New"],["Ver","View"]],"wincc/WinCC_06.png":[["Archivo","File"],["Propiedades","Properties"],["Proyecto","Project"],["Fecha","Date"],["Datos","Data"],["Equipo","Computer / station"]],"wincc/WinCC_07.png":[["Propiedades","Properties"],["Proyecto","Project"],["Fecha","Date"],["Datos","Data"]],"wincc/WinCC_08.png":[["Propiedades","Properties"],["Proyecto","Project"]],"wincc/WinCC_09.png":[["Propiedades","Properties"],["Proyecto","Project"],["Pantalla","Screen"]],"wincc/WinCC_10.png":[["Ayuda","Help"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Opciones","Options"]],"wincc/WinCC_11.png":[["Propiedades","Properties"],["Proyecto","Project"],["Estado","Status"]],"wincc/WinCC_12.png":[["Propiedades","Properties"],["Proyecto","Project"]],"wincc/WinCC_13.png":[["Configuración","Configuration"],["Aplicar","Apply"],["Objeto","Object"]],"wincc/WinCC_14.png":[["Configuración","Configuration"],["Objeto","Object"]],"wincc/WinCC_18.png":[["Propiedades","Properties"],["Proyecto","Project"]],"wincc-activex/WinCC_ActiveX_00.png":[["Proyecto","Project"],["Nuevo","New"],["Mostrar","Show"]],"wincc-activex/WinCC_ActiveX_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Usuario","User"],["Datos","Data"],["Ejecutar","Run"],["Consulta","Query"]],"wincc-activex/WinCC_ActiveX_02.png":[["Archivo","File"],["Proyecto","Project"],["Guardar","Save"],["Abrir","Open"],["Nuevo","New"]],"wincc-activex/WinCC_ActiveX_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Valor","Value"],["Objeto","Object"],["Evento","Event"]],"wincc-activex/WinCC_ActiveX_08.png":[["Propiedades","Properties"],["Valor","Value"],["Objeto","Object"],["Evento","Event"]],"wincc-activex-excel/WinCC-office-ActiveX-05.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"wincc-activex-excel/WinCC-office-ActiveX-06.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"wincc-activex-excel/WinCC-office-ActiveX-08.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Valor","Value"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_01.png":[["Ayuda","Help"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Destino","Destination"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_02.png":[["Archivo","File"],["Ayuda","Help"],["Valor","Value"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_03.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_04.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Ver","View"]],"wincc-administrador-variables-timer/WinCC_Time_05.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Valor","Value"],["Estado","Status"],["Destino","Destination"]],"wincc-backup-winccruntime/BackupWinCCRuntime_00.png":[["Configuración","Configuration"],["Proyecto","Project"],["Nuevo","New"],["Seleccionar","Select"],["Usuario","User"],["Servidor","Server"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Valor","Value"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Proyecto","Project"],["Fila","Row"],["Columna","Column"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_03.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Comunicación","Communication"],["Proyecto","Project"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Ver","View"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Estado","Status"]],"wincc-bit-de-vida/WinCC_Bit_de_Vida_06.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Estado","Status"]],"wincc-chipcard/WinCC_ChipCard_09.png":[["Archivo","File"],["Configuración","Configuration"],["Conexión","Connection"],["Usuario","User"],["Entrada","Input"],["Salida","Output"],["Inicio","Start"],["Pantalla","Screen"]],"wincc-chipcard/WinCC_ChipCard_10.png":[["Archivo","File"],["Ayuda","Help"],["Usuario","User"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_02.png":[["Archivo","File"],["Ayuda","Help"],["Propiedades","Properties"],["Servidor","Server"],["Cargar","Load"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_05.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_06.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nuevo","New"],["Valor","Value"],["Datos","Data"],["Agregar","Add"],["Ver","View"]],"wincc-cliente/WinCC_Cliente_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Entrada","Input"]],"wincc-cliente/WinCC_Cliente_08.png":[["Aceptar","OK"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Origen","Source"]],"wincc-cliente/WinCC_Cliente_09.png":[["Propiedades","Properties"],["Equipo","Computer / station"]],"wincc-cliente/WinCC_MultiPuesto_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_MultiPuesto_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Cargar","Load"]],"wincc-cliente/WinCC_MultiPuesto_03.png":[["Propiedades","Properties"],["Nombre","Name"],["Equipo","Computer / station"]],"wincc-cliente/WinCC_MultiPuesto_04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_MultiPuesto_06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Copiar","Copy"],["Pegar","Paste"]],"wincc-cliente/WinCC_MultiPuesto_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-cliente/WinCC_MultiPuesto_11.png":[["Archivo","File"],["Configuración","Configuration"],["Usuario","User"],["Entrada","Input"],["Salida","Output"],["Pantalla","Screen"],["Listo","Ready"],["Ver","View"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_001.png":[["Archivo","File"],["Herramientas","Tools"],["Nuevo","New"],["Buscar","Search"],["Copiar","Copy"],["Pegar","Paste"],["Agregar","Add"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_002.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Conexión","Connection"],["Copiar","Copy"],["Pegar","Paste"],["Valor","Value"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_003.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Nombre","Name"],["Nuevo","New"],["Copiar","Copy"],["Pegar","Paste"],["Servidor","Server"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_004.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Configuración","Configuration"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Usuario","User"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_005.png":[["Ayuda","Help"],["Configuración","Configuration"],["Aceptar","OK"],["Servidor","Server"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_006.png":[["Ayuda","Help"],["Configuración","Configuration"],["Cancelar","Cancel"],["Servidor","Server"],["Agregar","Add"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_007.png":[["Archivo","File"],["Herramientas","Tools"],["Servidor","Server"],["Cargar","Load"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_008.png":[["Archivo","File"],["Herramientas","Tools"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_009.png":[["Archivo","File"],["Herramientas","Tools"],["Servidor","Server"],["Cargar","Load"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_010.png":[["Archivo","File"],["Herramientas","Tools"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_011.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"],["Ver","View"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_012.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"],["Ver","View"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_013.png":[["Nombre","Name"],["Nuevo","New"],["Copiar","Copy"],["Pegar","Paste"],["Servidor","Server"],["Crear","Create"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_014.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"]],"wincc-cliente-opcua-beckhoff/WinCC_OPC_UA_Client_015.png":[["Archivo","File"],["Herramientas","Tools"],["Listo","Ready"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Servidor","Server"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote02.png":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Nombre","Name"],["Servidor","Server"],["Agregar","Add"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote03.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote04.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Siguiente","Next"],["Servidor","Server"],["Lectura","Read"],["Escritura","Write"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote05.png":[["Datos","Data"],["Mostrar","Show"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote06.png":[["Proyecto","Project"],["Datos","Data"],["Agregar","Add"],["Crear","Create"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote07.png":[["Aceptar","OK"],["Nombre","Name"],["Datos","Data"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote08.png":[["Nombre","Name"],["Siguiente","Next"],["Datos","Data"],["Agregar","Add"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote09.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Ver","View"]],"wincc-cliente-opcxml/OpcXMLServerWinCC_Remote10.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Ver","View"]],"wincc-confirm-tagvalue/WinCC_ConfirmTagValue_02.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-confirm-tagvalue-us/WinCC_ConfirmTagValue_02.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-datamonitor/WinCC_DataMonitor_29.png":[["Base de datos","Database"],["Nombre","Name"],["Conexión","Connection"],["Usuario","User"],["Equipo","Computer / station"],["Modificar","Modify"]],"wincc-db-oracle/WinCC_Oracle_DB_04.png":[["Aceptar","OK"],["Proyecto","Project"],["Fila","Row"]],"wincc-db-oracle/WinCC_Oracle_DB_06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"wincc-dde/WinCC-DDE-00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Buscar","Search"]],"wincc-dde/WinCC-DDE-02.png":[["Archivo","File"],["Edición","Edit"],["Comunicación","Communication"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"wincc-dde/WinCC-DDE-03.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Conexión","Connection"],["Objeto","Object"]],"wincc-dde/WinCC-DDE-04.png":[["Propiedades","Properties"],["Nombre","Name"]],"wincc-dde/WinCC-DDE-05.png":[["Archivo","File"],["Edición","Edit"],["Propiedades","Properties"],["Cancelar","Cancel"],["Nombre","Name"],["Conexión","Connection"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-dde/WinCC-DDE-06.png":[["Cancelar","Cancel"],["Nombre","Name"],["Lectura","Read"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-dde/WinCC-DDE-07.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Borrar","Clear"],["Objeto","Object"]],"wincc-dde/WinCC-DDE-08.png":[["Propiedades","Properties"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Seleccione","Select"],["Servidor","Server"],["Valor","Value"],["Datos","Data"]],"wincc-dde/WinCC-DDE-09.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Insertar","Insert"]],"wincc-dynamic-wizard/WinCC_Dynamic_Wizard_00.png":[["Propiedades","Properties"],["Seleccionar","Select"],["Opciones","Options"],["Objeto","Object"]],"wincc-dynamic-wizard/WinCC_Dynamic_Wizard_01.png":[["Ayuda","Help"],["Opciones","Options"]],"wincc-dynamic-wizard/WinCC_Dynamic_Wizard_03.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Pantalla","Screen"],["Objeto","Object"],["Evento","Event"],["Listo","Ready"],["Fila","Row"]],"wincc-equipo/WinCC_Equipo_00.png":[["Archivo","File"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-equipo/WinCC_Equipo_01.png":[["Propiedades","Properties"],["Aplicar","Apply"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"]],"wincc-equipo/WinCC_Equipo_02.png":[["Propiedades","Properties"],["Equipo","Computer / station"],["Agregar","Add"],["Informe","Report"]],"wincc-equipo/WinCC_Equipo_03.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Fecha","Date"],["Hora","Time"],["Información","Information"]],"wincc-equipo/WinCC_Equipo_04.png":[["Archivo","File"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Pantalla","Screen"]],"wincc-equipo/WinCC_Equipo_05.png":[["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Pantalla","Screen"],["Equipo","Computer / station"],["Mostrar","Show"],["Ruta","Path"],["Objeto","Object"]],"wincc-equipo/WinCC_Equipo_06.png":[["Propiedades","Properties"],["Aplicar","Apply"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"]],"wincc-equipo/WinCC_Equipo_07.png":[["Propiedades","Properties"],["Equipo","Computer / station"]],"wincc-equipo/WinCC_Equipo_08.png":[["Propiedades","Properties"],["Servidor","Server"],["Fecha","Date"],["Hora","Time"],["Equipo","Computer / station"],["Información","Information"]],"wincc-equipo/WinCC_Equipo_09.png":[["Archivo","File"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Proyecto","Project"],["Pantalla","Screen"],["Equipo","Computer / station"]],"wincc-equipo/WinCC_Equipo_10.png":[["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Pantalla","Screen"],["Equipo","Computer / station"],["Mostrar","Show"],["Ruta","Path"],["Objeto","Object"]],"wincc-funcion-activar-desactivar-bits/WinCC_VBS_Funcion_0.png":[["Crear","Create"],["Objeto","Object"]],"wincc-funcion-gettagraw/WinCC_TagRaw_01.png":[["Valor","Value"],["Salida","Output"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_03.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_08.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_09.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_10.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_11.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_12.png":[["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"]],"wincc-graphic-designer-vi/WinCC_VentanaImagen_14.png":[["Nombre","Name"],["Objeto","Object"]],"wincc-ibh-link/IBHS5_01.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"wincc-ibh-link/IBHS5_03 (2).png":[["Nombre","Name"],["Seleccionar","Select"],["Dispositivo","Device"]],"wincc-ibh-link/IBHS5_04 (2).png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Ver","View"]],"wincc-ibh-link/IBHS5_06 (2).png":[["Dirección IP","IP address"],["Datos","Data"]],"wincc-ibh-link/IBHS5_10.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"],["Salida","Output"],["Datos","Data"],["Ver","View"]],"wincc-ibh-link/IBH_21b.png":[["Bloque de datos","Data block"],["Dirección IP","IP address"]],"wincc-ibh-link/IBH_24.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"],["Salida","Output"],["Ver","View"]],"wincc-ibh-link/IBH_25.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Entrada","Input"],["Salida","Output"],["Ver","View"]],"wincc-instalacion-activex/AcriveX_WinCC_23.png":[["Archivo","File"],["Edición","Edit"],["Cancelar","Cancel"],["Programa","Program"],["Salir","Exit"],["Anterior","Back"],["Instalación","Installation"],["Pantalla","Screen"]],"wincc-instalacion-activex/AcriveX_WinCC_24.png":[["Herramientas","Tools"],["Cancelar","Cancel"],["Seleccionar","Select"],["Seleccione","Select"],["Opciones","Options"],["Datos","Data"],["Descripción","Description"],["Modificar","Modify"]],"wincc-keyboard/WinCC_KeyBoard_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"wincc-keyboard/WinCC_KeyBoard_01.png":[["Configuración","Configuration"],["Proyecto","Project"],["Listo","Ready"],["Fila","Row"],["Columna","Column"]],"wincc-keyboard/WinCC_KeyBoard_06.png":[["Configuración","Configuration"],["Proyecto","Project"],["Listo","Ready"],["Fila","Row"],["Columna","Column"]],"wincc-keyboard-vba/WinCC_KeyBoard_VBA_03.png":[["Entrada","Input"],["Objeto","Object"],["Evento","Event"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Abrir","Open"],["Cerrar","Close"],["Nuevo","New"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_01.png":[["Archivo","File"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Buscar","Search"],["Agregar","Add"],["Crear","Create"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_02.png":[["Archivo","File"],["Ventana","Window"],["Configuración","Configuration"],["Aceptar","OK"],["Cancelar","Cancel"],["Proyecto","Project"],["Anterior","Back"],["Finalizar","Finish"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_04.png":[["Configuración","Configuration"],["Cancelar","Cancel"],["Proyecto","Project"],["Anterior","Back"],["Opciones","Options"],["Información","Information"],["Agregar","Add"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Datos","Data"]],"wincc-librerias-plus-plus/WinCC_LibraryC++_06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Proyecto","Project"],["Datos","Data"],["Equipo","Computer / station"],["Ver","View"]],"wincc-menu-vbs/WinCC-Menu-00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Salir","Exit"],["Usuario","User"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-menu-vbs/WinCC-Menu-01.png":[["Nombre","Name"],["Usuario","User"],["Datos","Data"]],"wincc-menu-vbs/WinCC-Menu-07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Proyecto","Project"],["Insertar","Insert"],["Valor","Value"],["Ver","View"]],"wincc-monopuesto/WinCC_19.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-mqtt/WinCC_MQTT_101.png":[["Archivo","File"],["Herramientas","Tools"],["Propiedades","Properties"],["Nombre","Name"],["Opciones","Options"],["Valor","Value"],["Escritura","Write"],["Equipo","Computer / station"]],"wincc-mqtt/WinCC_MQTT_102.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Aceptar","OK"],["Nombre","Name"],["Puerto","Port"],["Objeto","Object"]],"wincc-mqtt/WinCC_MQTT_103.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Puerto","Port"],["Objeto","Object"],["Ver","View"]],"wincc-mqtt/WinCC_MQTT_104.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Ver","View"]],"wincc-mqtt/WinCC_MQTT_105.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Velocidad","Speed"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-mqtt/WinCC_MQTT_106.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Listo","Ready"]],"wincc-mqtt/WinCC_MQTT_112.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Valor","Value"],["Puerto","Port"]],"wincc-msexcel-owc/WinCC_Excel_OWC_03.png":[["Abrir","Open"],["Copiar","Copy"],["Crear","Create"]],"wincc-multipuesto/WinCC_MultiPuesto_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_02.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Cargar","Load"]],"wincc-multipuesto/WinCC_MultiPuesto_03.png":[["Propiedades","Properties"],["Nombre","Name"],["Equipo","Computer / station"]],"wincc-multipuesto/WinCC_MultiPuesto_04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Objeto","Object"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_05.png":[["Archivo","File"],["Ayuda","Help"],["Proyecto","Project"],["Abrir","Open"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_06.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Nombre","Name"],["Nuevo","New"],["Copiar","Copy"],["Pegar","Paste"]],"wincc-multipuesto/WinCC_MultiPuesto_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_10.png":[["Archivo","File"],["Ayuda","Help"],["Proyecto","Project"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_11.png":[["Archivo","File"],["Configuración","Configuration"],["Usuario","User"],["Entrada","Input"],["Salida","Output"],["Pantalla","Screen"],["Listo","Ready"],["Ver","View"]],"wincc-multipuesto/WinCC_MultiPuesto_12.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"],["Ver","View"]],"wincc-mysql/WinCC_MySQL_DB_10.png":[["Aceptar","OK"],["Proyecto","Project"],["Fila","Row"]],"wincc-mysql/WinCC_MySQL_DB_11.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"],["Evento","Event"]],"wincc-net/WinCC_NET_01.png":[["Entrada","Input"],["Salida","Output"],["Descripción","Description"],["Etiqueta","Tag / label"]],"wincc-net/WinCC_NET_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Nombre","Name"],["Seleccionar","Select"]],"wincc-net/WinCC_NET_06.png":[["Propiedades","Properties"],["Entrada","Input"],["Salida","Output"],["Objeto","Object"],["Evento","Event"]],"wincc-net/WinCC_NET_07.png":[["Propiedades","Properties"],["Entrada","Input"],["Salida","Output"],["Objeto","Object"],["Evento","Event"]],"wincc-plcsimadvanced/WinCC_PLCSIM_Advanced_01.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"]],"wincc-redundancy/WinCC_Redundancia_00.png":[["Archivo","File"],["Ayuda","Help"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-redundancy/WinCC_Redundancia_02.png":[["Configuración","Configuration"],["Servidor","Server"],["Puerto","Port"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-redundancy/WinCC_Redundancia_03.png":[["Instalación","Installation"],["Servidor","Server"],["Hora","Time"],["Equipo","Computer / station"],["Mostrar","Show"]],"wincc-redundancy/WinCC_Redundancia_04.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"],["Cerrar","Close"],["Seleccionar","Select"]],"wincc-redundancy/WinCC_Redundancia_07.png":[["Nombre","Name"],["Cerrar","Close"],["Siguiente","Next"],["Equipo","Computer / station"]],"wincc-redundancy/WinCC_Redundancia_08.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Nombre","Name"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-redundancy/WinCC_Redundancia_09.png":[["Archivo","File"],["Ayuda","Help"],["Configuración","Configuration"],["Servidor","Server"],["Datos","Data"],["Equipo","Computer / station"]],"wincc-redundancy/WinCC_Redundancia_10.png":[["Archivo","File"],["Ayuda","Help"],["Servidor","Server"],["Equipo","Computer / station"]],"wincc-redundancy/WinCC_Redundancia_11.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Servidor","Server"],["Equipo","Computer / station"],["Objeto","Object"]],"wincc-redundancy/WinCC_Redundancia_12.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Equipo","Computer / station"],["Ver","View"]],"wincc-redundancy/WinCC_Redundancia_13.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Servidor","Server"],["Equipo","Computer / station"],["Ver","View"]],"wincc-redundancy/WinCC_Redundancia_15.png":[["Archivo","File"],["Ayuda","Help"]],"wincc-system-info/WinCC-SystemInfo-00.png":[["Archivo","File"],["Ayuda","Help"],["Nuevo","New"],["Agregar","Add"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-01.png":[["Archivo","File"],["Edición","Edit"],["Ayuda","Help"],["Nombre","Name"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-02.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-03.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Estado","Status"],["Datos","Data"]],"wincc-system-info/WinCC-SystemInfo-04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Seleccione","Select"],["Valor","Value"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-05.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-06.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Seleccione","Select"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Datos","Data"]],"wincc-system-info/WinCC-SystemInfo-08.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Fecha","Date"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-09.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-system-info/WinCC-SystemInfo-10.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Valor","Value"],["Fecha","Date"],["Hora","Time"],["Datos","Data"],["Ver","View"]],"wincc-unified-administracion-usuarios/WCCUnified_User_1.png":[["Usuario","User"],["Inicio","Start"]],"wincc-unified-administracion-usuarios/WCCUnified_User_15.png":[["Usuario","User"],["Inicio","Start"]],"wincc-unified-transferir-proyecto/WCCUnified_16.png":[["Usuario","User"],["Inicio","Start"]],"wincc-unified-transferir-proyecto/WCCUnified_8.png":[["Usuario","User"],["Inicio","Start"]],"wincc-vba/WinCC_VBA_AddIn_00.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nuevo","New"],["Ejecutar","Run"],["Mostrar","Show"],["Consulta","Query"]],"wincc-vba/WinCC_VBA_AddIn_01.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Usuario","User"]],"wincc-vba/WinCC_VBA_AddIn_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Ejecutar","Run"]],"wincc-vba/WinCC_VBA_AddIn_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Proyecto","Project"],["Guardar","Save"]],"wincc-vba/WinCC_VBA_AddIn_08.png":[["Nombre","Name"],["Proyecto","Project"],["Objeto","Object"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_01.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_02.png":[["Ayuda","Help"],["Propiedades","Properties"],["Dirección","Address"],["Seleccione","Select"],["Datos","Data"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_03.png":[["Proyecto","Project"],["Datos","Data"],["Fila","Row"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_07.png":[["Archivo","File"],["Herramientas","Tools"],["Nombre","Name"],["Valor","Value"],["Datos","Data"],["Listo","Ready"]],"wincc-vbs-gettagraw/WinCC_GetTagRaw_VBS_12.png":[["Propiedades","Properties"],["Dirección","Address"],["Usuario","User"],["Datos","Data"],["Crear","Create"]],"wincc-vbs-imprimir/WinCC_Imprimir_File_00.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Listo","Ready"],["Ver","View"]],"wincc-vbs-imprimir/WinCC_Imprimir_File_01.png":[["Archivo","File"],["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Ejecutar","Run"],["Objeto","Object"]],"wincc-vbs-imprimir/WinCC_Imprimir_File_03.png":[["Archivo","File"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Proyecto","Project"],["Valor","Value"],["Estado","Status"],["Datos","Data"]],"wincc-vbs-ping/WinCC_C_Ping_09.png":[["Propiedades","Properties"],["Nombre","Name"],["Objeto","Object"],["Evento","Event"]],"wincc-vbs-ping/WinCC_C_Ping_11.png":[["Archivo","File"],["Cargar","Load"],["Fila","Row"]],"wincc-vbs-webnavigator/WinCC_WebNavigator_1.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Ejecutar","Run"],["Objeto","Object"]],"wincc-vbs-webnavigator/WinCC_WebNavigator_2.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Proyecto","Project"],["Servidor","Server"],["Ejecutar","Run"]],"wincc-webnavigator-https/WinCC_HTTPS_02.png":[["Archivo","File"],["Ayuda","Help"],["Abrir","Open"],["Servidor","Server"],["Pantalla","Screen"],["Detener","Stop"],["Mostrar","Show"],["Controlador","Driver / controller"]],"wincc-webnavigator-https/WinCC_HTTPS_04.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Servidor","Server"],["Pantalla","Screen"],["Crear","Create"],["Listo","Ready"],["Ver","View"]],"wincc-webnavigator-https/WinCC_HTTPS_05.png":[["Archivo","File"],["Nombre","Name"]],"wincc-webnavigator-https/WinCC_HTTPS_06.png":[["Archivo","File"],["Ayuda","Help"],["Equipo","Computer / station"],["Detener","Stop"],["Mostrar","Show"],["Modificar","Modify"],["Listo","Ready"],["Ver","View"]],"wincc-webnavigator-https/WinCC_HTTPS_07.png":[["Archivo","File"],["Ayuda","Help"],["Nombre","Name"],["Puerto","Port"],["Agregar","Add"],["Listo","Ready"],["Ver","View"]],"wincc-webnavigator-https/WinCC_HTTPS_08.png":[["Archivo","File"],["Ayuda","Help"],["Abrir","Open"],["Detener","Stop"],["Mostrar","Show"],["Controlador","Driver / controller"],["Listo","Ready"],["Ver","View"]],"wincc-webnavigator-https/WinCC_HTTPS_09.png":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Aplicar","Apply"],["Pantalla","Screen"],["Modificar","Modify"],["Ruta","Path"]],"wincc-webux/WinCCWebUX_29.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Nuevo","New"],["Servidor","Server"]],"wincc-wpf/WinCC_WPF_00.png":[["Base de datos","Database"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Usuario","User"],["Agregar","Add"]],"wincc-wpf/WinCC_WPF_02.png":[["Propiedades","Properties"],["Ruta","Path"]],"wincc-wpf/WinCC_WPF_03.png":[["Archivo","File"],["Herramientas","Tools"],["Ventana","Window"],["Proyecto","Project"],["Datos","Data"],["Equipo","Computer / station"],["Ejecutar","Run"],["Ver","View"]],"wincc-wpf/WinCC_WPF_04.png":[["Propiedades","Properties"],["Opciones","Options"],["Compilar","Compile"],["Ruta","Path"]],"wincc-wpf/WinCC_WPF_05.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Estado","Status"],["Objeto","Object"],["Ver","View"]],"wincc-wpf/WinCC_WPF_07.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Seleccionar","Select"],["Estado","Status"],["Objeto","Object"],["Ver","View"]],"wincc-wpf/WinCC_WPF_08.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Estado","Status"],["Objeto","Object"],["Evento","Event"]],"wincc-wpf/WinCC_WPF_09.png":[["Archivo","File"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Estado","Status"],["Objeto","Object"],["Evento","Event"]],"wincc-wpf/WinCC_WPF_11.png":[["Nombre","Name"],["Datos","Data"]],"winccflexible-currentuser/WCFLoginLogout_01.png":[["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Proyecto","Project"],["Datos","Data"],["Informe","Report"]],"winccflexible-currentuser/WCFLoginLogout_03.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Aplicar","Apply"],["Nombre","Name"],["Comunicación","Communication"]],"winccflexible-currentuser/WCFLoginLogout_05.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"]],"winccflexible-currentuser/WCFLoginLogout_06.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"]],"winccflexible-currentuser/WCFLoginLogout_07.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"]],"winccflexible-simotion/WCF_Simotion_06.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"winccflexible-simotion/WCF_Simotion_07.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Nombre","Name"],["Programa","Program"],["Nuevo","New"]],"winccflexible-simotion/WCF_Simotion_10.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Dirección","Address"],["Comunicación","Communication"],["Conexión","Connection"]],"winccflexible-simotion/WCF_Simotion_14.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"winccflexible-simotion/WCF_Simotion_15.png":[["Dirección IP","IP address"],["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Insertar","Insert"],["Borrar","Clear"],["Seleccionar","Select"]],"winccflexible-simotion/WCF_Simotion_16.png":[["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"]],"winccflexible-simotion/WCF_Simotion_17.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Guardar","Save"],["Buscar","Search"],["Insertar","Insert"]],"winccflexible-simotion/WCF_Simotion_18.png":[["Dirección IP","IP address"],["Edición","Edit"],["Ayuda","Help"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Insertar","Insert"],["Borrar","Clear"]],"winccflexible-simotion/WCF_Simotion_19.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Comunicación","Communication"],["Conexión","Connection"],["Proyecto","Project"]],"winccflexible-simotion/WCF_Simotion_20.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Dirección","Address"],["Proyecto","Project"],["Nuevo","New"],["Insertar","Insert"]],"winccflexible-simotion/WCF_Simotion_21.png":[["Edición","Edit"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Nombre","Name"],["Comunicación","Communication"],["Proyecto","Project"],["Nuevo","New"]],"winccflexible-simotion-opc/Simotion_S7_06.png":[["Archivo","File"],["Ayuda","Help"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"],["Proyecto","Project"],["Nuevo","New"],["Usuario","User"]],"winccflexible-simotion-opc/Simotion_S7_08.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Programa","Program"],["Nuevo","New"],["Insertar","Insert"],["Borrar","Clear"]],"winccflexible-simotion-opc/Simotion_S7_10.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Insertar","Insert"],["Destino","Destination"],["Ver","View"]],"winccflexible-simotion-opc/Simotion_S7_11.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Buscar","Search"],["Insertar","Insert"],["Equipo","Computer / station"],["Destino","Destination"]],"winccflexible-simotion-opc/Simotion_S7_12.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Configuración","Configuration"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"]],"winccflexible-simotion-opc/Simotion_S7_14.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Propiedades","Properties"],["Aceptar","OK"],["Cancelar","Cancel"],["Nombre","Name"]],"winccflexible-simotion-opc/Simotion_S7_15.png":[["Edición","Edit"],["Herramientas","Tools"],["Ayuda","Help"],["Ventana","Window"],["Nombre","Name"],["Abrir","Open"],["Insertar","Insert"],["Destino","Destination"]],"wwhistorian-autostart/WW_Historian_AutoStart_05.png":[["Archivo","File"],["Ayuda","Help"],["Propiedades","Properties"]]};function _d(){return{async:!1,breaks:!1,extensions:null,gfm:!0,hooks:null,pedantic:!1,renderer:null,silent:!1,tokenizer:null,walkTokens:null}}let da=_d();function hw(e){da=e}const uw=/[&<>"']/,T_=new RegExp(uw.source,"g"),mw=/[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/,I_=new RegExp(mw.source,"g"),__={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},Wu=e=>__[e];function Ke(e,n){if(n){if(uw.test(e))return e.replace(T_,Wu)}else if(mw.test(e))return e.replace(I_,Wu);return e}const x_=/(^|[^\[])\^/g;function $(e,n){let t=typeof e=="string"?e:e.source;n=n||"";const a={replace:(i,o)=>{let s=typeof o=="string"?o:o.source;return s=s.replace(x_,"$1"),t=t.replace(i,s),a},getRegex:()=>new RegExp(t,n)};return a}function Lu(e){try{e=encodeURI(e).replace(/%25/g,"%")}catch{return null}return e}const Oi={exec:()=>null};function Eu(e,n){const t=e.replace(/\|/g,(o,s,r)=>{let c=!1,d=s;for(;--d>=0&&r[d]==="\\";)c=!c;return c?"|":" |"}),a=t.split(/ \|/);let i=0;if(a[0].trim()||a.shift(),a.length>0&&!a[a.length-1].trim()&&a.pop(),n)if(a.length>n)a.splice(n);else for(;a.length<n;)a.push("");for(;i<a.length;i++)a[i]=a[i].trim().replace(/\\\|/g,"|");return a}function ui(e,n,t){const a=e.length;if(a===0)return"";let i=0;for(;i<a&&e.charAt(a-i-1)===n;)i++;return e.slice(0,a-i)}function M_(e,n){if(e.indexOf(n[1])===-1)return-1;let t=0;for(let a=0;a<e.length;a++)if(e[a]==="\\")a++;else if(e[a]===n[0])t++;else if(e[a]===n[1]&&(t--,t<0))return a;return-1}function Du(e,n,t,a){const i=n.href,o=n.title?Ke(n.title):null,s=e[1].replace(/\\([\[\]])/g,"$1");if(e[0].charAt(0)!=="!"){a.state.inLink=!0;const r={type:"link",raw:t,href:i,title:o,text:s,tokens:a.inlineTokens(s)};return a.state.inLink=!1,r}return{type:"image",raw:t,href:i,title:o,text:Ke(s)}}function W_(e,n){const t=e.match(/^(\s+)(?:```)/);if(t===null)return n;const a=t[1];return n.split(`
 `).map(i=>{const o=i.match(/^\s+/);if(o===null)return i;const[s]=o;return s.length>=a.length?i.slice(a.length):i}).join(`
 `)}class Us{constructor(n){ee(this,"options");ee(this,"rules");ee(this,"lexer");this.options=n||da}space(n){const t=this.rules.block.newline.exec(n);if(t&&t[0].length>0)return{type:"space",raw:t[0]}}code(n){const t=this.rules.block.code.exec(n);if(t){const a=t[0].replace(/^(?: {1,4}| {0,3}\t)/gm,"");return{type:"code",raw:t[0],codeBlockStyle:"indented",text:this.options.pedantic?a:ui(a,`
-`)}}}fences(n){const t=this.rules.block.fences.exec(n);if(t){const a=t[0],i=M_(a,t[3]||"");return{type:"code",raw:a,lang:t[2]?t[2].trim().replace(this.rules.inline.anyPunctuation,"$1"):t[2],text:i}}}heading(n){const t=this.rules.block.heading.exec(n);if(t){let a=t[2].trim();if(/#$/.test(a)){const i=ui(a,"#");(this.options.pedantic||!i||/ $/.test(i))&&(a=i.trim())}return{type:"heading",raw:t[0],depth:t[1].length,text:a,tokens:this.lexer.inline(a)}}}hr(n){const t=this.rules.block.hr.exec(n);if(t)return{type:"hr",raw:ui(t[0],`
+`)}}}fences(n){const t=this.rules.block.fences.exec(n);if(t){const a=t[0],i=W_(a,t[3]||"");return{type:"code",raw:a,lang:t[2]?t[2].trim().replace(this.rules.inline.anyPunctuation,"$1"):t[2],text:i}}}heading(n){const t=this.rules.block.heading.exec(n);if(t){let a=t[2].trim();if(/#$/.test(a)){const i=ui(a,"#");(this.options.pedantic||!i||/ $/.test(i))&&(a=i.trim())}return{type:"heading",raw:t[0],depth:t[1].length,text:a,tokens:this.lexer.inline(a)}}}hr(n){const t=this.rules.block.hr.exec(n);if(t)return{type:"hr",raw:ui(t[0],`
 `)}}blockquote(n){const t=this.rules.block.blockquote.exec(n);if(t){let a=ui(t[0],`
 `).split(`
 `),i="",o="";const s=[];for(;a.length>0;){let r=!1;const c=[];let d;for(d=0;d<a.length;d++)if(/^ {0,3}>/.test(a[d]))c.push(a[d]),r=!0;else if(!r)c.push(a[d]);else break;a=a.slice(d);const h=c.join(`
@@ -46370,8 +46775,8 @@ ${m}`:m;const u=this.lexer.state.top;if(this.lexer.state.top=!0,this.lexer.block
 `+u}!p&&!u.trim()&&(p=!0),d+=M+`
 `,n=n.substring(M.length+1),m=T.slice(b)}}o.loose||(r?o.loose=!0:/\n[ \t]*\n[ \t]*$/.test(d)&&(r=!0));let v=null,S;this.options.gfm&&(v=/^\[[ xX]\] /.exec(h),v&&(S=v[0]!=="[ ] ",h=h.replace(/^\[[ xX]\] +/,""))),o.items.push({type:"list_item",raw:d,task:!!v,checked:S,loose:!1,text:h,tokens:[]}),o.raw+=d}o.items[o.items.length-1].raw=o.items[o.items.length-1].raw.trimEnd(),o.items[o.items.length-1].text=o.items[o.items.length-1].text.trimEnd(),o.raw=o.raw.trimEnd();for(let c=0;c<o.items.length;c++)if(this.lexer.state.top=!1,o.items[c].tokens=this.lexer.blockTokens(o.items[c].text,[]),!o.loose){const d=o.items[c].tokens.filter(m=>m.type==="space"),h=d.length>0&&d.some(m=>/\n.*\n/.test(m.raw));o.loose=h}if(o.loose)for(let c=0;c<o.items.length;c++)o.items[c].loose=!0;return o}}html(n){const t=this.rules.block.html.exec(n);if(t)return{type:"html",block:!0,raw:t[0],pre:t[1]==="pre"||t[1]==="script"||t[1]==="style",text:t[0]}}def(n){const t=this.rules.block.def.exec(n);if(t){const a=t[1].toLowerCase().replace(/\s+/g," "),i=t[2]?t[2].replace(/^<(.*)>$/,"$1").replace(this.rules.inline.anyPunctuation,"$1"):"",o=t[3]?t[3].substring(1,t[3].length-1).replace(this.rules.inline.anyPunctuation,"$1"):t[3];return{type:"def",tag:a,raw:t[0],href:i,title:o}}}table(n){const t=this.rules.block.table.exec(n);if(!t||!/[:|]/.test(t[2]))return;const a=Eu(t[1]),i=t[2].replace(/^\||\| *$/g,"").split("|"),o=t[3]&&t[3].trim()?t[3].replace(/\n[ \t]*$/,"").split(`
 `):[],s={type:"table",raw:t[0],header:[],align:[],rows:[]};if(a.length===i.length){for(const r of i)/^ *-+: *$/.test(r)?s.align.push("right"):/^ *:-+: *$/.test(r)?s.align.push("center"):/^ *:-+ *$/.test(r)?s.align.push("left"):s.align.push(null);for(let r=0;r<a.length;r++)s.header.push({text:a[r],tokens:this.lexer.inline(a[r]),header:!0,align:s.align[r]});for(const r of o)s.rows.push(Eu(r,s.header.length).map((c,d)=>({text:c,tokens:this.lexer.inline(c),header:!1,align:s.align[d]})));return s}}lheading(n){const t=this.rules.block.lheading.exec(n);if(t)return{type:"heading",raw:t[0],depth:t[2].charAt(0)==="="?1:2,text:t[1],tokens:this.lexer.inline(t[1])}}paragraph(n){const t=this.rules.block.paragraph.exec(n);if(t){const a=t[1].charAt(t[1].length-1)===`
-`?t[1].slice(0,-1):t[1];return{type:"paragraph",raw:t[0],text:a,tokens:this.lexer.inline(a)}}}text(n){const t=this.rules.block.text.exec(n);if(t)return{type:"text",raw:t[0],text:t[0],tokens:this.lexer.inline(t[0])}}escape(n){const t=this.rules.inline.escape.exec(n);if(t)return{type:"escape",raw:t[0],text:Ke(t[1])}}tag(n){const t=this.rules.inline.tag.exec(n);if(t)return!this.lexer.state.inLink&&/^<a /i.test(t[0])?this.lexer.state.inLink=!0:this.lexer.state.inLink&&/^<\/a>/i.test(t[0])&&(this.lexer.state.inLink=!1),!this.lexer.state.inRawBlock&&/^<(pre|code|kbd|script)(\s|>)/i.test(t[0])?this.lexer.state.inRawBlock=!0:this.lexer.state.inRawBlock&&/^<\/(pre|code|kbd|script)(\s|>)/i.test(t[0])&&(this.lexer.state.inRawBlock=!1),{type:"html",raw:t[0],inLink:this.lexer.state.inLink,inRawBlock:this.lexer.state.inRawBlock,block:!1,text:t[0]}}link(n){const t=this.rules.inline.link.exec(n);if(t){const a=t[2].trim();if(!this.options.pedantic&&/^</.test(a)){if(!/>$/.test(a))return;const s=ui(a.slice(0,-1),"\\");if((a.length-s.length)%2===0)return}else{const s=x_(t[2],"()");if(s>-1){const c=(t[0].indexOf("!")===0?5:4)+t[1].length+s;t[2]=t[2].substring(0,s),t[0]=t[0].substring(0,c).trim(),t[3]=""}}let i=t[2],o="";if(this.options.pedantic){const s=/^([^'"]*[^\s])\s+(['"])(.*)\2/.exec(i);s&&(i=s[1],o=s[3])}else o=t[3]?t[3].slice(1,-1):"";return i=i.trim(),/^</.test(i)&&(this.options.pedantic&&!/>$/.test(a)?i=i.slice(1):i=i.slice(1,-1)),Du(t,{href:i&&i.replace(this.rules.inline.anyPunctuation,"$1"),title:o&&o.replace(this.rules.inline.anyPunctuation,"$1")},t[0],this.lexer)}}reflink(n,t){let a;if((a=this.rules.inline.reflink.exec(n))||(a=this.rules.inline.nolink.exec(n))){const i=(a[2]||a[1]).replace(/\s+/g," "),o=t[i.toLowerCase()];if(!o){const s=a[0].charAt(0);return{type:"text",raw:s,text:s}}return Du(a,o,a[0],this.lexer)}}emStrong(n,t,a=""){let i=this.rules.inline.emStrongLDelim.exec(n);if(!i||i[3]&&a.match(/[\p{L}\p{N}]/u))return;if(!(i[1]||i[2]||"")||!a||this.rules.inline.punctuation.exec(a)){const s=[...i[0]].length-1;let r,c,d=s,h=0;const m=i[0][0]==="*"?this.rules.inline.emStrongRDelimAst:this.rules.inline.emStrongRDelimUnd;for(m.lastIndex=0,t=t.slice(-1*n.length+s);(i=m.exec(t))!=null;){if(r=i[1]||i[2]||i[3]||i[4]||i[5]||i[6],!r)continue;if(c=[...r].length,i[3]||i[4]){d+=c;continue}else if((i[5]||i[6])&&s%3&&!((s+c)%3)){h+=c;continue}if(d-=c,d>0)continue;c=Math.min(c,c+d+h);const u=[...i[0]][0].length,p=n.slice(0,s+i.index+u+c);if(Math.min(s,c)%2){const v=p.slice(1,-1);return{type:"em",raw:p,text:v,tokens:this.lexer.inlineTokens(v)}}const b=p.slice(2,-2);return{type:"strong",raw:p,text:b,tokens:this.lexer.inlineTokens(b)}}}}codespan(n){const t=this.rules.inline.code.exec(n);if(t){let a=t[2].replace(/\n/g," ");const i=/[^ ]/.test(a),o=/^ /.test(a)&&/ $/.test(a);return i&&o&&(a=a.substring(1,a.length-1)),a=Ke(a,!0),{type:"codespan",raw:t[0],text:a}}}br(n){const t=this.rules.inline.br.exec(n);if(t)return{type:"br",raw:t[0]}}del(n){const t=this.rules.inline.del.exec(n);if(t)return{type:"del",raw:t[0],text:t[2],tokens:this.lexer.inlineTokens(t[2])}}autolink(n){const t=this.rules.inline.autolink.exec(n);if(t){let a,i;return t[2]==="@"?(a=Ke(t[1]),i="mailto:"+a):(a=Ke(t[1]),i=a),{type:"link",raw:t[0],text:a,href:i,tokens:[{type:"text",raw:a,text:a}]}}}url(n){var a;let t;if(t=this.rules.inline.url.exec(n)){let i,o;if(t[2]==="@")i=Ke(t[0]),o="mailto:"+i;else{let s;do s=t[0],t[0]=((a=this.rules.inline._backpedal.exec(t[0]))==null?void 0:a[0])??"";while(s!==t[0]);i=Ke(t[0]),t[1]==="www."?o="http://"+t[0]:o=t[0]}return{type:"link",raw:t[0],text:i,href:o,tokens:[{type:"text",raw:i,text:i}]}}}inlineText(n){const t=this.rules.inline.text.exec(n);if(t){let a;return this.lexer.state.inRawBlock?a=t[0]:a=Ke(t[0]),{type:"text",raw:t[0],text:a}}}}const W_=/^(?:[ \t]*(?:\n|$))+/,L_=/^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/,E_=/^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/,go=/^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/,D_=/^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/,gw=/(?:[*+-]|\d{1,9}[.)])/,pw=$(/^(?!bull |blockCode|fences|blockquote|heading|html)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html))+?)\n {0,3}(=+|-+) *(?:\n+|$)/).replace(/bull/g,gw).replace(/blockCode/g,/(?: {4}| {0,3}\t)/).replace(/fences/g,/ {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g,/ {0,3}>/).replace(/heading/g,/ {0,3}#{1,6}/).replace(/html/g,/ {0,3}<[^\n>]+>\n/).getRegex(),xd=/^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,k_=/^[^\n]+/,Md=/(?!\s*\])(?:\\.|[^\[\]\\])+/,O_=$(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label",Md).replace("title",/(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(),F_=$(/^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g,gw).getRegex(),hr="address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul",Wd=/<!--(?:-?>|[\s\S]*?(?:-->|$))/,R_=$("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))","i").replace("comment",Wd).replace("tag",hr).replace("attribute",/ +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(),ww=$(xd).replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("|table","").replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",hr).getRegex(),N_=$(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph",ww).getRegex(),Ld={blockquote:N_,code:L_,def:O_,fences:E_,heading:D_,hr:go,html:R_,lheading:pw,list:F_,newline:W_,paragraph:ww,table:Oi,text:k_},ku=$("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("blockquote"," {0,3}>").replace("code","(?: {4}| {0,3}	)[^\\n]").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",hr).getRegex(),V_={...Ld,table:ku,paragraph:$(xd).replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("table",ku).replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",hr).getRegex()},U_={...Ld,html:$(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment",Wd).replace(/tag/g,"(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,heading:/^(#{1,6})(.*)(?:\n+|$)/,fences:Oi,lheading:/^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,paragraph:$(xd).replace("hr",go).replace("heading",` *#{1,6} *[^
-]`).replace("lheading",pw).replace("|table","").replace("blockquote"," {0,3}>").replace("|fences","").replace("|list","").replace("|html","").replace("|tag","").getRegex()},fw=/^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,j_=/^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,Cw=/^( {2,}|\\)\n(?!\s*$)/,H_=/^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/,po="\\p{P}\\p{S}",B_=$(/^((?![*_])[\spunctuation])/,"u").replace(/punctuation/g,po).getRegex(),q_=/\[[^[\]]*?\]\((?:\\.|[^\\\(\)]|\((?:\\.|[^\\\(\)])*\))*\)|`[^`]*?`|<[^<>]*?>/g,G_=$(/^(?:\*+(?:((?!\*)[punct])|[^\s*]))|^_+(?:((?!_)[punct])|([^\s_]))/,"u").replace(/punct/g,po).getRegex(),z_=$("^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)[punct](\\*+)(?=[\\s]|$)|[^punct\\s](\\*+)(?!\\*)(?=[punct\\s]|$)|(?!\\*)[punct\\s](\\*+)(?=[^punct\\s])|[\\s](\\*+)(?!\\*)(?=[punct])|(?!\\*)[punct](\\*+)(?!\\*)(?=[punct])|[^punct\\s](\\*+)(?=[^punct\\s])","gu").replace(/punct/g,po).getRegex(),J_=$("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)[punct](_+)(?=[\\s]|$)|[^punct\\s](_+)(?!_)(?=[punct\\s]|$)|(?!_)[punct\\s](_+)(?=[^punct\\s])|[\\s](_+)(?!_)(?=[punct])|(?!_)[punct](_+)(?!_)(?=[punct])","gu").replace(/punct/g,po).getRegex(),X_=$(/\\([punct])/,"gu").replace(/punct/g,po).getRegex(),Q_=$(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme",/[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email",/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(),K_=$(Wd).replace("(?:-->|$)","-->").getRegex(),Y_=$("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment",K_).replace("attribute",/\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(),js=/(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/,Z_=$(/^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/).replace("label",js).replace("href",/<(?:\\.|[^\n<>\\])+>|[^\s\x00-\x1f]*/).replace("title",/"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(),bw=$(/^!?\[(label)\]\[(ref)\]/).replace("label",js).replace("ref",Md).getRegex(),vw=$(/^!?\[(ref)\](?:\[\])?/).replace("ref",Md).getRegex(),$_=$("reflink|nolink(?!\\()","g").replace("reflink",bw).replace("nolink",vw).getRegex(),Ed={_backpedal:Oi,anyPunctuation:X_,autolink:Q_,blockSkip:q_,br:Cw,code:j_,del:Oi,emStrongLDelim:G_,emStrongRDelimAst:z_,emStrongRDelimUnd:J_,escape:fw,link:Z_,nolink:vw,punctuation:B_,reflink:bw,reflinkSearch:$_,tag:Y_,text:H_,url:Oi},ex={...Ed,link:$(/^!?\[(label)\]\((.*?)\)/).replace("label",js).getRegex(),reflink:$(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label",js).getRegex()},fl={...Ed,escape:$(fw).replace("])","~|])").getRegex(),url:$(/^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,"i").replace("email",/[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),_backpedal:/(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,del:/^(~~?)(?=[^\s~])((?:\\.|[^\\])*?(?:\\.|[^\s~\\]))\1(?=[^~]|$)/,text:/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/},nx={...fl,br:$(Cw).replace("{2,}","*").getRegex(),text:$(fl.text).replace("\\b_","\\b_| {2,}\\n").replace(/\{2,\}/g,"*").getRegex()},Ro={normal:Ld,gfm:V_,pedantic:U_},mi={normal:Ed,gfm:fl,breaks:nx,pedantic:ex};class pn{constructor(n){ee(this,"tokens");ee(this,"options");ee(this,"state");ee(this,"tokenizer");ee(this,"inlineQueue");this.tokens=[],this.tokens.links=Object.create(null),this.options=n||da,this.options.tokenizer=this.options.tokenizer||new Us,this.tokenizer=this.options.tokenizer,this.tokenizer.options=this.options,this.tokenizer.lexer=this,this.inlineQueue=[],this.state={inLink:!1,inRawBlock:!1,top:!0};const t={block:Ro.normal,inline:mi.normal};this.options.pedantic?(t.block=Ro.pedantic,t.inline=mi.pedantic):this.options.gfm&&(t.block=Ro.gfm,this.options.breaks?t.inline=mi.breaks:t.inline=mi.gfm),this.tokenizer.rules=t}static get rules(){return{block:Ro,inline:mi}}static lex(n,t){return new pn(t).lex(n)}static lexInline(n,t){return new pn(t).inlineTokens(n)}lex(n){n=n.replace(/\r\n|\r/g,`
+`?t[1].slice(0,-1):t[1];return{type:"paragraph",raw:t[0],text:a,tokens:this.lexer.inline(a)}}}text(n){const t=this.rules.block.text.exec(n);if(t)return{type:"text",raw:t[0],text:t[0],tokens:this.lexer.inline(t[0])}}escape(n){const t=this.rules.inline.escape.exec(n);if(t)return{type:"escape",raw:t[0],text:Ke(t[1])}}tag(n){const t=this.rules.inline.tag.exec(n);if(t)return!this.lexer.state.inLink&&/^<a /i.test(t[0])?this.lexer.state.inLink=!0:this.lexer.state.inLink&&/^<\/a>/i.test(t[0])&&(this.lexer.state.inLink=!1),!this.lexer.state.inRawBlock&&/^<(pre|code|kbd|script)(\s|>)/i.test(t[0])?this.lexer.state.inRawBlock=!0:this.lexer.state.inRawBlock&&/^<\/(pre|code|kbd|script)(\s|>)/i.test(t[0])&&(this.lexer.state.inRawBlock=!1),{type:"html",raw:t[0],inLink:this.lexer.state.inLink,inRawBlock:this.lexer.state.inRawBlock,block:!1,text:t[0]}}link(n){const t=this.rules.inline.link.exec(n);if(t){const a=t[2].trim();if(!this.options.pedantic&&/^</.test(a)){if(!/>$/.test(a))return;const s=ui(a.slice(0,-1),"\\");if((a.length-s.length)%2===0)return}else{const s=M_(t[2],"()");if(s>-1){const c=(t[0].indexOf("!")===0?5:4)+t[1].length+s;t[2]=t[2].substring(0,s),t[0]=t[0].substring(0,c).trim(),t[3]=""}}let i=t[2],o="";if(this.options.pedantic){const s=/^([^'"]*[^\s])\s+(['"])(.*)\2/.exec(i);s&&(i=s[1],o=s[3])}else o=t[3]?t[3].slice(1,-1):"";return i=i.trim(),/^</.test(i)&&(this.options.pedantic&&!/>$/.test(a)?i=i.slice(1):i=i.slice(1,-1)),Du(t,{href:i&&i.replace(this.rules.inline.anyPunctuation,"$1"),title:o&&o.replace(this.rules.inline.anyPunctuation,"$1")},t[0],this.lexer)}}reflink(n,t){let a;if((a=this.rules.inline.reflink.exec(n))||(a=this.rules.inline.nolink.exec(n))){const i=(a[2]||a[1]).replace(/\s+/g," "),o=t[i.toLowerCase()];if(!o){const s=a[0].charAt(0);return{type:"text",raw:s,text:s}}return Du(a,o,a[0],this.lexer)}}emStrong(n,t,a=""){let i=this.rules.inline.emStrongLDelim.exec(n);if(!i||i[3]&&a.match(/[\p{L}\p{N}]/u))return;if(!(i[1]||i[2]||"")||!a||this.rules.inline.punctuation.exec(a)){const s=[...i[0]].length-1;let r,c,d=s,h=0;const m=i[0][0]==="*"?this.rules.inline.emStrongRDelimAst:this.rules.inline.emStrongRDelimUnd;for(m.lastIndex=0,t=t.slice(-1*n.length+s);(i=m.exec(t))!=null;){if(r=i[1]||i[2]||i[3]||i[4]||i[5]||i[6],!r)continue;if(c=[...r].length,i[3]||i[4]){d+=c;continue}else if((i[5]||i[6])&&s%3&&!((s+c)%3)){h+=c;continue}if(d-=c,d>0)continue;c=Math.min(c,c+d+h);const u=[...i[0]][0].length,p=n.slice(0,s+i.index+u+c);if(Math.min(s,c)%2){const v=p.slice(1,-1);return{type:"em",raw:p,text:v,tokens:this.lexer.inlineTokens(v)}}const b=p.slice(2,-2);return{type:"strong",raw:p,text:b,tokens:this.lexer.inlineTokens(b)}}}}codespan(n){const t=this.rules.inline.code.exec(n);if(t){let a=t[2].replace(/\n/g," ");const i=/[^ ]/.test(a),o=/^ /.test(a)&&/ $/.test(a);return i&&o&&(a=a.substring(1,a.length-1)),a=Ke(a,!0),{type:"codespan",raw:t[0],text:a}}}br(n){const t=this.rules.inline.br.exec(n);if(t)return{type:"br",raw:t[0]}}del(n){const t=this.rules.inline.del.exec(n);if(t)return{type:"del",raw:t[0],text:t[2],tokens:this.lexer.inlineTokens(t[2])}}autolink(n){const t=this.rules.inline.autolink.exec(n);if(t){let a,i;return t[2]==="@"?(a=Ke(t[1]),i="mailto:"+a):(a=Ke(t[1]),i=a),{type:"link",raw:t[0],text:a,href:i,tokens:[{type:"text",raw:a,text:a}]}}}url(n){var a;let t;if(t=this.rules.inline.url.exec(n)){let i,o;if(t[2]==="@")i=Ke(t[0]),o="mailto:"+i;else{let s;do s=t[0],t[0]=((a=this.rules.inline._backpedal.exec(t[0]))==null?void 0:a[0])??"";while(s!==t[0]);i=Ke(t[0]),t[1]==="www."?o="http://"+t[0]:o=t[0]}return{type:"link",raw:t[0],text:i,href:o,tokens:[{type:"text",raw:i,text:i}]}}}inlineText(n){const t=this.rules.inline.text.exec(n);if(t){let a;return this.lexer.state.inRawBlock?a=t[0]:a=Ke(t[0]),{type:"text",raw:t[0],text:a}}}}const L_=/^(?:[ \t]*(?:\n|$))+/,E_=/^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/,D_=/^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/,go=/^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/,k_=/^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/,gw=/(?:[*+-]|\d{1,9}[.)])/,pw=$(/^(?!bull |blockCode|fences|blockquote|heading|html)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html))+?)\n {0,3}(=+|-+) *(?:\n+|$)/).replace(/bull/g,gw).replace(/blockCode/g,/(?: {4}| {0,3}\t)/).replace(/fences/g,/ {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g,/ {0,3}>/).replace(/heading/g,/ {0,3}#{1,6}/).replace(/html/g,/ {0,3}<[^\n>]+>\n/).getRegex(),xd=/^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,O_=/^[^\n]+/,Md=/(?!\s*\])(?:\\.|[^\[\]\\])+/,F_=$(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label",Md).replace("title",/(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(),R_=$(/^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g,gw).getRegex(),hr="address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul",Wd=/<!--(?:-?>|[\s\S]*?(?:-->|$))/,N_=$("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))","i").replace("comment",Wd).replace("tag",hr).replace("attribute",/ +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(),ww=$(xd).replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("|table","").replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",hr).getRegex(),V_=$(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph",ww).getRegex(),Ld={blockquote:V_,code:E_,def:F_,fences:D_,heading:k_,hr:go,html:N_,lheading:pw,list:R_,newline:L_,paragraph:ww,table:Oi,text:O_},ku=$("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("blockquote"," {0,3}>").replace("code","(?: {4}| {0,3}	)[^\\n]").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",hr).getRegex(),U_={...Ld,table:ku,paragraph:$(xd).replace("hr",go).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("table",ku).replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",hr).getRegex()},j_={...Ld,html:$(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment",Wd).replace(/tag/g,"(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,heading:/^(#{1,6})(.*)(?:\n+|$)/,fences:Oi,lheading:/^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,paragraph:$(xd).replace("hr",go).replace("heading",` *#{1,6} *[^
+]`).replace("lheading",pw).replace("|table","").replace("blockquote"," {0,3}>").replace("|fences","").replace("|list","").replace("|html","").replace("|tag","").getRegex()},fw=/^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,H_=/^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,Cw=/^( {2,}|\\)\n(?!\s*$)/,B_=/^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/,po="\\p{P}\\p{S}",q_=$(/^((?![*_])[\spunctuation])/,"u").replace(/punctuation/g,po).getRegex(),G_=/\[[^[\]]*?\]\((?:\\.|[^\\\(\)]|\((?:\\.|[^\\\(\)])*\))*\)|`[^`]*?`|<[^<>]*?>/g,z_=$(/^(?:\*+(?:((?!\*)[punct])|[^\s*]))|^_+(?:((?!_)[punct])|([^\s_]))/,"u").replace(/punct/g,po).getRegex(),J_=$("^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)[punct](\\*+)(?=[\\s]|$)|[^punct\\s](\\*+)(?!\\*)(?=[punct\\s]|$)|(?!\\*)[punct\\s](\\*+)(?=[^punct\\s])|[\\s](\\*+)(?!\\*)(?=[punct])|(?!\\*)[punct](\\*+)(?!\\*)(?=[punct])|[^punct\\s](\\*+)(?=[^punct\\s])","gu").replace(/punct/g,po).getRegex(),X_=$("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)[punct](_+)(?=[\\s]|$)|[^punct\\s](_+)(?!_)(?=[punct\\s]|$)|(?!_)[punct\\s](_+)(?=[^punct\\s])|[\\s](_+)(?!_)(?=[punct])|(?!_)[punct](_+)(?!_)(?=[punct])","gu").replace(/punct/g,po).getRegex(),Q_=$(/\\([punct])/,"gu").replace(/punct/g,po).getRegex(),K_=$(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme",/[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email",/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(),Y_=$(Wd).replace("(?:-->|$)","-->").getRegex(),Z_=$("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment",Y_).replace("attribute",/\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(),js=/(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/,$_=$(/^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/).replace("label",js).replace("href",/<(?:\\.|[^\n<>\\])+>|[^\s\x00-\x1f]*/).replace("title",/"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(),bw=$(/^!?\[(label)\]\[(ref)\]/).replace("label",js).replace("ref",Md).getRegex(),vw=$(/^!?\[(ref)\](?:\[\])?/).replace("ref",Md).getRegex(),ex=$("reflink|nolink(?!\\()","g").replace("reflink",bw).replace("nolink",vw).getRegex(),Ed={_backpedal:Oi,anyPunctuation:Q_,autolink:K_,blockSkip:G_,br:Cw,code:H_,del:Oi,emStrongLDelim:z_,emStrongRDelimAst:J_,emStrongRDelimUnd:X_,escape:fw,link:$_,nolink:vw,punctuation:q_,reflink:bw,reflinkSearch:ex,tag:Z_,text:B_,url:Oi},nx={...Ed,link:$(/^!?\[(label)\]\((.*?)\)/).replace("label",js).getRegex(),reflink:$(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label",js).getRegex()},fl={...Ed,escape:$(fw).replace("])","~|])").getRegex(),url:$(/^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,"i").replace("email",/[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),_backpedal:/(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,del:/^(~~?)(?=[^\s~])((?:\\.|[^\\])*?(?:\\.|[^\s~\\]))\1(?=[^~]|$)/,text:/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/},tx={...fl,br:$(Cw).replace("{2,}","*").getRegex(),text:$(fl.text).replace("\\b_","\\b_| {2,}\\n").replace(/\{2,\}/g,"*").getRegex()},Ro={normal:Ld,gfm:U_,pedantic:j_},mi={normal:Ed,gfm:fl,breaks:tx,pedantic:nx};class pn{constructor(n){ee(this,"tokens");ee(this,"options");ee(this,"state");ee(this,"tokenizer");ee(this,"inlineQueue");this.tokens=[],this.tokens.links=Object.create(null),this.options=n||da,this.options.tokenizer=this.options.tokenizer||new Us,this.tokenizer=this.options.tokenizer,this.tokenizer.options=this.options,this.tokenizer.lexer=this,this.inlineQueue=[],this.state={inLink:!1,inRawBlock:!1,top:!0};const t={block:Ro.normal,inline:mi.normal};this.options.pedantic?(t.block=Ro.pedantic,t.inline=mi.pedantic):this.options.gfm&&(t.block=Ro.gfm,this.options.breaks?t.inline=mi.breaks:t.inline=mi.gfm),this.tokenizer.rules=t}static get rules(){return{block:Ro,inline:mi}}static lex(n,t){return new pn(t).lex(n)}static lexInline(n,t){return new pn(t).inlineTokens(n)}lex(n){n=n.replace(/\r\n|\r/g,`
 `),this.blockTokens(n,this.tokens);for(let t=0;t<this.inlineQueue.length;t++){const a=this.inlineQueue[t];this.inlineTokens(a.src,a.tokens)}return this.inlineQueue=[],this.tokens}blockTokens(n,t=[],a=!1){this.options.pedantic&&(n=n.replace(/\t/g,"    ").replace(/^ +$/gm,""));let i,o,s;for(;n;)if(!(this.options.extensions&&this.options.extensions.block&&this.options.extensions.block.some(r=>(i=r.call({lexer:this},n,t))?(n=n.substring(i.raw.length),t.push(i),!0):!1))){if(i=this.tokenizer.space(n)){n=n.substring(i.raw.length),i.raw.length===1&&t.length>0?t[t.length-1].raw+=`
 `:t.push(i);continue}if(i=this.tokenizer.code(n)){n=n.substring(i.raw.length),o=t[t.length-1],o&&(o.type==="paragraph"||o.type==="text")?(o.raw+=`
 `+i.raw,o.text+=`
@@ -46400,11 +46805,11 @@ ${this.parser.parse(n)}</blockquote>
 ${n}</tr>
 `}tablecell(n){const t=this.parser.parseInline(n.tokens),a=n.header?"th":"td";return(n.align?`<${a} align="${n.align}">`:`<${a}>`)+t+`</${a}>
 `}strong({tokens:n}){return`<strong>${this.parser.parseInline(n)}</strong>`}em({tokens:n}){return`<em>${this.parser.parseInline(n)}</em>`}codespan({text:n}){return`<code>${n}</code>`}br(n){return"<br>"}del({tokens:n}){return`<del>${this.parser.parseInline(n)}</del>`}link({href:n,title:t,tokens:a}){const i=this.parser.parseInline(a),o=Lu(n);if(o===null)return i;n=o;let s='<a href="'+n+'"';return t&&(s+=' title="'+t+'"'),s+=">"+i+"</a>",s}image({href:n,title:t,text:a}){const i=Lu(n);if(i===null)return a;n=i;let o=`<img src="${n}" alt="${a}"`;return t&&(o+=` title="${t}"`),o+=">",o}text(n){return"tokens"in n&&n.tokens?this.parser.parseInline(n.tokens):n.text}}class Dd{strong({text:n}){return n}em({text:n}){return n}codespan({text:n}){return n}del({text:n}){return n}html({text:n}){return n}text({text:n}){return n}link({text:n}){return""+n}image({text:n}){return""+n}br(){return""}}class wn{constructor(n){ee(this,"options");ee(this,"renderer");ee(this,"textRenderer");this.options=n||da,this.options.renderer=this.options.renderer||new Hs,this.renderer=this.options.renderer,this.renderer.options=this.options,this.renderer.parser=this,this.textRenderer=new Dd}static parse(n,t){return new wn(t).parse(n)}static parseInline(n,t){return new wn(t).parseInline(n)}parse(n,t=!0){let a="";for(let i=0;i<n.length;i++){const o=n[i];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[o.type]){const r=o,c=this.options.extensions.renderers[r.type].call({parser:this},r);if(c!==!1||!["space","hr","heading","code","table","blockquote","list","html","paragraph","text"].includes(r.type)){a+=c||"";continue}}const s=o;switch(s.type){case"space":{a+=this.renderer.space(s);continue}case"hr":{a+=this.renderer.hr(s);continue}case"heading":{a+=this.renderer.heading(s);continue}case"code":{a+=this.renderer.code(s);continue}case"table":{a+=this.renderer.table(s);continue}case"blockquote":{a+=this.renderer.blockquote(s);continue}case"list":{a+=this.renderer.list(s);continue}case"html":{a+=this.renderer.html(s);continue}case"paragraph":{a+=this.renderer.paragraph(s);continue}case"text":{let r=s,c=this.renderer.text(r);for(;i+1<n.length&&n[i+1].type==="text";)r=n[++i],c+=`
-`+this.renderer.text(r);t?a+=this.renderer.paragraph({type:"paragraph",raw:c,text:c,tokens:[{type:"text",raw:c,text:c}]}):a+=c;continue}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return a}parseInline(n,t){t=t||this.renderer;let a="";for(let i=0;i<n.length;i++){const o=n[i];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[o.type]){const r=this.options.extensions.renderers[o.type].call({parser:this},o);if(r!==!1||!["escape","html","link","image","strong","em","codespan","br","del","text"].includes(o.type)){a+=r||"";continue}}const s=o;switch(s.type){case"escape":{a+=t.text(s);break}case"html":{a+=t.html(s);break}case"link":{a+=t.link(s);break}case"image":{a+=t.image(s);break}case"strong":{a+=t.strong(s);break}case"em":{a+=t.em(s);break}case"codespan":{a+=t.codespan(s);break}case"br":{a+=t.br(s);break}case"del":{a+=t.del(s);break}case"text":{a+=t.text(s);break}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return a}}class Fi{constructor(n){ee(this,"options");ee(this,"block");this.options=n||da}preprocess(n){return n}postprocess(n){return n}processAllTokens(n){return n}provideLexer(){return this.block?pn.lex:pn.lexInline}provideParser(){return this.block?wn.parse:wn.parseInline}}ee(Fi,"passThroughHooks",new Set(["preprocess","postprocess","processAllTokens"]));class tx{constructor(...n){ee(this,"defaults",_d());ee(this,"options",this.setOptions);ee(this,"parse",this.parseMarkdown(!0));ee(this,"parseInline",this.parseMarkdown(!1));ee(this,"Parser",wn);ee(this,"Renderer",Hs);ee(this,"TextRenderer",Dd);ee(this,"Lexer",pn);ee(this,"Tokenizer",Us);ee(this,"Hooks",Fi);this.use(...n)}walkTokens(n,t){var i,o;let a=[];for(const s of n)switch(a=a.concat(t.call(this,s)),s.type){case"table":{const r=s;for(const c of r.header)a=a.concat(this.walkTokens(c.tokens,t));for(const c of r.rows)for(const d of c)a=a.concat(this.walkTokens(d.tokens,t));break}case"list":{const r=s;a=a.concat(this.walkTokens(r.items,t));break}default:{const r=s;(o=(i=this.defaults.extensions)==null?void 0:i.childTokens)!=null&&o[r.type]?this.defaults.extensions.childTokens[r.type].forEach(c=>{const d=r[c].flat(1/0);a=a.concat(this.walkTokens(d,t))}):r.tokens&&(a=a.concat(this.walkTokens(r.tokens,t)))}}return a}use(...n){const t=this.defaults.extensions||{renderers:{},childTokens:{}};return n.forEach(a=>{const i={...a};if(i.async=this.defaults.async||i.async||!1,a.extensions&&(a.extensions.forEach(o=>{if(!o.name)throw new Error("extension name required");if("renderer"in o){const s=t.renderers[o.name];s?t.renderers[o.name]=function(...r){let c=o.renderer.apply(this,r);return c===!1&&(c=s.apply(this,r)),c}:t.renderers[o.name]=o.renderer}if("tokenizer"in o){if(!o.level||o.level!=="block"&&o.level!=="inline")throw new Error("extension level must be 'block' or 'inline'");const s=t[o.level];s?s.unshift(o.tokenizer):t[o.level]=[o.tokenizer],o.start&&(o.level==="block"?t.startBlock?t.startBlock.push(o.start):t.startBlock=[o.start]:o.level==="inline"&&(t.startInline?t.startInline.push(o.start):t.startInline=[o.start]))}"childTokens"in o&&o.childTokens&&(t.childTokens[o.name]=o.childTokens)}),i.extensions=t),a.renderer){const o=this.defaults.renderer||new Hs(this.defaults);for(const s in a.renderer){if(!(s in o))throw new Error(`renderer '${s}' does not exist`);if(["options","parser"].includes(s))continue;const r=s,c=a.renderer[r],d=o[r];o[r]=(...h)=>{let m=c.apply(o,h);return m===!1&&(m=d.apply(o,h)),m||""}}i.renderer=o}if(a.tokenizer){const o=this.defaults.tokenizer||new Us(this.defaults);for(const s in a.tokenizer){if(!(s in o))throw new Error(`tokenizer '${s}' does not exist`);if(["options","rules","lexer"].includes(s))continue;const r=s,c=a.tokenizer[r],d=o[r];o[r]=(...h)=>{let m=c.apply(o,h);return m===!1&&(m=d.apply(o,h)),m}}i.tokenizer=o}if(a.hooks){const o=this.defaults.hooks||new Fi;for(const s in a.hooks){if(!(s in o))throw new Error(`hook '${s}' does not exist`);if(["options","block"].includes(s))continue;const r=s,c=a.hooks[r],d=o[r];Fi.passThroughHooks.has(s)?o[r]=h=>{if(this.defaults.async)return Promise.resolve(c.call(o,h)).then(u=>d.call(o,u));const m=c.call(o,h);return d.call(o,m)}:o[r]=(...h)=>{let m=c.apply(o,h);return m===!1&&(m=d.apply(o,h)),m}}i.hooks=o}if(a.walkTokens){const o=this.defaults.walkTokens,s=a.walkTokens;i.walkTokens=function(r){let c=[];return c.push(s.call(this,r)),o&&(c=c.concat(o.call(this,r))),c}}this.defaults={...this.defaults,...i}}),this}setOptions(n){return this.defaults={...this.defaults,...n},this}lexer(n,t){return pn.lex(n,t??this.defaults)}parser(n,t){return wn.parse(n,t??this.defaults)}parseMarkdown(n){return(a,i)=>{const o={...i},s={...this.defaults,...o},r=this.onError(!!s.silent,!!s.async);if(this.defaults.async===!0&&o.async===!1)return r(new Error("marked(): The async option was set to true by an extension. Remove async: false from the parse options object to return a Promise."));if(typeof a>"u"||a===null)return r(new Error("marked(): input parameter is undefined or null"));if(typeof a!="string")return r(new Error("marked(): input parameter is of type "+Object.prototype.toString.call(a)+", string expected"));s.hooks&&(s.hooks.options=s,s.hooks.block=n);const c=s.hooks?s.hooks.provideLexer():n?pn.lex:pn.lexInline,d=s.hooks?s.hooks.provideParser():n?wn.parse:wn.parseInline;if(s.async)return Promise.resolve(s.hooks?s.hooks.preprocess(a):a).then(h=>c(h,s)).then(h=>s.hooks?s.hooks.processAllTokens(h):h).then(h=>s.walkTokens?Promise.all(this.walkTokens(h,s.walkTokens)).then(()=>h):h).then(h=>d(h,s)).then(h=>s.hooks?s.hooks.postprocess(h):h).catch(r);try{s.hooks&&(a=s.hooks.preprocess(a));let h=c(a,s);s.hooks&&(h=s.hooks.processAllTokens(h)),s.walkTokens&&this.walkTokens(h,s.walkTokens);let m=d(h,s);return s.hooks&&(m=s.hooks.postprocess(m)),m}catch(h){return r(h)}}}onError(n,t){return a=>{if(a.message+=`
-Please report this to https://github.com/markedjs/marked.`,n){const i="<p>An error occurred:</p><pre>"+Ke(a.message+"",!0)+"</pre>";return t?Promise.resolve(i):i}if(t)return Promise.reject(a);throw a}}}const aa=new tx;function K(e,n){return aa.parse(e,n)}K.options=K.setOptions=function(e){return aa.setOptions(e),K.defaults=aa.defaults,hw(K.defaults),K};K.getDefaults=_d;K.defaults=da;K.use=function(...e){return aa.use(...e),K.defaults=aa.defaults,hw(K.defaults),K};K.walkTokens=function(e,n){return aa.walkTokens(e,n)};K.parseInline=aa.parseInline;K.Parser=wn;K.parser=wn.parse;K.Renderer=Hs;K.TextRenderer=Dd;K.Lexer=pn;K.lexer=pn.lex;K.Tokenizer=Us;K.Hooks=Fi;K.parse=K;K.options;K.setOptions;K.use;K.walkTokens;K.parseInline;wn.parse;pn.lex;const ax=Object.assign({"./content/en/ai/agents-copilots.mdx":Jv,"./content/en/ai/ai-code.mdx":Xv,"./content/en/ai/blog-algoritmo-de-la-burbuja-generado-por-ia.mdx":Qv,"./content/en/ai/blog-buscaminas-con-inteligencia-artificial.mdx":Kv,"./content/en/ai/blog-buscaminas-programado-con-inteligencia-artificial-remasterizado-24-25.mdx":Yv,"./content/en/ai/blog-el-buscaminas-iii-un-salto-de-calidad.mdx":Zv,"./content/en/ai/blog-el-problema-de-la-mochila-aplicado-en-industria.mdx":$v,"./content/en/ai/blog-little-scada-creando-una-interfaz-de-control-con-python.mdx":e0,"./content/en/ai/industrial-ai.mdx":n0,"./content/en/articles/beckhoff-ce-hmi.mdx":t0,"./content/en/articles/blog-aveva-intouch-historial-data-access-system-histdata.mdx":a0,"./content/en/articles/blog-aveva-intouch-historical-data-access-system-histdata.mdx":i0,"./content/en/articles/blog-flujo-trabajo-ingeniero-automatizacion.mdx":o0,"./content/en/articles/blog-grafcet-guia-completa-diseno-automatizacion.mdx":s0,"./content/en/articles/ftvse-datalog-2.mdx":r0,"./content/en/articles/intouch-2020r1sp1-opcua.mdx":c0,"./content/en/articles/intouch-activex-aahistclienttrend.mdx":l0,"./content/en/articles/others.mdx":d0,"./content/en/articles/scada.mdx":h0,"./content/en/articles/tia-opcua-plcsimadvanced.mdx":u0,"./content/en/articles/tia-portal-s71500-client-opc-ua.mdx":m0,"./content/en/articles/wincc-datamonitor-2.mdx":g0,"./content/en/articles/wincc-vbs-invertir-bits-us.mdx":p0,"./content/en/communications/017.mdx":w0,"./content/en/communications/021.mdx":f0,"./content/en/communications/blog-cliente-opc-ua-plc-s7-1500.mdx":C0,"./content/en/communications/blog-codesys-softplc-servidor-opc-ua-siemens-cliente.mdx":b0,"./content/en/communications/blog-flujo-de-conexion-opc-ua-segura.mdx":v0,"./content/en/communications/blog-registro-datos-plc-influxdb.mdx":y0,"./content/en/communications/blog-sniffer-opc-ua-plc-siemens-uaexpert.mdx":S0,"./content/en/communications/industrial-networks.mdx":A0,"./content/en/communications/modbus.mdx":P0,"./content/en/communications/mqtt.mdx":T0,"./content/en/communications/redes.mdx":I0,"./content/en/communications/rest-api.mdx":_0,"./content/en/communications/snmp.mdx":x0,"./content/en/comunicaciones/004.mdx":M0,"./content/en/comunicaciones/007.mdx":W0,"./content/en/comunicaciones/018.mdx":L0,"./content/en/comunicaciones/058.mdx":E0,"./content/en/comunicaciones/069.mdx":D0,"./content/en/comunicaciones/071.mdx":k0,"./content/en/comunicaciones/073.mdx":O0,"./content/en/comunicaciones/088.mdx":F0,"./content/en/comunicaciones/119.mdx":R0,"./content/en/comunicaciones/121.mdx":N0,"./content/en/comunicaciones/blog-docker-servidor-opc-ua.mdx":V0,"./content/en/comunicaciones/blog-entregados-a-la-causa.mdx":U0,"./content/en/comunicaciones/blog-espiando-comunicaciones-modbus.mdx":j0,"./content/en/comunicaciones/blog-explotando-vulnerabilidades-modbus-tcp.mdx":H0,"./content/en/comunicaciones/blog-pps-ethernet-ip-omron-eip21.mdx":B0,"./content/en/comunicaciones/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp.mdx":q0,"./content/en/comunicaciones/blog-servidor-opc-flask-co-pilot.mdx":G0,"./content/en/comunicaciones/blog-sistema-de-control-de-temperatura-iii.mdx":z0,"./content/en/comunicaciones/blog-snmp-simple-network-management-protocol.mdx":J0,"./content/en/comunicaciones/blog-vpn-home-lab-wireguard.mdx":X0,"./content/en/comunicaciones/intouch-daserver.mdx":Q0,"./content/en/comunicaciones/intouch-dasmbtcp.mdx":K0,"./content/en/comunicaciones/kepserver-1500.mdx":Y0,"./content/en/comunicaciones/simaticnet-cargar-configuracion-pcstation.mdx":Z0,"./content/en/comunicaciones/simaticnet-vdf.mdx":$0,"./content/en/comunicaciones/ww-oigateway.mdx":ey,"./content/en/cookie-policy/cookie-policy.mdx":ny,"./content/en/hmi/003.mdx":ty,"./content/en/hmi/005.mdx":ay,"./content/en/hmi/013.mdx":iy,"./content/en/hmi/015.mdx":oy,"./content/en/hmi/016.mdx":sy,"./content/en/hmi/019.mdx":ry,"./content/en/hmi/025.mdx":cy,"./content/en/hmi/026.mdx":ly,"./content/en/hmi/029.mdx":dy,"./content/en/hmi/033.mdx":hy,"./content/en/hmi/040.mdx":uy,"./content/en/hmi/044.mdx":my,"./content/en/hmi/046.mdx":gy,"./content/en/hmi/047.mdx":py,"./content/en/hmi/049.mdx":wy,"./content/en/hmi/063.mdx":fy,"./content/en/hmi/076.mdx":Cy,"./content/en/hmi/077.mdx":by,"./content/en/hmi/078.mdx":vy,"./content/en/hmi/079.mdx":yy,"./content/en/hmi/080.mdx":Sy,"./content/en/hmi/081.mdx":Ay,"./content/en/hmi/085.mdx":Py,"./content/en/hmi/087.mdx":Ty,"./content/en/hmi/090.mdx":Iy,"./content/en/hmi/095.mdx":_y,"./content/en/hmi/097.mdx":xy,"./content/en/hmi/101.mdx":My,"./content/en/hmi/102.mdx":Wy,"./content/en/hmi/106.mdx":Ly,"./content/en/hmi/107.mdx":Ey,"./content/en/hmi/114.mdx":Dy,"./content/en/hmi/115.mdx":ky,"./content/en/hmi/122.mdx":Oy,"./content/en/hmi/123.mdx":Fy,"./content/en/hmi/132.mdx":Ry,"./content/en/hmi/134.mdx":Ny,"./content/en/hmi/factorytalkviewme-activex-wmp.mdx":Vy,"./content/en/hmi/factorytalkviewme-alarmas.mdx":Uy,"./content/en/hmi/factorytalkviewme-globalconnection-dt.mdx":jy,"./content/en/hmi/factorytalkviewme-lenguages.mdx":Hy,"./content/en/hmi/hmi-allen-bradley.mdx":By,"./content/en/hmi/hmi-omron.mdx":qy,"./content/en/hmi/hmi-schneider.mdx":Gy,"./content/en/hmi/hmi-siemens.mdx":zy,"./content/en/hmi/omron-s7-200.mdx":Jy,"./content/en/hmi/omron-transfer-hmi.mdx":Xy,"./content/en/hmi/other-hmis.mdx":Qy,"./content/en/hmi/panelbuilder-communications.mdx":Ky,"./content/en/hmi/panelbuilder32-tageditor.mdx":Yy,"./content/en/hmi/simatic-restaurar-ktp.mdx":Zy,"./content/en/hmi/tia-portal-conversion-tiempos-2.mdx":$y,"./content/en/hmi/tia-portal-conversion-tiempos.mdx":eS,"./content/en/hmi/tia-portal-vbscript-propiedades.mdx":nS,"./content/en/hmi/winccflexible-currentuser.mdx":tS,"./content/en/hmi/winccflexible-simotion.mdx":aS,"./content/en/home/ai.mdx":iS,"./content/en/home/articles.mdx":oS,"./content/en/home/blog-author-jose-manuel.mdx":sS,"./content/en/home/blog-author-pedro.mdx":rS,"./content/en/home/contact.mdx":cS,"./content/en/home/databases.mdx":lS,"./content/en/home/hmi.mdx":dS,"./content/en/home/home.mdx":hS,"./content/en/home/index.mdx":uS,"./content/en/home/industrial-communications.mdx":mS,"./content/en/home/opc.mdx":gS,"./content/en/home/plc.mdx":pS,"./content/en/home/series.mdx":wS,"./content/en/home/software.mdx":fS,"./content/en/home/tools.mdx":CS,"./content/en/legal-notice/legal-notice.mdx":bS,"./content/en/plc/001.mdx":vS,"./content/en/plc/002.mdx":yS,"./content/en/plc/006.mdx":SS,"./content/en/plc/010.mdx":AS,"./content/en/plc/011.mdx":PS,"./content/en/plc/012.mdx":TS,"./content/en/plc/023.mdx":IS,"./content/en/plc/024.mdx":_S,"./content/en/plc/027.mdx":xS,"./content/en/plc/036.mdx":MS,"./content/en/plc/037.mdx":WS,"./content/en/plc/041.mdx":LS,"./content/en/plc/045.mdx":ES,"./content/en/plc/050.mdx":DS,"./content/en/plc/053.mdx":kS,"./content/en/plc/056.mdx":OS,"./content/en/plc/059.mdx":FS,"./content/en/plc/060.mdx":RS,"./content/en/plc/065.mdx":NS,"./content/en/plc/066.mdx":VS,"./content/en/plc/067.mdx":US,"./content/en/plc/068.mdx":jS,"./content/en/plc/070.mdx":HS,"./content/en/plc/072.mdx":BS,"./content/en/plc/075.mdx":qS,"./content/en/plc/082.mdx":GS,"./content/en/plc/083.mdx":zS,"./content/en/plc/084.mdx":JS,"./content/en/plc/086.mdx":XS,"./content/en/plc/089.mdx":QS,"./content/en/plc/091.mdx":KS,"./content/en/plc/092.mdx":YS,"./content/en/plc/093.mdx":ZS,"./content/en/plc/094.mdx":$S,"./content/en/plc/096.mdx":eA,"./content/en/plc/098.mdx":nA,"./content/en/plc/099.mdx":tA,"./content/en/plc/100.mdx":aA,"./content/en/plc/103.mdx":iA,"./content/en/plc/104.mdx":oA,"./content/en/plc/105.mdx":sA,"./content/en/plc/111.mdx":rA,"./content/en/plc/117.mdx":cA,"./content/en/plc/118.mdx":lA,"./content/en/plc/120.mdx":dA,"./content/en/plc/124.mdx":hA,"./content/en/plc/125.mdx":uA,"./content/en/plc/128.mdx":mA,"./content/en/plc/130.mdx":gA,"./content/en/plc/135.mdx":pA,"./content/en/plc/ab-gateway-dhrio.mdx":wA,"./content/en/plc/ab-micro830.mdx":fA,"./content/en/plc/ab-micrologix-modbus-powerflex.mdx":CA,"./content/en/plc/ab-powerflex525.mdx":bA,"./content/en/plc/ab-source-protection.mdx":vA,"./content/en/plc/ab-upload.mdx":yA,"./content/en/plc/beckhoff-cerhost.mdx":SA,"./content/en/plc/beckhoff-create-config.mdx":AA,"./content/en/plc/beckhoff-download-plc.mdx":PA,"./content/en/plc/beckhoff-server-opc-ua.mdx":TA,"./content/en/plc/beckhoff-upload-config.mdx":IA,"./content/en/plc/beckhoff-upload-plc.mdx":_A,"./content/en/plc/blog-certificados-opc-ua-plc-siemens-uaexpert.mdx":xA,"./content/en/plc/blog-ciclo-scan-plc.mdx":MA,"./content/en/plc/blog-conceptos-basicos-profinet.mdx":WA,"./content/en/plc/blog-ethernet-ip-cip-common-industrial-protocol.mdx":LA,"./content/en/plc/blog-factorytalk-echo-simular-dos-plc-rockwell.mdx":EA,"./content/en/plc/blog-factorytalk-echo-update-firmware-v-37.mdx":DA,"./content/en/plc/blog-gittialportal.mdx":kA,"./content/en/plc/blog-logix-designer-sdk-automatizacion-proyectos.mdx":OA,"./content/en/plc/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2.mdx":FA,"./content/en/plc/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3.mdx":RA,"./content/en/plc/blog-prosoft-plx31-eip-sie.mdx":NA,"./content/en/plc/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark.mdx":VA,"./content/en/plc/blog-rslogix-5000-studio-5000-electronic-data-sheet-eds.mdx":UA,"./content/en/plc/blog-servidor-hora-plc-siemens.mdx":jA,"./content/en/plc/blog-servidor-opc-ua-plc-siemens.mdx":HA,"./content/en/plc/blog-simulador-de-temperatura.mdx":BA,"./content/en/plc/blog-sistema-de-control-de-temperatura-ii.mdx":qA,"./content/en/plc/blog-syslog-plc-siemens-linux.mdx":GA,"./content/en/plc/blog-tia-portal-19-get-put.mdx":zA,"./content/en/plc/blog-tia-portal-central-user-management.mdx":JA,"./content/en/plc/blog-tia-portal-configuration-time-mpr.mdx":XA,"./content/en/plc/blog-trace-tia-portal-plc-siemens.mdx":QA,"./content/en/plc/blog-web-server-siemens-s7-1500-https-view-of-things.mdx":KA,"./content/en/plc/cognex-insight-explorer.mdx":YA,"./content/en/plc/controlexpert-canopen.mdx":ZA,"./content/en/plc/controlexpertplcsim.mdx":$A,"./content/en/plc/ibh-s5.mdx":eP,"./content/en/plc/logix5000-almd.mdx":nP,"./content/en/plc/logix5000-powerflex-ethernet.mdx":tP,"./content/en/plc/omron-syswin.mdx":aP,"./content/en/plc/other-plcs.mdx":iP,"./content/en/plc/panelbuilder32-pv550-rslogix5-plc5.mdx":oP,"./content/en/plc/plc-allen-bradley.mdx":sP,"./content/en/plc/plc-beckhoff.mdx":rP,"./content/en/plc/plc-omron.mdx":cP,"./content/en/plc/plc-schneider.mdx":lP,"./content/en/plc/plc-siemens.mdx":dP,"./content/en/plc/rslinx-softlogix5.mdx":hP,"./content/en/plc/rslogix5-backup.mdx":uP,"./content/en/plc/rslogix5-configuracion-hardware.mdx":mP,"./content/en/plc/rslogix500-micrologix-master-modbus.mdx":gP,"./content/en/plc/s7-200-upload.mdx":pP,"./content/en/plc/siemens-modbus-schneider.mdx":wP,"./content/en/plc/simatic-cargar-en-pg.mdx":fP,"./content/en/plc/softlogix5.mdx":CP,"./content/en/plc/somachine-simulacion-comunicaciones.mdx":bP,"./content/en/plc/stept7-big-litle-indian.mdx":vP,"./content/en/plc/tia-plcsimadvanced.mdx":yP,"./content/en/plc/tia-portal-1200-sms.mdx":SP,"./content/en/plc/tia-portal-at.mdx":AP,"./content/en/plc/tia-portal-camaras-cognex.mdx":PP,"./content/en/plc/tia-portal-contador-horas.mdx":TP,"./content/en/plc/tia-portal-gsd-cognex.mdx":IP,"./content/en/plc/tia-portal-modbus-rtu.mdx":_P,"./content/en/plc/tia-portal-upload.mdx":xP,"./content/en/plc/unity-varread.mdx":MP,"./content/en/plc/winccflexible-simotion-opc.mdx":WP,"./content/en/privacy-policy/privacy-policy.mdx":LP,"./content/en/scada/008.mdx":EP,"./content/en/scada/009.mdx":DP,"./content/en/scada/014.mdx":kP,"./content/en/scada/020.mdx":OP,"./content/en/scada/022.mdx":FP,"./content/en/scada/028.mdx":RP,"./content/en/scada/030.mdx":NP,"./content/en/scada/031.mdx":VP,"./content/en/scada/032.mdx":UP,"./content/en/scada/034.mdx":jP,"./content/en/scada/035.mdx":HP,"./content/en/scada/039.mdx":BP,"./content/en/scada/042.mdx":qP,"./content/en/scada/043.mdx":GP,"./content/en/scada/048.mdx":zP,"./content/en/scada/051.mdx":JP,"./content/en/scada/052.mdx":XP,"./content/en/scada/054.mdx":QP,"./content/en/scada/055.mdx":KP,"./content/en/scada/057.mdx":YP,"./content/en/scada/061.mdx":ZP,"./content/en/scada/062.mdx":$P,"./content/en/scada/064.mdx":e2,"./content/en/scada/074.mdx":n2,"./content/en/scada/108.mdx":t2,"./content/en/scada/109.mdx":a2,"./content/en/scada/110.mdx":i2,"./content/en/scada/112.mdx":o2,"./content/en/scada/113.mdx":s2,"./content/en/scada/116.mdx":r2,"./content/en/scada/126.mdx":c2,"./content/en/scada/127.mdx":l2,"./content/en/scada/129.mdx":d2,"./content/en/scada/131.mdx":h2,"./content/en/scada/133.mdx":u2,"./content/en/scada/137.mdx":m2,"./content/en/scada/archestra-aahistclienttrendcontrol.mdx":g2,"./content/en/scada/archestra-aplicacion-distribuida.mdx":p2,"./content/en/scada/archestra-datagrid.mdx":w2,"./content/en/scada/archestra-datagridview.mdx":f2,"./content/en/scada/archestra-fsgateway-historian.mdx":C2,"./content/en/scada/archestra-instancias.mdx":b2,"./content/en/scada/archestra-ioserver-historian.mdx":v2,"./content/en/scada/archestra-trendclient.mdx":y2,"./content/en/scada/archestra-webbrowser-sql.mdx":S2,"./content/en/scada/archestra-webbrowser.mdx":A2,"./content/en/scada/blog-alarmas-wincc-por-whatsapp.mdx":P2,"./content/en/scada/blog-aveva-archestra-logger-csharp.mdx":T2,"./content/en/scada/blog-aveva-driver-redundancy.mdx":I2,"./content/en/scada/blog-aveva-driver-snmp.mdx":_2,"./content/en/scada/blog-aveva-historian-client-factory-talk-view-se.mdx":x2,"./content/en/scada/blog-aveva-intouch-2023r2-novedades.mdx":M2,"./content/en/scada/blog-aveva-intouch-client-controls-net.mdx":W2,"./content/en/scada/blog-aveva-intouch-codebarlib.mdx":L2,"./content/en/scada/blog-aveva-intouch-control-net.mdx":E2,"./content/en/scada/blog-aveva-intouch-historical-data-access-system-histdata-parte-2.mdx":D2,"./content/en/scada/blog-aveva-intouch-historical-data-parte-2.mdx":k2,"./content/en/scada/blog-aveva-intouch-historical-data.mdx":O2,"./content/en/scada/blog-aveva-intouch-leer-alarmas.mdx":F2,"./content/en/scada/blog-aveva-intouch-rds-cmd.mdx":R2,"./content/en/scada/blog-aveva-intouch-rds-query-events.mdx":N2,"./content/en/scada/blog-aveva-intouch-sqlite.mdx":V2,"./content/en/scada/blog-aveva-intouch-widgets-custom-widgets-package.mdx":U2,"./content/en/scada/blog-aveva-intouch-widgets.mdx":j2,"./content/en/scada/blog-comunicacion-plc-hmi-pc-pg-segura.mdx":H2,"./content/en/scada/blog-embebido-web-wincc-unified-iframe-politicas-seguridad.mdx":B2,"./content/en/scada/blog-factory-talk-historian-ftld-interface.mdx":q2,"./content/en/scada/blog-factory-talk-historian-license.mdx":G2,"./content/en/scada/blog-factory-talk-historian-piperfmon-performance-counters.mdx":z2,"./content/en/scada/blog-factory-talk-historin-piperfmon.mdx":J2,"./content/en/scada/blog-factory-talk-view-se-factory-talk-historian-status-ftld.mdx":X2,"./content/en/scada/blog-factory-talk-view-se-global-object-runtime-optimization.mdx":Q2,"./content/en/scada/blog-factory-talk-view-se-influxdb.mdx":K2,"./content/en/scada/blog-factory-talk-view-se-sqlite.mdx":Y2,"./content/en/scada/blog-factorytalk-view-se-error-datalogpro.mdx":Z2,"./content/en/scada/blog-intouch-rdp-a.mdx":$2,"./content/en/scada/blog-intouch-rds-nad.mdx":e1,"./content/en/scada/blog-novedades-scada-aveva-intouch-2023.mdx":n1,"./content/en/scada/blog-pm-analyze-parte-2.mdx":t1,"./content/en/scada/blog-pm-analyze.mdx":a1,"./content/en/scada/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023.mdx":i1,"./content/en/scada/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8.mdx":o1,"./content/en/scada/blog-scadas-con-ms-controls-activex-vb6.mdx":s1,"./content/en/scada/blog-segmentacion-de-redes-s71500-wincc-unified.mdx":r1,"./content/en/scada/blog-ssrs-wincc-unified-sqlite.mdx":c1,"./content/en/scada/blog-umc-admin-studio.mdx":l1,"./content/en/scada/blog-umc-redundancy-user-management-component.mdx":d1,"./content/en/scada/blog-umc-user-management-control.mdx":h1,"./content/en/scada/blog-wincc-8-1-backup-en-runtime.mdx":u1,"./content/en/scada/blog-wincc-8-1-novedades.mdx":m1,"./content/en/scada/blog-wincc-ifdef-run-on-webnavigator.mdx":g1,"./content/en/scada/blog-wincc-sqlite.mdx":p1,"./content/en/scada/blog-wincc-unified-collaboration-wincc-8-1.mdx":w1,"./content/en/scada/blog-wincc-unified-collaboration.mdx":f1,"./content/en/scada/blog-wincc-unified-cwc-open-pipe.mdx":C1,"./content/en/scada/blog-wincc-unified-open-pipe.mdx":b1,"./content/en/scada/blog-wincc-unified-redundancy-v20.mdx":v1,"./content/en/scada/blog-wincc-unified-rt-graphql.mdx":y1,"./content/en/scada/blog-wincc-unified-user-management-component.mdx":S1,"./content/en/scada/blog-wincc-v8-0-novedades.mdx":A1,"./content/en/scada/blog-wincc-v8-1-leer-alarmas.mdx":P1,"./content/en/scada/blog-wincc-webnavigaror-failed-to-load-https-sever4430-main-pd.mdx":T1,"./content/en/scada/blog-wincc-webnavigaror-no-connection-to-server.mdx":I1,"./content/en/scada/blog-wincc-webnavigator-webux-certificados-https.mdx":_1,"./content/en/scada/citectscada-database.mdx":x1,"./content/en/scada/factorytalk-activex-adodc.mdx":M1,"./content/en/scada/factorytalk-alarmevents.mdx":W1,"./content/en/scada/factorytalkview-animaciones.mdx":L1,"./content/en/scada/factorytalkview-sendemail.mdx":E1,"./content/en/scada/factorytalkviewse-importar.mdx":D1,"./content/en/scada/fix32-driver-si7.mdx":k1,"./content/en/scada/ftvse-datalog.mdx":O1,"./content/en/scada/ftvse-excel.mdx":F1,"./content/en/scada/ftvse-introduccion-vba.mdx":R1,"./content/en/scada/ftvse-mail.mdx":N1,"./content/en/scada/ftvse-recepis.mdx":V1,"./content/en/scada/ftvse-vba-referencia-objetos.mdx":U1,"./content/en/scada/ifix-database.mdx":j1,"./content/en/scada/intouch-2020-industrialgraphics.mdx":H1,"./content/en/scada/intouch-2020-unlock.mdx":B1,"./content/en/scada/intouch-2020-widget.mdx":q1,"./content/en/scada/intouch-alarms.mdx":G1,"./content/en/scada/intouch-bit-integer.mdx":z1,"./content/en/scada/intouch-controls-net.mdx":J1,"./content/en/scada/intouch-daserver-items.mdx":X1,"./content/en/scada/intouch-db-oracle.mdx":Q1,"./content/en/scada/intouch-functions.mdx":K1,"./content/en/scada/intouch-historian.mdx":Y1,"./content/en/scada/intouch-mysql.mdx":Z1,"./content/en/scada/intouch-odbc.mdx":$1,"./content/en/scada/intouch-system-platform.mdx":eT,"./content/en/scada/intouch-tagsindirectos.mdx":nT,"./content/en/scada/intouch-unitypro.mdx":tT,"./content/en/scada/intouchedgehmi.mdx":aT,"./content/en/scada/odbc-remote-oracle.mdx":iT,"./content/en/scada/oracle-drivers.mdx":oT,"./content/en/scada/other-scadas.mdx":sT,"./content/en/scada/rsview-dde.mdx":rT,"./content/en/scada/rsview-monitortag.mdx":cT,"./content/en/scada/rsview-scanclass.mdx":lT,"./content/en/scada/rsview-tagdatabase.mdx":dT,"./content/en/scada/rsview32-dde-excel.mdx":hT,"./content/en/scada/scada-allen-bradley.mdx":uT,"./content/en/scada/scada-intouch.mdx":mT,"./content/en/scada/scada-schneider.mdx":gT,"./content/en/scada/scada-siemens.mdx":pT,"./content/en/scada/scada-topkapi.mdx":wT,"./content/en/scada/simatic-logon.mdx":fT,"./content/en/scada/tagalarmeventserver.mdx":CT,"./content/en/scada/tia-portal-wincc-rt-transfer.mdx":bT,"./content/en/scada/wincc-activex-excel.mdx":vT,"./content/en/scada/wincc-activex-pdf.mdx":yT,"./content/en/scada/wincc-activex-webbrowser.mdx":ST,"./content/en/scada/wincc-activex.mdx":AT,"./content/en/scada/wincc-administrador-variables-timer.mdx":PT,"./content/en/scada/wincc-arquitectura-2.mdx":TT,"./content/en/scada/wincc-arquitectura.mdx":IT,"./content/en/scada/wincc-as-symbols.mdx":_T,"./content/en/scada/wincc-backup-taglogging.mdx":xT,"./content/en/scada/wincc-backup-winccruntime.mdx":MT,"./content/en/scada/wincc-bit-de-vida.mdx":WT,"./content/en/scada/wincc-broker-codesys.mdx":LT,"./content/en/scada/wincc-chipcard.mdx":ET,"./content/en/scada/wincc-cliente-opcua-beckhoff.mdx":DT,"./content/en/scada/wincc-cliente-opcua.mdx":kT,"./content/en/scada/wincc-cliente-opcxml.mdx":OT,"./content/en/scada/wincc-cliente.mdx":FT,"./content/en/scada/wincc-computer-local.mdx":RT,"./content/en/scada/wincc-confirm-tagvalue-us.mdx":NT,"./content/en/scada/wincc-confirm-tagvalue.mdx":VT,"./content/en/scada/wincc-conocimientosbasicos-ii.mdx":UT,"./content/en/scada/wincc-conocimientosbasicos-iii.mdx":jT,"./content/en/scada/wincc-conocimientosbasicos.mdx":HT,"./content/en/scada/wincc-control-keyboard.mdx":BT,"./content/en/scada/wincc-datamonitor.mdx":qT,"./content/en/scada/wincc-db-oracle.mdx":GT,"./content/en/scada/wincc-dde.mdx":zT,"./content/en/scada/wincc-debugger-vbscript.mdx":JT,"./content/en/scada/wincc-driver-opc.mdx":XT,"./content/en/scada/wincc-driver-s71500.mdx":QT,"./content/en/scada/wincc-dynamic-wizard.mdx":KT,"./content/en/scada/wincc-equipo.mdx":YT,"./content/en/scada/wincc-error-driver-s71500.mdx":ZT,"./content/en/scada/wincc-eventos-pdl.mdx":$T,"./content/en/scada/wincc-funcion-activar-desactivar-bits.mdx":eI,"./content/en/scada/wincc-funcion-gettagraw.mdx":nI,"./content/en/scada/wincc-graphic-designer-vi.mdx":tI,"./content/en/scada/wincc-ibh-link.mdx":aI,"./content/en/scada/wincc-instalacion-activex.mdx":iI,"./content/en/scada/wincc-instalacion.mdx":oI,"./content/en/scada/wincc-keyboard-vba.mdx":sI,"./content/en/scada/wincc-keyboard.mdx":rI,"./content/en/scada/wincc-libreria-us.mdx":cI,"./content/en/scada/wincc-libreria-useradministrator.mdx":lI,"./content/en/scada/wincc-libreria.mdx":dI,"./content/en/scada/wincc-librerias-dll.mdx":hI,"./content/en/scada/wincc-librerias-plus-plus.mdx":uI,"./content/en/scada/wincc-license.mdx":mI,"./content/en/scada/wincc-loginusuario.mdx":gI,"./content/en/scada/wincc-menu-vbs.mdx":pI,"./content/en/scada/wincc-modbustcp.mdx":wI,"./content/en/scada/wincc-monopuesto.mdx":fI,"./content/en/scada/wincc-mqtt.mdx":CI,"./content/en/scada/wincc-msexcel-owc.mdx":bI,"./content/en/scada/wincc-multipuesto-error.mdx":vI,"./content/en/scada/wincc-multipuesto.mdx":yI,"./content/en/scada/wincc-mysql.mdx":SI,"./content/en/scada/wincc-net.mdx":AI,"./content/en/scada/wincc-new-7-4.mdx":PI,"./content/en/scada/wincc-new-7-5.mdx":TI,"./content/en/scada/wincc-numero-alarmas.mdx":II,"./content/en/scada/wincc-plcsimadvanced.mdx":_I,"./content/en/scada/wincc-pm-quality-1.mdx":xI,"./content/en/scada/wincc-pm-quality-2.mdx":MI,"./content/en/scada/wincc-pm-quality-3.mdx":WI,"./content/en/scada/wincc-pm-quality-4.mdx":LI,"./content/en/scada/wincc-redundancy.mdx":EI,"./content/en/scada/wincc-rt-cargar-proyecto.mdx":DI,"./content/en/scada/wincc-rw-tag.mdx":kI,"./content/en/scada/wincc-sendmail.mdx":OI,"./content/en/scada/wincc-server-not-available.mdx":FI,"./content/en/scada/wincc-servidor-opc.mdx":RI,"./content/en/scada/wincc-simatic-logon.mdx":NI,"./content/en/scada/wincc-softlogix.mdx":VI,"./content/en/scada/wincc-system-info.mdx":UI,"./content/en/scada/wincc-tagmanagement.mdx":jI,"./content/en/scada/wincc-unified-administracion-usuarios.mdx":HI,"./content/en/scada/wincc-unified-configuration.mdx":BI,"./content/en/scada/wincc-unified-connection-opcua.mdx":qI,"./content/en/scada/wincc-unified-custom-web-controls.mdx":GI,"./content/en/scada/wincc-unified-js.mdx":zI,"./content/en/scada/wincc-unified-servidor-opc-ua.mdx":JI,"./content/en/scada/wincc-unified-trace-javascript.mdx":XI,"./content/en/scada/wincc-unified-transferir-proyecto.mdx":QI,"./content/en/scada/wincc-vba.mdx":KI,"./content/en/scada/wincc-vbs-gettagraw.mdx":YI,"./content/en/scada/wincc-vbs-imprimir.mdx":ZI,"./content/en/scada/wincc-vbs-invertir-bits.mdx":$I,"./content/en/scada/wincc-vbs-ping.mdx":e_,"./content/en/scada/wincc-vbs-webnavigator.mdx":n_,"./content/en/scada/wincc-webnavigator-https.mdx":t_,"./content/en/scada/wincc-webux-ii.mdx":a_,"./content/en/scada/wincc-webux.mdx":i_,"./content/en/scada/wincc-wpf.mdx":o_,"./content/en/scada/wincc.mdx":s_,"./content/en/scada/winccflexible-simotion-opc-2.mdx":r_,"./content/en/scada/wonderware-activefactory.mdx":c_,"./content/en/scada/wwhistorian-autostart.mdx":l_,"./content/en/scada/wwhistorian-configurator.mdx":d_,"./content/en/scada/wwintouchmachineedition.mdx":h_,"./content/en/scada/zenon-driver-tia.mdx":u_,"./content/en/scada/zenon-introduccion.mdx":m_,"./content/en/software/136.mdx":g_,"./content/en/software/blog-control-versiones-git-tia-portal-v21.mdx":p_,"./content/en/software/blog-entorno-desarrollo-vscode-copilot-agentes.mdx":w_,"./content/en/software/blog-git-github-flujo-colaborativo-vscode.mdx":f_,"./content/en/software/git.mdx":C_,"./content/en/software/vscode.mdx":b_,"./content/en/tools/blog-grafsim.mdx":v_,"./content/en/tools/blog-phs-color-batch-simulator-opc-ua.mdx":y_,"./content/en/tools/blog-phs-thermal-process-simulator-opc-ua.mdx":S_});function ix(e){const n=e.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);if(!n)return{fm:{},body:e};const t={};for(const a of n[1].split(`
-`)){const i=a.indexOf(":");if(!(i<0))try{t[a.slice(0,i).trim()]=JSON.parse(a.slice(i+1).trim())}catch{t[a.slice(0,i).trim()]=a.slice(i+1).trim()}}return{fm:t,body:n[2]}}const ox={comunicaciones:"Communications",communications:"Communications",articles:"Articles",blog:"Articles",ai:"AI",plc:"PLC",hmi:"HMI",scada:"SCADA",software:"Software",tools:"Tools",home:"Other"},sx={"siemens wincc":"SIEMENS",opc:"OPC SERVER","control de versiones":"VERSION CONTROL","version control":"VERSION CONTROL","codigo generado por ia":"AI GENERATED CODE","código generado por ia":"AI GENERATED CODE","ai generated code":"AI GENERATED CODE","redes industriales":"INDUSTRIAL NETWORKS","industrial networks":"INDUSTRIAL NETWORKS","industrial ai":"INDUSTRIAL AI"},rx=e=>ox[(e[1]||"").toLowerCase()]||(e[1]?e[1]:"Other"),cx=e=>{const n=(e[2]||"").trim();return sx[n.toLowerCase()]||n.toUpperCase()||"General"},Ri=Object.entries(ax).map(([e,n])=>{const{fm:t,body:a}=ix(n);return{title:t.title||e,slug:t.slug||e,locale:t.locale||"en",category:t.category||"misc",originalUrl:t.originalUrl||"",author:t.author||"",date:t.date||"",tags:t.tags||[],downloads:t.downloads||[],credit:t.credit||"",group:rx(t.breadcrumbs||[]),sub:cx(t.breadcrumbs||[]),body:a,words:a.split(/\s+/).length,key:`${t.locale||"en"}/${t.slug||e}`}}).sort((e,n)=>e.group.localeCompare(n.group)||e.sub.localeCompare(n.sub)||e.title.localeCompare(n.title,void 0,{numeric:!0})),yw=e=>K.parse(e,{async:!1}),lx=Object.assign({"./content/image-es.json":A_}),dx=lx["./content/image-es.json"]??{},gi=[{name:"Idle",action:"Wait for start"},{name:"Tank filling",action:"Inlet valve XV-1 open"},{name:"Heating",action:"Heater E-1 on"},{name:"Agitation",action:"Agitator M-1 on for 5 s"},{name:"Discharge",action:"Outlet valve XV-2 open"}],Qr=5,hx=[{k:"start",tag:"HS-1",label:"Start push button"},{k:"high",tag:"LSH-1",label:"Tank level high"},{k:"temp",tag:"TSH-1",label:"Temperature at setpoint"},{k:"low",tag:"LSL-1",label:"Tank level low"}],Ou={start:!1,high:!1,temp:!1,low:!0};function ux(){const[e,n]=L.useState(0),[t,a]=L.useState(Ou),[i,o]=L.useState(0),[s,r]=L.useState([]),c=L.useRef(Date.now()),d=L.useRef(null),h=()=>((Date.now()-c.current)/1e3).toFixed(1).padStart(6)+" s";L.useEffect(()=>{const v=setInterval(()=>e===3&&o(S=>+(S+.1).toFixed(1)),100);return()=>clearInterval(v)},[e]);const u=[t.start,t.high,t.temp,i>=Qr,t.low][e];L.useEffect(()=>{if(!u)return;const v=(e+1)%gi.length,S=h();r(f=>[...f,{t:S,on:!1,text:`X${e+1} ${gi[e].name} deactivated`},{t:S,on:!0,text:`X${v+1} ${gi[v].name} activated`}]),n(v),o(0)},[u,e]),L.useEffect(()=>{var v;(v=d.current)==null||v.scrollTo({top:d.current.scrollHeight})},[s]);const p=()=>{n(0),o(0),r([]),a(Ou),c.current=Date.now()},b=[l.jsxs(l.Fragment,{children:[l.jsx("b",{children:"t1"}),"HS-1 start pressed"]}),l.jsxs(l.Fragment,{children:[l.jsx("b",{children:"t2"}),"LSH-1 level high"]}),l.jsxs(l.Fragment,{children:[l.jsx("b",{children:"t3"}),"TSH-1 temperature reached"]}),l.jsxs(l.Fragment,{children:[l.jsx("b",{children:"t4"}),"X4 for ",Qr," s ",l.jsxs("span",{className:i>=Qr?"true":void 0,children:["(",i.toFixed(1)," s)"]})]})];return l.jsxs("section",{className:"faceplate","aria-labelledby":"sfc-title",children:[l.jsxs("div",{className:"fp-head",children:[l.jsx("span",{className:"tag",children:"SFC-101"}),l.jsx("h2",{id:"sfc-title",children:"Tank batch sequence"}),l.jsx("p",{children:"A five-step GRAFCET. Operate the field inputs on the right and watch the active step (the filled box) move down the chart. The initial step has a double frame."})]}),l.jsxs("div",{className:"fp-body fp-split",children:[l.jsxs("div",{children:[l.jsx("ol",{className:"grafcet","aria-label":"Sequence chart",children:gi.map((v,S)=>l.jsxs("li",{children:[l.jsxs("div",{className:"gc-step",children:[l.jsx("div",{className:"gc-box"+(S===0?" initial":"")+(S===e?" active":""),"aria-label":`Step ${S+1}${S===e?", active":""}`,children:S+1}),l.jsxs("div",{className:"gc-action"+(S===e?" active":""),children:[l.jsx("b",{children:v.name}),l.jsx("span",{children:v.action})]})]}),S<gi.length-1&&l.jsxs("div",{className:"gc-trans",children:[l.jsx("div",{className:"gc-link"+(S===e?" armed":""),"aria-hidden":"true"}),l.jsx("div",{className:"gc-cond",children:b[S]})]})]},v.name))}),l.jsxs("p",{className:"gc-return",children:[l.jsx("b",{style:{fontFamily:"var(--font-head)",color:"var(--ink)"},children:"t5"})," LSL-1 level low, back to step 1",e===4&&" (armed)"]})]}),l.jsxs("div",{children:[l.jsx("h3",{className:"fp-section-title",children:"Field inputs"}),l.jsx("div",{className:"io-grid",children:hx.map(({k:v,tag:S,label:f})=>l.jsxs("button",{type:"button",className:"io","aria-pressed":t[v],onClick:()=>a(g=>({...g,[v]:!g[v]})),children:[l.jsx("b",{children:S}),l.jsx("span",{children:f})]},v))}),l.jsx("div",{style:{marginTop:12},children:l.jsx("button",{className:"btn quiet",onClick:p,children:"Reset sequence"})}),l.jsx("h3",{className:"fp-section-title",style:{marginTop:18},children:"Step log"}),l.jsx("div",{className:"console",ref:d,role:"log","aria-live":"polite",children:s.map((v,S)=>l.jsxs("div",{className:v.on?"on":"off",children:[v.t,"  ",v.on?"+":"-"," ",v.text]},S))})]})]})]})}const No=.5,mx=500,gx=1.2,Vo=20,px=4e3,wx=6,Fu=400,Nt=e=>getComputedStyle(document.documentElement).getPropertyValue(e).trim();function fx(){const[e,n]=L.useState(8),[t,a]=L.useState(60),[i,o]=L.useState(5),[s,r]=L.useState(60),[c,d]=L.useState(!0),[h,m]=L.useState(30),[u,p]=L.useState(Vo),[b,v]=L.useState(0),S=L.useRef({kp:e,ti:t,td:i,sp:s,auto:c,manual:h});S.current={kp:e,ti:t,td:i,sp:s,auto:c,manual:h};const f=L.useRef({T:Vo,I:0,prevE:0,mv:0,wasAuto:!0,pvBuf:Array(wx).fill(Vo),hist:[]}),g=L.useRef(null);L.useEffect(()=>{let T=0;const A=setInterval(()=>{const{kp:P,ti:_,td:F,sp:B,auto:ce,manual:Ue}=S.current,N=f.current,x=N.pvBuf[0],W=B-x;if(ce){N.wasAuto||(N.I=N.mv-P*W);const ge=(W-N.prevE)/No,Un=P*W+N.I+P*F*ge,kt=Math.min(100,Math.max(0,Un));(kt===Un||Un>100&&W<0||Un<0&&W>0)&&(N.I+=P/_*W*No),N.mv=kt}else N.mv=Ue;N.wasAuto=ce,N.prevE=W;const O=N.mv/100*px,ae=gx*(N.T-Vo)*10;N.T+=(O-ae)/mx*No*.2,N.pvBuf.push(N.T),N.pvBuf.shift(),N.hist.push([B,x,N.mv]),N.hist.length>Fu&&N.hist.shift(),w(),++T%2===0&&(p(x),v(N.mv))},No*200);return()=>clearInterval(A)},[]);function w(){const T=g.current;if(!T)return;const A=T.getContext("2d"),P=T.width,_=T.height;A.clearRect(0,0,P,_),A.fillStyle=Nt("--trend-bg"),A.fillRect(0,0,P,_),A.strokeStyle=Nt("--trend-grid"),A.lineWidth=1,A.font=`12px ${Nt("--font-mono")||"monospace"}`,A.fillStyle=Nt("--ink-3");for(let B=0;B<=4;B++){const ce=Math.round(_*B/4)+.5;A.beginPath(),A.moveTo(0,ce),A.lineTo(P,ce),A.stroke(),B<4&&A.fillText(String(100-B*25),6,ce+14)}const F=(B,ce,Ue,N=[])=>{A.strokeStyle=ce,A.lineWidth=Ue,A.setLineDash(N),A.beginPath(),f.current.hist.forEach((x,W)=>{const O=W/Fu*P,ae=_-x[B]/100*_;W?A.lineTo(O,ae):A.moveTo(O,ae)}),A.stroke(),A.setLineDash([])};F(2,Nt("--ink-3"),1.5),F(0,Nt("--ink"),1.5,[6,5]),F(1,Nt("--accent"),2.5)}const C=(T,A,P,_,F,B,ce=1,Ue="")=>l.jsxs("div",{className:"slider",children:[l.jsx("label",{htmlFor:T,children:A}),l.jsxs("output",{htmlFor:T,children:[P,Ue]}),l.jsx("input",{id:T,type:"range",min:F,max:B,step:ce,value:P,onChange:N=>_(+N.target.value)})]}),I=s-u,M=u>95;return l.jsxs("section",{className:"faceplate","aria-labelledby":"tic-title",children:[l.jsxs("div",{className:"fp-head",children:[l.jsx("span",{className:"tag",children:"TIC-201"}),l.jsx("h2",{id:"tic-title",children:"Heated tank temperature loop"}),l.jsx("p",{children:"A tank with a heater, heat loss to a 20 °C room and a measurement lag of three seconds. The controller is a PID with anti-windup and bumpless transfer from manual to auto."})]}),l.jsxs("div",{className:"fp-body fp-split",children:[l.jsxs("div",{children:[l.jsx("canvas",{ref:g,className:"trend",width:800,height:300,"aria-label":"Trend of setpoint, process value and controller output"}),l.jsxs("div",{className:"legend",children:[l.jsxs("span",{children:[l.jsx("i",{style:{borderTopStyle:"dashed",borderColor:"var(--ink)"}}),"SP setpoint"]}),l.jsxs("span",{children:[l.jsx("i",{style:{borderColor:"var(--accent)",borderTopWidth:3}}),"PV temperature, °C"]}),l.jsxs("span",{children:[l.jsx("i",{style:{borderColor:"var(--ink-3)"}}),"MV heater output, %"]})]}),l.jsxs("div",{className:"readouts",style:{marginTop:16},children:[l.jsxs("div",{className:"readout",children:[l.jsx("span",{children:"SP"}),l.jsxs("b",{children:[s.toFixed(1),l.jsx("small",{children:"°C"})]})]}),l.jsxs("div",{className:"readout"+(M?" alarm":""),children:[l.jsxs("span",{children:["PV",M&&", high alarm"]}),l.jsxs("b",{children:[u.toFixed(1),l.jsx("small",{children:"°C"})]})]}),l.jsxs("div",{className:"readout",children:[l.jsx("span",{children:"Error"}),l.jsxs("b",{children:[I>0?"+":"",I.toFixed(1),l.jsx("small",{children:"°C"})]})]}),l.jsxs("div",{className:"readout",children:[l.jsx("span",{children:"MV"}),l.jsxs("b",{children:[b.toFixed(0),l.jsx("small",{children:"%"})]})]})]})]}),l.jsxs("div",{className:"controls",children:[l.jsxs("div",{children:[l.jsx("h3",{className:"fp-section-title",children:"Mode"}),l.jsxs("div",{className:"segmented",role:"group","aria-label":"Controller mode",children:[l.jsx("button",{"aria-pressed":c,onClick:()=>d(!0),children:"Auto"}),l.jsx("button",{"aria-pressed":!c,onClick:()=>{m(Math.round(f.current.mv)),d(!1)},children:"Manual"})]})]}),c?C("sp","Setpoint",s,r,20,95,1," °C"):C("mv","Heater output",h,m,0,100,1," %"),l.jsxs("div",{children:[l.jsx("h3",{className:"fp-section-title",children:"Tuning"}),l.jsxs("div",{className:"controls",children:[C("kp","Gain Kp",e,n,0,30,.5),C("ti","Integral time Ti",t,a,5,300,1," s"),C("td","Derivative time Td",i,o,0,30,1," s")]})]}),l.jsx("div",{children:l.jsx("button",{className:"btn quiet",onClick:()=>{f.current.T-=10,f.current.pvBuf=f.current.pvBuf.map(T=>T-10)},children:"Add cold fluid (−10 °C)"})})]})]})]})}const Cx=["Idle","Running","Paused","Complete","Aborted"],Kr=[{n:"Red",tag:"XV-11",c:[196,52,44]},{n:"Green",tag:"XV-12",c:[52,140,84]},{n:"Blue",tag:"XV-13",c:[48,98,168]}],Uo={"Recipe A":[30,50,20],"Recipe B":[10,20,70]},bx=4,vx=.5;function yx(){const[e,n]=L.useState("Idle"),[t,a]=L.useState("Recipe A"),[i,o]=L.useState([0,0,0]),[s,r]=L.useState(0),c=L.useRef({state:e,dosed:i,rec:t});c.current={state:e,dosed:i,rec:t};const d=Uo[t],h=e==="Running"?i.findIndex((w,C)=>w<d[C]):-1;L.useEffect(()=>{const w=setInterval(()=>{const{state:C,dosed:I,rec:M}=c.current;if(C!=="Running")return;const T=I.findIndex((A,P)=>A<Uo[M][P]);if(T<0)return n("Complete");o(A=>A.map((P,_)=>_===T?Math.min(Uo[M][_],+(P+bx*.1).toFixed(2)):P))},100);return()=>clearInterval(w)},[]),L.useEffect(()=>{e==="Running"&&i.every((w,C)=>w>=d[C])&&n("Complete")},[i,e]);const m=i.reduce((w,C)=>w+C,0),u=m||1,p=Kr.reduce((w,C,I)=>w.map((M,T)=>M+C.c[T]*i[I]/u),[0,0,0]).map(Math.round),b=Math.min(1,m/100),v=()=>{o([0,0,0]),n("Idle")},S=w=>e==="Complete"&&Math.abs(i[w]-d[w])>vx,f=180,g=f*b;return l.jsxs("section",{className:"faceplate","aria-labelledby":"wic-title",children:[l.jsxs("div",{className:"fp-head",children:[l.jsx("span",{className:"tag",children:"WIC-301"}),l.jsx("h2",{id:"wic-title",children:"Pigment batch on a load cell"}),l.jsx("p",{children:"An ISA-88 style batch. Each pigment valve opens in turn until its target weight is reached; the tank colour is the weighted mix of what has been dosed."})]}),l.jsxs("div",{className:"fp-body fp-split",children:[l.jsxs("div",{className:"tank-wrap",children:[l.jsxs("svg",{viewBox:"0 0 240 260",role:"img","aria-label":`Tank holding ${m.toFixed(1)} kg`,children:[Kr.map((w,C)=>l.jsxs("g",{children:[l.jsx("line",{x1:70+C*50,y1:4,x2:70+C*50,y2:30,stroke:"var(--ink-2)",strokeWidth:3}),l.jsx("path",{d:`M${62+C*50} 14 l16 10 v-10 l-16 10 z`,fill:C===h?`rgb(${w.c})`:"var(--surface)",stroke:"var(--ink-2)",strokeWidth:1.5}),l.jsx("text",{x:70+C*50,y:46,textAnchor:"middle",fontSize:"11",fill:"var(--ink-2)",fontFamily:"var(--font-head)",children:w.tag})]},w.n)),l.jsx("rect",{x:40,y:56,width:160,height:f+4,rx:6,fill:"var(--surface-2)",stroke:"var(--ink-2)",strokeWidth:2.5}),m>0&&l.jsx("rect",{x:42,y:58+f-g+2,width:156,height:g,rx:4,fill:`rgb(${p})`,style:{transition:"y .1s linear, height .1s linear"}}),[.25,.5,.75].map(w=>l.jsx("line",{x1:190,x2:200,y1:58+f*(1-w),y2:58+f*(1-w),stroke:"var(--ink-3)"},w)),l.jsx("path",{d:"M80 242 h80 l-12 14 h-56 z",fill:"var(--line)"})]}),l.jsx("div",{className:"readouts",style:{width:"100%",maxWidth:300},children:l.jsxs("div",{className:"readout",children:[l.jsx("span",{children:"Net weight"}),l.jsxs("b",{children:[(m-s).toFixed(2),l.jsx("small",{children:"kg"})]})]})})]}),l.jsxs("div",{className:"controls",children:[l.jsxs("div",{children:[l.jsx("h3",{className:"fp-section-title",children:"Batch state"}),l.jsx("div",{className:"states",role:"status","aria-label":`Batch state: ${e}`,children:Cx.map(w=>l.jsx("span",{className:"state"+(w===e?" current":"")+(w==="Aborted"?" aborted":w==="Complete"?" complete":""),children:w},w))})]}),l.jsxs("div",{style:{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"},children:[l.jsx("label",{className:"visually-hidden",htmlFor:"recipe",children:"Recipe"}),l.jsx("select",{id:"recipe",className:"locale",disabled:e!=="Idle",value:t,onChange:w=>a(w.target.value),children:Object.keys(Uo).map(w=>l.jsx("option",{children:w},w))}),l.jsx("button",{className:"btn",disabled:e!=="Idle"&&e!=="Paused",onClick:()=>n("Running"),children:e==="Paused"?"Resume":"Start"}),l.jsx("button",{className:"btn quiet",disabled:e!=="Running",onClick:()=>n("Paused"),children:"Pause"}),l.jsx("button",{className:"btn quiet",disabled:e!=="Running"&&e!=="Paused",onClick:()=>n("Aborted"),children:"Abort"})]}),l.jsxs("table",{className:"dose",children:[l.jsx("thead",{children:l.jsxs("tr",{children:[l.jsx("th",{scope:"col",children:"Pigment"}),l.jsx("th",{scope:"col",children:"Target"}),l.jsx("th",{scope:"col",children:"Dosed"}),l.jsx("th",{scope:"col",children:"Deviation"})]})}),l.jsx("tbody",{children:Kr.map((w,C)=>l.jsxs("tr",{className:C===h?"dosing":void 0,children:[l.jsxs("td",{children:[l.jsx("span",{className:"swatch",style:{background:`rgb(${w.c})`}}),w.n,C===h&&" (dosing)"]}),l.jsx("td",{className:"num",children:d[C].toFixed(1)}),l.jsx("td",{className:"num",children:i[C].toFixed(1)}),l.jsxs("td",{className:"num"+(S(C)?" bad":""),children:[(i[C]-d[C]).toFixed(1),S(C)&&" out of tolerance"]})]},w.n))})]}),l.jsxs("div",{style:{display:"flex",gap:14,flexWrap:"wrap"},children:[l.jsx("button",{className:"linkbtn",onClick:()=>r(m),children:"Tare the load cell"}),l.jsx("button",{className:"linkbtn",onClick:()=>{v(),r(0)},children:"Reset batch"})]})]})]})]})}const Sx="https://parash142433-netizen.github.io/plc-academy/",Ax=(e,n)=>{try{return JSON.parse(localStorage.getItem(e)||"")}catch{return n}},jo=(e,n)=>{const[t,a]=L.useState(()=>Ax(e,n));return L.useEffect(()=>{try{localStorage.setItem(e,JSON.stringify(t))}catch{}},[e,t]),[t,a]},Px=()=>{const[e,n]=L.useState(location.hash.slice(1)||"/");return L.useEffect(()=>{const t=()=>n(location.hash.slice(1)||"/");return addEventListener("hashchange",t),()=>removeEventListener("hashchange",t)},[]),e},Ru=["PLC","HMI","SCADA","Communications","Software","AI","Articles","Tools","Other"],Tx=(e,n)=>(Ru.indexOf(e)+1||99)-(Ru.indexOf(n)+1||99)||e.localeCompare(n),Ix=new Set(["ABB","OPC","AI","GE","IFIX","FIX32","MQTT","SNMP","PLC","HMI","SCADA","CODESYS","B&R","COPA-DATA"]),_x={INTOUCH:"InTouch","OPC SERVER":"OPC servers",OTHERS:"Other",GENERAL:"General","ZENON COPA-DATA":"zenon (COPA-DATA)","BASES DE DATOS":"Databases","AI GENERATED CODE":"AI-generated code","VERSION CONTROL":"Version control","INDUSTRIAL AI":"Industrial AI","INDUSTRIAL NETWORKS":"Industrial networks","GE FANUC":"GE Fanuc","B&R AUTOMATION":"B&R Automation"},kn=e=>_x[e]??e.split(" ").map(n=>Ix.has(n)?n:n.charAt(0)+n.slice(1).toLowerCase()).join(" "),kd=[{slug:"water-plant",tag:"CPU 226",title:"Build a water treatment PLC program",platform:"Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0",summary:"Build the program for a water purification skid in seventeen steps, from the process and I/O list to PID loops, alarms, SCADA links and commissioning. It ends with a scan-by-scan simulator of the finished program.",steps:17,src:"projects/water-plant/index.html",jumps:[["process","The process and requirements"],["io","I/O list and hardware"],["memory","Memory map"],["sequence","Timed start sequence"],["pid","PID control"],["alarms","Alarms"],["test","Test and common mistakes"],["simulator","Full plant simulator"]]},{slug:"autoclave",tag:"CPU 226",title:"Basic Autoclave project: build a steam sterilizer PLC program",platform:"Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0",summary:"Build a pre-vacuum steam sterilizer program in seventeen steps: pass-through door interlocks, vacuum pulses, pressure control on the steam table, F0, drying, and an alarm byte per fault. It ends with a simulator of the full sterilisation cycle.",steps:17,src:"projects/autoclave/index.html",jumps:[["process","The process and requirements"],["start","Start conditions and doors"],["pulses","Air removal: vacuum pulses"],["control","Pressure control and steam table"],["f0","Exposure time and F0"],["alarms","Alarms"],["test","Test and common mistakes"],["simulator","Sterilizer simulator"]]}],Sw=e=>Math.max(1,Math.round(e.words/220)),ia=e=>`#/a/${encodeURIComponent(e.key)}`,vi=e=>`#/g/${encodeURIComponent(e)}`;function xx(){const e=Px(),[n,t]=jo("locale","en"),[a,i]=jo("done",[]),[o,s]=jo("bookmarks",[]),[r,c]=jo("recent",[]),[d,h]=L.useState(""),[m,u]=L.useState(!1),p=L.useRef(null),b=L.useMemo(()=>[...new Set(Ri.map(P=>P.locale))],[]),v=L.useMemo(()=>Ri.filter(P=>P.locale===n),[n]),S=L.useMemo(()=>new zv(v,{keys:[{name:"title",weight:3},"tags","group","sub","body"],threshold:.3,ignoreLocation:!0}),[v]),f=d.trim()?S.search(d.trim()).slice(0,40).map(P=>P.item):[];L.useEffect(()=>{const P=_=>{var F,B,ce;(_.ctrlKey||_.metaKey)&&_.key.toLowerCase()==="k"&&(_.preventDefault(),(F=p.current)==null||F.focus(),(B=p.current)==null||B.select()),_.key==="Escape"&&document.activeElement===p.current&&(h(""),(ce=p.current)==null||ce.blur())};return addEventListener("keydown",P),()=>removeEventListener("keydown",P)},[]);const g=e.startsWith("/a/")?Ri.find(P=>P.key===decodeURIComponent(e.slice(3))):void 0,w=e.startsWith("/g/")?decodeURIComponent(e.slice(3)):void 0;L.useEffect(()=>{u(!1),h(""),window.scrollTo({top:0})},[e]),L.useEffect(()=>{g&&c(P=>[g.key,...P.filter(_=>_!==g.key)].slice(0,8))},[g==null?void 0:g.key]);const C=e.match(/^\/projects\/([^/]+)(?:\/([\w-]+))?$/),I=C?kd.find(P=>P.slug===C[1]):void 0;L.useEffect(()=>{document.title=g?`${g.title} | PLC Academy`:w?`${w} | PLC Academy`:e==="/sims"?"Simulators | PLC Academy":I?`${I.title} | PLC Academy`:e==="/projects"?"Projects | PLC Academy":"PLC Academy"},[g,w,e,I]);const M=(P,_,F)=>_(P.includes(F)?P.filter(B=>B!==F):[...P,F]),T=e==="/sims"?"sims":e.startsWith("/projects")?"projects":"library";let A;return d.trim()?A=l.jsx(Rx,{q:d.trim(),hits:f}):e==="/"?A=l.jsx(Lx,{list:v,done:a,recent:r,marks:o}):e==="/sims"?A=l.jsx(Ux,{}):e==="/projects"?A=l.jsx(Nx,{}):I?A=l.jsx(Vx,{p:I,step:C==null?void 0:C[2]}):w&&v.some(P=>P.group===w)?A=l.jsx(Ex,{group:w,list:v,done:a}):g?A=l.jsxs("div",{className:"reader-layout",children:[l.jsx(Dx,{list:v,done:a,current:g,open:m}),l.jsx(kx,{a:g,list:v,done:a.includes(g.key),marked:o.includes(g.key),onDone:()=>M(a,i,g.key),onMark:()=>M(o,s,g.key)}),l.jsx(Ox,{a:g})]}):A=l.jsx(jx,{}),l.jsxs(l.Fragment,{children:[l.jsx("a",{className:"skip-link",href:"#main",onClick:P=>{var _;P.preventDefault(),(_=document.getElementById("main"))==null||_.focus()},children:"Skip to content"}),l.jsxs("header",{className:"topbar",children:[l.jsxs("a",{className:"brand",href:"#/","aria-label":"PLC Academy home",children:[l.jsx(Mx,{}),l.jsx("span",{children:"PLC Academy"})]}),l.jsxs("nav",{className:"topnav","aria-label":"Main",children:[l.jsx("a",{className:"lib-link",href:"#/","aria-current":T==="library"&&!d?"page":void 0,children:"Library"}),l.jsx("a",{href:"#/projects","aria-current":T==="projects"&&!d?"page":void 0,children:"Projects"}),l.jsx("a",{href:"#/sims","aria-current":T==="sims"&&!d?"page":void 0,children:"Simulators"})]}),l.jsxs("div",{className:"search",role:"search",children:[l.jsx("label",{className:"visually-hidden",htmlFor:"q",children:"Search articles"}),l.jsx("input",{id:"q",ref:p,type:"search",placeholder:"Search S7-1500, Modbus, WinCC…",value:d,onChange:P=>h(P.target.value),autoComplete:"off"}),l.jsx("kbd",{children:"Ctrl K"})]}),b.length>1&&l.jsx("select",{className:"locale","aria-label":"Language",value:n,onChange:P=>t(P.target.value),children:b.map(P=>l.jsx("option",{value:P,children:P.toUpperCase()},P))}),g&&!d&&l.jsx("button",{className:"drawer-toggle","aria-expanded":m,"aria-controls":"library-tree",onClick:()=>u(P=>!P),children:m?"Close":"Contents"})]}),l.jsx("main",{id:"main",tabIndex:-1,children:A})]})}function Mx(){return l.jsxs("svg",{width:"26",height:"26",viewBox:"0 0 26 26","aria-hidden":"true",fill:"none",stroke:"currentColor",strokeWidth:"2",children:[l.jsx("path",{d:"M2 3v20M24 3v20"}),l.jsx("path",{d:"M2 13h5M10 13h4M19.5 13h4.5"}),l.jsx("path",{d:"M7 8v10M10 8v10"}),l.jsx("path",{d:"M15.5 8.5a5 5 0 0 0 0 9M18 8.5a5 5 0 0 1 0 9"})]})}const Wx=[{depth:0,level:"IT side",name:"Data and code",groups:["Software","AI"]},{depth:1,level:"ISA-95 level 2",name:"Supervision",groups:["SCADA","HMI"]},{depth:2,level:"ISA-95 level 1",name:"Control",groups:["PLC"]}];function Lx({list:e,done:n,recent:t,marks:a}){const i=m=>{const u=e.filter(b=>b.group===m),p=Object.entries(u.reduce((b,v)=>(b[v.sub]=(b[v.sub]||0)+1,b),{})).filter(([b])=>b!=="General").sort((b,v)=>v[1]-b[1]).slice(0,3).map(([b])=>kn(b));return{n:u.length,read:u.filter(b=>n.includes(b.key)).length,subs:p}},o=(m,u)=>{const p=i(m);return p.n?l.jsxs("a",{className:"unit",href:vi(m),style:{"--i":u},children:[l.jsxs("span",{className:"unit-top",children:[l.jsx("span",{className:"unit-name",children:m}),l.jsxs("span",{className:"unit-count",children:[p.n," articles"]})]}),p.subs.length>0&&l.jsx("span",{className:"unit-note",children:p.subs.join(", ")}),l.jsx("span",{className:"meter",title:`${p.read} of ${p.n} read`,children:l.jsx("i",{style:{width:`${p.read/p.n*100}%`}})})]},m):null},s=i("Communications"),r=["Articles","Tools","Other"].filter(m=>e.some(u=>u.group===m)),c=t.map(m=>Ri.find(u=>u.key===m)).filter(Boolean),d=a.map(m=>Ri.find(u=>u.key===m)).filter(Boolean);let h=0;return l.jsxs("div",{className:"page",children:[l.jsxs("section",{className:"home-intro","aria-labelledby":"home-title",children:[l.jsxs("div",{children:[l.jsx("h1",{id:"home-title",children:"PLC, HMI and SCADA, layer by layer"}),e.length?l.jsxs("p",{className:"lede",children:[e.length," tutorials you can read offline, sorted by where they sit in the plant, plus three process simulators to practise on."]}):l.jsxs("p",{className:"lede",children:["No articles yet. Run ",l.jsx("code",{children:"npm run scrape"})," to build the library, then reload."]}),l.jsxs("div",{className:"home-actions",children:[e.some(m=>m.group==="PLC")&&l.jsx("a",{className:"btn",href:vi("PLC"),children:"Browse PLC tutorials"}),l.jsx("a",{className:"btn quiet",href:"#/sims",children:"Open the simulators"})]}),l.jsxs("p",{className:"credit-line",style:{marginTop:28},children:["Articles are mirrored from ",l.jsx("a",{href:"https://www.plc-hmi-scadas.com/",target:"_blank",rel:"noreferrer",children:"plc-hmi-scadas.com"}),"; every page credits its author and links to the original."]})]}),l.jsxs("div",{className:"plant",role:"group","aria-label":"Library by plant layer",children:[l.jsx("div",{className:"plant-levels",children:Wx.map(m=>l.jsxs("div",{className:"level","data-depth":m.depth,children:[l.jsxs("div",{className:"level-name",children:[l.jsx("b",{children:m.name}),m.level]}),l.jsx("div",{className:"level-row",children:m.groups.map(u=>o(u,h++))})]},m.name))}),s.n>0&&l.jsxs("a",{className:"bus",href:vi("Communications"),title:"Networks and protocols that connect every layer",children:[l.jsx("small",{children:s.n}),l.jsx("span",{children:"Communications"}),l.jsx("small",{"aria-hidden":"true"})]}),r.length>0&&l.jsx("div",{className:"plant-foot",children:r.map(m=>l.jsxs("a",{href:vi(m),children:[m==="Other"?"Other pages":m," (",e.filter(u=>u.group===m).length,")"]},m))}),l.jsx("p",{className:"plant-caption",children:"Layers follow the ISA-95 model. The green line under each section is your reading progress, stored in this browser."})]})]}),l.jsxs("div",{className:"home-lower",children:[l.jsxs("section",{"aria-labelledby":"continue-title",children:[l.jsx("h2",{id:"continue-title",children:"Continue reading"}),c.length?l.jsx(Nu,{items:c.slice(0,6),done:n}):l.jsxs("p",{className:"empty",children:["Nothing read yet. Pick a layer on the map, or press ",l.jsx("kbd",{children:"Ctrl K"})," and search for a part number like S7-1200."]}),d.length>0&&l.jsxs(l.Fragment,{children:[l.jsx("h2",{style:{marginTop:32},children:"Bookmarks"}),l.jsx(Nu,{items:d,done:n})]})]}),l.jsxs("section",{"aria-label":"Projects and simulators",children:[l.jsx("h2",{id:"build-title",children:"Follow a build tutorial"}),l.jsx("div",{className:"faceplate-links",style:{marginBottom:32},children:kd.map(m=>l.jsxs("a",{className:"faceplate-link",href:`#/projects/${m.slug}`,children:[l.jsx("span",{className:"tag",children:m.tag}),l.jsxs("p",{children:[l.jsx("b",{children:m.title}),m.steps," steps from process to commissioning, with a live plant simulator."]})]},m.slug))}),l.jsx("h2",{id:"sim-title",children:"Practise on a process"}),l.jsxs("div",{className:"faceplate-links",children:[l.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[l.jsx("span",{className:"tag",children:"SFC-101"}),l.jsxs("p",{children:[l.jsx("b",{children:"Sequence chart"}),"Step a five-stage tank batch through its GRAFCET transitions."]})]}),l.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[l.jsx("span",{className:"tag",children:"TIC-201"}),l.jsxs("p",{children:[l.jsx("b",{children:"Temperature loop"}),"Tune a PID controller on a heated tank and inject disturbances."]})]}),l.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[l.jsx("span",{className:"tag",children:"WIC-301"}),l.jsxs("p",{children:[l.jsx("b",{children:"Batch dosing"}),"Run an ISA-88 recipe that weighs three pigments into one tank."]})]})]})]})]})]})}function Nu({items:e,done:n}){return l.jsx("ul",{className:"reading-list",children:e.map(t=>l.jsx("li",{children:l.jsxs("a",{href:ia(t),children:[l.jsxs("span",{className:"rl-title",children:[n.includes(t.key)&&l.jsx("span",{className:"check","aria-label":"Completed",children:"✓ "}),t.title]}),l.jsxs("span",{className:"rl-path",children:[t.group," / ",kn(t.sub)]})]})},t.key))})}function Ex({group:e,list:n,done:t}){const a=n.filter(s=>s.group===e),i=[...new Set(a.map(s=>s.sub))].sort((s,r)=>s==="General"?1:r==="General"?-1:a.filter(c=>c.sub===r).length-a.filter(c=>c.sub===s).length),o=a.filter(s=>t.includes(s.key)).length;return l.jsxs("div",{className:"page",children:[l.jsxs("nav",{className:"crumbs","aria-label":"Breadcrumb",children:[l.jsx("a",{href:"#/",children:"Library"}),l.jsx("span",{"aria-hidden":"true",children:"/"}),l.jsx("span",{children:e})]}),l.jsxs("header",{className:"group-head",children:[l.jsx("h1",{children:e}),l.jsxs("p",{children:[a.length," articles across ",i.length," ",i.length===1?"platform":"platforms",". You have read ",o,"."]})]}),l.jsx("div",{className:"platforms",children:i.map(s=>{const r=a.filter(c=>c.sub===s);return l.jsxs("section",{className:"platform","aria-label":kn(s),children:[l.jsxs("h2",{children:[kn(s)," ",l.jsx("small",{children:r.length})]}),l.jsx("ul",{className:"article-list",children:r.map(c=>l.jsx("li",{children:l.jsxs("a",{href:ia(c),children:[l.jsx("span",{className:"check","aria-label":t.includes(c.key)?"Completed":void 0,children:t.includes(c.key)?"✓":""}),l.jsx("span",{children:c.title}),l.jsxs("span",{className:"mins",children:[Sw(c)," min"]})]})},c.key))})]},s)})})]})}function Dx({list:e,done:n,current:t,open:a}){const i=[...new Set(e.map(o=>o.group))].sort(Tx);return l.jsxs("nav",{className:"tree"+(a?" open":""),id:"library-tree","aria-label":"Library contents",children:[l.jsx("h2",{children:"Library"}),i.map(o=>{const s=e.filter(c=>c.group===o),r=[...new Set(s.map(c=>c.sub))];return l.jsxs("details",{open:o===t.group,children:[l.jsxs("summary",{children:[l.jsx("span",{children:o}),l.jsx("small",{children:s.length})]}),r.map(c=>{const d=s.filter(h=>h.sub===c);return l.jsxs("details",{open:o===t.group&&c===t.sub,children:[l.jsxs("summary",{children:[l.jsx("span",{children:kn(c)}),l.jsx("small",{children:d.length})]}),d.map(h=>l.jsxs("a",{href:ia(h),"aria-current":h.key===t.key?"page":void 0,children:[n.includes(h.key)&&l.jsx("span",{className:"check","aria-label":"Completed",children:"✓"}),h.title]},h.key))]},c)})]},o)})]})}const Vu=e=>e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");function Aw(e){let n=e.body.replace(/^\s*\[Home\][^\n]*\n+/,"").replace(/^\s*#\s+[^\n]*\n+/,"");return e.author&&(n=n.replace(new RegExp("^\\s*"+Vu(e.author)+"[^\\n]*\\n+"),"")),e.tags.length&&(n=n.replace(new RegExp("^\\s*"+Vu(e.tags.join(" "))+"\\s*\\n+"),"")),n}const Pw=e=>e.replace(/<[^>]+>/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-");function kx({a:e,list:n,done:t,marked:a,onDone:i,onMark:o}){const s=L.useMemo(()=>Aw(e),[e]),r=L.useMemo(()=>yw(s).replace(/<h([23])>(.*?)<\/h\1>/g,(S,f,g)=>`<h${f} id="${Pw(g)}">${g}</h${f}>`),[s]),c=L.useRef(null),[d,h]=L.useState(!1);L.useEffect(()=>{var S,f;(S=c.current)==null||S.querySelectorAll("pre").forEach(g=>{if(g.querySelector(".copy"))return;const w=document.createElement("button");w.className="copy",w.type="button",w.textContent="Copy",w.onclick=()=>{var C;navigator.clipboard.writeText(((C=g.querySelector("code"))==null?void 0:C.textContent)??g.textContent??"").then(()=>{w.textContent="Copied",setTimeout(()=>w.textContent="Copy",1500)})},g.appendChild(w)}),(f=c.current)==null||f.querySelectorAll("img").forEach(g=>{if(g.dataset.es)return;const w=(g.getAttribute("src")||"").match(/assets\/images\/(.+)$/);if(!w)return;let C=w[1];try{C=decodeURIComponent(C)}catch{}const I=dx[C];if(!I)return;g.dataset.es="1";const M=document.createElement("div");M.className="img-es";const T=document.createElement("span");T.className="img-es-label",T.textContent="Spanish on this screen: ",M.appendChild(T),I.forEach(([_,F],B)=>{const ce=document.createElement("span");ce.lang="es",ce.textContent=_,M.append(B?"; ":"",ce,` = ${F}`)});const A=Sx+"assets/images/"+C.split("/").map(encodeURIComponent).join("/"),P=document.createElement("a");P.href="https://lens.google.com/uploadbyurl?url="+encodeURIComponent(A),P.target="_blank",P.rel="noopener noreferrer",P.textContent="Translate the whole image",M.append(" ",P),g.insertAdjacentElement("afterend",M)})},[r]);const m=()=>{const S=new Blob([`# ${e.title}
+`+this.renderer.text(r);t?a+=this.renderer.paragraph({type:"paragraph",raw:c,text:c,tokens:[{type:"text",raw:c,text:c}]}):a+=c;continue}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return a}parseInline(n,t){t=t||this.renderer;let a="";for(let i=0;i<n.length;i++){const o=n[i];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[o.type]){const r=this.options.extensions.renderers[o.type].call({parser:this},o);if(r!==!1||!["escape","html","link","image","strong","em","codespan","br","del","text"].includes(o.type)){a+=r||"";continue}}const s=o;switch(s.type){case"escape":{a+=t.text(s);break}case"html":{a+=t.html(s);break}case"link":{a+=t.link(s);break}case"image":{a+=t.image(s);break}case"strong":{a+=t.strong(s);break}case"em":{a+=t.em(s);break}case"codespan":{a+=t.codespan(s);break}case"br":{a+=t.br(s);break}case"del":{a+=t.del(s);break}case"text":{a+=t.text(s);break}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return a}}class Fi{constructor(n){ee(this,"options");ee(this,"block");this.options=n||da}preprocess(n){return n}postprocess(n){return n}processAllTokens(n){return n}provideLexer(){return this.block?pn.lex:pn.lexInline}provideParser(){return this.block?wn.parse:wn.parseInline}}ee(Fi,"passThroughHooks",new Set(["preprocess","postprocess","processAllTokens"]));class ax{constructor(...n){ee(this,"defaults",_d());ee(this,"options",this.setOptions);ee(this,"parse",this.parseMarkdown(!0));ee(this,"parseInline",this.parseMarkdown(!1));ee(this,"Parser",wn);ee(this,"Renderer",Hs);ee(this,"TextRenderer",Dd);ee(this,"Lexer",pn);ee(this,"Tokenizer",Us);ee(this,"Hooks",Fi);this.use(...n)}walkTokens(n,t){var i,o;let a=[];for(const s of n)switch(a=a.concat(t.call(this,s)),s.type){case"table":{const r=s;for(const c of r.header)a=a.concat(this.walkTokens(c.tokens,t));for(const c of r.rows)for(const d of c)a=a.concat(this.walkTokens(d.tokens,t));break}case"list":{const r=s;a=a.concat(this.walkTokens(r.items,t));break}default:{const r=s;(o=(i=this.defaults.extensions)==null?void 0:i.childTokens)!=null&&o[r.type]?this.defaults.extensions.childTokens[r.type].forEach(c=>{const d=r[c].flat(1/0);a=a.concat(this.walkTokens(d,t))}):r.tokens&&(a=a.concat(this.walkTokens(r.tokens,t)))}}return a}use(...n){const t=this.defaults.extensions||{renderers:{},childTokens:{}};return n.forEach(a=>{const i={...a};if(i.async=this.defaults.async||i.async||!1,a.extensions&&(a.extensions.forEach(o=>{if(!o.name)throw new Error("extension name required");if("renderer"in o){const s=t.renderers[o.name];s?t.renderers[o.name]=function(...r){let c=o.renderer.apply(this,r);return c===!1&&(c=s.apply(this,r)),c}:t.renderers[o.name]=o.renderer}if("tokenizer"in o){if(!o.level||o.level!=="block"&&o.level!=="inline")throw new Error("extension level must be 'block' or 'inline'");const s=t[o.level];s?s.unshift(o.tokenizer):t[o.level]=[o.tokenizer],o.start&&(o.level==="block"?t.startBlock?t.startBlock.push(o.start):t.startBlock=[o.start]:o.level==="inline"&&(t.startInline?t.startInline.push(o.start):t.startInline=[o.start]))}"childTokens"in o&&o.childTokens&&(t.childTokens[o.name]=o.childTokens)}),i.extensions=t),a.renderer){const o=this.defaults.renderer||new Hs(this.defaults);for(const s in a.renderer){if(!(s in o))throw new Error(`renderer '${s}' does not exist`);if(["options","parser"].includes(s))continue;const r=s,c=a.renderer[r],d=o[r];o[r]=(...h)=>{let m=c.apply(o,h);return m===!1&&(m=d.apply(o,h)),m||""}}i.renderer=o}if(a.tokenizer){const o=this.defaults.tokenizer||new Us(this.defaults);for(const s in a.tokenizer){if(!(s in o))throw new Error(`tokenizer '${s}' does not exist`);if(["options","rules","lexer"].includes(s))continue;const r=s,c=a.tokenizer[r],d=o[r];o[r]=(...h)=>{let m=c.apply(o,h);return m===!1&&(m=d.apply(o,h)),m}}i.tokenizer=o}if(a.hooks){const o=this.defaults.hooks||new Fi;for(const s in a.hooks){if(!(s in o))throw new Error(`hook '${s}' does not exist`);if(["options","block"].includes(s))continue;const r=s,c=a.hooks[r],d=o[r];Fi.passThroughHooks.has(s)?o[r]=h=>{if(this.defaults.async)return Promise.resolve(c.call(o,h)).then(u=>d.call(o,u));const m=c.call(o,h);return d.call(o,m)}:o[r]=(...h)=>{let m=c.apply(o,h);return m===!1&&(m=d.apply(o,h)),m}}i.hooks=o}if(a.walkTokens){const o=this.defaults.walkTokens,s=a.walkTokens;i.walkTokens=function(r){let c=[];return c.push(s.call(this,r)),o&&(c=c.concat(o.call(this,r))),c}}this.defaults={...this.defaults,...i}}),this}setOptions(n){return this.defaults={...this.defaults,...n},this}lexer(n,t){return pn.lex(n,t??this.defaults)}parser(n,t){return wn.parse(n,t??this.defaults)}parseMarkdown(n){return(a,i)=>{const o={...i},s={...this.defaults,...o},r=this.onError(!!s.silent,!!s.async);if(this.defaults.async===!0&&o.async===!1)return r(new Error("marked(): The async option was set to true by an extension. Remove async: false from the parse options object to return a Promise."));if(typeof a>"u"||a===null)return r(new Error("marked(): input parameter is undefined or null"));if(typeof a!="string")return r(new Error("marked(): input parameter is of type "+Object.prototype.toString.call(a)+", string expected"));s.hooks&&(s.hooks.options=s,s.hooks.block=n);const c=s.hooks?s.hooks.provideLexer():n?pn.lex:pn.lexInline,d=s.hooks?s.hooks.provideParser():n?wn.parse:wn.parseInline;if(s.async)return Promise.resolve(s.hooks?s.hooks.preprocess(a):a).then(h=>c(h,s)).then(h=>s.hooks?s.hooks.processAllTokens(h):h).then(h=>s.walkTokens?Promise.all(this.walkTokens(h,s.walkTokens)).then(()=>h):h).then(h=>d(h,s)).then(h=>s.hooks?s.hooks.postprocess(h):h).catch(r);try{s.hooks&&(a=s.hooks.preprocess(a));let h=c(a,s);s.hooks&&(h=s.hooks.processAllTokens(h)),s.walkTokens&&this.walkTokens(h,s.walkTokens);let m=d(h,s);return s.hooks&&(m=s.hooks.postprocess(m)),m}catch(h){return r(h)}}}onError(n,t){return a=>{if(a.message+=`
+Please report this to https://github.com/markedjs/marked.`,n){const i="<p>An error occurred:</p><pre>"+Ke(a.message+"",!0)+"</pre>";return t?Promise.resolve(i):i}if(t)return Promise.reject(a);throw a}}}const aa=new ax;function K(e,n){return aa.parse(e,n)}K.options=K.setOptions=function(e){return aa.setOptions(e),K.defaults=aa.defaults,hw(K.defaults),K};K.getDefaults=_d;K.defaults=da;K.use=function(...e){return aa.use(...e),K.defaults=aa.defaults,hw(K.defaults),K};K.walkTokens=function(e,n){return aa.walkTokens(e,n)};K.parseInline=aa.parseInline;K.Parser=wn;K.parser=wn.parse;K.Renderer=Hs;K.TextRenderer=Dd;K.Lexer=pn;K.lexer=pn.lex;K.Tokenizer=Us;K.Hooks=Fi;K.parse=K;K.options;K.setOptions;K.use;K.walkTokens;K.parseInline;wn.parse;pn.lex;const ix=Object.assign({"./content/en/ai/agents-copilots.mdx":Jv,"./content/en/ai/ai-code.mdx":Xv,"./content/en/ai/blog-algoritmo-de-la-burbuja-generado-por-ia.mdx":Qv,"./content/en/ai/blog-buscaminas-con-inteligencia-artificial.mdx":Kv,"./content/en/ai/blog-buscaminas-programado-con-inteligencia-artificial-remasterizado-24-25.mdx":Yv,"./content/en/ai/blog-el-buscaminas-iii-un-salto-de-calidad.mdx":Zv,"./content/en/ai/blog-el-problema-de-la-mochila-aplicado-en-industria.mdx":$v,"./content/en/ai/blog-little-scada-creando-una-interfaz-de-control-con-python.mdx":e0,"./content/en/ai/industrial-ai.mdx":n0,"./content/en/articles/beckhoff-ce-hmi.mdx":t0,"./content/en/articles/blog-aveva-intouch-historial-data-access-system-histdata.mdx":a0,"./content/en/articles/blog-aveva-intouch-historical-data-access-system-histdata.mdx":i0,"./content/en/articles/blog-flujo-trabajo-ingeniero-automatizacion.mdx":o0,"./content/en/articles/blog-grafcet-guia-completa-diseno-automatizacion.mdx":s0,"./content/en/articles/ftvse-datalog-2.mdx":r0,"./content/en/articles/intouch-2020r1sp1-opcua.mdx":c0,"./content/en/articles/intouch-activex-aahistclienttrend.mdx":l0,"./content/en/articles/others.mdx":d0,"./content/en/articles/scada.mdx":h0,"./content/en/articles/tia-opcua-plcsimadvanced.mdx":u0,"./content/en/articles/tia-portal-s71500-client-opc-ua.mdx":m0,"./content/en/articles/wincc-datamonitor-2.mdx":g0,"./content/en/articles/wincc-vbs-invertir-bits-us.mdx":p0,"./content/en/communications/017.mdx":w0,"./content/en/communications/021.mdx":f0,"./content/en/communications/blog-cliente-opc-ua-plc-s7-1500.mdx":C0,"./content/en/communications/blog-codesys-softplc-servidor-opc-ua-siemens-cliente.mdx":b0,"./content/en/communications/blog-flujo-de-conexion-opc-ua-segura.mdx":v0,"./content/en/communications/blog-registro-datos-plc-influxdb.mdx":y0,"./content/en/communications/blog-sniffer-opc-ua-plc-siemens-uaexpert.mdx":S0,"./content/en/communications/industrial-networks.mdx":A0,"./content/en/communications/modbus.mdx":P0,"./content/en/communications/mqtt.mdx":T0,"./content/en/communications/realterm-serial-terminal-tutorial.mdx":I0,"./content/en/communications/redes.mdx":_0,"./content/en/communications/rest-api.mdx":x0,"./content/en/communications/snmp.mdx":M0,"./content/en/comunicaciones/004.mdx":W0,"./content/en/comunicaciones/007.mdx":L0,"./content/en/comunicaciones/018.mdx":E0,"./content/en/comunicaciones/058.mdx":D0,"./content/en/comunicaciones/069.mdx":k0,"./content/en/comunicaciones/071.mdx":O0,"./content/en/comunicaciones/073.mdx":F0,"./content/en/comunicaciones/088.mdx":R0,"./content/en/comunicaciones/119.mdx":N0,"./content/en/comunicaciones/121.mdx":V0,"./content/en/comunicaciones/blog-docker-servidor-opc-ua.mdx":U0,"./content/en/comunicaciones/blog-entregados-a-la-causa.mdx":j0,"./content/en/comunicaciones/blog-espiando-comunicaciones-modbus.mdx":H0,"./content/en/comunicaciones/blog-explotando-vulnerabilidades-modbus-tcp.mdx":B0,"./content/en/comunicaciones/blog-pps-ethernet-ip-omron-eip21.mdx":q0,"./content/en/comunicaciones/blog-redes-gns3-tormenta-de-broadcast-y-protocolo-stp.mdx":G0,"./content/en/comunicaciones/blog-servidor-opc-flask-co-pilot.mdx":z0,"./content/en/comunicaciones/blog-sistema-de-control-de-temperatura-iii.mdx":J0,"./content/en/comunicaciones/blog-snmp-simple-network-management-protocol.mdx":X0,"./content/en/comunicaciones/blog-vpn-home-lab-wireguard.mdx":Q0,"./content/en/comunicaciones/intouch-daserver.mdx":K0,"./content/en/comunicaciones/intouch-dasmbtcp.mdx":Y0,"./content/en/comunicaciones/kepserver-1500.mdx":Z0,"./content/en/comunicaciones/simaticnet-cargar-configuracion-pcstation.mdx":$0,"./content/en/comunicaciones/simaticnet-vdf.mdx":ey,"./content/en/comunicaciones/ww-oigateway.mdx":ny,"./content/en/cookie-policy/cookie-policy.mdx":ty,"./content/en/hmi/003.mdx":ay,"./content/en/hmi/005.mdx":iy,"./content/en/hmi/013.mdx":oy,"./content/en/hmi/015.mdx":sy,"./content/en/hmi/016.mdx":ry,"./content/en/hmi/019.mdx":cy,"./content/en/hmi/025.mdx":ly,"./content/en/hmi/026.mdx":dy,"./content/en/hmi/029.mdx":hy,"./content/en/hmi/033.mdx":uy,"./content/en/hmi/040.mdx":my,"./content/en/hmi/044.mdx":gy,"./content/en/hmi/046.mdx":py,"./content/en/hmi/047.mdx":wy,"./content/en/hmi/049.mdx":fy,"./content/en/hmi/063.mdx":Cy,"./content/en/hmi/076.mdx":by,"./content/en/hmi/077.mdx":vy,"./content/en/hmi/078.mdx":yy,"./content/en/hmi/079.mdx":Sy,"./content/en/hmi/080.mdx":Ay,"./content/en/hmi/081.mdx":Py,"./content/en/hmi/085.mdx":Ty,"./content/en/hmi/087.mdx":Iy,"./content/en/hmi/090.mdx":_y,"./content/en/hmi/095.mdx":xy,"./content/en/hmi/097.mdx":My,"./content/en/hmi/101.mdx":Wy,"./content/en/hmi/102.mdx":Ly,"./content/en/hmi/106.mdx":Ey,"./content/en/hmi/107.mdx":Dy,"./content/en/hmi/114.mdx":ky,"./content/en/hmi/115.mdx":Oy,"./content/en/hmi/122.mdx":Fy,"./content/en/hmi/123.mdx":Ry,"./content/en/hmi/132.mdx":Ny,"./content/en/hmi/134.mdx":Vy,"./content/en/hmi/factorytalkviewme-activex-wmp.mdx":Uy,"./content/en/hmi/factorytalkviewme-alarmas.mdx":jy,"./content/en/hmi/factorytalkviewme-globalconnection-dt.mdx":Hy,"./content/en/hmi/factorytalkviewme-lenguages.mdx":By,"./content/en/hmi/hmi-allen-bradley.mdx":qy,"./content/en/hmi/hmi-omron.mdx":Gy,"./content/en/hmi/hmi-schneider.mdx":zy,"./content/en/hmi/hmi-siemens.mdx":Jy,"./content/en/hmi/omron-s7-200.mdx":Xy,"./content/en/hmi/omron-transfer-hmi.mdx":Qy,"./content/en/hmi/other-hmis.mdx":Ky,"./content/en/hmi/panelbuilder-communications.mdx":Yy,"./content/en/hmi/panelbuilder32-tageditor.mdx":Zy,"./content/en/hmi/simatic-restaurar-ktp.mdx":$y,"./content/en/hmi/tia-portal-conversion-tiempos-2.mdx":eS,"./content/en/hmi/tia-portal-conversion-tiempos.mdx":nS,"./content/en/hmi/tia-portal-vbscript-propiedades.mdx":tS,"./content/en/hmi/winccflexible-currentuser.mdx":aS,"./content/en/hmi/winccflexible-simotion.mdx":iS,"./content/en/home/ai.mdx":oS,"./content/en/home/articles.mdx":sS,"./content/en/home/blog-author-jose-manuel.mdx":rS,"./content/en/home/blog-author-pedro.mdx":cS,"./content/en/home/contact.mdx":lS,"./content/en/home/databases.mdx":dS,"./content/en/home/hmi.mdx":hS,"./content/en/home/home.mdx":uS,"./content/en/home/index.mdx":mS,"./content/en/home/industrial-communications.mdx":gS,"./content/en/home/opc.mdx":pS,"./content/en/home/plc.mdx":wS,"./content/en/home/series.mdx":fS,"./content/en/home/software.mdx":CS,"./content/en/home/tools.mdx":bS,"./content/en/legal-notice/legal-notice.mdx":vS,"./content/en/plc/001.mdx":yS,"./content/en/plc/002.mdx":SS,"./content/en/plc/006.mdx":AS,"./content/en/plc/010.mdx":PS,"./content/en/plc/011.mdx":TS,"./content/en/plc/012.mdx":IS,"./content/en/plc/023.mdx":_S,"./content/en/plc/024.mdx":xS,"./content/en/plc/027.mdx":MS,"./content/en/plc/036.mdx":WS,"./content/en/plc/037.mdx":LS,"./content/en/plc/041.mdx":ES,"./content/en/plc/045.mdx":DS,"./content/en/plc/050.mdx":kS,"./content/en/plc/053.mdx":OS,"./content/en/plc/056.mdx":FS,"./content/en/plc/059.mdx":RS,"./content/en/plc/060.mdx":NS,"./content/en/plc/065.mdx":VS,"./content/en/plc/066.mdx":US,"./content/en/plc/067.mdx":jS,"./content/en/plc/068.mdx":HS,"./content/en/plc/070.mdx":BS,"./content/en/plc/072.mdx":qS,"./content/en/plc/075.mdx":GS,"./content/en/plc/082.mdx":zS,"./content/en/plc/083.mdx":JS,"./content/en/plc/084.mdx":XS,"./content/en/plc/086.mdx":QS,"./content/en/plc/089.mdx":KS,"./content/en/plc/091.mdx":YS,"./content/en/plc/092.mdx":ZS,"./content/en/plc/093.mdx":$S,"./content/en/plc/094.mdx":eA,"./content/en/plc/096.mdx":nA,"./content/en/plc/098.mdx":tA,"./content/en/plc/099.mdx":aA,"./content/en/plc/100.mdx":iA,"./content/en/plc/103.mdx":oA,"./content/en/plc/104.mdx":sA,"./content/en/plc/105.mdx":rA,"./content/en/plc/111.mdx":cA,"./content/en/plc/117.mdx":lA,"./content/en/plc/118.mdx":dA,"./content/en/plc/120.mdx":hA,"./content/en/plc/124.mdx":uA,"./content/en/plc/125.mdx":mA,"./content/en/plc/128.mdx":gA,"./content/en/plc/130.mdx":pA,"./content/en/plc/135.mdx":wA,"./content/en/plc/ab-gateway-dhrio.mdx":fA,"./content/en/plc/ab-micro830.mdx":CA,"./content/en/plc/ab-micrologix-modbus-powerflex.mdx":bA,"./content/en/plc/ab-powerflex525.mdx":vA,"./content/en/plc/ab-source-protection.mdx":yA,"./content/en/plc/ab-upload.mdx":SA,"./content/en/plc/beckhoff-cerhost.mdx":AA,"./content/en/plc/beckhoff-create-config.mdx":PA,"./content/en/plc/beckhoff-download-plc.mdx":TA,"./content/en/plc/beckhoff-server-opc-ua.mdx":IA,"./content/en/plc/beckhoff-upload-config.mdx":_A,"./content/en/plc/beckhoff-upload-plc.mdx":xA,"./content/en/plc/blog-certificados-opc-ua-plc-siemens-uaexpert.mdx":MA,"./content/en/plc/blog-ciclo-scan-plc.mdx":WA,"./content/en/plc/blog-conceptos-basicos-profinet.mdx":LA,"./content/en/plc/blog-ethernet-ip-cip-common-industrial-protocol.mdx":EA,"./content/en/plc/blog-factorytalk-echo-simular-dos-plc-rockwell.mdx":DA,"./content/en/plc/blog-factorytalk-echo-update-firmware-v-37.mdx":kA,"./content/en/plc/blog-gittialportal.mdx":OA,"./content/en/plc/blog-logix-designer-sdk-automatizacion-proyectos.mdx":FA,"./content/en/plc/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-2.mdx":RA,"./content/en/plc/blog-optimizando-la-industria-control-de-versiones-y-tia-portal-parte-3.mdx":NA,"./content/en/plc/blog-prosoft-plx31-eip-sie.mdx":VA,"./content/en/plc/blog-registros-en-sql-con-plc-1500-interceptados-con-wireshark.mdx":UA,"./content/en/plc/blog-rslogix-5000-studio-5000-electronic-data-sheet-eds.mdx":jA,"./content/en/plc/blog-servidor-hora-plc-siemens.mdx":HA,"./content/en/plc/blog-servidor-opc-ua-plc-siemens.mdx":BA,"./content/en/plc/blog-simulador-de-temperatura.mdx":qA,"./content/en/plc/blog-sistema-de-control-de-temperatura-ii.mdx":GA,"./content/en/plc/blog-syslog-plc-siemens-linux.mdx":zA,"./content/en/plc/blog-tia-portal-19-get-put.mdx":JA,"./content/en/plc/blog-tia-portal-central-user-management.mdx":XA,"./content/en/plc/blog-tia-portal-configuration-time-mpr.mdx":QA,"./content/en/plc/blog-trace-tia-portal-plc-siemens.mdx":KA,"./content/en/plc/blog-web-server-siemens-s7-1500-https-view-of-things.mdx":YA,"./content/en/plc/cognex-insight-explorer.mdx":ZA,"./content/en/plc/controlexpert-canopen.mdx":$A,"./content/en/plc/controlexpertplcsim.mdx":eP,"./content/en/plc/ibh-s5.mdx":nP,"./content/en/plc/logix5000-almd.mdx":tP,"./content/en/plc/logix5000-powerflex-ethernet.mdx":aP,"./content/en/plc/omron-syswin.mdx":iP,"./content/en/plc/other-plcs.mdx":oP,"./content/en/plc/panelbuilder32-pv550-rslogix5-plc5.mdx":sP,"./content/en/plc/plc-allen-bradley.mdx":rP,"./content/en/plc/plc-beckhoff.mdx":cP,"./content/en/plc/plc-omron.mdx":lP,"./content/en/plc/plc-schneider.mdx":dP,"./content/en/plc/plc-siemens.mdx":hP,"./content/en/plc/rslinx-softlogix5.mdx":uP,"./content/en/plc/rslogix5-backup.mdx":mP,"./content/en/plc/rslogix5-configuracion-hardware.mdx":gP,"./content/en/plc/rslogix500-micrologix-master-modbus.mdx":pP,"./content/en/plc/s7-200-upload.mdx":wP,"./content/en/plc/siemens-modbus-schneider.mdx":fP,"./content/en/plc/simatic-cargar-en-pg.mdx":CP,"./content/en/plc/softlogix5.mdx":bP,"./content/en/plc/somachine-simulacion-comunicaciones.mdx":vP,"./content/en/plc/stept7-big-litle-indian.mdx":yP,"./content/en/plc/tia-plcsimadvanced.mdx":SP,"./content/en/plc/tia-portal-1200-sms.mdx":AP,"./content/en/plc/tia-portal-at.mdx":PP,"./content/en/plc/tia-portal-camaras-cognex.mdx":TP,"./content/en/plc/tia-portal-contador-horas.mdx":IP,"./content/en/plc/tia-portal-gsd-cognex.mdx":_P,"./content/en/plc/tia-portal-modbus-rtu.mdx":xP,"./content/en/plc/tia-portal-upload.mdx":MP,"./content/en/plc/unity-varread.mdx":WP,"./content/en/plc/winccflexible-simotion-opc.mdx":LP,"./content/en/privacy-policy/privacy-policy.mdx":EP,"./content/en/scada/008.mdx":DP,"./content/en/scada/009.mdx":kP,"./content/en/scada/014.mdx":OP,"./content/en/scada/020.mdx":FP,"./content/en/scada/022.mdx":RP,"./content/en/scada/028.mdx":NP,"./content/en/scada/030.mdx":VP,"./content/en/scada/031.mdx":UP,"./content/en/scada/032.mdx":jP,"./content/en/scada/034.mdx":HP,"./content/en/scada/035.mdx":BP,"./content/en/scada/039.mdx":qP,"./content/en/scada/042.mdx":GP,"./content/en/scada/043.mdx":zP,"./content/en/scada/048.mdx":JP,"./content/en/scada/051.mdx":XP,"./content/en/scada/052.mdx":QP,"./content/en/scada/054.mdx":KP,"./content/en/scada/055.mdx":YP,"./content/en/scada/057.mdx":ZP,"./content/en/scada/061.mdx":$P,"./content/en/scada/062.mdx":e2,"./content/en/scada/064.mdx":n2,"./content/en/scada/074.mdx":t2,"./content/en/scada/108.mdx":a2,"./content/en/scada/109.mdx":i2,"./content/en/scada/110.mdx":o2,"./content/en/scada/112.mdx":s2,"./content/en/scada/113.mdx":r2,"./content/en/scada/116.mdx":c2,"./content/en/scada/126.mdx":l2,"./content/en/scada/127.mdx":d2,"./content/en/scada/129.mdx":h2,"./content/en/scada/131.mdx":u2,"./content/en/scada/133.mdx":m2,"./content/en/scada/137.mdx":g2,"./content/en/scada/archestra-aahistclienttrendcontrol.mdx":p2,"./content/en/scada/archestra-aplicacion-distribuida.mdx":w2,"./content/en/scada/archestra-datagrid.mdx":f2,"./content/en/scada/archestra-datagridview.mdx":C2,"./content/en/scada/archestra-fsgateway-historian.mdx":b2,"./content/en/scada/archestra-instancias.mdx":v2,"./content/en/scada/archestra-ioserver-historian.mdx":y2,"./content/en/scada/archestra-trendclient.mdx":S2,"./content/en/scada/archestra-webbrowser-sql.mdx":A2,"./content/en/scada/archestra-webbrowser.mdx":P2,"./content/en/scada/blog-alarmas-wincc-por-whatsapp.mdx":T2,"./content/en/scada/blog-aveva-archestra-logger-csharp.mdx":I2,"./content/en/scada/blog-aveva-driver-redundancy.mdx":_2,"./content/en/scada/blog-aveva-driver-snmp.mdx":x2,"./content/en/scada/blog-aveva-historian-client-factory-talk-view-se.mdx":M2,"./content/en/scada/blog-aveva-intouch-2023r2-novedades.mdx":W2,"./content/en/scada/blog-aveva-intouch-client-controls-net.mdx":L2,"./content/en/scada/blog-aveva-intouch-codebarlib.mdx":E2,"./content/en/scada/blog-aveva-intouch-control-net.mdx":D2,"./content/en/scada/blog-aveva-intouch-historical-data-access-system-histdata-parte-2.mdx":k2,"./content/en/scada/blog-aveva-intouch-historical-data-parte-2.mdx":O2,"./content/en/scada/blog-aveva-intouch-historical-data.mdx":F2,"./content/en/scada/blog-aveva-intouch-leer-alarmas.mdx":R2,"./content/en/scada/blog-aveva-intouch-rds-cmd.mdx":N2,"./content/en/scada/blog-aveva-intouch-rds-query-events.mdx":V2,"./content/en/scada/blog-aveva-intouch-sqlite.mdx":U2,"./content/en/scada/blog-aveva-intouch-widgets-custom-widgets-package.mdx":j2,"./content/en/scada/blog-aveva-intouch-widgets.mdx":H2,"./content/en/scada/blog-comunicacion-plc-hmi-pc-pg-segura.mdx":B2,"./content/en/scada/blog-embebido-web-wincc-unified-iframe-politicas-seguridad.mdx":q2,"./content/en/scada/blog-factory-talk-historian-ftld-interface.mdx":G2,"./content/en/scada/blog-factory-talk-historian-license.mdx":z2,"./content/en/scada/blog-factory-talk-historian-piperfmon-performance-counters.mdx":J2,"./content/en/scada/blog-factory-talk-historin-piperfmon.mdx":X2,"./content/en/scada/blog-factory-talk-view-se-factory-talk-historian-status-ftld.mdx":Q2,"./content/en/scada/blog-factory-talk-view-se-global-object-runtime-optimization.mdx":K2,"./content/en/scada/blog-factory-talk-view-se-influxdb.mdx":Y2,"./content/en/scada/blog-factory-talk-view-se-sqlite.mdx":Z2,"./content/en/scada/blog-factorytalk-view-se-error-datalogpro.mdx":$2,"./content/en/scada/blog-intouch-rdp-a.mdx":e1,"./content/en/scada/blog-intouch-rds-nad.mdx":n1,"./content/en/scada/blog-novedades-scada-aveva-intouch-2023.mdx":t1,"./content/en/scada/blog-pm-analyze-parte-2.mdx":a1,"./content/en/scada/blog-pm-analyze.mdx":i1,"./content/en/scada/blog-retrofits-scadas-con-ms-controls-activex-vb6-ifix-2023.mdx":o1,"./content/en/scada/blog-retrofits-scadas-con-ms-controls-activex-vb6-wincc-v8.mdx":s1,"./content/en/scada/blog-scadas-con-ms-controls-activex-vb6.mdx":r1,"./content/en/scada/blog-segmentacion-de-redes-s71500-wincc-unified.mdx":c1,"./content/en/scada/blog-ssrs-wincc-unified-sqlite.mdx":l1,"./content/en/scada/blog-umc-admin-studio.mdx":d1,"./content/en/scada/blog-umc-redundancy-user-management-component.mdx":h1,"./content/en/scada/blog-umc-user-management-control.mdx":u1,"./content/en/scada/blog-wincc-8-1-backup-en-runtime.mdx":m1,"./content/en/scada/blog-wincc-8-1-novedades.mdx":g1,"./content/en/scada/blog-wincc-ifdef-run-on-webnavigator.mdx":p1,"./content/en/scada/blog-wincc-sqlite.mdx":w1,"./content/en/scada/blog-wincc-unified-collaboration-wincc-8-1.mdx":f1,"./content/en/scada/blog-wincc-unified-collaboration.mdx":C1,"./content/en/scada/blog-wincc-unified-cwc-open-pipe.mdx":b1,"./content/en/scada/blog-wincc-unified-open-pipe.mdx":v1,"./content/en/scada/blog-wincc-unified-redundancy-v20.mdx":y1,"./content/en/scada/blog-wincc-unified-rt-graphql.mdx":S1,"./content/en/scada/blog-wincc-unified-user-management-component.mdx":A1,"./content/en/scada/blog-wincc-v8-0-novedades.mdx":P1,"./content/en/scada/blog-wincc-v8-1-leer-alarmas.mdx":T1,"./content/en/scada/blog-wincc-webnavigaror-failed-to-load-https-sever4430-main-pd.mdx":I1,"./content/en/scada/blog-wincc-webnavigaror-no-connection-to-server.mdx":_1,"./content/en/scada/blog-wincc-webnavigator-webux-certificados-https.mdx":x1,"./content/en/scada/citectscada-database.mdx":M1,"./content/en/scada/factorytalk-activex-adodc.mdx":W1,"./content/en/scada/factorytalk-alarmevents.mdx":L1,"./content/en/scada/factorytalkview-animaciones.mdx":E1,"./content/en/scada/factorytalkview-sendemail.mdx":D1,"./content/en/scada/factorytalkviewse-importar.mdx":k1,"./content/en/scada/fix32-driver-si7.mdx":O1,"./content/en/scada/ftvse-datalog.mdx":F1,"./content/en/scada/ftvse-excel.mdx":R1,"./content/en/scada/ftvse-introduccion-vba.mdx":N1,"./content/en/scada/ftvse-mail.mdx":V1,"./content/en/scada/ftvse-recepis.mdx":U1,"./content/en/scada/ftvse-vba-referencia-objetos.mdx":j1,"./content/en/scada/ifix-database.mdx":H1,"./content/en/scada/intouch-2020-industrialgraphics.mdx":B1,"./content/en/scada/intouch-2020-unlock.mdx":q1,"./content/en/scada/intouch-2020-widget.mdx":G1,"./content/en/scada/intouch-alarms.mdx":z1,"./content/en/scada/intouch-bit-integer.mdx":J1,"./content/en/scada/intouch-controls-net.mdx":X1,"./content/en/scada/intouch-daserver-items.mdx":Q1,"./content/en/scada/intouch-db-oracle.mdx":K1,"./content/en/scada/intouch-functions.mdx":Y1,"./content/en/scada/intouch-historian.mdx":Z1,"./content/en/scada/intouch-mysql.mdx":$1,"./content/en/scada/intouch-odbc.mdx":eT,"./content/en/scada/intouch-system-platform.mdx":nT,"./content/en/scada/intouch-tagsindirectos.mdx":tT,"./content/en/scada/intouch-unitypro.mdx":aT,"./content/en/scada/intouchedgehmi.mdx":iT,"./content/en/scada/odbc-remote-oracle.mdx":oT,"./content/en/scada/oracle-drivers.mdx":sT,"./content/en/scada/other-scadas.mdx":rT,"./content/en/scada/rsview-dde.mdx":cT,"./content/en/scada/rsview-monitortag.mdx":lT,"./content/en/scada/rsview-scanclass.mdx":dT,"./content/en/scada/rsview-tagdatabase.mdx":hT,"./content/en/scada/rsview32-dde-excel.mdx":uT,"./content/en/scada/scada-allen-bradley.mdx":mT,"./content/en/scada/scada-intouch.mdx":gT,"./content/en/scada/scada-schneider.mdx":pT,"./content/en/scada/scada-siemens.mdx":wT,"./content/en/scada/scada-topkapi.mdx":fT,"./content/en/scada/simatic-logon.mdx":CT,"./content/en/scada/tagalarmeventserver.mdx":bT,"./content/en/scada/tia-portal-wincc-rt-transfer.mdx":vT,"./content/en/scada/wincc-activex-excel.mdx":yT,"./content/en/scada/wincc-activex-pdf.mdx":ST,"./content/en/scada/wincc-activex-webbrowser.mdx":AT,"./content/en/scada/wincc-activex.mdx":PT,"./content/en/scada/wincc-administrador-variables-timer.mdx":TT,"./content/en/scada/wincc-arquitectura-2.mdx":IT,"./content/en/scada/wincc-arquitectura.mdx":_T,"./content/en/scada/wincc-as-symbols.mdx":xT,"./content/en/scada/wincc-backup-taglogging.mdx":MT,"./content/en/scada/wincc-backup-winccruntime.mdx":WT,"./content/en/scada/wincc-bit-de-vida.mdx":LT,"./content/en/scada/wincc-broker-codesys.mdx":ET,"./content/en/scada/wincc-chipcard.mdx":DT,"./content/en/scada/wincc-cliente-opcua-beckhoff.mdx":kT,"./content/en/scada/wincc-cliente-opcua.mdx":OT,"./content/en/scada/wincc-cliente-opcxml.mdx":FT,"./content/en/scada/wincc-cliente.mdx":RT,"./content/en/scada/wincc-computer-local.mdx":NT,"./content/en/scada/wincc-confirm-tagvalue-us.mdx":VT,"./content/en/scada/wincc-confirm-tagvalue.mdx":UT,"./content/en/scada/wincc-conocimientosbasicos-ii.mdx":jT,"./content/en/scada/wincc-conocimientosbasicos-iii.mdx":HT,"./content/en/scada/wincc-conocimientosbasicos.mdx":BT,"./content/en/scada/wincc-control-keyboard.mdx":qT,"./content/en/scada/wincc-datamonitor.mdx":GT,"./content/en/scada/wincc-db-oracle.mdx":zT,"./content/en/scada/wincc-dde.mdx":JT,"./content/en/scada/wincc-debugger-vbscript.mdx":XT,"./content/en/scada/wincc-driver-opc.mdx":QT,"./content/en/scada/wincc-driver-s71500.mdx":KT,"./content/en/scada/wincc-dynamic-wizard.mdx":YT,"./content/en/scada/wincc-equipo.mdx":ZT,"./content/en/scada/wincc-error-driver-s71500.mdx":$T,"./content/en/scada/wincc-eventos-pdl.mdx":eI,"./content/en/scada/wincc-funcion-activar-desactivar-bits.mdx":nI,"./content/en/scada/wincc-funcion-gettagraw.mdx":tI,"./content/en/scada/wincc-graphic-designer-vi.mdx":aI,"./content/en/scada/wincc-ibh-link.mdx":iI,"./content/en/scada/wincc-instalacion-activex.mdx":oI,"./content/en/scada/wincc-instalacion.mdx":sI,"./content/en/scada/wincc-keyboard-vba.mdx":rI,"./content/en/scada/wincc-keyboard.mdx":cI,"./content/en/scada/wincc-libreria-us.mdx":lI,"./content/en/scada/wincc-libreria-useradministrator.mdx":dI,"./content/en/scada/wincc-libreria.mdx":hI,"./content/en/scada/wincc-librerias-dll.mdx":uI,"./content/en/scada/wincc-librerias-plus-plus.mdx":mI,"./content/en/scada/wincc-license.mdx":gI,"./content/en/scada/wincc-loginusuario.mdx":pI,"./content/en/scada/wincc-menu-vbs.mdx":wI,"./content/en/scada/wincc-modbustcp.mdx":fI,"./content/en/scada/wincc-monopuesto.mdx":CI,"./content/en/scada/wincc-mqtt.mdx":bI,"./content/en/scada/wincc-msexcel-owc.mdx":vI,"./content/en/scada/wincc-multipuesto-error.mdx":yI,"./content/en/scada/wincc-multipuesto.mdx":SI,"./content/en/scada/wincc-mysql.mdx":AI,"./content/en/scada/wincc-net.mdx":PI,"./content/en/scada/wincc-new-7-4.mdx":TI,"./content/en/scada/wincc-new-7-5.mdx":II,"./content/en/scada/wincc-numero-alarmas.mdx":_I,"./content/en/scada/wincc-plcsimadvanced.mdx":xI,"./content/en/scada/wincc-pm-quality-1.mdx":MI,"./content/en/scada/wincc-pm-quality-2.mdx":WI,"./content/en/scada/wincc-pm-quality-3.mdx":LI,"./content/en/scada/wincc-pm-quality-4.mdx":EI,"./content/en/scada/wincc-redundancy.mdx":DI,"./content/en/scada/wincc-rt-cargar-proyecto.mdx":kI,"./content/en/scada/wincc-rw-tag.mdx":OI,"./content/en/scada/wincc-sendmail.mdx":FI,"./content/en/scada/wincc-server-not-available.mdx":RI,"./content/en/scada/wincc-servidor-opc.mdx":NI,"./content/en/scada/wincc-simatic-logon.mdx":VI,"./content/en/scada/wincc-softlogix.mdx":UI,"./content/en/scada/wincc-system-info.mdx":jI,"./content/en/scada/wincc-tagmanagement.mdx":HI,"./content/en/scada/wincc-unified-administracion-usuarios.mdx":BI,"./content/en/scada/wincc-unified-configuration.mdx":qI,"./content/en/scada/wincc-unified-connection-opcua.mdx":GI,"./content/en/scada/wincc-unified-custom-web-controls.mdx":zI,"./content/en/scada/wincc-unified-js.mdx":JI,"./content/en/scada/wincc-unified-servidor-opc-ua.mdx":XI,"./content/en/scada/wincc-unified-trace-javascript.mdx":QI,"./content/en/scada/wincc-unified-transferir-proyecto.mdx":KI,"./content/en/scada/wincc-vba.mdx":YI,"./content/en/scada/wincc-vbs-gettagraw.mdx":ZI,"./content/en/scada/wincc-vbs-imprimir.mdx":$I,"./content/en/scada/wincc-vbs-invertir-bits.mdx":e_,"./content/en/scada/wincc-vbs-ping.mdx":n_,"./content/en/scada/wincc-vbs-webnavigator.mdx":t_,"./content/en/scada/wincc-webnavigator-https.mdx":a_,"./content/en/scada/wincc-webux-ii.mdx":i_,"./content/en/scada/wincc-webux.mdx":o_,"./content/en/scada/wincc-wpf.mdx":s_,"./content/en/scada/wincc.mdx":r_,"./content/en/scada/winccflexible-simotion-opc-2.mdx":c_,"./content/en/scada/wonderware-activefactory.mdx":l_,"./content/en/scada/wwhistorian-autostart.mdx":d_,"./content/en/scada/wwhistorian-configurator.mdx":h_,"./content/en/scada/wwintouchmachineedition.mdx":u_,"./content/en/scada/zenon-driver-tia.mdx":m_,"./content/en/scada/zenon-introduccion.mdx":g_,"./content/en/software/136.mdx":p_,"./content/en/software/blog-control-versiones-git-tia-portal-v21.mdx":w_,"./content/en/software/blog-entorno-desarrollo-vscode-copilot-agentes.mdx":f_,"./content/en/software/blog-git-github-flujo-colaborativo-vscode.mdx":C_,"./content/en/software/git.mdx":b_,"./content/en/software/vscode.mdx":v_,"./content/en/tools/blog-grafsim.mdx":y_,"./content/en/tools/blog-phs-color-batch-simulator-opc-ua.mdx":S_,"./content/en/tools/blog-phs-thermal-process-simulator-opc-ua.mdx":A_});function ox(e){const n=e.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);if(!n)return{fm:{},body:e};const t={};for(const a of n[1].split(`
+`)){const i=a.indexOf(":");if(!(i<0))try{t[a.slice(0,i).trim()]=JSON.parse(a.slice(i+1).trim())}catch{t[a.slice(0,i).trim()]=a.slice(i+1).trim()}}return{fm:t,body:n[2]}}const sx={comunicaciones:"Communications",communications:"Communications",articles:"Articles",blog:"Articles",ai:"AI",plc:"PLC",hmi:"HMI",scada:"SCADA",software:"Software",tools:"Tools",home:"Other"},rx={"siemens wincc":"SIEMENS",opc:"OPC SERVER","control de versiones":"VERSION CONTROL","version control":"VERSION CONTROL","codigo generado por ia":"AI GENERATED CODE","código generado por ia":"AI GENERATED CODE","ai generated code":"AI GENERATED CODE","redes industriales":"INDUSTRIAL NETWORKS","industrial networks":"INDUSTRIAL NETWORKS","industrial ai":"INDUSTRIAL AI"},cx=e=>sx[(e[1]||"").toLowerCase()]||(e[1]?e[1]:"Other"),lx=e=>{const n=(e[2]||"").trim();return rx[n.toLowerCase()]||n.toUpperCase()||"General"},Ri=Object.entries(ix).map(([e,n])=>{const{fm:t,body:a}=ox(n);return{title:t.title||e,slug:t.slug||e,locale:t.locale||"en",category:t.category||"misc",originalUrl:t.originalUrl||"",author:t.author||"",date:t.date||"",tags:t.tags||[],downloads:t.downloads||[],credit:t.credit||"",note:t.note||"",group:cx(t.breadcrumbs||[]),sub:lx(t.breadcrumbs||[]),body:a,words:a.split(/\s+/).length,key:`${t.locale||"en"}/${t.slug||e}`}}).sort((e,n)=>e.group.localeCompare(n.group)||e.sub.localeCompare(n.sub)||e.title.localeCompare(n.title,void 0,{numeric:!0})),yw=e=>K.parse(e,{async:!1}),dx=Object.assign({"./content/image-es.json":P_}),hx=dx["./content/image-es.json"]??{},gi=[{name:"Idle",action:"Wait for start"},{name:"Tank filling",action:"Inlet valve XV-1 open"},{name:"Heating",action:"Heater E-1 on"},{name:"Agitation",action:"Agitator M-1 on for 5 s"},{name:"Discharge",action:"Outlet valve XV-2 open"}],Qr=5,ux=[{k:"start",tag:"HS-1",label:"Start push button"},{k:"high",tag:"LSH-1",label:"Tank level high"},{k:"temp",tag:"TSH-1",label:"Temperature at setpoint"},{k:"low",tag:"LSL-1",label:"Tank level low"}],Ou={start:!1,high:!1,temp:!1,low:!0};function mx(){const[e,n]=L.useState(0),[t,a]=L.useState(Ou),[i,o]=L.useState(0),[s,r]=L.useState([]),c=L.useRef(Date.now()),d=L.useRef(null),h=()=>((Date.now()-c.current)/1e3).toFixed(1).padStart(6)+" s";L.useEffect(()=>{const v=setInterval(()=>e===3&&o(S=>+(S+.1).toFixed(1)),100);return()=>clearInterval(v)},[e]);const u=[t.start,t.high,t.temp,i>=Qr,t.low][e];L.useEffect(()=>{if(!u)return;const v=(e+1)%gi.length,S=h();r(f=>[...f,{t:S,on:!1,text:`X${e+1} ${gi[e].name} deactivated`},{t:S,on:!0,text:`X${v+1} ${gi[v].name} activated`}]),n(v),o(0)},[u,e]),L.useEffect(()=>{var v;(v=d.current)==null||v.scrollTo({top:d.current.scrollHeight})},[s]);const p=()=>{n(0),o(0),r([]),a(Ou),c.current=Date.now()},b=[l.jsxs(l.Fragment,{children:[l.jsx("b",{children:"t1"}),"HS-1 start pressed"]}),l.jsxs(l.Fragment,{children:[l.jsx("b",{children:"t2"}),"LSH-1 level high"]}),l.jsxs(l.Fragment,{children:[l.jsx("b",{children:"t3"}),"TSH-1 temperature reached"]}),l.jsxs(l.Fragment,{children:[l.jsx("b",{children:"t4"}),"X4 for ",Qr," s ",l.jsxs("span",{className:i>=Qr?"true":void 0,children:["(",i.toFixed(1)," s)"]})]})];return l.jsxs("section",{className:"faceplate","aria-labelledby":"sfc-title",children:[l.jsxs("div",{className:"fp-head",children:[l.jsx("span",{className:"tag",children:"SFC-101"}),l.jsx("h2",{id:"sfc-title",children:"Tank batch sequence"}),l.jsx("p",{children:"A five-step GRAFCET. Operate the field inputs on the right and watch the active step (the filled box) move down the chart. The initial step has a double frame."})]}),l.jsxs("div",{className:"fp-body fp-split",children:[l.jsxs("div",{children:[l.jsx("ol",{className:"grafcet","aria-label":"Sequence chart",children:gi.map((v,S)=>l.jsxs("li",{children:[l.jsxs("div",{className:"gc-step",children:[l.jsx("div",{className:"gc-box"+(S===0?" initial":"")+(S===e?" active":""),"aria-label":`Step ${S+1}${S===e?", active":""}`,children:S+1}),l.jsxs("div",{className:"gc-action"+(S===e?" active":""),children:[l.jsx("b",{children:v.name}),l.jsx("span",{children:v.action})]})]}),S<gi.length-1&&l.jsxs("div",{className:"gc-trans",children:[l.jsx("div",{className:"gc-link"+(S===e?" armed":""),"aria-hidden":"true"}),l.jsx("div",{className:"gc-cond",children:b[S]})]})]},v.name))}),l.jsxs("p",{className:"gc-return",children:[l.jsx("b",{style:{fontFamily:"var(--font-head)",color:"var(--ink)"},children:"t5"})," LSL-1 level low, back to step 1",e===4&&" (armed)"]})]}),l.jsxs("div",{children:[l.jsx("h3",{className:"fp-section-title",children:"Field inputs"}),l.jsx("div",{className:"io-grid",children:ux.map(({k:v,tag:S,label:f})=>l.jsxs("button",{type:"button",className:"io","aria-pressed":t[v],onClick:()=>a(g=>({...g,[v]:!g[v]})),children:[l.jsx("b",{children:S}),l.jsx("span",{children:f})]},v))}),l.jsx("div",{style:{marginTop:12},children:l.jsx("button",{className:"btn quiet",onClick:p,children:"Reset sequence"})}),l.jsx("h3",{className:"fp-section-title",style:{marginTop:18},children:"Step log"}),l.jsx("div",{className:"console",ref:d,role:"log","aria-live":"polite",children:s.map((v,S)=>l.jsxs("div",{className:v.on?"on":"off",children:[v.t,"  ",v.on?"+":"-"," ",v.text]},S))})]})]})]})}const No=.5,gx=500,px=1.2,Vo=20,wx=4e3,fx=6,Fu=400,Nt=e=>getComputedStyle(document.documentElement).getPropertyValue(e).trim();function Cx(){const[e,n]=L.useState(8),[t,a]=L.useState(60),[i,o]=L.useState(5),[s,r]=L.useState(60),[c,d]=L.useState(!0),[h,m]=L.useState(30),[u,p]=L.useState(Vo),[b,v]=L.useState(0),S=L.useRef({kp:e,ti:t,td:i,sp:s,auto:c,manual:h});S.current={kp:e,ti:t,td:i,sp:s,auto:c,manual:h};const f=L.useRef({T:Vo,I:0,prevE:0,mv:0,wasAuto:!0,pvBuf:Array(fx).fill(Vo),hist:[]}),g=L.useRef(null);L.useEffect(()=>{let T=0;const A=setInterval(()=>{const{kp:P,ti:_,td:F,sp:B,auto:ce,manual:Ue}=S.current,N=f.current,x=N.pvBuf[0],W=B-x;if(ce){N.wasAuto||(N.I=N.mv-P*W);const ge=(W-N.prevE)/No,Un=P*W+N.I+P*F*ge,kt=Math.min(100,Math.max(0,Un));(kt===Un||Un>100&&W<0||Un<0&&W>0)&&(N.I+=P/_*W*No),N.mv=kt}else N.mv=Ue;N.wasAuto=ce,N.prevE=W;const O=N.mv/100*wx,ae=px*(N.T-Vo)*10;N.T+=(O-ae)/gx*No*.2,N.pvBuf.push(N.T),N.pvBuf.shift(),N.hist.push([B,x,N.mv]),N.hist.length>Fu&&N.hist.shift(),w(),++T%2===0&&(p(x),v(N.mv))},No*200);return()=>clearInterval(A)},[]);function w(){const T=g.current;if(!T)return;const A=T.getContext("2d"),P=T.width,_=T.height;A.clearRect(0,0,P,_),A.fillStyle=Nt("--trend-bg"),A.fillRect(0,0,P,_),A.strokeStyle=Nt("--trend-grid"),A.lineWidth=1,A.font=`12px ${Nt("--font-mono")||"monospace"}`,A.fillStyle=Nt("--ink-3");for(let B=0;B<=4;B++){const ce=Math.round(_*B/4)+.5;A.beginPath(),A.moveTo(0,ce),A.lineTo(P,ce),A.stroke(),B<4&&A.fillText(String(100-B*25),6,ce+14)}const F=(B,ce,Ue,N=[])=>{A.strokeStyle=ce,A.lineWidth=Ue,A.setLineDash(N),A.beginPath(),f.current.hist.forEach((x,W)=>{const O=W/Fu*P,ae=_-x[B]/100*_;W?A.lineTo(O,ae):A.moveTo(O,ae)}),A.stroke(),A.setLineDash([])};F(2,Nt("--ink-3"),1.5),F(0,Nt("--ink"),1.5,[6,5]),F(1,Nt("--accent"),2.5)}const C=(T,A,P,_,F,B,ce=1,Ue="")=>l.jsxs("div",{className:"slider",children:[l.jsx("label",{htmlFor:T,children:A}),l.jsxs("output",{htmlFor:T,children:[P,Ue]}),l.jsx("input",{id:T,type:"range",min:F,max:B,step:ce,value:P,onChange:N=>_(+N.target.value)})]}),I=s-u,M=u>95;return l.jsxs("section",{className:"faceplate","aria-labelledby":"tic-title",children:[l.jsxs("div",{className:"fp-head",children:[l.jsx("span",{className:"tag",children:"TIC-201"}),l.jsx("h2",{id:"tic-title",children:"Heated tank temperature loop"}),l.jsx("p",{children:"A tank with a heater, heat loss to a 20 °C room and a measurement lag of three seconds. The controller is a PID with anti-windup and bumpless transfer from manual to auto."})]}),l.jsxs("div",{className:"fp-body fp-split",children:[l.jsxs("div",{children:[l.jsx("canvas",{ref:g,className:"trend",width:800,height:300,"aria-label":"Trend of setpoint, process value and controller output"}),l.jsxs("div",{className:"legend",children:[l.jsxs("span",{children:[l.jsx("i",{style:{borderTopStyle:"dashed",borderColor:"var(--ink)"}}),"SP setpoint"]}),l.jsxs("span",{children:[l.jsx("i",{style:{borderColor:"var(--accent)",borderTopWidth:3}}),"PV temperature, °C"]}),l.jsxs("span",{children:[l.jsx("i",{style:{borderColor:"var(--ink-3)"}}),"MV heater output, %"]})]}),l.jsxs("div",{className:"readouts",style:{marginTop:16},children:[l.jsxs("div",{className:"readout",children:[l.jsx("span",{children:"SP"}),l.jsxs("b",{children:[s.toFixed(1),l.jsx("small",{children:"°C"})]})]}),l.jsxs("div",{className:"readout"+(M?" alarm":""),children:[l.jsxs("span",{children:["PV",M&&", high alarm"]}),l.jsxs("b",{children:[u.toFixed(1),l.jsx("small",{children:"°C"})]})]}),l.jsxs("div",{className:"readout",children:[l.jsx("span",{children:"Error"}),l.jsxs("b",{children:[I>0?"+":"",I.toFixed(1),l.jsx("small",{children:"°C"})]})]}),l.jsxs("div",{className:"readout",children:[l.jsx("span",{children:"MV"}),l.jsxs("b",{children:[b.toFixed(0),l.jsx("small",{children:"%"})]})]})]})]}),l.jsxs("div",{className:"controls",children:[l.jsxs("div",{children:[l.jsx("h3",{className:"fp-section-title",children:"Mode"}),l.jsxs("div",{className:"segmented",role:"group","aria-label":"Controller mode",children:[l.jsx("button",{"aria-pressed":c,onClick:()=>d(!0),children:"Auto"}),l.jsx("button",{"aria-pressed":!c,onClick:()=>{m(Math.round(f.current.mv)),d(!1)},children:"Manual"})]})]}),c?C("sp","Setpoint",s,r,20,95,1," °C"):C("mv","Heater output",h,m,0,100,1," %"),l.jsxs("div",{children:[l.jsx("h3",{className:"fp-section-title",children:"Tuning"}),l.jsxs("div",{className:"controls",children:[C("kp","Gain Kp",e,n,0,30,.5),C("ti","Integral time Ti",t,a,5,300,1," s"),C("td","Derivative time Td",i,o,0,30,1," s")]})]}),l.jsx("div",{children:l.jsx("button",{className:"btn quiet",onClick:()=>{f.current.T-=10,f.current.pvBuf=f.current.pvBuf.map(T=>T-10)},children:"Add cold fluid (−10 °C)"})})]})]})]})}const bx=["Idle","Running","Paused","Complete","Aborted"],Kr=[{n:"Red",tag:"XV-11",c:[196,52,44]},{n:"Green",tag:"XV-12",c:[52,140,84]},{n:"Blue",tag:"XV-13",c:[48,98,168]}],Uo={"Recipe A":[30,50,20],"Recipe B":[10,20,70]},vx=4,yx=.5;function Sx(){const[e,n]=L.useState("Idle"),[t,a]=L.useState("Recipe A"),[i,o]=L.useState([0,0,0]),[s,r]=L.useState(0),c=L.useRef({state:e,dosed:i,rec:t});c.current={state:e,dosed:i,rec:t};const d=Uo[t],h=e==="Running"?i.findIndex((w,C)=>w<d[C]):-1;L.useEffect(()=>{const w=setInterval(()=>{const{state:C,dosed:I,rec:M}=c.current;if(C!=="Running")return;const T=I.findIndex((A,P)=>A<Uo[M][P]);if(T<0)return n("Complete");o(A=>A.map((P,_)=>_===T?Math.min(Uo[M][_],+(P+vx*.1).toFixed(2)):P))},100);return()=>clearInterval(w)},[]),L.useEffect(()=>{e==="Running"&&i.every((w,C)=>w>=d[C])&&n("Complete")},[i,e]);const m=i.reduce((w,C)=>w+C,0),u=m||1,p=Kr.reduce((w,C,I)=>w.map((M,T)=>M+C.c[T]*i[I]/u),[0,0,0]).map(Math.round),b=Math.min(1,m/100),v=()=>{o([0,0,0]),n("Idle")},S=w=>e==="Complete"&&Math.abs(i[w]-d[w])>yx,f=180,g=f*b;return l.jsxs("section",{className:"faceplate","aria-labelledby":"wic-title",children:[l.jsxs("div",{className:"fp-head",children:[l.jsx("span",{className:"tag",children:"WIC-301"}),l.jsx("h2",{id:"wic-title",children:"Pigment batch on a load cell"}),l.jsx("p",{children:"An ISA-88 style batch. Each pigment valve opens in turn until its target weight is reached; the tank colour is the weighted mix of what has been dosed."})]}),l.jsxs("div",{className:"fp-body fp-split",children:[l.jsxs("div",{className:"tank-wrap",children:[l.jsxs("svg",{viewBox:"0 0 240 260",role:"img","aria-label":`Tank holding ${m.toFixed(1)} kg`,children:[Kr.map((w,C)=>l.jsxs("g",{children:[l.jsx("line",{x1:70+C*50,y1:4,x2:70+C*50,y2:30,stroke:"var(--ink-2)",strokeWidth:3}),l.jsx("path",{d:`M${62+C*50} 14 l16 10 v-10 l-16 10 z`,fill:C===h?`rgb(${w.c})`:"var(--surface)",stroke:"var(--ink-2)",strokeWidth:1.5}),l.jsx("text",{x:70+C*50,y:46,textAnchor:"middle",fontSize:"11",fill:"var(--ink-2)",fontFamily:"var(--font-head)",children:w.tag})]},w.n)),l.jsx("rect",{x:40,y:56,width:160,height:f+4,rx:6,fill:"var(--surface-2)",stroke:"var(--ink-2)",strokeWidth:2.5}),m>0&&l.jsx("rect",{x:42,y:58+f-g+2,width:156,height:g,rx:4,fill:`rgb(${p})`,style:{transition:"y .1s linear, height .1s linear"}}),[.25,.5,.75].map(w=>l.jsx("line",{x1:190,x2:200,y1:58+f*(1-w),y2:58+f*(1-w),stroke:"var(--ink-3)"},w)),l.jsx("path",{d:"M80 242 h80 l-12 14 h-56 z",fill:"var(--line)"})]}),l.jsx("div",{className:"readouts",style:{width:"100%",maxWidth:300},children:l.jsxs("div",{className:"readout",children:[l.jsx("span",{children:"Net weight"}),l.jsxs("b",{children:[(m-s).toFixed(2),l.jsx("small",{children:"kg"})]})]})})]}),l.jsxs("div",{className:"controls",children:[l.jsxs("div",{children:[l.jsx("h3",{className:"fp-section-title",children:"Batch state"}),l.jsx("div",{className:"states",role:"status","aria-label":`Batch state: ${e}`,children:bx.map(w=>l.jsx("span",{className:"state"+(w===e?" current":"")+(w==="Aborted"?" aborted":w==="Complete"?" complete":""),children:w},w))})]}),l.jsxs("div",{style:{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"},children:[l.jsx("label",{className:"visually-hidden",htmlFor:"recipe",children:"Recipe"}),l.jsx("select",{id:"recipe",className:"locale",disabled:e!=="Idle",value:t,onChange:w=>a(w.target.value),children:Object.keys(Uo).map(w=>l.jsx("option",{children:w},w))}),l.jsx("button",{className:"btn",disabled:e!=="Idle"&&e!=="Paused",onClick:()=>n("Running"),children:e==="Paused"?"Resume":"Start"}),l.jsx("button",{className:"btn quiet",disabled:e!=="Running",onClick:()=>n("Paused"),children:"Pause"}),l.jsx("button",{className:"btn quiet",disabled:e!=="Running"&&e!=="Paused",onClick:()=>n("Aborted"),children:"Abort"})]}),l.jsxs("table",{className:"dose",children:[l.jsx("thead",{children:l.jsxs("tr",{children:[l.jsx("th",{scope:"col",children:"Pigment"}),l.jsx("th",{scope:"col",children:"Target"}),l.jsx("th",{scope:"col",children:"Dosed"}),l.jsx("th",{scope:"col",children:"Deviation"})]})}),l.jsx("tbody",{children:Kr.map((w,C)=>l.jsxs("tr",{className:C===h?"dosing":void 0,children:[l.jsxs("td",{children:[l.jsx("span",{className:"swatch",style:{background:`rgb(${w.c})`}}),w.n,C===h&&" (dosing)"]}),l.jsx("td",{className:"num",children:d[C].toFixed(1)}),l.jsx("td",{className:"num",children:i[C].toFixed(1)}),l.jsxs("td",{className:"num"+(S(C)?" bad":""),children:[(i[C]-d[C]).toFixed(1),S(C)&&" out of tolerance"]})]},w.n))})]}),l.jsxs("div",{style:{display:"flex",gap:14,flexWrap:"wrap"},children:[l.jsx("button",{className:"linkbtn",onClick:()=>r(m),children:"Tare the load cell"}),l.jsx("button",{className:"linkbtn",onClick:()=>{v(),r(0)},children:"Reset batch"})]})]})]})]})}const Ax="https://parash142433-netizen.github.io/plc-academy/",Px=(e,n)=>{try{return JSON.parse(localStorage.getItem(e)||"")}catch{return n}},jo=(e,n)=>{const[t,a]=L.useState(()=>Px(e,n));return L.useEffect(()=>{try{localStorage.setItem(e,JSON.stringify(t))}catch{}},[e,t]),[t,a]},Tx=()=>{const[e,n]=L.useState(location.hash.slice(1)||"/");return L.useEffect(()=>{const t=()=>n(location.hash.slice(1)||"/");return addEventListener("hashchange",t),()=>removeEventListener("hashchange",t)},[]),e},Ru=["PLC","HMI","SCADA","Communications","Software","AI","Articles","Tools","Other"],Ix=(e,n)=>(Ru.indexOf(e)+1||99)-(Ru.indexOf(n)+1||99)||e.localeCompare(n),_x=new Set(["ABB","OPC","AI","GE","IFIX","FIX32","MQTT","SNMP","PLC","HMI","SCADA","CODESYS","B&R","COPA-DATA"]),xx={INTOUCH:"InTouch","OPC SERVER":"OPC servers",OTHERS:"Other",GENERAL:"General","ZENON COPA-DATA":"zenon (COPA-DATA)","BASES DE DATOS":"Databases","AI GENERATED CODE":"AI-generated code","VERSION CONTROL":"Version control","INDUSTRIAL AI":"Industrial AI","INDUSTRIAL NETWORKS":"Industrial networks","GE FANUC":"GE Fanuc","B&R AUTOMATION":"B&R Automation"},kn=e=>xx[e]??e.split(" ").map(n=>_x.has(n)?n:n.charAt(0)+n.slice(1).toLowerCase()).join(" "),kd=[{slug:"water-plant",tag:"CPU 226",title:"Build a water treatment PLC program",platform:"Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0",summary:"Build the program for a water purification skid in seventeen steps, from the process and I/O list to PID loops, alarms, SCADA links and commissioning. It ends with a scan-by-scan simulator of the finished program.",steps:17,src:"projects/water-plant/index.html",jumps:[["process","The process and requirements"],["io","I/O list and hardware"],["memory","Memory map"],["sequence","Timed start sequence"],["pid","PID control"],["alarms","Alarms"],["test","Test and common mistakes"],["simulator","Full plant simulator"]]},{slug:"autoclave",tag:"CPU 226",title:"Basic Autoclave project: build a steam sterilizer PLC program",platform:"Siemens S7-200, CPU 226, STEP 7-Micro/WIN 4.0",summary:"Build a pre-vacuum steam sterilizer program in seventeen steps: pass-through door interlocks, vacuum pulses, pressure control on the steam table, F0, drying, and an alarm byte per fault. It ends with a simulator of the full sterilisation cycle.",steps:17,src:"projects/autoclave/index.html",jumps:[["process","The process and requirements"],["start","Start conditions and doors"],["pulses","Air removal: vacuum pulses"],["control","Pressure control and steam table"],["f0","Exposure time and F0"],["alarms","Alarms"],["test","Test and common mistakes"],["simulator","Sterilizer simulator"]]}],Sw=e=>Math.max(1,Math.round(e.words/220)),ia=e=>`#/a/${encodeURIComponent(e.key)}`,vi=e=>`#/g/${encodeURIComponent(e)}`;function Mx(){const e=Tx(),[n,t]=jo("locale","en"),[a,i]=jo("done",[]),[o,s]=jo("bookmarks",[]),[r,c]=jo("recent",[]),[d,h]=L.useState(""),[m,u]=L.useState(!1),p=L.useRef(null),b=L.useMemo(()=>[...new Set(Ri.map(P=>P.locale))],[]),v=L.useMemo(()=>Ri.filter(P=>P.locale===n),[n]),S=L.useMemo(()=>new zv(v,{keys:[{name:"title",weight:3},"tags","group","sub","body"],threshold:.3,ignoreLocation:!0}),[v]),f=d.trim()?S.search(d.trim()).slice(0,40).map(P=>P.item):[];L.useEffect(()=>{const P=_=>{var F,B,ce;(_.ctrlKey||_.metaKey)&&_.key.toLowerCase()==="k"&&(_.preventDefault(),(F=p.current)==null||F.focus(),(B=p.current)==null||B.select()),_.key==="Escape"&&document.activeElement===p.current&&(h(""),(ce=p.current)==null||ce.blur())};return addEventListener("keydown",P),()=>removeEventListener("keydown",P)},[]);const g=e.startsWith("/a/")?Ri.find(P=>P.key===decodeURIComponent(e.slice(3))):void 0,w=e.startsWith("/g/")?decodeURIComponent(e.slice(3)):void 0;L.useEffect(()=>{u(!1),h(""),window.scrollTo({top:0})},[e]),L.useEffect(()=>{g&&c(P=>[g.key,...P.filter(_=>_!==g.key)].slice(0,8))},[g==null?void 0:g.key]);const C=e.match(/^\/projects\/([^/]+)(?:\/([\w-]+))?$/),I=C?kd.find(P=>P.slug===C[1]):void 0;L.useEffect(()=>{document.title=g?`${g.title} | PLC Academy`:w?`${w} | PLC Academy`:e==="/sims"?"Simulators | PLC Academy":I?`${I.title} | PLC Academy`:e==="/projects"?"Projects | PLC Academy":"PLC Academy"},[g,w,e,I]);const M=(P,_,F)=>_(P.includes(F)?P.filter(B=>B!==F):[...P,F]),T=e==="/sims"?"sims":e.startsWith("/projects")?"projects":"library";let A;return d.trim()?A=l.jsx(Nx,{q:d.trim(),hits:f}):e==="/"?A=l.jsx(Ex,{list:v,done:a,recent:r,marks:o}):e==="/sims"?A=l.jsx(jx,{}):e==="/projects"?A=l.jsx(Vx,{}):I?A=l.jsx(Ux,{p:I,step:C==null?void 0:C[2]}):w&&v.some(P=>P.group===w)?A=l.jsx(Dx,{group:w,list:v,done:a}):g?A=l.jsxs("div",{className:"reader-layout",children:[l.jsx(kx,{list:v,done:a,current:g,open:m}),l.jsx(Ox,{a:g,list:v,done:a.includes(g.key),marked:o.includes(g.key),onDone:()=>M(a,i,g.key),onMark:()=>M(o,s,g.key)}),l.jsx(Fx,{a:g})]}):A=l.jsx(Hx,{}),l.jsxs(l.Fragment,{children:[l.jsx("a",{className:"skip-link",href:"#main",onClick:P=>{var _;P.preventDefault(),(_=document.getElementById("main"))==null||_.focus()},children:"Skip to content"}),l.jsxs("header",{className:"topbar",children:[l.jsxs("a",{className:"brand",href:"#/","aria-label":"PLC Academy home",children:[l.jsx(Wx,{}),l.jsx("span",{children:"PLC Academy"})]}),l.jsxs("nav",{className:"topnav","aria-label":"Main",children:[l.jsx("a",{className:"lib-link",href:"#/","aria-current":T==="library"&&!d?"page":void 0,children:"Library"}),l.jsx("a",{href:"#/projects","aria-current":T==="projects"&&!d?"page":void 0,children:"Projects"}),l.jsx("a",{href:"#/sims","aria-current":T==="sims"&&!d?"page":void 0,children:"Simulators"})]}),l.jsxs("div",{className:"search",role:"search",children:[l.jsx("label",{className:"visually-hidden",htmlFor:"q",children:"Search articles"}),l.jsx("input",{id:"q",ref:p,type:"search",placeholder:"Search S7-1500, Modbus, WinCC…",value:d,onChange:P=>h(P.target.value),autoComplete:"off"}),l.jsx("kbd",{children:"Ctrl K"})]}),b.length>1&&l.jsx("select",{className:"locale","aria-label":"Language",value:n,onChange:P=>t(P.target.value),children:b.map(P=>l.jsx("option",{value:P,children:P.toUpperCase()},P))}),g&&!d&&l.jsx("button",{className:"drawer-toggle","aria-expanded":m,"aria-controls":"library-tree",onClick:()=>u(P=>!P),children:m?"Close":"Contents"})]}),l.jsx("main",{id:"main",tabIndex:-1,children:A})]})}function Wx(){return l.jsxs("svg",{width:"26",height:"26",viewBox:"0 0 26 26","aria-hidden":"true",fill:"none",stroke:"currentColor",strokeWidth:"2",children:[l.jsx("path",{d:"M2 3v20M24 3v20"}),l.jsx("path",{d:"M2 13h5M10 13h4M19.5 13h4.5"}),l.jsx("path",{d:"M7 8v10M10 8v10"}),l.jsx("path",{d:"M15.5 8.5a5 5 0 0 0 0 9M18 8.5a5 5 0 0 1 0 9"})]})}const Lx=[{depth:0,level:"IT side",name:"Data and code",groups:["Software","AI"]},{depth:1,level:"ISA-95 level 2",name:"Supervision",groups:["SCADA","HMI"]},{depth:2,level:"ISA-95 level 1",name:"Control",groups:["PLC"]}];function Ex({list:e,done:n,recent:t,marks:a}){const i=m=>{const u=e.filter(b=>b.group===m),p=Object.entries(u.reduce((b,v)=>(b[v.sub]=(b[v.sub]||0)+1,b),{})).filter(([b])=>b!=="General").sort((b,v)=>v[1]-b[1]).slice(0,3).map(([b])=>kn(b));return{n:u.length,read:u.filter(b=>n.includes(b.key)).length,subs:p}},o=(m,u)=>{const p=i(m);return p.n?l.jsxs("a",{className:"unit",href:vi(m),style:{"--i":u},children:[l.jsxs("span",{className:"unit-top",children:[l.jsx("span",{className:"unit-name",children:m}),l.jsxs("span",{className:"unit-count",children:[p.n," articles"]})]}),p.subs.length>0&&l.jsx("span",{className:"unit-note",children:p.subs.join(", ")}),l.jsx("span",{className:"meter",title:`${p.read} of ${p.n} read`,children:l.jsx("i",{style:{width:`${p.read/p.n*100}%`}})})]},m):null},s=i("Communications"),r=["Articles","Tools","Other"].filter(m=>e.some(u=>u.group===m)),c=t.map(m=>Ri.find(u=>u.key===m)).filter(Boolean),d=a.map(m=>Ri.find(u=>u.key===m)).filter(Boolean);let h=0;return l.jsxs("div",{className:"page",children:[l.jsxs("section",{className:"home-intro","aria-labelledby":"home-title",children:[l.jsxs("div",{children:[l.jsx("h1",{id:"home-title",children:"PLC, HMI and SCADA, layer by layer"}),e.length?l.jsxs("p",{className:"lede",children:[e.length," tutorials you can read offline, sorted by where they sit in the plant, plus three process simulators to practise on."]}):l.jsxs("p",{className:"lede",children:["No articles yet. Run ",l.jsx("code",{children:"npm run scrape"})," to build the library, then reload."]}),l.jsxs("div",{className:"home-actions",children:[e.some(m=>m.group==="PLC")&&l.jsx("a",{className:"btn",href:vi("PLC"),children:"Browse PLC tutorials"}),l.jsx("a",{className:"btn quiet",href:"#/sims",children:"Open the simulators"})]}),l.jsxs("p",{className:"credit-line",style:{marginTop:28},children:["Articles are mirrored from ",l.jsx("a",{href:"https://www.plc-hmi-scadas.com/",target:"_blank",rel:"noreferrer",children:"plc-hmi-scadas.com"}),"; every page credits its author and links to the original."]})]}),l.jsxs("div",{className:"plant",role:"group","aria-label":"Library by plant layer",children:[l.jsx("div",{className:"plant-levels",children:Lx.map(m=>l.jsxs("div",{className:"level","data-depth":m.depth,children:[l.jsxs("div",{className:"level-name",children:[l.jsx("b",{children:m.name}),m.level]}),l.jsx("div",{className:"level-row",children:m.groups.map(u=>o(u,h++))})]},m.name))}),s.n>0&&l.jsxs("a",{className:"bus",href:vi("Communications"),title:"Networks and protocols that connect every layer",children:[l.jsx("small",{children:s.n}),l.jsx("span",{children:"Communications"}),l.jsx("small",{"aria-hidden":"true"})]}),r.length>0&&l.jsx("div",{className:"plant-foot",children:r.map(m=>l.jsxs("a",{href:vi(m),children:[m==="Other"?"Other pages":m," (",e.filter(u=>u.group===m).length,")"]},m))}),l.jsx("p",{className:"plant-caption",children:"Layers follow the ISA-95 model. The green line under each section is your reading progress, stored in this browser."})]})]}),l.jsxs("div",{className:"home-lower",children:[l.jsxs("section",{"aria-labelledby":"continue-title",children:[l.jsx("h2",{id:"continue-title",children:"Continue reading"}),c.length?l.jsx(Nu,{items:c.slice(0,6),done:n}):l.jsxs("p",{className:"empty",children:["Nothing read yet. Pick a layer on the map, or press ",l.jsx("kbd",{children:"Ctrl K"})," and search for a part number like S7-1200."]}),d.length>0&&l.jsxs(l.Fragment,{children:[l.jsx("h2",{style:{marginTop:32},children:"Bookmarks"}),l.jsx(Nu,{items:d,done:n})]})]}),l.jsxs("section",{"aria-label":"Projects and simulators",children:[l.jsx("h2",{id:"build-title",children:"Follow a build tutorial"}),l.jsx("div",{className:"faceplate-links",style:{marginBottom:32},children:kd.map(m=>l.jsxs("a",{className:"faceplate-link",href:`#/projects/${m.slug}`,children:[l.jsx("span",{className:"tag",children:m.tag}),l.jsxs("p",{children:[l.jsx("b",{children:m.title}),m.steps," steps from process to commissioning, with a live plant simulator."]})]},m.slug))}),l.jsx("h2",{id:"sim-title",children:"Practise on a process"}),l.jsxs("div",{className:"faceplate-links",children:[l.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[l.jsx("span",{className:"tag",children:"SFC-101"}),l.jsxs("p",{children:[l.jsx("b",{children:"Sequence chart"}),"Step a five-stage tank batch through its GRAFCET transitions."]})]}),l.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[l.jsx("span",{className:"tag",children:"TIC-201"}),l.jsxs("p",{children:[l.jsx("b",{children:"Temperature loop"}),"Tune a PID controller on a heated tank and inject disturbances."]})]}),l.jsxs("a",{className:"faceplate-link",href:"#/sims",children:[l.jsx("span",{className:"tag",children:"WIC-301"}),l.jsxs("p",{children:[l.jsx("b",{children:"Batch dosing"}),"Run an ISA-88 recipe that weighs three pigments into one tank."]})]})]})]})]})]})}function Nu({items:e,done:n}){return l.jsx("ul",{className:"reading-list",children:e.map(t=>l.jsx("li",{children:l.jsxs("a",{href:ia(t),children:[l.jsxs("span",{className:"rl-title",children:[n.includes(t.key)&&l.jsx("span",{className:"check","aria-label":"Completed",children:"✓ "}),t.title]}),l.jsxs("span",{className:"rl-path",children:[t.group," / ",kn(t.sub)]})]})},t.key))})}function Dx({group:e,list:n,done:t}){const a=n.filter(s=>s.group===e),i=[...new Set(a.map(s=>s.sub))].sort((s,r)=>s==="General"?1:r==="General"?-1:a.filter(c=>c.sub===r).length-a.filter(c=>c.sub===s).length),o=a.filter(s=>t.includes(s.key)).length;return l.jsxs("div",{className:"page",children:[l.jsxs("nav",{className:"crumbs","aria-label":"Breadcrumb",children:[l.jsx("a",{href:"#/",children:"Library"}),l.jsx("span",{"aria-hidden":"true",children:"/"}),l.jsx("span",{children:e})]}),l.jsxs("header",{className:"group-head",children:[l.jsx("h1",{children:e}),l.jsxs("p",{children:[a.length," articles across ",i.length," ",i.length===1?"platform":"platforms",". You have read ",o,"."]})]}),l.jsx("div",{className:"platforms",children:i.map(s=>{const r=a.filter(c=>c.sub===s);return l.jsxs("section",{className:"platform","aria-label":kn(s),children:[l.jsxs("h2",{children:[kn(s)," ",l.jsx("small",{children:r.length})]}),l.jsx("ul",{className:"article-list",children:r.map(c=>l.jsx("li",{children:l.jsxs("a",{href:ia(c),children:[l.jsx("span",{className:"check","aria-label":t.includes(c.key)?"Completed":void 0,children:t.includes(c.key)?"✓":""}),l.jsx("span",{children:c.title}),l.jsxs("span",{className:"mins",children:[Sw(c)," min"]})]})},c.key))})]},s)})})]})}function kx({list:e,done:n,current:t,open:a}){const i=[...new Set(e.map(o=>o.group))].sort(Ix);return l.jsxs("nav",{className:"tree"+(a?" open":""),id:"library-tree","aria-label":"Library contents",children:[l.jsx("h2",{children:"Library"}),i.map(o=>{const s=e.filter(c=>c.group===o),r=[...new Set(s.map(c=>c.sub))];return l.jsxs("details",{open:o===t.group,children:[l.jsxs("summary",{children:[l.jsx("span",{children:o}),l.jsx("small",{children:s.length})]}),r.map(c=>{const d=s.filter(h=>h.sub===c);return l.jsxs("details",{open:o===t.group&&c===t.sub,children:[l.jsxs("summary",{children:[l.jsx("span",{children:kn(c)}),l.jsx("small",{children:d.length})]}),d.map(h=>l.jsxs("a",{href:ia(h),"aria-current":h.key===t.key?"page":void 0,children:[n.includes(h.key)&&l.jsx("span",{className:"check","aria-label":"Completed",children:"✓"}),h.title]},h.key))]},c)})]},o)})]})}const Vu=e=>e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");function Aw(e){let n=e.body.replace(/^\s*\[Home\][^\n]*\n+/,"").replace(/^\s*#\s+[^\n]*\n+/,"");return e.author&&(n=n.replace(new RegExp("^\\s*"+Vu(e.author)+"[^\\n]*\\n+"),"")),e.tags.length&&(n=n.replace(new RegExp("^\\s*"+Vu(e.tags.join(" "))+"\\s*\\n+"),"")),n}const Pw=e=>e.replace(/<[^>]+>/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-");function Ox({a:e,list:n,done:t,marked:a,onDone:i,onMark:o}){const s=L.useMemo(()=>Aw(e),[e]),r=L.useMemo(()=>yw(s).replace(/<h([23])>(.*?)<\/h\1>/g,(S,f,g)=>`<h${f} id="${Pw(g)}">${g}</h${f}>`),[s]),c=L.useRef(null),[d,h]=L.useState(!1);L.useEffect(()=>{var S,f;(S=c.current)==null||S.querySelectorAll("pre").forEach(g=>{if(g.querySelector(".copy"))return;const w=document.createElement("button");w.className="copy",w.type="button",w.textContent="Copy",w.onclick=()=>{var C;navigator.clipboard.writeText(((C=g.querySelector("code"))==null?void 0:C.textContent)??g.textContent??"").then(()=>{w.textContent="Copied",setTimeout(()=>w.textContent="Copy",1500)})},g.appendChild(w)}),(f=c.current)==null||f.querySelectorAll("img").forEach(g=>{if(g.dataset.es)return;const w=(g.getAttribute("src")||"").match(/assets\/images\/(.+)$/);if(!w)return;let C=w[1];try{C=decodeURIComponent(C)}catch{}const I=hx[C];if(!I)return;g.dataset.es="1";const M=document.createElement("div");M.className="img-es";const T=document.createElement("span");T.className="img-es-label",T.textContent="Spanish on this screen: ",M.appendChild(T),I.forEach(([_,F],B)=>{const ce=document.createElement("span");ce.lang="es",ce.textContent=_,M.append(B?"; ":"",ce,` = ${F}`)});const A=Ax+"assets/images/"+C.split("/").map(encodeURIComponent).join("/"),P=document.createElement("a");P.href="https://lens.google.com/uploadbyurl?url="+encodeURIComponent(A),P.target="_blank",P.rel="noopener noreferrer",P.textContent="Translate the whole image",M.append(" ",P),g.insertAdjacentElement("afterend",M)})},[r]);const m=()=>{const S=new Blob([`# ${e.title}
 
 > ${e.credit}
 > Source: ${e.originalUrl}
 
-${s}`],{type:"text/markdown"}),f=document.createElement("a");f.href=URL.createObjectURL(S),f.download=`${e.slug}.md`,f.click(),h(!0),setTimeout(()=>h(!1),1800)},u=n.filter(S=>S.group===e.group&&S.sub===e.sub),p=u.findIndex(S=>S.key===e.key),b=u[p-1],v=u[p+1];return l.jsxs("article",{className:"doc","aria-labelledby":"doc-title",children:[l.jsxs("header",{className:"doc-head",children:[l.jsxs("nav",{className:"crumbs","aria-label":"Breadcrumb",children:[l.jsx("a",{href:"#/",children:"Library"}),l.jsx("span",{"aria-hidden":"true",children:"/"}),l.jsx("a",{href:vi(e.group),children:e.group}),l.jsx("span",{"aria-hidden":"true",children:"/"}),l.jsx("span",{children:kn(e.sub)})]}),l.jsx("h1",{id:"doc-title",children:e.title}),l.jsxs("div",{className:"doc-meta",children:[e.author&&l.jsxs("span",{children:["By ",e.author]}),e.date&&l.jsx("span",{children:e.date}),l.jsxs("span",{children:[Sw(e)," min read"]}),e.tags.length>0&&l.jsx("span",{children:e.tags.slice(0,4).join(", ")})]}),l.jsxs("div",{className:"doc-actions",children:[l.jsx("button",{className:"btn"+(t?" done":""),onClick:i,"aria-pressed":t,children:t?"✓ Completed":"Mark as completed"}),l.jsx("button",{className:"btn quiet",onClick:o,"aria-pressed":a,children:a?"Bookmarked":"Bookmark"}),l.jsx("span",{className:"spacer"}),l.jsx("button",{className:"linkbtn",onClick:m,children:d?"Saved .md file":"Save as Markdown"}),l.jsx("button",{className:"linkbtn",onClick:()=>print(),children:"Print or save PDF"})]})]}),l.jsxs("dl",{className:"source-plate",children:[l.jsx("dt",{children:"Source"}),l.jsx("dd",{children:l.jsx("a",{href:e.originalUrl,target:"_blank",rel:"noreferrer",children:e.originalUrl.replace(/^https?:\/\/(www\.)?/,"")})}),e.author&&l.jsxs(l.Fragment,{children:[l.jsx("dt",{children:"Author"}),l.jsx("dd",{children:e.author})]}),l.jsx("dt",{children:"Note"}),l.jsx("dd",{children:"Mirrored for offline study. Read and cite the original where you can."})]}),e.downloads.length>0&&l.jsxs("aside",{className:"downloads","aria-label":"Downloads",children:[l.jsx("h2",{children:"Project files"}),e.downloads.map(S=>l.jsx("div",{children:l.jsx("a",{href:S.url,children:S.title})},S.url))]}),l.jsx("div",{className:"prose",ref:c,dangerouslySetInnerHTML:{__html:r}}),(b||v)&&l.jsxs("nav",{className:"pager","aria-label":`More in ${kn(e.sub)}`,children:[b&&l.jsxs("a",{href:ia(b),children:[l.jsxs("small",{children:["Previous in ",kn(e.sub)]}),b.title]}),v&&l.jsxs("a",{className:"next",href:ia(v),children:[l.jsxs("small",{children:["Next in ",kn(e.sub)]}),v.title]})]})]})}function Ox({a:e}){const n=L.useMemo(()=>[...Aw(e).matchAll(/^(#{2,3})\s+(.+)$/gm)],[e]);return n.length<2?l.jsx("div",{}):l.jsxs("aside",{className:"toc","aria-label":"On this page",children:[l.jsx("h2",{children:"On this page"}),n.map((t,a)=>{const i=t[2].replace(/[*_`]/g,"");return l.jsx("a",{className:t[1].length===3?"sub":void 0,href:ia(e),onClick:o=>{var s;o.preventDefault(),(s=document.getElementById(Pw(yw(t[2]).replace(/<\/?p>\n?/g,""))))==null||s.scrollIntoView()},children:i},a)})]})}function Fx(e,n){const t=e.replace(/!\[[^\]]*\]\([^)]*\)/g,"").replace(/\[([^\]]*)\]\([^)]*\)/g,"$1").replace(/[#>*_`|]/g,"").replace(/\s+/g," "),a=t.toLowerCase().indexOf(n.toLowerCase());if(a<0)return{pre:t.slice(0,150),hit:"",post:""};const i=Math.max(0,a-70);return{pre:(i?"…":"")+t.slice(i,a),hit:t.slice(a,a+n.length),post:t.slice(a+n.length,a+n.length+90)+"…"}}function Rx({q:e,hits:n}){return l.jsxs("div",{className:"page",children:[l.jsx("h1",{style:{fontSize:30},children:n.length?`${n.length===40?"Top 40":n.length} results for “${e}”`:`No articles match “${e}”`}),!n.length&&l.jsx("p",{className:"empty",children:"Try a model or protocol name, such as S7-1500, Modbus or InTouch. Press Esc to clear the search."}),l.jsx("ul",{className:"results",children:n.map(t=>{const a=Fx(t.body,e);return l.jsx("li",{children:l.jsxs("a",{href:ia(t),children:[l.jsx("span",{className:"r-title",children:t.title}),l.jsxs("span",{className:"r-path",children:[t.group," / ",kn(t.sub)]}),l.jsxs("span",{className:"r-snip",children:[a.pre,a.hit&&l.jsx("mark",{children:a.hit}),a.post]})]})},t.key)})})]})}function Nx(){return l.jsxs("div",{className:"page",children:[l.jsxs("header",{className:"sims-head",children:[l.jsx("h1",{children:"Projects"}),l.jsx("p",{children:"Step-by-step tutorials that build complete PLC programs: the process, the design decisions, the code and how to test it. Each one ends with a simulator of the finished program."})]}),kd.map(e=>l.jsxs("article",{className:"project-card","aria-labelledby":`pj-${e.slug}`,style:{marginBottom:24},children:[l.jsxs("div",{className:"project-card-main",children:[l.jsx("span",{className:"tag",children:e.tag}),l.jsx("h2",{id:`pj-${e.slug}`,children:l.jsx("a",{href:`#/projects/${e.slug}`,children:e.title})}),l.jsx("p",{className:"muted",children:e.platform}),l.jsx("p",{children:e.summary}),l.jsxs("div",{className:"home-actions",children:[l.jsx("a",{className:"btn",href:`#/projects/${e.slug}`,children:"Start the walkthrough"}),l.jsx("a",{className:"btn quiet",href:`#/projects/${e.slug}/simulator`,children:"Go to the simulator"})]})]}),l.jsxs("nav",{className:"project-jumps","aria-label":`Jump into ${e.title}`,children:[l.jsx("h3",{children:"Jump to a step"}),l.jsx("ul",{children:e.jumps.map(([n,t])=>l.jsx("li",{children:l.jsx("a",{href:`#/projects/${e.slug}/${n}`,children:t})},n))})]})]},e.slug))]})}function Vx({p:e,step:n}){const t=e.src+(n?`#${n}`:"");return l.jsxs("div",{className:"project-view",children:[l.jsxs("div",{className:"project-bar",children:[l.jsxs("nav",{className:"crumbs","aria-label":"Breadcrumb",children:[l.jsx("a",{href:"#/projects",children:"Projects"}),l.jsx("span",{"aria-hidden":"true",children:"/"}),l.jsx("span",{children:e.tag})]}),l.jsx("h1",{children:e.title}),l.jsx("a",{className:"linkbtn",href:t,target:"_blank",rel:"noreferrer",children:"Open on its own page"})]}),l.jsx("iframe",{className:"project-frame",src:t,title:`${e.title}: interactive walkthrough`},t)]})}function Ux(){return l.jsxs("div",{className:"page",children:[l.jsxs("header",{className:"sims-head",children:[l.jsx("h1",{children:"Simulators"}),l.jsx("p",{children:"Three small processes drawn as operator faceplates. Each one runs in your browser; nothing is saved between visits."})]}),l.jsx(ux,{}),l.jsx(fx,{}),l.jsx(yx,{})]})}function jx(){return l.jsxs("div",{className:"page notfound",children:[l.jsx("h1",{children:"That page isn't in the library"}),l.jsx("p",{className:"muted",children:"The link may point to an article that wasn't mirrored. Search for its title, or go back to the library map."}),l.jsx("a",{className:"btn",href:"#/",children:"Back to the library"})]})}av.createRoot(document.getElementById("root")).render(l.jsx(xx,{}));
+${s}`],{type:"text/markdown"}),f=document.createElement("a");f.href=URL.createObjectURL(S),f.download=`${e.slug}.md`,f.click(),h(!0),setTimeout(()=>h(!1),1800)},u=n.filter(S=>S.group===e.group&&S.sub===e.sub),p=u.findIndex(S=>S.key===e.key),b=u[p-1],v=u[p+1];return l.jsxs("article",{className:"doc","aria-labelledby":"doc-title",children:[l.jsxs("header",{className:"doc-head",children:[l.jsxs("nav",{className:"crumbs","aria-label":"Breadcrumb",children:[l.jsx("a",{href:"#/",children:"Library"}),l.jsx("span",{"aria-hidden":"true",children:"/"}),l.jsx("a",{href:vi(e.group),children:e.group}),l.jsx("span",{"aria-hidden":"true",children:"/"}),l.jsx("span",{children:kn(e.sub)})]}),l.jsx("h1",{id:"doc-title",children:e.title}),l.jsxs("div",{className:"doc-meta",children:[e.author&&l.jsxs("span",{children:["By ",e.author]}),e.date&&l.jsx("span",{children:e.date}),l.jsxs("span",{children:[Sw(e)," min read"]}),e.tags.length>0&&l.jsx("span",{children:e.tags.slice(0,4).join(", ")})]}),l.jsxs("div",{className:"doc-actions",children:[l.jsx("button",{className:"btn"+(t?" done":""),onClick:i,"aria-pressed":t,children:t?"✓ Completed":"Mark as completed"}),l.jsx("button",{className:"btn quiet",onClick:o,"aria-pressed":a,children:a?"Bookmarked":"Bookmark"}),l.jsx("span",{className:"spacer"}),l.jsx("button",{className:"linkbtn",onClick:m,children:d?"Saved .md file":"Save as Markdown"}),l.jsx("button",{className:"linkbtn",onClick:()=>print(),children:"Print or save PDF"})]})]}),l.jsxs("dl",{className:"source-plate",children:[l.jsx("dt",{children:"Source"}),l.jsx("dd",{children:l.jsx("a",{href:e.originalUrl,target:"_blank",rel:"noreferrer",children:e.originalUrl.replace(/^https?:\/\/(www\.)?/,"")})}),e.author&&l.jsxs(l.Fragment,{children:[l.jsx("dt",{children:"Author"}),l.jsx("dd",{children:e.author})]}),l.jsx("dt",{children:"Note"}),l.jsx("dd",{children:e.note||"Mirrored for offline study. Read and cite the original where you can."})]}),e.downloads.length>0&&l.jsxs("aside",{className:"downloads","aria-label":"Downloads",children:[l.jsx("h2",{children:"Project files"}),e.downloads.map(S=>l.jsx("div",{children:l.jsx("a",{href:S.url,children:S.title})},S.url))]}),l.jsx("div",{className:"prose",ref:c,dangerouslySetInnerHTML:{__html:r}}),(b||v)&&l.jsxs("nav",{className:"pager","aria-label":`More in ${kn(e.sub)}`,children:[b&&l.jsxs("a",{href:ia(b),children:[l.jsxs("small",{children:["Previous in ",kn(e.sub)]}),b.title]}),v&&l.jsxs("a",{className:"next",href:ia(v),children:[l.jsxs("small",{children:["Next in ",kn(e.sub)]}),v.title]})]})]})}function Fx({a:e}){const n=L.useMemo(()=>[...Aw(e).matchAll(/^(#{2,3})\s+(.+)$/gm)],[e]);return n.length<2?l.jsx("div",{}):l.jsxs("aside",{className:"toc","aria-label":"On this page",children:[l.jsx("h2",{children:"On this page"}),n.map((t,a)=>{const i=t[2].replace(/[*_`]/g,"");return l.jsx("a",{className:t[1].length===3?"sub":void 0,href:ia(e),onClick:o=>{var s;o.preventDefault(),(s=document.getElementById(Pw(yw(t[2]).replace(/<\/?p>\n?/g,""))))==null||s.scrollIntoView()},children:i},a)})]})}function Rx(e,n){const t=e.replace(/!\[[^\]]*\]\([^)]*\)/g,"").replace(/\[([^\]]*)\]\([^)]*\)/g,"$1").replace(/[#>*_`|]/g,"").replace(/\s+/g," "),a=t.toLowerCase().indexOf(n.toLowerCase());if(a<0)return{pre:t.slice(0,150),hit:"",post:""};const i=Math.max(0,a-70);return{pre:(i?"…":"")+t.slice(i,a),hit:t.slice(a,a+n.length),post:t.slice(a+n.length,a+n.length+90)+"…"}}function Nx({q:e,hits:n}){return l.jsxs("div",{className:"page",children:[l.jsx("h1",{style:{fontSize:30},children:n.length?`${n.length===40?"Top 40":n.length} results for “${e}”`:`No articles match “${e}”`}),!n.length&&l.jsx("p",{className:"empty",children:"Try a model or protocol name, such as S7-1500, Modbus or InTouch. Press Esc to clear the search."}),l.jsx("ul",{className:"results",children:n.map(t=>{const a=Rx(t.body,e);return l.jsx("li",{children:l.jsxs("a",{href:ia(t),children:[l.jsx("span",{className:"r-title",children:t.title}),l.jsxs("span",{className:"r-path",children:[t.group," / ",kn(t.sub)]}),l.jsxs("span",{className:"r-snip",children:[a.pre,a.hit&&l.jsx("mark",{children:a.hit}),a.post]})]})},t.key)})})]})}function Vx(){return l.jsxs("div",{className:"page",children:[l.jsxs("header",{className:"sims-head",children:[l.jsx("h1",{children:"Projects"}),l.jsx("p",{children:"Step-by-step tutorials that build complete PLC programs: the process, the design decisions, the code and how to test it. Each one ends with a simulator of the finished program."})]}),kd.map(e=>l.jsxs("article",{className:"project-card","aria-labelledby":`pj-${e.slug}`,style:{marginBottom:24},children:[l.jsxs("div",{className:"project-card-main",children:[l.jsx("span",{className:"tag",children:e.tag}),l.jsx("h2",{id:`pj-${e.slug}`,children:l.jsx("a",{href:`#/projects/${e.slug}`,children:e.title})}),l.jsx("p",{className:"muted",children:e.platform}),l.jsx("p",{children:e.summary}),l.jsxs("div",{className:"home-actions",children:[l.jsx("a",{className:"btn",href:`#/projects/${e.slug}`,children:"Start the walkthrough"}),l.jsx("a",{className:"btn quiet",href:`#/projects/${e.slug}/simulator`,children:"Go to the simulator"})]})]}),l.jsxs("nav",{className:"project-jumps","aria-label":`Jump into ${e.title}`,children:[l.jsx("h3",{children:"Jump to a step"}),l.jsx("ul",{children:e.jumps.map(([n,t])=>l.jsx("li",{children:l.jsx("a",{href:`#/projects/${e.slug}/${n}`,children:t})},n))})]})]},e.slug))]})}function Ux({p:e,step:n}){const t=e.src+(n?`#${n}`:"");return l.jsxs("div",{className:"project-view",children:[l.jsxs("div",{className:"project-bar",children:[l.jsxs("nav",{className:"crumbs","aria-label":"Breadcrumb",children:[l.jsx("a",{href:"#/projects",children:"Projects"}),l.jsx("span",{"aria-hidden":"true",children:"/"}),l.jsx("span",{children:e.tag})]}),l.jsx("h1",{children:e.title}),l.jsx("a",{className:"linkbtn",href:t,target:"_blank",rel:"noreferrer",children:"Open on its own page"})]}),l.jsx("iframe",{className:"project-frame",src:t,title:`${e.title}: interactive walkthrough`},t)]})}function jx(){return l.jsxs("div",{className:"page",children:[l.jsxs("header",{className:"sims-head",children:[l.jsx("h1",{children:"Simulators"}),l.jsx("p",{children:"Three small processes drawn as operator faceplates. Each one runs in your browser; nothing is saved between visits."})]}),l.jsx(mx,{}),l.jsx(Cx,{}),l.jsx(Sx,{})]})}function Hx(){return l.jsxs("div",{className:"page notfound",children:[l.jsx("h1",{children:"That page isn't in the library"}),l.jsx("p",{className:"muted",children:"The link may point to an article that wasn't mirrored. Search for its title, or go back to the library map."}),l.jsx("a",{className:"btn",href:"#/",children:"Back to the library"})]})}av.createRoot(document.getElementById("root")).render(l.jsx(Mx,{}));

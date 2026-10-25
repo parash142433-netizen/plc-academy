@@ -62,6 +62,15 @@ const PROJECTS: Project[] = [
     jumps: [["process", "The rooms and requirements"], ["matrix", "The interlock matrix"], ["timers", "Interlock timers"], ["outputs", "Lock outputs"],
       ["update", "Improve a delivered program"], ["test", "Test and commission"], ["simulator", "Interlock simulator"], ["checklist", "Common mistakes"]],
   },
+  {
+    slug: "drum-blender-hmi", tag: "TP900",
+    title: "Basic Drum Blender HMI project: build an operator panel",
+    platform: "SIMATIC TP900 Comfort, WinCC (TIA Portal), S7-1200 CPU 1214C",
+    summary: "Build the operator panel for a drum blender in eighteen steps: screen map and template, HMI tags, job information, recipes with a blendability check, the blending screen, manual jog, alarms and logging, reports, blend history, users and the PLC clock. It ends with a live simulator of the finished panel running against a model of the machine.",
+    steps: 18, src: "projects/drum-blender-hmi/index.html",
+    jumps: [["process", "The machine and the operator"], ["screens", "Screen map and navigation"], ["recipe", "Recipes"], ["check", "Recipe check"],
+      ["blending", "Blending screen"], ["alarms", "Alarms and logging"], ["users", "Users and access rights"], ["simulator", "Panel simulator"]],
+  },
 ];
 
 const minutes = (a: Article) => Math.max(1, Math.round(a.words / 220));

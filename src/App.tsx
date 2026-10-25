@@ -436,7 +436,7 @@ function Reader({ a, list, done, marked, onDone, onMark }: { a: Article; list: A
       <dl className="source-plate">
         <dt>Source</dt><dd><a href={a.originalUrl} target="_blank" rel="noreferrer">{a.originalUrl.replace(/^https?:\/\/(www\.)?/, "")}</a></dd>
         {a.author && (<><dt>Author</dt><dd>{a.author}</dd></>)}
-        <dt>Note</dt><dd>Mirrored for offline study. Read and cite the original where you can.</dd>
+        <dt>Note</dt><dd>{a.note || "Mirrored for offline study. Read and cite the original where you can."}</dd>
       </dl>
 
       {a.downloads.length > 0 && (

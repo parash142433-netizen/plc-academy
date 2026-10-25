@@ -4,6 +4,8 @@ export interface Article {
   title: string; slug: string; locale: string; category: string; originalUrl: string;
   author: string; date: string; tags: string[]; downloads: { title: string; url: string }[];
   credit: string; group: string; sub: string; body: string; words: number; key: string;
+  /** Replaces the "Mirrored for offline study" note on pages written for this site */
+  note: string;
 }
 
 const files = import.meta.glob("./content/**/*.mdx", { query: "?raw", import: "default", eager: true }) as Record<string, string>;
@@ -30,7 +32,7 @@ export const articles: Article[] = Object.entries(files).map(([p, raw]) => {
   return {
     title: fm.title || p, slug: fm.slug || p, locale: fm.locale || "en", category: fm.category || "misc",
     originalUrl: fm.originalUrl || "", author: fm.author || "", date: fm.date || "", tags: fm.tags || [],
-    downloads: fm.downloads || [], credit: fm.credit || "", group: grp(fm.breadcrumbs || []), sub: sb(fm.breadcrumbs || []), body, words: body.split(/\s+/).length,
+    downloads: fm.downloads || [], credit: fm.credit || "", note: fm.note || "", group: grp(fm.breadcrumbs || []), sub: sb(fm.breadcrumbs || []), body, words: body.split(/\s+/).length,
     key: `${fm.locale || "en"}/${fm.slug || p}`,
   };
 }).sort((a, b) => a.group.localeCompare(b.group) || a.sub.localeCompare(b.sub) || a.title.localeCompare(b.title, undefined, { numeric: true }));

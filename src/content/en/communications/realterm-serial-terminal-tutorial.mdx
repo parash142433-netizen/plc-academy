@@ -1,0 +1,405 @@
+---
+title: "RealTerm Serial Terminal: Step-by-Step Tutorial"
+slug: "realterm-serial-terminal-tutorial"
+locale: "en"
+category: "communications"
+originalUrl: "https://realterm.sourceforge.io/"
+author: "PLC Academy"
+date: "25 Oct, 2026"
+breadcrumbs: ["Home","Communications","SERIAL"]
+tags: ["RealTerm","Serial","RS-232","RS-485","Modbus RTU","Tutorial"]
+downloads: []
+credit: "Tutorial written for PLC Academy from the RealTerm documentation (realterm.sourceforge.io) and the RealTerm 2.0.0.70 program. Screenshots: SparkFun Electronics, CC BY-SA 4.0. Full source list at the end of the page."
+note: "Tutorial written for PLC Academy from the official RealTerm documentation and the program itself. Each screenshot is credited under the image, and every source is listed at the end."
+---
+[Home](#/a/en%2Fhome) › [Communications](#/a/en%2Fcommunications) › RealTerm
+
+# RealTerm Serial Terminal: Step-by-Step Tutorial
+
+PLC Academy 25 Oct, 2026
+
+RealTerm Serial RS-232 RS-485 Modbus RTU Tutorial
+
+## What you will learn
+
+RealTerm is a free Windows terminal built for engineers who need to see **every byte** on a serial line, not only readable text. In this tutorial you will:
+
+1.  Find your COM port and open it with the right settings.
+2.  Prove the port works with a loopback test, with or without hardware.
+3.  Show received data as hex, so control characters and binary values are visible.
+4.  Send text, binary values and a complete **Modbus RTU** request with its CRC.
+5.  Capture traffic to a file with timestamps.
+6.  Drive and watch the RS-232 handshake pins.
+7.  Watch both directions of a link, and save your setup as a one-click shortcut.
+
+#### See every byte
+
+Hex, decimal, binary and 16-bit views of incoming data. Nothing is hidden, not even NUL or CR.
+
+#### Send binary easily
+
+Type `0x01 0x03 0x00 0x00` and send it. No ASCII tables, no awkward key combinations.
+
+#### Modbus CRC built in
+
+One tick appends the Modbus CRC-16 to anything you send.
+
+#### Capture and log
+
+Save traffic to a file, as raw bytes or as hex, with a timestamp on every line.
+
+This tutorial uses **RealTerm 2.0.0.70**, the release the standard installer puts in `C:\Program Files (x86)\BEL\Realterm`. The button names below are the ones that version shows. Newer 3.x beta versions add features (for example custom timestamp formats), but the steps here work the same way.
+
+## Before you start
+
+You need:
+
+*   A Windows PC with RealTerm installed.
+*   A serial port. This can be a built-in COM port, a USB-to-serial adapter or a USB-to-RS-485 adapter. If your adapter uses an FTDI chip and Windows does not install a driver by itself, install the FTDI driver **before** you plug it in.
+*   Optional: a **loopback plug**, which is just a wire between pin 2 and pin 3 of a 9-pin D connector. A paper clip in a female DB9 plug works for a quick test.
+*   Optional: the device you want to talk to (PLC port, drive, meter, Modbus slave) and its manual, with its baud rate and data format.
+
+Two habits save hours with RealTerm:
+
+*   **Read the tooltips.** Hover over any control and a hint pops up. The hint is also copied to the status bar at the bottom; double-click the status bar to see all of it. Tooltips are RealTerm's main help.
+*   **Press F1** for RealTerm's help screen and links.
+
+## Step 1: Find your COM port number
+
+Windows gives every serial port a number: COM1, COM3, COM7 and so on.
+
+1.  Open **Device Manager** and expand **Ports (COM & LPT)**. Note the number next to your adapter, for example *USB Serial Port (COM3)*.
+2.  Start RealTerm and click the **Port** tab.
+3.  Open the **Port** drop-down. RealTerm lists the ports it found in the Windows registry, in the form `number = \device name`, for example `23 = \VCP0`.
+
+![RealTerm 2.0.0.70 Port tab with the Port drop-down open, listing 1 = \Serial0, 23 = \VCP0, two Bluetooth ports, and the telnet entries server:telnet and 127.0.0.1:telnet](./assets/images/realterm/realterm-port-tab.png)
+
+The Port tab with the port list open. Real ports come first, then the network entries. Screenshot: [SparkFun Electronics, Serial Terminal Basics](https://learn.sparkfun.com/tutorials/terminal-basics/real-term-windows), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+Good to know:
+
+*   **Double-click the Port box** to scan for ports again, for example after plugging in an adapter.
+*   A USB adapter often gets a **different COM number on a different USB socket**. If your port "disappears", check Device Manager again.
+*   You can also type the device name instead of the number, for example `\VCP0`. That name follows the adapter whichever socket it is in.
+*   The same box accepts network addresses such as `192.168.0.50:4001` (a serial-to-Ethernet converter) and `server:telnet`. You will use those in Step 4.
+
+## Step 2: Get to know the window
+
+The RealTerm window has four areas.
+
+| Area | What it does |
+| --- | --- |
+| **Terminal** (black, top) | Shows received data. Click inside it, then type to send characters. |
+| **Tabs** (middle) | All settings: Display, Port, Capture, Pins, Send, Echo Port, I2C, I2C-2, I2CMisc, Misc. |
+| **Status lights** (right) | Connected, RXD (2), TXD (3), CTS (8), DCD (1), DSR (6), Ring (9), BREAK and Error. They flash as signals change. |
+| **Status bar** (bottom) | The current hint, **Char Count**, **CPS** (characters per second) and the port summary, for example `Port: 3 9600 8N1 None`. |
+
+The four buttons beside the tabs act on the terminal: **\\n** moves to a new line, **Clear** empties the screen, **Freeze** stops the display while data keeps arriving (leave it on too long and the buffer overflows), and **?** opens the pop-up menu. Right-clicking the terminal opens the same menu.
+
+The tabs you will use most:
+
+| Tab | Use it to |
+| --- | --- |
+| **Display** | Choose how received bytes are shown (ASCII, hex, numbers). |
+| **Port** | Pick the port, baud rate, data bits, parity, stop bits and flow control. |
+| **Capture** | Save received data to a file. |
+| **Pins** | Set or clear RTS and DTR, send a break, see the pin-out. |
+| **Send** | Send strings, numbers, files, and add a CRC. |
+| **Echo Port** | Connect a second port, to bridge or to monitor a link. |
+
+The I2C tabs are for the I2C2PC and BL233B I2C/SPI/1-Wire adapters from I2CChip, so this tutorial does not use them.
+
+## Step 3: Open the port with the right settings
+
+Both ends of a serial link must use **exactly the same** baud rate, data bits, parity and stop bits. Take them from the device manual or its configuration.
+
+1.  On the **Port** tab, choose your port in the **Port** box.
+2.  Choose the **Baud** rate from the list, or type any value. RealTerm passes any rate to Windows; whether it works depends on your hardware.
+3.  Set **Data Bits**, **Parity** and **Stop Bits**.
+4.  Leave **Hardware Flow Control** on **None** and the **Software Flow Control** boxes unticked for now. With no handshaking, data flows even if the handshake wires are missing, which is the best way to get *something* working first.
+5.  Click **Change**. RealTerm only applies new settings when you click it.
+6.  Check the status bar: it should show your settings, for example `Port: 3 19200 8E1 None`.
+
+If **Change** does not seem to take effect the first time you pick a port, click **Open** twice: the first click closes the port, the second reopens it with the new settings.
+
+Common settings in industry:
+
+| Device / protocol | Typical setting |
+| --- | --- |
+| Modbus RTU (spec default) | **19200, 8 data bits, Even parity, 1 stop bit** (8E1) |
+| Modbus RTU without parity | 8 data bits, No parity, **2** stop bits (8N2) |
+| Many meters and barcode readers | 9600 8N1 |
+
+The Modbus serial-line specification requires 9600 and 19200 baud, makes 19200 the default, makes even parity the default, and says that **no parity needs 2 stop bits**. Many devices still ship at 9600 8N1, so always check the manual.
+
+What the flow-control options mean:
+
+*   **None**: no handshaking. Start here.
+*   **RTS/CTS**: the most common hardware handshake, but only if both sides have the RTS and CTS wires connected.
+*   **DTR/DSR**: the same idea using the DTR and DSR wires.
+*   **RS485-rts**: RealTerm switches RTS on while it transmits, for RS-485 converters that need RTS to change direction. Many USB-to-RS-485 adapters switch direction by themselves, so leave this on None unless your adapter's manual asks for it. The RealTerm documentation also warns that Windows can release RTS too late for devices that reply very quickly.
+
+## Step 4: Prove the port works (loopback test)
+
+Before you blame a device, prove that RealTerm, the driver and the port work. Pick one of these tests.
+
+### Test A: loopback plug (tests the real port)
+
+1.  Fit the loopback plug (a wire from pin 2, RXD, to pin 3, TXD) to the port. The pin numbers are listed on the **Pins** tab.
+2.  Open the port as in Step 3.
+3.  Click inside the black terminal and type `hello`.
+4.  Each character goes out on TXD, comes straight back on RXD and appears on the screen. The **TXD** and **RXD** lights flash and **Char Count** goes up.
+
+If nothing comes back, the problem is the port, driver, cable or plug, not your device.
+
+Note that RealTerm does **not** show what you type unless **Half Duplex** is ticked on the **Display** tab. Without a loopback, typing into an open port leaves the screen blank. That is normal.
+
+### Test B: two RealTerms, no hardware at all
+
+RealTerm can also open a network connection, so two copies can talk to each other on the same PC:
+
+1.  Start RealTerm. On the **Port** tab, type `server:telnet` in the **Port** box and open it. This window now waits for a connection on the telnet port (23).
+2.  Start a **second** RealTerm. Set its **Port** box to `127.0.0.1:telnet` and open it. 127.0.0.1 always means "this PC".
+3.  The **Connected** light turns on in both windows.
+4.  Click into one terminal and type. The text appears in the other window, and the other way round.
+
+Windows Firewall may ask about network access for the first window, because it is now a server. The test itself never leaves your PC.
+
+This is a handy way to practise the Send and Display tabs before you have hardware. To make RealTerm talk to **another program on the same PC**, for example a SCADA driver or a Modbus master simulator, you need a pair of virtual COM ports such as the free **com0com**. Your program opens one port of the pair and RealTerm opens the other.
+
+## Step 5: See every byte with the Display tab
+
+Text terminals hide control characters and cannot show binary values. RealTerm's **Display As** list on the **Display** tab fixes that. It changes only how bytes are **shown**; captured files always receive the raw bytes.
+
+| Display As | Shows |
+| --- | --- |
+| **Ascii** | Every character, including control codes, which RealTerm's hex font draws as small symbols. Codes such as backspace, tab and form feed are shown, not acted on. |
+| **Ansi** | A classic VT100 terminal: control codes move the cursor and clear the screen. Use it for menus and text-based device consoles. |
+| **Hex[space]** | Each byte as two hex digits with a space, for example `48 65 6C`. The best choice for binary protocols such as Modbus RTU. |
+| **Hex + Ascii** | Hex and the matching character side by side. |
+| **uint8 / int8** | Each byte as an unsigned (0 to 255) or signed (−128 to 127) decimal number. |
+| **int16 / uint16** | Pairs of bytes as 16-bit numbers. Tick **Big Endian** if the high byte comes first, as it does in Modbus registers. |
+| **Binary / Nibble** | Each byte as 8 bits, for example `01001000`. Nibble puts a dot between the two halves: `0100.1000`. |
+| **Float4** | Groups of four bytes as a floating-point number. |
+
+![RealTerm Display tab with Display As set to Hex[space]; the terminal shows 48 65 6C 6C 6F 2C 20 57 6F 72 6C 64 and the status bar shows Char Count 12](./assets/images/realterm/realterm-display-hex.png)
+
+Display As set to **Hex[space]**. Screenshot: [SparkFun Electronics, Serial Terminal Basics](https://learn.sparkfun.com/tutorials/terminal-basics/real-term-windows), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+Exercise: decode the screenshot. `48 65 6C 6C 6F 2C 20 57 6F 72 6C 64` is 12 bytes (look at **Char Count: 12**). Look each one up in an ASCII table: `48` = H, `65` = e, `6C` = l, `6F` = o, `2C` = comma, `20` = space, `57` = W, `72` = r, `64` = d. The message is **Hello, World**.
+
+Other useful Display tab controls:
+
+*   **Half Duplex**: also shows what you send.
+*   **newLine mode**: every LF starts a new line, and a lone CR does too when the next character arrives. Good for devices that end lines with CR only.
+*   **7Bits**: clears the top bit of each received byte, for devices whose parity bit shows up as bit 8.
+*   **Data Frames → Bytes**: in hex modes, fits a whole number of frames on each line, for fixed-length telegrams. Press **Gulp** to drop one byte at a time until each frame starts at the left edge.
+*   **Binary Sync Chars**: in the hex and number modes, starts a new line whenever a chosen byte pattern arrives, so variable-length frames line up. Enter the pattern in **Data** (for example `0xA5 0x5A`), set **Sync is** to *Number* or *ASCII*, and click **Change**.
+*   **Rows**, **Cols** and **Scrollback** set the terminal size and how much history it keeps.
+
+## Step 6: Send text and numbers with the Send tab
+
+The **Send** tab has two send boxes. Each has two buttons:
+
+*   **Send ASCII** sends the text as characters.
+*   **Send Numbers** reads the box as a list of byte values and sends those bytes.
+
+![RealTerm Send tab: the first send box contains 126 0x7E $7E 255 0x01, next to the Send Numbers and Send ASCII buttons, the EOL +CR/+LF/+crc boxes, the \n Before/After boxes and the Dump File to Port section](./assets/images/realterm/realterm-send-tab.png)
+
+The Send tab. The first box holds five numbers written in three styles. Screenshot: [SparkFun Electronics, Serial Terminal Basics](https://learn.sparkfun.com/tutorials/terminal-basics/real-term-windows), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+### Sending numbers
+
+Separate the values with spaces or commas. Each value is a decimal number from 0 to 255, or a hex number starting with `0x` or `$`. The box in the screenshot, `126 0x7E $7E 255 0x01`, sends five bytes: `7E 7E 7E FF 01`. 126, 0x7E and $7E are the same value.
+
+The small unlabelled box at the bottom left sends **each number as soon as you press Space**. That is good for poking a device one byte at a time, but **not** for Modbus RTU, as you will see in Step 7.
+
+### Sending text
+
+Type text and press **Send ASCII**. Tick **+CR** and/or **+LF** beside that box to add a line ending. Many devices only act on a command when it ends with CR (0x0D) or CR LF (0x0D 0x0A).
+
+In the terminal itself, **Enter** sends CR and **Ctrl+Enter** sends LF.
+
+Send ASCII also understands these backslash codes, unless you tick **Literal**:
+
+| Code | Sends |
+| --- | --- |
+| `\r` | CR, carriage return (0x0D) |
+| `\n` | LF, line feed (0x0A) |
+| `\t` | TAB (0x09) |
+| `\a`, `\b`, `\f`, `\v` | BEL (0x07), BS (0x08), FF (0x0C), VT (0x0B) |
+| `\xhh` | Any byte, as two hex digits, for example `\x02` for STX |
+| `\\`, `\"`, `\'` | A backslash, double quote, single quote |
+
+For example, `\x02READ\x03` sends STX, the letters READ and ETX. In version 2.0.0.70, prefer `\xhh` for single bytes: the official documentation notes that number codes such as `\002` were read as decimal before version 3.0.0.30, not as octal like Python.
+
+### The other Send controls
+
+*   **Repeats**: sends the string this many times. Large numbers can lock the program up while it sends.
+*   **\\n Before / After**: moves the terminal to a new line before or after each send, so every request and its reply sit on their own line.
+*   **Strip Spaces**: removes spaces from ASCII text before sending.
+*   **0**, **^C** and **LF** send NUL (0x00), Ctrl-C (0x03) and LF (0x0A) with one click.
+*   **Dump File to Port**: sends a file's bytes exactly as they are, with optional **Delays** after each character and each line, and **Repeats**.
+
+## Step 7: Send a Modbus RTU request with +crc
+
+A Modbus RTU frame is the slave address, a function code, data, and a **CRC-16** of all those bytes, sent low byte first. RealTerm can calculate the CRC for you.
+
+We will read **2 holding registers** starting at address **0** from slave **1** (function code 03):
+
+| Byte(s) | Meaning |
+| --- | --- |
+| `01` | Slave address 1 |
+| `03` | Function 03, Read Holding Registers |
+| `00 00` | Starting address 0 (Modbus register 40001) |
+| `00 02` | Quantity: 2 registers |
+| `C4 0B` | CRC-16, low byte first (RealTerm adds this) |
+
+1.  Open the port with the slave's settings (Step 3), for example 19200 8E1.
+2.  On the **Display** tab, choose **Hex[space]**.
+3.  On the **Send** tab, tick **+crc** and choose **Modbus16** in the CRC list beside it. The list starts on *SMBUS 8*, which is a different, 1-byte CRC, so this choice matters.
+4.  Tick **\\n After**, so each reply starts on a fresh line.
+5.  Type `0x01 0x03 0x00 0x00 0x00 0x02` in the first send box and click **Send Numbers**.
+6.  RealTerm sends `01 03 00 00 00 02 C4 0B`. To see the sent bytes on screen too, tick **Half Duplex** on the Display tab.
+
+A healthy slave replies like this (your values will differ):
+
+```
+01 03 04 00 FA 01 2C DA 4F
+```
+
+| Byte(s) | Meaning |
+| --- | --- |
+| `01 03` | From slave 1, answering function 03 |
+| `04` | 4 data bytes follow |
+| `00 FA` | Register 0 = 0x00FA = **250** |
+| `01 2C` | Register 1 = 0x012C = **300** |
+| `DA 4F` | The slave's CRC |
+
+If the slave **does not accept** the request, it sends an exception: the function code plus 0x80, then an error code. For example, `01 83 02 C0 F1` means "function 03 failed, code 02: illegal data address". Check your register address.
+
+Why use the send box and **Send Numbers**? In RTU mode a frame must arrive as one unbroken burst; the specification separates frames by a silence of at least 3.5 character times. Send Numbers sends the whole frame in one go. The space-to-send box puts a pause between bytes, and the slave may treat each pause as the end of a frame.
+
+The CRC list also offers **Checksum8** and **Checksum16** (byte sums) and two 1-byte CRCs for SMBus and Dallas 1-Wire. Those are for other protocols. To see Modbus done from the PLC side, read [Modbus RTU / TCP](#/a/en%2Fmodbus), [CB1241 (RS-485) and CM1241 (RS-232) Modbus RTU configuration](#/a/en%2Ftia-portal-modbus-rtu), [Micrologix Modbus Master RTU](#/a/en%2Frslogix500-micrologix-master-modbus) and [Modbus RTU Network Simulation](#/a/en%2F058).
+
+## Step 8: Capture data to a file
+
+The **Capture** tab saves received data to disk, for example to log a device for a whole night or to keep evidence of a fault.
+
+1.  In **File**, type a full path or click **...** to choose one. The default is `c:\temp\capture.txt`, so make sure the folder exists.
+2.  Under **End After**, choose **Bytes** or **Secs** and enter the limit. **0** means no limit.
+3.  Choose the options:
+    *   **Direct Capture** (ticked): writes the bytes straight to the file and turns off the terminal display. It is faster and best for long or fast logs. Untick it to capture what the terminal shows instead.
+    *   **Capture as Hex**: writes every byte as two hex characters, so a binary log can be read in Notepad. The documentation says it only works with Direct Capture.
+    *   **TimeStamp**: puts the time at the start of each line, where lines end with CR or LF. *Unix* is seconds since 1 January 1970; *Matlab* is a day number with a fraction; *YMDHS* uses your Windows date format. **Delimiter** puts a comma or a space after the timestamp, which is handy for opening the file in Excel.
+4.  Click **Start: Overwrite** to begin a new file, or **Start: Append** to add to an existing one.
+5.  Click **Stop Capture** when you are done, if the End After limit has not stopped it already.
+
+While capturing, the RealTerm icon shows a red dot that turns as bytes arrive. Timestamps only make sense for text data that ends lines with CR or LF.
+
+For difficult problems, the **Diagnostic Files** box on the same tab writes a **Trace** file (characters sent and received) and a **Log** file (timing of each event), named realterm.trc and realterm.log, in the RealTerm folder or the current folder. Click **Dump** to write them out and **Clear** to start again.
+
+## Step 9: Drive and watch the handshake pins
+
+RS-232 has more than data wires. The **Pins** tab shows the standard pin-out from the PC's point of view:
+
+| Signal | DB9 pin | Direction at the PC | DB25 pin |
+| --- | --- | --- | --- |
+| DCD | 1 | In | 8 |
+| RXD | 2 | In | 3 |
+| TXD | 3 | Out | 2 |
+| DTR | 4 | Out | 20 |
+| GND | 5 | — | 7 |
+| DSR | 6 | In | 6 |
+| RTS | 7 | Out | 4 |
+| CTS | 8 | In | 5 |
+| RING | 9 | In | 22 |
+
+On the **Pins** tab:
+
+*   **RTS (7)** and **DTR (4)** have **Set** and **Clear** buttons. *Set* drives the pin positive, *Clear* negative. Use them to wake a modem, signal a device, or check that the other side reacts to a pin change. The buttons do nothing for a pin while hardware handshaking uses it (RTS/CTS or DTR/DSR on the Port tab).
+*   **TXD (3)** has **Set Break**, **Clear Break** and **500ms Break**. A break holds the TXD line in its "space" state for longer than a character; some devices use it as a reset or wake-up signal.
+
+The **Status** lights on the right show the inputs: CTS, DSR, DCD and Ring, plus **BREAK** when the incoming line is held in break and **Error** when RealTerm detects a receive error. Hover over **Error** to read the cause, and double-click its label to clear it. Framing or parity errors almost always mean a wrong baud rate or parity setting.
+
+## Step 10: Watch both directions (Spy and Monitor)
+
+Sometimes you need to see a conversation between two other parties, for example a SCADA PC and a PLC. RealTerm has two ways to do it, and both show the two directions interleaved in different colours.
+
+*   **Spy** (button on the Port tab): watches a COM port that **another program on this PC** is using. It needs a separate spy driver to be installed. Turn Spy on **before** opening the port, and close the port before turning it off. You can copy from the terminal, but spy data cannot be captured to a file.
+*   **Monitor** (on the Echo Port tab): watches a cable between **two external devices** using two COM ports on your PC and a tap cable. At the PC end, connect **only RXD and GND** of each port: one port's RXD listens to the TXD wire of one device, the other port's RXD listens to the TXD wire of the other. Open the first port on the **Port** tab and the second on the **Echo Port** tab, then tick **Echo On** and **Monitor**.
+
+Treat the order on screen as approximate: Windows adds unpredictable delays, so very fast exchanges may appear slightly out of sequence.
+
+The **Echo Port** can also pass the main port through to a network port. For example, a PC next to a machine can share its COM1 over the network:
+
+```
+realterm port=1 baud=9600 echo=server:9876
+```
+
+A colleague then runs `realterm port=<that PC's IP address>:9876` and works with the serial device from their desk.
+
+## Step 11: Save your setup as a shortcut
+
+RealTerm **does not save its settings**. Instead, you put them on the command line, usually in a Windows shortcut:
+
+1.  Right-click the desktop and choose **New → Shortcut**.
+2.  As the location, enter the program path in quotes followed by the options, for example:
+
+```
+"C:\Program Files (x86)\BEL\Realterm\realterm.exe" port=3 baud=19200 data=8E1 display=2 tab=Send caption=Modbus_COM3
+```
+
+3.  Name the shortcut, for example *Modbus test COM3*. Double-click it and RealTerm opens with COM3 at 19200 8E1, the display in Hex[space], the Send tab in front, and your title in the title bar.
+
+Options that version 2.0.0.70 understands (no `/` or `-` in front, and quotes around values with spaces):
+
+| Option | Example | Meaning |
+| --- | --- | --- |
+| `port` | `port=3` | COM port number, device name or `ip:port` |
+| `baud` | `baud=9600` | Baud rate |
+| `data` | `data=8E1` | Data bits, parity (N, O, E, M, S), stop bits |
+| `flow` | `flow=2` | Hardware flow control: 0 None, 1 DTR/DSR, 2 RTS/CTS, 3 RS485-rts |
+| `display` | `display=2` | Display As item, counted from 0: 0 Ascii, 1 Ansi, 2 Hex[space], 3 Hex + Ascii |
+| `half` | `half=1` | Half Duplex on |
+| `tab` | `tab=Capture` | Tab to show at start |
+| `caption` | `caption=Line3_Scale` | Window title, useful when several copies are running |
+| `capture` | `capture=c:\logs\scale.txt` | Start capturing to this file at once |
+| `capsecs` | `capsecs=3600` | Stop capturing after this many seconds |
+| `sendfile` | `sendfile=c:\logs\cmd.txt` | File to send |
+| `sendrep`, `senddly` | `sendrep=0 senddly=10000` | Send the file again and again (0 = forever), waiting 10 000 ms between sends |
+| `echo` | `echo=server:9876` | Echo port |
+
+The [official documentation](https://realterm.sourceforge.io/) has the full table of options. Some of them only exist in newer versions.
+
+**A data logger in one line.** Put the command your instrument expects (for example a "read value" command ending in CR) in `cmd.txt`, then run:
+
+```
+"C:\Program Files (x86)\BEL\Realterm\realterm.exe" port=3 baud=9600 sendfile=c:\logs\cmd.txt sendrep=0 senddly=10000 capture=c:\logs\results.txt
+```
+
+RealTerm sends the command every 10 seconds, forever, and saves every reply. That turns an RS-232 meter into a simple data logger with no other software.
+
+## Test and common mistakes
+
+| Symptom | Likely cause and fix |
+| --- | --- |
+| Port will not open | Another program (a PLC tool, a SCADA driver, a second RealTerm) already has it open. Only one program can open a COM port at a time. Close the other program. |
+| Port missing from the list | Adapter unplugged or moved to another USB socket. Double-click the Port box to scan, and check Device Manager. |
+| Nothing received at all | Wrong COM number; TX and RX not crossed (you may need a null-modem cable); handshaking set but the wires are missing, so set flow control to None; device needs a CR at the end of each command, so tick +CR. |
+| Garbage characters, Error light on | Baud rate, parity or stop bits do not match the device. Check all three. |
+| Modbus slave never answers | Wrong slave address; +crc not ticked, or the CRC list not on **Modbus16**; wrong parity; on RS-485, A and B swapped or the line not terminated. |
+| Modbus reply is `xx 83 02 …` | Exception 02: the register address does not exist in that slave. |
+| Bytes 0xFF missing or doubled on a network port | The connection is using telnet rules. Set **Winsock is: Raw** on the Port tab and reopen the port. |
+| Nothing appears when you type | Normal without a loopback or device. Tick **Half Duplex** to see what you send. |
+
+## Sources and credits
+
+This tutorial was written for PLC Academy. The facts come from these sources:
+
+*   **RealTerm documentation**: [realterm.sourceforge.io](https://realterm.sourceforge.io/), by Broadcast Equipment Ltd and the RealTerm project. Display modes, send escape codes, capture, monitoring, echo port and command-line usage.
+*   **RealTerm 2.0.0.70 program files**: the Readme, the change log, and the button labels and tooltips of the installed program. RealTerm is open source and its installer includes the source code.
+*   **SparkFun Electronics**, [Serial Terminal Basics: RealTerm (Windows)](https://learn.sparkfun.com/tutorials/terminal-basics/real-term-windows), by Jimb0, Joel_E_B and Maettu_this. The three screenshots on this page, used unchanged under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+*   **Modbus Organization**, *MODBUS over Serial Line Specification and Implementation Guide V1.02*. Default 19200 baud and even parity, 2 stop bits without parity, RTU frame spacing. The CRC values in Step 7 were calculated with the same CRC-16 routine that RealTerm uses.
+
+RealTerm is free software. Download it from its [SourceForge project page](https://sourceforge.net/projects/realterm/).

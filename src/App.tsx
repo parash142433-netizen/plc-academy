@@ -71,6 +71,15 @@ const PROJECTS: Project[] = [
     jumps: [["process", "The machine and the operator"], ["screens", "Screen map and navigation"], ["recipe", "Recipes"], ["check", "Recipe check"],
       ["blending", "Blending screen"], ["alarms", "Alarms and logging"], ["users", "Users and access rights"], ["simulator", "Panel simulator"]],
   },
+  {
+    slug: "pw-generation-hmi", tag: "TP1200",
+    title: "Basic PW Generation HMI project: build a water plant operator panel",
+    platform: "SIMATIC TP1200 Comfort, WinCC (TIA Portal), ET 200SP CPU 1512SP-1 PN",
+    summary: "Build the operator panel for a purified water generation plant in eighteen steps: standard objects and faceplates, P&ID screens, analog scaling and limits, motors and valves, six PID loops, softener regeneration, the RO start, dump and recycle sequence, alarms, trends, settings and user rights. It ends with a live simulator of the finished panel running against a model of the plant.",
+    steps: 18, src: "projects/pw-generation-hmi/index.html",
+    jumps: [["process", "The water and the requirements"], ["objects", "Standard objects"], ["faceplates", "Faceplate types"], ["pid", "PID loops"],
+      ["softeners", "Softener regeneration"], ["ro", "RO sequence"], ["alarms", "Alarms and logging"], ["simulator", "Panel simulator"]],
+  },
 ];
 
 const minutes = (a: Article) => Math.max(1, Math.round(a.words / 220));

@@ -53,6 +53,15 @@ const PROJECTS: Project[] = [
     jumps: [["process", "The process and requirements"], ["start", "Start conditions and doors"], ["pulses", "Air removal: vacuum pulses"], ["control", "Pressure control and steam table"],
       ["f0", "Exposure time and F0"], ["alarms", "Alarms"], ["test", "Test and common mistakes"], ["simulator", "Sterilizer simulator"]],
   },
+  {
+    slug: "door-interlock", tag: "SR2A201BD",
+    title: "Basic Door Interlock project: build a cleanroom door interlock",
+    platform: "Schneider Zelio Logic SR2A201BD, Zelio Soft 2, ladder",
+    summary: "Build a door interlock for two chains of cleanroom airlocks in thirteen steps: the interlock matrix, door-open flags, off-delay hold timers and lock outputs on 27 ladder lines. Then improve a delivered version so an emergency releases every lock at once, and test both versions in a live simulator.",
+    steps: 13, src: "projects/door-interlock/index.html",
+    jumps: [["process", "The rooms and requirements"], ["matrix", "The interlock matrix"], ["timers", "Interlock timers"], ["outputs", "Lock outputs"],
+      ["update", "Improve a delivered program"], ["test", "Test and commission"], ["simulator", "Interlock simulator"], ["checklist", "Common mistakes"]],
+  },
 ];
 
 const minutes = (a: Article) => Math.max(1, Math.round(a.words / 220));

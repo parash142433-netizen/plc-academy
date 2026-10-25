@@ -1,0 +1,1401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Basic Drum Blender HMI Tutorial</title>
+<meta name="description" content="A step-by-step tutorial: build the operator panel for a drum blender on a SIMATIC TP900 Comfort with WinCC in TIA Portal, with a live simulator of the finished panel.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<style>
+@font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-700-normal.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(../fonts/barlow-semi-condensed-latin-500-normal.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(../fonts/barlow-semi-condensed-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(../fonts/barlow-semi-condensed-latin-700-normal.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(../fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(../fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+/* Layout: an engineer's build log. Step rail on the left, one build step at a time on a drafting sheet.
+   Simulator panels follow ISA-101 practice: grey for normal, colour only for state and abnormal. */
+:root{
+  --bg:#e2e5e3; --paper:#f7f8f6; --ink:#1c2225; --ink-2:#4e585c; --muted:#6f797d; --rule:#d4d9d7; --rule-2:#bcc3c1;
+  --accent:#2d5f8b; --accent-ink:#244f75; --accent-wash:#d5e1eb; --code-bg:#eaecea; --panel:#eef0ee;
+  --on:#2e7d32; --on-wash:#e1f1e2; --off:#a3afb5; --alarm:#c62828; --alarm-wash:#fbe5e5; --warn:#a86400; --warn-wash:#fbefd9; --info:#1f6aa8;
+  --tip-bg:#182226; --tip-fg:#ffffff;
+  --f-head:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Barlow","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161b1d; --paper:#1f2629; --ink:#e2e7e5; --ink-2:#a3aeb1; --muted:#7f8a8e; --rule:#2d363a; --rule-2:#3b464a;
+    --accent:#86afd4; --accent-ink:#9fc0de; --accent-wash:#233849; --code-bg:#1a2023; --panel:#252d31;
+    --on:#5cc062; --on-wash:#17331a; --off:#55636b; --alarm:#ef6461; --alarm-wash:#3a1717; --warn:#f0a63a; --warn-wash:#3a2a10; --info:#6aa9e6;
+    --tip-bg:#e2e9ec; --tip-fg:#151c20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161b1d; --paper:#1f2629; --ink:#e2e7e5; --ink-2:#a3aeb1; --muted:#7f8a8e; --rule:#2d363a; --rule-2:#3b464a;
+  --accent:#86afd4; --accent-ink:#9fc0de; --accent-wash:#233849; --code-bg:#1a2023; --panel:#252d31;
+  --on:#5cc062; --on-wash:#17331a; --off:#55636b; --alarm:#ef6461; --alarm-wash:#3a1717; --warn:#f0a63a; --warn-wash:#3a2a10; --info:#6aa9e6;
+  --tip-bg:#e2e9ec; --tip-fg:#151c20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);margin:0}
+.top{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 8px;max-width:1320px;margin:0 auto}
+.top .eyebrow{font:600 .78rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.top h1{font:700 clamp(1.7rem,3.6vw,2.5rem)/1.1 var(--f-head);margin:4px 0 6px;text-wrap:balance}
+.top p{margin:0;color:var(--ink-2);max-width:78ch}
+.progress{display:flex;align-items:center;gap:12px;margin-top:14px;font:600 .85rem var(--f-head);color:var(--ink-2);letter-spacing:.04em}
+.progress .bar{flex:1;height:6px;background:var(--rule);border-radius:3px;overflow:hidden;max-width:520px}
+.progress .bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 64px;display:grid;grid-template-columns:270px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Step rail */
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--paper);border:1px solid var(--rule);max-height:calc(100vh - 24px);overflow:auto}
+.rail summary{list-style:none;cursor:pointer;padding:12px 14px;font:600 .78rem var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);border-bottom:1px solid var(--rule)}
+.rail summary::-webkit-details-marker{display:none}
+.rail ol{list-style:none;margin:0;padding:6px}
+.rail .phase{font:600 .7rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 8px 4px}
+.rail button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:2em 1fr;gap:4px;width:100%;padding:6px 8px;border-radius:4px;cursor:pointer;color:var(--ink-2);font-size:.92rem;line-height:1.3}
+.rail button span{font:500 .8rem var(--f-mono);color:var(--muted);padding-top:1px}
+.rail button:hover{background:var(--panel);color:var(--ink)}
+.rail button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.rail button[aria-current="step"]{background:var(--accent-wash);color:var(--ink);font-weight:600}
+.rail button[aria-current="step"] span{color:var(--accent-ink)}
+.rail button.done span::after{content:" ✓";color:var(--on)}
+@media (max-width:980px){.rail{position:static;max-height:none}}
+
+/* Sheet */
+.sheet{background:var(--paper);border:1px solid var(--rule);min-width:0}
+.step{padding-inline:clamp(16px,3.6vw,44px);padding-block:28px 32px}
+.step-eyebrow{font:600 .78rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.step h2{font:700 clamp(1.5rem,3vw,2rem)/1.15 var(--f-head);margin:4px 0 10px;text-wrap:balance}
+.step h3{font:600 1.18rem/1.25 var(--f-head);margin:28px 0 8px;letter-spacing:.01em}
+.lede{font-size:1.08rem;color:var(--ink-2);max-width:72ch}
+.step p,.step li{max-width:74ch}
+.step ul,.step ol{padding-left:1.3em}
+.step li{margin:4px 0}
+code,.mono{font-family:var(--f-mono);font-size:.84em;background:var(--code-bg);padding:.06em .32em;border-radius:3px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0}
+.cols>*{min-width:0}
+
+/* Engineer's notebook blocks */
+.think{border-left:3px solid var(--accent);background:var(--panel);padding:12px 16px;margin:18px 0}
+.think h4,.decision h4,.robust h4,.evidence h4,.pitfall h4{margin:0 0 6px;font:600 .78rem var(--f-head);letter-spacing:.1em;text-transform:uppercase}
+.think h4{color:var(--accent-ink)}
+.think dl{margin:0;display:grid;gap:8px}
+.think dt{font-weight:600}
+.think dd{margin:0 0 0 0;color:var(--ink-2)}
+.decision{border:1px solid var(--rule-2);padding:12px 16px;margin:18px 0}
+.decision h4{color:var(--ink)}
+.robust{border:1px solid var(--on);background:var(--on-wash);padding:12px 16px;margin:18px 0}
+.robust h4{color:var(--on)}
+.evidence{border:1px dashed var(--rule-2);padding:12px 16px;margin:18px 0}
+.evidence h4{color:var(--info)}
+.pitfall{border:1px solid var(--warn);background:var(--warn-wash);padding:12px 16px;margin:18px 0}
+.pitfall h4{color:var(--warn)}
+.think p:last-child,.decision p:last-child,.robust p:last-child,.evidence p:last-child,.pitfall p:last-child,
+.robust ul:last-child,.decision ul:last-child,.evidence ul:last-child,.pitfall ul:last-child{margin-bottom:0}
+
+/* Code */
+.code{border:1px solid var(--rule);margin:16px 0;background:var(--code-bg)}
+.code-h{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;padding:8px 12px;border-bottom:1px solid var(--rule);font:600 .9rem var(--f-head);letter-spacing:.02em}
+.code-h small{font:400 .82rem var(--f-body);color:var(--muted);letter-spacing:0}
+.code-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+@media (max-width:820px){.code-body{grid-template-columns:minmax(0,1fr)}}
+pre.stl{margin:0;padding:10px 12px;overflow-x:auto;font:400 .82rem/1.55 var(--f-mono);color:var(--ink);tab-size:4}
+pre.stl .nw{color:var(--muted)}
+pre.stl .op{color:var(--accent-ink);font-weight:500}
+pre.stl .ad{color:var(--info)}
+pre.stl .nu{color:var(--warn)}
+.notes{margin:0;padding:10px 14px 10px 30px;border-left:1px solid var(--rule);background:var(--paper);font-size:.92rem}
+@media (max-width:820px){.notes{border-left:0;border-top:1px solid var(--rule)}}
+.notes li{margin:0 0 8px}
+.notes b{font-family:var(--f-mono);font-size:.82rem;color:var(--accent-ink)}
+
+/* Tables */
+.tbl{overflow-x:auto;border:1px solid var(--rule);margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem;line-height:1.45;font-variant-numeric:tabular-nums}
+th{font:600 .74rem var(--f-head);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);text-align:left;background:var(--panel);padding:7px 10px;border-bottom:1px solid var(--rule-2);white-space:nowrap}
+td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.a{font-family:var(--f-mono);font-size:.82rem;white-space:nowrap}
+td.n{text-align:right;white-space:nowrap}
+
+/* Figures */
+figure{margin:18px 0;border:1px solid var(--rule)}
+.fig{padding:12px;overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto;min-width:620px}
+figcaption{padding:8px 12px;border-top:1px solid var(--rule);font-size:.87rem;color:var(--ink-2);background:var(--panel)}
+.d text{font-family:var(--f-body);font-size:12px;fill:var(--ink)}
+.d .ts{font-size:10.5px;fill:var(--ink-2)}
+.d .tm{font-family:var(--f-mono);font-size:10px;fill:var(--ink-2)}
+.d .th{font-family:var(--f-head);font-weight:600;font-size:13px;fill:var(--ink)}
+.d .tacc{fill:var(--accent-ink)}
+.d .box{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2}
+.d .box-soft{fill:var(--panel);stroke:var(--rule-2);stroke-width:1}
+.d .box-acc{fill:var(--accent-wash);stroke:var(--accent);stroke-width:1.5}
+.d .ln{stroke:var(--ink-2);stroke-width:1.4;fill:none}
+.d .ln-acc{stroke:var(--accent);stroke-width:2;fill:none}
+.d .guide{stroke:var(--rule);stroke-width:1;fill:none}
+.d .ah{fill:var(--ink-2)}
+.d .sig{stroke:var(--accent);stroke-width:2;fill:none;stroke-linejoin:round}
+.d .water{fill:var(--accent-wash)}
+.d .pump{fill:var(--ink-2)}
+
+/* Widgets */
+.widget{border:1px solid var(--accent);margin:20px 0;background:var(--paper)}
+.widget-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;align-items:baseline;padding:8px 14px;background:var(--accent-wash);border-bottom:1px solid var(--accent)}
+.widget-h b{font:700 .95rem var(--f-head);letter-spacing:.03em}
+.widget-h span{font-size:.85rem;color:var(--ink-2)}
+.widget-b{padding:14px;display:grid;gap:14px}
+.wrow{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.btn{font:600 .88rem var(--f-head);letter-spacing:.04em;padding:7px 12px;border:1px solid var(--rule-2);background:var(--panel);color:var(--ink);border-radius:4px;cursor:pointer;min-height:36px}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible,.tog input:focus-visible+span,input[type=range]:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.btn.danger{border-color:var(--alarm);color:var(--alarm)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tog{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;cursor:pointer;user-select:none}
+.tog input{position:absolute;opacity:0;width:1px;height:1px}
+.tog span{display:inline-block;width:34px;height:20px;border-radius:10px;background:var(--off);position:relative;transition:background .15s;flex:none}
+.tog span::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--paper);transition:left .15s}
+.tog input:checked+span{background:var(--on)}
+.tog input:checked+span::after{left:17px}
+.lamp{display:inline-flex;align-items:center;gap:6px;font:500 .82rem var(--f-mono);padding:3px 8px;border:1px solid var(--rule-2);border-radius:3px;background:var(--panel);color:var(--ink-2);white-space:nowrap}
+.lamp::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--off);flex:none}
+.lamp.on{border-color:var(--on);color:var(--ink);background:var(--on-wash)}
+.lamp.on::before{background:var(--on)}
+.lamp.al{border-color:var(--alarm);color:var(--alarm);background:var(--alarm-wash)}
+.lamp.al::before{background:var(--alarm)}
+.lamp.wn{border-color:var(--warn);color:var(--warn);background:var(--warn-wash)}
+.lamp.wn::before{background:var(--warn)}
+.readout{font:500 .9rem var(--f-mono);font-variant-numeric:tabular-nums}
+label.fld{display:grid;gap:4px;font-size:.85rem;color:var(--ink-2)}
+select,input[type=number]{font:inherit;padding:6px 8px;border:1px solid var(--rule-2);border-radius:4px;background:var(--paper);color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.9rem}
+.kv dt{color:var(--ink-2)}
+.kv dd{margin:0;font:500 .9rem var(--f-mono)}
+
+/* Ladder */
+.lad .rail-l{stroke:var(--ink-2);stroke-width:3}
+.lad .w{stroke:var(--off);stroke-width:2.5;fill:none}
+.lad .w.pw{stroke:var(--on);stroke-width:3.5}
+.lad .ct{stroke:var(--ink-2);stroke-width:2.5;fill:none}
+.lad .ct.cl{stroke:var(--on)}
+.lad .coil{stroke:var(--ink-2);stroke-width:2.5;fill:none}
+.lad .coil.en{stroke:var(--on);fill:var(--on-wash)}
+.lad text{font-family:var(--f-mono);font-size:11px;fill:var(--ink-2)}
+.lad .lbl{font-family:var(--f-body);font-size:10.5px;fill:var(--muted)}
+
+/* Memory map */
+.mm{display:grid;gap:10px}
+.mm svg{width:100%;height:auto;min-width:640px}
+.mm rect.z{cursor:pointer;stroke:var(--paper);stroke-width:1}
+.mm rect.z:hover,.mm rect.z.sel{stroke:var(--ink);stroke-width:2}
+.mm .ax{font:400 10px var(--f-mono);fill:var(--muted)}
+.mm-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:6px 18px;font-size:.88rem;margin:0;padding:0;list-style:none}
+.mm-list li{display:grid;grid-template-columns:14px 1fr;gap:8px;align-items:start;padding:4px 6px;border-radius:3px;max-width:none}
+.mm-list li.sel{background:var(--accent-wash)}
+.mm-list i{width:12px;height:12px;border-radius:2px;margin-top:4px}
+.mm-list b{font:500 .8rem var(--f-mono)}
+
+/* Simulator */
+.sim{border:1px solid var(--rule-2);background:var(--panel)}
+.sim-top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--rule-2);background:var(--paper)}
+.sim-top .clock{font:500 1rem var(--f-mono);margin-left:auto}
+.seg{display:inline-flex;border:1px solid var(--rule-2);border-radius:4px;overflow:hidden}
+.seg button{all:unset;cursor:pointer;padding:6px 10px;font:600 .82rem var(--f-head);color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.sim-body{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+.sim-ctrl{padding:12px;border-bottom:1px solid var(--rule-2);display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 22px;align-content:start;background:var(--paper)}
+.sim-ctrl h5{margin:0 0 6px;font:600 .72rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sim-ctrl .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sim-ctrl .stack{display:grid;gap:7px}
+.sim-view{padding:12px;min-width:0;display:grid;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 .78rem var(--f-head);letter-spacing:.04em;padding:4px 9px;border-radius:12px;border:1px solid var(--rule-2);color:var(--muted);background:var(--paper)}
+.chip.on{border-color:var(--on);color:var(--on);background:var(--on-wash)}
+.chip.al{border-color:var(--alarm);color:var(--alarm);background:var(--alarm-wash)}
+.pid-svg{overflow-x:auto;border:1px solid var(--rule);background:var(--paper)}
+.pid-svg svg{display:block;width:100%;height:auto;min-width:700px}
+.s text{font-family:var(--f-body);font-size:13px;fill:var(--ink)}
+.s .v{font-family:var(--f-mono);font-size:12px;fill:var(--ink)}
+.s .lb{font-size:11px;fill:var(--muted)}
+.s .pipe{stroke:var(--rule-2);stroke-width:5;fill:none;stroke-linecap:round}
+.s .pipe.flow{stroke:var(--accent)}
+.s .eq{fill:var(--panel);stroke:var(--ink-2);stroke-width:1.4}
+.s .eq.on{fill:var(--on-wash);stroke:var(--on);stroke-width:2}
+.s .eq.al{stroke:var(--alarm);stroke-width:2.2}
+.s .vlv{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.4}
+.s .vlv.on{fill:var(--on);stroke:var(--on)}
+.s .tankw{fill:var(--accent-wash)}
+.s .lvl{fill:var(--accent);opacity:.35}
+.s .tick{stroke:var(--ink-2);stroke-width:1}
+.s .ptri{fill:var(--ink-2)}
+.s .eq.on+.ptri{fill:var(--on)}
+.lamps{display:flex;flex-wrap:wrap;gap:5px}
+.sim-low{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0;border-top:1px solid var(--rule-2)}
+.sim-low>div{padding:12px;border-right:1px solid var(--rule-2);min-width:0;background:var(--paper)}
+.sim-low h5{margin:0 0 8px;font:600 .72rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tmr{display:grid;grid-template-columns:52px 1fr 108px;gap:2px 8px;align-items:center;font-size:.82rem;margin-bottom:5px}
+.tmr b{font:500 .78rem var(--f-mono)}
+.tmr .tb{height:7px;background:var(--rule);border-radius:4px;overflow:hidden}
+.tmr .tb i{display:block;height:100%;background:var(--accent);width:0}
+.tmr.q .tb i{background:var(--on)}
+.tmr .tv{font:400 .74rem var(--f-mono);color:var(--ink-2);text-align:right}
+.tmr small{grid-column:2/4;color:var(--muted);font-size:.74rem;margin-top:-3px}
+.alist{list-style:none;margin:0;padding:0;display:grid;gap:5px;font-size:.85rem}
+.alist li{border-left:3px solid var(--alarm);padding:3px 8px;background:var(--alarm-wash)}
+.alist li.trip{font-weight:600}
+.alist .empty{border-left-color:var(--on);background:var(--on-wash)}
+.elog{list-style:none;margin:0;padding:0;font:400 .8rem/1.5 var(--f-mono);max-height:260px;overflow:auto}
+.elog li{display:grid;grid-template-columns:70px 1fr;gap:6px;border-bottom:1px solid var(--rule);padding:2px 0}
+.elog li.alarm{color:var(--alarm)}
+.bits{display:flex;flex-wrap:wrap;gap:4px}
+.navbar{display:flex;justify-content:space-between;gap:12px;padding:16px clamp(16px,3.6vw,44px) 24px;border-top:1px solid var(--rule)}
+.srcnote{font-size:.85rem;color:var(--muted)}
+.tline svg{min-width:620px}
+#tip{position:fixed;left:0;top:0;pointer-events:none;background:var(--tip-bg);color:var(--tip-fg);font:13px/1.4 var(--f-body);padding:6px 9px;border-radius:4px;max-width:300px;opacity:0;z-index:20}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.trend-box{border:1px solid var(--rule);background:var(--paper);padding:6px}
+.trend-box canvas{display:block;width:100%;height:200px}
+.trend-box .srcnote{margin-top:4px}
+.leg{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin:0 6px 0 10px}
+.leg-t{border-top:2px dashed var(--ink)}.leg-l{border-top:2px dotted var(--muted)}
+.s .eq.on{fill:var(--on-wash);stroke:var(--on);stroke-width:2}
+/* HMI tutorial additions */
+pre.vbs{margin:0;padding:10px 12px;overflow-x:auto;font:400 .82rem/1.55 var(--f-mono);color:var(--ink)}
+pre.vbs .kw{color:var(--accent-ink);font-weight:500}
+pre.vbs .cm{color:var(--muted)}
+pre.vbs .st{color:var(--warn)}
+.code-body.one{grid-template-columns:minmax(0,1fr)}
+.code-body.one .notes{border-left:0;border-top:1px solid var(--rule)}
+.paneldemo{margin:18px 0;border:1px solid var(--rule);background:var(--panel);padding:14px}
+.paneldemo .hmi{max-width:760px;margin:0 auto;pointer-events:none}
+.paneldemo figcaption{margin:10px -14px -14px}
+/* The panel itself keeps a fixed, light runtime look in both themes */
+.hmi{container-type:inline-size;aspect-ratio:800/480;width:100%;background:#2b3035;border-radius:12px;padding:1.6%;box-shadow:0 2px 0 #1b1f22}
+.hmi .scr{width:100%;height:100%;background:#d9dcde;color:#1c2225;display:grid;grid-template-rows:7.5cqw 1fr 8cqw;font:400 1.75cqw/1.3 var(--f-body);overflow:hidden;border-radius:2px}
+.hmi .hd{display:flex;align-items:center;gap:1.5cqw;padding:0 1.5cqw;background:#c3c8cb;border-bottom:.25cqw solid #9aa3a8}
+.hmi .hd .ttl{font:700 2.3cqw var(--f-head);letter-spacing:.02em}
+.hmi .hd .sub{font:600 1.8cqw var(--f-head);color:#4e585c}
+.hmi .hd .sp{flex:1}
+.hmi .hd .inf{font:500 1.45cqw var(--f-mono);color:#33393d;text-align:right;line-height:1.25}
+.hmi .ai{width:4.4cqw;height:4.4cqw;border-radius:50%;border:.3cqw solid #8b959a;display:grid;place-items:center;font:700 2cqw var(--f-head);color:#8b959a}
+.hmi .ai.on{border-color:#c62828;background:#c62828;color:#fff;animation:blink 1s steps(2) infinite}
+.hmi .ai.ack{border-color:#c62828;background:#f3d2d2;color:#c62828}
+@keyframes blink{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.hmi .ai.on{animation:none}}
+.hmi .bd{padding:1.3cqw 1.6cqw;overflow:hidden;position:relative}
+.hmi .ft{display:grid;grid-template-columns:repeat(9,1fr);gap:.6cqw;padding:.8cqw 1cqw;background:#c3c8cb;border-top:.25cqw solid #9aa3a8}
+.hmi button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;place-items:center;text-align:center;background:#eef0f1;border:.2cqw solid #8b959a;border-radius:.6cqw;font:600 1.45cqw/1.1 var(--f-head);color:#1c2225;padding:.4cqw;min-height:4.4cqw}
+.hmi button:hover{background:#fff}
+.hmi button:focus-visible{outline:.35cqw solid #2d5f8b;outline-offset:.1cqw}
+.hmi button.cur{background:#2d5f8b;color:#fff;border-color:#244f75}
+.hmi button.go{background:#e1f1e2;border-color:#2e7d32;color:#1e5a22}
+.hmi button.st{background:#fbe5e5;border-color:#c62828;color:#8e1c1c}
+.hmi button.on{background:#1c2225;color:#fff;border-color:#1c2225}
+.hmi button[disabled]{opacity:.45;cursor:not-allowed}
+.hmi .grid{display:grid;gap:.8cqw 1.4cqw}
+.hmi .g2{grid-template-columns:1fr 1fr}
+.hmi .g3{grid-template-columns:repeat(3,1fr)}
+.hmi .lbl{font-size:1.5cqw;color:#4e585c}
+.hmi .io{font:500 1.9cqw var(--f-mono);background:#fff;border:.2cqw solid #8b959a;padding:.3cqw .8cqw;min-height:3.6cqw;display:flex;align-items:center;border-radius:.3cqw;white-space:nowrap;overflow:hidden}
+.hmi .io.ro{background:#e8eaeb}
+.hmi input.io{all:unset;box-sizing:border-box;font:500 1.9cqw var(--f-mono);background:#fff;border:.2cqw solid #8b959a;padding:.3cqw .8cqw;min-height:3.6cqw;border-radius:.3cqw;width:100%}
+.hmi input.io:focus{outline:.35cqw solid #2d5f8b}
+.hmi table{width:100%;border-collapse:collapse;font-size:1.55cqw}
+.hmi th{font:600 1.35cqw var(--f-head);text-transform:uppercase;letter-spacing:.05em;text-align:left;color:#4e585c;background:#c9ced1;padding:.4cqw .7cqw;border:0}
+.hmi td{padding:.35cqw .7cqw;border-bottom:.15cqw solid #c3c8cb;vertical-align:middle}
+.hmi td.n{text-align:right;font-family:var(--f-mono)}
+.hmi tr.sel td{background:#d5e1eb}
+.hmi tr.pick{cursor:pointer}
+.hmi tr.pick:hover td{background:#eef3f7}
+.hmi .msg{font:600 1.7cqw var(--f-head);padding:.6cqw 1cqw;border-radius:.4cqw;border:.2cqw solid #8b959a;background:#eef0f1}
+.hmi .msg.ok{border-color:#2e7d32;background:#e1f1e2;color:#1e5a22}
+.hmi .msg.bad{border-color:#c62828;background:#fbe5e5;color:#8e1c1c}
+.hmi .msg.run{border-color:#2d5f8b;background:#d5e1eb;color:#244f75}
+.hmi .chk{font-size:1.45cqw;display:grid;grid-template-columns:2.4cqw 1fr;align-items:center;gap:.3cqw}
+.hmi .chk i{width:1.6cqw;height:1.6cqw;border-radius:50%;background:#a3afb5}
+.hmi .chk i.y{background:#2e7d32}
+.hmi .big{font:600 3.2cqw var(--f-mono)}
+.hmi .bar{height:1.4cqw;background:#c3c8cb;border-radius:.7cqw;overflow:hidden}
+.hmi .bar i{display:block;height:100%;background:#2d5f8b}
+.hmi .dlg{position:absolute;inset:0;background:rgba(28,34,37,.45);display:grid;place-items:center}
+.hmi .dlg>div{background:#eef0f1;border:.25cqw solid #8b959a;border-radius:.8cqw;padding:1.6cqw;width:52%;display:grid;gap:1cqw}
+.hmi .rep{background:#fff;border:.2cqw solid #8b959a;padding:1cqw 1.4cqw;display:grid;grid-template-columns:auto 1fr auto 1fr;gap:.35cqw 1.2cqw;font-size:1.55cqw}
+.hmi .rep b{font-weight:600;color:#4e585c}
+.hmi svg.drum{width:100%;height:100%}
+.hmi .drum .fr{fill:#9aa3a8}
+.hmi .drum .dr{fill:#eef0f1;stroke:#4e585c;stroke-width:3}
+.hmi .drum .run .dr{stroke:#2d5f8b}
+.hmi .drum .lk{fill:#6f797d}
+.hmi .drum .lkd{fill:#a86400}
+.hmi .drum text{font:600 15px var(--f-head);fill:#1c2225}
+.hmi .drum .s{font:500 13px var(--f-mono);fill:#4e585c}
+.hmi .drum .door{fill:none;stroke:#4e585c;stroke-width:3;stroke-dasharray:6 4}
+.hmi .drum .door.open{stroke:#c62828;stroke-dasharray:none}
+.smap{overflow-x:auto;border:1px solid var(--rule);background:var(--paper)}
+.smap svg{display:block;width:100%;height:auto;min-width:660px}
+.smap .n{fill:var(--panel);stroke:var(--rule-2);stroke-width:1.2;cursor:pointer}
+.smap .n.adm{fill:var(--warn-wash);stroke:var(--warn)}
+.smap .n.rep{fill:var(--accent-wash);stroke:var(--accent)}
+.smap .n:hover,.smap .n.sel{stroke:var(--ink);stroke-width:2.2}
+.smap text{font:600 12px var(--f-head);fill:var(--ink);pointer-events:none}
+.smap .ln{stroke:var(--ink-2);stroke-width:1.2;fill:none}
+.plant{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.simgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:12px;background:var(--paper)}
+.simgrid .hmi{max-width:900px;margin:0 auto}
+.simside{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px 22px;align-items:start}
+.simside h5{margin:0 0 6px;font:600 .72rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.simside .stack{display:grid;gap:7px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="eyebrow">Basic Drum Blender HMI project · SIMATIC TP900 Comfort · WinCC (TIA Portal)</div>
+  <h1>Build an operator panel for a drum blender, step by step</h1>
+  <p>In this tutorial you build the HMI for a pharmaceutical drum blender on a 9-inch SIMATIC Comfort panel, connected to an S7-1200. Each step states the problem, the design thinking, what you configure and the habits that keep a panel safe and easy to use. The last steps test the project, and a simulator runs the finished panel against a model of the machine.</p>
+  <div class="progress"><span id="prog-txt">Step 1 of 18</span><span class="bar"><i id="prog-bar"></i></span></div>
+</header>
+
+<div class="wrap">
+  <details class="rail" id="rail" open>
+    <summary>Build steps</summary>
+    <ol id="rail-list"></ol>
+  </details>
+
+  <main class="sheet" id="sheet">
+
+<!-- ===================== STEP 1 ===================== -->
+<section class="step" id="process" data-phase="Understand" data-title="Start with the machine and the operator">
+  <div class="step-eyebrow">Understand</div>
+  <h2>Start with the machine and the operator</h2>
+  <p class="lede">A drum blender mixes powders by turning a closed drum end over end at a set speed. The blend is good when the drum has made the right number of revolutions at the right speed. The PLC turns the drum. The panel's job is everything around it: who is blending, which batch, which recipe, whether the recipe makes sense, and a record that proves what happened.</p>
+
+  <figure>
+    <div class="fig">
+    <svg class="d" viewBox="0 0 940 170" role="img" aria-label="Operator workflow: log on, enter job information, select a recipe, the panel checks it, start blending, then a complete or failed report and a history entry.">
+      <defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs>
+      <rect x="10" y="40" width="120" height="56" rx="6" class="box"/><text x="70" y="64" text-anchor="middle" class="th">Log on</text><text x="70" y="82" text-anchor="middle" class="ts">operator or admin</text>
+      <rect x="160" y="40" width="130" height="56" rx="6" class="box"/><text x="225" y="64" text-anchor="middle" class="th">Job information</text><text x="225" y="82" text-anchor="middle" class="ts">product, batch, size</text>
+      <rect x="320" y="40" width="130" height="56" rx="6" class="box"/><text x="385" y="64" text-anchor="middle" class="th">Select recipe</text><text x="385" y="82" text-anchor="middle" class="ts">RPM, minutes, revolutions</text>
+      <rect x="480" y="40" width="130" height="56" rx="6" class="box-acc"/><text x="545" y="64" text-anchor="middle" class="th">Panel checks it</text><text x="545" y="82" text-anchor="middle" class="ts">blendable or not</text>
+      <rect x="640" y="40" width="120" height="56" rx="6" class="box"/><text x="700" y="64" text-anchor="middle" class="th">Blend</text><text x="700" y="82" text-anchor="middle" class="ts">start, watch, stop</text>
+      <rect x="790" y="14" width="140" height="44" rx="6" class="box-soft"/><text x="860" y="41" text-anchor="middle" class="th">Complete report</text>
+      <rect x="790" y="78" width="140" height="44" rx="6" class="box-soft"/><text x="860" y="105" text-anchor="middle" class="th">Failed report</text>
+      <line x1="130" y1="68" x2="158" y2="68" class="ln" marker-end="url(#m1)"/><line x1="290" y1="68" x2="318" y2="68" class="ln" marker-end="url(#m1)"/>
+      <line x1="450" y1="68" x2="478" y2="68" class="ln" marker-end="url(#m1)"/><line x1="610" y1="68" x2="638" y2="68" class="ln" marker-end="url(#m1)"/>
+      <line x1="760" y1="60" x2="788" y2="40" class="ln" marker-end="url(#m1)"/><line x1="760" y1="76" x2="788" y2="98" class="ln" marker-end="url(#m1)"/>
+      <path d="M545,96 v40 h-160 v-38" class="ln" marker-end="url(#m1)"/><text x="465" y="152" text-anchor="middle" class="ts">not blendable: choose another recipe</text>
+      <text x="860" y="148" text-anchor="middle" class="ts">both go into the blend history</text>
+    </svg>
+    </div>
+    <figcaption>The operator's path through the panel. Every screen you build serves one of these boxes.</figcaption>
+  </figure>
+
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>What decides a good blend?</dt><dd>Speed and revolutions. Revolutions = RPM × minutes, so a recipe of 15 rpm for 14 minutes means 210 revolutions. The panel can check that the three numbers agree before a single gram is blended.</dd>
+      <dt>What must the record show?</dt><dd>Which machine, who, which product and batch, which recipe, when it started and finished, and how many revolutions the drum really made. In a regulated plant that record is evidence.</dd>
+      <dt>What can hurt people?</dt><dd>A turning drum. The guard door must stop it, and nobody may start it with the door open. Those interlocks live in the PLC; the panel shows them and never bypasses them.</dd>
+      <dt>Who uses the panel?</dt><dd>Operators run blends. An administrator manages recipes, users, the machine ID and the clock. Each gets only the buttons they need.</dd>
+    </dl>
+  </div>
+
+  <h3>Requirements to build against</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ID</th><th>Requirement</th><th>Built in step</th></tr></thead>
+    <tbody>
+      <tr><td class="a">R1</td><td>Only logged-on users operate the blender; administrators alone manage recipes, users, machine ID and clock</td><td>14</td></tr>
+      <tr><td class="a">R2</td><td>Enter product name, batch number and batch size before a blend</td><td>7</td></tr>
+      <tr><td class="a">R3</td><td>Store blend settings as recipes (RPM, duration, revolutions); export and import them by USB</td><td>8</td></tr>
+      <tr><td class="a">R4</td><td>Refuse a recipe whose numbers do not agree or fall outside the machine's limits</td><td>9</td></tr>
+      <tr><td class="a">R5</td><td>Show set and actual values and the remaining time while blending; start and stop from the panel</td><td>10</td></tr>
+      <tr><td class="a">R6</td><td>Jog the drum, bring it upright and work the lock cylinder in manual mode only</td><td>11</td></tr>
+      <tr><td class="a">R7</td><td>Raise and log alarms for door open, drive fault and drum not upright; acknowledge from the panel</td><td>12</td></tr>
+      <tr><td class="a">R8</td><td>Show a complete or failed report after every blend, printable, and keep the last 10 blends</td><td>13</td></tr>
+      <tr><td class="a">R9</td><td>Set the PLC clock from the panel, so report times are right</td><td>15</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="decision"><h4>What you need</h4><ul><li>TIA Portal with STEP 7 and WinCC Comfort. WinCC Runtime simulation lets you test the panel on your PC.</li><li>A SIMATIC TP900 Comfort and an S7-1200 (CPU 1214C DC/DC/DC), or just the simulation.</li><li>An SD card in the panel for the alarm log, and a USB stick for recipe export.</li><li>The example names used throughout: the project is the <b>Basic Drum Blender HMI project</b>, network addresses are written <code>xx.xx.xx.xx</code>, and example logins use <code>1234</code> and <code>xxxx</code>.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 2 ===================== -->
+<section class="step" id="hardware" data-phase="Understand" data-title="Choose the panel and the network">
+  <div class="step-eyebrow">Understand</div>
+  <h2>Choose the panel and set up the network</h2>
+  <p class="lede">The panel must show a full report on one screen, take string input for batch numbers, store recipes and log alarms. A 9-inch widescreen Comfort panel does all of that and leaves room for touch buttons big enough for gloved hands.</p>
+  <div class="cols">
+    <div class="decision"><h4>The panel</h4><ul><li><b>SIMATIC TP900 Comfort</b>: 9-inch widescreen touch, 800 × 480 pixels</li><li>PROFINET for the PLC connection</li><li>SD card slot for logs (<code>\Storage Card SD</code>) and USB for recipe files (<code>\Storage Card USB</code>)</li><li>Recipes, user administration, alarm logging and printing are all standard on Comfort panels</li></ul></div>
+    <div class="decision"><h4>The PLC and network</h4><ul><li><b>CPU 1214C DC/DC/DC</b> runs the blender: drive, guard door, upright sensor, lock cylinder</li><li>PLC at <code>xx.xx.xx.xx</code>, panel at <code>xx.xx.xx.xx</code>, same subnet, mask 255.255.255.0</li><li>One HMI connection, named <code>HMI_connection_2</code> in this project</li></ul></div>
+  </div>
+  <h3>Set it up in TIA Portal</h3>
+  <ol>
+    <li>Add the CPU 1214C and the TP900 Comfort to the project (<i>Add new device</i>).</li>
+    <li>In <i>Devices &amp; networks</i>, drag a line from the panel's PROFINET port to the CPU's. Give both an IP address in the same subnet.</li>
+    <li>Switch to <i>Connections</i> and create the HMI connection between the two. TIA Portal names it; keep the name, the tags refer to it.</li>
+    <li>In the panel's runtime settings, choose the start screen (step 3) and the language.</li>
+  </ol>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Write the IP plan down before you configure anything, and keep the panel and PLC on their own machine subnet.</li><li>Give the panel a fixed address. A panel that changes address loses its PLC.</li><li>Keep the PLC program and the HMI in one TIA project, so tag references stay valid when you change the data block.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 3 ===================== -->
+<section class="step" id="screens" data-phase="Plan" data-title="Plan the screens and navigation">
+  <div class="step-eyebrow">Plan</div>
+  <h2>Plan the screens and the navigation</h2>
+  <p class="lede">Draw the screen map before you open the screen editor. Sixteen screens sound like a lot, but most are small. Nine buttons in a fixed footer reach the main ones from anywhere; the rest open from those.</p>
+  <div class="smap" id="smap"></div>
+  <p class="srcnote" id="smap-info">Click a screen to see what it is for.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Footer button</th><th>Opens</th><th>Who</th></tr></thead>
+    <tbody>
+      <tr><td>Overview</td><td>Overview (start screen): drum, state, key values</td><td>Everyone</td></tr>
+      <tr><td>Job</td><td>Job Information</td><td>Operator</td></tr>
+      <tr><td>Recipe</td><td>Recipe Selection</td><td>Operator</td></tr>
+      <tr><td>Blending</td><td>Blending Screen</td><td>Operator</td></tr>
+      <tr><td>Manual</td><td>Manual Operation</td><td>Operator</td></tr>
+      <tr><td>History</td><td>Blend History</td><td>Everyone</td></tr>
+      <tr><td>Alarms</td><td>Alarm view</td><td>Everyone</td></tr>
+      <tr><td>Settings</td><td>Settings → Set Machine ID, Change Date Time, User administration, Recipe Administration</td><td>Administrator</td></tr>
+      <tr><td>Log on</td><td>Logon dialog, or log off</td><td>Everyone</td></tr>
+    </tbody>
+  </table></div>
+  <div class="think"><h4>Engineer's thinking</h4><dl>
+    <dt>Why a fixed footer?</dt><dd>The operator never has to remember how they got somewhere. Every main screen is one touch away, in the same place on every screen.</dd>
+    <dt>Where do the reports go?</dt><dd>They are not in the footer. The panel opens <i>Blend Complete Report</i> or <i>Blend Failed Report</i> by itself at the end of a blend (step 13), so a result can never be missed.</dd>
+    <dt>What about "Drum Blender" and "Different jobs"?</dt><dd>A title screen shown at start-up, and a small menu of jobs for future machine functions. Plan them now so the numbering and template stay consistent.</dd>
+  </dl></div>
+</section>
+
+<!-- ===================== STEP 4 ===================== -->
+<section class="step" id="tags" data-phase="Plan" data-title="Plan the tags">
+  <div class="step-eyebrow">Plan</div>
+  <h2>Plan the tags</h2>
+  <p class="lede">The panel and the PLC share one data block of HMI data. Group it the way the screens think: what the recipe asks for (<code>Target</code>), what the drum is doing (<code>Current</code>), the recipe being edited (<code>Recipe</code>), the job, the commands and the history.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Group</th><th>Tags</th><th>Type</th><th>Direction</th></tr></thead>
+    <tbody>
+      <tr><td>Target</td><td class="a">Target.recipe_name, Target.RPM, Target.Duration, Target.Revolution</td><td>String, Real, Int, Real</td><td>Panel → PLC</td></tr>
+      <tr><td>Current</td><td class="a">Current.RPM, Current.Revolution, Current.Elapsed_Min, Current.Remaining_Min, Current.Remaining_Sec</td><td>Real, Real, Int, Int, Int</td><td>PLC → panel</td></tr>
+      <tr><td>Recipe</td><td class="a">Recipe.recipe_name, Recipe.RPM, Recipe.Duration, Recipe.Revolution, Recipe.OK</td><td>String, Real, Int, Real, Bool</td><td>Recipe tags</td></tr>
+      <tr><td>Job</td><td class="a">Product_Name, Batch_No, Batch_Size, Machine_ID, username, HMI_Product_name_changed</td><td>String, String, Real, String, String, Bool</td><td>Panel → PLC</td></tr>
+      <tr><td>Commands</td><td class="a">Start Blend, Stop Blend, Auto Mode, Jog Mode, Manual rotate, Upright, Up Cylinder, Down Cylinder, Reset_Alarm</td><td>Bool</td><td>Panel → PLC</td></tr>
+      <tr><td>Status</td><td class="a">Numeric_analysis_done, Enable Counter, blend_start_DateTime, blend_finish_DateTime</td><td>Bool, Bool, DTL, DTL</td><td>Both</td></tr>
+      <tr><td>Alarms</td><td class="a">Alarm_Alarm1</td><td>Word</td><td>PLC → panel</td></tr>
+      <tr><td>History</td><td class="a">Blend_History_Batch_ID[0..10], Blend_History_Recipe_no[0..10]</td><td>Array of String, Array of Int</td><td>PLC → panel</td></tr>
+      <tr><td>Clock</td><td class="a">current_SYS_DateTime, set_current_SYS_DateTime, current_LOC_DateTime, get_current_LOC_DateTime, SYS_DateTime_input_finished</td><td>DTL, DTL, DTL, Bool, Bool</td><td>Both</td></tr>
+    </tbody>
+  </table></div>
+  <div class="robust"><h4>Robustness habits</h4><ul>
+    <li>Structures with dot names (<code>Target.RPM</code>, <code>Current.RPM</code>) keep set and actual values side by side in every list.</li>
+    <li>Commands are written by the panel and reset by the PLC once handled, so a lost connection cannot leave a command stuck on.</li>
+    <li>Keep the data types of <code>Recipe.*</code> and <code>Target.*</code> identical. Loading a recipe is then a straight copy.</li>
+  </ul></div>
+</section>
+
+<!-- ===================== STEP 5 ===================== -->
+<section class="step" id="connection" data-phase="Build" data-title="Create the HMI tags">
+  <div class="step-eyebrow">Build</div>
+  <h2>Create the HMI tags</h2>
+  <p class="lede">With the PLC and panel in one project, you do not type addresses. Open the panel's tag table, add a tag, and pick the PLC tag from the data block. The HMI tag follows the PLC tag if it moves.</p>
+  <ol>
+    <li>In the panel, open <i>HMI tags → Show all tags</i>. Create a table per group, for example <i>Blend</i>, <i>Job</i>, <i>Clock</i>.</li>
+    <li>For each tag, choose <code>HMI_connection_2</code> and select the PLC tag from the data block. The data type comes with it.</li>
+    <li>Set the acquisition mode to <i>Cyclic in operation</i>. Use 100 ms for values that move on screen (<code>Current.RPM</code>, <code>Current.Revolution</code>) and 1 s for the rest.</li>
+    <li>Add internal tags (connection <i>&lt;Internal tag&gt;</i>) for values only the panel needs, such as the rows of the history table.</li>
+  </ol>
+  <div class="tbl"><table>
+    <thead><tr><th>Tag</th><th>Acquisition</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="a">Current.RPM, Current.Revolution</td><td>100 ms</td><td>The operator watches them change</td></tr>
+      <tr><td class="a">Current.Remaining_Min, Remaining_Sec</td><td>1 s</td><td>Changes once a second anyway</td></tr>
+      <tr><td class="a">Alarm_Alarm1</td><td>100 ms</td><td>Short alarms must not be missed</td></tr>
+      <tr><td class="a">Product_Name, Batch_No, Machine_ID</td><td>1 s</td><td>Change only on operator input</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pitfall"><h4>Fast cycles cost communication</h4><p>Every tag on a visible screen is read at its cycle. Thirty tags at 100 ms load the connection far more than three. Use the fast cycle only where a person can see the difference.</p></div>
+</section>
+
+<!-- ===================== STEP 6 ===================== -->
+<section class="step" id="template" data-phase="Build" data-title="Build the screen template">
+  <div class="step-eyebrow">Build</div>
+  <h2>Build the screen template</h2>
+  <p class="lede">Every screen shares a header and a footer. Build them once, in a template, and every screen inherits them. A change to the footer is then one change, not sixteen.</p>
+  <figure class="paneldemo"><div class="hmi" id="demo-template"></div><figcaption>The template: header with title, machine ID, user, clock and alarm indicator; footer with nine navigation buttons. Overview shown as the screen content.</figcaption></figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Object</th><th>Configuration</th></tr></thead>
+    <tbody>
+      <tr><td>Header text fields</td><td>Screen title; I/O fields (output) for <code>Machine_ID</code> and <code>username</code>; date/time field</td></tr>
+      <tr><td>Alarm indicator</td><td>Flashes while an alarm needs acknowledging; touching it opens the alarm view</td></tr>
+      <tr><td>Footer buttons 1–8</td><td>Event <i>Click</i> → <code>ActivateScreen</code> (screen name)</td></tr>
+      <tr><td>Footer button 9</td><td>Event <i>Click</i> → <code>ShowLogonDialog</code>; when someone is logged on, <code>Logoff</code></td></tr>
+      <tr><td>Settings button</td><td>Authorization: <i>User administration</i> (step 14), so operators see it greyed out</td></tr>
+    </tbody>
+  </table></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Grey backgrounds and dark text for everything normal; colour only for states and alarms (ISA-101 style). Then a red indicator really stands out.</li><li>Buttons at least 10 mm high on a 9-inch screen: operators wear gloves.</li><li>Highlight the button of the current screen, so the operator always knows where they are.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 7 ===================== -->
+<section class="step" id="job" data-phase="Build" data-title="Job information and machine ID">
+  <div class="step-eyebrow">Build</div>
+  <h2>Job information and machine ID</h2>
+  <p class="lede">Before a blend, the operator enters what is being blended. The panel fills in who and on which machine, so those can never be typed wrong.</p>
+  <figure class="paneldemo"><div class="hmi" id="demo-job"></div><figcaption>Job Information: three input fields; operator name and machine ID are output fields.</figcaption></figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Field</th><th>Object</th><th>Tag</th><th>Settings</th></tr></thead>
+    <tbody>
+      <tr><td>Product Name</td><td>I/O field, input</td><td class="a">Product_Name</td><td>String, 30 characters</td></tr>
+      <tr><td>Batch No</td><td>I/O field, input</td><td class="a">Batch_No</td><td>String, 20 characters</td></tr>
+      <tr><td>Batch Size</td><td>I/O field, input</td><td class="a">Batch_Size</td><td>Decimal, kg, limits 1–999</td></tr>
+      <tr><td>Operator Name</td><td>I/O field, output</td><td class="a">username</td><td>Filled at logon (step 14)</td></tr>
+      <tr><td>Machine ID</td><td>I/O field, output</td><td class="a">Machine_ID</td><td>Set on <i>Set Machine ID</i>, administrator only</td></tr>
+    </tbody>
+  </table></div>
+  <p>On the Product Name field, the event <i>Finish input</i> calls <code>SetBit HMI_Product_name_changed</code>. The PLC uses that flag to clear the old recipe selection, so a new product cannot start with the last product's recipe.</p>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Set limits on every numeric input. The panel then refuses a batch size of 0 or 99999 before the PLC ever sees it.</li><li>Never let the operator type the machine ID or their own name into a record; take them from the system.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 8 ===================== -->
+<section class="step" id="recipe" data-phase="Build" data-title="Recipes for blend settings">
+  <div class="step-eyebrow">Build</div>
+  <h2>Recipes: store the blend settings</h2>
+  <p class="lede">A blend is defined by three numbers. Store them as a recipe with one data record per blend program. Operators pick a record by name; only an administrator edits them.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Recipe element</th><th>Tag</th><th>Type</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr><td>RPM</td><td class="a">Recipe.RPM</td><td>Real</td><td>revolutions per minute</td></tr>
+      <tr><td>Duration</td><td class="a">Recipe.Duration</td><td>Int</td><td>minutes</td></tr>
+      <tr><td>Revolution</td><td class="a">Recipe.Revolution</td><td>Real</td><td>total revolutions</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Example data records</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Data record name</th><th>RPM</th><th>Duration (min)</th><th>Revolution</th></tr></thead>
+    <tbody id="rcp-table"></tbody>
+  </table></div>
+  <ol>
+    <li>Under <i>Recipes</i>, create <code>Recipe_1</code>, add the three elements and link each to its tag.</li>
+    <li>Enter the data records, or let the administrator create them in runtime.</li>
+    <li>On <i>Recipe Administration</i>, place a recipe view. Tick <i>Synchronize recipe view and recipe tags</i>, so the selected record lands in <code>Recipe.*</code>.</li>
+    <li>Add two buttons: <i>Export Recipe to USB</i> → <code>ExportDataRecords</code> to <code>\Storage Card USB\recipe.csv</code>, and <i>Import Recipe from USB</i> → <code>ImportDataRecords</code>.</li>
+  </ol>
+  <div class="pitfall"><h4>Names are not values</h4><p>A record called "14 min 210 rotations" is only as good as the numbers inside it. The last record in the table above has no RPM or duration, yet a revolution count. Step 9 makes the panel catch that.</p></div>
+</section>
+
+<!-- ===================== STEP 9 ===================== -->
+<section class="step" id="check" data-phase="Build" data-title="Check the recipe before blending">
+  <div class="step-eyebrow">Build</div>
+  <h2>Check the recipe before blending</h2>
+  <p class="lede">When the operator selects a record on <i>Recipe Selection</i>, the panel copies it to <code>Target.*</code> and checks it: speed and time inside the machine's limits, and revolutions equal to RPM × minutes. Only then does <code>Recipe.OK</code> go true and the start button come alive.</p>
+  <div class="code">
+    <div class="code-h">VB script CheckRecipe <small>called from the recipe list's selection event</small></div>
+    <div class="code-body one">
+<pre class="vbs"><span class="kw">Sub</span> CheckRecipe()
+    <span class="kw">Dim</span> rpm, dur, rev, ok
+    SmartTags(<span class="st">"Numeric_analysis_done"</span>) = <span class="kw">False</span>     <span class="cm">' shows "Calculating Blend steps..."</span>
+    rpm = SmartTags(<span class="st">"Target.RPM"</span>)
+    dur = SmartTags(<span class="st">"Target.Duration"</span>)
+    rev = SmartTags(<span class="st">"Target.Revolution"</span>)
+    ok = (rpm &gt;= 5) <span class="kw">And</span> (rpm &lt;= 25) <span class="kw">And</span> (dur &gt;= 1) <span class="kw">And</span> (dur &lt;= 60)
+    ok = ok <span class="kw">And</span> (Abs(rpm * dur - rev) &lt;= 0.5)
+    SmartTags(<span class="st">"Recipe.OK"</span>) = ok
+    SmartTags(<span class="st">"Numeric_analysis_done"</span>) = <span class="kw">True</span>
+<span class="kw">End Sub</span></pre>
+      <ol class="notes">
+        <li><b>Numeric_analysis_done</b> drives the message: off = "Calculating Blend steps...", on with <code>Recipe.OK</code> = "Recipe blendable", on without = "Recipe not blendable. Please change recipe".</li>
+        <li><b>Limits</b> 5–25 rpm and 1–60 min are this machine's; take yours from the blender's manual.</li>
+        <li><b>0.5</b> tolerates rounding in a Real, but not a wrong number.</li>
+        <li>The PLC checks <code>Recipe.OK</code> again before it starts. The panel's check is for the operator; the PLC's is for the machine.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="widget">
+    <div class="widget-h"><b>Try the check</b><span>Pick a record or type your own numbers.</span></div>
+    <div class="widget-b">
+      <div class="wrow">
+        <label class="fld">Record<select id="ck-rec"></select></label>
+        <label class="fld">RPM<input type="number" id="ck-rpm" step="1" style="width:90px"></label>
+        <label class="fld">Duration (min)<input type="number" id="ck-dur" step="1" style="width:90px"></label>
+        <label class="fld">Revolution<input type="number" id="ck-rev" step="1" style="width:100px"></label>
+      </div>
+      <div class="readout" id="ck-out"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STEP 10 ===================== -->
+<section class="step" id="blending" data-phase="Build" data-title="The blending screen">
+  <div class="step-eyebrow">Build</div>
+  <h2>The blending screen</h2>
+  <p class="lede">During a blend the operator wants three answers at a glance: is it running, how far is it, and how long is left. Put set and actual values side by side, and make the start conditions visible, so a refused start explains itself.</p>
+  <figure class="paneldemo"><div class="hmi" id="demo-blend"></div><figcaption>Blending Screen mid-blend: set and actual values, progress, remaining time, and the start conditions.</figcaption></figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Object</th><th>Configuration</th></tr></thead>
+    <tbody>
+      <tr><td>Set values</td><td>Output fields for <code>Target.RPM</code>, <code>Target.Revolution</code>, <code>Target.Duration</code></td></tr>
+      <tr><td>Actual values</td><td>Output fields for <code>Current.RPM</code>, <code>Current.Revolution</code>, <code>Current.Elapsed_Min</code></td></tr>
+      <tr><td>Remaining</td><td><code>Current.Remaining_Min</code> : <code>Current.Remaining_Sec</code>, calculated in the PLC from remaining revolutions ÷ RPM</td></tr>
+      <tr><td>Start Blending</td><td><i>Click</i> → <code>SetBit "Start Blend"</code>; enabled only when <code>Recipe.OK</code> is true</td></tr>
+      <tr><td>Stop Blending</td><td><i>Click</i> → <code>SetBit "Stop Blend"</code>; always enabled during a blend</td></tr>
+      <tr><td>Status text</td><td>Text list on the PLC's state: Ready, Blending...., Blend Complete, Blend Failed</td></tr>
+    </tbody>
+  </table></div>
+  <div class="think"><h4>Engineer's thinking</h4><dl>
+    <dt>Why does the PLC calculate the remaining time?</dt><dd>It knows the real revolutions and speed. The panel only shows the result, so the number is the same on every screen and in every report.</dd>
+    <dt>Why show the start conditions?</dt><dd>"Start does nothing" is the most common call to maintenance. A list of conditions with a light for each answers it on the spot: door open, drum not upright, no job information.</dd>
+    <dt>Can the panel stop the drum safely?</dt><dd>The Stop button is a convenience. The real stop is the guard door and the emergency stop, wired to the drive. Never make a panel button the only way to stop a machine.</dd>
+  </dl></div>
+</section>
+
+<!-- ===================== STEP 11 ===================== -->
+<section class="step" id="manual" data-phase="Build" data-title="Manual operation">
+  <div class="step-eyebrow">Build</div>
+  <h2>Manual operation</h2>
+  <p class="lede">For loading, cleaning and maintenance the operator turns the drum by hand from the panel: jog it slowly, bring it upright, and lock it with the pneumatic lock cylinder. Manual commands work only in manual mode, and never during a blend.</p>
+  <figure class="paneldemo"><div class="hmi" id="demo-manual"></div><figcaption>Manual Operation: mode switches, the jog button, Upright, and the lock cylinder.</figcaption></figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Button</th><th>Event and function</th><th>PLC interlock</th></tr></thead>
+    <tbody>
+      <tr><td>Auto / Manual</td><td><i>Click</i> → <code>InvertBit "Auto Mode"</code></td><td>Not during a blend</td></tr>
+      <tr><td>Jog Mode</td><td><i>Click</i> → <code>InvertBit "Jog Mode"</code></td><td>Manual mode only</td></tr>
+      <tr><td>Manual rotate</td><td><code>SetBitWhilePressed "Manual rotate"</code></td><td>Jog mode, door closed, lock cylinder up</td></tr>
+      <tr><td>Upright</td><td><i>Click</i> → <code>SetBit "Upright"</code></td><td>Door closed; PLC creeps the drum to the upright sensor and stops</td></tr>
+      <tr><td>Up Cylinder / Down Cylinder</td><td><i>Click</i> → <code>SetBit</code></td><td>Down only with the drum upright and stopped</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pitfall"><h4>Use SetBitWhilePressed for jogging</h4><p>With <i>Press → SetBit</i> and <i>Release → ResetBit</i>, a release that never arrives (a finger sliding off the button, a lost connection) leaves the drum turning. <code>SetBitWhilePressed</code> resets the bit when the press ends for any reason. The PLC should also stop jogging if the bit stops changing, or if the connection is lost.</p></div>
+</section>
+
+<!-- ===================== STEP 12 ===================== -->
+<section class="step" id="alarms" data-phase="Build" data-title="Alarms and the alarm log">
+  <div class="step-eyebrow">Build</div>
+  <h2>Alarms and the alarm log</h2>
+  <p class="lede">The PLC packs its alarm conditions into one word, <code>Alarm_Alarm1</code>. The panel turns each bit into a discrete alarm with a text, a class and a log entry.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Bit</th><th>Alarm text</th><th>Class</th><th>Cause</th></tr></thead>
+    <tbody>
+      <tr><td class="a">0</td><td>Door Open</td><td>Errors (acknowledge)</td><td>Guard door switch open</td></tr>
+      <tr><td class="a">1</td><td>VFD Fault</td><td>Errors (acknowledge)</td><td>Drive (VFD) fault contact</td></tr>
+      <tr><td class="a">2</td><td>Cylinder not upright</td><td>Errors (acknowledge)</td><td>Start or lock requested with the drum away from the upright sensor</td></tr>
+    </tbody>
+  </table></div>
+  <ol>
+    <li>Under <i>HMI alarms → Discrete alarms</i>, add one alarm per bit: trigger tag <code>Alarm_Alarm1</code>, trigger bit, text and class.</li>
+    <li>Place an alarm view on the Alarms screen and an alarm indicator in the template.</li>
+    <li>Add a <i>Reset</i> button: <i>Click</i> → <code>SetBit Reset_Alarm</code>. The PLC clears its latches and resets the bit.</li>
+    <li>Under <i>Historical data → Alarm logs</i>, create <code>Alarm_log_1</code> on <code>\Storage Card SD\Logs</code> and assign the alarm class to it.</li>
+  </ol>
+  <div class="pitfall"><h4>Bit numbers in an S7 word are byte-swapped</h4><p>S7 stores a word high byte first. In a discrete alarm, trigger bit 0 is the lowest bit of the word, which lives in the <i>second</i> byte: <code>DBX1.0</code>, not <code>DBX0.0</code>. Bits 8–15 are in the first byte. Test every alarm once by forcing its bit, or you will find "Door Open" showing as "VFD Fault" on commissioning day.</p></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Write alarm texts as the operator should read them: what is wrong, in three or four words.</li><li>Log to the SD card, not internal flash; the card survives a panel replacement.</li><li>Keep the PLC's alarm word for real alarms only. Status messages (blend complete) belong on screens, not in the alarm log.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 13 ===================== -->
+<section class="step" id="reports" data-phase="Build" data-title="Reports and blend history">
+  <div class="step-eyebrow">Build</div>
+  <h2>Blend reports and blend history</h2>
+  <p class="lede">Every blend ends with a report screen. The PLC sets the result; a scheduled task or a tag-change event on the panel opens <i>Blend Complete Report</i> or <i>Blend Failed Report</i>. The PLC also keeps the last ten blends in two arrays for the history screen.</p>
+  <figure class="paneldemo"><div class="hmi" id="demo-report"></div><figcaption>Blend Complete Report: the record of one blend, with Print Report and Go Back.</figcaption></figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Report field</th><th>Tag</th></tr></thead>
+    <tbody>
+      <tr><td>Machine ID / Operator Name</td><td class="a">Machine_ID / username</td></tr>
+      <tr><td>Recipe Name / Product Name</td><td class="a">Target.recipe_name / Product_Name</td></tr>
+      <tr><td>Batch No / Batch Size</td><td class="a">Batch_No / Batch_Size</td></tr>
+      <tr><td>Time Blend Started / Finished</td><td class="a">blend_start_DateTime / blend_finish_DateTime</td></tr>
+      <tr><td>Total no of Revolution (set / actual)</td><td class="a">Target.Revolution / Current.Revolution</td></tr>
+      <tr><td>Blending Time (min) (set / actual)</td><td class="a">Target.Duration / Current.Elapsed_Min</td></tr>
+    </tbody>
+  </table></div>
+  <h3>The history: a ten-place shift register</h3>
+  <p>When a blend ends, the PLC shifts <code>Blend_History_Batch_ID[1..9]</code> down to <code>[2..10]</code>, writes the new batch into <code>[1]</code>, and does the same for <code>Blend_History_Recipe_no</code>. Element 0 is the working place for the new entry. The history screen shows elements 1–10 in a table, newest first.</p>
+  <div class="widget">
+    <div class="widget-h"><b>Shift register, live</b><span>Add blends and watch the oldest drop out after ten.</span></div>
+    <div class="widget-b">
+      <div class="wrow"><button class="btn" type="button" id="hs-add">Finish a blend</button><button class="btn" type="button" id="hs-clr">Clear</button></div>
+      <div class="tbl" style="margin:0"><table><thead><tr><th>Index</th><th>Batch ID</th><th>Recipe</th></tr></thead><tbody id="hs-body"></tbody></table></div>
+    </div>
+  </div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Freeze the report values in the PLC at the end of the blend. A report that reads live tags changes as soon as the next batch is entered.</li><li>Print or export the report before the operator leaves the screen; the <i>Print Report</i> button calls <code>PrintReport</code>.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 14 ===================== -->
+<section class="step" id="users" data-phase="Build" data-title="Users and access rights">
+  <div class="step-eyebrow">Build</div>
+  <h2>Users and access rights</h2>
+  <p class="lede">Two groups cover this machine: operators who blend, and administrators who look after recipes, users, the machine ID and the clock. Every button that changes something gets an authorization, so the panel greys it out for anyone not allowed.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Group</th><th>Authorizations</th><th>Example user</th></tr></thead>
+    <tbody>
+      <tr><td>Operator Group</td><td>Operate, Monitor</td><td><code>operator</code>, password <code>1234</code></td></tr>
+      <tr><td>Administrator group</td><td>Operate, Monitor, User administration, Recipe administration</td><td><code>admin</code>, password <code>xxxx</code></td></tr>
+    </tbody>
+  </table></div>
+  <ol>
+    <li>Under <i>User administration</i>, create the groups and the authorizations. Add a custom authorization <i>Recipe administration</i>.</li>
+    <li>Assign authorizations to objects: Start/Stop and job fields need <i>Operate</i>; Settings, recipe view editing and user view need the administrator's.</li>
+    <li>In the runtime settings, set an automatic logoff time, for example 5 minutes (0–60 allowed).</li>
+    <li>On the event <i>User change</i> (scheduler), call <code>GetUserName</code> into <code>username</code>, so reports always carry the logged-on name.</li>
+    <li>On the <i>User administration</i> screen, place a user view, so the administrator can add users and reset passwords in runtime.</li>
+  </ol>
+  <div class="pitfall"><h4>Example passwords are for the tutorial only</h4><p>Change every password before the machine goes into production, and give every person their own user. A shared "operator" login makes the report's operator name meaningless.</p></div>
+</section>
+
+<!-- ===================== STEP 15 ===================== -->
+<section class="step" id="clock" data-phase="Build" data-title="Set the PLC clock from the panel">
+  <div class="step-eyebrow">Build</div>
+  <h2>Set the PLC clock from the panel</h2>
+  <p class="lede">Report times come from the PLC, so the PLC's clock must be right. The administrator sets it from <i>Change Date Time</i>; the PLC does the writing.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Tag</th><th>Type</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td class="a">current_SYS_DateTime</td><td>DTL</td><td>PLC system time, read cyclically with <code>RD_SYS_T</code></td></tr>
+      <tr><td class="a">current_LOC_DateTime</td><td>DTL</td><td>PLC local time with <code>RD_LOC_T</code>, shown on the panel</td></tr>
+      <tr><td class="a">set_current_SYS_DateTime</td><td>DTL</td><td>New time typed by the administrator</td></tr>
+      <tr><td class="a">SYS_DateTime_input_finished</td><td>Bool</td><td>Set by the <i>Set</i> button; the PLC calls <code>WR_SYS_T</code> with the new time, then resets it</td></tr>
+    </tbody>
+  </table></div>
+  <div class="think"><h4>Engineer's thinking</h4><dl>
+    <dt>Why not set the panel's clock instead?</dt><dd>The timestamps that matter (blend start and finish) are taken in the PLC. Set the PLC, then let the panel follow it with the <i>Date/time PLC</i> area pointer, so both always agree.</dd>
+    <dt>System time or local time?</dt><dd>The S7-1200 keeps system time (UTC) and works out local time from its time-zone setting. Write system time, display local time.</dd>
+  </dl></div>
+</section>
+
+<!-- ===================== STEP 16 ===================== -->
+<section class="step" id="test" data-phase="Prove" data-title="Test, back up and hand over">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Test, back up and hand over</h2>
+  <p class="lede">Test the panel in WinCC Runtime simulation first, with PLCSIM or the real PLC. Then repeat on the machine with the operators, and finish with a backup of the panel.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Test</th><th>Expected result</th><th>Covers</th></tr></thead>
+    <tbody>
+      <tr><td class="a">1</td><td>Touch every button without logging on</td><td>Only Overview, History, Alarms and Log on work</td><td>R1</td></tr>
+      <tr><td class="a">2</td><td>Log on as operator; open Settings</td><td>Settings refused</td><td>R1</td></tr>
+      <tr><td class="a">3</td><td>Enter batch size 0, then 5000</td><td>Both refused by the field limits</td><td>R2</td></tr>
+      <tr><td class="a">4</td><td>Select each recipe record</td><td>Valid records blendable; the empty record "not blendable"</td><td>R3, R4</td></tr>
+      <tr><td class="a">5</td><td>Start with the door open, then with the drum not upright</td><td>Start refused; Door Open / Cylinder not upright alarms</td><td>R5, R7</td></tr>
+      <tr><td class="a">6</td><td>Run a short recipe to the end</td><td>Drum parks upright; complete report; history entry</td><td>R5, R8</td></tr>
+      <tr><td class="a">7</td><td>Open the door during a blend</td><td>Drum stops; failed report "Door Open"</td><td>R7, R8</td></tr>
+      <tr><td class="a">8</td><td>Force each bit of <code>Alarm_Alarm1</code></td><td>The right text for every bit; entry in the SD card log</td><td>R7</td></tr>
+      <tr><td class="a">9</td><td>Jog, then release the button by sliding off it</td><td>Drum stops</td><td>R6</td></tr>
+      <tr><td class="a">10</td><td>Export recipes to USB, import on another panel</td><td>Same records</td><td>R3</td></tr>
+      <tr><td class="a">11</td><td>Set the PLC clock; run a blend</td><td>Report times match the new clock</td><td>R9</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Back up the panel</h3>
+  <p>In TIA Portal, select the panel and use <i>Online → HMI device maintenance → Backup</i> (or SIMATIC ProSave). The result is a <code>.brf</code> file holding the panel's operating system, the compiled project, the recipes, the user administration and the network settings. With it, a replacement panel is running again in minutes. Keep one after commissioning and one after every change.</p>
+  <div class="pitfall"><h4>A backup is not the source</h4><p>The <code>.brf</code> restores a panel, but you cannot open it in TIA Portal to change a screen. Archive the TIA project as well, with the same date and version, every time you make a backup.</p></div>
+</section>
+
+<!-- ===================== STEP 17 ===================== -->
+<section class="step" id="simulator" data-phase="Prove" data-title="Run the panel">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Run the panel</h2>
+  <p class="lede">This is the finished panel, running against a model of the blender. Log on (<code>operator</code> / <code>1234</code> or <code>admin</code> / <code>xxxx</code>), enter a job, pick a recipe and blend. Open the guard door or trip the drive from the plant controls and watch the panel react.</p>
+  <div class="sim" id="sim">
+    <div class="sim-top">
+      <button class="btn primary" type="button" id="sm-run" aria-pressed="true">Pause</button>
+      <span class="seg" role="group" aria-label="Speed"><button type="button" data-speed="1" aria-pressed="false">1×</button><button type="button" data-speed="10" aria-pressed="true">10×</button><button type="button" data-speed="60" aria-pressed="false">60×</button></span>
+      <button class="btn" type="button" id="sm-new">Restart machine</button>
+      <span class="clock" id="sm-clock">00:00</span>
+    </div>
+    <div class="simgrid">
+      <div><div class="hmi" id="hmi-live"></div></div>
+      <div>
+        <div class="simside">
+          <div><h5>Plant (outside the panel)</h5><div class="stack">
+            <label class="tog"><input type="checkbox" id="pl-door" checked><span></span>Guard door closed</label>
+            <label class="tog"><input type="checkbox" id="pl-vfd"><span></span>Drive (VFD) fault</label>
+            <button class="btn" type="button" id="pl-turn">Turn the drum by hand 90°</button>
+          </div></div>
+          <div><h5>Drum</h5><dl class="kv"><dt>Speed</dt><dd id="pl-rpm">0.0 rpm</dd><dt>Angle</dt><dd id="pl-ang">0°</dd><dt>Upright sensor</dt><dd id="pl-up">on</dd><dt>Lock cylinder</dt><dd id="pl-lock">up (drum free)</dd></dl></div>
+          <div><h5>Event log</h5><ul class="elog" id="sm-log" style="max-height:220px"></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="evidence"><h4>What is real and what is modelled</h4><ul><li><b>As configured in the tutorial:</b> the screens, the tags they show, the recipe check, the start conditions, the alarms and their acknowledgement, the reports, the history, and who may use which button.</li><li><b>Modelled:</b> the blender. The drive ramps at 10 rpm/s, the upright sensor covers ±3°, the lock cylinder takes 1.5 s, and after a blend the drum creeps to the upright position at 2 rpm.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 18 ===================== -->
+<section class="step" id="checklist" data-phase="Prove" data-title="Checklist and common mistakes">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Checklist and common mistakes</h2>
+  <p class="lede">An HMI is judged by the operator on a night shift. Check these points before you hand it over.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Common mistake</th><th>What it causes</th><th>Do this instead</th></tr></thead>
+    <tbody>
+      <tr><td>Jog button with Press/Release events</td><td>Drum keeps turning if the release is lost</td><td><code>SetBitWhilePressed</code>, plus a PLC watchdog (step 11)</td></tr>
+      <tr><td>Alarm bits numbered as if the word were little-endian</td><td>Wrong alarm text on screen and in the log</td><td>Trigger bit 0 = <code>DBX1.0</code>; force-test every bit (step 12)</td></tr>
+      <tr><td>Recipe values trusted because of the record name</td><td>A blend with the wrong number of revolutions</td><td>Check RPM × minutes = revolutions, in the panel and the PLC (step 9)</td></tr>
+      <tr><td>Report reading live tags</td><td>The report changes when the next job is entered</td><td>Freeze report values in the PLC at the end of the blend</td></tr>
+      <tr><td>Shared operator login</td><td>The operator name on every report is the same</td><td>One user per person, automatic logoff after a few minutes</td></tr>
+      <tr><td>Every tag at 100 ms</td><td>Slow screens, connection overload</td><td>100 ms only for values people watch move (step 5)</td></tr>
+      <tr><td>Panel clock set instead of the PLC's</td><td>Report times wrong or inconsistent</td><td>Set the PLC clock; let the panel follow (step 15)</td></tr>
+      <tr><td>A Stop button as the only stop</td><td>No stop when the panel or network fails</td><td>Hardwired guard door and emergency stop to the drive</td></tr>
+      <tr><td>Only a <code>.brf</code> backup kept</td><td>The panel can be restored but never changed</td><td>Archive the TIA project with every backup (step 16)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Before you hand it over</h3>
+  <ul>
+    <li>Every button that changes something has an authorization, and every numeric input has limits.</li>
+    <li>Every alarm bit has been forced once and checked on screen and in the log.</li>
+    <li>A complete and a failed report have been produced and printed.</li>
+    <li>The panel backup and the archived TIA project carry the same date and version.</li>
+  </ul>
+  <p class="srcnote">Example values in this tutorial: project "Basic Drum Blender HMI project"; network addresses are written xx.xx.xx.xx; example logins use 1234 and xxxx.</p>
+</section>
+
+    <nav class="navbar" aria-label="Step navigation">
+      <button class="btn" id="nav-prev" type="button">← Previous</button>
+      <button class="btn primary" id="nav-next" type="button">Next →</button>
+    </nav>
+  </main>
+</div>
+
+<script>
+// Basic Drum Blender HMI project - engine for the tutorial's panel simulator.
+// A small model of the drum blender (drive, drum angle, door, lock cylinder) plus the PLC and HMI logic the
+// tutorial builds: recipe check, start permissives, blend run, reports, blend history and alarms.
+const PLC = (function () {
+  'use strict';
+
+  // Example recipe records (name, RPM, Duration in min, Revolution) - Revolution must equal RPM x Duration.
+  const RECIPES = [
+    { name: '14 min 210 rotations', rpm: 15, dur: 14, rev: 210 },
+    { name: '5 min 15 rpm', rpm: 15, dur: 5, rev: 75 },
+    { name: '3 min 45 rotations', rpm: 15, dur: 3, rev: 45 },
+    { name: '10 min 150 rotations', rpm: 15, dur: 10, rev: 150 },
+    { name: '15 min 300 rotations', rpm: 20, dur: 15, rev: 300 },
+    { name: '7 min 140 rotations', rpm: 20, dur: 7, rev: 140 },
+    { name: '12 min 240 rotations', rpm: 20, dur: 12, rev: 240 },
+    { name: '_DATA_10', rpm: 0, dur: 0, rev: 105 },
+  ];
+  const LIMITS = { rpmMin: 5, rpmMax: 25, durMax: 60 }; // machine limits used by the recipe check
+  const RAMP = 10;          // drive acceleration, rpm per second
+  const JOG_RPM = 2;        // manual rotate speed
+  const UPRIGHT_TOL = 3;    // degrees either side of 0 counted as upright
+  const CYL_TIME = 1.5;     // lock cylinder travel time, s
+  const CHECK_TIME = 1.0;   // "Calculating Blend steps..." shown for this long
+  const ALARMS = { 0: 'Door Open', 1: 'VFD Fault', 2: 'Cylinder not upright' }; // bits of Alarm_Alarm1
+
+  function create() {
+    return {
+      t: 0, clock: Date.UTC(2026, 9, 25, 8, 0, 0) / 1000, // plant clock, seconds (UTC used as local time)
+      // Field
+      doorClosed: true, vfdFault: false, angle: 0, rpm: 0, lockPos: 1, // lockPos 1 = cylinder up (drum released), 0 = down (locked)
+      // HMI / PLC data
+      Machine_ID: 'BLENDER-01', username: '', group: '',
+      Product_Name: '', Batch_No: '', Batch_Size: 0,
+      Target: { recipe_name: '', RPM: 0, Duration: 0, Revolution: 0 },
+      Current: { RPM: 0, Revolution: 0, Elapsed_Min: 0, Remaining_Min: 0, Remaining_Sec: 0 },
+      Recipe_OK: false, Numeric_analysis_done: false, checkUntil: 0,
+      Auto_Mode: true, Jog_Mode: false, Manual_rotate: false, Up_Cylinder: false, Down_Cylinder: false, uprightCmd: false,
+      state: 'idle', // idle | blending | stopping | complete | failed
+      blend_start_DateTime: null, blend_finish_DateTime: null, failReason: '',
+      revAtStart: 0, revs: 0,
+      Alarm_Alarm1: 0, alarmLatched: 0, acked: 0,
+      history: [], // newest first, at most 10: { batch, recipe, result }
+      report: null,
+      events: [],
+    };
+  }
+  function log(P, msg, kind) { P.events.unshift({ t: P.t, msg, kind: kind || '' }); if (P.events.length > 150) P.events.length = 150; }
+  const upright = (P) => { const a = ((P.angle % 360) + 360) % 360; return a <= UPRIGHT_TOL || a >= 360 - UPRIGHT_TOL; };
+
+  // Recipe check: positive speed and time inside the machine limits, and revolutions = RPM x minutes.
+  function checkRecipe(r) {
+    if (!(r.rpm >= LIMITS.rpmMin && r.rpm <= LIMITS.rpmMax)) return { ok: false, why: 'RPM outside ' + LIMITS.rpmMin + '–' + LIMITS.rpmMax };
+    if (!(r.dur >= 1 && r.dur <= LIMITS.durMax)) return { ok: false, why: 'Duration outside 1–' + LIMITS.durMax + ' min' };
+    if (Math.abs(r.rpm * r.dur - r.rev) > 0.5) return { ok: false, why: 'Revolution ≠ RPM × Duration (' + (r.rpm * r.dur) + ')' };
+    return { ok: true, why: '' };
+  }
+
+  // ---- Operator actions (what the HMI buttons do) ----
+  function login(P, user, group) { P.username = user; P.group = group; log(P, 'User ' + user + ' logged on (' + group + ')'); }
+  function logoff(P) { if (P.username) log(P, 'User ' + P.username + ' logged off'); P.username = ''; P.group = ''; }
+  function setJob(P, product, batch, size) {
+    P.Product_Name = String(product || '').slice(0, 30); P.Batch_No = String(batch || '').slice(0, 20); P.Batch_Size = Math.max(0, +size || 0);
+    log(P, 'Job information entered: batch ' + (P.Batch_No || '–'));
+  }
+  function selectRecipe(P, i) {
+    const r = RECIPES[i]; if (!r || P.state === 'blending') return;
+    P.Target = { recipe_name: r.name, RPM: r.rpm, Duration: r.dur, Revolution: r.rev };
+    P.Recipe_OK = false; P.Numeric_analysis_done = false; P.checkUntil = P.t + CHECK_TIME;
+    log(P, 'Recipe selected: ' + r.name);
+  }
+  function permissives(P) {
+    return [
+      ['User logged on', !!P.username],
+      ['Job information entered', !!(P.Product_Name && P.Batch_No && P.Batch_Size > 0)],
+      ['Recipe checked and blendable', P.Recipe_OK],
+      ['Door closed', P.doorClosed],
+      ['No VFD fault', !P.vfdFault],
+      ['Drum upright', upright(P)],
+      ['Lock cylinder up (drum free)', P.lockPos >= 1],
+      ['Auto mode', P.Auto_Mode && !P.Jog_Mode],
+      ['No unacknowledged alarm', (P.alarmLatched & ~P.acked) === 0],
+    ];
+  }
+  function startBlend(P) {
+    if (P.state === 'blending' || P.state === 'stopping') return false;
+    const miss = permissives(P).filter((x) => !x[1]);
+    if (miss.length) { log(P, 'Start refused: ' + miss.map((x) => x[0]).join(', '), 'warn'); if (!upright(P)) P.notUprightReq = true; return false; }
+    P.state = 'blending'; P.revs = 0; P.report = null; P.failReason = '';
+    P.blend_start_DateTime = P.clock; P.blend_finish_DateTime = null;
+    log(P, 'Blend started: ' + P.Target.recipe_name + ', batch ' + P.Batch_No);
+    return true;
+  }
+  function stopBlend(P) { if (P.state === 'blending') { finish(P, false, 'Stopped by operator'); } }
+  // Reset_Alarm acknowledges everything; an alarm whose cause has gone then disappears, one still present stays (acknowledged).
+  function resetAlarms(P) { P.acked = P.alarmLatched; P.alarmLatched &= P.Alarm_Alarm1; P.acked &= P.alarmLatched; log(P, 'Alarms acknowledged (Reset_Alarm)'); }
+  function raise(P, bit) { const m = 1 << bit; if (!(P.alarmLatched & m)) { P.alarmLatched |= m; P.acked &= ~m; log(P, 'Alarm: ' + ALARMS[bit], 'alarm'); } }
+
+  function finish(P, ok, reason) {
+    P.state = 'stopping'; P.pending = { ok, reason };
+    P.blend_finish_DateTime = P.clock;
+  }
+  function closeOut(P) {
+    const { ok, reason } = P.pending; P.pending = null;
+    P.state = ok ? 'complete' : 'failed'; P.failReason = ok ? '' : reason;
+    P.report = {
+      ok, reason: P.failReason, machine: P.Machine_ID, operator: P.username, recipe: P.Target.recipe_name, product: P.Product_Name,
+      batch: P.Batch_No, size: P.Batch_Size, start: P.blend_start_DateTime, finish: P.blend_finish_DateTime,
+      revSet: P.Target.Revolution, revAct: Math.round(P.revs * 10) / 10, timeSet: P.Target.Duration,
+      timeAct: Math.round((P.blend_finish_DateTime - P.blend_start_DateTime) / 6) / 10,
+    };
+    // Blend history: newest at the top, the oldest drops out after 10.
+    P.history.unshift({ batch: P.Batch_No, recipe: P.Target.recipe_name, result: ok ? 'Complete' : 'Failed' });
+    if (P.history.length > 10) P.history.length = 10;
+    log(P, ok ? 'Blend complete: ' + P.report.revAct + ' revolutions' : 'Blend failed: ' + reason, ok ? '' : 'alarm');
+  }
+
+  // ---- One scan: inputs, logic, model ----
+  function scan(P, dt) {
+    P.t += dt; P.clock += dt;
+    // Recipe check finishes after the "calculating" pause
+    if (P.checkUntil && P.t >= P.checkUntil) {
+      const res = checkRecipe({ rpm: P.Target.RPM, dur: P.Target.Duration, rev: P.Target.Revolution });
+      P.Recipe_OK = res.ok; P.Numeric_analysis_done = true; P.checkUntil = 0; P.checkWhy = res.why;
+      log(P, res.ok ? 'Recipe blendable' : 'Recipe not blendable: ' + res.why, res.ok ? '' : 'warn');
+    }
+    // Alarms (bits of Alarm_Alarm1) follow their causes; latched until reset once the cause is gone
+    if (upright(P)) P.notUprightReq = false;
+    let w = 0;
+    if (!P.doorClosed) w |= 1;
+    if (P.vfdFault) w |= 2;
+    if (P.notUprightReq) w |= 4;
+    P.Alarm_Alarm1 = w;
+    for (let b = 0; b < 3; b++) if (w & (1 << b)) raise(P, b);
+    P.alarmLatched &= ~(P.acked & ~w); P.acked &= P.alarmLatched; // acknowledged and gone: cleared
+    // Running interlocks
+    if (P.state === 'blending') {
+      if (!P.doorClosed) finish(P, false, 'Door Open');
+      else if (P.vfdFault) finish(P, false, 'VFD Fault');
+    }
+    // Lock cylinder (manual only, drum must be upright and stopped to lock)
+    // Up_Cylinder / Down_Cylinder are commands that run the cylinder to its end position.
+    if (P.state !== 'blending' && !P.Auto_Mode) {
+      if (P.Down_Cylinder) { if (upright(P) && P.rpm === 0) { P.lockPos = Math.max(0, P.lockPos - dt / CYL_TIME); if (P.lockPos === 0) { P.Down_Cylinder = false; log(P, 'Lock cylinder down: drum locked'); } } else { P.Down_Cylinder = false; P.notUprightReq = true; log(P, 'Down Cylinder refused: drum not upright or turning', 'warn'); } }
+      if (P.Up_Cylinder) { P.lockPos = Math.min(1, P.lockPos + dt / CYL_TIME); if (P.lockPos === 1) { P.Up_Cylinder = false; log(P, 'Lock cylinder up: drum free'); } }
+    } else { P.Up_Cylinder = false; P.Down_Cylinder = false; }
+    // Drive speed demand
+    let demand = 0, toUpright = false;
+    if (P.vfdFault || !P.doorClosed || P.lockPos < 1) demand = 0;
+    else if (P.state === 'blending') demand = P.Target.RPM;
+    else if (P.state === 'stopping') toUpright = true;
+    else if (!P.Auto_Mode && P.Jog_Mode && P.Manual_rotate) demand = JOG_RPM;
+    else if (P.uprightCmd) toUpright = true;
+    if (toUpright && !P.vfdFault && P.doorClosed && P.lockPos >= 1) {
+      // slow down, then creep to the next upright position and stop there
+      if (upright(P) && P.rpm <= JOG_RPM + 1e-9) { demand = 0; P.rpm = 0; P.angle = Math.round(P.angle / 360) * 360; }
+      else demand = JOG_RPM;
+    }
+    if (P.rpm < demand) P.rpm = Math.min(demand, P.rpm + RAMP * dt);
+    else if (P.rpm > demand) P.rpm = Math.max(demand, P.rpm - RAMP * dt);
+    if (P.vfdFault) P.rpm = Math.max(0, P.rpm - 3 * RAMP * dt); // coasting stop on drive trip
+    const dRev = (P.rpm / 60) * dt;
+    P.angle += dRev * 360;
+    if (P.state === 'blending') {
+      P.revs += dRev;
+      if (P.revs >= P.Target.Revolution) finish(P, true, '');
+    }
+    if (P.state === 'stopping' && P.rpm === 0 && (upright(P) || P.vfdFault || !P.doorClosed)) closeOut(P);
+    if (P.uprightCmd && upright(P) && P.rpm === 0) { P.uprightCmd = false; log(P, 'Drum upright'); }
+    // Values for the screens
+    P.Current.RPM = Math.round(P.rpm * 10) / 10;
+    P.Current.Revolution = Math.round(P.revs * 10) / 10;
+    if (P.state === 'blending' && P.blend_start_DateTime !== null) {
+      P.Current.Elapsed_Min = Math.floor((P.clock - P.blend_start_DateTime) / 60);
+      const left = P.Target.RPM > 0 ? Math.max(0, (P.Target.Revolution - P.revs) / P.Target.RPM * 60) : 0;
+      P.Current.Remaining_Min = Math.floor(left / 60); P.Current.Remaining_Sec = Math.floor(left % 60);
+    }
+    return P;
+  }
+  function run(P, seconds, step) { const h = step || 0.05; const n = Math.max(1, Math.round(seconds / h)); for (let i = 0; i < n; i++) scan(P, h); return P; }
+
+  return { create, scan, run, RECIPES, LIMITS, ALARMS, checkRecipe, permissives, upright, login, logoff, setJob, selectRecipe, startBlend, stopBlend, resetAlarms };
+})();
+
+
+</script>
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } } };
+  const pad = (n) => String(n).padStart(2, '0');
+  const fmtDT = (s) => { if (s === null || s === undefined) return '–'; const d = new Date(s * 1000); return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + ' ' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()); };
+
+  /* ---------- Panel screens ---------- */
+  const NAV = [['overview', 'Overview'], ['job', 'Job'], ['recipe', 'Recipe'], ['blend', 'Blending'], ['manual', 'Manual'], ['history', 'History'], ['alarms', 'Alarms'], ['settings', 'Settings'], ['logon', 'Log on']];
+  const TITLES = { overview: 'Overview', job: 'Job Information', recipe: 'Recipe Selection', blend: 'Blending Screen', manual: 'Manual Operation', history: 'Blend History', alarms: 'Alarms', settings: 'Settings', machine: 'Set Machine ID', datetime: 'Change Date Time', useradmin: 'User administration', recipeadmin: 'Recipe Administration', complete: 'Blend Complete Report', failed: 'Blend Failed Report' };
+  const ADMIN = { settings: 1, machine: 1, datetime: 1, useradmin: 1, recipeadmin: 1 };
+  const OPER = { job: 1, recipe: 1, blend: 1, manual: 1 };
+  const isAdmin = (P) => P.group === 'Administrator group';
+
+  function drumSVG(P) {
+    const a = P.angle % 360, run = P.rpm > 0;
+    const lockY = 40 + (1 - P.lockPos) * 26;
+    return '<svg class="drum" viewBox="0 0 320 240" role="img" aria-label="Drum at ' + Math.round(((a % 360) + 360) % 360) + ' degrees">' +
+      '<rect x="40" y="200" width="240" height="14" class="fr"/><rect x="60" y="110" width="12" height="92" class="fr"/><rect x="248" y="110" width="12" height="92" class="fr"/>' +
+      '<rect x="20" y="20" width="280" height="200" rx="8" class="door' + (P.doorClosed ? '' : ' open') + '"/>' +
+      '<g class="' + (run ? 'run' : '') + '" transform="rotate(' + a.toFixed(1) + ' 160 116)"><path class="dr" d="M126,46 h68 l26,28 v84 l-26,28 h-68 l-26,-28 v-84 z"/><rect x="146" y="38" width="28" height="10" class="dr"/><text x="160" y="121" text-anchor="middle">DRUM</text></g>' +
+      '<rect x="154" y="8" width="12" height="' + (lockY - 8) + '" class="' + (P.lockPos < 1 ? 'lkd' : 'lk') + '"/>' +
+      '<text x="30" y="38" class="s">' + (P.doorClosed ? 'guard closed' : 'GUARD OPEN') + '</text>' +
+      '<text x="290" y="38" class="s" text-anchor="end">' + P.Current.RPM.toFixed(1) + ' rpm</text></svg>';
+  }
+  function chk(list) { return list.map(([t, y]) => '<div class="chk"><i class="' + (y ? 'y' : '') + '"></i>' + esc(t) + '</div>').join(''); }
+  function recipeMsg(P) {
+    if (!P.Target.recipe_name) return '<div class="msg">Select a recipe</div>';
+    if (!P.Numeric_analysis_done) return '<div class="msg run">Calculating Blend steps...</div>';
+    return P.Recipe_OK ? '<div class="msg ok">Recipe blendable</div>' : '<div class="msg bad">Recipe not blendable. Please change recipe</div>';
+  }
+  function stateMsg(P) {
+    if (P.state === 'blending') return '<div class="msg run">Blending....</div>';
+    if (P.state === 'stopping') return '<div class="msg run">Stopping, drum going upright</div>';
+    if (P.state === 'complete') return '<div class="msg ok">Blend Complete</div>';
+    if (P.state === 'failed') return '<div class="msg bad">Blend Failed: ' + esc(P.failReason) + '</div>';
+    return '<div class="msg">Ready</div>';
+  }
+  function body(P, s, ui) {
+    const T = P.Target, Cu = P.Current, opsOk = !!P.username;
+    if (s === 'overview') return '<div class="grid g2" style="height:100%;grid-template-columns:1.1fr 1fr"><div>' + drumSVG(P) + '</div><div class="grid" style="align-content:start">' + stateMsg(P) +
+      '<div class="grid g2"><span class="lbl">Recipe</span><span class="io ro">' + esc(T.recipe_name || '–') + '</span><span class="lbl">Batch No</span><span class="io ro">' + esc(P.Batch_No || '–') + '</span>' +
+      '<span class="lbl">Revolution</span><span class="io ro">' + Cu.Revolution.toFixed(1) + ' / ' + T.Revolution + '</span><span class="lbl">Mode</span><span class="io ro">' + (P.Auto_Mode ? 'Auto' : 'Manual') + '</span></div>' +
+      '<div class="bar"><i style="width:' + (T.Revolution ? Math.min(100, Cu.Revolution / T.Revolution * 100) : 0) + '%"></i></div></div></div>';
+    if (s === 'job') return '<div class="grid g2" style="grid-template-columns:auto 1fr;max-width:80%">' +
+      '<span class="lbl">Product Name :</span>' + (ui ? '<input class="io" id="hm-prod" maxlength="30" value="' + esc(ui.prod) + '"' + (opsOk ? '' : ' disabled') + '>' : '<span class="io">' + esc(P.Product_Name) + '</span>') +
+      '<span class="lbl">Batch No :</span>' + (ui ? '<input class="io" id="hm-batch" maxlength="20" value="' + esc(ui.batch) + '"' + (opsOk ? '' : ' disabled') + '>' : '<span class="io">' + esc(P.Batch_No) + '</span>') +
+      '<span class="lbl">Batch Size (kg) :</span>' + (ui ? '<input class="io" id="hm-size" inputmode="decimal" value="' + esc(ui.size) + '"' + (opsOk ? '' : ' disabled') + '>' : '<span class="io">' + (P.Batch_Size || '') + '</span>') +
+      '<span class="lbl">Operator Name :</span><span class="io ro">' + esc(P.username || '–') + '</span><span class="lbl">Machine ID :</span><span class="io ro">' + esc(P.Machine_ID) + '</span>' +
+      '<span></span><button data-act="savejob"' + (opsOk ? '' : ' disabled') + '>Save job information</button></div>' + (ui && ui.jobMsg ? '<div class="msg ' + ui.jobMsg[0] + '" style="margin-top:1cqw">' + esc(ui.jobMsg[1]) + '</div>' : '');
+    if (s === 'recipe') return '<div class="grid g2" style="grid-template-columns:1.4fr 1fr;height:100%"><div><table><thead><tr><th>Data record</th><th>RPM</th><th>Min</th><th>Rev</th></tr></thead><tbody>' +
+      PLC.RECIPES.map((r, i) => '<tr class="pick' + (T.recipe_name === r.name ? ' sel' : '') + '" data-act="rcp" data-i="' + i + '"><td>' + esc(r.name) + '</td><td class="n">' + r.rpm + '</td><td class="n">' + r.dur + '</td><td class="n">' + r.rev + '</td></tr>').join('') +
+      '</tbody></table></div><div class="grid" style="align-content:start"><span class="lbl">Recipe Name:</span><span class="io ro">' + esc(T.recipe_name || '–') + '</span>' +
+      '<div class="grid g3"><span class="lbl">RPM</span><span class="lbl">Minutes</span><span class="lbl">Revolution</span><span class="io ro">' + T.RPM + '</span><span class="io ro">' + T.Duration + '</span><span class="io ro">' + T.Revolution + '</span></div>' + recipeMsg(P) +
+      (opsOk ? '' : '<div class="msg">Log on to select a recipe</div>') + '</div></div>';
+    if (s === 'blend') {
+      const pct = T.Revolution ? Math.min(100, Cu.Revolution / T.Revolution * 100) : 0;
+      return '<div class="grid g2" style="grid-template-columns:1.3fr 1fr;height:100%"><div class="grid" style="align-content:start"><table><thead><tr><th></th><th>Set Value</th><th>Actual Value</th></tr></thead><tbody>' +
+        '<tr><td>RPM</td><td class="n">' + T.RPM.toFixed(1) + '</td><td class="n">' + Cu.RPM.toFixed(1) + '</td></tr>' +
+        '<tr><td>Total no of Revolution</td><td class="n">' + T.Revolution.toFixed(1) + '</td><td class="n">' + Cu.Revolution.toFixed(1) + '</td></tr>' +
+        '<tr><td>Blending Time (min)</td><td class="n">' + T.Duration + '</td><td class="n">' + Cu.Elapsed_Min + '</td></tr></tbody></table>' +
+        '<div class="bar"><i style="width:' + pct + '%"></i></div><div><span class="lbl">Remaining </span><span class="big">' + pad(Cu.Remaining_Min) + ':' + pad(Cu.Remaining_Sec) + '</span></div>' + stateMsg(P) +
+        '<div class="grid g2"><button class="go" data-act="start"' + (opsOk && P.Recipe_OK && P.state !== 'blending' && P.state !== 'stopping' ? '' : ' disabled') + '>Start Blending</button><button class="st" data-act="stop"' + (P.state === 'blending' ? '' : ' disabled') + '>Stop Blending</button></div></div>' +
+        '<div class="grid" style="align-content:start;gap:.5cqw"><span class="lbl">Start conditions</span>' + chk(PLC.permissives(P)) + '</div></div>';
+    }
+    if (s === 'manual') {
+      const man = !P.Auto_Mode, idle = P.state !== 'blending' && P.state !== 'stopping', ok = opsOk && idle;
+      return '<div class="grid g2" style="grid-template-columns:1fr 1fr;height:100%"><div class="grid" style="align-content:start">' +
+        '<div class="grid g2"><button class="' + (P.Auto_Mode ? 'on' : '') + '" data-act="auto"' + (ok ? '' : ' disabled') + '>' + (P.Auto_Mode ? 'Auto Mode' : 'Manual Mode') + '</button><button class="' + (P.Jog_Mode ? 'on' : '') + '" data-act="jogmode"' + (ok && man ? '' : ' disabled') + '>Jog Mode</button></div>' +
+        '<button data-act="rotate" data-hold="1"' + (ok && man && P.Jog_Mode ? '' : ' disabled') + '>Manual rotate (hold)</button>' +
+        '<button data-act="upright"' + (ok && man ? '' : ' disabled') + '>Upright</button>' +
+        '<div class="grid g2"><button data-act="cylup"' + (ok && man ? '' : ' disabled') + '>Up Cylinder</button><button data-act="cyldown"' + (ok && man ? '' : ' disabled') + '>Down Cylinder</button></div>' +
+        (P.Auto_Mode ? '<div class="msg">Switch to manual mode to use these buttons</div>' : '') + '</div>' +
+        '<div class="grid" style="align-content:start;gap:.6cqw">' + chk([['Drum upright', PLC.upright(P)], ['Lock cylinder up (drum free)', P.lockPos >= 1], ['Lock cylinder down (drum locked)', P.lockPos <= 0], ['Door closed', P.doorClosed], ['Drum turning', P.rpm > 0]]) +
+        '<span class="lbl">Speed</span><span class="io ro">' + Cu.RPM.toFixed(1) + ' rpm</span></div></div>';
+    }
+    if (s === 'history') return '<table><thead><tr><th>Index</th><th>Batch ID</th><th>Recipe</th><th>Result</th></tr></thead><tbody>' +
+      Array.from({ length: 10 }, (_, i) => { const h = P.history[i]; return '<tr><td class="n">' + (i + 1) + '</td><td>' + (h ? esc(h.batch) : '') + '</td><td>' + (h ? esc(h.recipe) : '') + '</td><td>' + (h ? h.result : '') + '</td></tr>'; }).join('') + '</tbody></table>';
+    if (s === 'alarms') {
+      const rows = [0, 1, 2].filter((b) => (P.alarmLatched | P.Alarm_Alarm1) & (1 << b)).map((b) => { const m = 1 << b; const st = (P.Alarm_Alarm1 & m ? 'Active' : 'Gone') + ((P.acked & m) ? ', acknowledged' : ''); return '<tr><td>' + esc(PLC.ALARMS[b]) + '</td><td>' + st + '</td></tr>'; }).join('');
+      return '<div class="grid" style="align-content:start"><table><thead><tr><th>Alarm text</th><th>State</th></tr></thead><tbody>' + (rows || '<tr><td colspan="2">No alarms</td></tr>') + '</tbody></table><div style="max-width:30%"><button data-act="reset">Reset (acknowledge)</button></div><span class="lbl">Logged to \\Storage Card SD\\Logs (Alarm_log_1)</span></div>';
+    }
+    if (s === 'settings') return '<div class="grid g2" style="max-width:70%">' + [['machine', 'Set Machine ID'], ['datetime', 'Change Date Time'], ['useradmin', 'User administration'], ['recipeadmin', 'Recipe Administration']].map(([k, t]) => '<button data-act="go" data-s="' + k + '">' + t + '</button>').join('') + '</div>';
+    if (s === 'machine') return '<div class="grid g2" style="grid-template-columns:auto 1fr;max-width:70%"><span class="lbl">Machine ID :</span>' + (ui ? '<input class="io" id="hm-mid" maxlength="20" value="' + esc(ui.mid) + '">' : '<span class="io">' + esc(P.Machine_ID) + '</span>') + '<span></span><button data-act="savemid">Set Machine ID</button><span></span><button data-act="go" data-s="settings">Go Back</button></div>';
+    if (s === 'datetime') return '<div class="grid g2" style="grid-template-columns:auto 1fr;max-width:75%"><span class="lbl">PLC time now</span><span class="io ro">' + fmtDT(P.clock) + '</span><span class="lbl">New date and time</span>' + (ui ? '<input class="io" id="hm-dt" value="' + esc(ui.dt) + '" placeholder="YYYY-MM-DD hh:mm">' : '<span class="io"></span>') + '<span></span><button data-act="setdt">Set (SYS_DateTime_input_finished)</button><span></span><button data-act="go" data-s="settings">Go Back</button></div>' + (ui && ui.dtMsg ? '<div class="msg ' + ui.dtMsg[0] + '" style="margin-top:1cqw">' + esc(ui.dtMsg[1]) + '</div>' : '');
+    if (s === 'useradmin') return '<table><thead><tr><th>User</th><th>Group</th><th>Logoff time</th></tr></thead><tbody><tr><td>admin</td><td>Administrator group</td><td>5 min</td></tr><tr><td>operator</td><td>Operator Group</td><td>5 min</td></tr></tbody></table><div style="margin-top:1cqw;max-width:30%"><button data-act="go" data-s="settings">Go Back</button></div>';
+    if (s === 'recipeadmin') return '<div class="grid g2" style="grid-template-columns:1.6fr 1fr"><table><thead><tr><th>Recipe_1 data record</th><th>RPM</th><th>Min</th><th>Rev</th></tr></thead><tbody>' + PLC.RECIPES.map((r) => '<tr><td>' + esc(r.name) + '</td><td class="n">' + r.rpm + '</td><td class="n">' + r.dur + '</td><td class="n">' + r.rev + '</td></tr>').join('') + '</tbody></table>' +
+      '<div class="grid" style="align-content:start"><button data-act="export">Export Recipe to USB</button><button data-act="import">Import Recipe from USB</button><button data-act="go" data-s="settings">Go Back</button>' + (ui && ui.rcpMsg ? '<div class="msg ok">' + esc(ui.rcpMsg) + '</div>' : '') + '</div></div>';
+    if (s === 'complete' || s === 'failed') {
+      const R = P.report || { ok: s === 'complete', machine: P.Machine_ID, operator: P.username, recipe: T.recipe_name, product: P.Product_Name, batch: P.Batch_No, size: P.Batch_Size, start: null, finish: null, revSet: T.Revolution, revAct: 0, timeSet: T.Duration, timeAct: 0, reason: '' };
+      return '<div class="grid" style="align-content:start">' + (R.ok ? '<div class="msg ok">Blend Complete</div>' : '<div class="msg bad">Blend Failed: ' + esc(R.reason) + '</div>') +
+        '<div class="rep"><b>Machine ID :</b><span>' + esc(R.machine) + '</span><b>Operator Name :</b><span>' + esc(R.operator) + '</span>' +
+        '<b>Recipe Name:</b><span>' + esc(R.recipe) + '</span><b>Product Name :</b><span>' + esc(R.product) + '</span>' +
+        '<b>Batch No :</b><span>' + esc(R.batch) + '</span><b>Batch Size :</b><span>' + R.size + ' kg</span>' +
+        '<b>Time Blend Started :</b><span>' + fmtDT(R.start) + '</span><b>Time Blend Finished :</b><span>' + fmtDT(R.finish) + '</span>' +
+        '<b>Total no of Revolution :</b><span>' + R.revAct + ' / ' + R.revSet + '</span><b>Blending Time (min) :</b><span>' + R.timeAct + ' / ' + R.timeSet + '</span></div>' +
+        '<div class="grid g2" style="max-width:50%"><button data-act="print">Print Report</button><button data-act="go" data-s="overview">Go Back</button></div>' + (ui && ui.printMsg ? '<div class="msg ok">' + esc(ui.printMsg) + '</div>' : '') + '</div>';
+    }
+    return '';
+  }
+  function panel(P, s, ui) {
+    const unack = (P.alarmLatched & ~P.acked) !== 0, any = (P.alarmLatched | P.Alarm_Alarm1) !== 0;
+    let h = '<div class="scr"><div class="hd"><span class="ttl">Drum Blender</span><span class="sub">' + esc(TITLES[s] || '') + '</span><span class="sp"></span>' +
+      '<span class="inf">' + esc(P.Machine_ID) + '<br>' + esc(P.username ? P.username + ' (' + (isAdmin(P) ? 'admin' : 'operator') + ')' : 'not logged on') + '</span>' +
+      '<span class="inf">' + fmtDT(P.clock).replace(' ', '<br>') + '</span><button class="ai' + (unack ? ' on' : any ? ' ack' : '') + '" data-act="go" data-s="alarms" aria-label="Alarms" style="min-height:0;padding:0">!</button></div>' +
+      '<div class="bd">' + body(P, s, ui) + (ui && ui.dialog ? ui.dialog : '') + '</div><div class="ft">';
+    NAV.forEach(([k, t]) => {
+      const cur = k === s || (k === 'settings' && ADMIN[s]) ? ' cur' : '';
+      const label = k === 'logon' && P.username ? 'Log off' : t;
+      const dis = (ADMIN[k] && !isAdmin(P)) ? ' disabled' : '';
+      h += '<button class="' + cur.trim() + '" data-act="nav" data-s="' + k + '"' + dis + '>' + label + '</button>';
+    });
+    return h + '</div></div>';
+  }
+
+  /* ---------- Static panels in the build steps ---------- */
+  const D = PLC.create();
+  PLC.login(D, 'operator', 'Operator Group'); PLC.setJob(D, 'Product A', 'B-001', 120); PLC.selectRecipe(D, 2); PLC.run(D, 1.2);
+  const DR = PLC.create(); PLC.login(DR, 'operator', 'Operator Group'); PLC.setJob(DR, 'Product A', 'B-001', 120); PLC.selectRecipe(DR, 2); PLC.run(DR, 1.2); PLC.startBlend(DR); PLC.run(DR, 240);
+  const DB = PLC.create(); PLC.login(DB, 'operator', 'Operator Group'); PLC.setJob(DB, 'Product A', 'B-002', 120); PLC.selectRecipe(DB, 0); PLC.run(DB, 1.2); PLC.startBlend(DB); PLC.run(DB, 330);
+  const DM = PLC.create(); PLC.login(DM, 'operator', 'Operator Group'); DM.Auto_Mode = false; DM.Jog_Mode = true;
+  $('#demo-template').innerHTML = panel(D, 'overview');
+  $('#demo-job').innerHTML = panel(D, 'job');
+  $('#demo-blend').innerHTML = panel(DB, 'blend');
+  $('#demo-manual').innerHTML = panel(DM, 'manual');
+  $('#demo-report').innerHTML = panel(DR, 'complete');
+  $$('.paneldemo .hmi button, .paneldemo .hmi input').forEach((b) => { b.tabIndex = -1; });
+
+  /* ---------- Screen map ---------- */
+  const MAP = [
+    ['drum', 'Drum Blender', 200, 16, '', 'Title screen shown at start-up, before anyone logs on.'],
+    ['overview', 'Overview', 408, 16, '', 'Start screen: the drum, the blend state and key values.'],
+    ['jobs', 'Different jobs', 640, 16, '', 'Menu of machine jobs, kept for future functions.'],
+    ['job', 'Job Information', 12, 106, '', 'Product name, batch number and size; operator and machine ID filled in.'],
+    ['recipe', 'Recipe Selection', 144, 106, '', 'Pick a data record; the panel checks it.'],
+    ['blend', 'Blending Screen', 276, 106, '', 'Set and actual values, remaining time, start and stop.'],
+    ['manual', 'Manual Operation', 408, 106, '', 'Jog, upright, lock cylinder; manual mode only.'],
+    ['history', 'Blend History', 540, 106, '', 'The last ten blends.'],
+    ['alarms', 'Alarms', 672, 106, '', 'Alarm view with reset.'],
+    ['settings', 'Settings', 804, 106, 'adm', 'Administrator menu.'],
+    ['complete', 'Blend Complete Report', 144, 206, 'rep', 'Opened by the panel when a blend finishes.'],
+    ['failed', 'Blend Failed Report', 276, 206, 'rep', 'Opened by the panel when a blend stops early.'],
+    ['recipeadmin', 'Recipe Administration', 408, 206, 'adm', 'Recipe view, export and import by USB.'],
+    ['machine', 'Set Machine ID', 540, 206, 'adm', 'Machine name printed on every report.'],
+    ['datetime', 'Change Date Time', 672, 206, 'adm', 'Sets the PLC clock.'],
+    ['useradmin', 'User administration', 804, 206, 'adm', 'User view: add users, reset passwords.'],
+  ];
+  (function () {
+    const W = 118, H = 42;
+    let s = '<svg viewBox="0 0 940 300" role="group" aria-label="Screen map">';
+    const pos = {}; MAP.forEach(([k, , x, y]) => { pos[k] = [x + W / 2, y]; });
+    const down = (a, b) => { const [x1, y1] = pos[a], [x2, y2] = pos[b]; s += '<path class="ln" d="M' + x1 + ',' + (y1 + H) + ' C' + x1 + ',' + (y1 + H + 26) + ' ' + x2 + ',' + (y2 - 26) + ' ' + x2 + ',' + y2 + '"/>'; };
+    const side = (a, b) => { const [x1, y1] = pos[a], [x2] = pos[b]; const l = x1 < x2; s += '<path class="ln" d="M' + (x1 + (l ? W / 2 : -W / 2)) + ',' + (y1 + H / 2) + ' H' + (x2 + (l ? -W / 2 : W / 2)) + '"/>'; };
+    side('drum', 'overview'); side('overview', 'jobs');
+    ['job', 'recipe', 'blend', 'manual', 'history', 'alarms', 'settings'].forEach((k) => down('overview', k));
+    down('blend', 'complete'); down('blend', 'failed');
+    ['recipeadmin', 'machine', 'datetime', 'useradmin'].forEach((k) => down('settings', k));
+    MAP.forEach(([k, t, x, y, c]) => { s += '<rect class="n ' + c + '" data-k="' + k + '" x="' + x + '" y="' + y + '" width="' + W + '" height="' + H + '" rx="6" tabindex="0"/><text x="' + (x + W / 2) + '" y="' + (y + 26) + '" text-anchor="middle" style="font-size:11px">' + t + '</text>'; });
+    s += '<rect x="12" y="274" width="14" height="12" class="n"/><text x="32" y="285" style="font-weight:400">main screen</text><rect x="132" y="274" width="14" height="12" class="n rep"/><text x="152" y="285" style="font-weight:400">opened by the panel</text><rect x="292" y="274" width="14" height="12" class="n adm"/><text x="312" y="285" style="font-weight:400">administrator only</text></svg>';
+    $('#smap').innerHTML = s;
+    const pick = (el) => { $$('#smap rect.n').forEach((r) => r.classList.toggle('sel', r === el)); const m = MAP.find((x) => x[0] === el.dataset.k); if (m) $('#smap-info').textContent = m[1] + ': ' + m[5]; };
+    $('#smap').addEventListener('click', (e) => { const r = e.target.closest('rect.n[data-k]'); if (r) pick(r); });
+    $('#smap').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { const r = e.target.closest('rect.n[data-k]'); if (r) { e.preventDefault(); pick(r); } } });
+  })();
+
+  /* ---------- Recipe table and check widget ---------- */
+  $('#rcp-table').innerHTML = PLC.RECIPES.map((r) => '<tr><td>' + esc(r.name) + '</td><td class="n">' + r.rpm + '</td><td class="n">' + r.dur + '</td><td class="n">' + r.rev + '</td></tr>').join('');
+  $('#ck-rec').innerHTML = PLC.RECIPES.map((r, i) => '<option value="' + i + '">' + esc(r.name) + '</option>').join('') + '<option value="-1">(your own numbers)</option>';
+  function ckFill() { const i = +$('#ck-rec').value; if (i >= 0) { const r = PLC.RECIPES[i]; $('#ck-rpm').value = r.rpm; $('#ck-dur').value = r.dur; $('#ck-rev').value = r.rev; } ckRun(); }
+  function ckRun() {
+    const r = { rpm: +$('#ck-rpm').value, dur: +$('#ck-dur').value, rev: +$('#ck-rev').value };
+    const res = PLC.checkRecipe(r);
+    $('#ck-out').innerHTML = (res.ok ? '<span class="lamp on">Recipe.OK = true</span> Recipe blendable: ' + r.rpm + ' × ' + r.dur + ' = ' + (r.rpm * r.dur) + ' revolutions.' : '<span class="lamp al">Recipe.OK = false</span> Recipe not blendable. Please change recipe. (' + esc(res.why) + ')');
+  }
+  $('#ck-rec').addEventListener('change', ckFill);
+  ['#ck-rpm', '#ck-dur', '#ck-rev'].forEach((id) => $(id).addEventListener('input', () => { $('#ck-rec').value = '-1'; ckRun(); }));
+  ckFill();
+
+  /* ---------- History widget ---------- */
+  let hs = [], hsN = 0;
+  function hsDraw() { $('#hs-body').innerHTML = Array.from({ length: 10 }, (_, i) => '<tr><td class="a">' + (i + 1) + '</td><td>' + (hs[i] ? hs[i][0] : '') + '</td><td>' + (hs[i] ? hs[i][1] : '') + '</td></tr>').join(''); }
+  $('#hs-add').addEventListener('click', () => { hsN++; const r = PLC.RECIPES[hsN % 7]; hs.unshift(['B-' + String(hsN).padStart(3, '0'), r.name]); if (hs.length > 10) hs.length = 10; hsDraw(); });
+  $('#hs-clr').addEventListener('click', () => { hs = []; hsN = 0; hsDraw(); });
+  hsDraw();
+
+  /* ---------- Live simulator ---------- */
+  let S, screen, ui, speed = 10, running = true, holdRotate = false;
+  function fresh() {
+    S = PLC.create(); screen = 'overview';
+    ui = { prod: '', batch: '', size: '', mid: S.Machine_ID, dt: '', dialog: '', jobMsg: null, dtMsg: null, rcpMsg: '', printMsg: '' };
+    $('#pl-door').checked = true; $('#pl-vfd').checked = false; lastState = S.state; draw(true);
+  }
+  let lastState = 'idle', lastHtml = '';
+  const host = $('#hmi-live');
+  function logonDialog(err) {
+    return '<div class="dlg"><div><b style="font:700 2cqw var(--f-head)">Log on</b><span class="lbl">User</span><input class="io" id="hm-user" value="operator"><span class="lbl">Password:</span><input class="io" id="hm-pw" type="password" value="">' +
+      (err ? '<div class="msg bad">' + esc(err) + '</div>' : '<span class="lbl">Examples: operator / 1234, admin / xxxx</span>') +
+      '<div class="grid g2"><button class="go" data-act="dologon">OK</button><button data-act="cancel">Cancel</button></div></div></div>';
+  }
+  function go(s) {
+    if (ADMIN[s] && !isAdmin(S)) return;
+    screen = s; ui.jobMsg = null; ui.dtMsg = null; ui.rcpMsg = ''; ui.printMsg = '';
+    if (s === 'job') { ui.prod = S.Product_Name; ui.batch = S.Batch_No; ui.size = S.Batch_Size ? String(S.Batch_Size) : ''; }
+    if (s === 'machine') ui.mid = S.Machine_ID;
+    draw(true);
+  }
+  function act(a, el) {
+    if (a === 'nav') { const s = el.dataset.s; if (s === 'logon') { if (S.username) { PLC.logoff(S); draw(true); } else { ui.dialog = logonDialog(''); draw(true); setTimeout(() => { const p = $('#hm-pw'); if (p) p.focus(); }, 0); } return; } go(s); return; }
+    if (a === 'go') { go(el.dataset.s); return; }
+    if (a === 'cancel') { ui.dialog = ''; draw(true); return; }
+    if (a === 'dologon') {
+      const u = ($('#hm-user').value || '').trim(), p = $('#hm-pw').value;
+      if (u === 'operator' && p === '1234') PLC.login(S, 'operator', 'Operator Group');
+      else if (u === 'admin' && p === 'xxxx') PLC.login(S, 'admin', 'Administrator group');
+      else { ui.dialog = logonDialog('Invalid password or user name. Logon has failed.'); draw(true); return; }
+      ui.dialog = ''; draw(true); return;
+    }
+    if (a === 'savejob') {
+      const prod = $('#hm-prod').value.trim(), batch = $('#hm-batch').value.trim(), size = parseFloat($('#hm-size').value.replace(',', '.'));
+      ui.prod = prod; ui.batch = batch; ui.size = $('#hm-size').value;
+      if (!prod || !batch) { ui.jobMsg = ['bad', 'Enter product name and batch number.']; draw(true); return; }
+      if (!(size >= 1 && size <= 999)) { ui.jobMsg = ['bad', 'Batch size must be 1–999 kg.']; draw(true); return; }
+      const changed = prod !== S.Product_Name;
+      PLC.setJob(S, prod, batch, size);
+      if (changed && S.Target.recipe_name) { S.Target = { recipe_name: '', RPM: 0, Duration: 0, Revolution: 0 }; S.Recipe_OK = false; S.Numeric_analysis_done = false; }
+      ui.jobMsg = ['ok', 'Job information saved.' + (changed ? ' New product: select the recipe again.' : '')]; draw(true); return;
+    }
+    if (a === 'rcp') { if (!S.username) return; PLC.selectRecipe(S, +el.dataset.i); draw(true); return; }
+    if (a === 'start') { if (PLC.startBlend(S)) go('blend'); else draw(true); return; }
+    if (a === 'stop') { PLC.stopBlend(S); draw(true); return; }
+    if (a === 'auto') { S.Auto_Mode = !S.Auto_Mode; if (S.Auto_Mode) { S.Jog_Mode = false; S.Manual_rotate = false; } draw(true); return; }
+    if (a === 'jogmode') { S.Jog_Mode = !S.Jog_Mode; draw(true); return; }
+    if (a === 'upright') { S.uprightCmd = true; draw(true); return; }
+    if (a === 'cylup') { S.Up_Cylinder = true; S.Down_Cylinder = false; draw(true); return; }
+    if (a === 'cyldown') { S.Down_Cylinder = true; S.Up_Cylinder = false; draw(true); return; }
+    if (a === 'reset') { PLC.resetAlarms(S); draw(true); return; }
+    if (a === 'savemid') { const v = $('#hm-mid').value.trim(); if (v) { S.Machine_ID = v.slice(0, 20); ui.mid = S.Machine_ID; } draw(true); return; }
+    if (a === 'setdt') {
+      ui.dt = $('#hm-dt').value; const m = ui.dt.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})$/);
+      if (!m) { ui.dtMsg = ['bad', 'Invalid input of date/time.']; draw(true); return; }
+      S.clock = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], 0) / 1000; ui.dtMsg = ['ok', 'PLC clock set (WR_SYS_T done).']; draw(true); return;
+    }
+    if (a === 'export') { ui.rcpMsg = PLC.RECIPES.length + ' data records exported to \\Storage Card USB\\recipe.csv'; draw(true); return; }
+    if (a === 'import') { ui.rcpMsg = 'Import of data records completed (' + PLC.RECIPES.length + ' records).'; draw(true); return; }
+    if (a === 'print') { ui.printMsg = 'Report sent to the printer (PrintReport).'; draw(true); return; }
+  }
+  host.addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b || b.disabled || b.dataset.hold) return; act(b.dataset.act, b); });
+  let pointerIn = false;
+  host.addEventListener('pointerdown', () => { pointerIn = true; });
+  window.addEventListener('pointerup', () => { setTimeout(() => { pointerIn = false; }, 0); });
+  const holdOn = (e) => { const b = e.target.closest('[data-hold]'); if (b && !b.disabled) { holdRotate = true; e.preventDefault(); } };
+  const holdOff = () => { holdRotate = false; };
+  host.addEventListener('pointerdown', holdOn); window.addEventListener('pointerup', holdOff); window.addEventListener('pointercancel', holdOff); host.addEventListener('pointerleave', holdOff);
+  host.addEventListener('keydown', (e) => { const b = e.target.closest('[data-hold]'); if (b && (e.key === ' ' || e.key === 'Enter') && !b.disabled) { holdRotate = true; e.preventDefault(); } if (e.key === 'Enter' && e.target.id === 'hm-pw') act('dologon'); });
+  host.addEventListener('keyup', (e) => { if (e.target.closest('[data-hold]')) holdRotate = false; });
+  host.addEventListener('input', (e) => { const id = e.target.id; if (id === 'hm-prod') ui.prod = e.target.value; if (id === 'hm-batch') ui.batch = e.target.value; if (id === 'hm-size') ui.size = e.target.value; if (id === 'hm-mid') ui.mid = e.target.value; if (id === 'hm-dt') ui.dt = e.target.value; });
+  $('#pl-door').addEventListener('change', (e) => { S.doorClosed = e.target.checked; });
+  $('#pl-vfd').addEventListener('change', (e) => { S.vfdFault = e.target.checked; });
+  $('#pl-turn').addEventListener('click', () => { if (S.rpm === 0 && S.lockPos >= 1) { S.angle += 90; } });
+  $('#sm-new').addEventListener('click', fresh);
+  $$('[data-speed]').forEach((b) => b.addEventListener('click', () => { speed = +b.dataset.speed; $$('[data-speed]').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); }));
+  $('#sm-run').addEventListener('click', () => { running = !running; $('#sm-run').textContent = running ? 'Pause' : 'Run'; $('#sm-run').setAttribute('aria-pressed', String(running)); });
+
+  // Redraw the panel without destroying a field the user is typing in
+  function draw(force) {
+    const html = panel(S, screen, ui);
+    if (!force && html === lastHtml) return;
+    if (!force && pointerIn && !holdRotate) return; // never swap a button out from under a finger
+    const typing = document.activeElement && host.contains(document.activeElement) && document.activeElement.tagName === 'INPUT';
+    if (typing && !force) return;
+    let focusId = null, selS = 0, selE = 0;
+    if (typing) { focusId = document.activeElement.id; selS = document.activeElement.selectionStart; selE = document.activeElement.selectionEnd; }
+    host.innerHTML = html; lastHtml = html;
+    if (focusId) { const f = document.getElementById(focusId); if (f) { f.focus(); try { f.setSelectionRange(selS, selE); } catch (e) { /* type without selection */ } } }
+  }
+  function side() {
+    $('#sm-clock').textContent = fmtDT(S.clock).slice(11);
+    $('#pl-rpm').textContent = S.rpm.toFixed(1) + ' rpm';
+    $('#pl-ang').textContent = Math.round(((S.angle % 360) + 360) % 360) + '°';
+    $('#pl-up').textContent = PLC.upright(S) ? 'on (upright)' : 'off';
+    $('#pl-lock').textContent = S.lockPos >= 1 ? 'up (drum free)' : S.lockPos <= 0 ? 'down (drum locked)' : 'moving';
+    $('#sm-log').innerHTML = S.events.slice(0, 40).map((e) => '<li class="' + (e.kind === 'alarm' ? 'alarm' : '') + '"><span>' + fmtDT(S.clock - (S.t - e.t)).slice(11) + '</span><span>' + esc(e.msg) + '</span></li>').join('');
+  }
+  let acc = 0, last = performance.now(), simVisible = false;
+  function tick() {
+    const now = performance.now(), dt = Math.min(0.25, (now - last) / 1000); last = now;
+    if (!simVisible) return;
+    if (running) {
+      S.Manual_rotate = holdRotate && screen === 'manual';
+      acc += dt * speed;
+      let n = 0; while (acc >= 0.05 && n < 2400) { PLC.scan(S, 0.05); acc -= 0.05; n++; }
+      if (S.state !== lastState) { // the PLC result opens the report screen
+        if (S.state === 'complete' || S.state === 'failed') go(S.state);
+        lastState = S.state;
+      }
+    }
+    draw(false); side();
+  }
+  setInterval(tick, 100);
+  fresh();
+
+  /* ---------- Stepper ---------- */
+  const steps = $$('section.step');
+  const list = $('#rail-list');
+  let phase = '', curIdx = 0;
+  steps.forEach((s, i) => {
+    if (s.dataset.phase !== phase) { phase = s.dataset.phase; const li = document.createElement('li'); li.className = 'phase'; li.textContent = phase; list.appendChild(li); }
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.idx = i;
+    b.innerHTML = '<span>' + String(i + 1).padStart(2, '0') + '</span>' + esc(s.dataset.title);
+    b.addEventListener('click', () => { show(i, true); if (window.matchMedia('(max-width:980px)').matches) $('#rail').open = false; });
+    li.appendChild(b); list.appendChild(li);
+  });
+  const visited = new Set();
+  function show(i, scroll) {
+    curIdx = Math.max(0, Math.min(steps.length - 1, i));
+    steps.forEach((s, k) => { s.hidden = k !== curIdx; });
+    visited.add(curIdx);
+    simVisible = steps[curIdx].id === 'simulator';
+    $$('#rail-list button').forEach((b) => { const k = +b.dataset.idx; if (k === curIdx) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); b.classList.toggle('done', visited.has(k) && k !== curIdx); });
+    $('#prog-txt').textContent = 'Step ' + (curIdx + 1) + ' of ' + steps.length;
+    $('#prog-bar').style.width = ((curIdx + 1) / steps.length * 100) + '%';
+    $('#nav-prev').disabled = curIdx === 0;
+    $('#nav-next').textContent = curIdx === steps.length - 1 ? 'Back to start' : 'Next →';
+    if (location.hash.slice(1) !== steps[curIdx].id) { try { history.replaceState(null, '', '#' + steps[curIdx].id); } catch (e) { /* ignore */ } }
+    store.set('db-step', steps[curIdx].id);
+    if (scroll) { const top = $('#sheet').getBoundingClientRect().top + window.scrollY - 12; window.scrollTo({ top, behavior: window.matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' }); }
+  }
+  $('#nav-prev').addEventListener('click', () => show(curIdx - 1, true));
+  $('#nav-next').addEventListener('click', () => show(curIdx === steps.length - 1 ? 0 : curIdx + 1, true));
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest('input,select,textarea,.hmi,.smap')) return;
+    if (e.key === 'ArrowRight') show(curIdx + 1, true);
+    if (e.key === 'ArrowLeft') show(curIdx - 1, true);
+  });
+  const startId = location.hash.slice(1) || store.get('db-step');
+  const startIdx = steps.findIndex((s) => s.id === startId);
+  if (window.matchMedia('(max-width:980px)').matches) $('#rail').open = false;
+  show(startIdx >= 0 ? startIdx : 0, false);
+  const toTop = () => { if (window.scrollY > 0) window.scrollTo(0, 0); };
+  requestAnimationFrame(toTop);
+  window.addEventListener('load', () => setTimeout(toTop, 0), { once: true });
+  window.addEventListener('hashchange', () => { const k = steps.findIndex((s) => s.id === location.hash.slice(1)); if (k >= 0 && k !== curIdx) show(k, true); });
+})();
+</script>
+</body>
+</html>

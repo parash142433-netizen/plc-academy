@@ -1,0 +1,1229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Basic Door Interlock Tutorial</title>
+<meta name="description" content="A step-by-step tutorial: build a cleanroom door interlock on a Schneider Zelio Logic smart relay in ladder, improve a delivered version, and test it in a live simulator.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<style>
+@font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow";src:url(../fonts/barlow-latin-700-normal.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(../fonts/barlow-semi-condensed-latin-500-normal.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(../fonts/barlow-semi-condensed-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Semi Condensed";src:url(../fonts/barlow-semi-condensed-latin-700-normal.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(../fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(../fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+/* Layout: an engineer's build log. Step rail on the left, one build step at a time on a drafting sheet.
+   Simulator panels follow ISA-101 practice: grey for normal, colour only for state and abnormal. */
+:root{
+  --bg:#e2e5e3; --paper:#f7f8f6; --ink:#1c2225; --ink-2:#4e585c; --muted:#6f797d; --rule:#d4d9d7; --rule-2:#bcc3c1;
+  --accent:#2d5f8b; --accent-ink:#244f75; --accent-wash:#d5e1eb; --code-bg:#eaecea; --panel:#eef0ee;
+  --on:#2e7d32; --on-wash:#e1f1e2; --off:#a3afb5; --alarm:#c62828; --alarm-wash:#fbe5e5; --warn:#a86400; --warn-wash:#fbefd9; --info:#1f6aa8;
+  --tip-bg:#182226; --tip-fg:#ffffff;
+  --f-head:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Barlow","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161b1d; --paper:#1f2629; --ink:#e2e7e5; --ink-2:#a3aeb1; --muted:#7f8a8e; --rule:#2d363a; --rule-2:#3b464a;
+    --accent:#86afd4; --accent-ink:#9fc0de; --accent-wash:#233849; --code-bg:#1a2023; --panel:#252d31;
+    --on:#5cc062; --on-wash:#17331a; --off:#55636b; --alarm:#ef6461; --alarm-wash:#3a1717; --warn:#f0a63a; --warn-wash:#3a2a10; --info:#6aa9e6;
+    --tip-bg:#e2e9ec; --tip-fg:#151c20; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161b1d; --paper:#1f2629; --ink:#e2e7e5; --ink-2:#a3aeb1; --muted:#7f8a8e; --rule:#2d363a; --rule-2:#3b464a;
+  --accent:#86afd4; --accent-ink:#9fc0de; --accent-wash:#233849; --code-bg:#1a2023; --panel:#252d31;
+  --on:#5cc062; --on-wash:#17331a; --off:#55636b; --alarm:#ef6461; --alarm-wash:#3a1717; --warn:#f0a63a; --warn-wash:#3a2a10; --info:#6aa9e6;
+  --tip-bg:#e2e9ec; --tip-fg:#151c20; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);margin:0}
+.top{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 8px;max-width:1320px;margin:0 auto}
+.top .eyebrow{font:600 .78rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.top h1{font:700 clamp(1.7rem,3.6vw,2.5rem)/1.1 var(--f-head);margin:4px 0 6px;text-wrap:balance}
+.top p{margin:0;color:var(--ink-2);max-width:78ch}
+.progress{display:flex;align-items:center;gap:12px;margin-top:14px;font:600 .85rem var(--f-head);color:var(--ink-2);letter-spacing:.04em}
+.progress .bar{flex:1;height:6px;background:var(--rule);border-radius:3px;overflow:hidden;max-width:520px}
+.progress .bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 64px;display:grid;grid-template-columns:270px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Step rail */
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--paper);border:1px solid var(--rule);max-height:calc(100vh - 24px);overflow:auto}
+.rail summary{list-style:none;cursor:pointer;padding:12px 14px;font:600 .78rem var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);border-bottom:1px solid var(--rule)}
+.rail summary::-webkit-details-marker{display:none}
+.rail ol{list-style:none;margin:0;padding:6px}
+.rail .phase{font:600 .7rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 8px 4px}
+.rail button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:2em 1fr;gap:4px;width:100%;padding:6px 8px;border-radius:4px;cursor:pointer;color:var(--ink-2);font-size:.92rem;line-height:1.3}
+.rail button span{font:500 .8rem var(--f-mono);color:var(--muted);padding-top:1px}
+.rail button:hover{background:var(--panel);color:var(--ink)}
+.rail button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.rail button[aria-current="step"]{background:var(--accent-wash);color:var(--ink);font-weight:600}
+.rail button[aria-current="step"] span{color:var(--accent-ink)}
+.rail button.done span::after{content:" ✓";color:var(--on)}
+@media (max-width:980px){.rail{position:static;max-height:none}}
+
+/* Sheet */
+.sheet{background:var(--paper);border:1px solid var(--rule);min-width:0}
+.step{padding-inline:clamp(16px,3.6vw,44px);padding-block:28px 32px}
+.step-eyebrow{font:600 .78rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.step h2{font:700 clamp(1.5rem,3vw,2rem)/1.15 var(--f-head);margin:4px 0 10px;text-wrap:balance}
+.step h3{font:600 1.18rem/1.25 var(--f-head);margin:28px 0 8px;letter-spacing:.01em}
+.lede{font-size:1.08rem;color:var(--ink-2);max-width:72ch}
+.step p,.step li{max-width:74ch}
+.step ul,.step ol{padding-left:1.3em}
+.step li{margin:4px 0}
+code,.mono{font-family:var(--f-mono);font-size:.84em;background:var(--code-bg);padding:.06em .32em;border-radius:3px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0}
+.cols>*{min-width:0}
+
+/* Engineer's notebook blocks */
+.think{border-left:3px solid var(--accent);background:var(--panel);padding:12px 16px;margin:18px 0}
+.think h4,.decision h4,.robust h4,.evidence h4,.pitfall h4{margin:0 0 6px;font:600 .78rem var(--f-head);letter-spacing:.1em;text-transform:uppercase}
+.think h4{color:var(--accent-ink)}
+.think dl{margin:0;display:grid;gap:8px}
+.think dt{font-weight:600}
+.think dd{margin:0 0 0 0;color:var(--ink-2)}
+.decision{border:1px solid var(--rule-2);padding:12px 16px;margin:18px 0}
+.decision h4{color:var(--ink)}
+.robust{border:1px solid var(--on);background:var(--on-wash);padding:12px 16px;margin:18px 0}
+.robust h4{color:var(--on)}
+.evidence{border:1px dashed var(--rule-2);padding:12px 16px;margin:18px 0}
+.evidence h4{color:var(--info)}
+.pitfall{border:1px solid var(--warn);background:var(--warn-wash);padding:12px 16px;margin:18px 0}
+.pitfall h4{color:var(--warn)}
+.think p:last-child,.decision p:last-child,.robust p:last-child,.evidence p:last-child,.pitfall p:last-child,
+.robust ul:last-child,.decision ul:last-child,.evidence ul:last-child,.pitfall ul:last-child{margin-bottom:0}
+
+/* Code */
+.code{border:1px solid var(--rule);margin:16px 0;background:var(--code-bg)}
+.code-h{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;padding:8px 12px;border-bottom:1px solid var(--rule);font:600 .9rem var(--f-head);letter-spacing:.02em}
+.code-h small{font:400 .82rem var(--f-body);color:var(--muted);letter-spacing:0}
+.code-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+@media (max-width:820px){.code-body{grid-template-columns:minmax(0,1fr)}}
+pre.stl{margin:0;padding:10px 12px;overflow-x:auto;font:400 .82rem/1.55 var(--f-mono);color:var(--ink);tab-size:4}
+pre.stl .nw{color:var(--muted)}
+pre.stl .op{color:var(--accent-ink);font-weight:500}
+pre.stl .ad{color:var(--info)}
+pre.stl .nu{color:var(--warn)}
+.notes{margin:0;padding:10px 14px 10px 30px;border-left:1px solid var(--rule);background:var(--paper);font-size:.92rem}
+@media (max-width:820px){.notes{border-left:0;border-top:1px solid var(--rule)}}
+.notes li{margin:0 0 8px}
+.notes b{font-family:var(--f-mono);font-size:.82rem;color:var(--accent-ink)}
+
+/* Tables */
+.tbl{overflow-x:auto;border:1px solid var(--rule);margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem;line-height:1.45;font-variant-numeric:tabular-nums}
+th{font:600 .74rem var(--f-head);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);text-align:left;background:var(--panel);padding:7px 10px;border-bottom:1px solid var(--rule-2);white-space:nowrap}
+td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.a{font-family:var(--f-mono);font-size:.82rem;white-space:nowrap}
+td.n{text-align:right;white-space:nowrap}
+
+/* Figures */
+figure{margin:18px 0;border:1px solid var(--rule)}
+.fig{padding:12px;overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto;min-width:620px}
+figcaption{padding:8px 12px;border-top:1px solid var(--rule);font-size:.87rem;color:var(--ink-2);background:var(--panel)}
+.d text{font-family:var(--f-body);font-size:12px;fill:var(--ink)}
+.d .ts{font-size:10.5px;fill:var(--ink-2)}
+.d .tm{font-family:var(--f-mono);font-size:10px;fill:var(--ink-2)}
+.d .th{font-family:var(--f-head);font-weight:600;font-size:13px;fill:var(--ink)}
+.d .tacc{fill:var(--accent-ink)}
+.d .box{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.2}
+.d .box-soft{fill:var(--panel);stroke:var(--rule-2);stroke-width:1}
+.d .box-acc{fill:var(--accent-wash);stroke:var(--accent);stroke-width:1.5}
+.d .ln{stroke:var(--ink-2);stroke-width:1.4;fill:none}
+.d .ln-acc{stroke:var(--accent);stroke-width:2;fill:none}
+.d .guide{stroke:var(--rule);stroke-width:1;fill:none}
+.d .ah{fill:var(--ink-2)}
+.d .sig{stroke:var(--accent);stroke-width:2;fill:none;stroke-linejoin:round}
+.d .water{fill:var(--accent-wash)}
+.d .pump{fill:var(--ink-2)}
+
+/* Widgets */
+.widget{border:1px solid var(--accent);margin:20px 0;background:var(--paper)}
+.widget-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;align-items:baseline;padding:8px 14px;background:var(--accent-wash);border-bottom:1px solid var(--accent)}
+.widget-h b{font:700 .95rem var(--f-head);letter-spacing:.03em}
+.widget-h span{font-size:.85rem;color:var(--ink-2)}
+.widget-b{padding:14px;display:grid;gap:14px}
+.wrow{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.btn{font:600 .88rem var(--f-head);letter-spacing:.04em;padding:7px 12px;border:1px solid var(--rule-2);background:var(--panel);color:var(--ink);border-radius:4px;cursor:pointer;min-height:36px}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible,.tog input:focus-visible+span,input[type=range]:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.btn.danger{border-color:var(--alarm);color:var(--alarm)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tog{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;cursor:pointer;user-select:none}
+.tog input{position:absolute;opacity:0;width:1px;height:1px}
+.tog span{display:inline-block;width:34px;height:20px;border-radius:10px;background:var(--off);position:relative;transition:background .15s;flex:none}
+.tog span::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--paper);transition:left .15s}
+.tog input:checked+span{background:var(--on)}
+.tog input:checked+span::after{left:17px}
+.lamp{display:inline-flex;align-items:center;gap:6px;font:500 .82rem var(--f-mono);padding:3px 8px;border:1px solid var(--rule-2);border-radius:3px;background:var(--panel);color:var(--ink-2);white-space:nowrap}
+.lamp::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--off);flex:none}
+.lamp.on{border-color:var(--on);color:var(--ink);background:var(--on-wash)}
+.lamp.on::before{background:var(--on)}
+.lamp.al{border-color:var(--alarm);color:var(--alarm);background:var(--alarm-wash)}
+.lamp.al::before{background:var(--alarm)}
+.lamp.wn{border-color:var(--warn);color:var(--warn);background:var(--warn-wash)}
+.lamp.wn::before{background:var(--warn)}
+.readout{font:500 .9rem var(--f-mono);font-variant-numeric:tabular-nums}
+label.fld{display:grid;gap:4px;font-size:.85rem;color:var(--ink-2)}
+select,input[type=number]{font:inherit;padding:6px 8px;border:1px solid var(--rule-2);border-radius:4px;background:var(--paper);color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.9rem}
+.kv dt{color:var(--ink-2)}
+.kv dd{margin:0;font:500 .9rem var(--f-mono)}
+
+/* Ladder */
+.lad .rail-l{stroke:var(--ink-2);stroke-width:3}
+.lad .w{stroke:var(--off);stroke-width:2.5;fill:none}
+.lad .w.pw{stroke:var(--on);stroke-width:3.5}
+.lad .ct{stroke:var(--ink-2);stroke-width:2.5;fill:none}
+.lad .ct.cl{stroke:var(--on)}
+.lad .coil{stroke:var(--ink-2);stroke-width:2.5;fill:none}
+.lad .coil.en{stroke:var(--on);fill:var(--on-wash)}
+.lad text{font-family:var(--f-mono);font-size:11px;fill:var(--ink-2)}
+.lad .lbl{font-family:var(--f-body);font-size:10.5px;fill:var(--muted)}
+
+/* Memory map */
+.mm{display:grid;gap:10px}
+.mm svg{width:100%;height:auto;min-width:640px}
+.mm rect.z{cursor:pointer;stroke:var(--paper);stroke-width:1}
+.mm rect.z:hover,.mm rect.z.sel{stroke:var(--ink);stroke-width:2}
+.mm .ax{font:400 10px var(--f-mono);fill:var(--muted)}
+.mm-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:6px 18px;font-size:.88rem;margin:0;padding:0;list-style:none}
+.mm-list li{display:grid;grid-template-columns:14px 1fr;gap:8px;align-items:start;padding:4px 6px;border-radius:3px;max-width:none}
+.mm-list li.sel{background:var(--accent-wash)}
+.mm-list i{width:12px;height:12px;border-radius:2px;margin-top:4px}
+.mm-list b{font:500 .8rem var(--f-mono)}
+
+/* Simulator */
+.sim{border:1px solid var(--rule-2);background:var(--panel)}
+.sim-top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--rule-2);background:var(--paper)}
+.sim-top .clock{font:500 1rem var(--f-mono);margin-left:auto}
+.seg{display:inline-flex;border:1px solid var(--rule-2);border-radius:4px;overflow:hidden}
+.seg button{all:unset;cursor:pointer;padding:6px 10px;font:600 .82rem var(--f-head);color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.sim-body{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+.sim-ctrl{padding:12px;border-bottom:1px solid var(--rule-2);display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 22px;align-content:start;background:var(--paper)}
+.sim-ctrl h5{margin:0 0 6px;font:600 .72rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sim-ctrl .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sim-ctrl .stack{display:grid;gap:7px}
+.sim-view{padding:12px;min-width:0;display:grid;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 .78rem var(--f-head);letter-spacing:.04em;padding:4px 9px;border-radius:12px;border:1px solid var(--rule-2);color:var(--muted);background:var(--paper)}
+.chip.on{border-color:var(--on);color:var(--on);background:var(--on-wash)}
+.chip.al{border-color:var(--alarm);color:var(--alarm);background:var(--alarm-wash)}
+.pid-svg{overflow-x:auto;border:1px solid var(--rule);background:var(--paper)}
+.pid-svg svg{display:block;width:100%;height:auto;min-width:700px}
+.s text{font-family:var(--f-body);font-size:13px;fill:var(--ink)}
+.s .v{font-family:var(--f-mono);font-size:12px;fill:var(--ink)}
+.s .lb{font-size:11px;fill:var(--muted)}
+.s .pipe{stroke:var(--rule-2);stroke-width:5;fill:none;stroke-linecap:round}
+.s .pipe.flow{stroke:var(--accent)}
+.s .eq{fill:var(--panel);stroke:var(--ink-2);stroke-width:1.4}
+.s .eq.on{fill:var(--on-wash);stroke:var(--on);stroke-width:2}
+.s .eq.al{stroke:var(--alarm);stroke-width:2.2}
+.s .vlv{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.4}
+.s .vlv.on{fill:var(--on);stroke:var(--on)}
+.s .tankw{fill:var(--accent-wash)}
+.s .lvl{fill:var(--accent);opacity:.35}
+.s .tick{stroke:var(--ink-2);stroke-width:1}
+.s .ptri{fill:var(--ink-2)}
+.s .eq.on+.ptri{fill:var(--on)}
+.lamps{display:flex;flex-wrap:wrap;gap:5px}
+.sim-low{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0;border-top:1px solid var(--rule-2)}
+.sim-low>div{padding:12px;border-right:1px solid var(--rule-2);min-width:0;background:var(--paper)}
+.sim-low h5{margin:0 0 8px;font:600 .72rem var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tmr{display:grid;grid-template-columns:52px 1fr 108px;gap:2px 8px;align-items:center;font-size:.82rem;margin-bottom:5px}
+.tmr b{font:500 .78rem var(--f-mono)}
+.tmr .tb{height:7px;background:var(--rule);border-radius:4px;overflow:hidden}
+.tmr .tb i{display:block;height:100%;background:var(--accent);width:0}
+.tmr.q .tb i{background:var(--on)}
+.tmr .tv{font:400 .74rem var(--f-mono);color:var(--ink-2);text-align:right}
+.tmr small{grid-column:2/4;color:var(--muted);font-size:.74rem;margin-top:-3px}
+.alist{list-style:none;margin:0;padding:0;display:grid;gap:5px;font-size:.85rem}
+.alist li{border-left:3px solid var(--alarm);padding:3px 8px;background:var(--alarm-wash)}
+.alist li.trip{font-weight:600}
+.alist .empty{border-left-color:var(--on);background:var(--on-wash)}
+.elog{list-style:none;margin:0;padding:0;font:400 .8rem/1.5 var(--f-mono);max-height:260px;overflow:auto}
+.elog li{display:grid;grid-template-columns:70px 1fr;gap:6px;border-bottom:1px solid var(--rule);padding:2px 0}
+.elog li.alarm{color:var(--alarm)}
+.bits{display:flex;flex-wrap:wrap;gap:4px}
+.navbar{display:flex;justify-content:space-between;gap:12px;padding:16px clamp(16px,3.6vw,44px) 24px;border-top:1px solid var(--rule)}
+.srcnote{font-size:.85rem;color:var(--muted)}
+.tline svg{min-width:620px}
+#tip{position:fixed;left:0;top:0;pointer-events:none;background:var(--tip-bg);color:var(--tip-fg);font:13px/1.4 var(--f-body);padding:6px 9px;border-radius:4px;max-width:300px;opacity:0;z-index:20}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.trend-box{border:1px solid var(--rule);background:var(--paper);padding:6px}
+.trend-box canvas{display:block;width:100%;height:200px}
+.trend-box .srcnote{margin-top:4px}
+.leg{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin:0 6px 0 10px}
+.leg-t{border-top:2px dashed var(--ink)}.leg-l{border-top:2px dotted var(--muted)}
+.s .eq.on{fill:var(--on-wash);stroke:var(--on);stroke-width:2}
+/* Door interlock additions */
+.code-body.one{grid-template-columns:minmax(0,1fr)}
+.code-body.one .notes{border-left:0;border-top:1px solid var(--rule)}
+.ladwrap{overflow-x:auto;padding:8px 10px;background:var(--paper)}
+.ladwrap svg{display:block;width:100%;height:auto;min-width:640px}
+.lad .lno{font:500 10.5px var(--f-mono);fill:var(--muted)}
+.lad .adr{font:500 11px var(--f-mono);fill:var(--ink)}
+.lad .cmt{font:400 10px var(--f-body);fill:var(--muted)}
+.lad .rowbg{fill:var(--panel)}
+.lad .chg{fill:var(--warn-wash);stroke:var(--warn);stroke-width:1;stroke-dasharray:4 3}
+.plan{border:1px solid var(--rule);background:var(--paper);overflow-x:auto}
+.plan svg{display:block;width:100%;height:auto;min-width:640px}
+.plan .room{fill:var(--panel);stroke:var(--rule-2);stroke-width:1.2}
+.plan .cor{fill:var(--code-bg);stroke:var(--rule-2);stroke-width:1.2}
+.plan .rn{font:600 13px var(--f-head);fill:var(--ink)}
+.plan .rs{font:400 10.5px var(--f-body);fill:var(--muted)}
+.plan .door{cursor:pointer;outline:none}
+.plan .door .hit{fill:transparent}
+.plan .dr{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.6}
+.plan .door .dl{font:600 11px var(--f-mono);fill:var(--ink-2)}
+.plan .door.open .dr{fill:var(--accent-wash);stroke:var(--accent);stroke-width:2}
+.plan .door.open .dl{fill:var(--accent-ink)}
+.plan .door.lk .dr{fill:var(--warn-wash);stroke:var(--warn);stroke-width:2.2}
+.plan .door.lk .dl{fill:var(--warn)}
+.plan .door .pl{display:none;fill:none;stroke:var(--warn);stroke-width:1.6}
+.plan .door .plb{display:none;fill:var(--warn)}
+.plan .door.lk .pl,.plan .door.lk .plb{display:inline}
+.plan .door.deny .dr{stroke:var(--alarm);stroke-width:3}
+.plan .door:focus-visible .hit{stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3}
+.plan .door:hover .dr{stroke-width:2.6}
+.plan .swing{fill:none;stroke:var(--accent);stroke-width:1;stroke-dasharray:3 3}
+.plan.estop{border-color:var(--alarm)}
+.lcd{font:500 15px/1.35 var(--f-mono);background:#c9d4b0;color:#1d2a14;border:6px solid #3a4146;border-radius:6px;padding:8px 12px;flex:0 0 auto;min-width:200px;max-width:300px;letter-spacing:.06em}
+.lcd .row{display:flex;gap:2px;white-space:pre}
+.lcd .row b{font-weight:500;padding:0 1px}
+.lcd .row b.on{background:#1d2a14;color:#c9d4b0}
+.lcd .msg{font-weight:600;text-align:center;padding:10px 0}
+.lcd small{display:block;font:400 10px var(--f-body);letter-spacing:0;color:#3d4a33;margin-top:2px}
+.viewrow{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+.viewrow .plan{flex:1 1 600px;min-width:0}
+.viewrow .plan svg{min-width:560px}
+.banner{display:none;border:1px solid var(--alarm);background:var(--alarm-wash);color:var(--alarm);font:600 .9rem var(--f-head);letter-spacing:.04em;padding:6px 10px}
+.banner.on{display:block}
+details.live summary{cursor:pointer;font:600 .8rem var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);padding:8px 12px}
+details.live{border-top:1px solid var(--rule-2);background:var(--paper)}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.cmp>div{border:1px solid var(--rule-2);padding:10px 12px;background:var(--panel)}
+.cmp h5{margin:0 0 6px;font:600 .78rem var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.big{font:600 1.25rem var(--f-mono)}
+.cmp1{grid-template-columns:minmax(0,1fr)}
+.mtx td.x{text-align:center;font-weight:600;color:var(--warn)}
+.mtx td.hl,.mtx th.hl{background:var(--accent-wash)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="eyebrow">Basic Door Interlock project · Schneider Zelio Logic · SR2A201BD</div>
+  <h1>Build a cleanroom door interlock, step by step</h1>
+  <p>In this tutorial you program a door interlock for two chains of cleanroom airlocks on a Zelio Logic smart relay, in ladder. You build the first version line by line, then improve it the way you would improve a delivered program: find what it does wrong in an emergency, change it, and prove the change. The last steps test the program, and a simulator runs both versions.</p>
+  <div class="progress"><span id="prog-txt">Step 1 of 13</span><span class="bar"><i id="prog-bar"></i></span></div>
+</header>
+
+<div class="wrap">
+  <details class="rail" id="rail" open>
+    <summary>Build steps</summary>
+    <ol id="rail-list"></ol>
+  </details>
+
+  <main class="sheet" id="sheet">
+
+<!-- ===================== STEP 1 ===================== -->
+<section class="step" id="process" data-phase="Understand" data-title="Start with the rooms">
+  <div class="step-eyebrow">Understand</div>
+  <h2>Start with the rooms, not the relay</h2>
+  <p class="lede">A cleanroom suite is a set of rooms kept at different air pressures. The cleaner the room, the higher its pressure, so air always flows out towards the dirtier side. If two doors of the same room are open at once, air rushes straight through and the pressure difference that protects the product collapses. A door interlock prevents that: while one door of a room is open, the other doors of that room stay locked.</p>
+
+  <figure>
+    <div class="plan" id="plan-intro"></div>
+    <figcaption>The suite you will program: a corridor and two chains of rooms. Seven doors, D1 to D7, each joining two rooms. Rooms further from the corridor are cleaner. You can click the doors in step 3 and in the simulator.</figcaption>
+  </figure>
+
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>Which doors must never be open together?</dt><dd>Any two doors of the same room. D2 and D3 both belong to room A2, so they are interlocked. D1 and D5 both open onto the corridor, but the corridor is a general area with no pressure to protect, so they are not.</dd>
+      <dt>Is "closed" enough?</dt><dd>No. When a door closes, the room needs a moment for its pressure to recover. So a door counts as open for a short hold time after it closes.</dd>
+      <dt>What can hurt people?</dt><dd>Being trapped. In an emergency every door must release immediately, and a power failure must leave the doors unlocked. This requirement overrides all the others.</dd>
+      <dt>What does the operator need to see?</dt><dd>A clear message when the emergency circuit has been triggered, which stays until someone resets it.</dd>
+    </dl>
+  </div>
+
+  <h3>Requirements to build against</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ID</th><th>Requirement</th><th>Built in step</th></tr></thead>
+    <tbody>
+      <tr><td class="a">R1</td><td>While a door is open, lock every other door of the two rooms it joins</td><td>6, 7, 8</td></tr>
+      <tr><td class="a">R2</td><td>Keep those doors locked for a hold time after the door closes, so the room pressure recovers</td><td>7</td></tr>
+      <tr><td class="a">R3</td><td>Do not interlock the corridor doors D1 and D5 with each other</td><td>3, 7</td></tr>
+      <tr><td class="a">R4</td><td>An emergency releases every lock at once</td><td>8, 10</td></tr>
+      <tr><td class="a">R5</td><td>Show EMERGENCY STOP on the display until the emergency is cleared and reset is pressed</td><td>9</td></tr>
+      <tr><td class="a">R6</td><td>A power failure or broken emergency wire leaves every door unlocked</td><td>2</td></tr>
+      <tr><td class="a">R7</td><td>One ladder line per door and per lock, so anyone can check the logic by eye</td><td>4</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="decision"><h4>What you need</h4><ul><li>Zelio Soft 2, Schneider Electric's free programming software for Zelio Logic. Its simulation mode lets you test without hardware.</li><li>A Zelio Logic SR2A201BD smart relay and its programming cable, if you want to run it for real (step 2).</li><li>One door position switch and one electromagnetic lock per door, an emergency stop circuit, and a reset push button.</li><li>The example names used throughout: the project is the <b>Basic Door Interlock project</b>; rooms are named A1–A4 and B1–B3, doors D1–D7.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 2 ===================== -->
+<section class="step" id="io" data-phase="Understand" data-title="I/O list and hardware">
+  <div class="step-eyebrow">Understand</div>
+  <h2>List the I/O and choose the hardware</h2>
+  <p class="lede">Seven doors need seven "door open" signals and seven lock outputs. Add an emergency input and a reset button, and you have 9 inputs and 7 outputs. That is a job for a smart relay, not a full PLC.</p>
+  <div class="cols">
+    <div class="decision"><h4>The count</h4><ul><li>7 door switches, one per door (on = door open)</li><li>1 emergency circuit input (on = healthy)</li><li>1 reset push button</li><li>7 lock outputs, one per door (on = locked)</li></ul></div>
+    <div class="decision"><h4>The hardware</h4><ul><li><b>Zelio Logic SR2A201BD</b>: a compact smart relay with 12 digital inputs (I1–I9, IA–IC), 8 relay outputs (Q1–Q8), a 24 V DC supply, and a display with keys</li><li>One relay output per lock, switching the lock's 24 V DC supply</li><li>Spare: inputs I8, IB, IC and output Q8, for a later door or a beacon</li></ul></div>
+  </div>
+
+  <h3>I/O allocation</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Address</th><th>Signal</th><th>On means</th><th>Device</th></tr></thead>
+    <tbody>
+      <tr><td class="a">I1–I7</td><td>Door D1–D7 position</td><td>Door open</td><td>Door position switch on each door</td></tr>
+      <tr><td class="a">I9</td><td>Emergency circuit</td><td>Healthy (not pressed)</td><td>Normally closed emergency buttons wired in series</td></tr>
+      <tr><td class="a">IA</td><td>Reset</td><td>Pressed</td><td>Normally open push button</td></tr>
+      <tr><td class="a">Q1–Q7</td><td>Lock D1–D7</td><td>Door locked</td><td>Electromagnetic lock, energise to lock</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="robust"><h4>Robustness habits: choose what "on" means</h4><ul>
+    <li><b>Emergency input on = healthy.</b> The buttons are normally closed and wired in series to I9. Pressing any of them opens the circuit, and so does a broken wire or a lost supply. Every failure reads as "emergency", which is the safe direction.</li>
+    <li><b>Locks energise to lock.</b> An electromagnetic lock holds only while it has power. If the relay, the 24 V supply or the module fails, every door is free to open (R6). People can always get out; only the pressure cascade suffers.</li>
+    <li><b>Door switch on = open.</b> This is the simplest wiring, but note its weak side: a broken wire reads as "closed". The checklist in step 13 shows how to make it fail safe as well.</li>
+  </ul></div>
+
+  <div class="pitfall"><h4>The PLC is not the only emergency release</h4><p>In a real installation the emergency circuit should also cut the lock supply directly, through a safety relay or contactor. The program's release (steps 8 and 10) is a second layer that keeps the logic correct. It is not a substitute for the hardwired one.</p></div>
+</section>
+
+<!-- ===================== STEP 3 ===================== -->
+<section class="step" id="matrix" data-phase="Plan" data-title="Turn the plan into a matrix">
+  <div class="step-eyebrow">Plan</div>
+  <h2>Turn the floor plan into an interlock matrix</h2>
+  <p class="lede">Before writing a single line, write down which door locks which. The rule is simple: a door is locked while any other door of either of its two rooms is open. Work it out once, as a table, and the program becomes a copy of the table.</p>
+
+  <div class="widget">
+    <div class="widget-h"><b>Try the rule</b><span>Click doors to open or close them. The doors that share a room with an open door turn amber: they must be locked.</span></div>
+    <div class="widget-b">
+      <div class="plan" id="plan-matrix"></div>
+      <div class="wrow"><button class="btn" type="button" id="mx-clear">Close all doors</button><span class="readout" id="mx-out">All doors closed: nothing locked.</span></div>
+    </div>
+  </div>
+
+  <h3>The interlock matrix</h3>
+  <div class="tbl mtx"><table id="mx-table">
+    <thead><tr><th>Lock output</th><th>Locks door</th><th>Rooms of that door</th><th>Locked while open</th></tr></thead>
+    <tbody>
+      <tr data-q="1"><td class="a">Q1</td><td>D1</td><td>Corridor, A1</td><td>D2</td></tr>
+      <tr data-q="2"><td class="a">Q2</td><td>D2</td><td>A1, A2</td><td>D1 or D3</td></tr>
+      <tr data-q="3"><td class="a">Q3</td><td>D3</td><td>A2, A3</td><td>D2 or D4</td></tr>
+      <tr data-q="4"><td class="a">Q4</td><td>D4</td><td>A3, A4</td><td>D3</td></tr>
+      <tr data-q="5"><td class="a">Q5</td><td>D5</td><td>Corridor, B1</td><td>D6</td></tr>
+      <tr data-q="6"><td class="a">Q6</td><td>D6</td><td>B1, B2</td><td>D5 or D7</td></tr>
+      <tr data-q="7"><td class="a">Q7</td><td>D7</td><td>B2, B3</td><td>D6</td></tr>
+    </tbody>
+  </table></div>
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>Why read the table by lock, not by door?</dt><dd>Because each output needs exactly one ladder line, and that line asks "which open doors lock me?". Reading the table row by row gives you the contacts of each line: Q2 needs "D1 open OR D3 open".</dd>
+      <dt>Why is D1 not locked by D5?</dt><dd>They share only the corridor, and requirement R3 leaves the corridor out. A matrix makes such decisions visible, so they can be reviewed before the program is written.</dd>
+      <dt>What about the end rooms?</dt><dd>A4 and B3 have only one door, so D4 and D7 are only locked from one side. Only the inner doors D2, D3 and D6 have two neighbours.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ===================== STEP 4 ===================== -->
+<section class="step" id="structure" data-phase="Plan" data-title="Design the program structure">
+  <div class="step-eyebrow">Plan</div>
+  <h2>Design the program structure</h2>
+  <p class="lede">The whole program fits on 27 ladder lines in four groups. Each group answers one question, and the signals flow down the page from inputs to outputs.</p>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Lines</th><th>Group</th><th>The question it answers</th><th>Writes</th></tr></thead>
+    <tbody>
+      <tr><td class="a">1–7</td><td>Door-open flags</td><td>Which doors are open, while the system is healthy?</td><td class="a">M1–M7</td></tr>
+      <tr><td class="a">8–17</td><td>Interlock timers</td><td>Which doors must be locked, including the hold time?</td><td class="a">T1–T7</td></tr>
+      <tr><td class="a">18–20</td><td>Emergency and message</td><td>Is the system healthy? What does the display show?</td><td class="a">ME, X2</td></tr>
+      <tr><td class="a">21–27</td><td>Lock outputs</td><td>Which locks get power right now?</td><td class="a">Q1–Q7</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Zelio ladder in five minutes</h3>
+  <ul>
+    <li><b>One line, five contacts, one coil.</b> Every line has five contact columns and a coil column. Contacts in a row are in series (AND).</li>
+    <li><b>Upper case is normally open, lower case is normally closed.</b> <code>ME</code> closes when ME is on; <code>mE</code> closes when ME is off.</li>
+    <li><b>OR by linking lines.</b> A vertical link from a line down to the next line joins them, so either path can power the coil below.</li>
+    <li><b>The coil letter says what the coil does.</b> <code>[</code> is a normal coil that follows the line. <code>T</code> before a timer (<code>TT1</code>) is its trigger input. <code>TX2</code> shows text block X2 on the display, and <code>RX2</code> removes it.</li>
+    <li><b>Auxiliary relays</b> (<code>M1</code>–<code>M9</code>, then <code>MA</code>, <code>MB</code>, …) are internal flags. A timer's contact <code>T1</code> is used like any other contact.</li>
+  </ul>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Symbol</th><th>Type</th><th>Name in this project</th><th>On means</th></tr></thead>
+    <tbody>
+      <tr><td class="a">M1–M7</td><td>Auxiliary relay</td><td>D1–D7 OPEN</td><td>Door open, and the system healthy</td></tr>
+      <tr><td class="a">ME</td><td>Auxiliary relay</td><td>SYSTEM HEALTHY</td><td>Emergency circuit closed</td></tr>
+      <tr><td class="a">T1–T7</td><td>Timer, function C (off-delay)</td><td>LOCK D1–D7 HOLD</td><td>Door must be locked</td></tr>
+      <tr><td class="a">X2</td><td>Text block</td><td>EMERGENCY STOP</td><td>Message on the display</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="pitfall"><h4>Scan order matters</h4><p>The module runs the lines from top to bottom, once per cycle. Lines 1–17 read <code>ME</code> before line 18 writes it, so they see the value from the previous cycle, 18 ms old. Here that is harmless. But always know where a flag is written, relative to where it is read. The simulator in step 12 reproduces this delay.</p></div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Name every flag after what <b>on</b> means. A flag that is on when the system is healthy is called SYSTEM HEALTHY, never EMERGENCY STOPPED.</li><li>Keep each output on its own line, written in one place only.</li><li>Keep the same order in every group (D1 to D7), so a missing or extra line stands out.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 5 ===================== -->
+<section class="step" id="config" data-phase="Build" data-title="Configure the module">
+  <div class="step-eyebrow">Build</div>
+  <h2>Create the project and configure the module</h2>
+  <p class="lede">In Zelio Soft 2, create a new program, choose the module (SR2A201BD) and the ladder language. Then set the module options before you draw any lines: they decide how fast the program reacts and how clean the input signals are.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Setting</th><th>Value</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Cycle time</td><td class="a">9 × 2 ms = 18 ms</td><td>Every line runs every 18 ms. A door lock reacts well within the time it takes to push a door.</td></tr>
+      <tr><td>Hardware input filtering</td><td class="a">Slow (3 ms)</td><td>Door switches are mechanical and bounce. The slow filter ignores pulses shorter than 3 ms.</td></tr>
+      <tr><td>Watchdog action</td><td class="a">Inactive</td><td>What the module does if a cycle overruns its time. With 27 short lines, that cannot happen.</td></tr>
+      <tr><td>Zx keys</td><td class="a">Inactive</td><td>The front-panel arrow keys could act as push buttons. Left off, so nobody can operate the doors from the front panel.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>Why not the fastest cycle?</dt><dd>Doors move in seconds, not milliseconds. A moderate cycle time gives a calm, predictable program, and the timers keep their resolution.</dd>
+      <dt>Where do the names go?</dt><dd>Into the comment of each input, output, relay and timer, before you draw. The ladder editor shows those comments under each contact, so the diagram reads like the matrix.</dd>
+    </dl>
+  </div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Fill in the program information (author, project name, version) on the first day. It prints on every page of the listing.</li><li>Comment the spare I/O as "spare", so nobody mistakes an unused input for a forgotten one.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 6 ===================== -->
+<section class="step" id="flags" data-phase="Build" data-title="Lines 1–7: door-open flags">
+  <div class="step-eyebrow">Build</div>
+  <h2>Lines 1–7: one flag per open door</h2>
+  <p class="lede">Turn each door switch into a flag that the rest of the program uses. The flag is on only while the door is open <i>and</i> the system is healthy. That way, an emergency removes every "door open" request in one place.</p>
+  <div class="code">
+    <div class="code-h">Lines 1–7 · Door-open flags <small>door switch AND system healthy → M1–M7</small></div>
+    <div class="code-body one">
+      <div class="ladwrap" data-lines="1-7"></div>
+      <ol class="notes">
+        <li><b>L1–L7</b> Each line is the same pattern: door switch <code>In</code> in series with <code>ME</code>, driving a normal coil <code>[ Mn</code>. Seven identical lines are easy to check, and a mistake stands out.</li>
+        <li><b>ME</b> is written on line 18 further down, so these lines read its value from the previous cycle (step 4).</li>
+      </ol>
+    </div>
+  </div>
+  <div class="widget">
+    <div class="widget-h"><b>Line 2, live</b><span>Toggle the door and the emergency circuit. Green shows where power flows.</span></div>
+    <div class="widget-b">
+      <div class="wrow">
+        <label class="tog"><input type="checkbox" id="fl-door"><span></span>Door D2 open (I2)</label>
+        <label class="tog"><input type="checkbox" id="fl-ok" checked><span></span>Emergency circuit healthy (I9)</label>
+      </div>
+      <div class="ladwrap" id="fl-lad"></div>
+      <div class="readout" id="fl-out"></div>
+    </div>
+  </div>
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>Why not use the inputs directly in the timer lines?</dt><dd>You could, but then the emergency condition would have to be repeated in every timer line. The flags also give each door one clear name, "D2 OPEN", for the next group.</dd>
+      <dt>Why normal coils, not set/reset?</dt><dd>A door-open flag must follow the door every cycle. A normal coil does exactly that, and it cannot stay stuck on.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ===================== STEP 7 ===================== -->
+<section class="step" id="timers" data-phase="Build" data-title="Lines 8–17: interlock timers">
+  <div class="step-eyebrow">Build</div>
+  <h2>Lines 8–17: interlock timers with a hold time</h2>
+  <p class="lede">Now copy the matrix into ladder. Each lock gets an off-delay timer, triggered by the open-door flags of its neighbours. The timer's contact closes as soon as a neighbour opens, and stays closed for the hold time after the neighbour closes again. That single function gives you both R1 and R2.</p>
+  <div class="code">
+    <div class="code-h">Lines 8–17 · Interlock timers <small>neighbour open → trigger TT1–TT7 (off-delay, 2.0 s)</small></div>
+    <div class="code-body one">
+      <div class="ladwrap" data-lines="8-17"></div>
+      <ol class="notes">
+        <li><b>L8</b> Lock D1 (timer T1) is triggered by D2 open (<code>M2</code>), straight from the matrix row for Q1.</li>
+        <li><b>L9–L10</b> Lock D2 has two neighbours. Line 9 holds <code>M1</code> and links down into line 10 beside <code>M3</code>: "D1 open OR D3 open" triggers T2.</li>
+        <li><b>L11–L12</b> The same pattern for lock D3: <code>M2</code> OR <code>M4</code>.</li>
+        <li><b>L13, L14, L17</b> The single-neighbour locks: D4 from <code>M3</code>, D5 from <code>M6</code>, D7 from <code>M6</code>.</li>
+        <li><b>L15–L16</b> Lock D6: <code>M5</code> OR <code>M7</code>.</li>
+        <li><b>T1–T7</b> All seven timers use function C (off-delay) with a preset of 2.0 s.</li>
+      </ol>
+    </div>
+  </div>
+
+  <figure>
+    <div class="fig">
+    <svg class="d" viewBox="0 0 940 230" role="img" aria-label="Timing diagram: D2 opens at 1 second and closes at 5 seconds. Trigger TT1 follows it. T1 and lock Q1 switch on at 1 second and off at 7 seconds, 2 seconds after the door closed.">
+      <g class="guide"><line x1="110" y1="190" x2="890" y2="190"/></g>
+      <g class="tm"><text x="110" y="208" text-anchor="middle">0</text><text x="290" y="208" text-anchor="middle">3 s</text><text x="470" y="208" text-anchor="middle">6 s</text><text x="650" y="208" text-anchor="middle">9 s</text><text x="830" y="208" text-anchor="middle">12 s</text></g>
+      <text x="16" y="52" class="th">D2 open (M2)</text><text x="16" y="112" class="th">Trigger TT1</text><text x="16" y="172" class="th">Lock D1 (T1, Q1)</text>
+      <polyline class="sig" points="110,55 170,55 170,35 410,35 410,55 890,55"/>
+      <polyline class="sig" points="110,115 170,115 170,95 410,95 410,115 890,115"/>
+      <polyline class="sig" points="110,175 170,175 170,155 530,155 530,175 890,175" style="stroke:var(--warn)"/>
+      <line x1="410" y1="150" x2="410" y2="186" class="guide"/><line x1="530" y1="150" x2="530" y2="186" class="guide"/>
+      <line x1="414" y1="168" x2="526" y2="168" class="ln"/><text x="470" y="164" text-anchor="middle" class="tm">hold 2.0 s</text>
+    </svg>
+    </div>
+    <figcaption>Off-delay in action: the lock follows the neighbour's door at once, then holds for 2.0 s after it closes. Drawn to scale.</figcaption>
+  </figure>
+
+  <div class="widget">
+    <div class="widget-h"><b>Off-delay timer, live</b><span>Open and close D2 and watch lock D1 hold.</span></div>
+    <div class="widget-b">
+      <div class="wrow">
+        <button class="btn" type="button" id="tm-door" aria-pressed="false">Open D2</button>
+        <label class="fld">Hold time<select id="tm-pre"><option value="2">2.0 s</option><option value="1">10.0 s</option></select></label>
+        <span class="lamp" id="tm-q1">Q1 lock D1</span><span class="lamp" id="tm-q3">Q3 lock D3</span>
+      </div>
+      <div class="tmr"><b>T1</b><span class="tb"><i id="tm-bar"></i></span><span class="tv" id="tm-tv">off</span></div>
+      <div class="ladwrap" id="tm-lad"></div>
+    </div>
+  </div>
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>Why an off-delay and not an on-delay?</dt><dd>The lock must engage at once, and release late. An off-delay switches on with its trigger and switches off a preset time after the trigger drops.</dd>
+      <dt>How long should the hold be?</dt><dd>Long enough for the room pressure to recover, short enough that people do not wait at a locked door and start propping doors open. Measure the recovery time during commissioning. 2 s suits small airlocks.</dd>
+      <dt>What if the door opens again during the hold?</dt><dd>The trigger comes back, the timer restarts, and the lock simply stays on.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ===================== STEP 8 ===================== -->
+<section class="step" id="outputs" data-phase="Build" data-title="Lines 21–27: lock outputs">
+  <div class="step-eyebrow">Build</div>
+  <h2>Lines 21–27: drive the locks</h2>
+  <p class="lede">Each timer contact drives its lock output. The healthy flag goes in series on every output line, so the emergency acts on the last thing before the hardware: the moment ME drops, every lock loses power in the same cycle.</p>
+  <div class="code">
+    <div class="code-h">Lines 21–27 · Lock outputs <small>timer AND system healthy → Q1–Q7</small></div>
+    <div class="code-body one">
+      <div class="ladwrap" data-lines="21-27"></div>
+      <ol class="notes">
+        <li><b>L21–L27</b> <code>Tn</code> in series with <code>ME</code> drives the normal coil <code>[ Qn</code>. These lines read ME <i>after</i> line 18 has written it, so the release happens in the same cycle as the emergency.</li>
+        <li><b>Why here?</b> The timers keep counting their hold time even during an emergency. ME on the output line makes that irrelevant: whatever the timers do, no lock can be powered while ME is off. Step 10 shows what happens without it.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="robust"><h4>Robustness habits</h4><ul><li>Put the overriding condition on the output line, where nothing can bypass it, not further up the chain.</li><li>Write each output in exactly one line. If you need another condition, add it to that line.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 9 ===================== -->
+<section class="step" id="estop" data-phase="Build" data-title="Lines 18–20: emergency and message">
+  <div class="step-eyebrow">Build</div>
+  <h2>Lines 18–20: the healthy flag and the display message</h2>
+  <p class="lede">Line 18 turns the emergency input into the flag that every other group uses. Lines 19 and 20 put a message on the module's display when the emergency circuit opens, and keep it there until someone resets it once the circuit is healthy again.</p>
+  <div class="code">
+    <div class="code-h">Lines 18–20 · Emergency and message <small>I9 → ME; text block X2</small></div>
+    <div class="code-body one">
+      <div class="ladwrap" data-lines="18-20"></div>
+      <ol class="notes">
+        <li><b>L18</b> <code>I9</code> drives <code>[ ME</code>. I9 is on while the circuit is healthy (step 2), so ME means SYSTEM HEALTHY.</li>
+        <li><b>L19</b> Reset <code>IA</code> AND <code>ME</code> drives <code>RX2</code>, which removes the text. Reset does nothing while the emergency is still active.</li>
+        <li><b>L20</b> <code>mE</code> (ME normally closed) drives <code>TX2</code>, which shows text block X2, "EMERGENCY STOP", as soon as ME drops.</li>
+        <li><b>X2</b> stays on the display after the circuit is healthy again, until reset. The operator sees that something happened, even if nobody was there at the time.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="cols">
+    <div class="decision"><h4>Text block X2</h4><p>In the text block editor, type <code>EMERGENCY STOP</code> on the display line. A text block can also show values such as a timer's time, but a fixed message is all this job needs.</p></div>
+    <div class="evidence"><h4>About "latching"</h4><p>Zelio auxiliary relays can be set to <i>latching</i>, meaning they keep their state through a power failure. ME is rewritten from I9 every cycle, so latching it gains nothing. Leave latching off unless a flag really must survive a power cut.</p></div>
+  </div>
+</section>
+
+<!-- ===================== STEP 10 ===================== -->
+<section class="step" id="update" data-phase="Build" data-title="Improve a delivered program">
+  <div class="step-eyebrow">Build</div>
+  <h2>Improve a delivered program: version 1 to version 2</h2>
+  <p class="lede">The program you have built is version 2. Version 1, as first delivered, used the same 27 lines with two differences: the healthy flag sat on the timer lines instead of the output lines, and the hold time was 10 s. It passed a normal-use test, because the doors interlocked correctly. The problem only shows up in an emergency.</p>
+
+  <div class="cmp cmp1">
+    <div><h5>Version 1: ME on the timer lines</h5><div class="ladwrap" data-lines="8-8,21-21" data-version="1"></div></div>
+    <div><h5>Version 2: ME on the output lines</h5><div class="ladwrap" data-lines="8-8,21-21" data-version="2"></div></div>
+  </div>
+
+  <h3>What goes wrong in version 1</h3>
+  <p>Press the emergency button while D2 is open. ME drops and the timer triggers drop, but the timers are <i>off-delays</i>: they keep their contacts closed for the full hold time. With no ME on the output lines, locks D1 and D3 stay powered for another 10 s. Anyone trying to leave through those doors is held back exactly when they must not be.</p>
+  <figure>
+    <div class="fig">
+    <svg class="d" viewBox="0 0 940 230" role="img" aria-label="Timing diagram with D2 open: the emergency button is pressed at 3 seconds. In version 1, lock D1 stays on until 13 seconds. In version 2, it releases at 3 seconds.">
+      <g class="guide"><line x1="150" y1="200" x2="900" y2="200"/></g>
+      <g class="tm"><text x="150" y="218" text-anchor="middle">0</text><text x="300" y="218" text-anchor="middle">3 s</text><text x="450" y="218" text-anchor="middle">6 s</text><text x="600" y="218" text-anchor="middle">9 s</text><text x="750" y="218" text-anchor="middle">12 s</text><text x="900" y="218" text-anchor="middle">15 s</text></g>
+      <text x="16" y="52" class="th">System healthy (ME)</text><text x="16" y="117" class="th">Lock D1, version 1</text><text x="16" y="182" class="th">Lock D1, version 2</text>
+      <polyline class="sig" points="150,35 300,35 300,55 900,55"/>
+      <polyline class="sig" points="150,100 800,100 800,120 900,120" style="stroke:var(--alarm)"/>
+      <polyline class="sig" points="150,165 300,165 300,185 900,185" style="stroke:var(--on)"/>
+      <line x1="300" y1="28" x2="300" y2="196" class="guide"/>
+      <text x="306" y="26" class="tm">emergency button pressed</text>
+      <line x1="304" y1="132" x2="796" y2="132" class="ln"/><text x="550" y="146" text-anchor="middle" class="tm">still locked for 10.0 s</text>
+    </svg>
+    </div>
+    <figcaption>D2 is open the whole time. Version 1 keeps lock D1 powered for the full 10 s hold after the emergency. Version 2 releases it in the same cycle. Drawn to scale from the simulator's engine.</figcaption>
+  </figure>
+
+  <div class="widget">
+    <div class="widget-h"><b>Side by side</b><span>Both versions run with D2 open. Press the emergency button and compare.</span></div>
+    <div class="widget-b">
+      <div class="wrow"><button class="btn danger" type="button" id="up-es" aria-pressed="false">Press emergency button</button><button class="btn" type="button" id="up-reset">Start again</button></div>
+      <div class="cmp">
+        <div><h5>Version 1</h5><div class="lamps"><span class="lamp" id="up-v1-q1">Q1 lock D1</span><span class="lamp" id="up-v1-q3">Q3 lock D3</span></div><div class="big" id="up-v1-t">–</div></div>
+        <div><h5>Version 2</h5><div class="lamps"><span class="lamp" id="up-v2-q1">Q1 lock D1</span><span class="lamp" id="up-v2-q3">Q3 lock D3</span></div><div class="big" id="up-v2-t">–</div></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>The change, written down</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>Version 1</th><th>Version 2</th><th>Reason</th></tr></thead>
+    <tbody>
+      <tr><td>Lines 8, 10, 12, 13, 14, 16, 17</td><td><code>ME</code> in series before each timer trigger</td><td>Removed</td><td>Redundant: <code>M1</code>–<code>M7</code> already contain ME (lines 1–7)</td></tr>
+      <tr><td>Lines 21–27</td><td><code>Tn</code> alone drives <code>[ Qn</code></td><td><code>Tn</code> AND <code>ME</code> drives <code>[ Qn</code></td><td>R4: release every lock in the same cycle as the emergency</td></tr>
+      <tr><td>Timers T1–T7</td><td>Off-delay 10.0 s</td><td>Off-delay 2.0 s</td><td>R2: 2 s covers pressure recovery in these airlocks; 10 s kept people waiting at locked doors</td></tr>
+    </tbody>
+  </table></div>
+  <div class="think">
+    <h4>Engineer's thinking</h4>
+    <dl>
+      <dt>Why did version 1 look right?</dt><dd>With ME on the timer lines, the emergency <i>does</i> reach the locks, eventually. A test that only checks "the locks release after an emergency" passes. The test must check <i>when</i>: immediately.</dd>
+      <dt>Why not just shorten the timers?</dt><dd>A shorter hold would shorten the delay but not remove it. Moving ME to the outputs removes the delay whatever the hold time is, and leaves the hold time free to be tuned for pressure recovery alone.</dd>
+      <dt>What must be retested?</dt><dd>Everything the change touches: every lock's hold time (new preset) and the emergency release with each door open (new output lines). Step 11 lists the tests.</dd>
+    </dl>
+  </div>
+  <div class="robust"><h4>Robustness habits when you change someone else's program</h4><ul><li>Save the original before you touch it, and keep it next to the new version.</li><li>Change the program information (author, project name, version) so the printout shows which version is running.</li><li>Record what changed, where, why, and how you tested it, as in the table above.</li><li>Retest the old behaviour as well as the new one: the change must not break normal interlocking.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 11 ===================== -->
+<section class="step" id="test" data-phase="Prove" data-title="Test and commission">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Test it, first in simulation, then on site</h2>
+  <p class="lede">Zelio Soft 2 can run the program in simulation mode, with clickable inputs and an animated ladder. Run the whole test plan there first, then repeat it on the real doors with a stopwatch.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Action</th><th>Expected result</th><th>Covers</th></tr></thead>
+    <tbody>
+      <tr><td class="a">1</td><td>All doors closed, emergency circuit healthy</td><td>No lock powered; no message</td><td>R1</td></tr>
+      <tr><td class="a">2</td><td>Open each door in turn (D1 to D7), alone</td><td>Only the locks in its matrix row are powered: D1→Q2, D2→Q1+Q3, D3→Q2+Q4, D4→Q3, D5→Q6, D6→Q5+Q7, D7→Q6. The door itself is never locked</td><td>R1, R3</td></tr>
+      <tr><td class="a">3</td><td>Open D1, then try D5</td><td>D5 is free: corridor doors are not interlocked</td><td>R3</td></tr>
+      <tr><td class="a">4</td><td>Open D2 for a while, close it, time the locks</td><td>Q1 and Q3 stay on for 2.0 s after D2 closes, then release</td><td>R2</td></tr>
+      <tr><td class="a">5</td><td>Close D2, reopen it within the hold time</td><td>Locks stay on; the hold restarts when D2 closes again</td><td>R2</td></tr>
+      <tr><td class="a">6</td><td>With D2 open, press the emergency button</td><td>All locks release at once (no delay you can measure); EMERGENCY STOP shown</td><td>R4, R5</td></tr>
+      <tr><td class="a">7</td><td>Repeat test 6 with each door open in turn</td><td>Same: immediate release every time</td><td>R4</td></tr>
+      <tr><td class="a">8</td><td>Press reset while the emergency button is still pressed</td><td>Message stays</td><td>R5</td></tr>
+      <tr><td class="a">9</td><td>Release the emergency button, then press reset</td><td>Message clears; with a door still open, its neighbours lock again</td><td>R5</td></tr>
+      <tr><td class="a">10</td><td>Disconnect the emergency circuit wire</td><td>Same as pressing the button: all locks released</td><td>R6</td></tr>
+      <tr><td class="a">11</td><td>Switch off the module's supply with a door locked</td><td>All locks release</td><td>R6</td></tr>
+    </tbody>
+  </table></div>
+  <div class="pitfall"><h4>Test the timing, not just the outcome</h4><p>Version 1 passes test 6 if you only check that the locks release. Measure <i>when</i> they release. Write the measured time in the test record.</p></div>
+</section>
+
+<!-- ===================== STEP 12 ===================== -->
+<section class="step" id="simulator" data-phase="Prove" data-title="Run the interlock">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Run the interlock</h2>
+  <p class="lede">The simulator runs the 27 lines in the module's own order, every 18 ms. Click a door to open or close it; a locked door refuses to open. Switch between version 1 and version 2, press the emergency button, and watch the live ladder.</p>
+
+  <div class="sim" id="sim">
+    <div class="sim-top">
+      <button class="btn primary" type="button" id="sm-run" aria-pressed="true">Pause</button>
+      <span class="seg" role="group" aria-label="Speed"><button type="button" data-speed="1" aria-pressed="true">1×</button><button type="button" data-speed="5" aria-pressed="false">5×</button><button type="button" data-speed="20" aria-pressed="false">20×</button></span>
+      <span class="seg" role="group" aria-label="Program version"><button type="button" data-ver="1" aria-pressed="false">Version 1</button><button type="button" data-ver="2" aria-pressed="true">Version 2</button></span>
+      <span class="clock" id="sm-clock">0.0 s</span>
+    </div>
+    <div class="sim-body">
+      <div class="sim-ctrl">
+        <div><h5>Doors</h5><div class="grid2" id="sm-doors"></div></div>
+        <div><h5>Emergency and reset</h5><div class="stack">
+          <button class="btn danger" type="button" id="sm-es" aria-pressed="false">Press emergency button</button>
+          <button class="btn" type="button" id="sm-reset">Reset (IA)</button>
+        </div></div>
+        <div><h5>Walk through</h5><div class="stack">
+          <button class="btn" type="button" id="sm-walkA">Walk to room A4</button>
+          <button class="btn" type="button" id="sm-walkB">Walk to room B3</button>
+          <button class="btn" type="button" id="sm-closeall">Close all doors</button>
+        </div></div>
+      </div>
+      <div class="sim-view">
+        <div class="banner" id="sm-banner">Emergency: system not healthy</div>
+        <div class="viewrow">
+          <div class="plan" id="plan-sim"></div>
+          <div class="lcd" id="sm-lcd" aria-live="polite"></div>
+        </div>
+        <p class="srcnote" id="sm-msg">Click a door to open it.</p>
+      </div>
+    </div>
+    <div class="sim-low">
+      <div><h5>Lock outputs</h5><div class="lamps" id="sm-q"></div><h5 style="margin-top:12px">Flags</h5><div class="lamps" id="sm-m"></div></div>
+      <div><h5>Timers (off-delay)</h5><div id="sm-timers"></div></div>
+      <div><h5>Event log</h5><ul class="elog" id="sm-log"></ul></div>
+    </div>
+    <details class="live" open><summary>Live ladder, lines 1–27</summary><div class="ladwrap" id="sm-lad"></div></details>
+  </div>
+  <div class="evidence"><h4>What is real and what is modelled</h4><ul><li><b>Real:</b> the 27 ladder lines of the version you select, their order, the 18 ms cycle, and the off-delay timers with their presets.</li><li><b>Modelled:</b> the doors. A locked door cannot be opened, and a lock cannot stop a door that is already open. The walk-through opens each door for 3 s.</li></ul></div>
+</section>
+
+<!-- ===================== STEP 13 ===================== -->
+<section class="step" id="checklist" data-phase="Prove" data-title="Checklist and common mistakes">
+  <div class="step-eyebrow">Prove</div>
+  <h2>Checklist and common mistakes</h2>
+  <p class="lede">A door interlock is small, but people depend on it. Check these points on every interlock you write or inherit.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Common mistake</th><th>What it causes</th><th>Do this instead</th></tr></thead>
+    <tbody>
+      <tr><td>The emergency condition on the timer lines, not the outputs</td><td>Locks stay powered for the off-delay after an emergency</td><td>Put the healthy flag in series on every output line (step 8)</td></tr>
+      <tr><td>A flag named after the bad state ("EMERGENCY STOPPED" for a flag that is on when healthy)</td><td>The next engineer reads the logic upside down</td><td>Name flags after what on means: SYSTEM HEALTHY</td></tr>
+      <tr><td>Door switch wired so that on = open</td><td>A broken wire reads "closed", so the neighbours are never locked, and nobody notices</td><td>Wire the switch to be on when the door is closed, and use the normally closed contact (<code>i1</code>) in line 1. A broken wire then reads "open" and locks the neighbours.</td></tr>
+      <tr><td>Relying on the program alone for emergency release</td><td>A program or module fault could keep a lock powered</td><td>Also cut the lock supply with the emergency circuit in hardware</td></tr>
+      <tr><td>A hold time chosen by guess</td><td>Too long: people wait and prop doors open. Too short: the pressure does not recover</td><td>Measure the pressure recovery of each room during commissioning</td></tr>
+      <tr><td>Latching (retentive) set on flags that are rewritten every cycle</td><td>Nothing useful, and it misleads readers</td><td>Use latching only for states that must survive a power cut</td></tr>
+      <tr><td>Testing only that the locks release</td><td>A delayed release passes the test</td><td>Measure the release time (step 11, tests 6 and 7)</td></tr>
+      <tr><td>Changing a program without recording it</td><td>Nobody knows which version runs, or why it differs</td><td>Update the program information and keep a change table (step 10)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Before you hand it over</h3>
+  <ul>
+    <li>The matrix (step 3) matches the floor plan, and the ladder matches the matrix line by line.</li>
+    <li>Every input, output, flag and timer has a comment that says what on means.</li>
+    <li>The test record shows the measured hold time and the measured emergency release for every door.</li>
+    <li>The program information shows the project name, author and version, and the printout is filed with the change table.</li>
+  </ul>
+  <p class="srcnote">Example names in this tutorial: project "Basic Door Interlock project"; rooms A1–A4 and B1–B3; doors D1–D7.</p>
+</section>
+
+    <nav class="navbar" aria-label="Step navigation">
+      <button class="btn" id="nav-prev" type="button">← Previous</button>
+      <button class="btn primary" id="nav-next" type="button">Next →</button>
+    </nav>
+  </main>
+</div>
+
+<script>
+// Basic Door Interlock project - engine for the tutorial's simulator: a scan-by-scan model of the
+// Zelio Logic ladder program built in the tutorial (lines 1-27), in the module's own scan order.
+// version 1 = the program as first delivered; version 2 = the improved program (the tutorial's final code).
+const PLC = (function () {
+  'use strict';
+
+  // Opening door n energises the locks of the doors that share a room with it (lines 8-17 and 21-27).
+  // LOCKED_BY[q] = doors whose "open" flag drives timer Tq, and so lock output Qq.
+  const LOCKED_BY = { 1: [2], 2: [1, 3], 3: [2, 4], 4: [3], 5: [6], 6: [5, 7], 7: [6] };
+  const PRESET = { 1: 10.0, 2: 2.0 }; // timer T1-T7, function C (off-delay), seconds
+  const CYCLE = 0.018;                // module cycle time 9 x 2 ms
+
+  function create(version) {
+    const v = version === 1 ? 1 : 2;
+    return {
+      v, t: 0,
+      // Inputs: I1-I7 true while the door is open; I9 true while the E-stop circuit is healthy; IA reset.
+      I: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 9: true, A: false },
+      M: [false, false, false, false, false, false, false, false], // M1-M7 door-open flags (index 1-7)
+      ME: true,                                                    // healthy flag, retentive ("latching"): starts as last left, healthy
+      TT: [false, false, false, false, false, false, false, false], // timer trigger coils
+      T: [null, 1, 2, 3, 4, 5, 6, 7].map(() => ({ on: false, rem: 0 })), // T1-T7 contact and time left
+      Q: [false, false, false, false, false, false, false, false], // Q1-Q7 lock outputs
+      X2: false,                                                   // text block "EMERGENCY STOP" shown
+      events: [],
+    };
+  }
+
+  function log(P, msg, kind) { P.events.unshift({ t: P.t, msg, kind: kind || '' }); if (P.events.length > 120) P.events.length = 120; }
+
+  // Off-delay (function C): the contact closes with the trigger and opens once the trigger has been
+  // off for the preset. A new trigger during the delay restarts it.
+  function offDelay(tm, trig, preset, dt) {
+    if (trig) { tm.on = true; tm.rem = preset; }
+    else if (tm.on) { tm.rem -= dt; if (tm.rem <= 1e-9) { tm.on = false; tm.rem = 0; } }
+  }
+
+  // One module cycle. Lines run top to bottom; a flag read before the line that writes it holds last cycle's value.
+  function scan(P, dt) {
+    const step = dt || CYCLE;
+    const prevQ = P.Q.slice(), prevME = P.ME, prevX2 = P.X2;
+    // Lines 1-7: door n open AND healthy -> Mn. ME here is the value written by line 18 in the previous cycle.
+    for (let n = 1; n <= 7; n++) P.M[n] = P.I[n] && P.ME;
+    // Lines 8-17: timer trigger coils. Version 1 also gates each trigger with ME.
+    const gate = P.v === 1 ? P.ME : true;
+    for (let q = 1; q <= 7; q++) P.TT[q] = LOCKED_BY[q].some((n) => P.M[n]) && gate;
+    for (let q = 1; q <= 7; q++) offDelay(P.T[q], P.TT[q], PRESET[P.v], step);
+    // Line 18: healthy flag follows the E-stop input.
+    P.ME = P.I[9];
+    // Line 19: reset clears the message, only while healthy. Line 20: not healthy shows it.
+    if (P.I.A && P.ME) P.X2 = false;
+    if (!P.ME) P.X2 = true;
+    // Lines 21-27: lock outputs. Version 2 adds ME (current cycle) in series.
+    for (let q = 1; q <= 7; q++) P.Q[q] = P.T[q].on && (P.v === 2 ? P.ME : true);
+    P.t += step;
+    if (prevME !== P.ME) log(P, P.ME ? 'E-stop released: system healthy (ME on)' : 'E-stop pressed: ME off', P.ME ? '' : 'alarm');
+    if (prevX2 !== P.X2) log(P, P.X2 ? 'Display: EMERGENCY STOP shown' : 'Display: message cleared');
+    for (let q = 1; q <= 7; q++) if (prevQ[q] !== P.Q[q]) log(P, 'Q' + q + (P.Q[q] ? ' on: door D' + q + ' locked' : ' off: door D' + q + ' released'));
+    return P;
+  }
+
+  // Run for a duration (seconds) in module cycles.
+  function run(P, seconds) { const n = Math.max(1, Math.round(seconds / CYCLE)); for (let i = 0; i < n; i++) scan(P, CYCLE); return P; }
+
+  return { create, scan, run, LOCKED_BY, PRESET, CYCLE };
+})();
+
+
+</script>
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } } };
+
+  /* ---------- The program: Zelio ladder lines (version 2), with version 1 differences ---------- */
+  const CMT = { I9: 'E-STOP OK', IA: 'RESET', ME: 'HEALTHY', X2: 'EMERGENCY STOP' };
+  for (let n = 1; n <= 7; n++) { CMT['I' + n] = 'D' + n + ' SWITCH'; CMT['M' + n] = 'D' + n + ' OPEN'; CMT['T' + n] = 'LOCK D' + n + ' HOLD'; CMT['Q' + n] = 'LOCK D' + n; }
+  const C = (a, nc) => ({ a, nc: !!nc });
+  const V2 = {};
+  for (let n = 1; n <= 7; n++) V2[n] = { c: [C('I' + n), C('ME')], coil: '[ M' + n, cm: 'M' + n };
+  Object.assign(V2, {
+    8: { c: [C('M2')], coil: 'TT1', cm: 'T1' }, 9: { c: [C('M1')], link: 1 }, 10: { c: [C('M3')], coil: 'TT2', cm: 'T2' },
+    11: { c: [C('M2')], link: 1 }, 12: { c: [C('M4')], coil: 'TT3', cm: 'T3' }, 13: { c: [C('M3')], coil: 'TT4', cm: 'T4' },
+    14: { c: [C('M6')], coil: 'TT5', cm: 'T5' }, 15: { c: [C('M5')], link: 1 }, 16: { c: [C('M7')], coil: 'TT6', cm: 'T6' },
+    17: { c: [C('M6')], coil: 'TT7', cm: 'T7' },
+    18: { c: [C('I9')], coil: '[ ME', cm: 'ME' }, 19: { c: [C('IA'), C('ME')], coil: 'RX2', cm: 'X2' }, 20: { c: [C('ME', true)], coil: 'TX2', cm: 'X2' },
+  });
+  for (let n = 1; n <= 7; n++) V2[20 + n] = { c: [C('T' + n), C('ME')], coil: '[ Q' + n, cm: 'Q' + n };
+  const V1 = JSON.parse(JSON.stringify(V2));
+  [8, 10, 12, 13, 14, 16, 17].forEach((l) => { V1[l].c.push(C('ME')); V1[l].chg = true; });
+  for (let n = 21; n <= 27; n++) { V1[n].c = V1[n].c.slice(0, 1); V1[n].chg = true; V2[n].chg2 = true; }
+  [8, 10, 12, 13, 14, 16, 17].forEach((l) => { V2[l].chg2 = true; });
+
+  function val(a, P) {
+    if (!P) return false;
+    if (a[0] === 'I') return !!P.I[a.slice(1)];
+    if (a === 'ME') return P.ME;
+    if (a[0] === 'M') return P.M[+a.slice(1)];
+    if (a[0] === 'T') return P.T[+a.slice(1)].on;
+    return false;
+  }
+  const label = (c) => (c.nc ? c.a[0].toLowerCase() + c.a.slice(1) : c.a);
+
+  // Draw lines as Zelio-style ladder (IEC symbols). ranges: [[a,b],...]; P: engine state for power flow, or null.
+  function ladder(ranges, ver, P, mark) {
+    const L = ver === 1 ? V1 : V2;
+    const nums = []; ranges.forEach(([a, b]) => { for (let n = a; n <= b; n++) nums.push(n); });
+    const X0 = 46, CW = 104, RH = 60, CX = X0 + 5 * CW, W = CX + 150;
+    const H = nums.length * RH + 6;
+    let s = '<svg class="lad" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Ladder lines ' + nums.join(', ') + '">';
+    s += '<line class="rail-l" x1="' + X0 + '" y1="2" x2="' + X0 + '" y2="' + (H - 4) + '"/>';
+    let carry = null; // power arriving through a link from the line above: {col, p}
+    nums.forEach((n, r) => {
+      const ln = L[n], top = 2 + r * RH, y = top + 30;
+      if (r % 2 === 0) s += '<rect class="rowbg" x="0" y="' + top + '" width="' + (X0 - 4) + '" height="' + (RH - 2) + '"/>';
+      if (mark && ((ver === 1 && ln.chg) || (ver === 2 && ln.chg2))) s += '<rect class="chg" x="' + (X0 + 2) + '" y="' + (top + 2) + '" width="' + (W - X0 - 6) + '" height="' + (RH - 6) + '"/>';
+      s += '<text class="lno" x="' + (X0 - 10) + '" y="' + (y + 4) + '" text-anchor="end">' + String(n).padStart(3, '0') + '</text>';
+      let p = true;
+      const end = ln.link ? ln.link : 5;
+      for (let i = 0; i < end; i++) {
+        const x = X0 + i * CW, cx = x + CW / 2, c = ln.c[i];
+        if (carry && carry.col === i) { p = p || carry.p; }
+        if (c) {
+          const closed = P ? (c.nc ? !val(c.a, P) : val(c.a, P)) : false;
+          const pIn = P && p;
+          s += '<line class="w' + (pIn ? ' pw' : '') + '" x1="' + x + '" y1="' + y + '" x2="' + (cx - 7) + '" y2="' + y + '"/>';
+          s += '<line class="ct' + (P && closed ? ' cl' : '') + '" x1="' + (cx - 7) + '" y1="' + (y - 11) + '" x2="' + (cx - 7) + '" y2="' + (y + 11) + '"/>';
+          s += '<line class="ct' + (P && closed ? ' cl' : '') + '" x1="' + (cx + 7) + '" y1="' + (y - 11) + '" x2="' + (cx + 7) + '" y2="' + (y + 11) + '"/>';
+          if (c.nc) s += '<line class="ct' + (P && closed ? ' cl' : '') + '" x1="' + (cx - 10) + '" y1="' + (y + 11) + '" x2="' + (cx + 10) + '" y2="' + (y - 11) + '"/>';
+          p = p && closed;
+          s += '<line class="w' + (P && p ? ' pw' : '') + '" x1="' + (cx + 7) + '" y1="' + y + '" x2="' + (x + CW) + '" y2="' + y + '"/>';
+          s += '<text class="adr" x="' + (x + 6) + '" y="' + (top + 13) + '">' + esc(label(c)) + '</text>';
+          s += '<text class="cmt" x="' + (x + 6) + '" y="' + (top + 54) + '">' + esc(CMT[c.a] || '') + '</text>';
+        } else {
+          s += '<line class="w' + (P && p ? ' pw' : '') + '" x1="' + x + '" y1="' + y + '" x2="' + (x + CW) + '" y2="' + y + '"/>';
+        }
+        if (carry && carry.col === i + 1 && !ln.link) { /* link joins at the right edge of column i */ p = p || carry.p; }
+      }
+      if (ln.link) {
+        const lx = X0 + ln.link * CW;
+        s += '<line class="w' + (P && p ? ' pw' : '') + '" x1="' + lx + '" y1="' + y + '" x2="' + lx + '" y2="' + (y + RH) + '"/>';
+        carry = { col: ln.link, p: P ? p : false };
+      } else {
+        carry = null;
+        const cx = CX + 40;
+        s += '<line class="w' + (P && p ? ' pw' : '') + '" x1="' + CX + '" y1="' + y + '" x2="' + (cx - 10) + '" y2="' + y + '"/>';
+        s += '<path class="coil' + (P && p ? ' en' : '') + '" d="M' + (cx - 4) + ',' + (y - 12) + ' a14,14 0 0,0 0,24 M' + (cx + 4) + ',' + (y - 12) + ' a14,14 0 0,1 0,24"/>';
+        s += '<line class="w' + (P && p ? ' pw' : '') + '" x1="' + (cx + 10) + '" y1="' + y + '" x2="' + (W - 8) + '" y2="' + y + '"/>';
+        s += '<text class="adr" x="' + (CX + 6) + '" y="' + (top + 13) + '">' + esc(ln.coil) + '</text>';
+        s += '<text class="cmt" x="' + (CX + 6) + '" y="' + (top + 54) + '">' + esc(CMT[ln.cm] || '') + '</text>';
+      }
+    });
+    return s + '</svg>';
+  }
+  const parseRanges = (t) => t.split(',').map((r) => r.split('-').map(Number));
+  $$('.ladwrap[data-lines]').forEach((el) => {
+    const v = +(el.dataset.version || 2);
+    el.innerHTML = ladder(parseRanges(el.dataset.lines), v, null, !!el.dataset.version);
+  });
+
+  /* ---------- Floor plan ---------- */
+  const ROOMS = [
+    { id: 'COR', x: 20, y: 20, w: 110, h: 290, cls: 'cor', n: 'Corridor', s: 'general area' },
+    { id: 'A1', x: 130, y: 30, w: 200, h: 120, n: 'Room A1' }, { id: 'A2', x: 330, y: 30, w: 190, h: 120, n: 'Room A2' },
+    { id: 'A3', x: 520, y: 30, w: 190, h: 120, n: 'Room A3' }, { id: 'A4', x: 710, y: 30, w: 210, h: 120, n: 'Room A4', s: 'cleanest' },
+    { id: 'B1', x: 130, y: 180, w: 260, h: 120, n: 'Room B1' }, { id: 'B2', x: 390, y: 180, w: 260, h: 120, n: 'Room B2' },
+    { id: 'B3', x: 650, y: 180, w: 270, h: 120, n: 'Room B3', s: 'cleanest' },
+  ];
+  const DOORS = { 1: [130, 90], 2: [330, 90], 3: [520, 90], 4: [710, 90], 5: [130, 240], 6: [390, 240], 7: [650, 240] };
+  function planSVG(pid) {
+    let s = '<svg viewBox="0 0 940 330" role="group" aria-label="Floor plan with seven doors">';
+    ROOMS.forEach((r) => {
+      s += '<rect class="' + (r.cls || 'room') + '" x="' + r.x + '" y="' + r.y + '" width="' + r.w + '" height="' + r.h + '"/>';
+      s += '<text class="rn" x="' + (r.x + r.w / 2) + '" y="' + (r.y + r.h / 2 - (r.s ? 4 : -4)) + '" text-anchor="middle">' + r.n + '</text>';
+      if (r.s) s += '<text class="rs" x="' + (r.x + r.w / 2) + '" y="' + (r.y + r.h / 2 + 12) + '" text-anchor="middle">' + r.s + '</text>';
+    });
+    for (let d = 1; d <= 7; d++) {
+      const [x, y] = DOORS[d];
+      s += '<g class="door" data-d="' + d + '" tabindex="0" role="button" id="' + pid + '-d' + d + '" aria-label="Door D' + d + '">';
+      s += '<rect class="hit" x="' + (x - 22) + '" y="' + (y - 40) + '" width="44" height="80"/>';
+      s += '<path class="swing" d="M' + x + ',' + (y + 27) + ' A54,54 0 0,0 ' + (x + 45.8) + ',' + (y + 1.6) + '" style="display:none"/>';
+      s += '<rect class="dr" x="' + (x - 5) + '" y="' + (y - 27) + '" width="10" height="54" rx="1.5"/>';
+      s += '<rect class="plb" x="' + (x + 9) + '" y="' + (y - 6) + '" width="12" height="10" rx="1.5"/><path class="pl" d="M' + (x + 11.5) + ',' + (y - 6) + ' v-4 a3.5,3.5 0 0,1 7,0 v4"/>';
+      s += '<text class="dl" x="' + (x - 9) + '" y="' + (y + 4) + '" text-anchor="end">D' + d + '</text>';
+      s += '</g>';
+    }
+    return s + '</svg>';
+  }
+  // Paint door states: open (set), locked (set of doors whose lock is on and door closed or open)
+  function paintPlan(host, open, locked) {
+    for (let d = 1; d <= 7; d++) {
+      const g = host.querySelector('[data-d="' + d + '"]'); if (!g) continue;
+      const o = !!open[d], k = !!locked[d];
+      g.classList.toggle('open', o); g.classList.toggle('lk', k);
+      const dr = g.querySelector('.dr'), [x, y] = DOORS[d];
+      dr.setAttribute('transform', o ? 'rotate(-58 ' + x + ' ' + (y - 27) + ')' : '');
+      g.querySelector('.swing').style.display = o ? '' : 'none';
+      g.setAttribute('aria-label', 'Door D' + d + ': ' + (o ? 'open' : 'closed') + (k ? ', locked' : ''));
+      g.setAttribute('aria-pressed', o ? 'true' : 'false');
+    }
+  }
+  function onDoor(host, fn) {
+    host.addEventListener('click', (e) => { const g = e.target.closest('.door'); if (g) fn(+g.dataset.d, g); });
+    host.addEventListener('keydown', (e) => { if (e.key !== 'Enter' && e.key !== ' ') return; const g = e.target.closest('.door'); if (g) { e.preventDefault(); fn(+g.dataset.d, g); } });
+  }
+  function deny(g) { g.classList.add('deny'); setTimeout(() => g.classList.remove('deny'), 450); }
+
+  $('#plan-intro').innerHTML = planSVG('pi');
+  $$('#plan-intro .door').forEach((g) => { g.removeAttribute('tabindex'); g.removeAttribute('role'); g.style.cursor = 'default'; });
+  paintPlan($('#plan-intro'), {}, {});
+
+  /* ---------- Matrix widget (pure rule, no timers) ---------- */
+  const mxOpen = {};
+  const mxHost = $('#plan-matrix'); mxHost.innerHTML = planSVG('pm');
+  function mxPaint() {
+    const lk = {};
+    for (let q = 1; q <= 7; q++) lk[q] = PLC.LOCKED_BY[q].some((n) => mxOpen[n]);
+    paintPlan(mxHost, mxOpen, lk);
+    $$('#mx-table tbody tr').forEach((tr) => tr.querySelectorAll('td').forEach((td) => td.classList.toggle('hl', !!lk[+tr.dataset.q])));
+    const o = Object.keys(mxOpen).filter((d) => mxOpen[d]).map((d) => 'D' + d), l = Object.keys(lk).filter((q) => lk[q]).map((q) => 'D' + q);
+    $('#mx-out').textContent = o.length ? 'Open: ' + o.join(', ') + '. Must be locked: ' + (l.length ? l.join(', ') : 'none') + '.' : 'All doors closed: nothing locked.';
+  }
+  onDoor(mxHost, (d, g) => {
+    const lockedNow = PLC.LOCKED_BY[d].some((n) => mxOpen[n]);
+    if (!mxOpen[d] && lockedNow) { deny(g); $('#mx-out').textContent = 'D' + d + ' is locked: a door of one of its rooms is open.'; return; }
+    mxOpen[d] = !mxOpen[d]; mxPaint();
+  });
+  $('#mx-clear').addEventListener('click', () => { for (const k in mxOpen) mxOpen[k] = false; mxPaint(); });
+  mxPaint();
+
+  /* ---------- Line 2 widget ---------- */
+  const fl = PLC.create(2); PLC.run(fl, 0.1);
+  function flDraw() {
+    fl.I[2] = $('#fl-door').checked; fl.I[9] = $('#fl-ok').checked; PLC.run(fl, 0.05);
+    $('#fl-lad').innerHTML = ladder([[2, 2], [18, 18]], 2, fl);
+    $('#fl-out').textContent = 'M2 (D2 OPEN) is ' + (fl.M[2] ? 'ON' : 'OFF') + '; ME (HEALTHY) is ' + (fl.ME ? 'ON' : 'OFF') + '.';
+  }
+  $('#fl-door').addEventListener('change', flDraw); $('#fl-ok').addEventListener('change', flDraw); flDraw();
+
+  /* ---------- Off-delay widget ---------- */
+  let tm = PLC.create(2); PLC.run(tm, 0.1);
+  let tmDoor = false;
+  $('#tm-pre').addEventListener('change', () => { tm = PLC.create(+$('#tm-pre').value); tm.I[2] = tmDoor; PLC.run(tm, 0.1); });
+  $('#tm-door').addEventListener('click', () => { tmDoor = !tmDoor; $('#tm-door').textContent = tmDoor ? 'Close D2' : 'Open D2'; $('#tm-door').setAttribute('aria-pressed', tmDoor); });
+  function tmDraw() {
+    const pre = PLC.PRESET[tm.v], t1 = tm.T[1];
+    $('#tm-q1').classList.toggle('on', tm.Q[1]); $('#tm-q3').classList.toggle('on', tm.Q[3]);
+    $('#tm-bar').style.width = (t1.on ? (tmDoor ? 100 : (t1.rem / pre) * 100) : 0) + '%';
+    $('#tm-tv').textContent = !t1.on ? 'off' : tmDoor ? 'on (triggered)' : 'holding ' + t1.rem.toFixed(1) + ' s';
+    $('#tm-lad').innerHTML = ladder([[8, 8], [21, 21]], tm.v, tm);
+  }
+
+  /* ---------- Version 1 vs 2 widget ---------- */
+  let up1, up2, upT0 = null;
+  function upInit() { up1 = PLC.create(1); up2 = PLC.create(2); [up1, up2].forEach((P) => { P.I[2] = true; PLC.run(P, 0.5); }); upT0 = null; $('#up-es').setAttribute('aria-pressed', 'false'); $('#up-es').textContent = 'Press emergency button'; }
+  $('#up-es').addEventListener('click', () => { if (upT0 !== null) return; [up1, up2].forEach((P) => { P.I[9] = false; }); upT0 = up1.t; $('#up-es').setAttribute('aria-pressed', 'true'); $('#up-es').textContent = 'Emergency button pressed'; });
+  $('#up-reset').addEventListener('click', upInit);
+  // Measure from the engine's own event times: the cycle where ME dropped and the cycle where Q1 dropped.
+  const evT = (P, re) => { const e = P.events.find((x) => re.test(x.msg)); return e ? e.t : null; };
+  function upDraw() {
+    [[up1, 1], [up2, 2]].forEach(([P, v]) => {
+      $('#up-v' + v + '-q1').classList.toggle('on', P.Q[1]); $('#up-v' + v + '-q3').classList.toggle('on', P.Q[3]);
+      let txt = 'locks on, no emergency';
+      if (upT0 !== null) {
+        const tE = evT(P, /^E-stop pressed/);
+        if (P.Q[1] || P.Q[3]) txt = 'still locked ' + (P.t - (tE === null ? upT0 : tE)).toFixed(1) + ' s after the emergency';
+        else { const tR = evT(P, /^Q1 off/); const d = tR !== null && tE !== null ? tR - tE : 0; txt = 'released ' + (d < 0.03 ? 'in the same cycle' : 'after ' + d.toFixed(1) + ' s'); }
+      }
+      $('#up-v' + v + '-t').textContent = txt;
+    });
+  }
+  upInit();
+
+  /* ---------- Simulator ---------- */
+  let S = PLC.create(2), speed = 1, running = true, esPressed = false, resetUntil = 0, walk = null;
+  const doorOpen = {};
+  const simHost = $('#plan-sim'); simHost.innerHTML = planSVG('ps');
+  const doorsBox = $('#sm-doors');
+  for (let d = 1; d <= 7; d++) { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.id = 'sm-db' + d; b.dataset.d = d; b.textContent = 'D' + d; b.setAttribute('aria-pressed', 'false'); doorsBox.appendChild(b); }
+  doorsBox.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) toggleDoor(+b.dataset.d, simHost.querySelector('[data-d="' + b.dataset.d + '"]')); });
+  function isLocked(d) { return S.Q[d]; }
+  function toggleDoor(d, g) {
+    if (!doorOpen[d] && isLocked(d)) { if (g) deny(g); $('#sm-msg').textContent = 'D' + d + ' is locked (Q' + d + ' on). Wait for the hold time, or close the open door next to it.'; return false; }
+    doorOpen[d] = !doorOpen[d]; S.I[d] = doorOpen[d];
+    $('#sm-msg').textContent = 'D' + d + (doorOpen[d] ? ' opened.' : ' closed.');
+    return true;
+  }
+  onDoor(simHost, (d, g) => { walk = null; toggleDoor(d, g); });
+  function setVersion(v) {
+    const keepI = Object.assign({}, S.I);
+    S = PLC.create(v); Object.assign(S.I, keepI); PLC.run(S, 0.05);
+    $$('[data-ver]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.ver === v)));
+    S.events.unshift({ t: S.t, msg: 'Version ' + v + ' loaded (hold time ' + PLC.PRESET[v].toFixed(1) + ' s)', kind: '' });
+  }
+  $$('[data-ver]').forEach((b) => b.addEventListener('click', () => setVersion(+b.dataset.ver)));
+  $$('[data-speed]').forEach((b) => b.addEventListener('click', () => { speed = +b.dataset.speed; $$('[data-speed]').forEach((x) => x.setAttribute('aria-pressed', String(x === b))); }));
+  $('#sm-run').addEventListener('click', () => { running = !running; $('#sm-run').textContent = running ? 'Pause' : 'Run'; $('#sm-run').setAttribute('aria-pressed', String(running)); });
+  $('#sm-es').addEventListener('click', () => { esPressed = !esPressed; S.I[9] = !esPressed; $('#sm-es').setAttribute('aria-pressed', String(esPressed)); $('#sm-es').textContent = esPressed ? 'Release emergency button' : 'Press emergency button'; });
+  $('#sm-reset').addEventListener('click', () => { resetUntil = S.t + 0.5; });
+  $('#sm-closeall').addEventListener('click', () => { walk = null; for (let d = 1; d <= 7; d++) { doorOpen[d] = false; S.I[d] = false; } $('#sm-msg').textContent = 'All doors closed.'; });
+  function startWalk(path, room) { walk = { path, i: 0, phase: 'wait', until: 0, room }; for (let d = 1; d <= 7; d++) { doorOpen[d] = false; S.I[d] = false; } $('#sm-msg').textContent = 'Walking to ' + room + '…'; }
+  $('#sm-walkA').addEventListener('click', () => startWalk([1, 2, 3, 4], 'room A4'));
+  $('#sm-walkB').addEventListener('click', () => startWalk([5, 6, 7], 'room B3'));
+  function walkStep() {
+    if (!walk) return;
+    const d = walk.path[walk.i];
+    if (walk.phase === 'wait') {
+      if (!isLocked(d)) { doorOpen[d] = true; S.I[d] = true; walk.phase = 'open'; walk.until = S.t + 3; $('#sm-msg').textContent = 'Through D' + d + '…'; }
+      else $('#sm-msg').textContent = 'Waiting at D' + d + ': locked until the hold time ends.';
+    } else if (walk.phase === 'open' && S.t >= walk.until) {
+      doorOpen[d] = false; S.I[d] = false; walk.i++; walk.phase = 'wait';
+      if (walk.i >= walk.path.length) { $('#sm-msg').textContent = 'Arrived in ' + walk.room + '.'; walk = null; }
+    }
+  }
+  const qBox = $('#sm-q'), mBox = $('#sm-m'), tBox = $('#sm-timers');
+  for (let q = 1; q <= 7; q++) qBox.insertAdjacentHTML('beforeend', '<span class="lamp" id="sm-q' + q + '">Q' + q + '</span>');
+  for (let m = 1; m <= 7; m++) mBox.insertAdjacentHTML('beforeend', '<span class="lamp" id="sm-m' + m + '">M' + m + '</span>');
+  mBox.insertAdjacentHTML('beforeend', '<span class="lamp" id="sm-me">ME</span>');
+  for (let t = 1; t <= 7; t++) tBox.insertAdjacentHTML('beforeend', '<div class="tmr"><b>T' + t + '</b><span class="tb"><i id="sm-tb' + t + '"></i></span><span class="tv" id="sm-tv' + t + '">off</span></div>');
+  let lastLad = 0, lastLog = '';
+  function lcd() {
+    if (S.X2) return '<div class="msg">EMERGENCY STOP</div><small>Text block X2</small>';
+    const ins = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C'].map((k) => '<b class="' + (S.I[k] ? 'on' : '') + '">' + k + '</b>').join('');
+    const outs = ['1', '2', '3', '4', '5', '6', '7', '8'].map((k) => '<b class="' + (S.Q[+k] ? 'on' : '') + '">' + k + '</b>').join('');
+    return '<div class="row">' + ins + '</div><div class="row">' + outs + '</div><small>Inputs I1–IC (top), outputs Q1–Q8 (bottom)</small>';
+  }
+  function render(now) {
+    $('#sm-clock').textContent = S.t.toFixed(1) + ' s';
+    const lk = {}; for (let q = 1; q <= 7; q++) lk[q] = S.Q[q];
+    paintPlan(simHost, doorOpen, lk);
+    simHost.classList.toggle('estop', !S.ME);
+    $('#sm-banner').classList.toggle('on', !S.ME);
+    for (let d = 1; d <= 7; d++) { const b = $('#sm-db' + d); b.setAttribute('aria-pressed', String(!!doorOpen[d])); b.textContent = 'D' + d + (doorOpen[d] ? ' open' : S.Q[d] ? ' locked' : ''); }
+    for (let q = 1; q <= 7; q++) $('#sm-q' + q).classList.toggle('on', S.Q[q]);
+    for (let m = 1; m <= 7; m++) $('#sm-m' + m).classList.toggle('on', S.M[m]);
+    const me = $('#sm-me'); me.classList.toggle('on', S.ME); me.classList.toggle('al', !S.ME);
+    const pre = PLC.PRESET[S.v];
+    for (let t = 1; t <= 7; t++) {
+      const T = S.T[t];
+      $('#sm-tb' + t).style.width = (T.on ? (S.TT[t] ? 100 : (T.rem / pre) * 100) : 0) + '%';
+      $('#sm-tv' + t).textContent = !T.on ? 'off' : S.TT[t] ? 'triggered' : 'hold ' + T.rem.toFixed(1) + ' s';
+    }
+    $('#sm-lcd').innerHTML = lcd();
+    const logKey = S.events.length + '|' + (S.events[0] ? S.events[0].t : 0);
+    if (logKey !== lastLog) { lastLog = logKey; $('#sm-log').innerHTML = S.events.slice(0, 60).map((e) => '<li class="' + e.kind + '"><span>' + e.t.toFixed(1) + ' s</span><span>' + esc(e.msg) + '</span></li>').join(''); }
+    if (now - lastLad > 120 && $('#sm-lad').closest('details').open) { lastLad = now; $('#sm-lad').innerHTML = ladder([[1, 27]], S.v, S); }
+  }
+
+  /* ---------- One clock for all widgets ---------- */
+  // Advance an engine by real elapsed time in whole 18 ms module cycles.
+  function advance(P, dt) { P._acc = (P._acc || 0) + dt; while (P._acc >= PLC.CYCLE) { PLC.scan(P, PLC.CYCLE); P._acc -= PLC.CYCLE; } }
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.25, (now - last) / 1000); last = now;
+    const cur = steps[curIdx] ? steps[curIdx].id : '';
+    if (cur === 'timers') { tm.I[2] = tmDoor; advance(tm, dt); tmDraw(); }
+    if (cur === 'update') { advance(up1, dt); advance(up2, dt); upDraw(); }
+    if (cur === 'simulator') {
+      if (running) {
+        let left = dt * speed;
+        while (left > 1e-6) {
+          const h = Math.min(left, 0.25);
+          S.I.A = S.t < resetUntil; walkStep(); advance(S, h); left -= h;
+        }
+      }
+      render(now);
+    }
+  }
+
+  /* ---------- Stepper ---------- */
+  const steps = $$('section.step');
+  const list = $('#rail-list');
+  let phase = '', curIdx = 0;
+  steps.forEach((s, i) => {
+    if (s.dataset.phase !== phase) { phase = s.dataset.phase; const li = document.createElement('li'); li.className = 'phase'; li.textContent = phase; list.appendChild(li); }
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.idx = i;
+    b.innerHTML = '<span>' + String(i + 1).padStart(2, '0') + '</span>' + esc(s.dataset.title);
+    b.addEventListener('click', () => { show(i, true); if (window.matchMedia('(max-width:980px)').matches) $('#rail').open = false; });
+    li.appendChild(b); list.appendChild(li);
+  });
+  const visited = new Set();
+  function show(i, scroll) {
+    curIdx = Math.max(0, Math.min(steps.length - 1, i));
+    steps.forEach((s, k) => { s.hidden = k !== curIdx; });
+    visited.add(curIdx);
+    $$('#rail-list button').forEach((b) => { const k = +b.dataset.idx; if (k === curIdx) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); b.classList.toggle('done', visited.has(k) && k !== curIdx); });
+    $('#prog-txt').textContent = 'Step ' + (curIdx + 1) + ' of ' + steps.length;
+    $('#prog-bar').style.width = ((curIdx + 1) / steps.length * 100) + '%';
+    $('#nav-prev').disabled = curIdx === 0;
+    $('#nav-next').textContent = curIdx === steps.length - 1 ? 'Back to start' : 'Next →';
+    if (location.hash.slice(1) !== steps[curIdx].id) { try { history.replaceState(null, '', '#' + steps[curIdx].id); } catch (e) { /* ignore */ } }
+    store.set('di-step', steps[curIdx].id);
+    if (scroll) { const top = $('#sheet').getBoundingClientRect().top + window.scrollY - 12; window.scrollTo({ top, behavior: window.matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' }); }
+  }
+  $('#nav-prev').addEventListener('click', () => show(curIdx - 1, true));
+  $('#nav-next').addEventListener('click', () => show(curIdx === steps.length - 1 ? 0 : curIdx + 1, true));
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest('input,select,textarea,.door')) return;
+    if (e.key === 'ArrowRight') show(curIdx + 1, true);
+    if (e.key === 'ArrowLeft') show(curIdx - 1, true);
+  });
+  const startId = location.hash.slice(1) || store.get('di-step');
+  const startIdx = steps.findIndex((s) => s.id === startId);
+  if (window.matchMedia('(max-width:980px)').matches) $('#rail').open = false;
+  show(startIdx >= 0 ? startIdx : 0, false);
+  const toTop = () => { if (window.scrollY > 0) window.scrollTo(0, 0); };
+  requestAnimationFrame(toTop);
+  window.addEventListener('load', () => setTimeout(toTop, 0), { once: true });
+  window.addEventListener('hashchange', () => { const k = steps.findIndex((s) => s.id === location.hash.slice(1)); if (k >= 0 && k !== curIdx) show(k, true); });
+  setInterval(() => frame(performance.now()), 50); // 20 updates a second; keeps running where animation frames pause
+})();
+</script>
+</body>
+</html>
